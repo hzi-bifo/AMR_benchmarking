@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#get the file names in the directory
 for file in /net/sgi/metagenomics/data/tax_profile/dbs/kraken2_st/library/viral/fasta/*; do
   echo "$file" >> i.txt
 done
