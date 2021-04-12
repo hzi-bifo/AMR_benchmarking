@@ -12,4 +12,11 @@ https://bitbucket.org/genomicepidemiology/resfinder/src/master/
 
 
 
-### <a name="m"></Multi-species
+### <a name="m"></a>Multi-species
+Nguyen, Marcus, et al. "Predicting antimicrobial resistance using conserved genes." PLoS computational biology 16.10 (2020): e1008319.
+https://bitbucket.org/deaytan/data_preparation
+https://bitbucket.org/deaytan/neural_networks/src/master/
+
+
+
+
