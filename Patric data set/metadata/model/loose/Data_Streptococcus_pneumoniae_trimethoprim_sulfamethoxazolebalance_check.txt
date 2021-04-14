@@ -1,0 +1,6 @@
+resistant_phenotype	genome_id
+Resistant	1090
+Susceptible	727
+resistant_phenotype	genome_id
+Resistant	1090
+Susceptible	727

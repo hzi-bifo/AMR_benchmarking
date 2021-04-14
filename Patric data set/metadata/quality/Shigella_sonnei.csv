@@ -1,0 +1,2278 @@
+genome.genome_id	genome.genome_name	genome.genome_status	genome.genome_length	genome.genome_quality	genome.plasmids	genome.contigs	genome.fine_consistency	genome.coarse_consistency	genome.checkm_completeness	genome.checkm_contamination
+624.633	Shigella sonnei strain 521_SSON	WGS	6075253	Good		487	95.8	99.5	93.1	13.8
+624.146	Shigella sonnei strain KY 913	WGS	4744695	Good		564	95.9	99.2	98.7	3.8
+624.1183	Shigella sonnei strain 4303	WGS	4532602	Good	1	432	92.9	99.3	99	9.5
+624.72	Shigella sonnei strain 546_SSON	WGS	5102477	Good		83	97.8	99	84.7	10
+624.133	Shigella sonnei strain 35401ss_1	WGS	4539316	Good		363	96.6	98.8	98.6	0.3
+624.400	Shigella sonnei strain 30901ss_1	WGS	4549243	Good		369	96	98.2	99.2	1
+624.317	Shigella sonnei strain KY 834	WGS	4765359	Good		552	96.5	99.4	100	1.7
+624.1213	Shigella sonnei strain FC653	WGS	4543040	Good		507	97.2	99.7	100	1.9
+624.559	Shigella sonnei strain 99040	WGS	4645909	Good		503	96.9	99.4	100	2.1
+624.391	Shigella sonnei strain 98274	WGS	4791195	Good		658	95.9	99.6	100	2.9
+624.1267	Shigella sonnei strain PK-01	WGS	4650749	Good		645	95.7	99.4	100	3.2
+624.701	Shigella sonnei strain CDPH_C20	WGS	4450113	Good		635	96.5	99.7	100	4.1
+624.808	Shigella sonnei strain 2090STDY5461801	WGS	4600536	Good		439	97.7	99.5	99.3	0.7
+624.1418	Shigella sonnei strain 4028STDY6275229 strain H121960406	WGS	4505579	Good		371	97.8	99.6	99	0.7
+624.295	Shigella sonnei strain sh02-7265	WGS	4660070	Good		382	98	99.7	100	1
+624.776	Shigella sonnei strain 2090STDY5461776	WGS	4629681	Good		402	97.9	99.7	100	1
+624.782	Shigella sonnei strain 2090STDY5461798	WGS	4637681	Good		456	97.6	99.7	100	1.1
+624.746	Shigella sonnei strain CDPH_C92	WGS	4498290	Good		439	98.2	99.8	98.4	1
+624.734	Shigella sonnei strain CDPH_C42	WGS	4723548	Good		560	97.7	99.7	100	1.3
+624.723	Shigella sonnei strain CDPH_C41	WGS	4612091	Good		484	97.4	99.7	98.4	1
+624.742	Shigella sonnei strain CDPH_C17	WGS	4486939	Good		535	96.8	99.8	100	1.3
+624.227	Shigella sonnei strain 144555	WGS	4089977	Good		161	95.7	97	94.5	0
+624.195	Shigella sonnei strain 52001ss_1	WGS	4767279	Good		403	96.9	98.8	98	1
+624.797	Shigella sonnei strain 2090STDY5461796	WGS	4778897	Good		466	98.2	99.6	100	1.9
+624.194	Shigella sonnei strain sh02-8933	WGS	4646761	Good		381	97.6	99.7	99.7	0.3
+624.1156	Shigella sonnei strain sh1439	WGS	4605582	Good		378	98.4	99.7	100	0.6
+624.796	Shigella sonnei strain 2090STDY5461752	WGS	4646255	Good		442	98.2	99.6	100	0.6
+624.694	Shigella sonnei strain CDPH_C14	WGS	4626583	Good		630	96.8	99.6	100	0.3
+624.858	Shigella sonnei strain 2090STDY5461862	WGS	4662967	Good		483	98.1	99.6	100	0.6
+624.670	Shigella sonnei strain CDPH_C115	WGS	4618908	Good		417	98	99.8	100	0.6
+624.713	Shigella sonnei strain CDPH_C112	WGS	4528095	Good		417	98	99.8	100	0.6
+624.622	Shigella sonnei strain sh03-0995	WGS	4535859	Good		367	98	99.7	98.4	0.3
+624.1564	Shigella sonnei strain 4028STDY6275259 strain H133720576	WGS	4640944	Good		360	97.9	99.7	100	0.6
+624.1523	Shigella sonnei strain 4028STDY6275188 strain H104640195	WGS	4491878	Good		372	97.9	99.7	100	0.6
+624.1630	Shigella sonnei strain 4028STDY6275212 strain H113440502	WGS	4549403	Good		372	97.9	99.6	100	0.6
+624.1448	Shigella sonnei strain 4028STDY6275284 strain H143260594	WGS	4755092	Good		373	97.8	99.6	100	0.6
+624.806	Shigella sonnei strain 2090STDY5461799	WGS	4687634	Good		476	97.6	99.7	100	0.6
+624.865	Shigella sonnei strain 2090STDY5461870	WGS	4489710	Good		364	98.1	99.7	97.7	0.3
+624.818	Shigella sonnei strain 2090STDY5461811	WGS	4688682	Good		378	98.3	99.7	100	0.3
+624.810	Shigella sonnei strain 2090STDY5461817	WGS	4794518	Good		509	98.3	99.7	100	0.3
+624.346	Shigella sonnei strain 99382	WGS	4793124	Good		386	98.2	99.6	100	0.3
+624.426	Shigella sonnei strain 201405327_1	WGS	4749549	Good		399	98.2	99.6	100	0.3
+624.460	Shigella sonnei strain 201405079_1	WGS	4769584	Good		394	98.2	99.6	100	0.3
+624.738	Shigella sonnei strain CDPH_C126	WGS	4540516	Good		465	98.2	99.8	100	0.3
+624.1182	Shigella sonnei strain 2090STDY5461810	WGS	4691220	Good		374	98.2	99.7	100	0.3
+624.820	Shigella sonnei strain 2090STDY5461822	WGS	4699846	Good		376	98.2	99.7	100	0.3
+624.1091	Shigella sonnei strain sh1428	WGS	4524916	Good		365	98.2	99.6	100	0.3
+624.792	Shigella sonnei strain 2090STDY5461781	WGS	4613800	Good		417	98.2	99.7	100	0.3
+624.783	Shigella sonnei strain 2090STDY5461784	WGS	4675938	Good		401	98.2	99.7	100	0.3
+624.955	Shigella sonnei strain sh1354	WGS	4703708	Good		408	98.2	99.7	100	0.3
+624.1145	Shigella sonnei strain sh1355	WGS	4764727	Good		417	98.2	99.7	100	0.3
+624.1125	Shigella sonnei strain sh1383	WGS	4816908	Good		422	98.2	99.7	100	0.3
+624.1460	Shigella sonnei strain 4028STDY6275276 strain H142240338	WGS	4647025	Good		371	98.2	99.6	100	0.3
+624.293	Shigella sonnei strain SS85261_2712855	WGS	4722330	Good		389	98.1	99.6	100	0.3
+624.560	Shigella sonnei strain KY 1163	WGS	4641316	Good		404	98.1	99.6	100	0.3
+624.596	Shigella sonnei strain H102880240	WGS	4693061	Good		380	98.1	99.6	100	0.3
+624.932	Shigella sonnei strain 3626STDY6095502	WGS	4791379	Good		429	98.1	99.6	100	0.3
+624.1479	Shigella sonnei strain 4028STDY6275281 strain H143020320	WGS	4616541	Good		366	98.1	99.6	100	0.3
+624.1481	Shigella sonnei strain 4028STDY6275122 strain H084780116	WGS	4590042	Good		367	98.1	99.6	100	0.3
+624.197	Shigella sonnei strain H092580349	WGS	4686133	Good		396	98	99.6	100	0.3
+624.923	Shigella sonnei strain 3626STDY6095493	WGS	4841947	Good		426	98	99.6	100	0.3
+624.1493	Shigella sonnei strain 4028STDY6275128 strain H084700126	WGS	4561792	Good		364	98	99.6	100	0.3
+624.228	Shigella sonnei strain sh07-1018	WGS	4643992	Good		365	97.9	99.5	100	0.3
+624.396	Shigella sonnei strain H082120406	WGS	4704708	Good		392	97.9	99.4	100	0.3
+624.733	Shigella sonnei strain CDPH_C36	WGS	4621087	Good		485	97.9	99.7	100	0.3
+624.747	Shigella sonnei strain CDPH_C7	WGS	4506291	Good		454	97.9	99.8	100	0.3
+624.95	Shigella sonnei strain H140100101	WGS	4501039	Good		373	97.9	99.6	100	0.3
+624.1453	Shigella sonnei strain 4028STDY6275241 strain H123960513	WGS	4812199	Good		370	97.9	99.6	100	0.3
+624.1456	Shigella sonnei strain 4028STDY6275222 strain H114840364	WGS	4815412	Good		370	97.9	99.6	100	0.3
+624.1476	Shigella sonnei strain 4028STDY6275182 strain H104020300	WGS	4660111	Good		363	97.9	99.7	100	0.3
+624.1577	Shigella sonnei strain 2002124	WGS	4512945	Good		471	97.9	99.8	100	0.3
+624.88	Shigella sonnei strain sh96-5282	WGS	4601538	Good		361	98.1	99.6	99.7	0.3
+624.169	Shigella sonnei strain PWR105_440878	WGS	4486752	Good		443	97.8	99.6	100	0.3
+624.196	Shigella sonnei strain sh07-1608	WGS	4654880	Good		374	97.8	99.6	100	0.3
+624.324	Shigella sonnei strain H113080358	WGS	4684445	Good		473	97.8	99.6	100	0.3
+624.665	Shigella sonnei strain CDPH_C40	WGS	4735426	Good		487	97.8	99.7	100	0.3
+624.1122	Shigella sonnei strain sh1387	WGS	4663365	Good		389	97.8	99.7	100	0.3
+624.1450	Shigella sonnei strain 4028STDY6275291 strain H144040588	WGS	4696417	Good		362	97.8	99.6	100	0.3
+624.1449	Shigella sonnei strain 4028STDY6275287 strain H143760460	WGS	4705109	Good		373	97.8	99.6	100	0.3
+624.419	Shigella sonnei strain sh96-6494	WGS	4599844	Good		367	97.7	99.6	100	0.3
+624.914	Shigella sonnei strain 3626STDY6095483	WGS	4953963	Good		456	97.7	99.7	100	0.3
+624.814	Shigella sonnei strain 2090STDY5461812	WGS	4612661	Good		369	98.3	99.6	99.3	0.3
+624.753	Shigella sonnei strain NLAE-zl-G496	WGS	4917070	Good		101	99	99.6	100	0.6
+624.298	Shigella sonnei strain H112620252	WGS	4825951	Good		530	97.6	99.6	100	0.3
+624.664	Shigella sonnei strain CDPH_C37	WGS	4747744	Good		483	97.6	99.7	100	0.3
+624.1411	Shigella sonnei strain 4028STDY6275190 strain H104820455	WGS	4810909	Good		372	97.6	99.6	100	0.3
+624.739	Shigella sonnei strain CDPH_C34	WGS	4741504	Good		479	97.5	99.7	100	0.3
+624.1414	Shigella sonnei strain 4028STDY6275160 strain H101220376	WGS	4608148	Good		377	98.1	99.6	100	0
+624.1417	Shigella sonnei strain 4028STDY6275192 strain H105260711	WGS	4759326	Good		392	98.1	99.6	100	0
+624.1553	Shigella sonnei strain 4028STDY6275290 strain H143880566	WGS	4526488	Good		362	98.1	99.7	100	0
+624.1565	Shigella sonnei strain 4028STDY6275261 strain H133860231	WGS	4588362	Good		369	98.1	99.6	100	0
+624.1446	Shigella sonnei strain 4028STDY6275159 strain H100420561	WGS	4601866	Good		366	98.1	99.6	100	0
+624.1447	Shigella sonnei strain 4028STDY6275137 strain H092020255	WGS	4579187	Good		322	98.1	99.1	100	0
+624.1455	Shigella sonnei strain 4028STDY6275113 strain H082840629	WGS	4602353	Good		368	98.1	99.6	100	0
+624.1466	Shigella sonnei strain 4028STDY6275126 strain H084200159	WGS	4549623	Good		376	98.1	99.7	100	0
+624.1471	Shigella sonnei strain 4028STDY6275120 strain H083680171	WGS	4461290	Good		368	98.1	99.7	100	0
+624.1472	Shigella sonnei strain 4028STDY6275118 strain H083540630	WGS	4510660	Good		359	98.1	99.7	100	0
+624.1487	Shigella sonnei strain 4028STDY6275161 strain H100480240	WGS	4505081	Good		373	98.1	99.7	100	0
+624.1522	Shigella sonnei strain 4028STDY6275226 strain H121780057	WGS	4598255	Good		383	98.1	99.6	100	0
+624.1530	Shigella sonnei strain 4028STDY6275193 strain H110260429	WGS	4543579	Good		363	98.1	99.7	100	0
+624.1544	Shigella sonnei strain 4028STDY6275243 strain H124520286	WGS	4823516	Good		368	98.1	99.6	100	0
+624.1620	Shigella sonnei strain 4028STDY6275166 strain H102580122	WGS	4512773	Good		365	98.1	99.7	100	0
+624.1625	Shigella sonnei strain 4028STDY6275172 strain H103080101	WGS	4517441	Good		358	98.1	99.7	100	0
+624.1633	Shigella sonnei strain 4028STDY6275198 strain H111280299	WGS	4527453	Good		365	98.1	99.7	100	0
+624.156	Shigella sonnei strain 201401054_1	WGS	4927213	Good		414	98	99.5	100	0
+624.164	Shigella sonnei strain 44672409	WGS	4860436	Good		437	98	99.6	100	0
+624.219	Shigella sonnei strain 82205	WGS	4613499	Good		361	98	99.7	100	0
+624.259	Shigella sonnei strain 201401096_1	WGS	4869805	Good		399	98	99.6	100	0
+624.356	Shigella sonnei strain 143983	WGS	4944492	Good		449	98	99.6	100	0
+624.383	Shigella sonnei strain 201401879_1	WGS	4834265	Good		449	98	99.5	100	0
+624.406	Shigella sonnei strain 20132055	WGS	4983427	Good		475	98	99.6	100	0
+624.447	Shigella sonnei strain 201401464_1	WGS	4723488	Good		395	98	99.6	100	0
+624.455	Shigella sonnei strain H134480102	WGS	4883893	Good		436	98	99.4	100	0
+624.468	Shigella sonnei strain 201400029_1	WGS	4827621	Good		406	98	99.6	100	0
+624.473	Shigella sonnei strain H084580209	WGS	4554300	Good		362	98	99.6	100	0
+624.484	Shigella sonnei strain 86278	WGS	4748849	Good		385	98	99.6	100	0
+624.514	Shigella sonnei strain 87006	WGS	4781124	Good		390	98	99.6	100	0
+624.532	Shigella sonnei strain 124332	WGS	4779191	Good		420	98	99.6	100	0
+624.607	Shigella sonnei strain H140220307	WGS	4769550	Good		408	98	99.5	100	0
+624.86	Shigella sonnei strain 143564	WGS	4799279	Good		394	98	99.6	100	0
+624.1107	Shigella sonnei strain sh1407	WGS	4563682	Good		388	98	99.7	100	0
+624.1098	Shigella sonnei strain sh1421	WGS	4550297	Good		404	98	99.7	100	0
+624.803	Shigella sonnei strain 2090STDY5461722	WGS	4617048	Good		403	98	99.6	100	0
+624.780	Shigella sonnei strain 2090STDY5461745	WGS	4605195	Good		436	98	99.6	100	0
+624.1420	Shigella sonnei strain 4028STDY6275194 strain H110280151	WGS	4555269	Good		375	98	99.7	100	0
+624.1559	Shigella sonnei strain 4028STDY6275263 strain H134120642	WGS	4552272	Good		369	98	99.7	100	0
+624.1563	Shigella sonnei strain 4028STDY6275265 strain H140440546	WGS	4506843	Good		369	98	99.6	100	0
+624.1437	Shigella sonnei strain 4028STDY6275240 strain H123860295	WGS	4545140	Good		377	98	99.6	100	0
+624.1457	Shigella sonnei strain 4028STDY6275110 strain H082460293	WGS	4508971	Good		394	98	99.7	100	0
+624.1502	Shigella sonnei strain 4028STDY6275176 strain H103340376	WGS	4506244	Good		366	98	99.7	100	0
+624.1512	Shigella sonnei strain 4028STDY6275210 strain H112540452	WGS	4516459	Good		377	98	99.7	100	0
+624.1507	Shigella sonnei strain 4028STDY6275145 strain H092720184	WGS	4629976	Good		376	98	99.7	100	0
+624.1516	Shigella sonnei strain 4028STDY6275149 strain H093680205	WGS	4530420	Good		368	98	99.7	100	0
+624.1539	Shigella sonnei strain 4028STDY6275231 strain H122180282	WGS	4528438	Good		379	98	99.6	100	0
+624.823	Shigella sonnei strain 2090STDY5461825	WGS	4610499	Good		383	98.2	99.6	99.7	0
+624.1561	Shigella sonnei strain 4028STDY6275251 strain H131800222	WGS	4782853	Good		432	98.2	99.7	99.7	0
+624.101	Shigella sonnei strain H141000108	WGS	4761701	Good		396	97.9	99.5	100	0
+624.105	Shigella sonnei strain H093660484	WGS	4688974	Good		386	97.9	99.3	100	0
+624.144	Shigella sonnei strain 201312374_1	WGS	4852639	Good		390	97.9	99.5	100	0
+624.213	Shigella sonnei strain H103560477	WGS	4601425	Good		372	97.9	99.4	100	0
+624.223	Shigella sonnei strain H140200293	WGS	4913352	Good		433	97.9	99.4	100	0
+624.314	Shigella sonnei strain 201400063_1	WGS	4811912	Good		386	97.9	99.5	100	0
+624.315	Shigella sonnei strain H134220679	WGS	4918723	Good		442	97.9	99.4	100	0
+624.320	Shigella sonnei strain H141020368	WGS	4759979	Good		397	97.9	99.6	100	0
+624.367	Shigella sonnei strain H132940676	WGS	4729077	Good		391	97.9	99.4	100	0
+624.393	Shigella sonnei strain 20352044	WGS	4988269	Good		484	97.9	99.6	100	0
+624.450	Shigella sonnei strain H141040399	WGS	4714392	Good		399	97.9	99.4	100	0
+624.474	Shigella sonnei strain 201312273_1	WGS	4857011	Good		392	97.9	99.5	100	0
+624.564	Shigella sonnei strain 201401743_1	WGS	4759924	Good		386	97.9	99.2	100	0
+624.584	Shigella sonnei strain 102735	WGS	4803507	Good		387	97.9	99.4	100	0
+624.608	Shigella sonnei strain H134560190	WGS	4883917	Good		422	97.9	99.3	100	0
+624.611	Shigella sonnei strain H135120400	WGS	4900097	Good		459	97.9	99.4	100	0
+624.745	Shigella sonnei strain CDPH_C29	WGS	4502949	Good		434	97.9	99.8	100	0
+624.1112	Shigella sonnei strain sh1402	WGS	4605534	Good		391	97.9	99.6	100	0
+624.1104	Shigella sonnei strain sh1410	WGS	4467970	Good		360	97.9	99.6	100	0
+624.864	Shigella sonnei strain 2090STDY5461869	WGS	4767708	Good		427	97.9	99.4	100	0
+624.1123	Shigella sonnei strain sh1386	WGS	4572005	Good		391	97.9	99.7	100	0
+624.1119	Shigella sonnei strain sh1394	WGS	4563048	Good		376	97.9	99.7	100	0
+624.1430	Shigella sonnei strain 4028STDY6275223 strain H120440332	WGS	4549828	Good		373	97.9	99.6	100	0
+624.1548	Shigella sonnei strain 4028STDY6275250 strain H131800220	WGS	4623926	Good		363	97.9	99.6	100	0
+624.1552	Shigella sonnei strain 4028STDY6275271 strain H141820325	WGS	4881355	Good		373	97.9	99.6	100	0
+624.1485	Shigella sonnei strain 4028STDY6275130 strain H090140107	WGS	4503879	Good		371	97.9	99.6	100	0
+624.216	Shigella sonnei strain H112220292	WGS	4696531	Good		381	98.1	99.6	99.7	0
+624.347	Shigella sonnei strain 124566	WGS	4850177	Good		407	97.8	99.6	100	0
+624.424	Shigella sonnei strain H092740550	WGS	4686832	Good		372	97.8	99.3	100	0
+624.505	Shigella sonnei strain H112920489	WGS	4699110	Good		443	97.8	99.6	100	0
+624.703	Shigella sonnei strain CDPH_C24	WGS	4524325	Good		424	97.8	99.8	100	0
+624.905	Shigella sonnei strain 2090STDY5488142	WGS	4555280	Good		367	97.8	99.6	100	0
+624.909	Shigella sonnei strain 3626STDY6095477	WGS	4916359	Good		453	97.8	99.7	100	0
+624.913	Shigella sonnei strain 3626STDY6095482	WGS	4838777	Good		427	97.8	99.7	100	0
+624.915	Shigella sonnei strain 3626STDY6095484	WGS	4875725	Good		422	97.8	99.7	100	0
+624.924	Shigella sonnei strain 3626STDY6095494	WGS	4806548	Good		417	97.8	99.7	100	0
+624.946	Shigella sonnei strain 3626STDY6095524	WGS	4674988	Good		384	97.8	99.7	100	0
+624.1494	Shigella sonnei strain 4028STDY6275132 strain H090440148	WGS	4534669	Good		386	97.8	99.5	100	0
+624.861	Shigella sonnei strain 2090STDY5461866	WGS	4664141	Good		392	98	99.7	99.7	0
+624.1442	Shigella sonnei strain 4028STDY6275247 strain H131240883	WGS	4490740	Good		373	98	99.6	99.7	0
+624.290	Shigella sonnei strain SS128716_2798531	WGS	4664518	Good		400	97.7	99.5	100	0
+624.940	Shigella sonnei strain 3626STDY6095510	WGS	4977103	Good		463	97.7	99.7	100	0
+624.287	Shigella sonnei strain H103240103	WGS	4677688	Good		387	97.9	99.3	99.7	0
+624.1617	Shigella sonnei strain 4028STDY6275228 strain H121940224	WGS	4668183	Good		353	97.9	99.7	99.7	0
+624.510	Shigella sonnei strain H140740645	WGS	4719532	Good		387	97.6	99.3	100	0
+624.919	Shigella sonnei strain 3626STDY6095488	WGS	4865344	Good		442	97.6	99.7	100	0
+624.927	Shigella sonnei strain 3626STDY6095497	WGS	4839475	Good		452	97.6	99.6	100	0
+624.928	Shigella sonnei strain 3626STDY6095498	WGS	4813203	Good		438	97.6	99.7	100	0
+624.366	Shigella sonnei strain 75887	WGS	4658959	Good		382	98.2	99.7	99.3	0
+624.722	Shigella sonnei strain CDPH_C33	WGS	4756157	Good		471	97.5	99.7	100	0
+624.935	Shigella sonnei strain 3626STDY6095505	WGS	4964913	Good		438	97.7	99.6	99.7	0
+624.1054	Shigella sonnei strain sh1463	WGS	4604839	Good		360	98.4	99.7	100	0
+624.826	Shigella sonnei strain 2090STDY5461830	WGS	4529631	Good		363	98.4	99.7	100	0
+624.831	Shigella sonnei strain 2090STDY5461834	WGS	4819017	Good		442	98.4	99.7	100	0
+624.836	Shigella sonnei strain 2090STDY5461839	WGS	4588246	Good		346	98.4	99.7	100	0
+624.840	Shigella sonnei strain 2090STDY5461843	WGS	4668528	Good		384	98.4	99.7	100	0
+624.843	Shigella sonnei strain 2090STDY5461847	WGS	4578258	Good		354	98.4	99.7	100	0
+624.848	Shigella sonnei strain 2090STDY5461852	WGS	4701121	Good		384	98.4	99.7	100	0
+624.849	Shigella sonnei strain 2090STDY5461853	WGS	4560216	Good		344	98.4	99.7	100	0
+624.157	Shigella sonnei strain 87780	WGS	4689251	Good		377	98.3	99.7	100	0
+624.186	Shigella sonnei strain 87036	WGS	4698683	Good		380	98.3	99.7	100	0
+624.345	Shigella sonnei strain 95522	WGS	4693638	Good		402	98.3	99.7	100	0
+624.502	Shigella sonnei strain KY 757	WGS	4784461	Good		452	98.3	99.7	100	0
+624.659	Shigella sonnei strain CDPH_C125	WGS	4621578	Good		433	98.3	99.8	100	0
+624.812	Shigella sonnei strain 2090STDY5461815	WGS	4677700	Good		361	98.3	99.7	100	0
+624.1041	Shigella sonnei strain sh1450	WGS	4645982	Good		358	98.3	99.7	100	0
+624.1043	Shigella sonnei strain sh1451	WGS	4544405	Good		351	98.3	99.7	100	0
+624.1178	Shigella sonnei strain sh1464	WGS	4577932	Good		339	98.3	99.7	100	0
+624.1096	Shigella sonnei strain sh1424	WGS	4601201	Good		387	98.3	99.7	100	0
+624.948	Shigella sonnei strain sh1347	WGS	4819861	Good		424	98.3	99.7	100	0
+624.1451	Shigella sonnei strain 4028STDY6275111 strain H082640395	WGS	4638646	Good		370	98.3	99.7	100	0
+624.1631	Shigella sonnei strain 4028STDY6275141 strain H092360515	WGS	4635460	Good		361	98.3	99.7	100	0
+624.108	Shigella sonnei strain 124327	WGS	4764695	Good		388	98.2	99.6	100	0
+624.114	Shigella sonnei strain 201400893_1	WGS	4898091	Good		437	98.2	99.6	100	0
+624.115	Shigella sonnei strain SS131636_2798534	WGS	4682121	Good		394	98.2	99.6	100	0
+624.161	Shigella sonnei strain 82721	WGS	4728615	Good		413	98.2	99.7	100	0
+624.163	Shigella sonnei strain 86298	WGS	4803504	Good		415	98.2	99.6	100	0
+624.177	Shigella sonnei strain 44781873	WGS	4933216	Good		433	98.2	99.6	100	0
+624.187	Shigella sonnei strain 95234	WGS	4739731	Good		394	98.2	99.6	100	0
+624.191	Shigella sonnei strain sh02-9633	WGS	4784121	Good		387	98.2	99.7	100	0
+624.199	Shigella sonnei strain 22672674	WGS	4907839	Good		422	98.2	99.6	100	0
+624.236	Shigella sonnei strain 99383	WGS	4676872	Good		376	98.2	99.6	100	0
+624.240	Shigella sonnei strain 36314706	WGS	4902464	Good		427	98.2	99.6	100	0
+624.243	Shigella sonnei strain 77257	WGS	4676464	Good		378	98.2	99.7	100	0
+624.329	Shigella sonnei strain 95776	WGS	4798148	Good		417	98.2	99.6	100	0
+624.358	Shigella sonnei strain H082020297	WGS	4682940	Good		372	98.2	99.6	100	0
+624.442	Shigella sonnei strain 201401237_1	WGS	4872149	Good		383	98.2	99.6	100	0
+624.475	Shigella sonnei strain 75693	WGS	4707957	Good		381	98.2	99.7	100	0
+624.483	Shigella sonnei strain 201403834_1	WGS	4764488	Good		398	98.2	99.6	100	0
+624.498	Shigella sonnei strain 99608	WGS	4644361	Good		399	98.2	99.7	100	0
+624.561	Shigella sonnei strain 98284	WGS	4857178	Good		454	98.2	99.6	100	0
+624.565	Shigella sonnei strain 83361	WGS	4670625	Good		378	98.2	99.7	100	0
+624.597	Shigella sonnei strain 85359	WGS	4633293	Good		388	98.2	99.7	100	0
+624.598	Shigella sonnei strain 143105	WGS	4628417	Good		388	98.2	99.6	100	0
+624.604	Shigella sonnei strain 87065	WGS	4671180	Good		378	98.2	99.7	100	0
+624.672	Shigella sonnei strain CDPH_C122	WGS	4630440	Good		422	98.2	99.8	100	0
+624.731	Shigella sonnei strain CDPH_C130	WGS	4401974	Good		414	98.2	99.8	100	0
+624.737	Shigella sonnei strain CDPH_C119	WGS	4606733	Good		435	98.2	99.8	100	0
+624.1172	Shigella sonnei strain sh1470	WGS	4658000	Good		371	98.2	99.7	100	0
+624.1173	Shigella sonnei strain sh1471	WGS	4953032	Good		411	98.2	99.5	100	0
+624.1176	Shigella sonnei strain sh1476	WGS	4776218	Good		381	98.2	99.7	100	0
+624.1100	Shigella sonnei strain sh1414	WGS	4488667	Good		366	98.2	99.7	100	0
+624.1097	Shigella sonnei strain sh1422	WGS	4719334	Good		457	98.2	99.7	100	0
+624.1094	Shigella sonnei strain sh1429	WGS	4525793	Good		375	98.2	99.7	100	0
+624.856	Shigella sonnei strain 2090STDY5461860	WGS	4707085	Good		416	98.2	99.7	100	0
+624.873	Shigella sonnei strain 2090STDY5461879	WGS	4716597	Good		411	98.2	99.6	100	0
+624.879	Shigella sonnei strain 2090STDY5488114	WGS	4470561	Good		370	98.2	99.7	100	0
+624.881	Shigella sonnei strain 2090STDY5488117	WGS	4527123	Good		374	98.2	99.7	100	0
+624.891	Shigella sonnei strain 2090STDY5488126	WGS	4774035	Good		385	98.2	99.7	100	0
+624.895	Shigella sonnei strain 2090STDY5488131	WGS	4528282	Good		373	98.2	99.7	100	0
+624.897	Shigella sonnei strain 2090STDY5488133	WGS	4631714	Good		410	98.2	99.7	100	0
+624.957	Shigella sonnei strain sh1356	WGS	4726680	Good		407	98.2	99.7	100	0
+624.958	Shigella sonnei strain sh1357	WGS	4733621	Good		416	98.2	99.7	100	0
+624.1068	Shigella sonnei strain sh1360	WGS	4816157	Good		405	98.2	99.6	100	0
+624.1133	Shigella sonnei strain sh1373	WGS	4772726	Good		411	98.2	99.7	100	0
+624.1131	Shigella sonnei strain sh1376	WGS	4744040	Good		423	98.2	99.7	100	0
+624.1130	Shigella sonnei strain sh1377	WGS	4718211	Good		414	98.2	99.7	100	0
+624.1415	Shigella sonnei strain 4028STDY6275115 strain H082920371	WGS	4714121	Good		395	98.2	99.7	100	0
+624.1410	Shigella sonnei strain 4028STDY6275164 strain H102400225	WGS	4611109	Good		357	98.2	99.6	100	0
+624.1412	Shigella sonnei strain 4028STDY6275154 strain H094840359	WGS	4665997	Good		368	98.2	99.6	100	0
+624.1567	Shigella sonnei strain 4028STDY6275260 strain H133740551	WGS	4804205	Good		416	98.2	99.7	100	0
+624.1554	Shigella sonnei strain 4028STDY6275119 strain H083580378	WGS	4683531	Good		355	98.2	99.6	100	0
+624.1441	Shigella sonnei strain 4028STDY6275275 strain H142040384	WGS	4710212	Good		408	98.2	99.7	100	0
+624.1461	Shigella sonnei strain 4028STDY6275245 strain H124640447	WGS	4710811	Good		402	98.2	99.7	100	0
+624.1474	Shigella sonnei strain 4028STDY6275116 strain H082960167	WGS	4542682	Good		361	98.2	99.7	100	0
+624.1492	Shigella sonnei strain 4028STDY6275157 strain H095340123	WGS	4599630	Good		371	98.2	99.7	100	0
+624.1508	Shigella sonnei strain 4028STDY6275173 strain H103180253	WGS	4638405	Good		370	98.2	99.7	100	0
+624.1527	Shigella sonnei strain 4028STDY6275225 strain H121660222	WGS	4558442	Good		364	98.2	99.7	100	0
+624.1532	Shigella sonnei strain 4028STDY6275195 strain H110440392	WGS	4539389	Good		367	98.2	99.7	100	0
+624.1615	Shigella sonnei strain 4028STDY6275156 strain H094900117	WGS	4619726	Good		360	98.2	99.7	100	0
+624.118	Shigella sonnei strain 37370664	WGS	4896810	Good		428	98.1	99.6	100	0
+624.121	Shigella sonnei strain 93522	WGS	4747755	Good		392	98.1	99.6	100	0
+624.143	Shigella sonnei strain 08-2838	WGS	4864175	Good		486	98.1	99.6	100	0
+624.201	Shigella sonnei strain 144375	WGS	4727774	Good		444	98.1	99.6	100	0
+624.248	Shigella sonnei strain H132860550	WGS	4726920	Good		395	98.1	99.6	100	0
+624.253	Shigella sonnei strain 36991242	WGS	4878375	Good		433	98.1	99.6	100	0
+624.322	Shigella sonnei strain 201401124_1	WGS	4910940	Good		424	98.1	99.6	100	0
+624.339	Shigella sonnei strain SS128220_2798530	WGS	4801848	Good		393	98.1	99.6	100	0
+624.380	Shigella sonnei strain 36314959	WGS	4925217	Good		444	98.1	99.6	100	0
+624.412	Shigella sonnei strain 144303	WGS	4720190	Good		408	98.1	99.6	100	0
+624.456	Shigella sonnei strain 95014	WGS	4726683	Good		403	98.1	99.6	100	0
+624.458	Shigella sonnei strain SS127858_2798529	WGS	4660992	Good		391	98.1	99.6	100	0
+624.493	Shigella sonnei strain 201400633_1	WGS	4728763	Good		390	98.1	99.6	100	0
+624.605	Shigella sonnei strain 144445	WGS	4799017	Good		389	98.1	99.6	100	0
+624.628	Shigella sonnei strain 29022762	WGS	4949775	Good		439	98.1	99.6	100	0
+624.84	Shigella sonnei strain SS129764_2798532	WGS	4690947	Good		381	98.1	99.6	100	0
+624.1116	Shigella sonnei strain sh1397	WGS	4754056	Good		414	98.1	99.7	100	0
+624.1106	Shigella sonnei strain sh1408	WGS	4488035	Good		357	98.1	99.7	100	0
+624.1180	Shigella sonnei strain sh1413	WGS	4480914	Good		359	98.1	99.7	100	0
+624.1013	Shigella sonnei strain sh1416	WGS	4549405	Good		406	98.1	99.7	100	0
+624.871	Shigella sonnei strain 2090STDY5461877	WGS	4509950	Good		374	98.1	99.7	100	0
+624.898	Shigella sonnei strain 2090STDY5488134	WGS	4476364	Good		377	98.1	99.7	100	0
+624.900	Shigella sonnei strain 2090STDY5488137	WGS	4458461	Good		381	98.1	99.7	100	0
+624.794	Shigella sonnei strain 2090STDY5461730	WGS	4589797	Good		401	98.1	99.6	100	0
+624.774	Shigella sonnei strain 2090STDY5461743	WGS	4537393	Good		379	98.1	99.7	100	0
+624.1128	Shigella sonnei strain sh1379	WGS	4768145	Good		414	98.1	99.6	100	0
+766163.3	Shigella sonnei 3233-85	WGS	4997922	Good	0	72	98.2	99.7	99.7	1.6
+1212580.4	Shigella sonnei 08-7761	WGS	4893156	Good		95	98.2	99.5	99.7	0
+1212581.3	Shigella sonnei 08-7765	WGS	4885496	Good		57	97.9	99.5	99.7	0.3
+1212582.3	Shigella sonnei 09-1032	WGS	4924296	Good		110	98.1	99.5	99.7	0.3
+1212583.3	Shigella sonnei 09-2245	WGS	4862336	Good		92	98	99.4	99.7	0
+1212584.3	Shigella sonnei 09-4962	WGS	4883415	Good		86	98.4	99.7	99.7	0
+624.73	Shigella sonnei strain 786_SSON	WGS	5618276	Good		189	97.3	99.2	87.6	11.8
+624.434	Shigella sonnei strain 144367	WGS	3544550	Good		118	92.5	93.5	86.6	0
+624.441	Shigella sonnei strain 144371	WGS	630197	Good		9	90.1	90.2	12.4	0
+624.634	Shigella sonnei strain FDAARGOS_128	WGS	4994257	Good		2	97.6	99.8	100	2.1
+624.1286	Shigella sonnei strain FC1653	WGS	4657646	Good		589	96.5	99.6	99.7	1.9
+624.1289	Shigella sonnei strain FC1628	WGS	4544216	Good		501	95.9	99.7	100	2.8
+766162.3	Shigella sonnei 3226-85	WGS	4975885	Good	0	106	96.4	99.5	99.3	2.4
+754077.4	Shigella sonnei str. Moseley	WGS	5145982	Good	0	115	97.8	99.4	99.7	2.2
+624.1314	Shigella sonnei strain 2015C-3807	Plasmid	66524		1	1				
+624.1311	Shigella sonnei strain 2015C-3794	Plasmid	87762		1	1				
+624.1312	Shigella sonnei strain 2015C-3566	Plasmid	55820		1	1				
+624.1274	Shigella sonnei strain 2015C-3807	Complete	4929151	Good	2	3	95.9	99.7	100	3.2
+624.472	Shigella sonnei strain F3342_PFGE 5	WGS	4556277	Good		378	98.1	99.7	100	0.6
+624.1582	Shigella sonnei strain DMB SH20230	WGS	4542501	Good		563	97.3	99.8	100	1.9
+624.1581	Shigella sonnei strain DMB SH122	WGS	4455949	Good		652	96.6	99.7	100	2.4
+624.1585	Shigella sonnei strain DMB SH20090	WGS	4687163	Good		486	98.3	99.8	100	1.6
+624.1589	Shigella sonnei strain DMB SH20165	WGS	4667361	Good		640	97.6	99.5	100	1.6
+624.1592	Shigella sonnei strain DMB SH20046	WGS	4577160	Good		636	97	99.8	100	1.6
+624.1578	Shigella sonnei strain DMB SH111	WGS	4565219	Good		502	98.2	99.8	100	0
+624.1787	Shigella sonnei strain 303	WGS	4935337	Good		860	96.5	99		
+624.1205	Shigella sonnei strain FC1772	WGS	4601354	Good		493	97	99.7	100	1.3
+624.1639	Shigella sonnei strain DMB SH114	WGS	4428377	Good		561	97	99.8		
+624.1664	Shigella sonnei strain 534042	WGS	4563913	Good		445	97.6	99.8		
+624.1674	Shigella sonnei strain 435528	WGS	4589432	Good		444	97.3	99.8		
+624.1680	Shigella sonnei strain 417274	WGS	4550021	Good		434	97.3	99.7		
+624.1682	Shigella sonnei strain 435530	WGS	4619671	Good		449	97.3	99.8		
+624.1685	Shigella sonnei strain 436021	WGS	4534388	Good		417	97.4	99.7		
+624.1687	Shigella sonnei strain 358046	WGS	4761707	Good		503	97.3	99.8		
+624.1688	Shigella sonnei strain 448259	WGS	4646243	Good		482	97.6	99.6		
+624.1702	Shigella sonnei strain 316665	WGS	4545473	Good		468	97.3	99.7		
+624.1703	Shigella sonnei strain 412259	WGS	4636794	Good		443	97.3	99.8		
+624.1704	Shigella sonnei strain 538423	WGS	4576102	Good		451	97.5	99.8		
+624.1705	Shigella sonnei strain 341408	WGS	4627140	Good		483	97.6	99.8		
+624.1707	Shigella sonnei strain 516963	WGS	4591457	Good		438	97.4	99.8		
+624.1712	Shigella sonnei strain 370022	WGS	4749748	Good		469	97	99.8		
+624.1713	Shigella sonnei strain 355062	WGS	4531007	Good		454	97.9	99.8		
+624.1717	Shigella sonnei strain 537689	WGS	4581811	Good		418	97.6	99.6		
+624.1720	Shigella sonnei strain 566170	WGS	4742653	Good		427	98.1	99.8		
+624.1721	Shigella sonnei strain 572157	WGS	4491387	Good		427	97.5	99.8		
+624.1722	Shigella sonnei strain 574304	WGS	4700334	Good		440	97.3	99.7		
+624.1726	Shigella sonnei strain 577915	WGS	4808449	Good		457	97	99.7		
+624.1728	Shigella sonnei strain 572543	WGS	5005009	Good		506	96.9	99.7		
+624.1730	Shigella sonnei strain 607758	WGS	4520557	Good		410	97.3	99.7		
+624.1731	Shigella sonnei strain 616246	WGS	4825075	Good		449	96.9	99.7		
+624.1734	Shigella sonnei strain 587391	WGS	4526895	Good		412	97.4	99.8		
+624.1735	Shigella sonnei strain 591941	WGS	4477320	Good		376	97.3	99.8		
+624.1738	Shigella sonnei strain 587342	WGS	4739895	Good		444	97	99.7		
+624.1745	Shigella sonnei strain 458551	WGS	4560476	Good		459	97	99.6		
+624.1746	Shigella sonnei strain 553227	WGS	4649539	Good		457	97.1	99.7		
+624.1749	Shigella sonnei strain 554416	WGS	4536292	Good		424	97.3	99.8		
+624.1755	Shigella sonnei strain 629358	WGS	4626187	Good		414	97	99.7		
+624.1764	Shigella sonnei strain 625801	WGS	4541606	Good		423	97.3	99.8		
+624.1784	Shigella sonnei strain B7414	WGS	5273195	Good		191	99	99.7		
+624.1785	Shigella sonnei strain 412	WGS	5172962	Good		142	98.2	99.5		
+624.1850	Shigella sonnei strain LC1477/18	Complete	4905980	Good	3	4	98.1	99.7		
+300269.18	Shigella sonnei Ss046	Plasmid	214396		1	1				
+300269.19	Shigella sonnei Ss046	Plasmid	8401		1	1				
+624.1352	Shigella sonnei strain 4028STDY6329966	WGS	4668469	Good		420	97.4	99	99.3	0
+624.1356	Shigella sonnei strain 4028STDY6329956	WGS	4515810	Good		367	97.6	99.1	99	0
+624.1360	Shigella sonnei strain 4028STDY6329940	WGS	4524538	Good		360	97.9	99.6	99.7	0
+624.1364	Shigella sonnei strain 4028STDY6329994	WGS	4685825	Good		385	97.7	99.6	100	0.3
+624.1366	Shigella sonnei strain 4028STDY6330004	WGS	4702058	Good		385	97.7	99.6	100	0.3
+624.1368	Shigella sonnei strain 4028STDY6329939	WGS	4552814	Good		376	98.2	99.7	100	0
+624.1370	Shigella sonnei strain 4028STDY6329949	WGS	4508869	Good		361	97.9	99.7	100	0.6
+624.1377	Shigella sonnei strain 4028STDY6329952	WGS	4549495	Good		354	98.1	99.6	99.7	0
+624.1378	Shigella sonnei strain 4028STDY6329999	WGS	4509281	Good		378	98	99.6	100	0
+624.1381	Shigella sonnei strain 4028STDY6330003	WGS	4642105	Good		368	97.9	99.6	100	0.3
+624.1389	Shigella sonnei strain 4028STDY6329973	WGS	4551184	Good		376	97.9	99.5	100	0
+624.1390	Shigella sonnei strain 4028STDY6329962	WGS	4550288	Good		368	98.2	99.7	100	0
+624.1391	Shigella sonnei strain 4028STDY6329971	WGS	4492123	Good		376	97.4	99	99.2	0.7
+624.1396	Shigella sonnei strain 4028STDY6329983	WGS	4579013	Good		387	98	99.6	100	0
+624.1398	Shigella sonnei strain 4028STDY6329970	WGS	4597359	Good		376	97.6	99.1	100	0
+624.1399	Shigella sonnei strain 4028STDY6329976	WGS	4507113	Good		372	97.4	99.1	99.3	0
+624.1404	Shigella sonnei strain 4028STDY6330010	WGS	4518494	Good		363	98.1	99.7	100	0
+624.1407	Shigella sonnei strain 4028STDY6330008	WGS	4554089	Good		372	98.2	99.7	100	0
+624.1569	Shigella sonnei strain 4028STDY6329997	WGS	4791384	Good		421	97.9	99.6	100	0.3
+624.1597	Shigella sonnei strain 4028STDY6329985	WGS	4832879	Good		443	97.7	99.7	100	0.6
+624.1598	Shigella sonnei strain 4028STDY6329972	WGS	4558173	Good		372	98	99.6	100	0
+624.1606	Shigella sonnei strain 4028STDY6329975	WGS	4582109	Good		373	98.1	99.6	100	0
+624.1609	Shigella sonnei strain 4028STDY6329982	WGS	4540629	Good		379	98.2	99.6	100	0
+624.1610	Shigella sonnei strain 4028STDY6329990	WGS	4774343	Good		405	98.2	99.7	100	0.6
+624.1611	Shigella sonnei strain 4028STDY6329993	WGS	4613992	Good		391	98.1	99.7	100	0
+624.104	Shigella sonnei strain Sh989560_441090	WGS	4407026	Good		376	97.8	99.6	100	0.1
+624.107	Shigella sonnei strain ShIB3507_440835	WGS	4528865	Good		402	97.9	99.6	100	0.6
+624.1215	Shigella sonnei strain ECCTRSRTH02	WGS	5101584	Good		189	98.3	99.9	97.7	0.7
+624.1223	Shigella sonnei strain ECCTRSRTH03	WGS	4860869	Good		149	97.6	99.5	99.3	1.3
+624.1228	Shigella sonnei strain ECH+17	WGS	5250033	Good		165	98.6	99.5	99.7	4.4
+624.1229	Shigella sonnei strain ECH+15	WGS	5080024	Good		147	98.1	99.3	100	0.6
+624.1236	Shigella sonnei strain ECSW+08	WGS	4828730	Good		153	98.7	100	100	1
+624.1242	Shigella sonnei strain ECCTRSRTH09	WGS	4813191	Good		157	98.7	99.9	97.7	1.6
+624.1246	Shigella sonnei strain ECPUTH08	WGS	5058073	Good		102	99	99.8	99.7	1.3
+624.1251	Shigella sonnei strain KPPUTH06	WGS	5138636	Good		150	99.3	100	100	1
+624.1256	Shigella sonnei strain ECSW+10	WGS	5011329	Good		210	98.4	99.8	99	2.9
+624.1258	Shigella sonnei strain ECSW+12	WGS	4807415	Good		192	98.7	99.8	98.4	0
+624.1259	Shigella sonnei strain ECH+04	WGS	5036696	Good		170	98.5	99.6	97.7	1.3
+624.1260	Shigella sonnei strain ECH+08	WGS	4883998	Good		140	99	100	100	4.1
+624.1265	Shigella sonnei strain ECPSTH03	WGS	4854991	Good		92	98.6	99.9	96.7	1
+624.1271	Shigella sonnei strain ECLC+04	WGS	4606650	Good		116	98.5	99.9	100	1.1
+624.171	Shigella sonnei strain Sh1166_440936	WGS	4422392	Good		331	98.1	99.6	100	0
+624.174	Shigella sonnei strain ShIB2000_440759	WGS	4510932	Good		430	98.2	99.7	100	0.6
+624.200	Shigella sonnei strain ShIB683_401084	WGS	4514634	Good		391	98.1	99.7	100	1
+624.203	Shigella sonnei strain ShIB1970_440736	WGS	4516173	Good		440	97.3	99.6	99.7	1.6
+624.208	Shigella sonnei strain ShIB748_440735	WGS	4720859	Good		439	98.2	99.7	100	0.3
+624.226	Shigella sonnei strain Sh54228_440888	WGS	4461045	Good		362	98.1	99.5	98.4	0.3
+624.255	Shigella sonnei strain ShIB691_401087	WGS	4754363	Good		414	98	99.7	100	0.6
+624.285	Shigella sonnei strain CS14_1361403	WGS	4672271	Good		409	98.1	99.6	100	0.3
+624.301	Shigella sonnei strain Sh2574_441043	WGS	4405932	Good		417	97.9	99.4	98.7	0.7
+624.325	Shigella sonnei strain ShIB696_440728	WGS	4595186	Good		402	98.3	99.6	100	0
+624.328	Shigella sonnei strain ShIB2026_440828	WGS	4354428	Good		371	97.6	99.2	99.3	0.6
+624.337	Shigella sonnei strain Sh65623_401060	WGS	4350976	Good		343	98.2	99.6	100	0
+624.343	Shigella sonnei strain ShIB694_401088	WGS	4641523	Good		384	98.2	99.6	100	0
+624.362	Shigella sonnei strain 20060018_1361370	WGS	4349306	Good		390	97.9	99.6	100	0.3
+624.370	Shigella sonnei strain Sh54210_440885	WGS	4539950	Good		375	97.9	99.5	98.4	0
+624.371	Shigella sonnei strain Sh65179_401058	WGS	4373055	Good		358	97.9	99.6	100	0
+624.390	Shigella sonnei strain ShIB10_401080	WGS	4389874	Good		358	98.1	99.6	99.8	0
+624.401	Shigella sonnei strain ShIB697_440729	WGS	4742487	Good		491	97.9	99.5	100	0
+624.423	Shigella sonnei strain ShIB1985_440753	WGS	4330134	Good		557	97.2	99.3	98	0.3
+624.471	Shigella sonnei strain CS1_1361425	WGS	4674676	Good		413	98.3	99.7	99.7	0.3
+624.477	Shigella sonnei strain 20031275_1361395	WGS	4678934	Good		463	98.2	99.7	100	0
+624.481	Shigella sonnei strain ShIB695_440727	WGS	4586291	Good		433	98.2	99.7	100	0
+624.491	Shigella sonnei strain 20061758_1361376	WGS	4657633	Good		407	97.9	99.3	100	0
+624.503	Shigella sonnei strain 20051541_1361374	WGS	4361304	Good		542	97.3	99.6	99.7	1
+624.520	Shigella sonnei strain 20052631_1361398	WGS	4591904	Good		421	98.1	99.6	100	0
+624.522	Shigella sonnei strain Sh54184_440882	WGS	4361211	Good		494	97.3	99.2	99.7	0.1
+624.533	Shigella sonnei strain Sh2073_441039	WGS	4186505	Good		359	97	98.5	96.1	0.3
+624.540	Shigella sonnei strain ShIB690_401086	WGS	4501396	Good		364	98.2	99.7	100	0
+624.549	Shigella sonnei strain Sh5827_441094	WGS	4708049	Good		385	98.2	99.7	100	0.3
+624.569	Shigella sonnei strain ShIB717_440733	WGS	4718179	Good		415	98.2	99.6	100	0
+624.583	Shigella sonnei strain 19920319_1361378	WGS	4744193	Good		364	98.3	99.7	100	0.3
+624.589	Shigella sonnei strain Sh54179_440880	WGS	4576047	Good		353	98.1	99.5	99.7	0
+624.603	Shigella sonnei strain ShIB2493_440829	WGS	4580199	Good		364	97	99.3	99.3	1.6
+624.615	Shigella sonnei strain Sh41191_401054	WGS	4535918	Good		347	97.9	99.6	99.7	0.3
+216599.24	Shigella sonnei 53G	Plasmid	5153			1				
+624.1326	Shigella sonnei	Plasmid	8338		1	1				
+624.1325	Shigella sonnei strain eg211	Plasmid	6774		1	1				
+624.1324	Shigella sonnei strain EG211	Plasmid	5262		1	1				
+216599.21	Shigella sonnei 53G	Plasmid	215774			1				
+216599.22	Shigella sonnei 53G	Plasmid	2089			1				
+624.1293	Shigella sonnei strain colicin type 7	Plasmid	5210		1	1				
+624.1304	Shigella sonnei strain 75/02	Plasmid	59559		1	1				
+624.1298	Shigella sonnei strain FORC_011	Plasmid	215551		1	1				
+624.1302	Shigella sonnei strain FDAARGOS_90	Plasmid	8421		1	1				
+624.1299	Shigella sonnei strain FDAARGOS_90	Plasmid	82822		1	1				
+624.1777	Shigella sonnei strain GCID_CRE_0041	WGS	4888182	Good		103	98.9	99.8		
+624.1778	Shigella sonnei strain GCID_CRE_0037	WGS	5059591	Good		206	98.6	99.6		
+624.1743	Shigella sonnei strain PNUSAE019344	WGS	4529992	Good		382	97.6	99.8		
+624.1751	Shigella sonnei strain PNUSAE018242	WGS	4516010	Good		369	98.1	99.8		
+624.1756	Shigella sonnei strain PNUSAE019196	WGS	4663086	Good		429	97.3	99.7		
+624.1758	Shigella sonnei strain PNUSAE019966	WGS	4740733	Good		411	97.9	99.7		
+624.1763	Shigella sonnei strain PNUSAE019264	WGS	4441994	Good		408	97.9	99.8		
+624.1765	Shigella sonnei strain PNUSAE019213	WGS	4612723	Good		415	97.6	99.7		
+624.1766	Shigella sonnei strain PNUSAE019446	WGS	4420999	Good		397	97.9	99.8		
+624.1768	Shigella sonnei strain PNUSAE019735	WGS	4737706	Good		415	97	99.7		
+624.1769	Shigella sonnei strain PNUSAE019004	WGS	4384596	Good		479	97.8	99.8		
+624.1189	Shigella sonnei strain sh1427	WGS	4636866	Good		396	98.2	99.7	100	0
+624.1193	Shigella sonnei strain sh1456	WGS	4625703	Good		353	98.3	99.7	100	0.3
+624.1195	Shigella sonnei strain sh1468	WGS	4841731	Good		398	98.1	99.6	100	0.3
+624.1197	Shigella sonnei strain sh1467	WGS	4832656	Good		400	98.3	99.7	100	0.3
+624.1201	Shigella sonnei strain sh1477	WGS	4618780	Good		348	98.2	99.7	100	0.3
+624.1202	Shigella sonnei strain sh1478	WGS	4625340	Good		358	98.2	99.7	100	0
+624.1861	Shigella sonnei strain AR-0422	Complete	5351338	Good	6	7	97.3	99.4		
+624.1318	Shigella sonnei strain CFSAN030807	Plasmid	7098		1	1				
+624.1319	Shigella sonnei strain CFSAN030807	Plasmid	5153		1	1				
+624.1320	Shigella sonnei strain CFSAN030807	Plasmid	5114		1	1				
+624.2020	Shigella sonnei strain 149191	WGS	4807298	Good	0	535	95.3	96.8		
+624.2026	Shigella sonnei strain 149199	WGS	4608625	Good	0	502	95	96.8		
+624.1979	Shigella sonnei strain 152508	WGS	4592825	Good	0	453	95.5	97		
+624.1998	Shigella sonnei strain 154832	WGS	4475142	Good	0	448	95.2	97		
+624.1884	Shigella sonnei strain 155599	WGS	4741265	Good	0	519	95.4	97		
+624.1946	Shigella sonnei strain 159703	WGS	4548887	Good	0	446	95.2	97		
+624.2092	Shigella sonnei strain 158942	WGS	4673469	Good	0	487	95.2	96.9		
+624.2121	Shigella sonnei strain 161910	WGS	4588376	Good	0	476	95.4	97		
+624.2196	Shigella sonnei strain 163136	WGS	4465822	Good	0	417	95.3	97		
+624.2015	Shigella sonnei strain 164888	WGS	4635551	Good	0	509	95.3	97		
+624.2031	Shigella sonnei strain 164675	WGS	4767977	Good	0	554	94.8	96.7		
+624.2190	Shigella sonnei strain 164682	WGS	4484360	Good	0	423	95.3	97		
+624.2018	Shigella sonnei strain 166180	WGS	4529729	Good	0	426	95.1	96.9		
+624.1947	Shigella sonnei strain 167015	WGS	4761125	Good	0	521	95.1	97		
+624.1941	Shigella sonnei strain 167014	WGS	4632905	Good	0	505	95.3	97		
+624.2128	Shigella sonnei strain 166992	WGS	4680671	Good	0	509	95.3	97		
+624.2124	Shigella sonnei strain 168532	WGS	4927747	Good	0	478	95.5	96.8		
+624.1955	Shigella sonnei strain 170364	WGS	4741313	Good	0	489	95.5	97		
+624.2014	Shigella sonnei strain 169625	WGS	4667251	Good	0	501	95	96.8		
+624.2198	Shigella sonnei strain 171143	WGS	4729542	Good	0	490	95.5	97		
+624.2057	Shigella sonnei strain 174706	WGS	4791135	Good	0	503	95	96.7		
+624.1925	Shigella sonnei strain 175549	WGS	4450079	Good	0	428	95.2	96.8		
+624.2062	Shigella sonnei strain 176416	WGS	4585030	Good	0	453	95.3	97		
+624.1991	Shigella sonnei strain 177418	WGS	4679878	Good	0	433	95.3	96.8		
+624.2203	Shigella sonnei strain 178628	WGS	4603347	Good	0	473	95.3	96.9		
+624.2067	Shigella sonnei strain 178632	WGS	4512042	Good	0	435	95.3	96.9		
+624.1917	Shigella sonnei strain 179821	WGS	4711604	Good	0	517	95.1	97		
+624.2080	Shigella sonnei strain 181984	WGS	4703613	Good	0	494	95.3	97		
+624.1901	Shigella sonnei strain 181988	WGS	4805338	Good	0	500	95.3	96.8		
+624.1889	Shigella sonnei strain 180536	WGS	4672845	Good	0	451	95.3	96.9		
+624.2063	Shigella sonnei strain 182137	WGS	4682237	Good	0	453	95.2	96.8		
+624.2075	Shigella sonnei strain 182069	WGS	4617984	Good	0	467	95.2	96.8		
+624.1877	Shigella sonnei strain 182822	WGS	4672778	Good	0	469	95.4	97		
+624.2021	Shigella sonnei strain 182831	WGS	4815754	Good	0	509	95	96.8		
+624.1876	Shigella sonnei strain 182836	WGS	4591165	Good	0	482	95.2	97		
+624.1933	Shigella sonnei strain 184495	WGS	4590622	Good	0	454	95.3	96.8		
+624.1931	Shigella sonnei strain 185886	WGS	4765189	Good	0	447	95.6	97		
+624.1878	Shigella sonnei strain 185938	WGS	10945488	Poor	0	601	57.4	93.8		
+624.2123	Shigella sonnei strain 185943	WGS	4697363	Good	0	641	90.6	97		
+624.2158	Shigella sonnei strain 187590	WGS	4591001	Good	0	453	95.3	97		
+624.1936	Shigella sonnei strain 191675	WGS	4849138	Good	0	520	95	96.8		
+624.1903	Shigella sonnei strain 189253	WGS	4420525	Good	0	413	95.3	97		
+624.1957	Shigella sonnei strain 190572	WGS	4607780	Good	0	476	95.1	96.9		
+624.2202	Shigella sonnei strain 190573	WGS	4702156	Good	0	478	95.3	96.9		
+624.1872	Shigella sonnei strain 190613	WGS	4432473	Good	0	410	95.3	96.9		
+624.2095	Shigella sonnei strain 191942	WGS	4578458	Good	0	451	95.3	97		
+624.1959	Shigella sonnei strain 191891	WGS	4661608	Good	0	434	95.6	97		
+624.1952	Shigella sonnei strain 192921	WGS	4625478	Good	0	475	95.2	97		
+624.2161	Shigella sonnei strain 193411	WGS	4728531	Good	0	481	95.3	97		
+624.1978	Shigella sonnei strain 194198	WGS	4731553	Good	0	494	95.1	96.8		
+624.1904	Shigella sonnei strain 195757	WGS	4584767	Good	0	391	95.7	97		
+624.2043	Shigella sonnei strain 195810	WGS	4814562	Good	0	522	94.9	96.9		
+624.2137	Shigella sonnei strain 195821	WGS	4491157	Good	0	442	95.3	97		
+624.2044	Shigella sonnei strain 195775	WGS	4864302	Good	0	557	95.3	97		
+624.1918	Shigella sonnei strain 197093	WGS	4498656	Good	0	440	95.3	97		
+624.2058	Shigella sonnei strain 202271	WGS	4699771	Good	0	471	95.3	97		
+624.2181	Shigella sonnei strain 203669	WGS	4549271	Good	0	444	95.3	97		
+624.2048	Shigella sonnei strain 203679	WGS	4802407	Good	0	538	95.3	97		
+624.2070	Shigella sonnei strain 205584	WGS	4813233	Good	0	485	95.1	97		
+624.2002	Shigella sonnei strain 209682	WGS	4747777	Good	0	556	94.8	97		
+624.2099	Shigella sonnei strain 149258	WGS	4583524	Good	0	463	95.1	96.7		
+624.2176	Shigella sonnei strain 155596	WGS	4454675	Good	0	442	95.3	96.9		
+624.2155	Shigella sonnei strain 155597	WGS	4460564	Good	0	438	95.3	96.9		
+624.2084	Shigella sonnei strain 158945	WGS	4870925	Good	0	553	95	96.9		
+624.2042	Shigella sonnei strain 158947	WGS	4455622	Good	0	433	95.2	96.9		
+624.2069	Shigella sonnei strain 163128	WGS	4469776	Good	0	429	95.2	96.9		
+624.1881	Shigella sonnei strain 170442	WGS	4623948	Good	0	464	95.3	96.9		
+624.2011	Shigella sonnei strain 171146	WGS	4711130	Good	0	478	95.2	96.9		
+624.2185	Shigella sonnei strain 173528	WGS	4691380	Good	0	446	95	96.9		
+624.1875	Shigella sonnei strain 180542	WGS	4624156	Good	0	475	95.3	96.9		
+624.2195	Shigella sonnei strain 182175	WGS	4520165	Good	0	423	95.3	96.9		
+624.1984	Shigella sonnei strain 183758	WGS	4769761	Good	0	499	95	96.9		
+624.1873	Shigella sonnei strain 185433	WGS	4437783	Good	0	420	95.1	96.9		
+624.2192	Shigella sonnei strain 185470	WGS	4744799	Good	0	474	95	96.7		
+624.1914	Shigella sonnei strain 185885	WGS	4681430	Good	0	453	95	96.9		
+624.1898	Shigella sonnei strain 186559	WGS	4467984	Good	0	425	95.1	96.9		
+624.2004	Shigella sonnei strain 187476	WGS	4435789	Good	0	417	95.2	96.9		
+624.1969	Shigella sonnei strain 187596	WGS	4640469	Good	0	491	95.3	96.9		
+624.1934	Shigella sonnei strain 190808	WGS	4776638	Good	0	521	95	96.9		
+624.1916	Shigella sonnei strain 190644	WGS	4465369	Good	0	433	95.2	96.9		
+624.2047	Shigella sonnei strain 195798	WGS	4581428	Good	0	472	95.3	96.9		
+624.1920	Shigella sonnei strain 196416	WGS	4628616	Good	0	425	95	96.9		
+624.2175	Shigella sonnei strain 197084	WGS	4622137	Good	0	478	95.3	96.9		
+624.1895	Shigella sonnei strain 196999	WGS	4791224	Good	0	485	94.9	96.9		
+624.1924	Shigella sonnei strain 199912	WGS	4775461	Good	0	505	95.1	96.9		
+624.2039	Shigella sonnei strain 206672	WGS	4547993	Good	0	468	95.3	96.9		
+624.1973	Shigella sonnei strain 208955	WGS	4604085	Good	0	440	95.3	96.9		
+624.2139	Shigella sonnei strain 152345	WGS	4524366	Good	0	426	95.5	97		
+624.1985	Shigella sonnei strain 159717	WGS	4713202	Good	0	517	95.1	96.8		
+624.2096	Shigella sonnei strain 164641	WGS	4467328	Good	0	432	95.3	97		
+624.1949	Shigella sonnei strain 161914	WGS	4670316	Good	0	457	95	96.8		
+624.2143	Shigella sonnei strain 163127	WGS	4685240	Good	0	501	95.3	96.9		
+624.1910	Shigella sonnei strain 164658	WGS	4534034	Good	0	461	95.3	97		
+624.2066	Shigella sonnei strain 166345	WGS	5617071	Poor	0	451	95.5	96.8		
+624.2182	Shigella sonnei strain 166988	WGS	4560274	Good	0	445	95.4	97		
+624.1971	Shigella sonnei strain 171144	WGS	4462026	Good	0	411	95.3	97		
+624.2199	Shigella sonnei strain 180540	WGS	4685983	Good	0	479	95.4	97		
+624.2079	Shigella sonnei strain 181086	WGS	4678457	Good	0	476	95.4	97		
+624.1923	Shigella sonnei strain 181088	WGS	4537973	Good	0	458	95.1	96.7		
+624.1909	Shigella sonnei strain 182176	WGS	4655167	Good	0	470	95.3	96.8		
+624.1986	Shigella sonnei strain 182830	WGS	4558575	Good	0	461	95.1	96.9		
+624.1886	Shigella sonnei strain 186595	WGS	4694580	Good	0	470	95.3	96.9		
+624.2078	Shigella sonnei strain 188380	WGS	4627329	Good	0	428	95.4	97		
+624.1902	Shigella sonnei strain 190803	WGS	4602024	Good	0	466	95.3	97		
+624.2108	Shigella sonnei strain 191890	WGS	4497953	Good	0	447	95.3	97		
+624.2188	Shigella sonnei strain 197082	WGS	4587759	Good	0	477	94.9	96.7		
+624.2146	Shigella sonnei strain 206674	WGS	4709858	Good	0	489	95.3	97		
+624.2178	Shigella sonnei strain 207588	WGS	4761940	Good	0	511	95.3	97		
+624.1882	Shigella sonnei strain 209681	WGS	4495826	Good	0	435	95.3	97		
+624.2249	Shigella sonnei strain SE6-1	Complete	4762774	Good	0	1	96.3	97.3		
+624.2255	Shigella sonnei strain c8852	WGS	4837904	Good	0	561	95.2	97		
+624.2258	Shigella sonnei strain e1409	WGS	4709846	Good	0	677	94.8	96.7		
+624.2262	Shigella sonnei strain AUSMDU00005728	WGS	4578733	Good	0	429	98.3	99.6		
+624.2260	Shigella sonnei strain AUSMDU00005731	WGS	4485066	Good	0	401	98.4	99.8		
+624.2270	Shigella sonnei strain AUSMDU00005732	WGS	4509717	Good	0	421	98.4	99.8		
+624.2271	Shigella sonnei strain AUSMDU00005736	WGS	4503805	Good	0	421	98	99.5		
+624.2272	Shigella sonnei strain AUSMDU00005831	WGS	4513424	Good	0	400	98.5	99.8		
+624.2274	Shigella sonnei strain AUSMDU00005832	WGS	4513054	Good	0	409	98.4	99.8		
+624.2269	Shigella sonnei strain AUSMDU00006624	WGS	4468505	Good	0	445	98.3	99.7		
+624.2267	Shigella sonnei strain AUSMDU00006678	WGS	4462250	Good	0	448	98.3	99.7		
+624.2285	Shigella sonnei strain AUSMDU00007208	WGS	4564856	Good	0	389	98.7	99.8		
+624.2293	Shigella sonnei strain AUSMDU00008177	WGS	4511820	Good	0	472	98.1	99.8		
+624.2292	Shigella sonnei strain AUSMDU00008184	WGS	4502470	Good	0	391	98	99.7		
+624.2290	Shigella sonnei strain AUSMDU00008185	WGS	4390481	Good	0	352	98.2	99.6		
+624.2306	Shigella sonnei strain AUSMDU00008187	WGS	4534321	Good	0	402	98.1	99.8		
+624.2308	Shigella sonnei strain AUSMDU00008189	WGS	4367148	Good	0	366	98.3	99.8		
+624.2304	Shigella sonnei strain AUSMDU00008191	WGS	4521790	Good	0	437	98	99.8		
+624.2298	Shigella sonnei strain AUSMDU00008243	WGS	4518770	Good	0	379	98.8	99.8		
+624.2311	Shigella sonnei strain AUSMDU00008341	WGS	4369223	Good	0	397	98.2	99.7		
+624.2314	Shigella sonnei strain AUSMDU00008344	WGS	4269066	Good	0	384	97.9	99.4		
+624.2625	Shigella sonnei strain AUSMDU00008349	WGS	4321217	Good	0	390	98.2	99.7		
+624.2324	Shigella sonnei strain AUSMDU00008354	WGS	4357680	Good	0	379	98.4	99.8		
+624.2326	Shigella sonnei strain AUSMDU00008358	WGS	4312873	Good	0	396	98.4	99.8		
+624.2320	Shigella sonnei strain AUSMDU00008362	WGS	4368910	Good	0	401	98.2	99.7		
+624.2319	Shigella sonnei strain AUSMDU00008366	WGS	4300353	Good	0	363	98.1	99.6		
+624.2317	Shigella sonnei strain AUSMDU00008367	WGS	4516582	Good	0	373	98.1	99.8		
+624.2330	Shigella sonnei strain AUSMDU00008652	WGS	4587753	Good	0	451	97.7	99.6		
+624.2329	Shigella sonnei strain AUSMDU00008733	WGS	4570605	Good	0	429	98.1	99.8		
+624.2624	Shigella sonnei strain AUSMDU00008735	WGS	4622586	Good	0	473	97.8	99.6		
+624.2336	Shigella sonnei strain AUSMDU00008737	WGS	4616553	Good	0	430	97.8	99.6		
+624.2341	Shigella sonnei strain AUSMDU00008994	WGS	4623073	Good	0	415	97.6	99.6		
+624.2344	Shigella sonnei strain AUSMDU00009143	WGS	4528244	Good	0	434	98	99.8		
+624.2346	Shigella sonnei strain AUSMDU00009146	WGS	4567772	Good	0	423	98.1	99.8		
+624.2359	Shigella sonnei strain AUSMDU00009147	WGS	4564961	Good	0	411	97.9	99.8		
+624.2360	Shigella sonnei strain AUSMDU00009148	WGS	4571188	Good	0	397	98.1	99.8		
+624.2356	Shigella sonnei strain AUSMDU00009155	WGS	4565632	Good	0	417	98	99.8		
+624.2358	Shigella sonnei strain AUSMDU00009158	WGS	4554636	Good	0	414	98.1	99.8		
+624.2367	Shigella sonnei strain AUSMDU00009162	WGS	4657168	Good	0	435	98.1	99.8		
+624.2372	Shigella sonnei strain AUSMDU00009166	WGS	4368504	Good	0	385	98.3	99.8		
+624.2364	Shigella sonnei strain AUSMDU00009170	WGS	4539902	Good	0	430	97.9	99.7		
+624.2380	Shigella sonnei strain AUSMDU00009181	WGS	4607690	Good	0	446	98.3	99.8		
+624.2379	Shigella sonnei strain AUSMDU00009204	WGS	4625679	Good	0	401	98.4	99.5		
+624.2394	Shigella sonnei strain AUSMDU00009363	WGS	4611254	Good	0	442	98	99.7		
+624.2384	Shigella sonnei strain AUSMDU00009369	WGS	4530087	Good	0	410	97.9	99.6		
+624.2386	Shigella sonnei strain AUSMDU00009373	WGS	4345768	Good	0	383	98.3	99.7		
+624.2398	Shigella sonnei strain AUSMDU00009381	WGS	4437314	Good	0	395	98.5	99.8		
+624.2413	Shigella sonnei strain AUSMDU00009388	WGS	4601676	Good	0	435	97.9	99.8		
+624.2415	Shigella sonnei strain AUSMDU00009390	WGS	4534412	Good	0	414	98	99.7		
+624.2412	Shigella sonnei strain AUSMDU00009393	WGS	4531085	Good	0	410	98	99.7		
+624.2410	Shigella sonnei strain AUSMDU00009398	WGS	4537151	Good	0	416	98	99.7		
+624.2406	Shigella sonnei strain AUSMDU00009404	WGS	4566423	Good	0	387	98.7	99.7		
+624.2426	Shigella sonnei strain AUSMDU00009405	WGS	4566065	Good	0	412	98.7	99.7		
+624.2420	Shigella sonnei strain AUSMDU00009410	WGS	4864011	Good	0	391	97.9	99.7		
+624.2422	Shigella sonnei strain AUSMDU00009419	WGS	4564068	Good	0	388	98.7	99.7		
+624.2428	Shigella sonnei strain AUSMDU00009446	WGS	4670007	Good	0	458	98.7	99.8		
+624.2430	Shigella sonnei strain AUSMDU00009455	WGS	4567947	Good	0	414	98	99.8		
+624.2431	Shigella sonnei strain AUSMDU00009458	WGS	4608671	Good	0	490	98.1	99.8		
+624.2429	Shigella sonnei strain AUSMDU00009462	WGS	4495440	Good	0	402	98.1	99.8		
+624.2440	Shigella sonnei strain AUSMDU00009463	WGS	4522777	Good	0	472	98	99.8		
+624.2444	Shigella sonnei strain AUSMDU00009474	WGS	4524169	Good	0	446	97.9	99.7		
+624.2443	Shigella sonnei strain AUSMDU00009475	WGS	4576627	Good	0	425	98	99.8		
+624.2445	Shigella sonnei strain AUSMDU00009476	WGS	4571219	Good	0	423	98	99.8		
+624.2453	Shigella sonnei strain AUSMDU00009482	WGS	4571630	Good	0	423	98.1	99.8		
+624.2454	Shigella sonnei strain AUSMDU00009485	WGS	4365096	Good	0	396	98.2	99.7		
+624.2456	Shigella sonnei strain AUSMDU00009488	WGS	4448927	Good	0	415	98.3	99.8		
+624.2465	Shigella sonnei strain AUSMDU00009495	WGS	4591740	Good	0	410	97.9	99.7		
+624.2467	Shigella sonnei strain AUSMDU00009498	WGS	4573130	Good	0	410	98	99.8		
+624.2466	Shigella sonnei strain AUSMDU00009499	WGS	4591760	Good	0	449	97.8	99.6		
+624.2463	Shigella sonnei strain AUSMDU00009531	WGS	4524920	Good	0	473	98.1	99.8		
+624.2477	Shigella sonnei strain AUSMDU00009588	WGS	4497112	Good	0	469	98	99.5		
+624.2478	Shigella sonnei strain AUSMDU00009986	WGS	4521952	Good	0	425	97.9	99.7		
+624.2479	Shigella sonnei strain AUSMDU00009990	WGS	4533218	Good	0	427	98.1	99.8		
+624.2480	Shigella sonnei strain AUSMDU00009991	WGS	4568031	Good	0	415	98	99.8		
+624.2484	Shigella sonnei strain AUSMDU00010006	WGS	4748638	Good	0	481	97.9	99.7		
+624.2489	Shigella sonnei strain AUSMDU00010010	WGS	4553359	Good	0	412	98	99.7		
+624.2503	Shigella sonnei strain AUSMDU00010023	WGS	4462485	Good	0	452	98.3	99.7		
+624.2502	Shigella sonnei strain AUSMDU00010026	WGS	4538724	Good	0	438	98	99.7		
+624.2497	Shigella sonnei strain AUSMDU00010027	WGS	4357132	Good	0	390	98.2	99.7		
+624.2499	Shigella sonnei strain AUSMDU00010039	WGS	4549860	Good	0	410	98.8	99.8		
+624.2496	Shigella sonnei strain AUSMDU00010040	WGS	4340275	Good	0	391	98.2	99.6		
+624.2494	Shigella sonnei strain AUSMDU00010041	WGS	4446177	Good	0	413	98.3	99.7		
+624.2495	Shigella sonnei strain AUSMDU00010043	WGS	4610553	Good	0	417	98.4	99.5		
+624.2514	Shigella sonnei strain AUSMDU00010044	WGS	4513202	Good	0	377	98.6	99.7		
+624.2513	Shigella sonnei strain AUSMDU00010050	WGS	4554312	Good	0	418	98	99.8		
+624.2510	Shigella sonnei strain AUSMDU00010055	WGS	4442058	Good	0	406	98.5	99.8		
+624.2505	Shigella sonnei strain AUSMDU00010084	WGS	4613684	Good	0	428	98.8	99.8		
+624.2515	Shigella sonnei strain AUSMDU00010089	WGS	4380346	Good	0	437	98.2	99.8		
+624.2522	Shigella sonnei strain AUSMDU00010097	WGS	4508977	Good	0	463	98.2	99.8		
+624.2517	Shigella sonnei strain AUSMDU00010098	WGS	4492020	Good	0	456	98.4	99.8		
+624.2525	Shigella sonnei strain AUSMDU00010124	WGS	4456294	Good	0	409	98.2	99.8		
+624.2524	Shigella sonnei strain AUSMDU00010125	WGS	4395179	Good	0	398	98.3	99.8		
+624.2537	Shigella sonnei strain AUSMDU00010163	WGS	4721429	Good	0	505	97.8	99.6		
+624.2532	Shigella sonnei strain AUSMDU00010203	WGS	4584439	Good	0	456	97.1	99.3		
+624.2539	Shigella sonnei strain AUSMDU00010322	WGS	4694352	Good	0	454	98.1	99.8		
+624.2538	Shigella sonnei strain AUSMDU00010447	WGS	4757675	Good	0	458	97.8	99.6		
+624.2543	Shigella sonnei strain AUSMDU00010460	WGS	4392088	Good	0	387	98.2	99.8		
+624.2557	Shigella sonnei strain AUSMDU00010744	WGS	4430291	Good	0	422	98.2	99.7		
+624.2552	Shigella sonnei strain AUSMDU00010909	WGS	4443854	Good	0	386	98.2	99.7		
+624.2569	Shigella sonnei strain AUSMDU00010920	WGS	4439518	Good	0	396	98.1	99.7		
+624.2560	Shigella sonnei strain AUSMDU00011139	WGS	4526872	Good	0	432	98.2	99.7		
+624.2576	Shigella sonnei strain AUSMDU00011483	WGS	4502047	Good	0	412	98.2	99.8		
+624.2578	Shigella sonnei strain AUSMDU00011484	WGS	4347177	Good	0	392	98.2	99.7		
+624.2580	Shigella sonnei strain AUSMDU00012068	WGS	4578316	Good	0	389	98.5	99.6		
+624.2572	Shigella sonnei strain AUSMDU00012075	WGS	4474480	Good	0	435	98.1	99.7		
+624.2584	Shigella sonnei strain AUSMDU00012363	WGS	4334668	Good	0	395	98.1	99.6		
+624.2583	Shigella sonnei strain AUSMDU00012365	WGS	4427854	Good	0	429	98.2	99.8		
+624.2582	Shigella sonnei strain AUSMDU00012366	WGS	4738347	Good	0	468	97.9	99.7		
+624.2589	Shigella sonnei strain AUSMDU00012367	WGS	4600325	Good	0	451	97.9	99.7		
+624.2591	Shigella sonnei strain AUSMDU00012501	WGS	4361374	Good	0	396	98.4	99.8		
+624.2592	Shigella sonnei strain AUSMDU00012502	WGS	4351968	Good	0	389	98.2	99.7		
+624.2603	Shigella sonnei strain AUSMDU00012894	WGS	4692792	Good	0	493	97.9	99.7		
+624.2601	Shigella sonnei strain AUSMDU00012896	WGS	4652576	Good	0	443	97.9	99.8		
+624.2599	Shigella sonnei strain AUSMDU00012930	WGS	4614305	Good	0	435	97.7	99.6		
+624.2594	Shigella sonnei strain AUSMDU00013121	WGS	4641975	Good	0	457	97.7	99.5		
+624.2595	Shigella sonnei strain AUSMDU00013125	WGS	4598946	Good	0	424	97.9	99.6		
+624.2611	Shigella sonnei strain AUSMDU00013818	WGS	4618738	Good	0	518	98	99.8		
+624.2609	Shigella sonnei strain AUSMDU00013957	WGS	4529469	Good	0	441	98.4	99.8		
+624.2616	Shigella sonnei strain AUSMDU00018981	WGS	4670296	Good	0	513	98.1	99.8		
+624.2638	Shigella sonnei strain 53G - WRAIR Lot 1794	WGS	4705658	Good	0	463	98.5	99.8		
+624.2641	Shigella sonnei strain 893916	Complete	4813904	Good	0	1				
+624.2640	Shigella sonnei strain 607387	WGS	5315865	Poor	13	37				
+624.1802	Shigella sonnei strain 35601ss_1	WGS	4720785	Good		390	95	98.1		
+624.1807	Shigella sonnei strain 15001ss_1	WGS	4763586	Good		465	96.9	99		
+624.1823	Shigella sonnei strain 36101ss_1	WGS	4802588	Good		426	93.1	97.3		
+624.1837	Shigella sonnei strain 24801ss_1	WGS	4756264	Good		411	95.3	98.4		
+624.1842	Shigella sonnei strain 36001ss_1	WGS	4814160	Good		416	92	96.1		
+624.2637	Shigella sonnei strain 6207	Complete	5015190	Good	4	5	98.9	99.9		
+624.1814	Shigella sonnei strain Sh1274_441042	WGS	4573630	Good		551	89.1	94.5		
+624.1818	Shigella sonnei strain Sh1263_440934	WGS	4565610	Good		469	97.3	98.7		
+624.2210	Shigella sonnei strain 3123885	Complete	4636384	Good	1	2	92.7	94.4		
+624.2211	Shigella sonnei strain 09163633	Complete	4942870	Good	1	2	95.4	97		
+624.2214	Shigella sonnei strain 19.0821.3486	Complete	4934123	Good	1	2	95.3	96.9		
+624.2216	Shigella sonnei strain 7111.69	Complete	4940233	Good	1	2	95.3	96.9		
+624.2217	Shigella sonnei strain 509.1022	Complete	4892993	Good	1	2	95.3	96.9		
+624.2220	Shigella sonnei strain 19.0822.3296	Complete	4893041	Good	1	2	95.3	96.9		
+624.2226	Shigella sonnei strain 0401952027	WGS	4663551	Good	0	533	95.3	97		
+624.2231	Shigella sonnei strain 19.0820.1561	WGS	4626627	Good	0	499	95	96.8		
+624.2232	Shigella sonnei strain 19.0821.3486	WGS	4563516	Good	0	463	95.3	96.9		
+624.2234	Shigella sonnei strain 6110.62	WGS	4748263	Good	0	508	95.3	97		
+624.2238	Shigella sonnei strain 6412.75	WGS	4427650	Good	0	445	95.1	97		
+624.2241	Shigella sonnei strain 7111.23	WGS	4664927	Good	0	489	95.2	96.7		
+624.2647	Shigella sonnei strain Z13154	WGS	4636612	Good	0	561	98.3	99.8		
+624.2649	Shigella sonnei strain Z12947	WGS	4658609	Good	0	579	98.3	99.8		
+624.70	Shigella sonnei strain 1230_SSON	WGS	3923692	Good		157	97.6	98.7	72.6	5.9
+624.632	Shigella sonnei strain 452_SSON	WGS	6089467	Good		140	97	99.1	92.5	10.7
+624.590	Shigella sonnei strain H112700288	WGS	4770149	Good		630	96.1	99.6	99.7	4.3
+624.74	Shigella sonnei strain 980_SSON	WGS	4999634	Good		108	96.7	99.3	94.4	4
+624.69	Shigella sonnei strain 1050_SSON	WGS	5476819	Good		231	97.1	99.3	93.8	8.4
+624.807	Shigella sonnei strain 2090STDY5461756	WGS	4550470	Good		642	94.5	99.6	100	6.1
+624.779	Shigella sonnei strain 2090STDY5461769	WGS	4616923	Good		479	97.2	99.7	100	1.9
+624.117	Shigella sonnei strain 38101ss_1	WGS	4560347	Good		407	95.2	98	96.6	1
+624.209	Shigella sonnei strain H112920487	WGS	4809174	Good		442	97.3	99.5	100	2.3
+624.120	Shigella sonnei strain 37701ss_1	WGS	4409032	Good		369	94.1	97.8	97.4	1.3
+624.750	Shigella sonnei strain CDPH_C8	WGS	4517285	Good		527	96.3	99.8	100	2.5
+624.789	Shigella sonnei strain 2090STDY5461762	WGS	4600153	Good		572	97	99.7	100	2.7
+624.740	Shigella sonnei strain CDPH_C13	WGS	4593452	Good		602	97	99.7	100	2.8
+624.269	Shigella sonnei strain 144376	WGS	4744658	Good		387	97.7	99.6	100	1
+624.494	Shigella sonnei strain 36401ss_1	WGS	4505514	Good		388	96.7	98.3	98.5	0.5
+1353978.3	Shigella sonnei 1DT-1	WGS	4890132	Good	0	255	98.9	99.7	97.1	0.7
+624.1210	Shigella sonnei strain FC3209	WGS	4577843	Good		510	97.6	99.7	100	1
+624.221	Shigella sonnei strain 26101B_1	WGS	4458282	Good		362	96.7	99.1	99.3	0.7
+624.275	Shigella sonnei strain 36201ss_1	WGS	4755353	Good		391	96.7	98.9	99	0.7
+624.338	Shigella sonnei strain 109275	WGS	4695476	Good		455	97.1	99.4	100	1
+624.575	Shigella sonnei strain 34001ss_1	WGS	4547617	Good		373	96.5	98.8	99	0.7
+624.309	Shigella sonnei strain 54201ss_1	WGS	4458797	Good		368	96.7	98.7	98.7	0.7
+624.416	Shigella sonnei strain 38001ss_1	WGS	4480712	Good		406	96.4	98.7	98.4	0.7
+624.763	Shigella sonnei strain 2090STDY5461788	WGS	4548711	Good		555	97.1	99.6	100	1.2
+624.767	Shigella sonnei strain 2090STDY5461753	WGS	4648528	Good		576	97.1	99.6	100	1.3
+624.92	Shigella sonnei strain 51401ss_1	WGS	4657333	Good		404	96.4	98.7	97.7	0.7
+624.688	Shigella sonnei strain CDPH_C9	WGS	4603360	Good		566	96.9	99.8	100	1.6
+624.249	Shigella sonnei strain 143269	WGS	4718448	Good		396	97.8	99.6	98	0
+624.929	Shigella sonnei strain 3626STDY6095499	WGS	4903636	Good		440	97.6	99.6	99.7	0.3
+624.595	Shigella sonnei strain H112580301	WGS	4824234	Good		542	97.3	99.5	100	0.3
+624.775	Shigella sonnei strain 2090STDY5461791	WGS	4708537	Good		427	98.2	99.6	100	0.5
+624.562	Shigella sonnei strain KY 3460	WGS	4785793	Good		478	97.8	99.7	99.3	0.3
+624.368	Shigella sonnei strain sh07-2224	WGS	4891546	Good		406	97.3	99.4	99.7	0.3
+624.1175	Shigella sonnei strain sh1475	WGS	4686467	Good		372	98.3	99.7	100	0.6
+624.568	Shigella sonnei strain SS127358_2798527	WGS	4595137	Good		368	98.1	99.6	100	0.6
+624.1529	Shigella sonnei strain 4028STDY6275234 strain H122820578	WGS	4569840	Good		362	98.1	99.6	100	0.6
+624.770	Shigella sonnei strain 2090STDY5461785	WGS	4757794	Good		434	97.6	99.7	100	0.5
+624.760	Shigella sonnei strain 2090STDY5461754	WGS	4593372	Good		401	98	99.6	100	0.6
+624.1139	Shigella sonnei strain sh1366	WGS	4737125	Good		403	98	99.7	100	0.6
+624.1440	Shigella sonnei strain 4028STDY6275133 strain H090900156	WGS	4635799	Good		385	98	99.6	100	0.6
+624.1520	Shigella sonnei strain 4028STDY6275227 strain H121800402	WGS	4583508	Good		371	97.9	99.6	100	0.6
+624.1136	Shigella sonnei strain sh1371	WGS	4750071	Good		402	98.1	99.7	99.7	0.6
+624.1496	Shigella sonnei strain 4028STDY6275168 strain H102620301	WGS	4561890	Good		377	97.8	99.6	100	0.6
+624.359	Shigella sonnei strain sh96-2938	WGS	4545001	Good		360	97.7	99.5	100	0.6
+624.141	Shigella sonnei strain 109280	WGS	4643654	Good		445	97.9	99.4	99.7	0.6
+624.655	Shigella sonnei strain CDPH_C43	WGS	4675636	Good		562	97.6	99.6	100	0.6
+624.1114	Shigella sonnei strain sh1400	WGS	4722603	Good		440	97.6	99.5	100	0.6
+624.1503	Shigella sonnei strain 4028STDY6275175 strain H103220229	WGS	4620721	Good		420	97.6	99.6	100	0.6
+624.420	Shigella sonnei strain 143267	WGS	4686203	Good		390	97.5	99	97.1	0
+624.124	Shigella sonnei strain 70501ss_1	WGS	4758840	Good		432	96.2	98.7	99.3	0.3
+624.1161	Shigella sonnei strain sh1445	WGS	4475521	Good		341	97.9	99.5	97.4	0.3
+624.1409	Shigella sonnei strain 4028STDY6275177 strain H103440387	WGS	4623127	Good		424	97.2	98.9	100	0
+624.1467	Shigella sonnei strain 4028STDY6275254 strain H132500372	WGS	4525840	Good		367	98.1	99.6	99	0
+624.369	Shigella sonnei strain 144357	WGS	4428006	Good		237	97.8	99.2	99.3	0
+624.1445	Shigella sonnei strain 4028STDY6275257 strain H133360509	WGS	4484745	Good		366	97.8	99.5	99.3	0
+624.660	Shigella sonnei strain CDPH_C15	WGS	4475604	Good		464	97.5	99.8	100	0.1
+624.116	Shigella sonnei strain SS132068_2496118	WGS	4664339	Good		377	97.3	99	99.7	0
+624.710	Shigella sonnei strain CDPH_C82	WGS	4829556	Good		490	98.4	99.8	100	0.3
+624.1155	Shigella sonnei strain sh1437	WGS	4606963	Good		371	98.4	99.7	100	0.3
+624.516	Shigella sonnei strain 143558	WGS	4740312	Good		406	97.6	99	99.3	0
+624.567	Shigella sonnei strain 143781	WGS	4709481	Good		387	97.6	99	99.3	0
+624.93	Shigella sonnei strain 124357	WGS	4713595	Good		386	97.6	99	99.3	0
+624.711	Shigella sonnei strain CDPH_C88	WGS	4939959	Good		470	98.3	99.8	100	0.3
+624.890	Shigella sonnei strain 2090STDY5488127	WGS	4729004	Good		374	98.3	99.7	100	0.3
+624.100	Shigella sonnei strain KY 1633	WGS	4739295	Good		450	98.2	99.6	100	0.3
+624.743	Shigella sonnei strain CDPH_C85	WGS	4490538	Good		431	98.2	99.8	100	0.3
+216599.12	Shigella sonnei 53G	Complete	5220473	Good		5	98.2	99.5	100	0.3
+624.1170	Shigella sonnei strain sh1462	WGS	4740649	Good		367	98.2	99.7	100	0.3
+624.1174	Shigella sonnei strain sh1472	WGS	4666895	Good		367	98.2	99.7	100	0.3
+624.1095	Shigella sonnei strain sh1423	WGS	4593138	Good		380	98.2	99.7	100	0.3
+624.888	Shigella sonnei strain 2090STDY5488124	WGS	4671462	Good		371	98.2	99.7	100	0.3
+624.892	Shigella sonnei strain 2090STDY5488128	WGS	4727271	Good		379	98.2	99.7	100	0.3
+624.903	Shigella sonnei strain 2090STDY5488140	WGS	4862372	Good		447	98.2	99.7	100	0.3
+624.1424	Shigella sonnei strain 4028STDY6275203 strain H111600281	WGS	4564717	Good		365	98.2	99.7	100	0.3
+624.1463	Shigella sonnei strain 4028STDY6275264 strain H140180201	WGS	4641906	Good		374	98.2	99.6	100	0.3
+624.1469	Shigella sonnei strain 4028STDY6275123 strain H083980214	WGS	4446023	Good		354	98.2	99.7	100	0.3
+624.1619	Shigella sonnei strain 4028STDY6275266 strain H140540186	WGS	4639244	Good		371	98.2	99.6	100	0.3
+624.765	Shigella sonnei strain 2090STDY5461731	WGS	4538508	Good		372	97.7	99.2	99	0
+624.245	Shigella sonnei strain 08-2916	WGS	4842712	Good		455	98.1	99.6	100	0.3
+624.402	Shigella sonnei strain 201401842_1	WGS	4801568	Good		401	98.1	99.6	100	0.3
+624.582	Shigella sonnei strain 201403956_1	WGS	4772867	Good		381	98.1	99.6	100	0.3
+624.629	Shigella sonnei strain KY 1629	WGS	4692474	Good		537	98.1	99.6	100	0.3
+624.726	Shigella sonnei strain CDPH_C81	WGS	4510650	Good		436	98.1	99.8	100	0.3
+624.727	Shigella sonnei strain CDPH_C35	WGS	4606952	Good		468	98.1	99.7	100	0.3
+624.1152	Shigella sonnei strain sh1432	WGS	4632950	Good		350	98.1	99.5	100	0.3
+624.1413	Shigella sonnei strain 4028STDY6275202 strain H111600280	WGS	4636558	Good		377	98.1	99.6	100	0.3
+624.1514	Shigella sonnei strain 4028STDY6275204 strain H111640342	WGS	4615222	Good		363	98.1	99.7	100	0.3
+624.1614	Shigella sonnei strain 4028STDY6275249 strain H131620553	WGS	4707881	Good		407	98.1	99.7	100	0.3
+624.435	Shigella sonnei strain H082240398	WGS	4831564	Good		437	97.3	99	99.3	0
+624.1154	Shigella sonnei strain sh1435	WGS	4730012	Good		394	98.3	99.6	99.7	0.3
+624.863	Shigella sonnei strain 2090STDY5461868	WGS	4504887	Good		382	98.1	99.6	98.4	0
+624.246	Shigella sonnei strain H081700339	WGS	4652400	Good		443	98	99.6	100	0.3
+624.614	Shigella sonnei strain sh07-0426	WGS	4624127	Good		386	98	99.6	100	0.3
+624.1111	Shigella sonnei strain sh1403	WGS	4575716	Good		376	98	99.7	100	0.3
+624.786	Shigella sonnei strain 2090STDY5461783	WGS	4583196	Good		428	98	99.7	100	0.3
+624.1433	Shigella sonnei strain 4028STDY6275244 strain H124620297	WGS	4577048	Good		370	98	99.7	100	0.3
+624.125	Shigella sonnei strain H104480143	WGS	4706064	Good		400	97.9	99.4	100	0.3
+624.152	Shigella sonnei strain 21201783	WGS	4936687	Good		473	97.9	99.6	100	0.3
+624.159	Shigella sonnei strain 201400696_1	WGS	4788862	Good		378	97.9	99.5	100	0.3
+624.308	Shigella sonnei strain SS133628_2496121	WGS	4720766	Good		367	97.9	99.5	100	0.3
+624.769	Shigella sonnei strain 2090STDY5461767	WGS	4816679	Good		465	97.9	99.7	100	0.3
+624.1419	Shigella sonnei strain 4028STDY6275183 strain H104180066	WGS	4668920	Good		377	97.9	99.6	100	0.3
+624.1439	Shigella sonnei strain 4028STDY6275286 strain H143400561	WGS	4748096	Good		390	97.9	99.6	100	0.3
+624.917	Shigella sonnei strain 3626STDY6095486	WGS	4718259	Good		402	97	99	99.4	0
+624.459	Shigella sonnei strain H064400341	WGS	4613320	Good		503	97.8	99.4	100	0.3
+624.1495	Shigella sonnei strain 4028STDY6275134 strain H091100545	WGS	4499564	Good		384	97.8	99.7	100	0.3
+624.179	Shigella sonnei strain H084560209	WGS	4559208	Good		368	98	99.6	99.7	0.3
+624.922	Shigella sonnei strain 3626STDY6095491	WGS	4781613	Good		428	98	99.6	99.7	0.3
+624.809	Shigella sonnei strain 2090STDY5461818	WGS	4720375	Good		380	97.7	99.7	100	0.3
+624.930	Shigella sonnei strain 3626STDY6095500	WGS	4802093	Good		434	97.7	99.6	100	0.3
+624.220	Shigella sonnei strain 75659	WGS	4637205	Good		383	98.1	99.7	98	0
+624.137	Shigella sonnei strain H135060466	WGS	4657710	Good		414	97.6	99.5	100	0.3
+624.417	Shigella sonnei strain H135080163	WGS	4502416	Good		376	97.6	99.5	100	0.3
+624.446	Shigella sonnei strain KY 1058	WGS	4663201	Good		414	97.8	99.4	99.7	0.3
+624.662	Shigella sonnei strain CDPH_C32	WGS	4573307	Good		487	97.4	99.6	100	0.3
+624.1425	Shigella sonnei strain 4028STDY6275230 strain H122140251	WGS	4707523	Good		386	98.1	99.6	100	0
+624.1429	Shigella sonnei strain 4028STDY6275181 strain H103800316	WGS	4536620	Good		385	98.1	99.6	100	0
+624.1428	Shigella sonnei strain 4028STDY6275292 strain H144100456	WGS	4820226	Good		422	98.1	99.6	100	0
+624.1426	Shigella sonnei strain 4028STDY6275215 strain H113580102	WGS	4544539	Good		359	98.1	99.7	100	0
+624.1444	Shigella sonnei strain 4028STDY6275125 strain H084180226	WGS	4691785	Good		363	98.1	99.6	100	0
+624.1468	Shigella sonnei strain 4028STDY6275114 strain H082920367	WGS	4546035	Good		372	98.1	99.7	100	0
+624.1477	Shigella sonnei strain 4028STDY6275140 strain H092280057	WGS	4603060	Good		374	98.1	99.6	100	0
+624.1489	Shigella sonnei strain 4028STDY6275158 strain H100340424	WGS	4582039	Good		376	98.1	99.6	100	0
+624.1510	Shigella sonnei strain 4028STDY6275209 strain H112520526	WGS	4509630	Good		377	98.1	99.7	100	0
+624.1519	Shigella sonnei strain 4028STDY6275214 strain H113560363	WGS	4808699	Good		404	98.1	99.7	100	0
+624.1621	Shigella sonnei strain 4028STDY6275117 strain H083200208	WGS	4500316	Good		365	98.1	99.6	100	0
+624.1628	Shigella sonnei strain 4028STDY6275165 strain H102540133	WGS	4520006	Good		380	98.1	99.6	100	0
+624.1024	Shigella sonnei strain sh1431	WGS	4703437	Good		400	98.3	99.7	99.7	0
+624.123	Shigella sonnei strain 143100	WGS	4779513	Good		405	98	99.6	100	0
+624.151	Shigella sonnei strain H112440349	WGS	4689727	Good		436	98	99.6	100	0
+624.155	Shigella sonnei strain 44773052	WGS	4851069	Good		438	98	99.6	100	0
+624.180	Shigella sonnei strain 143563	WGS	4745788	Good		383	98	99.6	100	0
+624.210	Shigella sonnei strain 201401463_1	WGS	4892791	Good		402	98	99.6	100	0
+624.214	Shigella sonnei strain 109310	WGS	4732530	Good		383	98	99.4	100	0
+624.299	Shigella sonnei strain 124496	WGS	4908561	Good		406	98	99.6	100	0
+624.307	Shigella sonnei strain 201312520_1	WGS	4847132	Good		394	98	99.6	100	0
+624.341	Shigella sonnei strain 36230921	WGS	4861446	Good		460	98	99.6	100	0
+624.373	Shigella sonnei strain 95015	WGS	4718076	Good		418	98	99.6	100	0
+624.492	Shigella sonnei strain 143099	WGS	4778996	Good		411	98	99.6	100	0
+624.546	Shigella sonnei strain H082060203	WGS	4692231	Good		381	98	99.6	100	0
+624.626	Shigella sonnei strain 20177848	WGS	4982560	Good		474	98	99.6	100	0
+624.635	Shigella sonnei strain FORC_011	Complete	5132711	Good	3	4	98	99.5	100	0
+624.1103	Shigella sonnei strain sh1411	WGS	4503538	Good		364	98	99.7	100	0
+624.860	Shigella sonnei strain 2090STDY5461865	WGS	4553313	Good		377	98	99.7	100	0
+624.804	Shigella sonnei strain 2090STDY5461758	WGS	4771751	Good		422	98	99.7	100	0
+624.778	Shigella sonnei strain 2090STDY5461780	WGS	4541524	Good		392	98	99.7	100	0
+624.1551	Shigella sonnei strain 4028STDY6275277 strain H142240342	WGS	4541072	Good		383	98	99.6	100	0
+624.1432	Shigella sonnei strain 4028STDY6275135 strain H091220732	WGS	4575737	Good		433	98	99.7	100	0
+624.1464	Shigella sonnei strain 4028STDY6275107 strain H081100122	WGS	4520450	Good		377	98	99.7	100	0
+624.1484	Shigella sonnei strain 4028STDY6275136 strain H091740303	WGS	4502229	Good		381	98	99.6	100	0
+624.1501	Shigella sonnei strain 4028STDY6275167 strain H102620303	WGS	4515033	Good		361	98	99.7	100	0
+624.1509	Shigella sonnei strain 4028STDY6275162 strain H102000097	WGS	4506316	Good		363	98	99.7	100	0
+624.1513	Shigella sonnei strain 4028STDY6275208 strain H112340678	WGS	4516126	Good		378	98	99.6	100	0
+624.1517	Shigella sonnei strain 4028STDY6275199 strain H111460092	WGS	4705924	Good		382	98	99.6	100	0
+624.1543	Shigella sonnei strain 4028STDY6275293 strain H144200512	WGS	4525633	Good		384	98	99.6	100	0
+624.357	Shigella sonnei strain 75691	WGS	4659543	Good		396	98.2	99.7	99.7	0
+624.591	Shigella sonnei strain 83588	WGS	4714779	Good		381	98.2	99.6	99.7	0
+300269.12	Shigella sonnei Ss046	Complete	5055316	Good	4	5	98.2	99.7	99.7	0
+624.884	Shigella sonnei strain 2090STDY5488120	WGS	4457526	Good		366	98.2	99.7	99.7	0
+624.129	Shigella sonnei strain H133320345	WGS	4732730	Good		391	97.9	99.3	100	0
+624.162	Shigella sonnei strain H113020319	WGS	4793516	Good		413	97.9	99.6	100	0
+624.175	Shigella sonnei strain H081460380	WGS	4646338	Good		392	97.9	99.4	100	0
+624.284	Shigella sonnei strain 99441	WGS	4730260	Good		381	97.9	99.4	100	0
+624.334	Shigella sonnei strain H140880294	WGS	4908292	Good		457	97.9	99.4	100	0
+624.365	Shigella sonnei strain H092760241	WGS	4684159	Good		378	97.9	99.4	100	0
+624.374	Shigella sonnei strain H134140472	WGS	4876228	Good		451	97.9	99.5	100	0
+624.453	Shigella sonnei strain H112540447	WGS	4731058	Good		420	97.9	99.6	100	0
+624.553	Shigella sonnei strain H135120399	WGS	4875931	Good		420	97.9	99.4	100	0
+624.696	Shigella sonnei strain CDPH_C26	WGS	4476126	Good		421	97.9	99.8	100	0
+624.700	Shigella sonnei strain CDPH_C102	WGS	4542592	Good		424	97.9	99.8	100	0
+624.704	Shigella sonnei strain CDPH_C28	WGS	4502331	Good		414	97.9	99.7	100	0
+624.78	Shigella sonnei strain 124561	WGS	4670072	Good		441	97.9	99.6	100	0
+624.87	Shigella sonnei strain 201311953_1	WGS	4727507	Good		387	97.9	99.4	100	0
+624.1113	Shigella sonnei strain sh1401	WGS	4589714	Good		374	97.9	99.7	100	0
+624.1555	Shigella sonnei strain 4028STDY6275285 strain H143340466	WGS	4570266	Good		376	97.9	99.5	100	0
+624.1483	Shigella sonnei strain 4028STDY6275129 strain H084780114	WGS	4446305	Good		398	97.9	99.6	100	0
+624.1500	Shigella sonnei strain 4028STDY6275171 strain H102980315	WGS	4527054	Good		378	97.9	99.6	100	0
+624.1511	Shigella sonnei strain 4028STDY6275147 strain H092940143	WGS	4537604	Good		360	97.9	99.6	100	0
+624.1506	Shigella sonnei strain 4028STDY6275178 strain H103460440	WGS	4518209	Good		376	97.9	99.7	100	0
+624.1536	Shigella sonnei strain 4028STDY6275253 strain H132300410	WGS	4525250	Good		373	97.9	99.6	100	0
+624.1541	Shigella sonnei strain 4028STDY6275270 strain H141800385	WGS	4864268	Good		383	97.9	99.6	100	0
+624.821	Shigella sonnei strain 2090STDY5461823	WGS	4615961	Good		380	98.1	99.6	99.7	0
+624.857	Shigella sonnei strain 2090STDY5461861	WGS	4491019	Good		371	98.1	99.7	99.7	0
+624.244	Shigella sonnei strain 143986	WGS	4815649	Good		407	97.8	99.7	100	0
+624.311	Shigella sonnei strain sh07-1910	WGS	4687047	Good		397	97.8	99.5	100	0
+624.361	Shigella sonnei strain H140920393	WGS	4765223	Good		404	97.8	99.4	100	0
+624.552	Shigella sonnei strain H092920825	WGS	4735124	Good		471	97.8	99.4	100	0
+624.904	Shigella sonnei strain 2090STDY5488141	WGS	4566523	Good		368	97.8	99.6	100	0
+624.1150	Shigella sonnei strain 3626STDY6095509	WGS	4922097	Good		443	97.8	99.7	100	0
+624.1526	Shigella sonnei strain 4028STDY6275216 strain H113660392	WGS	4710668	Good		371	97.8	99.7	100	0
+624.273	Shigella sonnei strain H132900517	WGS	4637568	Good		416	98	99.4	99.7	0
+624.1583	Shigella sonnei strain DMB SH20171	WGS	4599591	Good		554	98	99.8	99.7	0
+624.619	Shigella sonnei strain 201402995_1	WGS	4837688	Good		385	97.7	99	100	0
+624.921	Shigella sonnei strain 3626STDY6095490	WGS	4953920	Good		432	97.7	99.7	100	0
+624.931	Shigella sonnei strain 3626STDY6095501	WGS	4919692	Good		443	97.7	99.7	100	0
+624.936	Shigella sonnei strain 3626STDY6095506	WGS	4914112	Good		435	97.7	99.7	100	0
+624.439	Shigella sonnei strain SS117077_2798526	WGS	4540249	Good		384	97.9	99.5	99.7	0
+624.555	Shigella sonnei strain H111200322	WGS	4797775	Good		417	97.9	99.4	99.7	0
+624.563	Shigella sonnei strain H085220501	WGS	4561247	Good		382	97.9	99.6	99.7	0
+624.1108	Shigella sonnei strain sh1406	WGS	4601599	Good		412	97.9	99.6	99.7	0
+624.1012	Shigella sonnei strain sh1415	WGS	4556585	Good		393	97.9	99.6	99.7	0
+624.112	Shigella sonnei strain 201401573_1	WGS	4966500	Good		494	97.6	99.3	100	0
+624.128	Shigella sonnei strain H102840285	WGS	4679894	Good		386	97.6	99.3	100	0
+624.464	Shigella sonnei strain H082400248	WGS	4686708	Good		389	97.6	99.2	100	0
+624.916	Shigella sonnei strain 3626STDY6095485	WGS	4958897	Good		442	97.6	99.7	100	0
+624.542	Shigella sonnei strain sh07-2004	WGS	4775890	Good		398	98	99.6	100	0.1
+624.167	Shigella sonnei strain H111200327	WGS	4667446	Good		388	97.8	99.3	99.7	0
+624.625	Shigella sonnei strain H085220503	WGS	4558879	Good		376	97.5	99.2	100	0
+624.771	Shigella sonnei strain 2090STDY5461779	WGS	4536224	Good		408	97.5	99.7	100	0
+624.912	Shigella sonnei strain 3626STDY6095481	WGS	4853094	Good		438	97.5	99.7	100	0
+624.252	Shigella sonnei strain 77231	WGS	4709045	Good		384	98	99.6	99.3	0
+624.933	Shigella sonnei strain 3626STDY6095503	WGS	4966536	Good		463	97.6	99.3	99.7	0
+624.1148	Shigella sonnei strain 3626STDY6095526	WGS	4884542	Good		440	97.6	99.6	99.7	0
+624.448	Shigella sonnei strain H081960581	WGS	4693725	Good		395	97.6	99.3	99.6	0
+624.170	Shigella sonnei strain H102640221	WGS	4684500	Good		397	97.5	99	99.7	0
+624.680	Shigella sonnei strain CDPH_C45	WGS	4628289	Good		517	97.5	99.7	99.7	0
+624.816	Shigella sonnei strain 2090STDY5461813	WGS	4831042	Good		383	98.4	99.7	100	0
+624.1164	Shigella sonnei strain sh1448	WGS	4718424	Good		368	98.4	99.7	100	0
+624.1165	Shigella sonnei strain sh1449	WGS	4710003	Good		365	98.4	99.7	100	0
+624.1168	Shigella sonnei strain sh1458	WGS	4651513	Good		364	98.4	99.7	100	0
+624.824	Shigella sonnei strain 2090STDY5461826	WGS	4628782	Good		356	98.4	99.7	100	0
+624.829	Shigella sonnei strain 2090STDY5461832	WGS	4659715	Good		423	98.4	99.7	100	0
+624.830	Shigella sonnei strain 2090STDY5461833	WGS	4720882	Good		409	98.4	99.7	100	0
+624.833	Shigella sonnei strain 2090STDY5461837	WGS	4583994	Good		352	98.4	99.7	100	0
+624.839	Shigella sonnei strain 2090STDY5461842	WGS	4592057	Good		343	98.4	99.7	100	0
+624.845	Shigella sonnei strain 2090STDY5461849	WGS	4584592	Good		341	98.4	99.7	100	0
+624.847	Shigella sonnei strain 2090STDY5461850	WGS	4602769	Good		357	98.4	99.7	100	0
+624.850	Shigella sonnei strain 2090STDY5461854	WGS	4576849	Good		348	98.4	99.7	100	0
+624.851	Shigella sonnei strain 2090STDY5461855	WGS	4585923	Good		340	98.4	99.7	100	0
+624.1462	Shigella sonnei strain 4028STDY6275211 strain H113400356	WGS	4646741	Good		351	98.4	99.7	100	0
+624.452	Shigella sonnei strain 75672	WGS	4676401	Good		393	98.3	99.7	100	0
+624.811	Shigella sonnei strain 2090STDY5461816	WGS	4617095	Good		364	98.3	99.7	100	0
+624.859	Shigella sonnei strain 2090STDY5461864	WGS	4648128	Good		378	98.3	99.7	100	0
+624.963	Shigella sonnei strain sh1363	WGS	4816760	Good		408	98.3	99.7	100	0
+624.1135	Shigella sonnei strain sh1370	WGS	4871083	Good		431	98.3	99.7	100	0
+624.827	Shigella sonnei strain 2090STDY5461827	WGS	4601058	Good		383	98.3	99.7	100	0
+624.1488	Shigella sonnei strain 4028STDY6275150 strain H093820563	WGS	4818374	Good		398	98.3	99.7	100	0
+624.1533	Shigella sonnei strain 4028STDY6275236 strain H123020464	WGS	4637605	Good		360	98.3	99.7	100	0
+624.122	Shigella sonnei strain 99442	WGS	4697261	Good		408	98.2	99.6	100	0
+624.134	Shigella sonnei strain H113080359	WGS	4747793	Good		402	98.2	99.6	100	0
+624.148	Shigella sonnei strain 143779	WGS	4761547	Good		388	98.2	99.6	100	0
+624.176	Shigella sonnei strain H112700291	WGS	4660841	Good		387	98.2	99.6	100	0
+624.182	Shigella sonnei strain 82723	WGS	4581687	Good		377	98.2	99.7	100	0
+624.185	Shigella sonnei strain 85674	WGS	4674365	Good		384	98.2	99.7	100	0
+624.234	Shigella sonnei strain 75645	WGS	4704167	Good		370	98.2	99.7	100	0
+624.241	Shigella sonnei strain 75915	WGS	4693712	Good		392	98.2	99.7	100	0
+624.256	Shigella sonnei strain H113240269	WGS	4756505	Good		403	98.2	99.6	100	0
+624.321	Shigella sonnei strain 88371	WGS	4697434	Good		389	98.2	99.7	100	0
+624.415	Shigella sonnei strain H112540448	WGS	4730978	Good		410	98.2	99.6	100	0
+624.421	Shigella sonnei strain H112540446	WGS	4646747	Good		389	98.2	99.6	100	0
+624.425	Shigella sonnei strain H132920407	WGS	4802323	Good		397	98.2	99.5	100	0
+624.428	Shigella sonnei strain 109114	WGS	4760985	Good		396	98.2	99.7	100	0
+624.445	Shigella sonnei strain 143982	WGS	4772018	Good		411	98.2	99.6	100	0
+624.451	Shigella sonnei strain 75668	WGS	4692750	Good		393	98.2	99.7	100	0
+624.463	Shigella sonnei strain 143094	WGS	4779837	Good		421	98.2	99.6	100	0
+624.497	Shigella sonnei strain 85002	WGS	4565523	Good		371	98.2	99.6	100	0
+624.524	Shigella sonnei strain 144444	WGS	4779126	Good		398	98.2	99.6	100	0
+624.529	Shigella sonnei strain H140360432	WGS	4926053	Good		439	98.2	99.6	100	0
+624.572	Shigella sonnei strain H112700290	WGS	4797648	Good		440	98.2	99.6	100	0
+624.574	Shigella sonnei strain 26986104	WGS	4923781	Good		438	98.2	99.6	100	0
+624.587	Shigella sonnei strain 85719	WGS	4659771	Good		373	98.2	99.7	100	0
+624.600	Shigella sonnei strain 95780	WGS	4788877	Good		418	98.2	99.6	100	0
+624.658	Shigella sonnei strain CDPH_C116	WGS	4570287	Good		420	98.2	99.8	100	0
+624.709	Shigella sonnei strain CDPH_C23	WGS	4586895	Good		417	98.2	99.8	100	0
+624.730	Shigella sonnei strain CDPH_C124	WGS	4631963	Good		433	98.2	99.8	100	0
+624.735	Shigella sonnei strain CDPH_C96	WGS	4440532	Good		417	98.2	99.8	100	0
+624.736	Shigella sonnei strain CDPH_C118	WGS	4646299	Good		437	98.2	99.8	100	0
+624.99	Shigella sonnei strain 99444	WGS	4729609	Good		398	98.2	99.7	100	0
+624.854	Shigella sonnei strain 2090STDY5461858	WGS	4715422	Good		404	98.2	99.7	100	0
+624.862	Shigella sonnei strain 2090STDY5461867	WGS	4555011	Good		374	98.2	99.7	100	0
+624.868	Shigella sonnei strain 2090STDY5461873	WGS	4729513	Good		411	98.2	99.7	100	0
+624.875	Shigella sonnei strain 2090STDY5461881	WGS	4486708	Good		368	98.2	99.7	100	0
+624.878	Shigella sonnei strain 2090STDY5488115	WGS	4567087	Good		379	98.2	99.7	100	0
+624.880	Shigella sonnei strain 2090STDY5488116	WGS	4474562	Good		374	98.2	99.7	100	0
+624.883	Shigella sonnei strain 2090STDY5488119	WGS	4513888	Good		362	98.2	99.7	100	0
+624.886	Shigella sonnei strain 2090STDY5488122	WGS	4472489	Good		372	98.2	99.7	100	0
+624.887	Shigella sonnei strain 2090STDY5488123	WGS	4522715	Good		365	98.2	99.7	100	0
+624.889	Shigella sonnei strain 2090STDY5488125	WGS	4477151	Good		364	98.2	99.7	100	0
+624.894	Shigella sonnei strain 2090STDY5488130	WGS	4475604	Good		370	98.2	99.7	100	0
+624.896	Shigella sonnei strain 2090STDY5488132	WGS	4469137	Good		367	98.2	99.7	100	0
+624.906	Shigella sonnei strain 2090STDY5488143	WGS	4468832	Good		379	98.2	99.7	100	0
+624.800	Shigella sonnei strain 2090STDY5461726	WGS	4488191	Good		369	98.2	99.7	100	0
+624.793	Shigella sonnei strain 2090STDY5461737	WGS	4479413	Good		377	98.2	99.7	100	0
+624.952	Shigella sonnei strain sh1351	WGS	4729604	Good		420	98.2	99.7	100	0
+624.953	Shigella sonnei strain sh1352	WGS	4724966	Good		418	98.2	99.7	100	0
+624.1142	Shigella sonnei strain sh1361	WGS	4833600	Good		420	98.2	99.7	100	0
+624.1141	Shigella sonnei strain sh1364	WGS	4915573	Good		495	98.2	99.7	100	0
+624.1134	Shigella sonnei strain sh1372	WGS	4740906	Good		406	98.2	99.7	100	0
+624.1129	Shigella sonnei strain sh1378	WGS	4621803	Good		384	98.2	99.7	100	0
+624.1127	Shigella sonnei strain sh1380	WGS	4833518	Good		415	98.2	99.7	100	0
+624.1126	Shigella sonnei strain sh1381	WGS	4720880	Good		415	98.2	99.7	100	0
+624.980	Shigella sonnei strain sh1382	WGS	4784826	Good		427	98.2	99.7	100	0
+624.987	Shigella sonnei strain sh1392	WGS	4580185	Good		375	98.2	99.7	100	0
+624.989	Shigella sonnei strain sh1393	WGS	4569163	Good		381	98.2	99.7	100	0
+624.828	Shigella sonnei strain 2090STDY5461831	WGS	4708027	Good		420	98.2	99.6	100	0
+624.832	Shigella sonnei strain 2090STDY5461835	WGS	4639648	Good		416	98.2	99.6	100	0
+624.837	Shigella sonnei strain 2090STDY5461840	WGS	4690911	Good		345	98.2	99.6	100	0
+624.1416	Shigella sonnei strain 4028STDY6275255 strain H133120643	WGS	4710127	Good		414	98.2	99.7	100	0
+624.1427	Shigella sonnei strain 4028STDY6275109 strain H082260272	WGS	4596776	Good		375	98.2	99.7	100	0
+624.1431	Shigella sonnei strain 4028STDY6275248 strain H131440281	WGS	4551574	Good		373	98.2	99.7	100	0
+624.1408	Shigella sonnei strain 4028STDY6275274 strain H142020311	WGS	4714159	Good		421	98.2	99.7	100	0
+624.1557	Shigella sonnei strain 4028STDY6275121 strain H083720414	WGS	4598225	Good		356	98.2	99.5	100	0
+624.1560	Shigella sonnei strain 4028STDY6275258 strain H133460470	WGS	4660605	Good		369	98.2	99.6	100	0
+624.1443	Shigella sonnei strain 4028STDY6275205 strain H111660322	WGS	4488429	Good		369	98.2	99.7	100	0
+624.1452	Shigella sonnei strain 4028STDY6275280 strain H143000358	WGS	4555724	Good		376	98.2	99.7	100	0
+624.1490	Shigella sonnei strain 4028STDY6275155 strain H094840360	WGS	4682708	Good		373	98.2	99.7	100	0
+624.1497	Shigella sonnei strain 4028STDY6275143 strain H092400232	WGS	4526076	Good		357	98.2	99.7	100	0
+624.1521	Shigella sonnei strain 4028STDY6275186 strain H104580155	WGS	4555447	Good		370	98.2	99.7	100	0
+624.1534	Shigella sonnei strain 4028STDY6275237 strain H123220479	WGS	4540411	Good		365	98.2	99.7	100	0
+624.1538	Shigella sonnei strain 4028STDY6275217 strain H113760469	WGS	4649868	Good		363	98.2	99.7	100	0
+624.1613	Shigella sonnei strain 4028STDY6275218 strain H113940346	WGS	4678348	Good		379	98.2	99.7	100	0
+624.149	Shigella sonnei strain 143101	WGS	4773039	Good		405	98.1	99.6	100	0
+624.190	Shigella sonnei strain 95529	WGS	4817173	Good		504	98.1	99.6	100	0
+624.238	Shigella sonnei strain 86323	WGS	4668674	Good		376	98.1	99.7	100	0
+624.254	Shigella sonnei strain 201401742_1	WGS	4873542	Good		405	98.1	99.6	100	0
+624.260	Shigella sonnei strain 144358	WGS	4751184	Good		361	98.1	99.6	100	0
+624.272	Shigella sonnei strain 109251	WGS	4746721	Good		388	98.1	99.6	100	0
+624.277	Shigella sonnei strain 94818	WGS	4791320	Good		407	98.1	99.6	100	0
+624.291	Shigella sonnei strain 20426787	WGS	4943361	Good		475	98.1	99.6	100	0
+624.340	Shigella sonnei strain 99020	WGS	4715255	Good		390	98.1	99.6	100	0
+624.409	Shigella sonnei strain H140640168	WGS	4916553	Good		440	98.1	99.6	100	0
+624.430	Shigella sonnei strain 11049313	WGS	4979671	Good		513	98.1	99.6	100	0
+624.440	Shigella sonnei strain H112620255	WGS	4639979	Good		392	98.1	99.6	100	0
+624.486	Shigella sonnei strain 124558	WGS	4743700	Good		411	98.1	99.6	100	0
+624.495	Shigella sonnei strain sh96-1420	WGS	4570249	Good		377	98.1	99.6	100	0
+624.512	Shigella sonnei strain 143981	WGS	4742579	Good		399	98.1	99.6	100	0
+624.544	Shigella sonnei strain 36303731	WGS	4952273	Good		433	98.1	99.6	100	0
+624.557	Shigella sonnei strain 124342	WGS	4718428	Good		395	98.1	99.6	100	0
+624.89	Shigella sonnei strain 92497764	WGS	4918004	Good		442	98.1	99.6	100	0
+624.98	Shigella sonnei strain H101960391	WGS	4685685	Good		384	98.1	99.6	100	0
+624.1109	Shigella sonnei strain sh1405	WGS	4608535	Good		393	98.1	99.6	100	0
+624.1151	Shigella sonnei strain sh1430	WGS	4794443	Good		407	98.1	99.6	100	0
+624.1093	Shigella sonnei strain sh1433	WGS	4481353	Good		379	98.1	99.7	100	0
+624.866	Shigella sonnei strain 2090STDY5461871	WGS	4588516	Good		385	98.1	99.7	100	0
+624.907	Shigella sonnei strain 2090STDY5488144	WGS	4457195	Good		368	98.1	99.6	100	0
+624.1120	Shigella sonnei strain sh1391	WGS	4565302	Good		380	98.1	99.7	100	0
+624.1272	Shigella sonnei strain 2015C-3566	Complete	4949228	Good	1	2	97.8	99.6	100	0.6
+624.1273	Shigella sonnei strain 2015C-3794	Complete	4906574	Good	1	2	97.7	99.5	100	0.6
+624.68	Shigella sonnei strain FDAARGOS_71	WGS	4854191	Good		3	97.9	99.8	100	1.3
+624.1584	Shigella sonnei strain DMB SH20160	WGS	4759065	Good		815	95.9	99.6	100	2.9
+624.1591	Shigella sonnei strain DMB SH20031	WGS	4566720	Good		446	98.3	99.8	100	0.3
+624.1786	Shigella sonnei strain 229	WGS	4674534	Good		716	97.3	99.6		
+624.653	Shigella sonnei strain CDPH_C38	WGS	4742069	Good		571	96.6	99.7	100	2.2
+624.678	Shigella sonnei strain CDPH_C39	WGS	4765557	Good		483	97.5	99.7	100	0.6
+624.1212	Shigella sonnei strain FC1244	WGS	4521231	Good		500	96.2	99.6	100	2.8
+624.1214	Shigella sonnei strain FC3278	WGS	4678596	Good		527	95.5	99.7	100	3.5
+624.1288	Shigella sonnei strain FC1667	WGS	4532731	Good		523	96.3	99.7	100	1.8
+624.1290	Shigella sonnei strain FC1706	WGS	4599862	Good		520	95	99.7	100	2.4
+624.1344	Shigella sonnei strain 4351					455	92	99.6	98.4	8.2
+624.1345	Shigella sonnei strain ATCC 29930	Complete	4994001	Good	1	2	97.6	99.4	100	0.6
+624.1347	Shigella sonnei strain 8600	WGS	4473987	Good		404	92.1	99.6	99.7	8.4
+624.1348	Shigella sonnei strain 866	Complete	4962707	Good	1	2	98	99.6	100	1.3
+624.1595	Shigella sonnei strain NCTC12984	WGS	5088243	Good		9	98	99.4	100	0
+624.1661	Shigella sonnei strain FDAARGOS_524 strain Not applicable	Complete	4953095	Good	4	5	97.9	99.8		
+624.1207	Shigella sonnei strain FC1373	WGS	4429225	Good		421	90.3	99.6	99	9.3
+624.1662	Shigella sonnei strain 329137	WGS	4500088	Good		450	97.7	99.8		
+624.1663	Shigella sonnei strain 430281	WGS	4590380	Good		446	97.5	99.8		
+624.1665	Shigella sonnei strain 373968	WGS	4634456	Good		477	97.3	99.7		
+624.1666	Shigella sonnei strain 526799	WGS	4787558	Good		453	96.7	99.7		
+624.1667	Shigella sonnei strain 342529	WGS	4740886	Good		449	97.2	99.6		
+624.1668	Shigella sonnei strain 345592	WGS	4690568	Good		467	97.9	99.8		
+624.1670	Shigella sonnei strain 440151	WGS	4669039	Good		471	97.4	99.8		
+624.1672	Shigella sonnei strain 431312	WGS	4658766	Good		457	97.6	99.7		
+624.1673	Shigella sonnei strain 311970	WGS	4646183	Good		410	97.3	99.6		
+624.1675	Shigella sonnei strain 313910	WGS	4812444	Good		478	97.9	99.8		
+624.1676	Shigella sonnei strain 342526	WGS	4640900	Good		410	97.4	99.6		
+624.1678	Shigella sonnei strain 432295	WGS	4446405	Good		392	97.5	99.8		
+624.1679	Shigella sonnei strain 328004	WGS	4579891	Good		482	97.5	99.8		
+624.1681	Shigella sonnei strain 413026	WGS	4565358	Good		433	97.8	99.8		
+624.1691	Shigella sonnei strain 395491	WGS	4391432	Good		402	97.1	99.7		
+624.1694	Shigella sonnei strain 524352	WGS	4458988	Good		387	97.6	99.8		
+624.1693	Shigella sonnei strain 425546	WGS	4541629	Good		424	97.3	99.8		
+624.1695	Shigella sonnei strain 342535	WGS	4501605	Good		485	97.5	99.7		
+624.1697	Shigella sonnei strain 335326	WGS	4566401	Good		499	97.5	99.7		
+624.1698	Shigella sonnei strain 362075	WGS	4365915	Good		426	97.3	99.8		
+624.1700	Shigella sonnei strain 538415	WGS	4561913	Good		454	97.6	99.8		
+624.1706	Shigella sonnei strain 370642	WGS	4557734	Good		499	97.3	99.7		
+624.1708	Shigella sonnei strain 296640	WGS	4413384	Good		445	97.6	99.8		
+624.1709	Shigella sonnei strain 370648	WGS	4627743	Good		487	97.6	99.8		
+624.1710	Shigella sonnei strain 410857	WGS	4536669	Good		444	97.2	99.7		
+624.1714	Shigella sonnei strain 438682	WGS	4696887	Good		442	97.4	99.8		
+624.1715	Shigella sonnei strain 531323	WGS	4757789	Good		469	97.3	99.7		
+624.1718	Shigella sonnei strain 438016	WGS	4614173	Good		492	96.9	99.6		
+624.1723	Shigella sonnei strain 582947	WGS	4779513	Good		397	98.1	99.8		
+624.1727	Shigella sonnei strain 585220	WGS	4638574	Good		412	97	99.6		
+624.1736	Shigella sonnei strain 602674	WGS	4811356	Good		433	97	99.7		
+624.1737	Shigella sonnei strain 585221	WGS	4525357	Good		397	97.3	99.8		
+624.1742	Shigella sonnei strain 590844	WGS	4352631	Good		356	97.7	99.8		
+624.1744	Shigella sonnei strain 621724	WGS	4417194	Good		386	97.1	99.6		
+624.1747	Shigella sonnei strain 451917	WGS	4566069	Good		436	97.3	99.8		
+624.1752	Shigella sonnei strain 627428	WGS	4578556	Good		461	97.5	99.8		
+624.1753	Shigella sonnei strain 609341	WGS	4646317	Good		400	97	99.8		
+624.1759	Shigella sonnei strain 613105	WGS	4614195	Good		432	97.3	99.7		
+624.1762	Shigella sonnei strain 611468	WGS	4683032	Good		417	97.4	99.6		
+624.1771	Shigella sonnei strain AP274	WGS	5212378	Good		184	99	100		
+624.1772	Shigella sonnei strain AP184	WGS	4990286	Good		129	99.3	100		
+624.1782	Shigella sonnei strain AM226	WGS	4980340	Good		97	98.8	99.9		
+624.2036	Shigella sonnei strain 149269	WGS	4711773	Good	0	499	95.3	97		
+624.2129	Shigella sonnei strain 149192	WGS	4602842	Good	0	468	95.3	97		
+624.2183	Shigella sonnei strain 151037	WGS	4813179	Good	0	535	95.3	97		
+624.2005	Shigella sonnei strain 150958	WGS	4649597	Good	0	482	95.3	97		
+624.1935	Shigella sonnei strain 151004	WGS	4624264	Good	0	478	95.2	96.8		
+624.1900	Shigella sonnei strain 151006	WGS	4889899	Good	0	519	95.2	96.8		
+624.2097	Shigella sonnei strain 152354	WGS	4622142	Good	0	492	95.3	97		
+624.2016	Shigella sonnei strain 155588	WGS	4640827	Good	0	503	95.3	97		
+624.2187	Shigella sonnei strain 157268	WGS	4558622	Good	0	468	95.3	96.9		
+624.2160	Shigella sonnei strain 159704	WGS	4795635	Good	0	470	95.5	97		
+624.1915	Shigella sonnei strain 158934	WGS	4816143	Good	0	499	94.8	97		
+624.2037	Shigella sonnei strain 158937	WGS	4657786	Good	0	471	95.3	97		
+624.1954	Shigella sonnei strain 158941	WGS	4631608	Good	0	484	95.4	97		
+624.2102	Shigella sonnei strain 158946	WGS	4522980	Good	0	418	95.3	96.8		
+624.1966	Shigella sonnei strain 161915	WGS	4738883	Good	0	475	94.8	96.9		
+624.2033	Shigella sonnei strain 161916	WGS	5010482	Good	0	524	90.6	96.7		
+624.2206	Shigella sonnei strain 161046	WGS	4644495	Good	0	475	95.3	97		
+624.2091	Shigella sonnei strain 164676	WGS	4572755	Good	0	434	95.3	96.9		
+624.2052	Shigella sonnei strain 166176	WGS	4661293	Good	0	454	95.3	97		
+624.2165	Shigella sonnei strain 168323	WGS	4712545	Good	0	523	95.3	96.8		
+624.2141	Shigella sonnei strain 170366	WGS	4656097	Good	0	472	95.3	96.8		
+624.2125	Shigella sonnei strain 170367	WGS	4613895	Good	0	463	95.4	97		
+624.2157	Shigella sonnei strain 172465	WGS	4778861	Good	0	501	95.4	97		
+624.1943	Shigella sonnei strain 173529	WGS	4703086	Good	0	443	95.1	97		
+624.1961	Shigella sonnei strain 175548	WGS	4540195	Good	0	452	95.4	97		
+624.2156	Shigella sonnei strain 175550	WGS	4655662	Good	0	473	95.3	97		
+624.2022	Shigella sonnei strain 178631	WGS	4654601	Good	0	507	95.3	97		
+624.1891	Shigella sonnei strain 178863	WGS	4470771	Good	0	413	95.2	96.9		
+624.2009	Shigella sonnei strain 180537	WGS	4604264	Good	0	460	95.3	97		
+624.1893	Shigella sonnei strain 181108	WGS	4629776	Good	0	487	95.3	97		
+624.2138	Shigella sonnei strain 180793	WGS	4629228	Good	0	581	92.5	97		
+624.2163	Shigella sonnei strain 182078	WGS	4495368	Good	0	430	95.3	96.9		
+624.1975	Shigella sonnei strain 182823	WGS	4705732	Good	0	437	95.6	97		
+624.1939	Shigella sonnei strain 182824	WGS	4793267	Good	0	520	95.3	97		
+624.2201	Shigella sonnei strain 182825	WGS	4779130	Good	0	498	95.3	97		
+624.2060	Shigella sonnei strain 182834	WGS	4538702	Good	0	436	95.3	97		
+624.2106	Shigella sonnei strain 183730	WGS	4688319	Good	0	468	95.4	97		
+624.1921	Shigella sonnei strain 183741	WGS	4695628	Good	0	466	95.3	97		
+624.1990	Shigella sonnei strain 187478	WGS	4726939	Good	0	468	95	96.8		
+624.1963	Shigella sonnei strain 187598	WGS	4586132	Good	0	472	95.3	97		
+624.1953	Shigella sonnei strain 189258	WGS	4586192	Good	0	466	95	96.8		
+624.2064	Shigella sonnei strain 192859	WGS	4698095	Good	0	495	95.3	97		
+624.2087	Shigella sonnei strain 193330	WGS	4532380	Good	0	459	95.3	97		
+624.2140	Shigella sonnei strain 193378	WGS	4519156	Good	0	448	95.2	97		
+624.2114	Shigella sonnei strain 197088	WGS	4626992	Good	0	470	95.3	97		
+624.2194	Shigella sonnei strain 197091	WGS	4705256	Good	0	500	95.3	97		
+624.1879	Shigella sonnei strain 201501	WGS	4458756	Good	0	431	95.3	97		
+624.2151	Shigella sonnei strain 202275	WGS	4769315	Good	0	484	95.3	97		
+624.2166	Shigella sonnei strain 205582	WGS	4624219	Good	0	464	95.3	97		
+624.1964	Shigella sonnei strain 205583	WGS	4635219	Good	0	472	95.3	97		
+624.1988	Shigella sonnei strain 207585	WGS	4834314	Good	0	504	95.4	96.8		
+624.2006	Shigella sonnei strain 209957	WGS	4670986	Good	0	472	95.3	97		
+624.2094	Shigella sonnei strain 211124	WGS	4745252	Good	0	506	95.3	97		
+624.2134	Shigella sonnei strain 152347	WGS	4570436	Good	0	422	95.2	96.9		
+624.2051	Shigella sonnei strain 154830	WGS	4613977	Good	0	501	95.1	96.7		
+624.1913	Shigella sonnei strain 159710	WGS	4588019	Good	0	477	95.3	96.9		
+624.2053	Shigella sonnei strain 164887	WGS	4563874	Good	0	444	95	96.9		
+624.2086	Shigella sonnei strain 164673	WGS	4646345	Good	0	496	95.1	96.9		
+624.1974	Shigella sonnei strain 166177	WGS	4653388	Good	0	445	95.2	96.9		
+624.2071	Shigella sonnei strain 168325	WGS	4596394	Good	0	467	95.2	96.9		
+624.2144	Shigella sonnei strain 172388	WGS	4605185	Good	0	479	95.3	96.9		
+624.1982	Shigella sonnei strain 178625	WGS	4637893	Good	0	481	95.2	96.9		
+624.2167	Shigella sonnei strain 179801	WGS	4527964	Good	0	415	95.1	96.9		
+624.2164	Shigella sonnei strain 183648	WGS	4450314	Good	0	427	95.2	96.9		
+624.1981	Shigella sonnei strain 187589	WGS	4640661	Good	0	465	95.3	96.9		
+624.1980	Shigella sonnei strain 190807	WGS	4868560	Good	0	495	94.9	96.9		
+624.2050	Shigella sonnei strain 195632	WGS	4587417	Good	0	463	95.3	96.9		
+624.2038	Shigella sonnei strain 201525	WGS	4505751	Good	0	457	95.2	96.9		
+624.2133	Shigella sonnei strain 203678	WGS	4840309	Good	0	502	95	96.9		
+624.1906	Shigella sonnei strain 149257	WGS	4586256	Good	0	473	95.3	97		
+624.1983	Shigella sonnei strain 149265	WGS	4506145	Good	0	447	95.3	97		
+624.2035	Shigella sonnei strain 149268	WGS	4592094	Good	0	472	95.3	96.9		
+624.2081	Shigella sonnei strain 149193	WGS	4610349	Good	0	475	95.3	97		
+624.2100	Shigella sonnei strain 153154	WGS	4692070	Good	0	494	95.2	96.8		
+624.1950	Shigella sonnei strain 159706	WGS	4701474	Good	0	506	95.1	96.8		
+624.2028	Shigella sonnei strain 161913	WGS	4781451	Good	0	491	95.3	97		
+624.2072	Shigella sonnei strain 163133	WGS	4787963	Good	0	508	95.2	97		
+624.2145	Shigella sonnei strain 164815	WGS	4846720	Good	0	513	95	97		
+624.2162	Shigella sonnei strain 164656	WGS	4582577	Good	0	469	95.3	97		
+624.2023	Shigella sonnei strain 164659	WGS	4769265	Good	0	480	95.3	97		
+624.2034	Shigella sonnei strain 164674	WGS	4618189	Good	0	453	95.1	97		
+624.1887	Shigella sonnei strain 168533	WGS	4513336	Good	0	454	95.4	97		
+624.2105	Shigella sonnei strain 168321	WGS	4625893	Good	0	475	95	96.8		
+624.2113	Shigella sonnei strain 168322	WGS	4488615	Good	0	433	95.2	96.9		
+624.1992	Shigella sonnei strain 170362	WGS	4700452	Good	0	459	95.2	97		
+624.2169	Shigella sonnei strain 170443	WGS	4519558	Good	0	453	95.3	97		
+624.2197	Shigella sonnei strain 171140	WGS	4661644	Good	0	436	95	96.9		
+624.2000	Shigella sonnei strain 175609	WGS	4520150	Good	0	437	95.3	96.8		
+624.2147	Shigella sonnei strain 178950	WGS	4602268	Good	0	471	95.2	97		
+624.1937	Shigella sonnei strain 178951	WGS	4593055	Good	0	473	95.3	97		
+624.2059	Shigella sonnei strain 178626	WGS	4704265	Good	0	528	95	96.8		
+624.2180	Shigella sonnei strain 178860	WGS	4651071	Good	0	448	95.3	97		
+624.2085	Shigella sonnei strain 178862	WGS	4442122	Good	0	423	95.3	97		
+624.1968	Shigella sonnei strain 179820	WGS	4768414	Good	0	483	95.2	96.8		
+624.2082	Shigella sonnei strain 181981	WGS	4705861	Good	0	479	95.3	97		
+624.2204	Shigella sonnei strain 181102	WGS	4609559	Good	0	460	95.2	96.8		
+624.2116	Shigella sonnei strain 182072	WGS	4795101	Good	0	516	95.2	96.8		
+624.2131	Shigella sonnei strain 186560	WGS	4708748	Good	0	468	95.3	97		
+624.2054	Shigella sonnei strain 187553	WGS	4625922	Good	0	464	95.3	97		
+624.2017	Shigella sonnei strain 193413	WGS	4668230	Good	0	486	95.1	96.8		
+624.1885	Shigella sonnei strain 195622	WGS	4655786	Good	0	477	95.3	97		
+624.2127	Shigella sonnei strain 196418	WGS	4754661	Good	0	478	95	96.8		
+624.2159	Shigella sonnei strain 197095	WGS	4687481	Good	0	473	95.3	97		
+624.2111	Shigella sonnei strain 199812	WGS	4612780	Good	0	468	95.1	96.9		
+624.2171	Shigella sonnei strain 201504	WGS	4505492	Good	0	455	95.1	96.9		
+624.2045	Shigella sonnei strain 201505	WGS	4443783	Good	0	428	95	97		
+624.1908	Shigella sonnei strain 202268	WGS	4482369	Good	0	421	95.3	97		
+624.1888	Shigella sonnei strain 203680	WGS	4818202	Good	0	486	95	97		
+624.1929	Shigella sonnei strain 209721	WGS	4499974	Good	0	487	94.5	96.7		
+624.2263	Shigella sonnei strain AUSMDU00005730	WGS	4486352	Good	0	399	98.4	99.8		
+624.2273	Shigella sonnei strain AUSMDU00005733	WGS	4448117	Good	0	397	98.2	99.7		
+624.2275	Shigella sonnei strain AUSMDU00005734	WGS	4439408	Good	0	404	98.2	99.7		
+624.2268	Shigella sonnei strain AUSMDU00006660	WGS	4380852	Good	0	410	98.1	99.6		
+624.2282	Shigella sonnei strain AUSMDU00007205	WGS	4565566	Good	0	384	98.7	99.8		
+624.2276	Shigella sonnei strain AUSMDU00007329	WGS	4529096	Good	0	402	98.1	99.8		
+624.2277	Shigella sonnei strain AUSMDU00007330	WGS	4308442	Good	0	401	98	99.6		
+624.2281	Shigella sonnei strain AUSMDU00007980	WGS	4607505	Good	0	436	97.8	99.6		
+624.2280	Shigella sonnei strain AUSMDU00007990	WGS	4402347	Good	0	509	97.9	99.6		
+624.2278	Shigella sonnei strain AUSMDU00007992	WGS	4316455	Good	0	397	98.2	99.7		
+624.2297	Shigella sonnei strain AUSMDU00007994	WGS	4513204	Good	0	403	98.8	99.8		
+624.2291	Shigella sonnei strain AUSMDU00008181	WGS	4337456	Good	0	365	98.5	99.8		
+624.2307	Shigella sonnei strain AUSMDU00008190	WGS	4608767	Good	0	433	97.9	99.8		
+624.2302	Shigella sonnei strain AUSMDU00008192	WGS	4933872	Good	0	439	97.8	99.7		
+624.2303	Shigella sonnei strain AUSMDU00008193	WGS	4520640	Good	0	442	97.9	99.6		
+624.2299	Shigella sonnei strain AUSMDU00008244	WGS	4483728	Good	0	458	97.9	99.7		
+624.2305	Shigella sonnei strain AUSMDU00008333	WGS	4600259	Good	0	419	97.9	99.7		
+624.2300	Shigella sonnei strain AUSMDU00008335	WGS	4422725	Good	0	374	97.9	99.3		
+624.2313	Shigella sonnei strain AUSMDU00008338	WGS	4398747	Good	0	512	98.4	99.8		
+624.2310	Shigella sonnei strain AUSMDU00008342	WGS	4310136	Good	0	375	98.2	99.7		
+624.2328	Shigella sonnei strain AUSMDU00008345	WGS	4465874	Good	0	379	98	99.8		
+624.2309	Shigella sonnei strain AUSMDU00008348	WGS	4310370	Good	0	362	98.1	99.6		
+624.2327	Shigella sonnei strain AUSMDU00008350	WGS	4423756	Good	0	393	98.2	99.8		
+624.2315	Shigella sonnei strain AUSMDU00008351	WGS	4356064	Good	0	382	98.4	99.8		
+624.2325	Shigella sonnei strain AUSMDU00008359	WGS	4335885	Good	0	368	98.2	99.7		
+624.2322	Shigella sonnei strain AUSMDU00008361	WGS	4856843	Good	0	419	98.1	99.8		
+624.2321	Shigella sonnei strain AUSMDU00008365	WGS	4545834	Good	0	573	97.9	99.6		
+624.2318	Shigella sonnei strain AUSMDU00008584	WGS	4293021	Good	0	421	98.3	99.7		
+624.2333	Shigella sonnei strain AUSMDU00008600	WGS	4555013	Good	0	398	98.8	99.8		
+624.2337	Shigella sonnei strain AUSMDU00008935	WGS	4681562	Good	0	427	98.6	99.8		
+624.2334	Shigella sonnei strain AUSMDU00008965	WGS	4334598	Good	0	416	98.3	99.7		
+624.2339	Shigella sonnei strain AUSMDU00008992	WGS	4575485	Good	0	438	98.5	99.6		
+624.2340	Shigella sonnei strain AUSMDU00009132	WGS	4596444	Good	0	425	97.6	99.4		
+624.2350	Shigella sonnei strain AUSMDU00009133	WGS	4524320	Good	0	389	98.4	99.8		
+624.2347	Shigella sonnei strain AUSMDU00009136	WGS	4616875	Good	0	461	98.1	99.8		
+624.2343	Shigella sonnei strain AUSMDU00009142	WGS	4568958	Good	0	419	98	99.8		
+624.2348	Shigella sonnei strain AUSMDU00009144	WGS	4774570	Good	0	475	97.9	99.8		
+624.2351	Shigella sonnei strain AUSMDU00009153	WGS	4540239	Good	0	434	98	99.8		
+624.2370	Shigella sonnei strain AUSMDU00009161	WGS	4470804	Good	0	416	98.5	99.8		
+624.2369	Shigella sonnei strain AUSMDU00009163	WGS	4405984	Good	0	447	98.2	99.7		
+624.2368	Shigella sonnei strain AUSMDU00009164	WGS	4542493	Good	0	433	97.9	99.8		
+624.2366	Shigella sonnei strain AUSMDU00009168	WGS	4619569	Good	0	456	98	99.8		
+624.2362	Shigella sonnei strain AUSMDU00009169	WGS	4856441	Good	0	458	97.6	99.6		
+624.2363	Shigella sonnei strain AUSMDU00009171	WGS	4553263	Good	0	412	98	99.7		
+624.2365	Shigella sonnei strain AUSMDU00009173	WGS	4565362	Good	0	411	98.1	99.8		
+624.2373	Shigella sonnei strain AUSMDU00009176	WGS	4532755	Good	0	447	98	99.7		
+624.2383	Shigella sonnei strain AUSMDU00009179	WGS	4570915	Good	0	411	98	99.8		
+624.2374	Shigella sonnei strain AUSMDU00009180	WGS	4628110	Good	0	421	97.7	99.6		
+624.2378	Shigella sonnei strain AUSMDU00009358	WGS	4670244	Good	0	421	97.6	99.5		
+624.2389	Shigella sonnei strain AUSMDU00009359	WGS	4532530	Good	0	387	98	99.7		
+624.2392	Shigella sonnei strain AUSMDU00009368	WGS	4797937	Good	0	359	97.8	99.5		
+624.2385	Shigella sonnei strain AUSMDU00009370	WGS	4472370	Good	0	377	98	99.6		
+624.2388	Shigella sonnei strain AUSMDU00009371	WGS	4499722	Good	0	474	97.9	99.7		
+624.2404	Shigella sonnei strain AUSMDU00009374	WGS	4507146	Good	0	388	97.9	99.6		
+624.2405	Shigella sonnei strain AUSMDU00009375	WGS	4582160	Good	0	428	98.5	99.8		
+624.2402	Shigella sonnei strain AUSMDU00009377	WGS	4486676	Good	0	547	98.1	99.7		
+624.2401	Shigella sonnei strain AUSMDU00009378	WGS	4310919	Good	0	428	98.2	99.8		
+624.2403	Shigella sonnei strain AUSMDU00009379	WGS	4734904	Good	0	408	98	99.7		
+624.2397	Shigella sonnei strain AUSMDU00009382	WGS	4434647	Good	0	415	98.4	99.8		
+624.2396	Shigella sonnei strain AUSMDU00009383	WGS	4548228	Good	0	410	98.1	99.8		
+624.2399	Shigella sonnei strain AUSMDU00009386	WGS	4534676	Good	0	423	98	99.7		
+624.2414	Shigella sonnei strain AUSMDU00009389	WGS	4312268	Good	0	430	98.2	99.7		
+624.2416	Shigella sonnei strain AUSMDU00009392	WGS	4593230	Good	0	414	97.6	99.6		
+624.2411	Shigella sonnei strain AUSMDU00009396	WGS	4559132	Good	0	419	98	99.6		
+624.2409	Shigella sonnei strain AUSMDU00009399	WGS	4611208	Good	0	438	98	99.7		
+624.2407	Shigella sonnei strain AUSMDU00009403	WGS	4503110	Good	0	382	97.9	99.6		
+624.2424	Shigella sonnei strain AUSMDU00009408	WGS	4493639	Good	0	394	97.9	99.6		
+624.2421	Shigella sonnei strain AUSMDU00009409	WGS	4506664	Good	0	384	98	99.7		
+624.2418	Shigella sonnei strain AUSMDU00009413	WGS	4529917	Good	0	397	97.9	99.6		
+624.2419	Shigella sonnei strain AUSMDU00009414	WGS	4548177	Good	0	394	98	99.6		
+624.2435	Shigella sonnei strain AUSMDU00009421	WGS	4540201	Good	0	404	98.3	99.6		
+624.2438	Shigella sonnei strain AUSMDU00009459	WGS	4421754	Good	0	474	98.6	99.7		
+624.2433	Shigella sonnei strain AUSMDU00009460	WGS	4577977	Good	0	390	98.5	99.6		
+624.2439	Shigella sonnei strain AUSMDU00009465	WGS	4571235	Good	0	424	98	99.8		
+624.2441	Shigella sonnei strain AUSMDU00009467	WGS	4347242	Good	0	408	98.4	99.7		
+624.2449	Shigella sonnei strain AUSMDU00009468	WGS	4309429	Good	0	498	98.4	99.8		
+624.2442	Shigella sonnei strain AUSMDU00009473	WGS	4566681	Good	0	418	98	99.8		
+624.2460	Shigella sonnei strain AUSMDU00009478	WGS	4548997	Good	0	440	98.1	99.8		
+624.2452	Shigella sonnei strain AUSMDU00009479	WGS	4527534	Good	0	440	98.4	99.8		
+624.2451	Shigella sonnei strain AUSMDU00009481	WGS	4333224	Good	0	411	98.2	99.7		
+624.2450	Shigella sonnei strain AUSMDU00009486	WGS	4501331	Good	0	394	97.8	99.8		
+624.2459	Shigella sonnei strain AUSMDU00009489	WGS	4543162	Good	0	418	98	99.7		
+624.2457	Shigella sonnei strain AUSMDU00009490	WGS	4552915	Good	0	415	97.9	99.7		
+624.2470	Shigella sonnei strain AUSMDU00009493	WGS	4461763	Good	0	450	98.3	99.7		
+624.2462	Shigella sonnei strain AUSMDU00009529	WGS	4564917	Good	0	408	98	99.8		
+624.2461	Shigella sonnei strain AUSMDU00009530	WGS	4398855	Good	0	378	98.4	99.8		
+624.2472	Shigella sonnei strain AUSMDU00009553	WGS	4384231	Good	0	451	98.3	99.7		
+624.2476	Shigella sonnei strain AUSMDU00009589	WGS	4352010	Good	0	448	98.2	99.7		
+624.2475	Shigella sonnei strain AUSMDU00009632	WGS	4402934	Good	0	554	98.4	99.8		
+624.2481	Shigella sonnei strain AUSMDU00009745	WGS	4605166	Good	0	439	98.5	99.5		
+624.2483	Shigella sonnei strain AUSMDU00009996	WGS	4458349	Good	0	403	98.4	99.8		
+624.2486	Shigella sonnei strain AUSMDU00010002	WGS	4504925	Good	0	423	97.8	99.4		
+624.2492	Shigella sonnei strain AUSMDU00010007	WGS	4615415	Good	0	428	98.3	99.3		
+624.2491	Shigella sonnei strain AUSMDU00010009	WGS	4449521	Good	0	439	98.2	99.7		
+624.2487	Shigella sonnei strain AUSMDU00010019	WGS	4579611	Good	0	476	98.4	99.8		
+624.2488	Shigella sonnei strain AUSMDU00010020	WGS	4514936	Good	0	412	98.5	99.8		
+624.2504	Shigella sonnei strain AUSMDU00010024	WGS	4431182	Good	0	390	98.4	99.8		
+624.2500	Shigella sonnei strain AUSMDU00010028	WGS	4654016	Good	0	481	97.9	99.8		
+624.2511	Shigella sonnei strain AUSMDU00010052	WGS	4532617	Good	0	385	98.7	99.8		
+624.2508	Shigella sonnei strain AUSMDU00010069	WGS	4470426	Good	0	381	98.8	99.8		
+624.2526	Shigella sonnei strain AUSMDU00010083	WGS	4681492	Good	0	469	98	99.7		
+624.2506	Shigella sonnei strain AUSMDU00010086	WGS	4351139	Good	0	392	98	99.5		
+624.2523	Shigella sonnei strain AUSMDU00010095	WGS	4549470	Good	0	406	97.9	99.7		
+624.2518	Shigella sonnei strain AUSMDU00010102	WGS	4635366	Good	0	442	98.1	99.6		
+624.2534	Shigella sonnei strain AUSMDU00010200	WGS	4526628	Good	0	420	98	99.7		
+624.2535	Shigella sonnei strain AUSMDU00010201	WGS	4584104	Good	0	476	98.8	99.8		
+624.2528	Shigella sonnei strain AUSMDU00010321	WGS	4570263	Good	0	426	98.7	99.8		
+624.2540	Shigella sonnei strain AUSMDU00010323	WGS	4460436	Good	0	411	98.3	99.8		
+624.2541	Shigella sonnei strain AUSMDU00010463	WGS	4577179	Good	0	415	98.7	99.7		
+624.2546	Shigella sonnei strain AUSMDU00010580	WGS	4557994	Good	0	413	98	99.8		
+624.2545	Shigella sonnei strain AUSMDU00010583	WGS	4473540	Good	0	404	98.4	99.8		
+624.2547	Shigella sonnei strain AUSMDU00010697	WGS	4338671	Good	0	403	98.2	99.7		
+624.2556	Shigella sonnei strain AUSMDU00010703	WGS	4520757	Good	0	391	98.4	99.8		
+624.2570	Shigella sonnei strain AUSMDU00010745	WGS	4593929	Good	0	435	98.8	99.8		
+624.2553	Shigella sonnei strain AUSMDU00010785	WGS	4344243	Good	0	409	98.3	99.8		
+624.2555	Shigella sonnei strain AUSMDU00010786	WGS	4515385	Good	0	401	98.4	99.8		
+624.2549	Shigella sonnei strain AUSMDU00010917	WGS	4562309	Good	0	446	98.2	99.7		
+624.2565	Shigella sonnei strain AUSMDU00010922	WGS	4593691	Good	0	410	97.6	99.5		
+624.2567	Shigella sonnei strain AUSMDU00011124	WGS	4402867	Good	0	437	98.2	99.7		
+624.2559	Shigella sonnei strain AUSMDU00011125	WGS	4490689	Good	0	401	98.3	99.7		
+624.2561	Shigella sonnei strain AUSMDU00011142	WGS	4432303	Good	0	389	98.1	99.7		
+624.2563	Shigella sonnei strain AUSMDU00011143	WGS	4429621	Good	0	399	98.2	99.7		
+624.2566	Shigella sonnei strain AUSMDU00011145	WGS	4363677	Good	0	402	98.2	99.7		
+624.2568	Shigella sonnei strain AUSMDU00011149	WGS	4702751	Good	0	452	98.1	99.8		
+624.2564	Shigella sonnei strain AUSMDU00011150	WGS	4609157	Good	0	439	97.9	99.7		
+624.2581	Shigella sonnei strain AUSMDU00011291	WGS	4700621	Good	0	445	97.9	99.8		
+624.2574	Shigella sonnei strain AUSMDU00011292	WGS	4560368	Good	0	462	97.9	99.6		
+624.2577	Shigella sonnei strain AUSMDU00011485	WGS	4595731	Good	0	435	97.9	99.6		
+624.2579	Shigella sonnei strain AUSMDU00011859	WGS	4452038	Good	0	398	98.5	99.8		
+624.2573	Shigella sonnei strain AUSMDU00012361	WGS	4423231	Good	0	401	98.2	99.7		
+624.2571	Shigella sonnei strain AUSMDU00012362	WGS	4617949	Good	0	431	97.9	99.7		
+624.2587	Shigella sonnei strain AUSMDU00012368	WGS	4361524	Good	0	393	98.3	99.7		
+624.2588	Shigella sonnei strain AUSMDU00012492	WGS	4620167	Good	0	429	97.9	99.7		
+624.2598	Shigella sonnei strain AUSMDU00012912	WGS	4614056	Good	0	444	97.9	99.7		
+624.2596	Shigella sonnei strain AUSMDU00013136	WGS	4462054	Good	0	389	98.3	99.8		
+624.2593	Shigella sonnei strain AUSMDU00013431	WGS	4364553	Good	0	408	98.3	99.8		
+624.2613	Shigella sonnei strain AUSMDU00013432	WGS	4363529	Good	0	389	98.2	99.7		
+624.2614	Shigella sonnei strain AUSMDU00013452	WGS	4600281	Good	0	470	98.3	99.7		
+624.2604	Shigella sonnei strain AUSMDU00013593	WGS	4498636	Good	0	453	98.2	99.7		
+624.2606	Shigella sonnei strain AUSMDU00013807	WGS	4353732	Good	0	411	98.3	99.8		
+624.2619	Shigella sonnei strain AUSMDU00014014	WGS	4506139	Good	0	388	98.5	99.7		
+624.2618	Shigella sonnei strain AUSMDU00016816	WGS	4586636	Good	0	411	97.6	99.6		
+624.2615	Shigella sonnei strain AUSMDU00018984	WGS	4584505	Good	0	439	97.6	99.5		
+624.2617	Shigella sonnei strain AUSMDU00018985	WGS	4398794	Good	0	430	98.2	99.6		
+624.2208	Shigella sonnei strain 6607.69	Complete	4912494	Good	1	2	95.3	96.9		
+624.2221	Shigella sonnei strain 6607.69	WGS	4685207	Good	0	596	94.8	96.8		
+624.1285	Shigella sonnei strain CFSAN030807	Complete	5062953	Good	8	9	98.2	99.8	100	0
+624.1783	Shigella sonnei strain GX283	WGS	4621190	Good	2	456	97.6	99.3		
+624.1321	Shigella sonnei strain CFSAN030807	Plasmid	4238		1	1				
+624.1315	Shigella sonnei strain CFSAN030807	Plasmid	214673		1	1				
+624.1867	Shigella sonnei strain 6904.27	Complete	4867691	Good	1	2	95.3	96.9		
+624.119	Shigella sonnei strain Sh31382_441096	WGS	4625900	Good		409	98.2	99.7	100	0
+624.1216	Shigella sonnei strain ECCTRSRTH04	WGS	5222760	Good		272	98.1	99.8	97.7	2.7
+624.1217	Shigella sonnei strain ECCRETH04	WGS	5389628	Good		178	98.4	99.5	99.7	4.1
+624.1218	Shigella sonnei strain ECCRETH05	WGS	5398884	Good		181	98.4	99.5	99.7	4.1
+624.1220	Shigella sonnei strain ECCTRPRTH03	WGS	5344688	Good		187	98.2	99.9	100	2.2
+624.1221	Shigella sonnei strain ECCTRPRTH02	WGS	4929689	Good		98	98.7	99.9	100	0
+624.1224	Shigella sonnei strain ECCTRPRTH01	WGS	4974263	Good		108	98.6	99.9	100	0
+624.1225	Shigella sonnei strain ECCRETH02	WGS	4891129	Good		116	98.9	99.9	100	1
+624.1227	Shigella sonnei strain ECH+12	WGS	4822833	Good		102	98.6	99.8	100	0.2
+624.1233	Shigella sonnei strain ECSW+02	WGS	4855412	Good		94	99.3	100	99.7	0
+624.1234	Shigella sonnei strain ECSW+06	WGS	4801726	Good		152	98.7	100	100	1
+624.1235	Shigella sonnei strain ECSW+05	WGS	5051188	Good		198	99.2	100	100	1
+624.1237	Shigella sonnei strain ECSW+07	WGS	4980186	Good		93	98.2	100	100	0
+624.1239	Shigella sonnei strain ECCTRSRTH05	WGS	4887290	Good		132	98.8	99.8	99.7	1
+624.1240	Shigella sonnei strain ECCTRSRTH07	WGS	5278225	Good		179	98.4	99.9	100	0.6
+624.1241	Shigella sonnei strain ECCTRSRTH10	WGS	4934515	Good		148	98.7	99.8	97.7	1.1
+624.1243	Shigella sonnei strain ECH+19	WGS	4888136	Good		93	99	100	100	0
+624.1244	Shigella sonnei strain ECH+20	WGS	5063034	Good		138	99.5	99.9	100	0.6
+624.1247	Shigella sonnei strain ECPUTH05	WGS	5160588	Good		173	99	99.9	100	1
+624.1248	Shigella sonnei strain ECPSTH02	WGS	5059048	Good		173	98.8	100	100	0.6
+624.1253	Shigella sonnei strain ECH+13	WGS	4849500	Good		132	98.3	100	97.7	1.3
+624.1254	Shigella sonnei strain ECH+18	WGS	5007224	Good		128	98.7	100	97.7	1
+624.1255	Shigella sonnei strain ECSW+01	WGS	4540378	Good		165	99.2	99.8	100	0.6
+624.1257	Shigella sonnei strain ECSW+14	WGS	4691681	Good		83	98.7	99.6	97.7	1.6
+624.126	Shigella sonnei strain CS8_1361424	WGS	4461538	Good		364	98	99.7	100	0
+624.1261	Shigella sonnei strain ECFood+02	WGS	4915185	Good		124	98.7	99.8	100	0.2
+624.1262	Shigella sonnei strain ECPUTH06	WGS	4861067	Good		95	99	99.9	100	0.6
+624.1264	Shigella sonnei strain ECPSTH06	WGS	5189371	Good		93	98.9	99.7	99.7	1
+624.131	Shigella sonnei strain 19911483_1361377	WGS	4738528	Good		353	98.2	99.7	100	0.3
+624.136	Shigella sonnei strain Sh32222_441097	WGS	4357632	Good		379	97.3	99.2	99	0.3
+624.142	Shigella sonnei strain 20071599_1361419	WGS	4857821	Good		409	98.3	99.7	100	0.3
+624.1640	Shigella sonnei strain AR_0030	Complete	5133239	Good	2	3	98.2	99.6		
+624.189	Shigella sonnei strain 20021122_1361394	WGS	4552688	Good		393	98	99.6	99.7	0
+624.204	Shigella sonnei strain 20081885_1361371	WGS	4485098	Good		541	97.9	99.6	100	1
+624.233	Shigella sonnei strain Sh62542_401057	WGS	4375313	Good		347	98.1	99.6	100	0
+624.242	Shigella sonnei strain ShIB1993_440756	WGS	4462845	Good		406	97.8	99.6	98.7	0.3
+624.258	Shigella sonnei strain 20003593_1361393	WGS	4419844	Good		375	98.1	99.7	100	0.6
+624.263	Shigella sonnei strain Sh4474_441045	WGS	4629380	Good		355	97.9	99.6	98.1	0
+624.271	Shigella sonnei strain Sh1265_440935	WGS	4382771	Good		321	97.6	99.3	97.1	0
+624.330	Shigella sonnei strain ShIB1980_440738	WGS	4469575	Good		416	98	99.6	99.3	0
+624.353	Shigella sonnei strain Sh60108_401056	WGS	4494602	Good		353	98.2	99.6	100	0.3
+624.372	Shigella sonnei strain ShIB1997_440758	WGS	4379915	Good		439	97.7	99.7	100	0
+624.382	Shigella sonnei strain ShIB681_401083	WGS	4515508	Good		372	97.9	99.7	100	0.3
+624.392	Shigella sonnei strain ShIB2024_440827	WGS	4605001	Good		399	98.1	99.6	100	0
+624.404	Shigella sonnei strain 20011685_1361400	WGS	4660053	Good		400	98.1	99.6	100	0.6
+624.429	Shigella sonnei strain Sh273_441040	WGS	4338751	Good		383	97.8	99.3	98.7	0.3
+624.467	Shigella sonnei strain ShIB739_440734	WGS	4509922	Good		391	98.2	99.7	100	0
+624.504	Shigella sonnei strain Sh658_440929	WGS	4556496	Good		359	98.3	99.7	98	0.3
+624.534	Shigella sonnei strain ShIB687_401085	WGS	4353683	Good		364	98.2	99.6	99.3	0
+624.547	Shigella sonnei strain 20040489_1361397	WGS	4619755	Good		347	98	99.6	100	1
+624.573	Shigella sonnei strain ShIB2_401078	WGS	4507212	Good		367	98.3	99.7	100	0.3
+624.580	Shigella sonnei strain ShIB2004_440760	WGS	4508949	Good		438	97.5	99.2	99.3	0.3
+624.593	Shigella sonnei strain 20041367_1361369	WGS	4485781	Good		372	97.9	99.6	100	0
+624.79	Shigella sonnei strain 20051272_1361367	WGS	4380821	Good		492	97.9	99.7	100	0.6
+624.81	Shigella sonnei strain 20040924_1361417	WGS	4556321	Good		403	98	99.7	99.7	0.3
+624.1327	Shigella sonnei	Plasmid	3716		1	1				
+216599.23	Shigella sonnei 53G	Plasmid	8953			1				
+624.1323	Shigella sonnei strain EG0356	Plasmid	70275		1	1				
+624.1295	Shigella sonnei strain 4303	Plasmid	2101		1	1				
+624.1294	Shigella sonnei	Plasmid	8401		1	1				
+624.1292	Shigella sonnei	Plasmid	93399		1	1				
+624.1309	Shigella sonnei strain 75/02	Plasmid	214565		1	1				
+624.1308	Shigella sonnei strain 75/02	Plasmid	2690		1	1				
+624.1305	Shigella sonnei strain 75/02	Plasmid	6341		1	1				
+624.1306	Shigella sonnei strain 75/02	Plasmid	5114		1	1				
+624.1301	Shigella sonnei strain FDAARGOS_90	Plasmid	8141		1	1				
+624.1580	Shigella sonnei strain DMB SH20158	WGS	4559368	Good		581	97.9	99.6	99.7	0
+624.1775	Shigella sonnei strain GCID_CRE_0044	WGS	5081966	Good		181	99.2	99.9		
+624.1776	Shigella sonnei strain GCID_CRE_0043	WGS	4841970	Good		112	98.3	99.3		
+624.1781	Shigella sonnei strain GCID_CRE_0030	WGS	4887508	Good		104	98.9	99.8		
+624.1760	Shigella sonnei strain PNUSAE018715	WGS	4441175	Good		435	97.8	99.8		
+624.1767	Shigella sonnei strain PNUSAE019595	WGS	4415574	Good		376	97.6	99.8		
+624.1187	Shigella sonnei strain sh1389	WGS	4654203	Good		375	98.2	99.7	100	0
+624.1190	Shigella sonnei strain sh1438	WGS	4653842	Good		377	98.3	99.7	100	0.6
+624.1194	Shigella sonnei strain sh1459	WGS	4732106	Good		370	98.3	99.7	100	0.3
+624.1196	Shigella sonnei strain sh1469	WGS	4734096	Good		372	98.2	99.7	100	0.3
+624.1198	Shigella sonnei strain sh1465	WGS	4577282	Good		356	98.4	99.7	100	0
+624.1199	Shigella sonnei strain sh1473	WGS	4604566	Good		352	98.3	99.6	100	0
+624.1851	Shigella sonnei strain AM23	WGS	5254309	Good		131	98.7	99.8		
+624.1852	Shigella sonnei strain AM374	WGS	4856982	Good		112	99.3	100		
+300269.20	Shigella sonnei Ss046	Plasmid	5153		1	1				
+624.1353	Shigella sonnei strain 4028STDY6329980	WGS	4630277	Good		384	98.1	99.6	100	0
+624.1355	Shigella sonnei strain 4028STDY6329958	WGS	4710517	Good		393	97.9	99.5	100	0
+624.1357	Shigella sonnei strain 4028STDY6329960	WGS	4625386	Good		399	97.5	99.1	97.7	0
+624.1358	Shigella sonnei strain 4028STDY6329957	WGS	4652069	Good		414	98.2	99.7	100	0
+624.1361	Shigella sonnei strain 4028STDY6329942	WGS	4906154	Good		428	98.1	99.7	100	0.3
+624.1362	Shigella sonnei strain 4028STDY6329944	WGS	4565985	Good		382	97.9	99.6	100	0
+624.1363	Shigella sonnei strain 4028STDY6329941	WGS	4683576	Good		378	98.2	99.7	100	0
+624.1367	Shigella sonnei strain 4028STDY6329954	WGS	4543429	Good		374	98.1	99.7	100	0
+624.1369	Shigella sonnei strain 4028STDY6329948	WGS	4618197	Good		378	97.9	99.4	100	0
+624.1373	Shigella sonnei strain 4028STDY6329979	WGS	4664725	Good		374	98	99.7	100	0.3
+624.1375	Shigella sonnei strain 4028STDY6329969	WGS	4549002	Good		368	97.9	99.6	99	0
+624.1380	Shigella sonnei strain 4028STDY6329978	WGS	4519365	Good		374	98	99.6	100	0
+624.1383	Shigella sonnei strain 4028STDY6329992	WGS	4895823	Good		397	97.8	99.6	100	0
+624.1384	Shigella sonnei strain 4028STDY6329968	WGS	4570267	Good		366	97.4	99	99.3	0
+624.1386	Shigella sonnei strain 4028STDY6330000	WGS	4819474	Good		376	97.8	99.4	100	0
+624.1387	Shigella sonnei strain 4028STDY6329986	WGS	4521680	Good		376	98	99.6	100	0
+624.1388	Shigella sonnei strain 4028STDY6330009	WGS	4533017	Good		360	97.9	99.7	100	0
+624.1394	Shigella sonnei strain 4028STDY6330007	WGS	4646965	Good		374	97.9	99.7	100	0
+624.1397	Shigella sonnei strain 4028STDY6329996	WGS	4561296	Good		370	97.9	99.5	100	0
+624.1401	Shigella sonnei strain 4028STDY6330006	WGS	4535580	Good		377	98.1	99.7	100	0
+624.1402	Shigella sonnei strain 4028STDY6330001	WGS	4531421	Good		376	98.1	99.7	100	0
+624.1405	Shigella sonnei strain 4028STDY6330011	WGS	4534303	Good		374	98.2	99.6	100	0
+624.1599	Shigella sonnei strain 4028STDY6329984	WGS	4753148	Good		408	97.9	99.7	100	0.6
+624.1605	Shigella sonnei strain 4028STDY6330005	WGS	4812373	Good		384	97.8	99.6	100	0.3
+624.1607	Shigella sonnei strain 4028STDY6329987	WGS	4568916	Good		378	98.1	99.7	100	0
+624.1608	Shigella sonnei strain 4028STDY6329963	WGS	4864272	Good		413	98.2	99.7	100	0
+624.1791	Shigella sonnei strain 229	WGS	4612257	Good		566	98.2	99.7		
+624.1858	Shigella sonnei strain FC1428	Complete	4908612	Good		1	96.2	99.6		
+624.1805	Shigella sonnei strain 53901ss_1	WGS	4735853	Good		429	96.1	99		
+624.1809	Shigella sonnei strain 25901ss_1	WGS	4809401	Good		450	96.5	98.8		
+624.1811	Shigella sonnei strain 25201ss_1	WGS	4721377	Good		589	92.2	97		
+624.1813	Shigella sonnei strain 64101ss_1	WGS	4413642	Good		366	93.7	98.2		
+624.1816	Shigella sonnei strain 23601ss_1	WGS	4721530	Good		423	96.5	98.6		
+624.1825	Shigella sonnei strain 25101ss_1	WGS	4692343	Good		630	92.6	97		
+624.1826	Shigella sonnei strain 44401ss_1	WGS	4728545	Good		515	93.1	97		
+624.1830	Shigella sonnei strain 02901ss_1	WGS	4634194	Good		423	95.3	98.3		
+624.1832	Shigella sonnei strain 90301ss_1	WGS	4744206	Good		406	94.2	97.9		
+624.1836	Shigella sonnei strain 54001ss_1	WGS	4485498	Good		383	96.5	98.7		
+624.1840	Shigella sonnei strain 25501ss_1	WGS	4416258	Good		402	94.8	97.9		
+624.1844	Shigella sonnei strain 25601ss_1	WGS	4713824	Good		670	89.8	96.5		
+624.1847	Shigella sonnei strain 70601ss_1	WGS	4728271	Good		431	90.9	95.3		
+624.1822	Shigella sonnei strain ShIB2012_440763	WGS	4414784	Good		462	94.5	98.3		
+624.1845	Shigella sonnei strain ShIB1990_440755	WGS	4546615	Good		581	95.2	97.8		
+624.2648	Shigella sonnei strain Z12965	WGS	4598243	Good	0	547	98.4	99.8		
+624.2650	Shigella sonnei strain Z13254	WGS	4826932	Good	0	650	98.4	99.8		
+624.1855	Shigella sonnei strain AUSMDU00008333	Complete	5006011	Good	3	4	97.1	99.5		
+624.1812	Shigella sonnei strain Sh1167_440937	WGS	4566363	Good		471	96.2	98.3		
+624.1843	Shigella sonnei strain Sh1267_440938	WGS	4480493	Good		406	94.8	98.4		
+624.1848	Shigella sonnei strain 201405193_1	WGS	4760392	Good		395	98	99.6		
+624.1828	Shigella sonnei strain ShIB713_440731	WGS	4581585	Good		513	92.4	96.9		
+624.2227	Shigella sonnei strain 0401930105	WGS	4502485	Good	0	473	95.2	96.9		
+624.2228	Shigella sonnei strain 09163633	WGS	4669781	Good	0	508	95	96.9		
+624.2229	Shigella sonnei strain 1205.3131	WGS	4587805	Good	0	511	95	97		
+624.2236	Shigella sonnei strain 6105.15	WGS	4578127	Good	0	485	95	96.9		
+624.2237	Shigella sonnei strain 6407.57	WGS	4720831	Good	0	478	95	97		
+624.2239	Shigella sonnei strain 7001.38	WGS	4495159	Good	0	487	95	97		
+624.2242	Shigella sonnei strain 7109.28	WGS	4541655	Good	0	447	95.3	97		
+624.2243	Shigella sonnei strain 7103.58	WGS	4722094	Good	0	475	95.2	97		
+624.71	Shigella sonnei strain 271_SSON	WGS	4764396	Good		215	98.4	99.9	99.7	5
+624.798	Shigella sonnei strain 2090STDY5461797	WGS	4463163	Good		576	94.6	99.3	100	5
+624.82	Shigella sonnei strain H092680333	WGS	4690084	Good		383	97.8	99.3	100	0
+624.507	Shigella sonnei strain 49201ss_1	WGS	4722657	Good		391	95.6	98.7	98.7	0
+624.637	Shigella sonnei strain FDAARGOS_90	Complete	4988242	Good	5	6	97.5	99.8	100	2.1
+624.689	Shigella sonnei strain CDPH_C10	WGS	4490819	Good		506	96.8	99.8	100	2.2
+624.690	Shigella sonnei strain CDPH_C11	WGS	4490819	Good		506	96.8	99.8	100	2.2
+624.462	Shigella sonnei strain 144366	WGS	3853731	Good		139	94.5	95.9	90.9	0
+624.323	Shigella sonnei strain 75676	WGS	4660310	Good		591	96.2	99.6	100	2.6
+624.106	Shigella sonnei strain 26101A_1	WGS	4441104	Good		363	94.7	97.3	95.8	1.5
+624.716	Shigella sonnei strain CDPH_C30	WGS	4499989	Good		543	96.7	99.8	100	2.8
+624.267	Shigella sonnei strain 109295	WGS	4661161	Good		500	97.3	99.6	100	3.1
+624.1593	Shigella sonnei strain DMB SH20033	WGS	4749503	Good		719	97.9	99.8	100	3.5
+624.732	Shigella sonnei strain CDPH_C19	WGS	4502651	Good		549	96.6	99.6	100	4.1
+624.795	Shigella sonnei strain 2090STDY5461787	WGS	4560043	Good		387	98.2	99.6	100	1
+624.1505	Shigella sonnei strain 4028STDY6275185 strain H104340378	WGS	4631771	Good		371	98.2	99.7	100	1
+624.1101	Shigella sonnei strain sh1418	WGS	4666160	Good		384	98.1	99.7	100	1
+624.1547	Shigella sonnei strain 4028STDY6275246 strain H125100520	WGS	4465273	Good		361	97.6	99.5	99	0.7
+624.741	Shigella sonnei strain CDPH_C18	WGS	4666303	Good		511	97.9	99.8	100	1
+624.90	Shigella sonnei strain 53701ss_1	WGS	4729020	Good		415	95.9	98.2	98.4	0.3
+624.476	Shigella sonnei strain H113020318	WGS	4731193	Good		431	97.6	99.6	100	1
+624.1211	Shigella sonnei strain FC15	WGS	4648930	Good		495	97.5	99.7	100	1
+624.1209	Shigella sonnei strain FC1747	WGS	4562876	Good		484	97.5	99.6	99.7	1
+624.232	Shigella sonnei strain 95013	WGS	4692379	Good		491	97.1	99.6	100	1
+624.224	Shigella sonnei strain sh03-3567	WGS	4484094	Good		374	96.8	98.5	96.7	0.3
+624.785	Shigella sonnei strain 2090STDY5461775	WGS	4607738	Good		426	98.2	99.7	100	1.3
+624.691	Shigella sonnei strain CDPH_C12	WGS	4514534	Good		509	97.1	99.8	100	1.3
+624.537	Shigella sonnei strain KY 3246	WGS	4777467	Good		522	97	99.6	99.7	1.3
+624.222	Shigella sonnei strain 47401ss_1	WGS	4446474	Good		374	96.4	98.6	98.7	1
+624.781	Shigella sonnei strain 2090STDY5461786	WGS	4779091	Good		603	97.3	99.7	100	1.6
+624.675	Shigella sonnei strain CDPH_C16	WGS	4683117	Good		526	97.2	99.7	100	1.6
+624.515	Shigella sonnei strain H113100099	WGS	4826601	Good		555	96.9	99.5	100	0.2
+624.312	Shigella sonnei strain 33401ss_1	WGS	4424462	Good		356	97.5	99.3	99.7	0.3
+624.728	Shigella sonnei strain CDPH_C97	WGS	4740828	Good		452	98.4	99.8	100	0.6
+624.1166	Shigella sonnei strain sh1453	WGS	4624091	Good		365	98.3	99.6	100	0.6
+624.624	Shigella sonnei strain sh03-1382	WGS	4627681	Good		385	97.5	99.2	99.3	0.3
+624.96	Shigella sonnei strain sh03-1223	WGS	4511064	Good		377	97.5	99.2	99.3	0.3
+624.772	Shigella sonnei strain 2090STDY5461773	WGS	4635671	Good		407	98.2	99.7	100	0.6
+624.950	Shigella sonnei strain sh1349	WGS	4744413	Good		417	98.2	99.7	100	0.6
+624.1144	Shigella sonnei strain sh1353	WGS	4796994	Good		425	98.2	99.7	100	0.6
+624.724	Shigella sonnei strain CDPH_C84	WGS	4457610	Good		438	98.1	99.8	100	0.6
+624.817	Shigella sonnei strain 2090STDY5461819	WGS	4660951	Good		362	98.1	99.6	100	0.6
+624.1627	Shigella sonnei strain 4028STDY6275169 strain H102760181	WGS	4639255	Good		368	97.9	99.7	100	0.6
+624.1635	Shigella sonnei strain 4028STDY6275232 strain H122360370	WGS	4640527	Good		375	97.9	99.7	100	0.6
+624.791	Shigella sonnei strain 2090STDY5461770	WGS	4542036	Good		435	97.8	99.7	100	0.6
+624.1459	Shigella sonnei strain 4028STDY6275283 strain H143140464	WGS	4827136	Good		392	97.8	99.6	100	0.6
+624.403	Shigella sonnei strain 20426788	WGS	4988932	Good		517	97.7	99.6	100	0.6
+624.250	Shigella sonnei strain 144446	WGS	4237661	Good		193	97	98.4	97.1	0
+624.397	Shigella sonnei strain 20381207	WGS	4827072	Good		449	97.9	99.6	100	0.8
+624.941	Shigella sonnei strain 3626STDY6095512	WGS	4914624	Good		443	97.4	99.6	99.7	0
+624.85	Shigella sonnei strain 75677	WGS	4664425	Good		389	97.7	99.2	99.3	0
+624.103	Shigella sonnei strain 201401278_1	WGS	4824575	Good		416	97.3	99.2	99.7	0
+624.666	Shigella sonnei strain CDPH_C80	WGS	4662293	Good		421	98.4	99.6	100	0.3
+624.1475	Shigella sonnei strain 4028STDY6275138 strain H092120360	WGS	4917161	Good		392	98.4	99.7	100	0.3
+624.509	Shigella sonnei strain 143560	WGS	4708780	Good		452	97.6	99	99.3	0
+624.729	Shigella sonnei strain CDPH_C99	WGS	4583503	Good		440	98.3	99.8	100	0.3
+624.815	Shigella sonnei strain 2090STDY5461820	WGS	4677324	Good		377	98.3	99.7	100	0.3
+624.1167	Shigella sonnei strain sh1455	WGS	4726774	Good		398	98.3	99.6	100	0.3
+624.1550	Shigella sonnei strain 4028STDY6275289 strain H143860598	WGS	4642973	Good		387	98.1	99.6	98.7	0
+624.154	Shigella sonnei strain 143778	WGS	4748403	Good		404	97.5	99	99.3	0
+624.959	Shigella sonnei strain sh1359	WGS	4879046	Good		409	98.5	99.7	99.7	0.3
+624.410	Shigella sonnei strain 92360	WGS	4674195	Good		394	98.2	99.7	100	0.3
+624.751	Shigella sonnei strain CDPH_C129	WGS	4624494	Good		428	98.2	99.8	100	0.3
+624.1171	Shigella sonnei strain sh1466	WGS	4843252	Good		401	98.2	99.7	100	0.3
+624.1010	Shigella sonnei strain sh1419	WGS	4639256	Good		388	98.2	99.7	100	0.3
+624.1019	Shigella sonnei strain sh1426	WGS	4598649	Good		386	98.2	99.7	100	0.3
+624.784	Shigella sonnei strain 2090STDY5461763	WGS	4597370	Good		403	98.2	99.7	100	0.3
+624.1147	Shigella sonnei strain sh1348	WGS	4756923	Good		408	98.2	99.7	100	0.3
+624.1140	Shigella sonnei strain sh1365	WGS	4733236	Good		414	98.2	99.7	100	0.3
+624.1438	Shigella sonnei strain 4028STDY6275179 strain H103540533	WGS	4676186	Good		360	98.2	99.6	100	0.3
+624.1622	Shigella sonnei strain 4028STDY6275124 strain H084120283	WGS	4488586	Good		365	98.2	99.7	100	0.3
+624.470	Shigella sonnei strain 75679	WGS	4663490	Good		380	97.7	99.2	99	0
+624.501	Shigella sonnei strain 75637	WGS	4708860	Good		392	97.4	99	99.3	0
+624.496	Shigella sonnei strain 75686	WGS	4625045	Good		379	98.2	99.7	98.4	0
+624.198	Shigella sonnei strain 201311626_1	WGS	4879271	Good		397	98.1	99.6	100	0.3
+624.310	Shigella sonnei strain 201403963_1	WGS	4761553	Good		408	98.1	99.6	100	0.3
+624.444	Shigella sonnei strain 201400003_1	WGS	4660139	Good		374	98.1	99.5	100	0.3
+624.570	Shigella sonnei strain 11111889	WGS	4783405	Good		433	98.1	99.6	100	0.3
+624.1105	Shigella sonnei strain sh1409	WGS	4493434	Good		370	98.1	99.7	100	0.3
+624.1102	Shigella sonnei strain sh1412	WGS	4553901	Good		374	98.1	99.6	100	0.3
+624.762	Shigella sonnei strain 2090STDY5461774	WGS	4616498	Good		447	98.1	99.7	100	0.3
+624.901	Shigella sonnei strain 2090STDY5488138	WGS	4475288	Good		379	98.1	99.7	100	0.3
+624.1138	Shigella sonnei strain sh1368	WGS	4792600	Good		405	98.1	99.7	100	0.3
+624.1423	Shigella sonnei strain 4028STDY6275224 strain H120540249	WGS	4696658	Good		385	98.1	99.6	100	0.3
+624.1092	Shigella sonnei strain sh1435	WGS	4730012	Good		394	98.3	99.6	99.7	0.3
+624.725	Shigella sonnei strain CDPH_C98	WGS	4570602	Good		460	98	99.8	100	0.3
+624.94	Shigella sonnei strain 201403955_1	WGS	4765432	Good		394	98	99.6	100	0.3
+624.768	Shigella sonnei strain 2090STDY5461772	WGS	4652514	Good		462	98	99.7	100	0.3
+624.153	Shigella sonnei strain SS134791_2496122	WGS	4627109	Good		376	97.9	99.6	100	0.3
+624.934	Shigella sonnei strain 3626STDY6095504	WGS	4875902	Good		445	97.9	99.6	100	0.3
+624.1454	Shigella sonnei strain 4028STDY6275112 strain H082780164	WGS	4512401	Good		382	97.9	99.7	100	0.3
+624.1616	Shigella sonnei strain 4028STDY6275219 strain H113960480	WGS	4622683	Good		372	97.9	99.7	100	0.3
+624.1629	Shigella sonnei strain 4028STDY6275163 strain H102240171	WGS	4571075	Good		373	97.9	99.6	100	0.3
+624.188	Shigella sonnei strain 124521	WGS	4576426	Good		369	97.9	99.5	98.4	0
+624.697	Shigella sonnei strain CDPH_C21	WGS	4462098	Good		432	97.8	99.8	100	0.3
+624.718	Shigella sonnei strain CDPH_C117	WGS	4549792	Good		416	97.8	99.8	100	0.3
+624.76	Shigella sonnei strain H094200294	WGS	4518662	Good		379	97.8	99.6	100	0.3
+624.1470	Shigella sonnei strain 4028STDY6275242 strain H124020374	WGS	4819535	Good		362	97.8	99.6	100	0.3
+624.352	Shigella sonnei strain 75643	WGS	4567070	Good		408	97.8	99.6	98.4	0
+624.97	Shigella sonnei strain 201404332_1	WGS	4753436	Good		390	97.9	99.3	99.7	0.3
+624.925	Shigella sonnei strain 3626STDY6095495	WGS	4814133	Good		435	97.9	99.6	99.7	0.3
+624.920	Shigella sonnei strain 3626STDY6095489	WGS	4966406	Good		459	97.6	99.6	100	0.3
+624.1110	Shigella sonnei strain sh1404	WGS	4630144	Good		413	97.4	99	98.7	0
+624.394	Shigella sonnei strain KY 2529	WGS	4672857	Good		411	98	99.6	100	0.4
+624.918	Shigella sonnei strain 3626STDY6095487	WGS	4760595	Good		438	97.7	99.6	99.7	0.3
+624.1556	Shigella sonnei strain 4028STDY6275288 strain H143820730	WGS	4532211	Good		382	98.1	99.6	100	0
+624.1566	Shigella sonnei strain 4028STDY6275262 strain H133900325	WGS	4529140	Good		370	98.1	99.7	100	0
+624.1434	Shigella sonnei strain 4028STDY6275206 strain H111840196	WGS	4488186	Good		363	98.1	99.7	100	0
+624.1435	Shigella sonnei strain 4028STDY6275256 strain H133140450	WGS	4614903	Good		378	98.1	99.6	100	0
+624.1458	Shigella sonnei strain 4028STDY6275294 strain H144280444	WGS	4670196	Good		381	98.1	99.6	100	0
+624.1478	Shigella sonnei strain 4028STDY6275106 strain H081040138	WGS	4548742	Good		363	98.1	99.7	100	0
+624.1482	Shigella sonnei strain 4028STDY6275151 strain H094120386	WGS	4527142	Good		391	98.1	99.6	100	0
+624.1518	Shigella sonnei strain 4028STDY6275220 strain H114100342	WGS	4495275	Good		361	98.1	99.7	100	0
+624.1525	Shigella sonnei strain 4028STDY6275187 strain H104600236	WGS	4543704	Good		389	98.1	99.7	100	0
+624.1528	Shigella sonnei strain 4028STDY6275221 strain H114560335	WGS	4519826	Good		385	98.1	99.6	100	0
+624.1542	Shigella sonnei strain 4028STDY6275239 strain H123740288	WGS	4526094	Good		366	98.1	99.7	100	0
+624.1623	Shigella sonnei strain 4028STDY6275131 strain H090420862	WGS	4482382	Good		371	98.1	99.7	100	0
+624.1626	Shigella sonnei strain 4028STDY6275144 strain H092420349	WGS	4542920	Good		353	98.1	99.7	100	0
+624.145	Shigella sonnei strain 201400049_1	WGS	4853759	Good		398	98	99.6	100	0
+624.150	Shigella sonnei strain 143985	WGS	4786060	Good		402	98	99.6	100	0
+624.212	Shigella sonnei strain 83011	WGS	4719351	Good		384	98	99.6	100	0
+624.282	Shigella sonnei strain SS136782_2496123	WGS	4711755	Good		375	98	99.6	100	0
+624.302	Shigella sonnei strain 143562	WGS	4751091	Good		395	98	99.6	100	0
+624.386	Shigella sonnei strain KY 276	WGS	4737039	Good		463	98	99.6	100	0
+624.469	Shigella sonnei strain 36234868	WGS	4960765	Good		435	98	99.6	100	0
+624.480	Shigella sonnei strain SHI0146_5648321	WGS	4471544	Good		370	98	99.7	100	0
+624.499	Shigella sonnei strain 201402425_1	WGS	4768037	Good		379	98	99.5	100	0
+624.508	Shigella sonnei strain 85516	WGS	4747621	Good		394	98	99.6	100	0
+624.576	Shigella sonnei strain 75544	WGS	4752161	Good		385	98	99.6	100	0
+624.588	Shigella sonnei strain 92353	WGS	4726807	Good		434	98	99.6	100	0
+624.599	Shigella sonnei strain H103160303	WGS	4684788	Good		384	98	99.5	100	0
+624.686	Shigella sonnei strain CDPH_C128	WGS	4527858	Good		419	98	99.8	100	0
+624.748	Shigella sonnei strain CDPH_C22	WGS	4403982	Good		393	98	99.7	100	0
+624.77	Shigella sonnei strain 95233	WGS	5009719	Good		473	98	99.6	100	0
+624.80	Shigella sonnei strain 124528	WGS	4712960	Good		387	98	99.6	100	0
+624.75	Shigella sonnei strain BS1058	WGS	4641747	Good		516	98	99.7	100	0
+624.805	Shigella sonnei strain 2090STDY5461729	WGS	4459977	Good		372	98	99.6	100	0
+624.801	Shigella sonnei strain 2090STDY5461748	WGS	4619186	Good		529	98	99.7	100	0
+624.1422	Shigella sonnei strain 4028STDY6275191 strain H104900262	WGS	4543286	Good		380	98	99.6	100	0
+624.1558	Shigella sonnei strain 4028STDY6275282 strain H143080488	WGS	4870954	Good		384	98	99.6	100	0
+624.1540	Shigella sonnei strain 4028STDY6275272 strain H141880233	WGS	4594939	Good		384	98	99.6	100	0
+624.853	Shigella sonnei strain 2090STDY5461857	WGS	4736974	Good		424	98.2	99.7	99.7	0
+624.874	Shigella sonnei strain 2090STDY5461880	WGS	4620680	Good		393	98.2	99.6	99.7	0
+624.168	Shigella sonnei strain 08-2334	WGS	4733631	Good		388	97.9	99.4	100	0
+624.178	Shigella sonnei strain H141120338	WGS	4815019	Good		412	97.9	99.4	100	0
+624.205	Shigella sonnei strain H112220292	WGS	4736254	Good		429	97.9	99.6	100	0
+624.207	Shigella sonnei strain 201402408_1	WGS	4762915	Good		393	97.9	99.6	100	0
+624.217	Shigella sonnei strain 201400752_1	WGS	4821869	Good		390	97.9	99.6	100	0
+624.229	Shigella sonnei strain 201403906_1	WGS	4887256	Good		418	97.9	99.3	100	0
+624.230	Shigella sonnei strain H113080349	WGS	4788732	Good		468	97.9	99.6	100	0
+624.262	Shigella sonnei strain KY 696	WGS	4806970	Good		429	97.9	99.4	100	0
+624.266	Shigella sonnei strain 201400855_1	WGS	4770225	Good		391	97.9	99.5	100	0
+624.303	Shigella sonnei strain 21166370	WGS	4829052	Good		432	97.9	99.6	100	0
+624.377	Shigella sonnei strain 36971985	WGS	4948156	Good		459	97.9	99.5	100	0
+624.378	Shigella sonnei strain 201312549_1	WGS	4737225	Good		392	97.9	99.5	100	0
+624.461	Shigella sonnei strain H141120337	WGS	4749820	Good		415	97.9	99.5	100	0
+624.506	Shigella sonnei strain H111120276	WGS	4600291	Good		366	97.9	99.4	100	0
+624.511	Shigella sonnei strain 201405357_1	WGS	4825174	Good		407	97.9	99.6	100	0
+624.517	Shigella sonnei strain H092760242	WGS	4688857	Good		389	97.9	99.4	100	0
+624.538	Shigella sonnei strain H140860382	WGS	4880591	Good		431	97.9	99.4	100	0
+624.668	Shigella sonnei strain CDPH_C31	WGS	4484077	Good		414	97.9	99.8	100	0
+624.671	Shigella sonnei strain CDPH_C114	WGS	4516115	Good		427	97.9	99.8	100	0
+624.714	Shigella sonnei strain CDPH_C113	WGS	4543319	Good		417	97.9	99.8	100	0
+624.749	Shigella sonnei strain CDPH_C101	WGS	4542592	Good		424	97.9	99.8	100	0
+624.758	Shigella sonnei strain BCW_4886	WGS	4891544	Good		481	97.9	99.2	100	0
+624.1099	Shigella sonnei strain sh1420	WGS	4543756	Good		380	97.9	99.7	100	0
+624.1185	Shigella sonnei strain 75/02	Complete	5224048	Good	7	8	97.9	99.4	100	0
+624.910	Shigella sonnei strain 3626STDY6095478	WGS	4860353	Good		440	97.9	99.6	100	0
+624.1179	Shigella sonnei strain 3626STDY6095479	WGS	4871463	Good		418	97.9	99.7	100	0
+624.1545	Shigella sonnei strain 4028STDY6275252 strain H132180543	WGS	4604254	Good		372	97.9	99.6	100	0
+624.1436	Shigella sonnei strain 4028STDY6275267 strain H140900354	WGS	4647235	Good		373	97.9	99.7	100	0
+624.1480	Shigella sonnei strain 4028STDY6275108 strain H081600246	WGS	4677804	Good		367	97.9	99.6	100	0
+624.1486	Shigella sonnei strain 4028STDY6275152 strain H094200302	WGS	4691328	Good		426	97.9	99.6	100	0
+624.1504	Shigella sonnei strain 4028STDY6275142 strain H092400229	WGS	4513439	Good		371	97.9	99.6	100	0
+624.1515	Shigella sonnei strain 4028STDY6275148 strain H092940154	WGS	4592879	Good		415	97.9	99.7	100	0
+624.1537	Shigella sonnei strain 4028STDY6275238 strain H123360400	WGS	4483547	Good		372	97.9	99.6	100	0
+624.1618	Shigella sonnei strain 4028STDY6275207 strain H111940291	WGS	4694774	Good		368	97.9	99.7	100	0
+624.1634	Shigella sonnei strain 4028STDY6275197 strain H110760220	WGS	4605705	Good		369	97.9	99.6	100	0
+624.237	Shigella sonnei strain 75684	WGS	4677796	Good		380	98.1	99.6	99.7	0
+624.1018	Shigella sonnei strain sh1425	WGS	4629586	Good		389	98.1	99.6	99.7	0
+624.852	Shigella sonnei strain 2090STDY5461856	WGS	4544279	Good		378	98.1	99.6	99.7	0
+624.313	Shigella sonnei strain H092140107	WGS	4685064	Good		384	97.8	99.3	100	0
+624.398	Shigella sonnei strain H111560296	WGS	4658084	Good		431	97.8	99.3	100	0
+624.457	Shigella sonnei strain H081680151	WGS	4690522	Good		388	97.8	99.3	100	0
+624.548	Shigella sonnei strain 201405267_1	WGS	4740064	Good		406	97.8	99.3	100	0
+624.551	Shigella sonnei strain 109112	WGS	4667210	Good		432	97.8	99.6	100	0
+624.613	Shigella sonnei strain H132060833	WGS	4676239	Good		396	97.8	99.3	100	0
+624.943	Shigella sonnei strain 3626STDY6095514	WGS	4740723	Good		412	97.8	99.7	100	0
+624.414	Shigella sonnei strain SS105559_2712861	WGS	4783511	Good		415	98	99.6	99.7	0
+624.1473	Shigella sonnei strain 4028STDY6275278 strain H142360406	WGS	4537016	Good		377	98	99.6	99.7	0
+624.274	Shigella sonnei strain H112960373	WGS	4584287	Good		410	97.7	99.6	100	0
+624.331	Shigella sonnei strain 85715	WGS	4839154	Good		481	97.7	99.6	100	0
+624.937	Shigella sonnei strain 3626STDY6095507	WGS	4845798	Good		431	97.7	99.7	100	0
+624.945	Shigella sonnei strain 3626STDY6095520	WGS	4858345	Good		440	97.7	99.6	100	0
+624.319	Shigella sonnei strain 87670	WGS	4748431	Good		373	98.1	99.6	100	0.1
+624.158	Shigella sonnei strain H103520368	WGS	4647550	Good		375	97.9	99.5	99.7	0
+624.777	Shigella sonnei strain 2090STDY5461746	WGS	4446566	Good		371	97.9	99.5	99.7	0
+624.292	Shigella sonnei strain SS132330_2496119	WGS	4849058	Good		427	97.6	99.6	100	0
+624.487	Shigella sonnei strain 201405358_1	WGS	4704703	Good		431	97.6	99.3	100	0
+624.908	Shigella sonnei strain 3626STDY6095476	WGS	4849850	Good		440	97.6	99.7	100	0
+624.911	Shigella sonnei strain 3626STDY6095480	WGS	4935007	Good		461	97.6	99.7	100	0
+624.938	Shigella sonnei strain 3626STDY6095508	WGS	4907775	Good		438	97.6	99.7	100	0
+624.1149	Shigella sonnei strain 3626STDY6095513	WGS	4923063	Good		469	97.6	99.7	100	0
+624.326	Shigella sonnei strain 93028	WGS	4770169	Good		393	97.8	99.6	99.7	0
+624.360	Shigella sonnei strain H140860383	WGS	4887236	Good		426	97.8	99.3	99.7	0
+624.1421	Shigella sonnei strain 4028STDY6275196 strain H110700172	WGS	4747830	Good		399	97.7	99.5	99.7	0
+624.654	Shigella sonnei strain CDPH_C44	WGS	4704423	Good		553	97.4	99.7	100	0
+624.183	Shigella sonnei strain H101700383	WGS	4698230	Good		392	98	99.5	99.3	0
+624.926	Shigella sonnei strain 3626STDY6095496	WGS	4951580	Good		442	97.3	99.5	100	0
+624.944	Shigella sonnei strain 3626STDY6095518	WGS	4813310	Good		436	97.5	99.6	99.7	0
+624.586	Shigella sonnei strain 82896	WGS	4583810	Good		356	98.4	99.6	100	0
+624.1157	Shigella sonnei strain sh1440	WGS	4635909	Good		350	98.4	99.7	100	0
+624.1162	Shigella sonnei strain sh1446	WGS	4730962	Good		355	98.4	99.7	100	0
+624.834	Shigella sonnei strain 2090STDY5461836	WGS	4713015	Good		349	98.4	99.7	100	0
+624.835	Shigella sonnei strain 2090STDY5461838	WGS	4615460	Good		346	98.4	99.7	100	0
+624.838	Shigella sonnei strain 2090STDY5461841	WGS	4707099	Good		371	98.4	99.7	100	0
+624.841	Shigella sonnei strain 2090STDY5461845	WGS	4692501	Good		367	98.4	99.7	100	0
+624.844	Shigella sonnei strain 2090STDY5461848	WGS	4601180	Good		342	98.4	99.7	100	0
+624.846	Shigella sonnei strain 2090STDY5461851	WGS	4583650	Good		351	98.4	99.7	100	0
+624.1570	Shigella sonnei strain 4028STDY6275273 strain H141960608	WGS	4687936	Good		354	98.4	99.7	100	0
+624.289	Shigella sonnei strain KY 1071	WGS	4738290	Good		445	98.3	99.7	100	0
+624.294	Shigella sonnei strain 85362	WGS	4629347	Good		379	98.3	99.7	100	0
+624.306	Shigella sonnei strain 95641	WGS	4669100	Good		401	98.3	99.7	100	0
+624.513	Shigella sonnei strain KY 1243	WGS	4742134	Good		456	98.3	99.7	100	0
+624.744	Shigella sonnei strain CDPH_C25	WGS	4503205	Good		418	98.3	99.8	100	0
+624.1163	Shigella sonnei strain sh1447	WGS	4697890	Good		360	98.3	99.7	100	0
+624.1049	Shigella sonnei strain sh1457	WGS	4636583	Good		351	98.3	99.7	100	0
+624.1177	Shigella sonnei strain sh1479	WGS	4606318	Good		350	98.3	99.6	100	0
+624.759	Shigella sonnei strain BCW_4885	WGS	4699560	Good		480	98.3	99.8	100	0
+624.994	Shigella sonnei strain sh1399	WGS	4670820	Good		400	98.3	99.7	100	0
+624.1087	Shigella sonnei strain sh1436	WGS	4686976	Good		374	98.3	99.7	100	0
+624.1159	Shigella sonnei strain sh1444	WGS	4615820	Good		376	98.3	99.7	100	0
+624.761	Shigella sonnei strain 2090STDY5461749	WGS	4757715	Good		398	98.3	99.7	100	0
+624.1137	Shigella sonnei strain sh1369	WGS	4851073	Good		416	98.3	99.7	100	0
+624.1121	Shigella sonnei strain sh1390	WGS	4668035	Good		372	98.3	99.7	100	0
+624.825	Shigella sonnei strain 2090STDY5461828	WGS	4579051	Good		368	98.3	99.7	100	0
+624.842	Shigella sonnei strain 2090STDY5461846	WGS	4610927	Good		342	98.3	99.7	100	0
+624.1546	Shigella sonnei strain 4028STDY6275295 strain H144360224	WGS	4648102	Good		376	98.3	99.7	100	0
+624.1499	Shigella sonnei strain 4028STDY6275174 strain H103200188	WGS	4718849	Good		370	98.3	99.7	100	0
+624.1535	Shigella sonnei strain 4028STDY6275233 strain H122360371	WGS	4631099	Good		368	98.3	99.7	100	0
+624.109	Shigella sonnei strain SS117886_2798525	WGS	4675162	Good		398	98.2	99.6	100	0
+624.110	Shigella sonnei strain SS106312_2712860	WGS	4730310	Good		403	98.2	99.6	100	0
+624.138	Shigella sonnei strain 87026	WGS	4691310	Good		384	98.2	99.7	100	0
+624.139	Shigella sonnei strain 94081275	WGS	4855473	Good		435	98.2	99.6	100	0
+624.184	Shigella sonnei strain 109305	WGS	4717913	Good		388	98.2	99.6	100	0
+624.215	Shigella sonnei strain 98904	WGS	4733117	Good		400	98.2	99.7	100	0
+624.235	Shigella sonnei strain 90931857	WGS	4880927	Good		480	98.2	99.6	100	0
+624.270	Shigella sonnei strain 20412581	WGS	4927424	Good		489	98.2	99.6	100	0
+624.283	Shigella sonnei strain 44964030	WGS	4901753	Good		450	98.2	99.6	100	0
+624.296	Shigella sonnei strain 36861682	WGS	4936758	Good		453	98.2	99.6	100	0
+624.342	Shigella sonnei strain 201312542_1	WGS	4771554	Good		389	98.2	99.6	100	0
+624.351	Shigella sonnei strain 86255	WGS	4741507	Good		388	98.2	99.6	100	0
+624.363	Shigella sonnei strain 83589	WGS	4700497	Good		385	98.2	99.7	100	0
+624.364	Shigella sonnei strain 94817	WGS	4742991	Good		392	98.2	99.7	100	0
+624.376	Shigella sonnei strain 99366	WGS	4730374	Good		376	98.2	99.6	100	0
+624.399	Shigella sonnei strain 83010	WGS	4743388	Good		390	98.2	99.6	100	0
+624.408	Shigella sonnei strain 144353	WGS	4626165	Good		416	98.2	99.6	100	0
+624.411	Shigella sonnei strain 87016	WGS	4744488	Good		379	98.2	99.6	100	0
+624.418	Shigella sonnei strain H112700289	WGS	4751415	Good		416	98.2	99.6	100	0
+624.433	Shigella sonnei strain 37514976	WGS	4698192	Good		389	98.2	99.6	100	0
+624.436	Shigella sonnei strain 82541	WGS	4693976	Good		390	98.2	99.7	100	0
+624.449	Shigella sonnei strain 89349	WGS	4828449	Good		381	98.2	99.6	100	0
+624.490	Shigella sonnei strain H141020387	WGS	4737366	Good		378	98.2	99.6	100	0
+624.528	Shigella sonnei strain SS130327_2798533	WGS	4600911	Good		367	98.2	99.6	100	0
+624.531	Shigella sonnei strain 109171	WGS	4799752	Good		398	98.2	99.6	100	0
+624.536	Shigella sonnei strain 20426786	WGS	4785813	Good		413	98.2	99.6	100	0
+624.558	Shigella sonnei strain 87772	WGS	4722428	Good		394	98.2	99.6	100	0
+624.571	Shigella sonnei strain 98909	WGS	4656619	Good		391	98.2	99.7	100	0
+624.581	Shigella sonnei strain 86283	WGS	4649699	Good		368	98.2	99.6	100	0
+624.616	Shigella sonnei strain 143561	WGS	4756476	Good		385	98.2	99.6	100	0
+624.630	Shigella sonnei strain 124511	WGS	4640979	Good		379	98.2	99.6	100	0
+624.684	Shigella sonnei strain CDPH_C123	WGS	4635644	Good		428	98.2	99.8	100	0
+624.698	Shigella sonnei strain CDPH_C27	WGS	4481566	Good		429	98.2	99.8	100	0
+624.631	Shigella sonnei strain SSGM5126	WGS	4732195	Good		449	98.2	99.7	100	0
+624.813	Shigella sonnei strain 2090STDY5461814	WGS	4617575	Good		352	98.2	99.4	100	0
+624.819	Shigella sonnei strain 2090STDY5461821	WGS	4588156	Good		393	98.2	99.6	100	0
+624.822	Shigella sonnei strain 2090STDY5461824	WGS	4585286	Good		349	98.2	99.7	100	0
+624.1046	Shigella sonnei strain sh1454	WGS	4553444	Good		363	98.2	99.6	100	0
+624.1115	Shigella sonnei strain sh1398	WGS	4552128	Good		404	98.2	99.7	100	0
+624.1158	Shigella sonnei strain sh1442	WGS	4667571	Good		356	98.2	99.6	100	0
+624.855	Shigella sonnei strain 2090STDY5461859	WGS	4544364	Good		382	98.2	99.7	100	0
+624.1181	Shigella sonnei strain 2090STDY5461863	WGS	4788431	Good		433	98.2	99.7	100	0
+624.867	Shigella sonnei strain 2090STDY5461872	WGS	4580948	Good		382	98.2	99.6	100	0
+624.869	Shigella sonnei strain 2090STDY5461875	WGS	4524118	Good		372	98.2	99.7	100	0
+624.870	Shigella sonnei strain 2090STDY5461876	WGS	4619072	Good		390	98.2	99.7	100	0
+624.872	Shigella sonnei strain 2090STDY5461878	WGS	4723150	Good		428	98.2	99.6	100	0
+624.882	Shigella sonnei strain 2090STDY5488118	WGS	4533948	Good		380	98.2	99.7	100	0
+624.885	Shigella sonnei strain 2090STDY5488121	WGS	4531256	Good		374	98.2	99.7	100	0
+624.893	Shigella sonnei strain 2090STDY5488129	WGS	4486137	Good		380	98.2	99.7	100	0
+624.899	Shigella sonnei strain 2090STDY5488135	WGS	4570106	Good		508	98.2	99.7	100	0
+624.902	Shigella sonnei strain 2090STDY5488139	WGS	4472398	Good		368	98.2	99.7	100	0
+624.799	Shigella sonnei strain 2090STDY5461735	WGS	4474700	Good		369	98.2	99.7	100	0
+624.802	Shigella sonnei strain 2090STDY5461750	WGS	4496883	Good		357	98.2	99.7	100	0
+624.764	Shigella sonnei strain 2090STDY5461751	WGS	4487024	Good		383	98.2	99.7	100	0
+624.1146	Shigella sonnei strain sh1350	WGS	4787220	Good		435	98.2	99.7	100	0
+624.1143	Shigella sonnei strain sh1358	WGS	4596905	Good		370	98.2	99.6	100	0
+624.961	Shigella sonnei strain sh1362	WGS	4758107	Good		430	98.2	99.7	100	0
+624.1132	Shigella sonnei strain sh1375	WGS	4797166	Good		424	98.2	99.7	100	0
+624.1124	Shigella sonnei strain sh1385	WGS	4729351	Good		428	98.2	99.7	100	0
+624.985	Shigella sonnei strain sh1388	WGS	4785821	Good		424	98.2	99.7	100	0
+624.1118	Shigella sonnei strain sh1395	WGS	4649348	Good		381	98.2	99.7	100	0
+624.1117	Shigella sonnei strain sh1396	WGS	4707385	Good		427	98.2	99.7	100	0
+624.1549	Shigella sonnei strain 4028STDY6275279 strain H142940491	WGS	4547634	Good		357	98.2	99.7	100	0
+624.1562	Shigella sonnei strain 4028STDY6275269 strain H141000107	WGS	4638881	Good		378	98.2	99.6	100	0
+624.1465	Shigella sonnei strain 4028STDY6275127 strain H084520189	WGS	4526447	Good		363	98.2	99.7	100	0
+624.1491	Shigella sonnei strain 4028STDY6275153 strain H094360291	WGS	4540660	Good		365	98.2	99.7	100	0
+624.1498	Shigella sonnei strain 4028STDY6275184 strain H104320327	WGS	4544151	Good		372	98.2	99.7	100	0
+624.1524	Shigella sonnei strain 4028STDY6275189 strain H104740330	WGS	4550274	Good		367	98.2	99.7	100	0
+624.1531	Shigella sonnei strain 4028STDY6275235 strain H122840406	WGS	4552680	Good		367	98.2	99.7	100	0
+624.1612	Shigella sonnei strain 4028STDY6275170 strain H102760184	WGS	4705161	Good		369	98.2	99.6	100	0
+624.1624	Shigella sonnei strain 4028STDY6275146 strain H092880479	WGS	4534206	Good		374	98.2	99.7	100	0
+624.1632	Shigella sonnei strain 4028STDY6275213 strain H113460366	WGS	4635528	Good		367	98.2	99.7	100	0
+624.876	Shigella sonnei strain 2090STDY5461882	WGS	4598999	Good		350	98.4	99.7	99.7	0
+624.173	Shigella sonnei strain 35527695	WGS	4927915	Good		436	98.1	99.6	100	0
+624.206	Shigella sonnei strain 85001	WGS	4657581	Good		375	98.1	99.6	100	0
+624.211	Shigella sonnei strain 92497962	WGS	4916765	Good		462	98.1	99.6	100	0
+624.218	Shigella sonnei strain 37975463	WGS	4948233	Good		430	98.1	99.6	100	0
+624.231	Shigella sonnei strain 99767	WGS	4707438	Good		407	98.1	99.6	100	0
+624.265	Shigella sonnei strain H131740366	WGS	4723656	Good		383	98.1	99.6	100	0
+624.276	Shigella sonnei strain H140820643	WGS	4911163	Good		439	98.1	99.6	100	0
+624.348	Shigella sonnei strain 201400046_1	WGS	4746840	Good		389	98.1	99.5	100	0
+624.384	Shigella sonnei strain 36860531	WGS	4949533	Good		447	98.1	99.6	100	0
+624.405	Shigella sonnei strain H112620256	WGS	4825833	Good		435	98.1	99.6	100	0
+624.427	Shigella sonnei strain 201400526_1	WGS	4943908	Good		447	98.1	99.6	100	0
+624.443	Shigella sonnei strain 87669	WGS	4629295	Good		377	98.1	99.6	100	0
+624.454	Shigella sonnei strain 201311838_1	WGS	4823900	Good		388	98.1	99.6	100	0
+624.482	Shigella sonnei strain 143102	WGS	4791469	Good		409	98.1	99.6	100	0
+624.488	Shigella sonnei strain 85720	WGS	4670398	Good		471	98.1	99.7	100	0
+624.489	Shigella sonnei strain 99443	WGS	4701665	Good		398	98.1	99.6	100	0
+624.521	Shigella sonnei strain 85721	WGS	4733380	Good		393	98.1	99.6	100	0
+624.530	Shigella sonnei strain 201405302_1	WGS	4755059	Good		404	98.1	99.6	100	0
+624.539	Shigella sonnei strain KY 129	WGS	4734935	Good		453	98.1	99.6	100	0
+624.543	Shigella sonnei strain 36860548	WGS	4861039	Good		431	98.1	99.6	100	0
+624.554	Shigella sonnei strain 86318	WGS	4756209	Good		386	98.1	99.6	100	0
+624.601	Shigella sonnei strain 82064	WGS	4736895	Good		377	98.1	99.6	100	0
+624.602	Shigella sonnei strain 143098	WGS	4788769	Good		406	98.1	99.6	100	0
+624.606	Shigella sonnei strain 143780	WGS	4965597	Good		429	98.1	99.6	100	0
+624.612	Shigella sonnei strain 86328	WGS	4735406	Good		386	98.1	99.6	100	0
+624.618	Shigella sonnei strain 124553	WGS	4773534	Good		389	98.1	99.6	100	0
+624.623	Shigella sonnei strain 21156548	WGS	4986955	Good		498	98.1	99.6	100	0
+624.1153	Shigella sonnei strain sh1434	WGS	4627998	Good		450	98.1	99.6	100	0
+624.1160	Shigella sonnei strain sh1443	WGS	4655426	Good		378	98.1	99.5	100	0
+624.877	Shigella sonnei strain 2090STDY5461883	WGS	4745431	Good		499	98.1	99.6	100	0
+624.790	Shigella sonnei strain 2090STDY5461792	WGS	4523705	Good		391	98.1	99.6	100	0
+624.788	Shigella sonnei strain 2090STDY5461724	WGS	4369771	Good		345	98.1	99.6	100	0
+624.766	Shigella sonnei strain 2090STDY5461734	WGS	4622767	Good		408	98.1	99.7	100	0
+624.773	Shigella sonnei strain 2090STDY5461736	WGS	4536642	Good		370	98.1	99.7	100	0
+624.787	Shigella sonnei strain 2090STDY5461744	WGS	4576114	Good		401	98.1	99.6	100	0
+216599.7	Shigella sonnei 53G	WGS	5185984	Good	0	150	95.8	99.6	99.3	6.5
+766164.3	Shigella sonnei 4822-66	WGS	4710353	Good	0	91	97	98.4	98.4	1.6
+1212564.3	Shigella sonnei S6513	WGS	4843790	Good		234	98.1	99.5	99.7	0.3
+624.385	Shigella sonnei strain 144374	WGS	306668	Good		4	93.2	93.3	4.6	0
+624.523	Shigella sonnei strain 144748	WGS	2547110	Good		62	87.1	87.5	62.6	0
+624.541	Shigella sonnei strain 144368	WGS	3489597	Good		112	92.6	93.6	86.6	0
+624.1287	Shigella sonnei strain FC1677	WGS	4718076	Good		569	96.3	99.7	100	2.4
+624.1596	Shigella sonnei strain NCTC7924	WGS	5203610	Good		6	97.5	99.5	100	1.3
+624.1313	Shigella sonnei strain 2015C-3807	Plasmid	67979		1	1				
+624.336	Shigella sonnei strain F3183_PFGE 2A	WGS	4571974	Good		374	97.3	99.1	99.3	0
+624.278	Shigella sonnei strain F3189_PFGE 3	WGS	4452987	Good		367	97.8	99.7	100	0.3
+624.1184	Shigella sonnei strain 2015AM-1099	Complete	4935567	Good		1	97.9	99.6	100	1.4
+624.1588	Shigella sonnei strain DMB SH20163	WGS	4633102	Good		752	97.6	99.6	100	1.3
+624.1586	Shigella sonnei strain DMB SH20034	WGS	4769276	Good		490	98.4	99.8	100	1.6
+624.1594	Shigella sonnei strain DMB SH20036	WGS	4638655	Good		458	98.4	99.8	100	1.6
+624.1587	Shigella sonnei strain DMB SH20023	WGS	4576543	Good		463	98.1	99.8	100	0.6
+624.1317	Shigella sonnei strain CFSAN030807	Plasmid	2136		1	1				
+624.1322	Shigella sonnei strain CFSAN030807	Plasmid	2690		1	1				
+624.1316	Shigella sonnei strain CFSAN030807	Plasmid	8401		1	1				
+624.2247	Shigella sonnei strain 506	Complete	5344107	Good	12	13	95.1	97		
+624.2061	Shigella sonnei strain 149189	WGS	4560132	Good	0	453	95	96.8		
+624.2177	Shigella sonnei strain 149197	WGS	4738133	Good	0	461	95.3	96.6		
+624.2189	Shigella sonnei strain 149200	WGS	4443419	Good	0	422	95.3	97		
+624.1890	Shigella sonnei strain 151008	WGS	4547723	Good	0	475	95.4	97		
+624.2179	Shigella sonnei strain 152343	WGS	4627896	Good	0	478	95.4	97		
+624.2030	Shigella sonnei strain 152352	WGS	4641448	Good	0	496	95.3	97		
+624.1912	Shigella sonnei strain 152507	WGS	4638051	Good	0	475	95.4	97		
+624.1899	Shigella sonnei strain 153151	WGS	4623987	Good	0	475	95.2	96.9		
+624.1972	Shigella sonnei strain 153152	WGS	4652282	Good	0	495	95.2	96.9		
+624.2103	Shigella sonnei strain 155684	WGS	4670665	Good	0	510	95.3	97		
+624.2168	Shigella sonnei strain 154831	WGS	4597778	Good	0	446	95.3	97		
+624.2193	Shigella sonnei strain 154833	WGS	4429244	Good	0	433	95.3	97		
+624.1945	Shigella sonnei strain 154837	WGS	4792512	Good	0	540	95.3	97		
+624.2154	Shigella sonnei strain 157059	WGS	4469905	Good	0	436	95.3	97		
+624.2142	Shigella sonnei strain 159714	WGS	4817051	Good	0	484	94.9	97		
+624.2032	Shigella sonnei strain 158938	WGS	4666140	Good	0	494	95.3	97		
+624.2153	Shigella sonnei strain 158948	WGS	4813799	Good	0	487	95	97		
+624.1976	Shigella sonnei strain 164645	WGS	4491422	Good	0	440	95.3	97		
+624.2073	Shigella sonnei strain 161918	WGS	4659281	Good	0	514	95.3	96.8		
+624.2110	Shigella sonnei strain 161920	WGS	4793308	Good	0	547	95	96.7		
+624.2041	Shigella sonnei strain 164655	WGS	4777643	Good	0	534	95.2	96.9		
+624.2027	Shigella sonnei strain 164660	WGS	4596541	Good	0	480	95.3	97		
+624.2149	Shigella sonnei strain 164677	WGS	4560924	Good	0	451	95.2	96.9		
+624.2077	Shigella sonnei strain 166969	WGS	4573043	Good	0	465	95.3	96.8		
+624.1894	Shigella sonnei strain 166179	WGS	4770231	Good	0	502	95.3	97		
+624.1995	Shigella sonnei strain 168320	WGS	4709117	Good	0	510	95.3	97		
+624.1993	Shigella sonnei strain 168324	WGS	4447764	Good	0	413	95.3	96.8		
+624.2089	Shigella sonnei strain 169627	WGS	4822630	Good	0	554	95.2	97		
+624.1944	Shigella sonnei strain 173522	WGS	4916576	Good	0	553	95.2	96.9		
+624.2173	Shigella sonnei strain 174677	WGS	4717424	Good	0	492	95.3	97		
+624.2120	Shigella sonnei strain 175601	WGS	4763554	Good	0	501	95.3	97		
+624.1956	Shigella sonnei strain 175605	WGS	4676742	Good	0	493	95.1	96.8		
+624.2010	Shigella sonnei strain 176302	WGS	4667624	Good	0	512	95.3	97		
+624.2007	Shigella sonnei strain 176303	WGS	4660542	Good	0	509	95.3	97		
+624.1932	Shigella sonnei strain 178624	WGS	4487377	Good	0	441	95.2	96.9		
+624.2001	Shigella sonnei strain 178829	WGS	4580346	Good	0	436	95.5	97		
+624.2172	Shigella sonnei strain 178859	WGS	4782164	Good	0	534	95.3	97		
+624.2012	Shigella sonnei strain 179822	WGS	4649556	Good	0	455	94.8	96.8		
+624.1874	Shigella sonnei strain 181987	WGS	4691350	Good	0	469	95.3	96.8		
+624.2115	Shigella sonnei strain 180788	WGS	4607571	Good	0	452	95.3	97		
+624.1948	Shigella sonnei strain 180790	WGS	4594420	Good	0	450	95.3	96.9		
+624.1905	Shigella sonnei strain 182835	WGS	4692507	Good	0	452	95.3	97		
+624.2112	Shigella sonnei strain 183660	WGS	4690013	Good	0	487	95.3	97		
+624.1989	Shigella sonnei strain 183738	WGS	4588223	Good	0	466	95.3	97		
+624.2088	Shigella sonnei strain 184493	WGS	4473562	Good	0	411	95.2	96.9		
+624.2126	Shigella sonnei strain 184494	WGS	4671596	Good	0	492	95.1	97		
+624.1928	Shigella sonnei strain 184401	WGS	4441206	Good	0	422	95.2	96.8		
+624.1896	Shigella sonnei strain 184402	WGS	4616095	Good	0	451	95.4	97		
+624.2119	Shigella sonnei strain 185879	WGS	4790021	Good	0	509	95.2	97		
+624.2118	Shigella sonnei strain 186562	WGS	4671784	Good	0	507	95.1	97		
+624.1965	Shigella sonnei strain 186596	WGS	4582556	Good	0	464	95.2	97		
+624.1970	Shigella sonnei strain 187599	WGS	4733720	Good	0	474	95.2	97		
+624.1999	Shigella sonnei strain 189229	WGS	4596255	Good	0	475	95.3	97		
+624.1930	Shigella sonnei strain 189256	WGS	4748743	Good	0	449	95.6	97		
+624.2109	Shigella sonnei strain 189257	WGS	4672578	Good	0	452	95.3	96.8		
+624.2148	Shigella sonnei strain 190609	WGS	4666492	Good	0	486	95.3	97		
+624.2056	Shigella sonnei strain 193412	WGS	4621631	Good	0	465	95.3	96.9		
+624.2046	Shigella sonnei strain 195615	WGS	4628629	Good	0	477	95.3	97		
+624.2205	Shigella sonnei strain 195745	WGS	4715039	Good	0	93	96.3	97.2		
+624.2150	Shigella sonnei strain 195634	WGS	4797620	Good	0	522	95	96.8		
+624.2093	Shigella sonnei strain 195832	WGS	4690519	Good	0	491	95.1	97		
+624.1951	Shigella sonnei strain 195774	WGS	4629502	Good	0	502	95.3	97		
+624.2040	Shigella sonnei strain 196411	WGS	4938501	Good	0	603	94.9	97		
+624.2170	Shigella sonnei strain 198256	WGS	4700210	Good	0	463	95.2	96.8		
+624.2024	Shigella sonnei strain 198257	WGS	4807408	Good	0	517	95.4	97		
+624.2191	Shigella sonnei strain 199832	WGS	4789473	Good	0	526	95.3	97		
+624.2107	Shigella sonnei strain 201535	WGS	4699916	Good	0	470	95.3	97		
+624.1938	Shigella sonnei strain 206716	WGS	4686838	Good	0	475	95.4	97		
+624.1994	Shigella sonnei strain 207511	WGS	4701737	Good	0	509	95.3	96.9		
+624.1960	Shigella sonnei strain 208953	WGS	4564349	Good	0	441	95.3	97		
+624.2008	Shigella sonnei strain 208954	WGS	4810881	Good	0	529	95	96.9		
+624.1997	Shigella sonnei strain 150955	WGS	4640865	Good	0	479	95.2	96.9		
+624.2074	Shigella sonnei strain 158935	WGS	4846107	Good	0	523	95	96.9		
+624.1967	Shigella sonnei strain 164668	WGS	4751429	Good	0	503	95.3	96.9		
+624.2122	Shigella sonnei strain 164681	WGS	4616594	Good	0	510	95.1	96.9		
+624.1958	Shigella sonnei strain 168534	WGS	4556172	Good	0	461	95.3	97		
+624.1962	Shigella sonnei strain 170445	WGS	4433130	Good	0	416	95.3	96.9		
+624.1897	Shigella sonnei strain 172320	WGS	4569630	Good	0	481	95.3	96.9		
+624.2083	Shigella sonnei strain 181982	WGS	4723954	Good	0	482	95.2	96.9		
+624.1880	Shigella sonnei strain 185474	WGS	4574278	Good	0	457	95.3	96.9		
+624.2065	Shigella sonnei strain 185939	WGS	4537834	Good	0	431	95.2	96.9		
+624.2076	Shigella sonnei strain 186593	WGS	4406038	Good	0	416	95.3	96.9		
+624.2184	Shigella sonnei strain 190571	WGS	4441952	Good	0	428	95.3	96.9		
+624.2104	Shigella sonnei strain 192923	WGS	4606418	Good	0	463	95.3	96.9		
+624.2130	Shigella sonnei strain 200622	WGS	4767398	Good	0	471	95	96.9		
+624.2003	Shigella sonnei strain 203677	WGS	4602213	Good	0	475	95.3	96.9		
+624.2186	Shigella sonnei strain 203686	WGS	4701559	Good	0	471	95.3	96.9		
+624.2132	Shigella sonnei strain 203384	WGS	4823020	Good	0	484	95	96.9		
+624.1977	Shigella sonnei strain 206717	WGS	4619109	Good	0	497	95.1	96.9		
+624.2049	Shigella sonnei strain 207544	WGS	4591913	Good	0	461	95.3	96.9		
+624.2029	Shigella sonnei strain 149263	WGS	4701831	Good	0	457	95.4	97		
+624.1927	Shigella sonnei strain 149264	WGS	4710908	Good	0	480	95.4	97		
+624.2025	Shigella sonnei strain 152504	WGS	4630110	Good	0	473	95.2	97		
+624.1987	Shigella sonnei strain 154829	WGS	4702533	Good	0	505	95.1	96.8		
+624.2019	Shigella sonnei strain 155590	WGS	4574284	Good	0	539	95.3	97		
+624.2174	Shigella sonnei strain 155598	WGS	4577830	Good	0	512	95.3	97		
+624.1942	Shigella sonnei strain 161911	WGS	4777285	Good	0	493	95.4	97		
+624.2068	Shigella sonnei strain 161936	WGS	4636429	Good	0	466	95	96.8		
+624.2055	Shigella sonnei strain 163131	WGS	4609206	Good	0	480	95	96.7		
+624.1940	Shigella sonnei strain 163134	WGS	4762216	Good	0	493	95.1	96.8		
+624.1996	Shigella sonnei strain 164829	WGS	4579916	Good	0	475	95.1	97		
+624.2135	Shigella sonnei strain 170365	WGS	4682851	Good	0	509	95.3	96.9		
+624.1907	Shigella sonnei strain 170444	WGS	4600354	Good	0	499	95.3	97		
+624.1919	Shigella sonnei strain 176235	WGS	4550051	Good	0	427	95.3	97		
+624.2152	Shigella sonnei strain 174675	WGS	4457418	Good	0	430	95.3	97		
+624.1883	Shigella sonnei strain 174676	WGS	4457703	Good	0	448	95.2	97		
+624.2098	Shigella sonnei strain 176409	WGS	4479070	Good	0	430	95.3	97		
+624.2117	Shigella sonnei strain 175561	WGS	4726891	Good	0	491	95.1	96.8		
+624.2136	Shigella sonnei strain 178861	WGS	4625621	Good	0	477	95.1	97		
+624.2101	Shigella sonnei strain 183599	WGS	4698298	Good	0	494	95.2	96.8		
+624.2013	Shigella sonnei strain 183639	WGS	4591853	Good	0	463	95	96.7		
+624.2090	Shigella sonnei strain 188347	WGS	4666736	Good	0	474	95.3	97		
+624.1922	Shigella sonnei strain 194199	WGS	4672308	Good	0	485	95.3	97		
+624.1892	Shigella sonnei strain 201532	WGS	4587154	Good	0	498	95.3	97		
+624.1911	Shigella sonnei strain 204003	WGS	4740444	Good	0	508	95	97		
+624.1926	Shigella sonnei strain 206675	WGS	4502590	Good	0	440	95.3	97		
+624.2200	Shigella sonnei strain 208736	WGS	4716209	Good	0	475	95.4	97		
+624.1860	Shigella sonnei strain AR-0426	Complete	4962700	Good		1	98	99.6		
+624.1206	Shigella sonnei strain FC1659	WGS	4663192	Good		486	95.6	99.6	96.2	4.5
+624.1208	Shigella sonnei strain FC288	WGS	4463048	Good		431	90.5	99.6	98.7	12.5
+624.1669	Shigella sonnei strain 315019	WGS	4655248	Good		414	97.2	99.6		
+624.1671	Shigella sonnei strain 441486	WGS	4656411	Good		434	97.3	99.7		
+624.1677	Shigella sonnei strain 436063	WGS	4486893	Good		426	97.3	99.8		
+624.1683	Shigella sonnei strain 306622	WGS	4600603	Good		448	97.5	99.6		
+624.1684	Shigella sonnei strain 315698	WGS	4800776	Good		503	96.8	99.6		
+624.1686	Shigella sonnei strain 420685	WGS	4493524	Good		382	97.5	99.6		
+624.1689	Shigella sonnei strain 379418	WGS	4550622	Good		468	97.3	99.7		
+624.1690	Shigella sonnei strain 442916	WGS	4585922	Good		384	97.9	99.8		
+624.1692	Shigella sonnei strain 293731	WGS	4431600	Good		410	97.8	99.8		
+624.1696	Shigella sonnei strain 476477	WGS	4795983	Good		499	96.9	99.6		
+624.1699	Shigella sonnei strain 438680	WGS	4650108	Good		430	96.9	99.6		
+624.1701	Shigella sonnei strain 427441	WGS	4649237	Good		502	97.3	99.8		
+624.1711	Shigella sonnei strain 358445	WGS	4528156	Good		472	97.5	99.8		
+624.1716	Shigella sonnei strain 464036	WGS	4732014	Good		479	97.1	99.7		
+624.1719	Shigella sonnei strain 449492	WGS	4516569	Good		420	97.3	99.8		
+624.1724	Shigella sonnei strain 595709	WGS	4728049	Good		441	97	99.7		
+624.1725	Shigella sonnei strain 582890	WGS	4449116	Good		360	97.3	99.6		
+624.1729	Shigella sonnei strain 591955	WGS	4566854	Good		398	97.2	99.7		
+624.1732	Shigella sonnei strain 585992	WGS	4525819	Good		399	97.1	99.7		
+624.1733	Shigella sonnei strain 618327	WGS	4566628	Good		414	97.1	99.8		
+624.1739	Shigella sonnei strain 601589	WGS	4544376	Good		427	97.3	99.7		
+624.1740	Shigella sonnei strain 613850	WGS	4665447	Good		447	97.5	99.8		
+624.1741	Shigella sonnei strain 587340	WGS	4534464	Good		402	97.4	99.8		
+624.1748	Shigella sonnei strain 553863	WGS	4645430	Good		434	97.3	99.7		
+624.1750	Shigella sonnei strain 443507	WGS	4609445	Good		458	97.5	99.8		
+624.1754	Shigella sonnei strain 629359	WGS	4754364	Good		442	97.4	99.7		
+624.1770	Shigella sonnei strain B1788	WGS	5148039	Good		141	99.1	99.9		
+624.1568	Shigella sonnei strain 4028STDY6275268 strain H140920390	WGS	4559794	Good		434	98	99.6	100	0
+624.1857	Shigella sonnei strain FDAARGOS_776 strain Not applicable	WGS	4968373	Good		3	98.4	99.8		
+624.1590	Shigella sonnei strain DMB SH20142	WGS	4484359	Good		636	96.8	99.8	100	0.7
+624.1757	Shigella sonnei strain PNUSAE018279	WGS	4567280	Good		366	97.8	99.8		
+624.1761	Shigella sonnei strain PNUSAE018848	WGS	4681164	Good		403	97.5	99.7		
+624.1186	Shigella sonnei strain sh1367	WGS	4554115	Good		372	98.2	99.7	100	0.3
+624.1188	Shigella sonnei strain sh1417	WGS	4555952	Good		388	98.2	99.7	100	0
+624.1191	Shigella sonnei strain sh1441	WGS	4650289	Good		351	98.2	99.6	100	0
+624.1192	Shigella sonnei strain sh1452	WGS	4606262	Good		358	98.4	99.7	100	0
+624.1200	Shigella sonnei strain sh1474	WGS	4700280	Good		359	98.2	99.7	100	0.3
+624.1203	Shigella sonnei strain sh1480	WGS	4578215	Good		358	98.4	99.7	100	0
+624.1854	Shigella sonnei strain 10 (B) strain 10 (B) strain 10 (B)	WGS	5411556	Good		225	98.7	99.8		
+300269.21	Shigella sonnei Ss046	Plasmid	2101		1	1				
+624.1349	Shigella sonnei strain 4028STDY6329964	WGS	4798564	Good		430	98.1	99.6	100	0
+624.1350	Shigella sonnei strain 4028STDY6329965	WGS	4542954	Good		384	97.9	99.6	100	0
+624.1351	Shigella sonnei strain 4028STDY6329967	WGS	4774897	Good		428	97.8	99.6	100	0.3
+624.1354	Shigella sonnei strain 4028STDY6329974	WGS	4656442	Good		408	98.1	99.6	100	0
+624.1359	Shigella sonnei strain 4028STDY6329998	WGS	4785423	Good		383	97.7	99.6	100	0
+624.1365	Shigella sonnei strain 4028STDY6329945	WGS	4751285	Good		374	97.8	99.5	100	0
+624.1371	Shigella sonnei strain 4028STDY6329988	WGS	4779825	Good		386	97.8	99.6	100	0.3
+624.1372	Shigella sonnei strain 4028STDY6329953	WGS	4519125	Good		350	98.1	99.6	100	0
+624.1374	Shigella sonnei strain 4028STDY6329977	WGS	4521991	Good		367	97.9	99.6	99.7	0
+624.1376	Shigella sonnei strain 4028STDY6329961	WGS	4608249	Good		386	98.1	99.7	100	0
+624.1379	Shigella sonnei strain 4028STDY6329955	WGS	4532090	Good		365	98.1	99.7	98.7	0
+624.1382	Shigella sonnei strain 4028STDY6329950	WGS	4594359	Good		375	98.2	99.7	100	0
+624.1385	Shigella sonnei strain 4028STDY6329947	WGS	4612546	Good		358	98	99.7	100	0
+624.1392	Shigella sonnei strain 4028STDY6330002	WGS	4590476	Good		379	98.2	99.7	100	0
+624.1393	Shigella sonnei strain 4028STDY6329995	WGS	4612404	Good		375	98.2	99.7	100	0
+624.1395	Shigella sonnei strain 4028STDY6329991	WGS	4590001	Good		377	98.2	99.7	100	0
+624.1400	Shigella sonnei strain 4028STDY6329989	WGS	4681481	Good		381	98	99.6	99.7	0
+624.1403	Shigella sonnei strain 4028STDY6329938	WGS	4552121	Good		394	98.2	99.7	99.7	0
+624.1406	Shigella sonnei strain 4028STDY6330012	WGS	4551364	Good		368	98.1	99.7	99.7	0
+624.1600	Shigella sonnei strain 4028STDY6329946	WGS	4667288	Good		377	98.2	99.7	100	0
+624.1601	Shigella sonnei strain 4028STDY6329943	WGS	4557112	Good		368	98.2	99.7	100	0
+624.1602	Shigella sonnei strain 4028STDY6329959	WGS	4707220	Good		429	97.9	99.6	100	0.3
+624.1603	Shigella sonnei strain 4028STDY6329951	WGS	4916335	Good		501	98	99.6	100	0
+624.1604	Shigella sonnei strain 4028STDY6329981	WGS	4928737	Good		506	98.2	99.7	100	0
+624.1792	Shigella sonnei strain 303	WGS	4870805	Good		631	97.9	99.6		
+624.102	Shigella sonnei strain CS2_1361373	WGS	4668944	Good		478	97.9	99.6	97.4	0
+624.113	Shigella sonnei strain 20040880_1361372	WGS	4474980	Good		451	97.9	99.7	100	0
+624.1169	Shigella sonnei strain sh1461	WGS	4711917	Good		376	97.9	99.2	100	0
+624.1219	Shigella sonnei strain ECCRETH06	WGS	4867047	Good		116	99	99.9	100	1
+624.1222	Shigella sonnei strain ECCTRPRTH04	WGS	5067079	Good		163	99.2	99.8	100	0
+624.1226	Shigella sonnei strain ECH+11	WGS	4981592	Good		87	99.1	99.9	100	0.3
+624.1230	Shigella sonnei strain ECLC+06	WGS	4705166	Good		117	99.2	100	100	0.6
+624.1231	Shigella sonnei strain ECH+16	WGS	5632594	Good		375	97.4	99.6	100	2.9
+624.1232	Shigella sonnei strain ECLC+07	WGS	4767435	Good		139	98.4	99.6	99.7	0.3
+624.1238	Shigella sonnei strain ECSW+13	WGS	4690832	Good		84	98.7	99.6	97.7	1.6
+624.1245	Shigella sonnei strain ECH+21	WGS	4769390	Good		95	99.3	100	97.7	1
+624.1249	Shigella sonnei strain ECPSTH04	WGS	4910741	Good		126	99.6	100	97.7	2.3
+624.1250	Shigella sonnei strain ECPSTH07	WGS	4893140	Good		127	98.9	99.9	97.7	0.3
+624.1252	Shigella sonnei strain ECH+14	WGS	4802040	Good		92	98.4	99.6	100	0
+624.1263	Shigella sonnei strain ECPUTH07	WGS	4925576	Good		122	98.2	99.1	100	1
+624.1266	Shigella sonnei strain ECCTRSRTH08	WGS	4896419	Good		150	98.7	99.9	100	1
+624.1268	Shigella sonnei strain ECFood+06	WGS	4816268	Good		89	98.6	99.3	97.7	1
+624.1269	Shigella sonnei strain ECFood+08	WGS	5020809	Good		138	98.7	99.7	100	1.3
+624.127	Shigella sonnei strain ShIB1_401077	WGS	4587937	Good		377	97.9	99.6	99	0
+624.1270	Shigella sonnei strain ECFood+09	WGS	4854649	Good		79	98.4	100	100	0.5
+624.130	Shigella sonnei strain ShIB3580_440836	WGS	4524410	Good		416	98	99.7	100	0.6
+624.135	Shigella sonnei strain Sh54190_440884	WGS	4641833	Good		416	97.9	99.4	100	0.6
+624.140	Shigella sonnei strain ShIB3277_440831	WGS	4520818	Good		414	98	99.6	100	0
+624.160	Shigella sonnei strain ShIB2008_440761	WGS	4401747	Good		417	98.2	99.7	100	0.3
+624.181	Shigella sonnei strain ShIB1987_440754	WGS	4535932	Good		424	98.2	99.7	100	0
+624.193	Shigella sonnei strain Sh373_441041	WGS	4553769	Good		405	96.9	99	96.7	1.3
+624.225	Shigella sonnei strain ShIB2013_440764	WGS	4557449	Good		416	98.1	99.5	100	0
+624.251	Shigella sonnei strain 20061309_1361392	WGS	4422744	Good		354	98.2	99.7	100	0
+624.268	Shigella sonnei strain Sh36224_441098	WGS	4364023	Good		371	97.9	99.7	100	0
+624.279	Shigella sonnei strain 19984123_1361396	WGS	4492773	Good		473	97.9	99.7	100	0.6
+624.297	Shigella sonnei strain ShIB48279_440830	WGS	4539337	Good		418	98.1	99.7	100	0
+624.316	Shigella sonnei strain Sh55623_401055	WGS	4534207	Good		348	98.2	99.7	100	0
+624.318	Shigella sonnei strain 20062087_1361418	WGS	4650433	Good		401	97.9	99.6	100	0
+624.327	Shigella sonnei strain Sh476_441046	WGS	4542752	Good		394	97.7	99.3	98.7	1
+624.335	Shigella sonnei strain ShIB3488_440834	WGS	4514520	Good		410	97.8	99.7	100	0.6
+624.349	Shigella sonnei strain Sh65387_401059	WGS	4370972	Good		414	97.7	99.7	100	0.3
+624.375	Shigella sonnei strain 19910761_1361368	WGS	4611369	Good		430	98.4	99.7	100	0.6
+624.387	Shigella sonnei strain 19904011_1361399	WGS	4635250	Good		407	98.2	99.7	100	0
+624.395	Shigella sonnei strain ShIB3374_440833	WGS	4407426	Good		368	98	99.7	100	0
+624.437	Shigella sonnei strain Sh1460_440931	WGS	4578226	Good		397	96.9	99	98.7	1.1
+624.479	Shigella sonnei strain ShIB2018_440826	WGS	4536906	Good		396	98	99.7	100	0
+624.485	Shigella sonnei strain Sh1173_441038	WGS	4438913	Good		351	98	99.5	99.3	0
+624.519	Shigella sonnei strain Sh259_440930	WGS	4657078	Good		355	97.9	99.4	100	1.4
+624.525	Shigella sonnei strain CS7_1361423	WGS	4751241	Good		416	97.8	99.5	100	0
+624.535	Shigella sonnei strain ShIB3300_440832	WGS	4531170	Good		394	98.2	99.7	100	0
+624.545	Shigella sonnei strain ShIB3_401079	WGS	4666958	Good		355	98	99.6	99.7	0.3
+624.550	Shigella sonnei strain CS6_1361402	WGS	4628677	Good		434	98.2	99.6	100	0
+624.556	Shigella sonnei strain Sh54178_440879	WGS	4634927	Good		398	97.8	99.6	99.7	0
+624.566	Shigella sonnei strain Sh9810267_441091	WGS	4649905	Good		379	98.4	99.7	100	0.3
+624.577	Shigella sonnei strain Sh4374_441044	WGS	4677987	Good		361	97.8	99.4	100	0.6
+624.579	Shigella sonnei strain CS20_1361401	WGS	4691571	Good		413	98	99.6	100	0
+624.592	Shigella sonnei strain 20062313_1361422	WGS	4635209	Good		408	97.9	99.6	97.7	0
+624.594	Shigella sonnei strain Sh66470_401063	WGS	4517880	Good		336	98.3	99.6	100	0
+624.610	Shigella sonnei strain Sh74369_401064	WGS	4718224	Good		348	98.2	99.6	100	0.1
+624.627	Shigella sonnei strain 20010007_1361421	WGS	4753133	Good		431	98.2	99.6	99.7	0
+624.83	Shigella sonnei strain Sh8883_441047	WGS	4241680	Good		372	97.5	99.1	99.3	0.7
+624.91	Shigella sonnei strain Sh988743_441089	WGS	4449067	Good		399	97.6	99.2	99.3	0.3
+624.1329	Shigella sonnei	Plasmid	2083		1	1				
+624.1328	Shigella sonnei strain 10188	Plasmid	94089		1	1				
+624.1310	Shigella sonnei strain 75/02	Plasmid	40443		1	1				
+624.1307	Shigella sonnei strain 75/02	Plasmid	3619		1	1				
+624.1296	Shigella sonnei strain FORC_011	Plasmid	83905		1	1				
+624.1297	Shigella sonnei strain FORC_011	Plasmid	8405		1	1				
+624.1303	Shigella sonnei strain FDAARGOS_90	Plasmid	8420		1	1				
+624.1300	Shigella sonnei strain FDAARGOS_90	Plasmid	1585		1	1				
+624.1773	Shigella sonnei strain GCID_CRE_0011	WGS	5371011	Good		243	98.1	99.8		
+624.1774	Shigella sonnei strain GCID_CRE_0007	WGS	5154253	Good		137	98.4	99.9		
+624.1779	Shigella sonnei strain GCID_CRE_0035	WGS	5303154	Good		175	99.3	99.7		
+624.1780	Shigella sonnei strain GCID_CRE_0036	WGS	5437766	Poor		189	99	99.7		
+624.1866	Shigella sonnei strain FDAARGOS_715 strain Not applicable	Complete	5109793	Good	5	6	95.2	97		
+624.2622	Shigella sonnei strain AUSMDU00008172	WGS	4522414	Good	0	441	98	99.8		
+624.2623	Shigella sonnei strain AUSMDU00008352	WGS	4423099	Good	0	469	98.5	99.8		
+624.2626	Shigella sonnei strain AUSMDU00008740	WGS	4625020	Good	0	449	98	99.8		
+624.2621	Shigella sonnei strain AUSMDU00009141	WGS	4515206	Good	0	439	98.3	99.8		
+624.2264	Shigella sonnei strain AUSMDU00005727	WGS	4399871	Good	0	445	98.2	99.7		
+624.2261	Shigella sonnei strain AUSMDU00005729	WGS	4374495	Good	0	444	98.2	99.7		
+624.2265	Shigella sonnei strain AUSMDU00006669	WGS	4562921	Good	0	361	98.5	99.6		
+624.2266	Shigella sonnei strain AUSMDU00006670	WGS	4596673	Good	0	422	98.2	99.2		
+624.2286	Shigella sonnei strain AUSMDU00007321	WGS	4521549	Good	0	485	98	99.8		
+624.2283	Shigella sonnei strain AUSMDU00007327	WGS	4302790	Good	0	427	98.2	99.7		
+624.2284	Shigella sonnei strain AUSMDU00007328	WGS	4438467	Good	0	483	98.5	99.8		
+624.2279	Shigella sonnei strain AUSMDU00007989	WGS	4384725	Good	0	435	98.1	99.5		
+624.2296	Shigella sonnei strain AUSMDU00008173	WGS	4517474	Good	0	411	97.9	99.6		
+624.2294	Shigella sonnei strain AUSMDU00008178	WGS	4300884	Good	0	368	98.2	99.6		
+624.2287	Shigella sonnei strain AUSMDU00008179	WGS	4595647	Good	0	389	97.6	99.6		
+624.2289	Shigella sonnei strain AUSMDU00008183	WGS	4679842	Good	0	378	98.1	99.8		
+624.2288	Shigella sonnei strain AUSMDU00008186	WGS	4313375	Good	0	369	98.2	99.7		
+624.2301	Shigella sonnei strain AUSMDU00008334	WGS	4473237	Good	0	350	98.8	99.8		
+624.2312	Shigella sonnei strain AUSMDU00008339	WGS	4441601	Good	0	340	98.4	99.5		
+624.2316	Shigella sonnei strain AUSMDU00008353	WGS	4353219	Good	0	378	98.3	99.8		
+624.2323	Shigella sonnei strain AUSMDU00008364	WGS	4733341	Good	0	372	97.9	99.6		
+624.2332	Shigella sonnei strain AUSMDU00008605	WGS	4443124	Good	0	404	98.3	99.8		
+624.2338	Shigella sonnei strain AUSMDU00008964	WGS	4485143	Good	0	402	98	99.8		
+624.2342	Shigella sonnei strain AUSMDU00009106	WGS	4331196	Good	0	419	98.2	99.7		
+624.2345	Shigella sonnei strain AUSMDU00009140	WGS	4559857	Good	0	421	98.1	99.8		
+624.2361	Shigella sonnei strain AUSMDU00009149	WGS	4371117	Good	0	413	98.2	99.8		
+624.2354	Shigella sonnei strain AUSMDU00009150	WGS	4535299	Good	0	415	97.9	99.7		
+624.2352	Shigella sonnei strain AUSMDU00009151	WGS	4561788	Good	0	419	98.1	99.8		
+624.2357	Shigella sonnei strain AUSMDU00009156	WGS	4625576	Good	0	449	97.9	99.7		
+624.2355	Shigella sonnei strain AUSMDU00009159	WGS	4555369	Good	0	430	98.1	99.8		
+624.2371	Shigella sonnei strain AUSMDU00009165	WGS	4371669	Good	0	406	98.3	99.7		
+624.2376	Shigella sonnei strain AUSMDU00009186	WGS	4559456	Good	0	419	98.4	99.6		
+624.2377	Shigella sonnei strain AUSMDU00009187	WGS	4623883	Good	0	555	97.8	99.6		
+624.2390	Shigella sonnei strain AUSMDU00009360	WGS	4350089	Good	0	393	98	99.6		
+624.2391	Shigella sonnei strain AUSMDU00009361	WGS	4482408	Good	0	384	98.7	99.7		
+624.2393	Shigella sonnei strain AUSMDU00009365	WGS	4865881	Good	0	378	97.7	99.5		
+624.2387	Shigella sonnei strain AUSMDU00009372	WGS	4516943	Good	0	409	98	99.7		
+624.2400	Shigella sonnei strain AUSMDU00009376	WGS	4557750	Good	0	436	98.5	99.8		
+624.2395	Shigella sonnei strain AUSMDU00009387	WGS	4585331	Good	0	408	98.1	99.2		
+624.2408	Shigella sonnei strain AUSMDU00009401	WGS	4532163	Good	0	412	98	99.7		
+624.2427	Shigella sonnei strain AUSMDU00009406	WGS	4454788	Good	0	402	98.4	99.8		
+624.2425	Shigella sonnei strain AUSMDU00009407	WGS	4569217	Good	0	427	98.1	99.8		
+624.2417	Shigella sonnei strain AUSMDU00009415	WGS	4451886	Good	0	346	98.7	99.7		
+624.2423	Shigella sonnei strain AUSMDU00009418	WGS	4736659	Good	0	409	98	99.7		
+624.2434	Shigella sonnei strain AUSMDU00009420	WGS	4553082	Good	0	452	98.3	99.7		
+624.2436	Shigella sonnei strain AUSMDU00009443	WGS	4379291	Good	0	387	98.4	99.8		
+624.2432	Shigella sonnei strain AUSMDU00009457	WGS	4522786	Good	0	475	97.9	99.8		
+624.2437	Shigella sonnei strain AUSMDU00009461	WGS	4449917	Good	0	401	98.3	99.8		
+624.2448	Shigella sonnei strain AUSMDU00009469	WGS	4574147	Good	0	408	97.9	99.8		
+624.2446	Shigella sonnei strain AUSMDU00009470	WGS	4301873	Good	0	405	98.3	99.7		
+624.2447	Shigella sonnei strain AUSMDU00009471	WGS	4485321	Good	0	404	98	99.8		
+624.2458	Shigella sonnei strain AUSMDU00009487	WGS	4570679	Good	0	423	98.1	99.8		
+624.2455	Shigella sonnei strain AUSMDU00009491	WGS	4497532	Good	0	401	98.1	99.8		
+624.2471	Shigella sonnei strain AUSMDU00009494	WGS	4341292	Good	0	411	98.2	99.7		
+624.2468	Shigella sonnei strain AUSMDU00009496	WGS	4499772	Good	0	392	98.1	99.8		
+624.2469	Shigella sonnei strain AUSMDU00009497	WGS	4572973	Good	0	412	98.1	99.8		
+624.2464	Shigella sonnei strain AUSMDU00009532	WGS	4472480	Good	0	445	97.9	99.7		
+624.2482	Shigella sonnei strain AUSMDU00009533	WGS	4600486	Good	0	489	98.1	99.8		
+624.2474	Shigella sonnei strain AUSMDU00009594	WGS	4478946	Good	0	457	97.9	99.7		
+624.2473	Shigella sonnei strain AUSMDU00009623	WGS	4373476	Good	0	398	98.4	99.8		
+624.2485	Shigella sonnei strain AUSMDU00010003	WGS	4552368	Good	0	419	97.9	99.7		
+624.2490	Shigella sonnei strain AUSMDU00010012	WGS	4734470	Good	0	484	97.6	99.6		
+624.2493	Shigella sonnei strain AUSMDU00010018	WGS	4734157	Good	0	484	97.6	99.6		
+624.2498	Shigella sonnei strain AUSMDU00010029	WGS	4476045	Good	0	378	98.8	99.8		
+624.2501	Shigella sonnei strain AUSMDU00010032	WGS	4625598	Good	0	443	97.9	99.8		
+624.2512	Shigella sonnei strain AUSMDU00010046	WGS	4543048	Good	0	432	98	99.8		
+624.2509	Shigella sonnei strain AUSMDU00010077	WGS	4469197	Good	0	398	98.4	99.8		
+624.2507	Shigella sonnei strain AUSMDU00010087	WGS	4621539	Good	0	428	97.9	99.7		
+624.2521	Shigella sonnei strain AUSMDU00010094	WGS	4518105	Good	0	395	98.4	99.8		
+624.2516	Shigella sonnei strain AUSMDU00010121	WGS	4565671	Good	0	480	98.8	99.8		
+624.2520	Shigella sonnei strain AUSMDU00010123	WGS	4439939	Good	0	399	98.3	99.8		
+624.2519	Shigella sonnei strain AUSMDU00010126	WGS	4548474	Good	0	417	98.1	99.8		
+624.2536	Shigella sonnei strain AUSMDU00010127	WGS	4447776	Good	0	407	98.2	99.7		
+624.2533	Shigella sonnei strain AUSMDU00010164	WGS	4536209	Good	0	438	97.9	99.7		
+624.2530	Shigella sonnei strain AUSMDU00010205	WGS	4683338	Good	0	456	97.8	99.6		
+624.2531	Shigella sonnei strain AUSMDU00010206	WGS	4547374	Good	0	389	98.7	99.8		
+624.2529	Shigella sonnei strain AUSMDU00010250	WGS	4528808	Good	0	441	97.9	99.7		
+624.2527	Shigella sonnei strain AUSMDU00010251	WGS	4748260	Good	0	502	97.6	99.5		
+624.2548	Shigella sonnei strain AUSMDU00010459	WGS	4369038	Good	0	387	98.4	99.8		
+624.2542	Shigella sonnei strain AUSMDU00010473	WGS	4450774	Good	0	403	98.3	99.8		
+624.2544	Shigella sonnei strain AUSMDU00010608	WGS	4613300	Good	0	427	97.7	99.6		
+624.2558	Shigella sonnei strain AUSMDU00010702	WGS	4517193	Good	0	426	98.7	99.7		
+624.2554	Shigella sonnei strain AUSMDU00010912	WGS	4655631	Good	0	501	97.7	99.6		
+624.2551	Shigella sonnei strain AUSMDU00010918	WGS	4384001	Good	0	394	98.3	99.8		
+624.2550	Shigella sonnei strain AUSMDU00010919	WGS	4362066	Good	0	440	98.3	99.7		
+624.2562	Shigella sonnei strain AUSMDU00011144	WGS	4346470	Good	0	394	98.2	99.7		
+624.2575	Shigella sonnei strain AUSMDU00011480	WGS	4594441	Good	0	443	97.9	99.6		
+624.2585	Shigella sonnei strain AUSMDU00012493	WGS	4424780	Good	0	432	98.2	99.8		
+624.2586	Shigella sonnei strain AUSMDU00012499	WGS	4600672	Good	0	463	97.9	99.7		
+624.2590	Shigella sonnei strain AUSMDU00012503	WGS	4351901	Good	0	400	98.2	99.7		
+624.2602	Shigella sonnei strain AUSMDU00012507	WGS	4358666	Good	0	378	98.2	99.7		
+624.2597	Shigella sonnei strain AUSMDU00012898	WGS	4572746	Good	0	482	97.9	99.4		
+624.2600	Shigella sonnei strain AUSMDU00012914	WGS	4608275	Good	0	445	97.9	99.7		
+624.2612	Shigella sonnei strain AUSMDU00013458	WGS	4344690	Good	0	395	98.4	99.8		
+624.2605	Shigella sonnei strain AUSMDU00013594	WGS	4593733	Good	0	392	98.7	99.8		
+624.2607	Shigella sonnei strain AUSMDU00013808	WGS	4549213	Good	0	462	98.3	99.8		
+624.2610	Shigella sonnei strain AUSMDU00013821	WGS	4647753	Good	0	446	97.6	99.5		
+624.2608	Shigella sonnei strain AUSMDU00013958	WGS	4609183	Good	0	429	97.8	99.6		
+624.2620	Shigella sonnei strain AUSMDU00013986	WGS	4527781	Good	0	407	98.3	99.8		
+624.2642	Shigella sonnei strain 598080	WGS	5282682	Good	4	6	98.5	99.9		
+624.1801	Shigella sonnei strain 26501ss_1	WGS	4762219	Good		424	95.3	98.7		
+624.1803	Shigella sonnei strain H134560191	WGS	4950158	Good		511	97.7	99.3		
+624.1804	Shigella sonnei strain 31401ss_1	WGS	4704935	Good		472	95.4	98.2		
+624.1806	Shigella sonnei strain 35801ss_1	WGS	4724719	Good		453	92	97.6		
+624.1808	Shigella sonnei strain 48001ss_1	WGS	4716643	Good		453	95.8	98.8		
+624.1815	Shigella sonnei strain 53801ss_1	WGS	4737422	Good		417	95.4	98.8		
+624.1817	Shigella sonnei strain 36301B_1	WGS	4802359	Good		429	94.9	98.2		
+624.1820	Shigella sonnei strain 44301ss_1	WGS	4721871	Good		380	93.7	97.3		
+624.1821	Shigella sonnei strain 28501ss_1	WGS	4567515	Good		415	95.3	98.2		
+624.1824	Shigella sonnei strain 07401ss_1	WGS	4749372	Good		377	95.8	98.6		
+624.1827	Shigella sonnei strain 35501ss_1	WGS	4864473	Good		449	94.5	97.8		
+624.1829	Shigella sonnei strain 14601ss_1	WGS	4757793	Good		387	93.2	96.2		
+624.1831	Shigella sonnei strain 24701ss_1	WGS	4744180	Good		440	95	98.4		
+624.1833	Shigella sonnei strain 36301A_1	WGS	4504905	Good		371	95.9	98.4		
+624.1839	Shigella sonnei strain 44201ss_1	WGS	4690764	Good		404	92.8	97		
+624.1846	Shigella sonnei strain 35901ss_1	WGS	4743912	Good		475	94.6	97.6		
+624.1849	Shigella sonnei strain 42501ss_1	WGS	4607376	Good		413	96.6	99.1		
+624.1810	Shigella sonnei strain ShIB2015_440825	WGS	4428382	Good		506	93.6	97.3		
+624.1841	Shigella sonnei strain ShIB1995_440757	WGS	4396202	Good		558	87.2	92.4		
+624.1856	Shigella sonnei strain AUSMDU00008361	Complete	5028685	Good	2	3	97.8	99.7		
+624.1865	Shigella sonnei strain AUSMDU00010534	Complete	5107412	Good	8	9	95	96.9		
+624.1819	Shigella sonnei strain Sh54185_440883	WGS	4564562	Good		624	91.4	96.5		
+624.1834	Shigella sonnei strain Sh998911_441092	WGS	4647897	Good		672	87.1	93.5		
+624.2257	Shigella sonnei strain UKMCC_1015	Complete	4935775	Good	2	3	95.6	97		
+624.1838	Shigella sonnei strain ShIB3599_440877	WGS	4440392	Good		559	97.7	99.6		
+624.1853	Shigella sonnei strain CFSAN059652	WGS	4528736	Good		384	97.9	99.7		
+624.1835	Shigella sonnei strain ShIB716_440732	WGS	4673999	Good		634	96.3	99		
+624.1859	Shigella sonnei strain KCCM 41282	Complete	4926411	Good		1	98	99.7		
+624.2209	Shigella sonnei strain 0401952027	Complete	4909546	Good	1	2	95.3	96.9		
+624.2212	Shigella sonnei strain 0401930105	Complete	4873589	Good	1	2	95.1	96.7		
+624.2213	Shigella sonnei strain 19.1125.3493	Complete	4873610	Good	1	2	95.3	96.9		
+624.2215	Shigella sonnei strain 19.0820.1561	Complete	4881506	Good	1	2	95.1	96.8		
+624.2218	Shigella sonnei strain 1205.3131	Complete	4967371	Good	1	2	95.3	96.9		
+624.2219	Shigella sonnei strain L4094	Complete	4969386	Good	1	2	95.4	96.9		
+624.2222	Shigella sonnei strain 3123885	WGS	4880093	Good	0	612	94.6	96.8		
+624.2223	Shigella sonnei strain 19.1125.3493	WGS	4508846	Good	0	498	94.5	96.9		
+624.2224	Shigella sonnei strain 7111.69	WGS	4603971	Good	0	500	95.4	97		
+624.2225	Shigella sonnei strain L4094	WGS	4599675	Good	0	473	95.3	97		
+624.2230	Shigella sonnei strain 19.0822.3296	WGS	4536136	Good	0	512	95	96.9		
+624.2233	Shigella sonnei strain 509.1022	WGS	4520722	Good	0	445	95.2	96.9		
+624.2235	Shigella sonnei strain 6101.40	WGS	4580777	Good	0	516	95	96.9		
+624.2240	Shigella sonnei strain 6502.32	WGS	4517923	Good	0	460	94.8	96.8		
+624.2244	Shigella sonnei strain 7103.28	WGS	4722180	Good	0	478	95.1	97		

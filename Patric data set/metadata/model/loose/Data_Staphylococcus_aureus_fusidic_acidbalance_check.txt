@@ -1,0 +1,9 @@
+resistant_phenotype	genome_id
+Resistant	296
+Susceptible	444
+resistant_phenotype	genome_id
+Resistant	296
+Susceptible	444
+resistant_phenotype	genome_id
+Resistant	296
+Susceptible	444

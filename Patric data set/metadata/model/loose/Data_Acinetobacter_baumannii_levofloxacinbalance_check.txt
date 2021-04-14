@@ -1,0 +1,6 @@
+resistant_phenotype	genome_id
+Resistant	177
+Susceptible	118
+resistant_phenotype	genome_id
+Resistant	177
+Susceptible	118

@@ -1,0 +1,3 @@
+resistant_phenotype	genome_id
+Resistant	105
+Susceptible	157

@@ -1,0 +1,9 @@
+resistant_phenotype	genome_id
+Resistant	1351
+Susceptible	2026
+resistant_phenotype	genome_id
+Resistant	1351
+Susceptible	2026
+resistant_phenotype	genome_id
+Resistant	1351
+Susceptible	2026

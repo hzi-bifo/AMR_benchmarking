@@ -1,0 +1,3 @@
+resistant_phenotype	genome_id
+0	95
+1	134

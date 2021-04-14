@@ -1,0 +1,3 @@
+resistant_phenotype	genome_id
+RS	116
+Susceptible	174

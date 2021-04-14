@@ -1,0 +1,509 @@
+	genome.genome_id	genome.genome_name	genome.genome_status	genome.genome_length	genome.genome_quality	genome.plasmids	genome.contigs	genome.fine_consistency	genome.coarse_consistency	genome.checkm_completeness	genome.checkm_contamination
+0	336306.33	Enterobacter cloacae subsp. cloacae strain MN73R	WGS	4759704.0	Good		24	98.6	99.3	100.0	0.0
+1	336306.32	Enterobacter cloacae subsp. cloacae strain CAPREX E2-2	WGS	5028994.0	Good		21	98.4	99.5	100.0	0.0
+2	1203195.3	Enterobacter cloacae subsp. cloacae 08XA1	WGS	4875756.0	Good	0.0	51	98.2	99.3	99.7	0.0
+3	1211025.3	Enterobacter cloacae subsp. cloacae ENHKU01	Complete	4726582.0	Good	0.0	1	98.2	99.3	100.0	0.0
+4	336306.25	Enterobacter cloacae subsp. cloacae strain SZECL	WGS	4893955.0	Good		29	98.2	99.4	100.0	0.0
+5	336306.31	Enterobacter cloacae subsp. cloacae strain CAPREX_E7	WGS	5034327.0	Good		15	98.4	99.5	100.0	0.0
+6	336306.12	Enterobacter cloacae subsp. cloacae strain WCHECl-1060	WGS	4810359.0	Good		28	98.2	99.3	100.0	0.6
+7	336306.15	Enterobacter cloacae subsp. cloacae strain ST252:19870317JSK	WGS	4870580.0	Good		99	97.7	99.1	100.0	0.3
+8	1619244.3	Enterobacter sp. 35669	WGS	4997010.0	Good		66	98.6	99.5	100.0	0.3
+9	550.854	Enterobacter cloacae strain e381	WGS	5043172.0	Good		29	98.4	99.9	98.4	1.7
+10	550.340	Enterobacter cloacae strain MNCRE36	WGS	4965829.0	Good		84	97.4	99.2	100.0	0.9
+11	550.1537	Enterobacter cloacae strain amazonensis	WGS	5053980.0	Good		69	97.9	99.2	99.4	0.9
+12	550.274	Enterobacter cloacae strain MNCRE7	WGS	4960370.0	Good		74	97.1	99.3	100.0	0.3
+13	550.257	Enterobacter cloacae strain MNCRE84	WGS	4916081.0	Good		100	97.3	99.2	100.0	0.6
+14	550.265	Enterobacter cloacae strain MNCRE25	WGS	4968960.0	Good		100	97.7	99.2	100.0	0.8
+15	550.344	Enterobacter cloacae strain MNCRE83	WGS	4881652.0	Good		100	97.4	99.0	99.7	0.0
+16	550.978	Enterobacter cloacae strain INSali10	WGS	4949459.0	Good		63	97.1	99.6	100.0	0.0
+17	550.279	Enterobacter cloacae strain MNCRE38	WGS	4960708.0	Good		100	97.5	99.2	100.0	0.0
+18	550.276	Enterobacter cloacae strain MNCRE8	WGS	4962676.0	Good		68	97.4	99.3	100.0	0.0
+19	550.347	Enterobacter cloacae strain MNCRE9	WGS	4908651.0	Good		62	97.3	99.2	100.0	0.0
+20	550.486	Enterobacter cloacae strain CAV1411	Complete	5005065.0	Good	2.0	3	98.6	99.6	100.0	0.3
+21	550.1407	Enterobacter cloacae strain ECC3137	WGS	4956996.0	Good		56	98.6	99.6	100.0	0.3
+22	550.1303	Enterobacter cloacae strain 170	WGS	5092096.0	Good		37	98.3	99.4	100.0	0.0
+23	550.133	Enterobacter cloacae ND7	WGS	5020878.0	Good		74	97.0	99.1	100.0	0.0
+24	550.141	Enterobacter cloacae ND4	WGS	4978163.0	Good		78	97.6	99.0	100.0	0.0
+25	550.136	Enterobacter cloacae ND11	WGS	4914264.0	Good		78	97.3	98.9	100.0	0.0
+26	550.137	Enterobacter cloacae ND12	WGS	4975568.0	Good		76	97.3	99.0	100.0	0.0
+27	550.128	Enterobacter cloacae ND13	WGS	4938576.0	Good		77	97.2	99.0	100.0	0.0
+28	69219.6	Enterobacter cloacae subsp. dissolvens strain GN05902	WGS	4991140.0	Good		76	97.0	99.5	100.0	0.8
+29	2080663.3	Enterobacter cloacae complex sp. ECNIH8	WGS	5107527.0	Good		71	98.4	99.6	100.0	0.3
+30	550.489	Enterobacter cloacae strain GN02108	WGS	4704988.0	Good		81	98.0	99.6	100.0	0.0
+31	550.393	Enterobacter cloacae strain GN02450	WGS	4715527.0	Good		22	98.5	99.4	100.0	0.0
+32	550.404	Enterobacter cloacae strain GN02232	WGS	4885342.0	Good		53	97.9	99.3	100.0	0.0
+33	550.406	Enterobacter cloacae strain GN02320	WGS	4967571.0	Good		61	98.3	99.6	100.0	0.3
+34	550.514	Enterobacter cloacae strain GN04300	WGS	4961201.0	Good		94	98.0	99.3	100.0	0.5
+35	1329845.3	Enterobacter cloacae BWH 31	WGS	5190024.0	Good	0.0	30	97.7	99.4	100.0	0.0
+36	1400147.3	Enterobacter cloacae UCI 24	WGS	4769038.0	Good	0.0	7	97.7	99.2	100.0	0.0
+37	1439329.3	Enterobacter cloacae MGH 53	WGS	5056365.0	Good		32	98.0	99.4	100.0	0.0
+38	550.1146	Enterobacter cloacae strain 704SK10	Complete	5051588.0	Good	2.0	3	98.1	99.6	100.0	0.0
+39	550.1220	Enterobacter cloacae strain DS31788	WGS	4767242.0	Good		46	99.3	99.5	99.7	0.0
+40	550.1226	Enterobacter cloacae strain DS11861	WGS	5022728.0	Good		47	98.9	99.5	100.0	0.6
+41	550.1227	Enterobacter cloacae strain DS11005	WGS	4715829.0	Good		29	98.6	99.4	100.0	0.3
+42	550.1409	Enterobacter cloacae strain ECC4240	WGS	4880712.0	Good		54	97.9	99.3	100.0	0.3
+43	550.1417	Enterobacter cloacae strain ECC2572	WGS	4789183.0	Good		30	98.9	99.6	100.0	0.3
+44	550.149	Enterobacter cloacae 6kgm	WGS	4889096.0	Good		78	98.7	99.3	100.0	0.0
+45	550.150	Enterobacter cloacae GGT036	Complete	4848754.0	Good		1	97.9	99.2	100.0	0.0
+46	550.1523	Enterobacter cloacae strain ESP151	WGS	4925587.0	Good		61	98.2	99.6	100.0	0.3
+47	550.1672	Enterobacter cloacae strain NCTC13464	WGS	4845343.0	Good		2	98.4	99.5	100.0	0.8
+48	550.354	Enterobacter cloacae strain CIDEIMsCOL14	WGS	5090391.0	Good		89	98.4	99.6	100.0	0.0
+49	550.366	Enterobacter cloacae strain CIDEIMsCOL20	WGS	4860167.0	Good		91	98.2	99.6	100.0	0.6
+50	550.437	Enterobacter cloacae strain 171_ECLO	WGS	4788973.0	Good		67	98.7	99.5	100.0	0.3
+51	550.456	Enterobacter cloacae strain 559_ECLO	WGS	4869888.0	Good		67	98.3	99.3	100.0	0.0
+52	550.475	Enterobacter cloacae strain LB3	WGS	4810458.0	Good		48	98.3	99.4	100.0	0.0
+53	550.1123	Enterobacter cloacae strain UCI102	WGS	5058259.0	Good		5	97.8	99.2	100.0	0.3
+54	550.1117	Enterobacter cloacae strain MGH159	WGS	5077423.0	Good		6	98.2	99.6	100.0	0.3
+55	550.1119	Enterobacter cloacae strain MGH177	WGS	5154478.0	Good		14	97.4	99.3	99.7	0.0
+56	550.1122	Enterobacter cloacae strain MGH184	WGS	4825632.0	Good		3	98.2	99.5	100.0	0.0
+57	550.1570	Enterobacter cloacae strain TUM10	WGS	4720457.0	Good		79	97.4	99.1	100.0	0.0
+58	550.1575	Enterobacter cloacae strain TUM5376	WGS	4875023.0	Good		89	97.8	99.3	100.0	0.3
+59	550.1074	Enterobacter cloacae strain AR_0002	Complete	5021981.0	Good	1.0	2	97.7	99.3	100.0	0.0
+60	550.1113	Enterobacter cloacae strain AR_0065	Complete	4894829.0	Good	1.0	2	98.4	99.5	100.0	0.0
+61	550.1142	Enterobacter cloacae strain AR_0053	Complete	5132006.0	Good	3.0	4	97.7	99.3	100.0	0.3
+62	550.1526	Enterobacter cloacae strain AR_0072	Complete	4875791.0	Good	2.0	3	98.7	99.6	100.0	0.0
+63	550.1528	Enterobacter cloacae strain AR_0093	Complete	4980809.0	Good	2.0	3	98.4	99.7	100.0	0.3
+64	550.1647	Enterobacter cloacae strain AR_0032	WGS	5116152.0	Good		6	97.9	99.3	100.0	0.0
+65	550.506	Enterobacter cloacae strain SMART_855	WGS	4896352.0	Good		100	98.3	99.3	100.0	0.0
+66	550.534	Enterobacter cloacae strain SMART_1306	WGS	5042723.0	Good		76	97.0	99.3	100.0	0.3
+67	550.543	Enterobacter cloacae strain SMART_1270	WGS	5055893.0	Good		85	98.4	99.6	100.0	0.3
+68	550.549	Enterobacter cloacae strain SMART_1261	WGS	5057911.0	Good		88	98.4	99.6	100.0	0.3
+69	550.555	Enterobacter cloacae strain SMART_1259	WGS	5076846.0	Good		74	98.2	99.6	100.0	0.0
+70	550.558	Enterobacter cloacae strain SMART_1342	WGS	4909094.0	Good		66	98.4	99.6	100.0	0.0
+71	550.566	Enterobacter cloacae strain SMART_1269	WGS	5053865.0	Good		80	98.4	99.6	100.0	0.3
+72	550.643	Enterobacter cloacae strain e1284	WGS	4806682.0	Good		40	98.3	99.4	100.0	0.0
+73	550.647	Enterobacter cloacae strain e1109	WGS	4787547.0	Good		41	98.2	99.4	100.0	0.3
+74	550.650	Enterobacter cloacae strain e1219	WGS	4816242.0	Good		49	98.6	99.6	100.0	0.3
+75	550.657	Enterobacter cloacae strain e1227	WGS	4940014.0	Good		59	98.4	99.3	99.7	0.0
+76	550.663	Enterobacter cloacae strain e1236	WGS	4969269.0	Good		44	98.4	99.3	100.0	0.6
+77	550.669	Enterobacter cloacae strain e1195	WGS	5099383.0	Good		51	97.6	99.3	99.7	0.0
+78	550.680	Enterobacter cloacae strain e1163	WGS	4849604.0	Good		37	97.9	99.0	99.1	0.0
+79	550.688	Enterobacter cloacae strain e1252	WGS	5121988.0	Good		85	98.2	99.5	99.4	0.5
+80	550.690	Enterobacter cloacae strain e1294	WGS	5132688.0	Good		70	97.7	99.4	100.0	0.6
+81	550.696	Enterobacter cloacae strain e1333	WGS	5101263.0	Good		55	97.9	99.5	100.0	0.1
+82	550.700	Enterobacter cloacae strain e1339	WGS	5167754.0	Good		52	98.4	99.4	100.0	0.0
+83	550.703	Enterobacter cloacae strain e1345	WGS	4743924.0	Good		65	98.4	99.5	100.0	0.6
+84	550.708	Enterobacter cloacae strain e1386	WGS	5002252.0	Good		71	98.5	99.5	100.0	0.3
+85	550.710	Enterobacter cloacae strain e1387	WGS	4819496.0	Good		52	98.6	99.4	100.0	0.0
+86	550.711	Enterobacter cloacae strain e1391	WGS	4878038.0	Good		43	98.1	99.2	100.0	0.0
+87	550.717	Enterobacter cloacae strain e1454	WGS	4765306.0	Good		27	98.4	99.5	100.0	0.0
+88	550.718	Enterobacter cloacae strain e1481	WGS	5011677.0	Good		44	97.9	99.5	100.0	0.0
+89	550.722	Enterobacter cloacae strain e1487	WGS	4791577.0	Good		36	98.4	99.4	100.0	0.0
+90	550.729	Enterobacter cloacae strain e1547	WGS	4769308.0	Good		23	98.2	99.4	99.7	0.0
+91	550.735	Enterobacter cloacae strain e1589	WGS	4806205.0	Good		25	97.8	99.4	100.0	0.3
+92	550.737	Enterobacter cloacae strain e1605	WGS	4802016.0	Good		25	98.0	99.5	100.0	0.3
+93	550.739	Enterobacter cloacae strain e1632	WGS	4928875.0	Good		20	97.8	99.3	100.0	0.1
+94	550.748	Enterobacter cloacae strain e1832	WGS	4934993.0	Good		32	97.8	99.5	100.0	0.3
+95	550.761	Enterobacter cloacae strain e1639	WGS	5184411.0	Good		60	98.2	99.4	100.0	0.0
+96	550.764	Enterobacter cloacae strain e1713	WGS	5002227.0	Good		57	97.9	99.5	99.7	0.0
+97	550.769	Enterobacter cloacae strain e1772	WGS	4959604.0	Good		48	98.0	99.0	100.0	0.3
+98	550.773	Enterobacter cloacae strain e1775	WGS	4914568.0	Good		41	97.5	99.2	100.0	0.0
+99	550.778	Enterobacter cloacae strain e1837	WGS	4971161.0	Good		34	97.7	99.4	99.7	0.3
+100	550.780	Enterobacter cloacae strain e1889	WGS	4856648.0	Good		47	98.0	99.2	100.0	0.0
+101	550.782	Enterobacter cloacae strain e1947	WGS	5051261.0	Good		52	98.3	99.6	100.0	0.0
+102	550.791	Enterobacter cloacae strain e2022	WGS	5032991.0	Good		47	98.5	99.6	100.0	0.0
+103	550.792	Enterobacter cloacae strain e2049	WGS	4951161.0	Good		29	97.8	99.3	100.0	0.0
+104	550.793	Enterobacter cloacae strain e2071	WGS	4960127.0	Good		72	98.4	99.4	99.7	0.0
+105	550.794	Enterobacter cloacae strain e2054	WGS	4794858.0	Good		30	98.2	99.4	100.0	0.3
+106	550.797	Enterobacter cloacae strain e2140	WGS	4819206.0	Good		58	98.3	99.3	100.0	0.0
+107	550.800	Enterobacter cloacae strain e2276	WGS	5083775.0	Good		76	98.2	99.5	100.0	0.0
+108	550.804	Enterobacter cloacae strain e2282	WGS	4965741.0	Good		64	98.2	99.5	100.0	0.3
+109	550.809	Enterobacter cloacae strain e2350	WGS	4963845.0	Good		17	98.2	99.3	100.0	0.6
+110	550.813	Enterobacter cloacae strain e2433	WGS	5080276.0	Good		48	98.2	99.5	100.0	0.0
+111	550.814	Enterobacter cloacae strain e2473	WGS	5014014.0	Good		39	98.0	99.5	99.7	0.0
+112	550.815	Enterobacter cloacae strain e248	WGS	4774122.0	Good		30	97.3	99.4	100.0	0.0
+113	550.817	Enterobacter cloacae strain e2430	WGS	4948840.0	Good		60	97.9	99.2	100.0	0.0
+114	550.826	Enterobacter cloacae strain e2752	WGS	4793330.0	Good		73	98.1	99.3	100.0	0.6
+115	550.832	Enterobacter cloacae strain e283	WGS	4767203.0	Good		30	98.4	99.5	100.0	0.3
+116	550.839	Enterobacter cloacae strain e298	WGS	4997106.0	Good		38	97.7	99.4	100.0	0.3
+117	550.843	Enterobacter cloacae strain e318	WGS	4910245.0	Good		55	98.0	99.3	99.7	0.0
+118	550.845	Enterobacter cloacae strain e316	WGS	4988230.0	Good		76	97.9	99.5	100.0	0.9
+119	550.851	Enterobacter cloacae strain e362	WGS	4721010.0	Good		13	98.3	99.0	99.7	0.0
+120	550.855	Enterobacter cloacae strain e395	WGS	4932848.0	Good		62	98.4	99.3	99.4	0.0
+121	550.856	Enterobacter cloacae strain e391	WGS	5140903.0	Good		53	97.7	99.3	100.0	0.0
+122	550.857	Enterobacter cloacae strain e404	WGS	4746288.0	Good		71	97.8	99.2	100.0	0.3
+123	550.868	Enterobacter cloacae strain e473	WGS	4891846.0	Good		39	98.2	99.3	100.0	0.0
+124	550.871	Enterobacter cloacae strain e484	WGS	5121703.0	Good		85	98.2	99.4	100.0	0.3
+125	550.874	Enterobacter cloacae strain e513	WGS	4903750.0	Good		42	98.2	99.3	99.7	0.3
+126	550.875	Enterobacter cloacae strain e532	WGS	4789757.0	Good		35	98.5	99.6	100.0	0.0
+127	550.881	Enterobacter cloacae strain e554	WGS	5002379.0	Good		29	97.2	99.3	99.7	0.0
+128	550.883	Enterobacter cloacae strain e559	WGS	4898563.0	Good		46	98.4	99.4	100.0	0.0
+129	550.886	Enterobacter cloacae strain e575	WGS	4891915.0	Good		59	98.2	99.3	100.0	0.6
+130	550.887	Enterobacter cloacae strain e590	WGS	4829673.0	Good		36	98.2	99.3	100.0	0.6
+131	550.890	Enterobacter cloacae strain e595	WGS	5010706.0	Good		70	98.6	99.6	99.7	0.6
+132	550.901	Enterobacter cloacae strain e647	WGS	4705139.0	Good		14	98.4	99.3	100.0	0.0
+133	550.906	Enterobacter cloacae strain e703	WGS	4867976.0	Good		80	97.6	99.0	100.0	0.3
+134	550.911	Enterobacter cloacae strain e722	WGS	4865333.0	Good		43	98.3	99.3	100.0	0.0
+135	550.912	Enterobacter cloacae strain e745	WGS	5104889.0	Good		100	98.2	99.5	100.0	0.3
+136	550.914	Enterobacter cloacae strain e751	WGS	4754886.0	Good		39	98.4	99.5	100.0	0.0
+137	550.915	Enterobacter cloacae strain e772	WGS	4747370.0	Good		25	98.3	99.3	100.0	0.0
+138	550.926	Enterobacter cloacae strain e806	WGS	4752787.0	Good		23	98.2	99.1	100.0	0.0
+139	550.934	Enterobacter cloacae strain e833	WGS	5124978.0	Good		52	97.3	99.0	100.0	0.3
+140	550.936	Enterobacter cloacae strain e841	WGS	4984418.0	Good		63	98.4	99.4	100.0	0.3
+141	550.943	Enterobacter cloacae strain e856	WGS	4845079.0	Good		44	98.4	99.4	100.0	0.3
+142	550.954	Enterobacter cloacae strain e915	WGS	4712793.0	Good		21	98.8	99.5	99.7	0.0
+143	550.958	Enterobacter cloacae strain e953	WGS	5026116.0	Good		50	97.6	99.6	99.7	0.3
+144	550.959	Enterobacter cloacae strain e965	WGS	4768349.0	Good		53	98.4	99.4	100.0	0.0
+145	550.960	Enterobacter cloacae strain e967	WGS	4813960.0	Good		39	97.9	98.8	99.7	0.0
+146	550.962	Enterobacter cloacae strain e978	WGS	4871008.0	Good		57	98.4	99.5	100.0	0.0
+147	550.1645	Enterobacter cloacae strain GER_MD08_1505_Ecl_089	WGS	4891662.0	Good		98	97.9	99.6	100.0	0.6
+148	550.1646	Enterobacter cloacae strain GER_MD12_1511_Ecl_086	WGS	4716521.0	Good		78	98.4	99.6	100.0	0.0
+149	550.1114	Enterobacter cloacae strain OS_04_026_-1	WGS	4800124.0	Good		3	98.1	99.5	100.0	0.9
+150	550.155	Enterobacter cloacae 34399	Complete	5056146.0	Good	3.0	4	98.2	99.6	100.0	0.0
+151	550.154	Enterobacter cloacae 34983	Complete	5063734.0	Good	3.0	4	97.7	98.8	99.7	0.0
+152	550.388	Enterobacter cloacae strain CAV1669	Complete	4973529.0	Good	2.0	3	98.5	99.6	100.0	0.3
+153	550.1535	Enterobacter cloacae strain 171	WGS	5010928.0	Good		5	97.8	99.6	100.0	0.0
+154	550.253	Enterobacter cloacae strain 34978	Complete	5160986.0	Good	6.0	7	97.6	99.3	100.0	0.0
+155	550.305	Enterobacter cloacae strain 28132	WGS	5026069.0	Good		65	97.6	99.6	100.0	0.0
+156	550.285	Enterobacter cloacae strain 32595	WGS	5012687.0	Good		88	98.3	99.6	100.0	0.0
+157	550.290	Enterobacter cloacae strain 34992	WGS	5010760.0	Good		92	98.4	99.6	100.0	0.0
+158	550.313	Enterobacter cloacae strain 34994	WGS	5002949.0	Good		74	97.8	99.3	100.0	0.0
+159	550.314	Enterobacter cloacae strain 34999	WGS	4829747.0	Good		80	98.2	99.3	100.0	0.0
+160	550.329	Enterobacter cloacae strain 39379	WGS	4900749.0	Good		75	98.2	99.5	99.7	0.3
+161	550.325	Enterobacter cloacae strain 44589	WGS	4781435.0	Good		58	98.2	99.3	100.0	0.0
+162	550.259	Enterobacter cloacae strain MNCRE30	WGS	4922960.0	Good		68	97.3	99.2	100.0	0.3
+163	550.1666	Enterobacter cloacae strain AM16-28	WGS	5135641.0	Good		23	98.0	99.5	100.0	0.6
+164	550.483	Enterobacter cloacae strain 353_ECLO	WGS	4762741.0	Good		76	98.4	99.5	100.0	0.3
+165	550.1524	Enterobacter cloacae strain NFPP41	WGS	5014465.0	Good		14	98.3	99.4	100.0	0.3
+166	550.471	Enterobacter cloacae strain 959_ECLO	WGS	4908781.0	Good		100	97.9	99.3	100.0	0.3
+167	550.273	Enterobacter cloacae strain MNCRE37	WGS	4970691.0	Good		96	97.6	99.2	100.0	0.3
+168	550.1231	Enterobacter cloacae strain DS05262	WGS	4872341.0	Good		48	98.4	99.5	100.0	0.0
+169	550.1211	Enterobacter cloacae strain HB_Z_2347	WGS	4787968.0	Good		44	98.9	99.5	100.0	0.0
+170	1045856.3	Enterobacter cloacae EcWSU1	Complete	4798091.0	Good	1.0	2	98.4	99.4	100.0	0.6
+171	1399775.3	Enterobacter cloacae JD8715	WGS	4760649.0	Good		61	97.9	99.3	99.4	0.9
+172	1439328.3	Enterobacter cloacae BWH 43	WGS	5045694.0	Good		20	98.1	99.2	100.0	0.6
+173	550.139	Enterobacter cloacae ND15	WGS	4718668.0	Good		73	98.2	99.3	100.0	0.3
+174	550.129	Enterobacter cloacae ND18	WGS	4857052.0	Good		63	97.6	99.2	100.0	0.0
+175	550.138	Enterobacter cloacae ND14	WGS	4927414.0	Good		81	97.4	99.0	100.0	0.0
+176	550.140	Enterobacter cloacae ND19	WGS	4858698.0	Good		72	97.4	99.0	100.0	0.0
+177	550.131	Enterobacter cloacae ND21	WGS	4957368.0	Good		79	97.3	99.1	100.0	0.0
+178	550.134	Enterobacter cloacae ND8	WGS	4952806.0	Good		68	97.3	99.2	100.0	0.0
+179	550.135	Enterobacter cloacae NDC	WGS	4955558.0	Good		71	97.3	99.1	100.0	0.0
+180	550.151	Enterobacter cloacae ECNIH4	Complete	4946444.0	Good	3.0	4	97.7	99.2	100.0	0.0
+181	550.532	Enterobacter cloacae strain GN04363	WGS	5005331.0	Good		60	98.1	99.6	100.0	1.8
+182	550.397	Enterobacter cloacae strain GN02555	WGS	4911226.0	Good		86	97.9	99.5	100.0	0.0
+183	550.398	Enterobacter cloacae strain GN02645	WGS	4800493.0	Good		36	98.7	99.6	100.0	0.0
+184	550.390	Enterobacter cloacae strain GN02413	WGS	4862731.0	Good		58	98.5	99.6	100.0	0.0
+185	2080665.3	Enterobacter cloacae complex sp. ECNIH15	WGS	4944475.0	Good		52	97.9	99.6	100.0	0.0
+186	2080666.3	Enterobacter cloacae complex sp. ECNIH10	WGS	4889662.0	Good		51	98.2	99.3	100.0	0.0
+187	2080668.3	Enterobacter cloacae complex sp. ECNIH17	WGS	4793923.0	Good		77	97.6	99.3	100.0	0.6
+188	550.391	Enterobacter cloacae strain GN02382	WGS	4970139.0	Good		31	98.2	99.6	100.0	0.3
+189	550.396	Enterobacter cloacae strain GN02553	WGS	5174592.0	Good		64	98.0	99.6	100.0	0.0
+190	550.402	Enterobacter cloacae strain GN02808	WGS	4752278.0	Good		50	98.4	99.6	100.0	0.3
+191	550.526	Enterobacter cloacae strain GN02618	WGS	4763783.0	Good		92	97.5	99.3	100.0	1.0
+192	550.1099	Enterobacter cloacae strain AA4	Complete	4799256.0	Good		1	98.5	99.4	100.0	0.3
+193	1400146.3	Enterobacter cloacae UCI 23	WGS	4957622.0	Good	0.0	15	97.9	99.5	100.0	0.0
+194	1400151.3	Enterobacter cloacae UCI 36	WGS	4749339.0	Good	0.0	17	98.5	99.6	100.0	0.0
+195	550.1534	Enterobacter cloacae strain 78	WGS	5179052.0	Good		6	98.2	99.3	100.0	0.3
+196	550.281	Enterobacter cloacae strain 28131	WGS	5046376.0	Good		77	97.4	99.0	100.0	0.0
+197	550.306	Enterobacter cloacae strain 28134	WGS	5032122.0	Good		66	97.3	99.0	99.7	0.0
+198	550.284	Enterobacter cloacae strain 28585	WGS	5044696.0	Good		74	97.3	99.0	100.0	0.0
+199	550.307	Enterobacter cloacae strain 32534	WGS	5067265.0	Good		98	97.3	99.0	100.0	0.0
+200	550.308	Enterobacter cloacae strain 32594	WGS	5079229.0	Good		79	97.6	99.3	100.0	0.0
+201	550.286	Enterobacter cloacae strain 32600	WGS	5050659.0	Good		80	97.8	99.3	100.0	0.3
+202	550.291	Enterobacter cloacae strain 34996	WGS	5038855.0	Good		88	97.7	99.3	100.0	0.0
+203	550.315	Enterobacter cloacae strain 35002	WGS	4896666.0	Good		47	98.0	99.5	100.0	0.6
+204	550.316	Enterobacter cloacae strain 35010	WGS	5181818.0	Good		81	97.9	99.5	100.0	0.0
+205	550.292	Enterobacter cloacae strain 35036	WGS	4975575.0	Good		70	97.7	99.2	100.0	0.0
+206	550.295	Enterobacter cloacae strain 35673	WGS	4782758.0	Good		71	97.6	99.5	99.7	0.6
+207	550.326	Enterobacter cloacae strain 35703	WGS	5122990.0	Good		65	97.9	99.5	100.0	0.3
+208	550.304	Enterobacter cloacae strain 44888	WGS	4801272.0	Good		79	98.7	99.6	100.0	0.0
+209	550.1095	Enterobacter cloacae strain WCHECl-C4	WGS	5138130.0	Good		92	98.1	99.1	100.0	0.3
+210	550.1097	Enterobacter cloacae strain R11	Complete	4993008.0	Good	4.0	5	98.0	99.7	100.0	0.0
+211	550.1143	Enterobacter cloacae strain A1137	Complete	5090134.0	Good		1	97.4	99.3	100.0	0.3
+212	550.1212	Enterobacter cloacae strain E987	WGS	5170714.0	Good		90	97.8	99.6	100.0	0.0
+213	550.1214	Enterobacter cloacae strain EN3287	WGS	4797988.0	Good		56	97.7	99.5	99.7	1.2
+214	550.1216	Enterobacter cloacae strain DS31253	WGS	4756640.0	Good		50	99.0	99.5	99.7	0.0
+215	550.1217	Enterobacter cloacae strain DS2686	WGS	4705944.0	Good		43	99.0	99.4	100.0	0.3
+216	550.1230	Enterobacter cloacae strain DS18454	WGS	4729543.0	Good		48	98.8	99.4	100.0	0.3
+217	550.1316	Enterobacter cloacae strain EcHK001	WGS	4756277.0	Good	1.0	52	97.7	99.3	100.0	0.6
+218	550.1406	Enterobacter cloacae strain ECC4241	WGS	4878728.0	Good		52	98.1	99.3	100.0	0.3
+219	550.1411	Enterobacter cloacae strain ECC3402	WGS	4966268.0	Good		79	97.9	99.3	100.0	0.0
+220	550.1412	Enterobacter cloacae strain ECC3380	WGS	4981694.0	Good		63	97.9	99.3	100.0	0.0
+221	550.1414	Enterobacter cloacae strain ECC3382	WGS	4934335.0	Good		74	97.9	99.3	100.0	0.0
+222	550.1670	Enterobacter cloacae strain NCTC11579	WGS	4718420.0	Good		2	97.1	99.3	100.0	1.9
+223	550.349	Enterobacter cloacae strain CIDEIMsCOL3	WGS	4749599.0	Good		60	98.4	99.6	100.0	0.0
+224	550.368	Enterobacter cloacae strain MNCRE16	WGS	4927487.0	Good		77	97.9	99.2	100.0	0.3
+225	550.449	Enterobacter cloacae strain 198_ECLO	WGS	4790322.0	Good		66	98.6	99.4	100.0	0.3
+226	550.455	Enterobacter cloacae strain 443_ECLO	WGS	4751540.0	Good		46	98.2	99.4	100.0	0.0
+227	550.457	Enterobacter cloacae strain 564_ECLO	WGS	4860952.0	Good		99	98.1	99.3	100.0	0.0
+228	550.258	Enterobacter cloacae strain MNCRE41	WGS	4961975.0	Good		40	97.6	99.2	100.0	0.0
+229	550.1121	Enterobacter cloacae strain MGH178	WGS	4921260.0	Good		5	98.2	99.2	100.0	0.0
+230	1971395.3	Enterobacter cloacae complex sp. ECNIH6 strain ECNIH6	WGS	4901303.0	Good		75	97.9	99.3	100.0	0.6
+231	2077136.3	Enterobacter cloacae complex sp. FDA-CDC-AR_0164	Complete	4849791.0	Good		1	98.7	99.5	100.0	0.3
+232	550.1145	Enterobacter cloacae strain AR_0136	Complete	5040412.0	Good	2.0	3	97.6	99.3	100.0	0.3
+233	550.508	Enterobacter cloacae strain SMART_901	WGS	4984960.0	Good		67	98.1	99.3	100.0	0.3
+234	550.537	Enterobacter cloacae strain SMART_1291	WGS	5124643.0	Good		63	97.6	99.5	100.0	0.3
+235	550.539	Enterobacter cloacae strain SMART_1414	WGS	4917236.0	Good		53	98.4	99.6	100.0	0.0
+236	550.545	Enterobacter cloacae strain SMART_1348	WGS	5083311.0	Good		65	98.2	99.6	100.0	0.3
+237	550.553	Enterobacter cloacae strain SMART_1169	WGS	4898290.0	Good		81	98.4	99.6	100.0	0.0
+238	550.554	Enterobacter cloacae strain SMART_1411	WGS	4979505.0	Good		82	98.4	99.6	100.0	0.0
+239	550.559	Enterobacter cloacae strain UAH-2/S629	WGS	5095020.0	Good		68	98.0	99.6	100.0	0.0
+240	550.561	Enterobacter cloacae strain SMART_1361	WGS	5073771.0	Good		89	98.4	99.6	100.0	0.0
+241	550.562	Enterobacter cloacae strain SMART_1286	WGS	5075815.0	Good		89	97.5	99.4	100.0	0.0
+242	550.564	Enterobacter cloacae strain SMART_1287	WGS	5073119.0	Good		79	97.5	99.4	100.0	0.0
+243	550.565	Enterobacter cloacae strain SMART_1420	WGS	5164729.0	Good		93	98.5	99.6	100.0	0.0
+244	550.622	Enterobacter cloacae strain MBRL1077	Complete	4801156.0	Good		1	98.7	99.4	100.0	0.3
+245	550.644	Enterobacter cloacae strain e1130	WGS	4938415.0	Good		39	98.2	99.5	100.0	0.0
+246	550.645	Enterobacter cloacae strain e1251	WGS	4861133.0	Good		40	98.5	99.6	100.0	0.0
+247	550.655	Enterobacter cloacae strain e11	WGS	5068345.0	Good		57	97.9	99.5	99.7	0.0
+248	550.660	Enterobacter cloacae strain e1214	WGS	5153596.0	Good		71	97.8	99.1	100.0	0.6
+249	550.661	Enterobacter cloacae strain e1026	WGS	4725159.0	Good		17	98.5	99.4	100.0	0.6
+250	550.668	Enterobacter cloacae strain e1198	WGS	4790146.0	Good		62	98.4	99.3	99.7	0.0
+251	550.670	Enterobacter cloacae strain e1032	WGS	5055397.0	Good		55	98.2	99.6	99.9	0.0
+252	550.673	Enterobacter cloacae strain e1127	WGS	4940216.0	Good		24	97.9	99.3	100.0	0.0
+253	550.674	Enterobacter cloacae strain e1267	WGS	4947553.0	Good		34	97.0	98.9	99.7	0.0
+254	550.677	Enterobacter cloacae strain e1025	WGS	5057026.0	Good		42	97.7	99.4	100.0	0.0
+255	550.682	Enterobacter cloacae strain e1083	WGS	4961108.0	Good		61	98.4	99.3	100.0	0.0
+256	550.686	Enterobacter cloacae strain e1234	WGS	5124015.0	Good		55	97.7	99.3	99.7	0.0
+257	550.691	Enterobacter cloacae strain e1316	WGS	5009107.0	Good		64	97.8	99.5	100.0	0.0
+258	550.693	Enterobacter cloacae strain e1323	WGS	4820647.0	Good		21	98.9	99.3	99.7	0.0
+259	550.695	Enterobacter cloacae strain e1331	WGS	4869777.0	Good		51	98.2	99.2	100.0	0.0
+260	550.697	Enterobacter cloacae strain e1336	WGS	5049564.0	Good		44	98.1	99.3	100.0	0.0
+261	550.705	Enterobacter cloacae strain e1351	WGS	4787274.0	Good		44	98.3	99.5	100.0	0.3
+262	550.706	Enterobacter cloacae strain e1356	WGS	5021581.0	Good		47	97.6	99.3	100.0	0.6
+263	550.712	Enterobacter cloacae strain e1395	WGS	4943110.0	Good		47	98.0	99.4	100.0	0.0
+264	550.713	Enterobacter cloacae strain e1421	WGS	5153017.0	Good		34	97.8	99.4	100.0	0.0
+265	550.714	Enterobacter cloacae strain e1422	WGS	4769660.0	Good		26	98.2	99.4	99.7	0.0
+266	550.720	Enterobacter cloacae strain e147	WGS	4930404.0	Good		65	98.2	99.3	100.0	0.0
+267	550.721	Enterobacter cloacae strain e1486	WGS	5013391.0	Good		46	97.9	99.6	100.0	0.0
+268	550.723	Enterobacter cloacae strain e1517	WGS	5046514.0	Good		66	97.8	99.3	99.7	0.0
+269	550.725	Enterobacter cloacae strain e1488	WGS	5012105.0	Good		54	98.3	99.5	100.0	0.6
+270	550.727	Enterobacter cloacae strain e1521	WGS	4717058.0	Good		34	98.4	99.4	100.0	0.0
+271	550.728	Enterobacter cloacae strain e1531	WGS	4978076.0	Good		51	97.9	99.4	100.0	0.2
+272	550.742	Enterobacter cloacae strain e1676	WGS	5132881.0	Good		43	98.1	99.5	100.0	0.0
+273	550.745	Enterobacter cloacae strain e17	WGS	5069331.0	Good		61	98.2	99.6	100.0	0.0
+274	550.746	Enterobacter cloacae strain e1831	WGS	4771249.0	Good		36	98.3	99.3	100.0	0.0
+275	550.747	Enterobacter cloacae strain e1873	WGS	4732212.0	Good		34	98.6	99.5	99.4	0.0
+276	550.758	Enterobacter cloacae strain e1586	WGS	5012161.0	Good		82	98.1	99.2	100.0	0.6
+277	550.760	Enterobacter cloacae strain e1623	WGS	5179110.0	Good		65	97.2	99.2	100.0	0.0
+278	550.774	Enterobacter cloacae strain e1774	WGS	5074406.0	Good		77	98.2	99.3	100.0	0.9
+279	550.784	Enterobacter cloacae strain e1963	WGS	5112242.0	Good		55	97.4	98.9	99.7	0.3
+280	550.786	Enterobacter cloacae strain e1948	WGS	5056573.0	Good		47	98.2	99.6	100.0	0.0
+281	550.789	Enterobacter cloacae strain e2032	WGS	4949808.0	Good		51	98.4	99.5	99.4	0.0
+282	550.798	Enterobacter cloacae strain e2127	WGS	4946172.0	Good		36	97.7	99.3	99.7	0.0
+283	550.799	Enterobacter cloacae strain e2144	WGS	5037850.0	Good		55	97.4	99.5	99.9	0.0
+284	550.805	Enterobacter cloacae strain e2284	WGS	4880100.0	Good		30	97.1	99.3	100.0	0.3
+285	550.806	Enterobacter cloacae strain e2300	WGS	4978871.0	Good		78	97.5	99.0	100.0	0.3
+286	550.807	Enterobacter cloacae strain e2346	WGS	4808565.0	Good		46	98.2	99.3	100.0	0.0
+287	550.808	Enterobacter cloacae strain e2352	WGS	4863661.0	Good		47	97.6	99.4	98.8	0.6
+288	550.810	Enterobacter cloacae strain e2414	WGS	4745283.0	Good		56	97.7	99.5	100.0	0.3
+289	550.811	Enterobacter cloacae strain e242	WGS	5025248.0	Good		48	98.1	99.4	99.7	0.3
+290	550.812	Enterobacter cloacae strain e247	WGS	4841022.0	Good		62	97.8	99.1	100.0	0.0
+291	550.816	Enterobacter cloacae strain e2487	WGS	4846456.0	Good		45	98.4	99.5	99.7	0.0
+292	550.818	Enterobacter cloacae strain e2549	WGS	4824261.0	Good		42	98.4	99.3	99.7	0.0
+293	550.819	Enterobacter cloacae strain e261	WGS	4832136.0	Good		62	98.4	99.4	100.0	0.0
+294	550.821	Enterobacter cloacae strain e2575	WGS	4702520.0	Good		60	98.3	99.3	100.0	0.6
+295	550.822	Enterobacter cloacae strain e267	WGS	5030979.0	Good		35	97.6	99.2	99.7	0.0
+296	550.827	Enterobacter cloacae strain e2743	WGS	4983654.0	Good		39	97.0	99.2	99.7	0.0
+297	550.829	Enterobacter cloacae strain e2761	WGS	5106801.0	Good		46	97.8	99.4	100.0	0.3
+298	550.831	Enterobacter cloacae strain e282	WGS	4761284.0	Good		35	98.3	99.5	100.0	0.0
+299	550.834	Enterobacter cloacae strain e287	WGS	4792403.0	Good		37	98.4	99.5	99.7	0.0
+300	550.837	Enterobacter cloacae strain e294	WGS	4851354.0	Good		27	97.9	99.5	100.0	0.0
+301	550.841	Enterobacter cloacae strain e317	WGS	4977368.0	Good		50	98.2	99.3	100.0	0.9
+302	550.842	Enterobacter cloacae strain e302	WGS	4847026.0	Good		36	98.5	99.6	100.0	0.0
+303	550.848	Enterobacter cloacae strain e341	WGS	4925052.0	Good		60	98.4	99.3	100.0	0.0
+304	550.849	Enterobacter cloacae strain e351	WGS	4852652.0	Good		39	98.3	99.5	99.7	0.0
+305	550.850	Enterobacter cloacae strain e352	WGS	4743528.0	Good		43	98.5	99.6	100.0	0.3
+306	550.852	Enterobacter cloacae strain e377	WGS	4715909.0	Good		52	98.2	99.3	100.0	0.3
+307	550.853	Enterobacter cloacae strain e380	WGS	4840533.0	Good		59	98.2	99.3	100.0	0.0
+308	550.859	Enterobacter cloacae strain e405	WGS	4747322.0	Good		74	97.6	98.9	99.7	0.3
+309	550.866	Enterobacter cloacae strain e458	WGS	5145981.0	Good		66	97.6	99.3	99.7	0.0
+310	550.867	Enterobacter cloacae strain e452	WGS	5148872.0	Good		70	98.1	99.3	100.0	0.3
+311	550.877	Enterobacter cloacae strain e545	WGS	5068080.0	Good		50	98.4	99.6	100.0	0.3
+312	550.879	Enterobacter cloacae strain e534	WGS	4820568.0	Good		51	98.2	99.5	100.0	0.3
+313	550.882	Enterobacter cloacae strain e558	WGS	5091497.0	Good		41	98.1	99.5	100.0	0.3
+314	550.885	Enterobacter cloacae strain e572	WGS	4762125.0	Good		34	97.8	99.1	100.0	0.0
+315	550.893	Enterobacter cloacae strain e615	WGS	4842128.0	Good		64	98.3	99.2	99.7	0.0
+316	550.895	Enterobacter cloacae strain e628	WGS	5189969.0	Good		59	97.1	99.0	100.0	0.0
+317	550.897	Enterobacter cloacae strain e629	WGS	4846188.0	Good		36	98.2	99.5	100.0	0.6
+318	550.898	Enterobacter cloacae strain e638	WGS	4922852.0	Good		45	97.6	99.3	100.0	0.3
+319	550.903	Enterobacter cloacae strain e660	WGS	5005613.0	Good		39	98.1	99.5	100.0	0.3
+320	550.904	Enterobacter cloacae strain e67	WGS	5026660.0	Good		41	97.9	99.3	100.0	0.3
+321	550.909	Enterobacter cloacae strain e716	WGS	5023342.0	Good		37	98.0	99.5	100.0	0.0
+322	550.916	Enterobacter cloacae strain e774	WGS	5108448.0	Good		73	98.1	99.2	100.0	0.0
+323	550.917	Enterobacter cloacae strain e773	WGS	5163270.0	Good		82	98.2	99.3	99.0	0.8
+324	550.918	Enterobacter cloacae strain e78	WGS	5161776.0	Good		45	97.9	99.5	100.0	0.0
+325	550.920	Enterobacter cloacae strain e794	WGS	5057161.0	Good		66	98.6	99.6	100.0	0.0
+326	550.921	Enterobacter cloacae strain e783	WGS	4861954.0	Good		40	98.2	99.3	99.7	0.0
+327	550.922	Enterobacter cloacae strain e786	WGS	5069956.0	Good		61	97.9	99.3	100.0	0.0
+328	550.927	Enterobacter cloacae strain e811	WGS	4745776.0	Good		21	98.1	99.3	100.0	0.3
+329	550.929	Enterobacter cloacae strain e813	WGS	5038849.0	Good		57	98.4	99.5	100.0	0.3
+330	550.931	Enterobacter cloacae strain e818	WGS	5136162.0	Good		81	98.2	99.4	100.0	0.0
+331	550.935	Enterobacter cloacae strain e840	WGS	4805978.0	Good		22	98.2	99.4	100.0	0.0
+332	550.944	Enterobacter cloacae strain e880	WGS	4901758.0	Good		40	98.2	99.3	100.0	0.0
+333	550.947	Enterobacter cloacae strain e888	WGS	4728715.0	Good		46	98.3	99.4	100.0	0.6
+334	550.948	Enterobacter cloacae strain e901	WGS	4800136.0	Good		25	98.1	99.2	99.4	0.0
+335	550.955	Enterobacter cloacae strain e929	WGS	4977404.0	Good		98	97.5	99.5	100.0	1.7
+336	550.961	Enterobacter cloacae strain e970	WGS	4814922.0	Good		41	98.4	99.3	100.0	0.0
+337	1820019.3	Enterobacter cloacae complex sp. GN04787	WGS	4936305.0	Good		46	98.4	99.6	100.0	0.8
+338	1659706.3	Enterobacter sp. GN02283	WGS	4796531.0	Good		39	98.0	99.5	100.0	0.3
+339	1659713.3	Enterobacter sp. GN02548	WGS	4911267.0	Good		32	97.8	99.5	100.0	0.9
+340	550.412	Enterobacter cloacae strain UW5	Complete	4904981.0	Good		1	98.6	99.4	100.0	1.4
+341	550.977	Enterobacter cloacae strain INSali2	WGS	4792991.0	Good		42	98.7	99.4	100.0	0.6
+342	550.269	Enterobacter cloacae strain MNCRE28	WGS	4922614.0	Good		97	97.3	99.2	100.0	0.3
+343	550.271	Enterobacter cloacae strain MNCRE29	WGS	4917534.0	Good		96	97.3	99.2	100.0	0.3
+344	550.277	Enterobacter cloacae strain MNCRE6	WGS	4959984.0	Good		92	97.3	99.3	100.0	0.3
+345	550.1222	Enterobacter cloacae strain DS36577	WGS	4726972.0	Good		39	98.4	99.3	100.0	0.6
+346	550.1589	Enterobacter cloacae strain DLL7524	WGS	4697885.0	Good		26	98.5	99.4	100.0	0.9
+347	1340854.3	Enterobacter cloacae str. Hanford	WGS	4832153.0	Good	0.0	62	98.2	99.4	100.0	0.3
+348	550.1532	Enterobacter cloacae strain AUH-ENM1	WGS	5000660.0	Good		53	97.7	99.3	100.0	0.3
+349	550.278	Enterobacter cloacae strain MNCRE18	WGS	4949306.0	Good		96	97.4	99.3	100.0	0.3
+350	550.264	Enterobacter cloacae strain MNCRE23	WGS	4964016.0	Good		97	97.6	99.2	100.0	0.0
+351	550.270	Enterobacter cloacae strain MNCRE42	WGS	4960991.0	Good		42	97.6	99.2	100.0	0.0
+352	550.488	Enterobacter cloacae strain CAV1311	Complete	5006987.0	Good	3.0	4	98.5	99.6	100.0	0.0
+353	2027919.17	Enterobacter cloacae complex bacterium strain Encl-922	WGS	4884183.0	Good		84	98.2	99.4	100.0	0.0
+354	2027919.19	Enterobacter cloacae complex bacterium strain Encl-44578	WGS	4832725.0	Good		87	98.2	99.5	100.0	0.0
+355	1399774.3	Enterobacter cloacae JD6301	WGS	4768132.0	Good		53	97.9	99.3	99.4	0.9
+356	550.147	Enterobacter cloacae NDA	WGS	5015639.0	Good		4	97.1	99.1	100.0	0.0
+357	550.148	Enterobacter cloacae ND1	WGS	4929469.0	Good		85	97.6	99.1	100.0	0.0
+358	550.127	Enterobacter cloacae ND10	WGS	4930103.0	Good		80	97.5	99.0	100.0	0.0
+359	550.144	Enterobacter cloacae NDB	WGS	4905714.0	Good		77	97.5	99.0	100.0	0.0
+360	550.143	Enterobacter cloacae ND9	WGS	4927099.0	Good		76	97.4	99.0	100.0	0.0
+361	550.130	Enterobacter cloacae ND20	WGS	4854421.0	Good		71	97.6	99.1	99.7	0.0
+362	550.142	Enterobacter cloacae ND5	WGS	4921077.0	Good		78	97.3	99.0	100.0	0.0
+363	550.152	Enterobacter cloacae ECNIH5	Complete	4927441.0	Good	4.0	5	97.6	99.3	100.0	0.6
+364	550.401	Enterobacter cloacae strain GN02773	WGS	4711112.0	Good		40	98.4	99.6	100.0	0.3
+365	550.395	Enterobacter cloacae strain GN02486	WGS	5038742.0	Good		66	98.2	99.6	100.0	0.0
+366	2080659.3	Enterobacter cloacae complex sp. ECNIH13	WGS	4960005.0	Good		54	98.0	99.6	100.0	0.0
+367	2080667.3	Enterobacter cloacae complex sp. ECNIH9	WGS	4890047.0	Good		48	98.2	99.3	100.0	0.3
+368	550.392	Enterobacter cloacae strain GN02414	WGS	5184656.0	Good		60	98.0	99.6	100.0	0.0
+369	550.394	Enterobacter cloacae strain GN02465	WGS	5164601.0	Good		61	98.0	99.6	100.0	0.0
+370	550.491	Enterobacter cloacae strain GN02032	WGS	4698256.0	Good		92	98.9	99.6	100.0	0.0
+371	550.1578	Enterobacter cloacae strain 388	Complete	4735287.0	Good	1.0	2	98.4	99.6	100.0	0.3
+372	550.1125	Enterobacter cloacae strain DG6	Complete	4773509.0	Good		1	98.4	99.5	99.7	0.0
+373	550.1219	Enterobacter cloacae strain DS8140	WGS	4877545.0	Good		37	98.9	99.5	100.0	0.0
+374	550.1221	Enterobacter cloacae strain DS25697	WGS	4862829.0	Good		53	99.0	99.5	99.7	0.0
+375	550.1223	Enterobacter cloacae strain DS17594	WGS	4783199.0	Good		38	99.0	99.5	100.0	0.0
+376	550.1225	Enterobacter cloacae strain DU20756	WGS	4756111.0	Good		52	99.0	99.5	99.7	0.0
+377	550.1229	Enterobacter cloacae strain DS9199	WGS	4945021.0	Good		48	98.9	99.5	100.0	0.0
+378	550.1232	Enterobacter cloacae strain M12X01451	Complete	5087499.0	Good	1.0	2	98.8	99.3	99.7	0.6
+379	550.1405	Enterobacter cloacae strain ECC1766	WGS	5130714.0	Good		26	99.0	99.6	100.0	0.0
+380	550.1410	Enterobacter cloacae strain ECC3408	WGS	4962459.0	Good		75	97.9	99.3	100.0	0.0
+381	550.1419	Enterobacter cloacae strain ECC4204	WGS	4878032.0	Good		47	98.1	99.3	100.0	0.3
+382	550.1420	Enterobacter cloacae strain ECC3393	WGS	4963584.0	Good		76	97.9	99.3	100.0	0.0
+383	550.1421	Enterobacter cloacae strain ECC2288	WGS	4802666.0	Good		43	98.7	99.4	100.0	0.0
+384	550.1587	Enterobacter cloacae strain 113I7	WGS	4989014.0	Good		37	98.7	99.4	100.0	0.6
+385	550.1671	Enterobacter cloacae strain NCTC11593	WGS	5098421.0	Good		10	97.8	99.3	100.0	0.3
+386	550.351	Enterobacter cloacae strain CIDEIMsCOL1	WGS	4956613.0	Good		51	98.1	99.6	100.0	0.0
+387	550.363	Enterobacter cloacae strain CIDEIMsCOL10	WGS	4856456.0	Good		36	98.2	99.3	100.0	0.6
+388	550.420	Enterobacter cloacae strain 1161_ECLO	WGS	4716067.0	Good		53	98.4	99.1	100.0	0.3
+389	550.436	Enterobacter cloacae strain 153_ECLO	WGS	4701120.0	Good		51	98.4	99.5	100.0	0.3
+390	550.447	Enterobacter cloacae strain 182_ECLO	WGS	4751599.0	Good		66	98.8	99.6	100.0	0.3
+391	550.448	Enterobacter cloacae strain 195_ECLO	WGS	4782722.0	Good		89	98.7	99.6	100.0	0.3
+392	550.454	Enterobacter cloacae strain 405_ECLO	WGS	4824940.0	Good		84	98.4	99.5	99.7	0.3
+393	550.458	Enterobacter cloacae strain 569_ECLO	WGS	4745960.0	Good		63	98.3	99.4	100.0	0.0
+394	550.476	Enterobacter cloacae strain LB2	WGS	5000203.0	Good		58	97.9	99.2	99.1	0.0
+395	550.988	Enterobacter cloacae strain SBP-8	Complete	4854065.0	Good		1	98.6	99.5	100.0	0.0
+396	1328422.5	Enterobacter cloacae BIDMC 33A	WGS	5178697.0	Good		9	97.3	99.1	100.0	0.0
+397	1329844.4	Enterobacter cloacae BWH 29	WGS	4873123.0	Good		6	98.2	99.6	100.0	0.0
+398	1329846.6	Enterobacter cloacae BIDMC 8	WGS	4873322.0	Good	0.0	15	98.2	99.5	100.0	0.3
+399	1329853.3	Enterobacter cloacae UCICRE 5	WGS	5038401.0	Good	0.0	16	97.8	99.3	100.0	0.3
+400	1329855.3	Enterobacter cloacae UCICRE 11	WGS	4894998.0	Good	0.0	14	97.9	99.5	100.0	0.0
+401	1400148.3	Enterobacter cloacae UCI 29	WGS	4943920.0	Good		23	97.7	99.3	100.0	0.0
+402	1400154.3	Enterobacter cloacae UCI 49	WGS	5010936.0	Good	0.0	15	97.9	99.3	99.4	0.0
+403	550.1139	Enterobacter cloacae strain SJRP/Ec13	WGS	5173889.0	Good		92	98.0	99.6	100.0	1.2
+404	550.1140	Enterobacter cloacae strain ECC3018	WGS	4936995.0	Good		53	97.8	99.0	100.0	0.3
+405	550.1118	Enterobacter cloacae strain MGH160	WGS	4925300.0	Good		10	98.6	99.4	100.0	0.6
+406	550.487	Enterobacter cloacae strain CAV1668	Complete	5004730.0	Good	2.0	3	98.5	99.6	100.0	0.3
+407	550.322	Enterobacter cloacae strain 35041	WGS	4923744.0	Good		86	98.2	99.5	100.0	0.0
+408	550.282	Enterobacter cloacae strain 28940	WGS	4895687.0	Good		40	97.9	99.3	100.0	0.3
+409	550.283	Enterobacter cloacae strain 31613	WGS	4923007.0	Good		92	97.6	99.3	100.0	0.3
+410	550.309	Enterobacter cloacae strain 33813	WGS	4939018.0	Good		78	97.8	99.3	100.0	0.0
+411	550.287	Enterobacter cloacae strain 34980	WGS	4745296.0	Good		47	98.8	99.6	100.0	0.0
+412	550.310	Enterobacter cloacae strain 34982	WGS	4979083.0	Good		90	97.9	99.3	100.0	0.0
+413	550.312	Enterobacter cloacae strain 34986	WGS	4952069.0	Good		81	97.8	99.3	100.0	0.0
+414	550.288	Enterobacter cloacae strain 34988	WGS	5010935.0	Good		75	97.8	99.3	100.0	0.3
+415	550.289	Enterobacter cloacae strain 34990	WGS	4977000.0	Good		87	98.1	99.3	100.0	0.0
+416	550.317	Enterobacter cloacae strain 35012	WGS	4976165.0	Good		92	97.9	99.3	100.0	0.0
+417	550.318	Enterobacter cloacae strain 35013	WGS	4859360.0	Good		59	98.4	99.6	100.0	0.0
+418	550.319	Enterobacter cloacae strain 35019	WGS	4952112.0	Good		80	97.8	99.3	100.0	0.0
+419	550.320	Enterobacter cloacae strain 35024	WGS	4940124.0	Good		71	97.7	99.3	100.0	0.0
+420	550.321	Enterobacter cloacae strain 35034	WGS	4950969.0	Good		70	97.7	99.3	100.0	0.0
+421	550.293	Enterobacter cloacae strain 35638	WGS	5028992.0	Good		94	97.9	99.6	100.0	0.3
+422	550.297	Enterobacter cloacae strain 35722	WGS	4928240.0	Good		87	98.3	99.6	100.0	0.3
+423	550.299	Enterobacter cloacae strain 36801	WGS	4920843.0	Good		54	98.0	99.5	100.0	0.0
+424	550.300	Enterobacter cloacae strain 41948	WGS	4851992.0	Good		68	97.8	99.3	100.0	0.0
+425	550.301	Enterobacter cloacae strain 42336	WGS	4923568.0	Good		73	97.7	99.3	98.2	0.0
+426	550.303	Enterobacter cloacae strain 42844	WGS	4942102.0	Good		74	97.7	99.3	100.0	0.0
+427	550.331	Enterobacter cloacae strain 43555	WGS	5008762.0	Good		71	97.7	99.3	100.0	0.0
+428	550.1572	Enterobacter cloacae strain TUM1506	WGS	4908689.0	Good		73	97.1	99.3	99.7	0.3
+429	2077137.3	Enterobacter cloacae complex sp. FDA-CDC-AR_0132	Complete	4971441.0	Good		1	98.4	99.6	100.0	0.6
+430	550.1144	Enterobacter cloacae strain AR_0050	Complete	4989546.0	Good	3.0	4	98.2	99.3	100.0	0.0
+431	550.1525	Enterobacter cloacae strain AR_0060	Complete	5182558.0	Good	1.0	2	97.9	99.6	100.0	0.3
+432	550.1577	Enterobacter cloacae strain 234	Complete	4724855.0	Good	1.0	2	98.7	99.6	100.0	0.3
+433	550.538	Enterobacter cloacae strain SMART_1160	WGS	4881351.0	Good		56	97.7	99.3	100.0	0.0
+434	550.541	Enterobacter cloacae strain EC_849	WGS	5015858.0	Good		82	97.7	99.3	100.0	0.0
+435	550.546	Enterobacter cloacae strain SMART_1216	WGS	5158991.0	Good		100	97.9	99.2	100.0	0.0
+436	550.547	Enterobacter cloacae strain SMART_1312	WGS	5081052.0	Good		38	98.2	99.3	100.0	0.3
+437	550.548	Enterobacter cloacae strain SMART_1262	WGS	5053445.0	Good		88	98.4	99.6	100.0	0.3
+438	550.552	Enterobacter cloacae strain SMART_1263	WGS	5055522.0	Good		90	98.4	99.6	100.0	0.3
+439	550.648	Enterobacter cloacae strain e1125	WGS	5153336.0	Good		69	97.1	99.1	99.7	0.0
+440	550.651	Enterobacter cloacae strain e1089	WGS	5000039.0	Good		54	98.4	99.5	100.0	0.0
+441	550.653	Enterobacter cloacae strain e1265	WGS	4708691.0	Good		57	98.2	99.4	100.0	0.0
+442	550.654	Enterobacter cloacae strain e1044	WGS	5043592.0	Good		47	98.5	99.6	100.0	0.0
+443	550.656	Enterobacter cloacae strain e1238	WGS	5089766.0	Good		33	97.9	99.5	100.0	0.0
+444	550.664	Enterobacter cloacae strain e1153	WGS	5161923.0	Good		65	98.2	99.5	100.0	0.0
+445	550.665	Enterobacter cloacae strain e1028	WGS	4946394.0	Good		58	98.5	99.5	100.0	0.3
+446	550.667	Enterobacter cloacae strain e1222	WGS	4945319.0	Good		61	98.2	99.2	100.0	0.3
+447	550.671	Enterobacter cloacae strain e1154	WGS	4829765.0	Good		61	98.7	99.5	100.0	0.0
+448	550.672	Enterobacter cloacae strain e1101	WGS	4795310.0	Good		40	98.3	99.5	99.7	0.3
+449	550.681	Enterobacter cloacae strain e1069	WGS	4805439.0	Good		43	98.1	99.1	100.0	0.0
+450	550.687	Enterobacter cloacae strain e1285	WGS	4931083.0	Good		61	98.2	99.1	100.0	0.0
+451	550.689	Enterobacter cloacae strain e1286	WGS	4888261.0	Good		69	98.3	99.5	100.0	0.0
+452	550.692	Enterobacter cloacae strain e1319	WGS	4938914.0	Good		64	98.2	99.6	100.0	0.3
+453	550.694	Enterobacter cloacae strain e1326	WGS	5058138.0	Good		27	98.1	99.0	100.0	0.0
+454	550.698	Enterobacter cloacae strain e1337	WGS	4723123.0	Good		51	98.3	99.3	100.0	0.0
+455	550.701	Enterobacter cloacae strain e1342	WGS	4744423.0	Good		48	98.2	99.4	100.0	0.6
+456	550.715	Enterobacter cloacae strain e1425	WGS	5021701.0	Good		54	98.2	99.3	99.7	0.0
+457	550.724	Enterobacter cloacae strain e1518	WGS	4903719.0	Good		75	98.4	99.3	99.7	0.0
+458	550.731	Enterobacter cloacae strain e1554	WGS	4913339.0	Good		36	97.7	99.1	100.0	0.3
+459	550.732	Enterobacter cloacae strain e1562	WGS	4903953.0	Good		65	97.8	99.3	100.0	0.0
+460	550.733	Enterobacter cloacae strain e1563	WGS	4965740.0	Good		56	98.0	99.0	99.7	0.0
+461	550.734	Enterobacter cloacae strain e1587	WGS	4907545.0	Good		38	98.4	99.4	100.0	0.0
+462	550.740	Enterobacter cloacae strain e1635	WGS	4894705.0	Good		34	97.6	99.4	100.0	0.1
+463	550.744	Enterobacter cloacae strain e1693	WGS	4764339.0	Good		32	97.9	99.5	100.0	0.0
+464	550.759	Enterobacter cloacae strain e1603	WGS	4843827.0	Good		33	98.3	99.4	100.0	0.0
+465	550.763	Enterobacter cloacae strain e1697	WGS	4879398.0	Good		50	98.0	99.0	100.0	0.3
+466	550.765	Enterobacter cloacae strain e1714	WGS	4847096.0	Good		44	98.3	99.3	99.7	0.0
+467	550.768	Enterobacter cloacae strain e1720	WGS	5089983.0	Good		54	98.2	99.3	100.0	0.0
+468	550.770	Enterobacter cloacae strain e1764	WGS	4963588.0	Good		66	98.3	99.3	100.0	0.0
+469	550.771	Enterobacter cloacae strain e1770	WGS	4809209.0	Good		40	98.2	99.4	99.7	0.0
+470	550.772	Enterobacter cloacae strain e1728	WGS	5037781.0	Good		53	98.2	99.6	99.7	0.0
+471	550.783	Enterobacter cloacae strain e1985	WGS	4968245.0	Good		50	98.4	99.4	100.0	0.0
+472	550.785	Enterobacter cloacae strain e1983	WGS	5006067.0	Good		54	97.9	99.4	100.0	0.3
+473	550.787	Enterobacter cloacae strain e2005	WGS	4917355.0	Good		34	97.9	99.5	100.0	0.0
+474	550.788	Enterobacter cloacae strain e2024	WGS	4900805.0	Good		54	98.3	99.4	100.0	0.3
+475	550.790	Enterobacter cloacae strain e2048	WGS	4947923.0	Good		28	97.9	99.4	100.0	0.0
+476	550.795	Enterobacter cloacae strain e2090	WGS	4891491.0	Good		33	98.3	99.3	100.0	0.3
+477	550.796	Enterobacter cloacae strain e2129	WGS	4754279.0	Good		24	97.9	99.5	100.0	0.6
+478	550.802	Enterobacter cloacae strain e2260	WGS	5096662.0	Good		61	97.1	99.3	100.0	0.0
+479	550.803	Enterobacter cloacae strain e2273	WGS	4790862.0	Good		40	98.4	99.4	100.0	0.0
+480	550.820	Enterobacter cloacae strain e2550	WGS	4827631.0	Good		43	98.4	99.4	100.0	0.0
+481	550.824	Enterobacter cloacae strain e2698	WGS	4704977.0	Good		48	97.8	99.5	100.0	0.0
+482	550.830	Enterobacter cloacae strain e2770	WGS	4868632.0	Good		43	98.4	99.5	100.0	0.0
+483	550.833	Enterobacter cloacae strain e2793	WGS	4888183.0	Good		25	97.9	99.5	100.0	0.6
+484	550.836	Enterobacter cloacae strain e288	WGS	4792973.0	Good		32	98.4	99.5	100.0	0.0
+485	550.844	Enterobacter cloacae strain e332	WGS	4700629.0	Good		28	97.5	99.5	100.0	0.6
+486	550.846	Enterobacter cloacae strain e319	WGS	4853483.0	Good		48	97.9	99.5	100.0	0.0
+487	550.858	Enterobacter cloacae strain e400	WGS	4823519.0	Good		56	98.7	99.4	99.7	0.0
+488	550.862	Enterobacter cloacae strain e435	WGS	4887715.0	Good		70	97.9	99.5	100.0	0.3
+489	550.870	Enterobacter cloacae strain e482	WGS	4934850.0	Good		58	98.3	99.5	100.0	0.3
+490	550.873	Enterobacter cloacae strain e521	WGS	5053337.0	Good		33	97.3	99.1	99.4	0.0
+491	550.876	Enterobacter cloacae strain e533	WGS	5029403.0	Good		53	98.0	99.3	99.7	0.0
+492	550.884	Enterobacter cloacae strain e571	WGS	4785938.0	Good		30	98.3	99.5	99.7	0.0
+493	550.894	Enterobacter cloacae strain e621	WGS	5067956.0	Good		50	98.3	99.5	100.0	0.3
+494	550.896	Enterobacter cloacae strain e627	WGS	4788481.0	Good		35	98.4	99.5	100.0	0.0
+495	550.902	Enterobacter cloacae strain e657	WGS	5077927.0	Good		81	98.4	99.3	99.7	0.3
+496	550.913	Enterobacter cloacae strain e765	WGS	5027518.0	Good		59	97.9	99.5	100.0	0.0
+497	550.919	Enterobacter cloacae strain e795	WGS	5056456.0	Good		35	97.7	99.4	100.0	0.6
+498	550.923	Enterobacter cloacae strain e798	WGS	4872162.0	Good		31	97.2	99.3	100.0	0.0
+499	550.924	Enterobacter cloacae strain e804	WGS	5003646.0	Good		29	97.3	99.3	100.0	0.0
+500	550.932	Enterobacter cloacae strain e829	WGS	5115933.0	Good		54	98.3	99.5	99.7	0.0
+501	550.940	Enterobacter cloacae strain e864	WGS	4786532.0	Good		23	98.4	99.3	100.0	0.6
+502	550.942	Enterobacter cloacae strain e878	WGS	5175236.0	Good		61	97.0	99.1	100.0	0.3
+503	550.951	Enterobacter cloacae strain e914	WGS	5177301.0	Good		56	97.4	99.0	99.7	0.0
+504	550.953	Enterobacter cloacae strain e926	WGS	5147029.0	Good		48	97.9	99.4	100.0	0.0
+505	550.957	Enterobacter cloacae strain e950	WGS	4968318.0	Good		28	97.9	99.3	100.0	0.6
+506	550.963	Enterobacter cloacae strain e985	WGS	4796653.0	Good		49	97.9	98.7	100.0	0.0
+507	550.964	Enterobacter cloacae strain e977	WGS	4701252.0	Good		24	98.5	99.4	100.0	0.3

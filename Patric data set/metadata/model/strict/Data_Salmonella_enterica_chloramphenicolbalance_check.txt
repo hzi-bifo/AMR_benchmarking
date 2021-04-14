@@ -1,0 +1,3 @@
+resistant_phenotype	genome_id
+Resistant	289
+Susceptible	433

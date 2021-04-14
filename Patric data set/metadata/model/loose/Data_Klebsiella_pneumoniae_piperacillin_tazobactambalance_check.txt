@@ -1,0 +1,6 @@
+resistant_phenotype	genome_id
+Resistant	540
+Susceptible	360
+resistant_phenotype	genome_id
+Resistant	540
+Susceptible	360

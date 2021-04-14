@@ -1,0 +1,9 @@
+resistant_phenotype	genome_id
+Resistant	337
+Susceptible	505
+resistant_phenotype	genome_id
+Resistant	337
+Susceptible	505
+resistant_phenotype	genome_id
+Resistant	337
+Susceptible	505

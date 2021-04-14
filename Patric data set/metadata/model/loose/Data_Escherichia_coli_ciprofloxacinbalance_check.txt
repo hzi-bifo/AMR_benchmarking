@@ -1,0 +1,9 @@
+resistant_phenotype	genome_id
+Resistant	490
+Susceptible	735
+resistant_phenotype	genome_id
+Resistant	490
+Susceptible	735
+resistant_phenotype	genome_id
+Resistant	490
+Susceptible	735

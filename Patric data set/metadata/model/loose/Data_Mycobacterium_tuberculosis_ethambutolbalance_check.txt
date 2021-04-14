@@ -1,0 +1,9 @@
+resistant_phenotype	genome_id
+Resistant	2142
+Susceptible	3213
+resistant_phenotype	genome_id
+Resistant	2142
+Susceptible	3213
+resistant_phenotype	genome_id
+Resistant	2142
+Susceptible	3213

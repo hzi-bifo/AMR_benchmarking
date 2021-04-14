@@ -1,0 +1,6 @@
+resistant_phenotype	genome_id
+Resistant	595
+Susceptible	397
+resistant_phenotype	genome_id
+Resistant	595
+Susceptible	397

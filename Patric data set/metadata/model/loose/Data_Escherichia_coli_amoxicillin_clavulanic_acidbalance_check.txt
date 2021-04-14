@@ -1,0 +1,9 @@
+resistant_phenotype	genome_id
+Resistant	491
+Susceptible	736
+resistant_phenotype	genome_id
+Resistant	491
+Susceptible	736
+resistant_phenotype	genome_id
+Resistant	491
+Susceptible	736

@@ -1,0 +1,9 @@
+resistant_phenotype	genome_id
+Resistant	207
+Susceptible	310
+resistant_phenotype	genome_id
+Resistant	207
+Susceptible	310
+resistant_phenotype	genome_id
+Resistant	207
+Susceptible	310

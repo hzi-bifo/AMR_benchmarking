@@ -1,0 +1,9 @@
+resistant_phenotype	genome_id
+Resistant	116
+Susceptible	174
+resistant_phenotype	genome_id
+Resistant	116
+Susceptible	174
+resistant_phenotype	genome_id
+Resistant	116
+Susceptible	174

@@ -1,0 +1,9 @@
+resistant_phenotype	genome_id
+Resistant	703
+Susceptible	1054
+resistant_phenotype	genome_id
+Resistant	703
+Susceptible	1054
+resistant_phenotype	genome_id
+Resistant	703
+Susceptible	1054

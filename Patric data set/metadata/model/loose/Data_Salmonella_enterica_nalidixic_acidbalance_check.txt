@@ -1,0 +1,9 @@
+resistant_phenotype	genome_id
+Resistant	185
+Susceptible	277
+resistant_phenotype	genome_id
+Resistant	185
+Susceptible	277
+resistant_phenotype	genome_id
+Resistant	185
+Susceptible	277

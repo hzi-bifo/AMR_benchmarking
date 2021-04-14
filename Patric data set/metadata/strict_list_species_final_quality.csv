@@ -1,0 +1,12 @@
+species	Unnamed: 0	Number of genomes with AMR metadata	Number of genomes	Number of fine quality genomes
+Mycobacterium tuberculosis	0	21184	29227	5280
+Salmonella enterica	1	9334	20702	6808
+Streptococcus pneumoniae	2	7518	25736	6085
+Neisseria gonorrhoeae	3	6879	7625	924
+Escherichia coli	4	4217	28599	2917
+Staphylococcus aureus	5	3850	15594	9854
+Klebsiella pneumoniae	6	3532	14063	3546
+Acinetobacter baumannii	8	2320	7598	1416
+Pseudomonas aeruginosa	9	1222	6219	1457
+Enterobacter cloacae	11	596	1463	508
+Campylobacter jejuni	12	508	3130	838
