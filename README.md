@@ -4,6 +4,7 @@
     - [The procedures for data acquisition](#pro)
     - [Resulting species and antibiotics based on **strict** Quality Control](#strict)
     - [Resulting species and antibiotics based on **loose** Quality Control](#loose)
+    - [Usage of quality.py for getting IDs for each species and antibiotic combination](#u)
 - [ResFinder](#p)
 - [Multi-species](#m)
 
@@ -63,6 +64,12 @@ Strain number w.r.t. each species before and after Quality control:
 ![plot](./Patric_data_set/species_loose.png)
 
 **The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/loose/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
+
+-  <a name="u"></a> Usage of quality.py for getting IDs for each species and antibiotic combination
+
+
+
+
 
 
 ### <a name="p"></a>2. ResFinder
