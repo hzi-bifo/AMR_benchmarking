@@ -16,6 +16,7 @@ The Sequence ID for each species are in /Patric_data_set/metadata/model/id_$spec
 3. Qaulity control: 
 
 (1). Quality control criteria: strict
+
     - genome status : not Plasmid
     - genome_quality : Good
     - contigs <= 100
@@ -26,11 +27,8 @@ The Sequence ID for each species are in /Patric_data_set/metadata/model/id_$spec
     - |genome length - mean length| <= mean_length/20
 
 
-
-
-
-
 (2). Quality control criteria: loose
+
     - genome status : not Plasmid
     - genome_quality : Good
     - contigs <=  100 or 75% Quartile (the one is chosen to include more strains, w.r.t. each species)
