@@ -16,13 +16,13 @@
     - |genome length - mean length| <= mean_length/20
 
 Resulting species and antibiotics:
-![plot](./Patric data set/species_strict.png)
+![plot](./Patric_data_set/species_strict.png)
 
 
 
 
 2. Quality control criteria: loose
-![plot](./Patric data set/species_loose.png)
+![plot](./Patric_data_set/species_loose.png)
 
 
 ### <a name="p"></a>ResFinder
