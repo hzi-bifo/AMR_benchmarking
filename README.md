@@ -40,7 +40,7 @@
     - checkm_completeness >= 98 and (missing value also accepted)
     - checkm_contamination <= 2  and  (missing value also accepted)
     - |genome length - mean length| <= mean_length/20
-    - Retain the species with at least 100 strains w.r.t.  each antibiotic’s each R and S phenotype classrespectively.
+   
 
 Strain number w.r.t. each species before and after Quality control:
 
