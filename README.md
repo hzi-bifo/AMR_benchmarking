@@ -55,14 +55,13 @@ Strain number w.r.t. each species before and after Quality control:
 
 ![plot](./Patric_data_set/species_strict.png) 
 
-**The Sequence ID for each species are in /Patric_data_set/metadata/quality/GenomeFineQuality_strict_$species_name.txt, e.g. GenomeFineQuality_strict_Streptococcus_pneumoniae.txt**
 
     
 - <a name="loose"></a>Resulting species and antibiotics based on **loose** Quality Control:
 
 ![plot](./Patric_data_set/species_loose.png)
 
-**The Sequence ID for each species are in /Patric_data_set/metadata/quality/GenomeFineQuality_loose_$species_name.txt, e.g. GenomeFineQuality_loose_Streptococcus_pneumoniae.txt**
+
 
 
 ### <a name="p"></a>2. ResFinder
