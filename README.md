@@ -11,7 +11,7 @@
 
 2. Retain the species that contain larger than 500 strains. This results in 13 species.
 
-The Sequence ID for each species are in /Patric_data_set/metadata/model/id_$species_name.list, e.g. id_Pseudomonas_aeruginosa.list.
+**The Sequence ID for each species are in /Patric_data_set/metadata/model/id_$species_name.list, e.g. id_Pseudomonas_aeruginosa.list.**
 
 3. Qaulity control: 
 
