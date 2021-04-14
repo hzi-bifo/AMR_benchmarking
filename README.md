@@ -16,7 +16,7 @@
 
 **The Sequence ID for each species are in /Patric_data_set/metadata/model/id_$species_name.list, e.g. id_Pseudomonas_aeruginosa.list.**
 
-3. Qaulity control: 
+3. Qaulity control over 13 selected species: 
 
 (1). Quality control criteria: strict
 
@@ -42,6 +42,7 @@
     - |genome length - mean length| <= mean_length/20
     - Retain the species with at least 100 strains w.r.t.  each antibiotic’s each R and S phenotype classrespectively.
 
+![plot](./Patric_data_set/strain_n.png) 
 
 4. Retain strains with phenotype either R(resistant) or S(susceptible), i.e. strains with only I(intermediate)or none phenotype are excluded.
 
