@@ -1,9 +1,9 @@
 # AMR tools Benchmarking
 
 - [Patric data set](#data)
-    -[The procedures for data acquisition](#pro)
-    -[Resulting species and antibiotics based on **strict** Quality Control](#strict)
-    -[Resulting species and antibiotics based on **loose** Quality Control](#loose)
+    - [The procedures for data acquisition](#pro)
+    - [Resulting species and antibiotics based on **strict** Quality Control](#strict)
+    - [Resulting species and antibiotics based on **loose** Quality Control](#loose)
 - [ResFinder](#p)
 - [Multi-species](#m)
 
