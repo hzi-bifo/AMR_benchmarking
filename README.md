@@ -45,14 +45,14 @@
 5. Retain the species with at least 100 strains w.r.t.  each antibiotic’s each R and S phenotype classrespectively. 
 
 
-- Resulting species and antibiotics based on strict Quality Control:
+- Resulting species and antibiotics based on **strict** Quality Control:
 
 ![plot](./Patric_data_set/species_strict.png) 
 
 **The Sequence ID for each species are in /Patric_data_set/metadata/quality/GenomeFineQuality_strict_$species_name.txt, e.g. GenomeFineQuality_strict_Streptococcus_pneumoniae.txt**
 
     
-- Resulting species and antibiotics based on loose Quality Control:
+- Resulting species and antibiotics based on **loose** Quality Control:
 
 ![plot](./Patric_data_set/species_loose.png)
 
