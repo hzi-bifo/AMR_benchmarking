@@ -78,9 +78,10 @@ The Sequence ID for each species and antibiotic combination are in /Patric_data_
 
 2. You can use /Patric_data_set/metadata/quality.py
 
+```
 cd /Patric_data_set/metadata/
 python quality.py TODO
-
+````
 
 ### <a name="p"></a>2. ResFinder
 
