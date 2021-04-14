@@ -56,20 +56,27 @@ Strain number w.r.t. each species before and after Quality control:
 
 ![plot](./Patric_data_set/species_strict.png) 
 
-**The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/strict/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
+
 
     
 - <a name="loose"></a>Resulting species and antibiotics based on **loose** Quality Control:
 
 ![plot](./Patric_data_set/species_loose.png)
 
-**The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/loose/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
+
 
 -  <a name="u"></a> Usage of quality.py for getting IDs for each species and antibiotic combination
+1. You can get the ID list directly from txt files.
+**Strict Quality Control: 
+The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/strict/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
 
+**Loose Quality Control: 
+The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/loose/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
 
+2. You can use /Patric_data_set/metadata/quality.py
 
-
+cd /Patric_data_set/metadata/
+python quality.py TODO
 
 
 ### <a name="p"></a>2. ResFinder
