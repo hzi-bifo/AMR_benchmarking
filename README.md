@@ -47,7 +47,8 @@ The Sequence ID for each species are in /Patric_data_set/metadata/model/id_$spec
 
 - Resulting species and antibiotics based on strict Quality Control:
 
-![plot](./Patric_data_set/species_strict.png)
+![plot](./Patric_data_set/species_strict.png) 
+
 The Sequence ID for each species are in /Patric_data_set/metadata/quality/GenomeFineQuality_strict_$species_name.txt, e.g. GenomeFineQuality_strict_Streptococcus_pneumoniae.txt
 
     
