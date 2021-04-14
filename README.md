@@ -55,13 +55,14 @@ Strain number w.r.t. each species before and after Quality control:
 
 ![plot](./Patric_data_set/species_strict.png) 
 
-**The Sequence ID for each species are in /Patric_data_set/metadata/model/strict/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
+**The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/strict/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
+
     
 - <a name="loose"></a>Resulting species and antibiotics based on **loose** Quality Control:
 
 ![plot](./Patric_data_set/species_loose.png)
 
-**The Sequence ID for each species are in /Patric_data_set/metadata/model/loose/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
+**The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/loose/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
 
 
 ### <a name="p"></a>2. ResFinder
