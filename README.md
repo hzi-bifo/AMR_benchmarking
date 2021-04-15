@@ -129,7 +129,11 @@ Codes are based on:
 https://bitbucket.org/deaytan/data_preparation
 https://bitbucket.org/deaytan/neural_networks/src/master/
 
-We make modifications on top of their codes, due to the feature generation tool upgradation. We make pipelines on top of their python files. We rewrite the python codes, changing from Python 2 to Python 3.
+TODO:
+
+- We make modifications on top of their codes, due to the feature generation tool upgradation. 
+- We make pipelines on top of their python files.
+- We rewrite the python codes, changing from Python 2 to Python 3.
 
 
 
