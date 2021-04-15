@@ -108,7 +108,7 @@ balance_ratio > 2 or balance_ratio < 0.5
 
 - antibiotics: a list of selected antibiotics w.r.t. species.
 - ID : matrix of id lists. Each list is the id list for an antibiotic, corresponding to antibiotics list.
-- Y: matrix of phenotye lists. Each list is the binary phenotype list for an antibiotic, corresponding to antibiotics list. 'Resistant': 1, 'Susceptible': 0.
+- Y: matrix of phenotye lists. 'Resistant': 1, 'Susceptible': 0. Each list is the binary phenotype list for an antibiotic, corresponding to antibiotics list.
 
 Example usage:
 ```
