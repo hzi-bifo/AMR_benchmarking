@@ -94,7 +94,7 @@ antibiotics,ID,Y=Patric_data.load_data.extract_info(s,balance,level)
 **Input**
 
 - s: one of 'Pseudomonas aeruginosa' 'Klebsiella pneumoniae' 'Escherichia coli' 'Staphylococcus aureus' 'Mycobacterium tuberculosis' 'Salmonella enterica' 'Streptococcus pneumoniae'  'Neisseria gonorrhoeae' 
-- balance: True; False. If True is set, it provides additional functions of downsampling for unbalanced data set.
+- balance: True; False. If True is set, it provides additional functions of downsampling for unbalanced data set. Reset the majority category's size to 1.5 of the minority category's size, by random selection.
 
 unbalance definition:
 
