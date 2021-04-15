@@ -88,7 +88,7 @@ With the column named 'resistant_phenotype': 'Resistant': 1, 'Susceptible': 0.
 
 ```
 import Patric_data.load_data
-antibiotics,ID,Y=load_data.extract_info(s,balance,level)
+antibiotics,ID,Y=Patric_data.load_data.extract_info(s,balance,level)
 
 ```
 **Input**
@@ -113,7 +113,7 @@ balance_ratio > 2 or balance_ratio < 0.5
 Example usage:
 ```
 import Patric_data.load_data
-antibiotics,ID,Y=load_data.extract_info('Pseudomonas aeruginosa',False,'strict')
+antibiotics,ID,Y=Patric_data.load_data.extract_info('Pseudomonas aeruginosa',False,'strict')
 
 ```
 
