@@ -4,7 +4,7 @@
     - [The procedures for data acquisition](#pro)
     - [Resulting species and antibiotics based on **strict** Quality Control](#strict)
     - [Resulting species and antibiotics based on **loose** Quality Control](#loose)
-    - [Usage of get_data.py for getting IDs for each species and antibiotic combination](#u)
+    - [Getting IDs for each species and antibiotic combination](#u)
 - [ResFinder](#p)
 - [Multi-species](#m)
 
@@ -65,7 +65,7 @@ Strain number w.r.t. each species before and after Quality control:
 
 
 
--  <a name="u"></a> Usage of quality.py for getting IDs for each species and antibiotic combination
+-  <a name="u"></a> Getting IDs for each species and antibiotic combination
 1. You can get the ID list directly from txt files.
 
 **Strict Quality Control: 
