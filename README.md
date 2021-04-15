@@ -113,7 +113,15 @@ balance_ratio > 2 or balance_ratio < 0.5
 Example usage:
 ```
 import Patric_data.load_data
-antibiotics,ID,Y=Patric_data.load_data.extract_info('Pseudomonas aeruginosa',False,'strict')
+import numpy as np
+
+antibiotics,ID,Y=Patric_data.load_data.extract_info('Pseudomonas aeruginosa',True,'strict')
+
+
+print('check: antibiotics ',antibiotics,len(ID),len(Y))
+print(len(antibiotics))
+for i in np.arange(len(ID)):
+    print('Check number of strains for antibiotics ', antibiotics[i], ': ' ,len(ID[i]),' in ID list, ',len(Y[i]), 'in y list')
 
 ```
 
