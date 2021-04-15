@@ -86,7 +86,15 @@ With the column named 'resistant_phenotype': 'Resistant': 1, 'Susceptible': 0.
 
 **(b). Use /Patric_data_set/load_data.py as a module**
 
-Providing additional functions of downsampling for unbalanced data set.
+TODO
+
+```
+import Patric_data.load_data
+id,y=load_data.extract_info(s,balance,level)
+
+```
+- s: one of 'Pseudomonas aeruginosa' 'Klebsiella pneumoniae' 'Escherichia coli' 'Staphylococcus aureus' 'Mycobacterium tuberculosis' 'Salmonella enterica' 'Streptococcus pneumoniae'  'Neisseria gonorrhoeae' 
+- balance: True; False. If True is set, it provides additional functions of downsampling for unbalanced data set.
 
 unbalance definition:
 
@@ -94,16 +102,14 @@ balance_ratio=(Number of strains in Susceptible)/(Number of strains in Resistanc
 
 balance_ratio > 2 or balance_ratio < 0.5
 
+- level: 'strict';'loose'.
 
-
+Example usage:
 ```
 import Patric_data.load_data
-
+id,y=load_data.extract_info('Pseudomonas aeruginosa',False,'strict')
 
 ```
-
-
-
 
 
 
