@@ -6,7 +6,7 @@
     - [Resulting species and antibiotics based on **loose** Quality Control](#loose)
     - [Get IDs for each species and antibiotic combination](#u)
         - [Get the ID list directly from txt files](#files)
-        - [Use /Patric_data/load_data.py as a module](#getdata)
+        - [Loadind ID list and phenotype through a module](#getdata)
 - [ResFinder(4.0)](#p)
 - [Multi-species](#m)
 
@@ -84,7 +84,7 @@ The Sequence ID for each species and antibiotic combination are in /Patric_data_
 
 With the column named 'resistant_phenotype': 'Resistant': 1, 'Susceptible': 0.
 
-**<a name="getdata"></a>(b). Use /Patric_data_set/load_data.py as a module**
+**<a name="getdata"></a>(b). Loadind ID list and phenotype through a module**
 
 ```
 import Patric_data.load_data
