@@ -7,7 +7,7 @@
     - [Get IDs for each species and antibiotic combination](#u)
         - [Get the ID list directly from txt files](#files)
         - [Use /Patric_data_set/get_data.py](#getdata)
-- [ResFinder](#p)
+- [ResFinder(4.0)](#p)
 - [Multi-species](#m)
 
 
