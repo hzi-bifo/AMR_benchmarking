@@ -71,11 +71,11 @@ Strain number w.r.t. each species before and after Quality control:
 
 **Strict Quality Control: **
 
-The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/strict/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
+The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/strict/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt
 
 **Loose Quality Control: **
 
-The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/loose/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
+The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/loose/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt
 
 **2. Use /Patric_data_set/get_data.py**
 
