@@ -69,7 +69,7 @@ def model(species,antibiotics,balance,level):
 
         # select genome_id and  resistant_phenotype
         #data_sub_anti = data_sub_anti.loc[:, ('genome_id', 'resistant_phenotype')]
-        print(species, anti, '=============>> loading' )
+        print(species,',', anti, '=============>> loading' )
         # print(data_sub_anti)
         data_sub_anti = data_sub_anti.drop_duplicates()#should no duplicates. Just in case.
 
