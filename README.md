@@ -70,19 +70,19 @@ Strain number w.r.t. each species before and after Quality control:
 
 ### <a name="u"></a> 4. Getting IDs for each species and antibiotic combination
 
-**A. Get the ID list directly from txt files.**
+**(a). Get the ID list directly from txt files.**
 
-A.1 Strict Quality Control: 
+1. Strict Quality Control: 
 
 The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/strict/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt
 
-A.2 Loose Quality Control:
+2. Loose Quality Control:
 
 The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/loose/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt
 
-**B. Use /Patric_data_set/get_data.py**
+**(b). Use /Patric_data_set/get_data.py**
 
-2.1 Usage
+1. Usage
 
 
 ```
@@ -102,7 +102,7 @@ balance_ratio > 2 or balance_ratio < 0.5
 ```
 
 
-2.2 Example
+2. Example
 
 ```
 
