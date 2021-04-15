@@ -86,13 +86,13 @@ With the column named 'resistant_phenotype': 'Resistant': 1, 'Susceptible': 0.
 
 **(b). Use /Patric_data_set/load_data.py as a module**
 
-TODO
-
 ```
 import Patric_data.load_data
-id,y=load_data.extract_info(s,balance,level)
+antibiotics,ID,Y=load_data.extract_info(s,balance,level)
 
 ```
+**Input**
+
 - s: one of 'Pseudomonas aeruginosa' 'Klebsiella pneumoniae' 'Escherichia coli' 'Staphylococcus aureus' 'Mycobacterium tuberculosis' 'Salmonella enterica' 'Streptococcus pneumoniae'  'Neisseria gonorrhoeae' 
 - balance: True; False. If True is set, it provides additional functions of downsampling for unbalanced data set.
 
@@ -104,10 +104,16 @@ balance_ratio > 2 or balance_ratio < 0.5
 
 - level: 'strict';'loose'.
 
+**Output**
+
+- antibiotics: a list of selected antibiotics w.r.t. species.
+- ID : matrix of id lists. Each list is the id list for an antibiotic, corresponding to antibiotics list.
+- Y: matrix of phenotye lists. Each list is the binary phenotype list for an antibiotic, corresponding to antibiotics list. 'Resistant': 1, 'Susceptible': 0.
+
 Example usage:
 ```
 import Patric_data.load_data
-id,y=load_data.extract_info('Pseudomonas aeruginosa',False,'strict')
+antibiotics,ID,Y=load_data.extract_info('Pseudomonas aeruginosa',False,'strict')
 
 ```
 
