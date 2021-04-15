@@ -70,7 +70,7 @@ Strain number w.r.t. each species before and after Quality control:
 
 ### <a name="u"></a> 4. Getting IDs for each species and antibiotic combination
 
-**(a). Get the ID list directly from txt files.**
+**<a name="files"></a>(a). Get the ID list directly from txt files.**
 
 (1). Strict Quality Control: 
 
@@ -84,7 +84,7 @@ The Sequence ID for each species and antibiotic combination are in /Patric_data_
 
 With the column named 'resistant_phenotype': 'Resistant': 1, 'Susceptible': 0.
 
-**(b). Use /Patric_data_set/load_data.py as a module**
+**<a name="getdata"></a>(b). Use /Patric_data_set/load_data.py as a module**
 
 ```
 import Patric_data.load_data
