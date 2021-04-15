@@ -66,13 +66,14 @@ Strain number w.r.t. each species before and after Quality control:
 
 
 -  <a name="u"></a> Getting IDs for each species and antibiotic combination
+
 **1. Get the ID list directly from txt files.**
 
-**Strict Quality Control: 
+**Strict Quality Control: **
 
 The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/strict/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
 
-**Loose Quality Control: 
+**Loose Quality Control: **
 
 The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/loose/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
 
