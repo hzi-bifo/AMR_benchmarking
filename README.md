@@ -66,7 +66,7 @@ Strain number w.r.t. each species before and after Quality control:
 
 
 -  <a name="u"></a> Getting IDs for each species and antibiotic combination
-1. You can get the ID list directly from txt files.
+**1. You can get the ID list directly from txt files.
 
 **Strict Quality Control: 
 
@@ -76,7 +76,7 @@ The Sequence ID for each species and antibiotic combination are in /Patric_data_
 
 The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/loose/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt**
 
-2. You can use /Patric_data_set/get_data.py
+**2. You can use /Patric_data_set/get_data.py
 
 Providing additional functions of downsampling for unbalanced data set.
 
