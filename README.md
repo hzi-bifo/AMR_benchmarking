@@ -6,7 +6,7 @@
     - [Resulting species and antibiotics based on **loose** Quality Control](#loose)
     - [Get IDs for each species and antibiotic combination](#u)
         - [Get the ID list directly from txt files](#files)
-        - [Use /Patric_data_set/get_data.py](#getdata)
+        - [Use /Patric_data_set/load_data.py as a module](#getdata)
 - [ResFinder(4.0)](#p)
 - [Multi-species](#m)
 
@@ -80,15 +80,12 @@ The Sequence ID for each species and antibiotic combination are in /Patric_data_
 
 The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/loose/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt
 
-**(b). Use /Patric_data_set/get_data.py**
+**(b). Use /Patric_data_set/load_data.py as a module**
 
 (1). Usage
 
 
-```
-cd /Patric_data_se
-python get_data.py TODO
-````
+
 
 ```
 TODO
