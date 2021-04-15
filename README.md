@@ -114,16 +114,22 @@ balance_ratio > 2 or balance_ratio < 0.5
 
 Bortolaia, Valeria, et al. "ResFinder 4.0 for predictions of phenotypes from genotypes." Journal of Antimicrobial Chemotherapy 75.12 (2020): 3491-3500.
 
+Install ResFinder 4.0 from:
+
 https://bitbucket.org/genomicepidemiology/resfinder/src/master/
+
 
 
 
 ## <a name="m"></a> Multi-species
 Nguyen, Marcus, et al. "Predicting antimicrobial resistance using conserved genes." PLoS computational biology 16.10 (2020): e1008319.
 
+Codes are based on:
+
 https://bitbucket.org/deaytan/data_preparation
 https://bitbucket.org/deaytan/neural_networks/src/master/
 
+We make modifications on top of their codes, due to the feature generation tool upgradation. We make pipelines on top of their python files. We rewrite the python codes, changing from Python 2 to Python 3.
 
 
 
