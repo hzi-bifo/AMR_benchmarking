@@ -6,7 +6,7 @@
     - [Resulting species and antibiotics based on **loose** Quality Control](#loose)
     - [Get IDs for each species and antibiotic combination](#u)
         - [Get the ID list directly from txt files](#files)
-        - [Use /Patric_data_set/load_data.py as a module](#getdata)
+        - [Use /Patric_data/load_data.py as a module](#getdata)
 - [ResFinder(4.0)](#p)
 - [Multi-species](#m)
 
@@ -86,13 +86,6 @@ With the column named 'resistant_phenotype': 'Resistant': 1, 'Susceptible': 0.
 
 **(b). Use /Patric_data_set/load_data.py as a module**
 
-(1). Usage
-
-
-
-
-```
-TODO
 Providing additional functions of downsampling for unbalanced data set.
 
 unbalance definition:
@@ -100,14 +93,17 @@ unbalance definition:
 balance_ratio=(Number of strains in Susceptible)/(Number of strains in Resistance)
 
 balance_ratio > 2 or balance_ratio < 0.5
+
+
+
+```
+import Patric_data.load_data
+
+
 ```
 
 
-(2). Example
 
-```
-
-```
 
 
 
