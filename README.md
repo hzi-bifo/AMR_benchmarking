@@ -79,6 +79,16 @@ The Sequence ID for each species and antibiotic combination are in /Patric_data_
 
 **2. Use /Patric_data_set/get_data.py**
 
+2.1 Usage
+
+
+```
+cd /Patric_data_se
+python get_data.py TODO
+````
+
+```
+TODO
 Providing additional functions of downsampling for unbalanced data set.
 
 unbalance definition:
@@ -87,9 +97,15 @@ balance_ratio=(Number of strains in Susceptible)/(Number of strains in Resistanc
 
 balance_ratio > 2 or balance_ratio < 0.5
 ```
-cd /Patric_data_se
-python get_data.py TODO
-````
+
+
+2.2 Example
+
+```
+
+```
+
+
 
 ### <a name="p"></a>2. ResFinder
 
