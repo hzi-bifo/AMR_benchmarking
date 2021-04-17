@@ -1,4 +1,3 @@
-
 import os
 os.environ["OMP_NUM_THREADS"] = "1" # export OMP_NUM_THREADS=4
 os.environ["OPENBLAS_NUM_THREADS"] = "1" # export OPENBLAS_NUM_THREADS=4
@@ -18,17 +17,47 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import f1_score
 import argparse
 
+def get_file(species,strain_ID,tool):
+    path_to_pointfinder = "/net/flashtest/scratch/khu/benchmarking/Results/Point_results_" + str(species.replace(" ", "_"))
+    path_to_resfinder = "/net/flashtest/scratch/khu/benchmarking/Results/Res_results_" + str(species.replace(" ", "_"))
+    path_to_pr = "/net/flashtest/scratch/khu/benchmarking/Results/" + str(species.replace(" ", "_"))
+    if tool == "point":
+        point = open("%s/%s/pheno_table.txt" % (path_to_pointfinder, strain_ID), "r")
+        file = point
+    elif tool == "res":
+        res = open("%s/%s/pheno_table.txt" % (path_to_resfinder, strain_ID), "r")
+        file = res
+    else:
+        both = open("%s/%s/pheno_table.txt" % (path_to_pr, strain_ID), "r")
+        file = both
+        # only applied for debug, check and run ResFinder
+        # check the file exsistence
+        # _, _, f_check = next(walk("%s/%s/pheno_table.txt" % (path_to_pr, strain_ID)))
+        # if "pheno_table.txt" in f_check:
+        #
+        #     both = open("%s/%s/pheno_table.txt" % (path_to_pr, strain_ID), "r")
+        #     file = both
+        # else:
+        #     path_data = "/net/projects/BIFO/patric_genome/"
+        #     run_Res(path_data, strain_ID, species)
+        #     both = open("%s/%s/pheno_table.txt" % (path_to_pr, strain_ID), "r")
+        #     file = both
+    return file
 def determination(species,antibiotics,level,tool):
-    path_to_pointfinder="/net/flashtest/scratch/khu/benchmarking/Results/Point_results_"+str(species.replace(" ", "_"))
-    path_to_resfinder="/net/flashtest/scratch/khu/benchmarking/Results/Res_results_"+str(species.replace(" ", "_"))
-    path_to_pr="/net/flashtest/scratch/khu/benchmarking/Results/" + str(species.replace(" ", "_"))
+    logDir ="./temp/"
+    if not os.path.exists(logDir):
+        try:
+            os.makedirs(logDir)
+        except OSError:
+            print("Can't create logging directory:", logDir)
     print(species)
     antibiotics_selected = ast.literal_eval(antibiotics)
-
     print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
 
-    for anti in antibiotics_selected[0:2]:
+    for anti in antibiotics_selected:
         print(anti,'--------------------------------------------------------------------')
+
+
     # for anti in ['aztreonam']:
         # save_name_meta, save_name_modelID = amr_utility.name_utility.save_name_modelID(level, species, anti)
         save_name_modelID = 'metadata/model/' + str(level) + '/Data_' + str(species.replace(" ", "_")) + '_' + str(
@@ -41,32 +70,14 @@ def determination(species,antibiotics,level,tool):
         y_pre =list()
         samples=data_sub_anti['genome_id'].to_list()
 
-        for strain_ID in samples[0:1]:
+        for strain_ID in samples:
 
             # lines_start_read = 16
-            if tool=="point":
-                point = open("%s/%s/pheno_table.txt" % (path_to_pointfinder, strain_ID), "r")
-                file=point
-            elif tool=="res":
-                res = open("%s/%s/pheno_table.txt" % (path_to_resfinder, strain_ID), "r")
-                file=res
-            else:
-                both = open("%s/%s/pheno_table.txt" % (path_to_pr, strain_ID), "r")
-                file = both
-                #only applied for debug, check and run ResFinder
-                #check the file exsistence
-                # _, _, f_check = next(walk("%s/%s/pheno_table.txt" % (path_to_pr, strain_ID)))
-                # if "pheno_table.txt" in f_check:
-                #
-                #     both = open("%s/%s/pheno_table.txt" % (path_to_pr, strain_ID), "r")
-                #     file = both
-                # else:
-                #     path_data = "/net/projects/BIFO/patric_genome/"
-                #     run_Res(path_data, strain_ID, species)
-                #     both = open("%s/%s/pheno_table.txt" % (path_to_pr, strain_ID), "r")
-                #     file = both
+
+
             # Read prediction info---------------------------------------------------------------------------
-            pheno_table=pd.DataFrame(columns=['Antimicrobial', 'Class', 'WGS-predicted phenotype', 'Match','Genetic background'])
+            file = get_file(species, strain_ID, tool)
+
             for position, line in enumerate(file):
 
 
@@ -75,36 +86,36 @@ def determination(species,antibiotics,level,tool):
 
                 if "# WARNING:" in line:
                     end=position
-                    print(end, '!!!!!!!')
-            pheno_table_i = 0
+
+
+            file = get_file(species, strain_ID, tool)
+            # print(start,end)
+            temp_file = open("./temp/temp.txt", "w+")
 
             for position, line in enumerate(file):
                     #starting to record into dataframe
-                    print('check?')
-                    print(position)
-                    if position>start & position<end :
-                        pheno_table.loc[pheno_table_i] = line
-                        pheno_table_i+=1
-                        print(line)
-            print(pheno_table)
-                # if position >= lines_start_read:
-                #     try:
-                #         if anti == line.split()[0]:
-                #             # print(line)
-                #             # print(line.split()[2])
-                #             if line.split()[2] == "No":
-                #
-                #                 y_pre.append(0)
-                #
-                #             else:
-                #                 y_pre.append(1)
-                #     except:
-                #         pass
+                    if (position > start) & (position < end) :
+                        # print(position)
+                        # line=line.strip().split('\t')
+                        temp_file.write(line)
 
-            # to_exclude = np.arange(0,16)
-            # line= pd.read_csv(point,sep="\t", skiprows = to_exclude)
-            # print(line.columns)
+            temp_file.close()
+            pheno_table =pd.read_csv("./temp/temp.txt", index_col=None, header=None,
+                                     names=['Antimicrobial', 'Class', 'WGS-predicted phenotype', 'Match', 'Genetic background'],
+                                    sep="\t")
 
+            # print(pheno_table.size)
+            pheno_table_sub = pheno_table.loc[pheno_table['Antimicrobial'] == str(anti.translate(str.maketrans({'/': '+'}))), 'WGS-predicted phenotype']
+            if pheno_table_sub.size>0:
+                pheno=pheno_table_sub.values[0]
+                # print(pheno)
+                if pheno=='No resistance':
+                    y_pre.append(0)
+                elif pheno=='Resistant':
+                    y_pre.append(1)
+                else:
+                    if len(y_pre)>0:
+                        print("Warning: may miss a sample regarding y_pre. ")
         if len(y_pre)>0:
             print('y_pre',len(y_pre))
             y = data_sub_anti['resistant_phenotype'].to_numpy()
