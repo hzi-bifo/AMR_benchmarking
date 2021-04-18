@@ -131,11 +131,63 @@ for i in np.arange(len(ID)):
 
 Bortolaia, Valeria, et al. "ResFinder 4.0 for predictions of phenotypes from genotypes." Journal of Antimicrobial Chemotherapy 75.12 (2020): 3491-3500.
 
-Install ResFinder 4.0 from:
+### 1. Install ResFinder 4.0 from:
 
 https://bitbucket.org/genomicepidemiology/resfinder/src/master/
 
+### 2. Preparing.
 
+Copy the contents of /ResFinder to installed ResFinder 4.0 Folder, i.e. /resfinder.
+
+Copy Patric_data/metadata to installed ResFinder 4.0 Folder, i.e. /resfinder.
+
+### 3. SNP and AMR gene detection
+```
+usage: Kaixin_ResFinder_PointFinder.py [-h] [--s S [S ...]] [--n_jobs N_JOBS]
+                                       [--check]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --s S [S ...], --species S [S ...]
+                        species to run: e.g.'seudomonas aeruginosa'
+                        'Klebsiella pneumoniae' 'Escherichia coli'
+                        'Staphylococcus aureus' 'Mycobacterium tuberculosis'
+                        'Salmonella enterica' 'Streptococcus pneumoniae'
+                        'Neisseria gonorrhoeae'
+  --n_jobs N_JOBS       Number of jobs to run in parallel.
+  --check               debug
+
+```
+### 4. AMR prediction testing score.
+
+```
+usage: Kaixin_Predictions_Res_PointFinder_tools.py [-h] --l L --t T
+                                                   [--s S [S ...]] [-v]
+                                                   [--score SCORE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --l L, --level L      Quality control: strict or loose
+  --t T, --tool T       res, point, both
+  --s S [S ...], --species S [S ...]
+                        species to run: e.g.'seudomonas aeruginosa'
+                        'Klebsiella pneumoniae' 'Escherichia coli'
+                        'Staphylococcus aureus' 'Mycobacterium tuberculosis'
+                        'Salmonella enterica' 'Streptococcus pneumoniae'
+                        'Neisseria gonorrhoeae'
+  -v, --visualize       visualize the final outcome
+  --score SCORE         Score:f1-score, precision, recall, all. All scores are
+                        macro.
+Namespace(l='loose', s=['Escherichia coli'], score='all', t='both', v=True)
+
+```
+
+### 5. Example.
+```
+python Kaixin_Predictions_Res_PointFinder_tools.py --s 'Escherichia coli' --t=both
+python Kaixin_Predictions_Res_PointFinder_tools.py --l="loose"  --s 'Escherichia coli' --t=both -v --score "all"
+
+```
 
 
 ## <a name="m"></a> Multi-species
