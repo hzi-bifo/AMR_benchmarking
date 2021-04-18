@@ -141,7 +141,7 @@ Copy the contents of /ResFinder to installed ResFinder 4.0 Folder, i.e. /resfind
 
 Copy Patric_data/metadata to installed ResFinder 4.0 Folder, i.e. /resfinder.
 
-### 3. SNP and AMR gene detection
+### 3. SNP and AMR gene information extraqction.
 ```
 usage: Kaixin_ResFinder_PointFinder.py [-h] [--s S [S ...]] [--n_jobs N_JOBS]
                                        [--check]
@@ -158,7 +158,7 @@ optional arguments:
   --check               debug
 
 ```
-### 4. AMR prediction testing score.
+### 4. AMR determination testing score.
 
 ```
 usage: Kaixin_Predictions_Res_PointFinder_tools.py [-h] --l L --t T
