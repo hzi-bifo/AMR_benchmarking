@@ -1,0 +1,3 @@
+[submodule "AMR_khu"]
+	path = AMR_khu
+	url = https://github.com/hzi-bifo/AMR_khu
