@@ -139,7 +139,7 @@ https://bitbucket.org/genomicepidemiology/resfinder/src/master/
 
 Copy the contents of /ResFinder to installed ResFinder 4.0 Folder, i.e. /resfinder.
 
-Copy Patric_data/metadata to installed ResFinder 4.0 Folder, i.e. /resfinder.
+Copy the contents of /Patric_data to installed ResFinder 4.0 Folder, i.e. /resfinder.
 
 ### 3. SNP and AMR gene information extraqction.
 ```
