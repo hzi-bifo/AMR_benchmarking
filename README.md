@@ -48,7 +48,7 @@
 
 Strain number w.r.t. each species before and after Quality control:
 
-![plot](./Patric_data/strain_n.png) 
+![plot](./images/strain_n.png) 
 
 - Retain strains with phenotype either R(resistant) or S(susceptible), i.e. strains with only I(intermediate)or none phenotype are excluded.
 
@@ -57,14 +57,14 @@ Strain number w.r.t. each species before and after Quality control:
 
 ### <a name="strict"></a>2. Resulting species and antibiotics based on **strict** Quality Control:
 
-![plot](./Patric_data/species_strict.png) 
+![plot](./images/species_strict.png) 
 
 
 
     
 ### <a name="loose"></a>3. Resulting species and antibiotics based on **loose** Quality Control:
 
-![plot](./Patric_data/species_loose.png)
+![plot](./images/species_loose.png)
 
 
 
