@@ -61,6 +61,7 @@ def model(species,antibiotics,balance,level):
     # for anti in ['mupirocin', 'penicillin', 'rifampin', 'tetracycline', 'vancomycin']:
     ID_list=[]
     Y=[]
+    pheno_summary = pd.DataFrame(index=antibiotics_selected, columns=['Resistant', 'Susceptible','Resistant(downsampling)', 'Susceptible(downsampling)'])
     for anti in antibiotics_selected:
 
         save_name_meta, save_name_modelID = amr_utility.name_utility.save_name_modelID(level,species, anti)
@@ -74,6 +75,10 @@ def model(species,antibiotics,balance,level):
         data_sub_anti = data_sub_anti.drop_duplicates()#should no duplicates. Just in case.
 
         #Downsampling for inbalance data set
+        print(data_sub_anti.groupby(by="resistant_phenotype").count())
+        # pheno = data_sub_anti.groupby(by="resistant_phenotype").count()
+        # pheno_summary.loc[str(anti), 'Resistant'] = pheno.iloc[1, 0]
+        # pheno_summary.loc[str(anti), 'Susceptible'] = pheno.iloc[0, 0]
         if balance==True:
             balance_check,data_sub_anti=check_balance(data_sub_anti)
             print('Check phenotype balance after downsampling.', balance_check)
@@ -81,14 +86,72 @@ def model(species,antibiotics,balance,level):
         ID_sub_anti=data_sub_anti.genome_id
         ID_list.append(ID_sub_anti)
 
+        # pheno = {'Resistant': 1, 'Susceptible': 0, 'S': 0, 'Non-susceptible': 1,'RS':1}
+        # data_sub_anti.resistant_phenotype = [pheno[item] for item in data_sub_anti.resistant_phenotype]
+        y=data_sub_anti['resistant_phenotype'].to_numpy()
+        Y.append(y)
+    # print(pheno_summary)
+    return antibiotics_selected,ID_list,Y
+
+def summary(species,level):
+    data = pd.read_csv('metadata/' + str(level) + '_Species_antibiotic_FineQuality.csv', index_col=0,
+                       dtype={'genome_id': object}, sep="\t")
+    data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
+    # for training model on part of the dataset:-------------
+    # data=data.loc[['Escherichia coli'],:]
+    # print('Species overview \n', data)
+    data = data.loc[[species], :]
+    # data.at['Mycobacterium tuberculosis', 'modelling antibiotics']=['capreomycin', 'ciprofloxacin']
+    # --------------------------------------------------------
+    df_species = data.index.tolist()
+    # print('Selected species: \n', data)
+    antibiotics = data['modelling antibiotics'].tolist()[0]
+    # print(antibiotics)
+
+    antibiotics_selected = ast.literal_eval(antibiotics)
+
+    print(species)
+    # print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
+
+    # for anti in ['mupirocin', 'penicillin', 'rifampin', 'tetracycline', 'vancomycin']:
+    ID_list=[]
+    Y=[]
+    pheno_summary = pd.DataFrame(index=antibiotics_selected, columns=['Resistant', 'Susceptible','Resistant(downsampling)', 'Susceptible(downsampling)'])
+    for anti in antibiotics_selected:
+
+        save_name_meta, save_name_modelID = amr_utility.name_utility.save_name_modelID(level,species, anti)
+
+        data_sub_anti = pd.read_csv(save_name_modelID + '.txt', index_col=0, dtype={'genome_id': object}, sep="\t")
+
+        # select genome_id and  resistant_phenotype
+        #data_sub_anti = data_sub_anti.loc[:, ('genome_id', 'resistant_phenotype')]
+        # print(species,',', anti, '=============>> loading' )
+        # print(data_sub_anti)
+        data_sub_anti = data_sub_anti.drop_duplicates()#should no duplicates. Just in case.
+
+        #Downsampling for inbalance data set
+        # print(data_sub_anti.groupby(by="resistant_phenotype").count())
+        pheno = data_sub_anti.groupby(by="resistant_phenotype").count()
+        pheno_summary.loc[str(anti), 'Resistant'] = pheno.iloc[1, 0]
+        pheno_summary.loc[str(anti), 'Susceptible'] = pheno.iloc[0, 0]
+        # if balance==True:
+        balance_check,data_sub_anti=check_balance(data_sub_anti)
+        # print('Check phenotype balance after downsampling.', balance_check)
+        pheno = data_sub_anti.groupby(by="resistant_phenotype").count()
+        pheno_summary.loc[str(anti), 'Resistant(downsampling)'] = pheno.iloc[1, 0]
+        pheno_summary.loc[str(anti), 'Susceptible(downsampling)'] = pheno.iloc[0, 0]
+
+
+        ID_sub_anti=data_sub_anti.genome_id
+        ID_list.append(ID_sub_anti)
 
         # pheno = {'Resistant': 1, 'Susceptible': 0, 'S': 0, 'Non-susceptible': 1,'RS':1}
         # data_sub_anti.resistant_phenotype = [pheno[item] for item in data_sub_anti.resistant_phenotype]
         y=data_sub_anti['resistant_phenotype'].to_numpy()
         Y.append(y)
-
+    print(pheno_summary)
+    pheno_summary.to_csv( 'metadata/balance/'+str(level)+'/log_' + str(species.replace(" ", "_")) + '_ pheno_summary' + '.txt', sep="\t")
     return antibiotics_selected,ID_list,Y
-
 
 
 def extract_info(s,balance,level):
