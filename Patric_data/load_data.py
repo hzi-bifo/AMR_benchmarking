@@ -151,7 +151,7 @@ def summary(species,level):
         Y.append(y)
     print(pheno_summary)
     pheno_summary.to_csv( 'metadata/balance/'+str(level)+'/log_' + str(species.replace(" ", "_")) + '_ pheno_summary' + '.txt', sep="\t")
-    return antibiotics_selected,ID_list,Y
+    return antibiotics_selected
 
 
 def extract_info(s,balance,level):
