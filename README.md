@@ -122,6 +122,10 @@ print('Check: antibiotics ',antibiotics,len(ID),len(Y))
 print(len(antibiotics))
 for i in np.arange(len(ID)):
     print('Check number of strains for antibiotics ', antibiotics[i], ': ' ,len(ID[i]),' in ID list, ',len(Y[i]), 'in y list')
+    
+    
+# Output a summary of phenotype distribution w.r.t. each antibiotic
+antibiotics_selected,ID_list,Y=load_data.summary('Pseudomonas aeruginosa','loose')
 
 ```
 
