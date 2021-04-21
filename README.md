@@ -211,3 +211,13 @@ TODO:
 
 
 
+1. Strains clustering using KMA
+```
+cat ~/AMR/benchmarking/resfinder/metadata/model/loose/Data_Pseudomonas_aeruginosa_tobramycin |
+while read id; do
+    kma_clustering -i /net/projects/BIFO/patric_genome/${id}.fna  -o ~/AMR/benchmarking/data_preparation/results
+done
+
+```
+2. 
+
