@@ -206,7 +206,7 @@ TODO:
 
 
 - We make/provide pipelines on top of their python files. The codes modified are renamed as *original_name + "\_khuModified".*
-- We provide a complete example, illustrating the pipeline.
+- We provide a complete example, illustrating the pipeline with Patric genomic data.
 - We rewrite the python codes, changing from Python 2 to Python 3.
 
 
