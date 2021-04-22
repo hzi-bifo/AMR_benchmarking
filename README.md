@@ -205,7 +205,8 @@ https://bitbucket.org/deaytan/neural_networks/src/master/
 TODO:
 
 
-- We make pipelines on top of their python files. The codes modified are renamed as *original_name + "\_khuModified".*
+- We make/provide pipelines on top of their python files. The codes modified are renamed as *original_name + "\_khuModified".*
+- We provide a complete example, illustrating the pipeline.
 - We rewrite the python codes, changing from Python 2 to Python 3.
 
 
