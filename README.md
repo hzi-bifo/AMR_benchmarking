@@ -195,7 +195,7 @@ python Kaixin_Predictions_Res_PointFinder_tools.py --l="loose"  --s 'Escherichia
 
 
 ## <a name="m"></a> Multi-species
-Nguyen, Marcus, et al. "Predicting antimicrobial resistance using conserved genes." PLoS computational biology 16.10 (2020): e1008319.
+D Aytan-Aktug, Philip Thomas Lanken Conradsen Clausen, Valeria Bortolaia, Frank Møller Aarestrup, and Ole Lund. Prediction of acquired antimicrobial resistance for multiple bacterial species using neural networks.Msystems, 5(1), 2020.
 
 Codes are based on:
 
@@ -209,6 +209,7 @@ TODO:
 - We provide a complete example, illustrating the pipeline with Patric genomic data.
 - We rewrite the python codes, changing from Python 2 to Python 3.
 - We rewrite the hard-coding codes related to multi-species feature merging, so that it can be used with more flexibility.
+- For the multi-species model, when generating the AMR GPA feature, we considering AMR genes from all the species together. In the original work, they treat each species' GPA information separately.???TO BE check!
 
 
 
