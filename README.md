@@ -208,6 +208,7 @@ TODO:
 - We make/provide pipelines on top of their python files. The codes modified for that purpuse are renamed as *original_name + "\_khuModified".*
 - We provide a complete example, illustrating the pipeline with Patric genomic data.
 - We rewrite the python codes, changing from Python 2 to Python 3.
+- We rewrite the hard-coding codes related to multi-species feature merging, so that it can be used with more flexibility.
 
 
 
