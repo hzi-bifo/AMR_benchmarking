@@ -204,22 +204,12 @@ https://bitbucket.org/deaytan/neural_networks/src/master/
 
 TODO:
 
-
-- We make/provide pipelines on top of their python files. The codes modified for that purpuse are renamed as *original_name + "\_khuModified".*
-- We provide a complete example, illustrating the pipeline with Patric genomic data.
-- We rewrite the python codes, changing from Python 2 to Python 3.
+- We provide a python file starting from the beginning to the end, w.r.t. Patric genomic data. The origianl is w.r.t. raw sequence data.
+- We rewrite the python codes, changing from Python 2 to Python 3, and adapting to more species and antibiotic combinations. The codes modified for that purpuse are renamed as *original_name + "\_khuModified".*
 - We rewrite the hard-coding codes related to multi-species feature merging, so that it can be used with more flexibility.
 - For the multi-species model, when generating the AMR GPA feature, we considering AMR genes from all the species together. In the original work, they treat each species' GPA information separately.???TO BE check!
 
 
 
-1. Strains clustering using KMA
-```
-cat ~/AMR/benchmarking/resfinder/metadata/model/loose/Data_Pseudomonas_aeruginosa_tobramycin |
-while read id; do
-    kma_clustering -i /net/projects/BIFO/patric_genome/${id}.fna  -o ~/AMR/benchmarking/data_preparation/results
-done
 
-```
-2. 
 
