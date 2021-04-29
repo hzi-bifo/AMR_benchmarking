@@ -196,7 +196,6 @@ def plot(anti_number, all_mcc_values, cv, validation, pred_val_all, validation_y
     plt.close()
     # '''
 
-
 def cluster_split(dict_cluster, Random_State, cv):
     # Custom k fold cross validation
     # cross validation method divides the clusters and adds to the partitions.
@@ -249,7 +248,7 @@ def cluster_split(dict_cluster, Random_State, cv):
             tem_Nsamples.append(len(elements))
         sum_tem = sum(tem_Nsamples)
 
-        print('sum_tem', sum_tem)  # all_samples: val,train,test.
+        print('sum_tem', sum_tem)  # all_samples in that folder: val,train,test.
         print(len(all_samples) / float(cv))
         print(len(all_samples))
         a = 0
@@ -267,8 +266,7 @@ def cluster_split(dict_cluster, Random_State, cv):
             sum_tem = sum(tem_Nsamples)
             for item in range(len(all_data_splits)):
                 all_data_splits[item] = list(
-                    set(all_data_splits[item]) - set(
-                        [extra]))  # rm previous cluster order, because it's moved to this fold.
+                    set(all_data_splits[item]) - set([extra]))  # rm previous cluster order, because it's moved to this fold.
         totals.append(sum_tem)  # sample number for each CV. #no use afterwards.
         all_data_splits.append(extracted)  ##cluster order for each CV
     return all_data_splits
@@ -306,6 +304,19 @@ def prepare_sample_name(fileDir, p_names):
     for each in range(len(names_read)):
         names.append(names_read[each].replace("\n", ""))  # correct the sample names #no need w.r.t. Patric data
     return names
+def prepare_folders(cv, Random_State, dict_cluster, names):
+    all_data_splits = cluster_split(dict_cluster, Random_State,
+                                    cv)  # split cluster into cv Folds. len(all_data_splits)=5
+    folders_sample = []  # collection of samples for each split
+    for iter_cv in range(cv):
+        folders_sample_sub = []
+        iter_clusters = all_data_splits[iter_cv]  # clusters included in that split
+        for cl_ID in iter_clusters:
+            for element in dict_cluster[cl_ID]:
+                folders_sample_sub.append(names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
+        folders_sample.append(folders_sample_sub)
+
+    return folders_sample
 
 class _classifier(nn.Module):
     def __init__(self, nlabel,D_in,H):
@@ -319,6 +330,7 @@ class _classifier(nn.Module):
     def forward(self, input):
         input.to(device)
         return self.main(input).to(device)
+
 
 
 
@@ -344,7 +356,7 @@ def eval(species, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,
     tprs_all = []  # all True Positives for the test data
     mean_fpr = np.linspace(0, 1, 100)
     Random_State = random
-    all_data_splits = cluster_split(dict_cluster,Random_State,cv) # split cluster into cv Folds. len(all_data_splits)=5
+
     # -------------------------------------------------------------------------------------------------------------------
     ###construct the Artificial Neural Networks Model###
     # The feed forward NN has only one hidden layer
@@ -374,32 +386,91 @@ def eval(species, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,
     # =====================================
     # iterate the loop for number of epochs
     for iter_cv in range(cv):
-        test_clusters = all_data_splits[iter_cv]  # clusters including test data
-        # clusters including validation data
-        remain = list(set(range(cv)) - set([iter_cv])).sort() #first round: set(0,1,2,3,4)-set(0)=set(1,2,3,4)
+        # test_clusters = all_data_splits[iter_cv]  # clusters including test data
+        #
+        # # 1. training and  validation
+        # iter_train_val = list(set(range(cv)) - set([iter_cv])).sort() #first round: set(0,1,2,3,4)-set(0)=set(1,2,3,4)
+        # train_val_clusters = []
+        # for cv_ID in iter_train_val:
+        #     for cl_ID in all_data_splits[cv_ID]:
+        #         train_val_clusters.append(cl_ID)# extract cluster ID from the rest folders. 4*(cluster_N)
+        #
+        # # extract the training data indexes:
+        # #khu: note, inside the
+        # train_val_samples = []
+        # for cl_ID in train_val_clusters:
+        #     for element in dict_cluster["%s" % cl_ID]:
+        #         train_val_samples.append(names.index(element))# 4*(sample_N), each list with different sample_N.
+        #         # if element in names_all:
+        #         #     ind = names_all.index(element)
+        # inner CV : innerCV=cv-1
 
 
-        #inner CV : innerCV=cv-1
-        for
-            training_clusters = []
-            for cv_ID in remain:
-                for cl_ID in all_data_splits[cv_ID]:
-                    training_clusters.append(cl_ID)#extract cluster ID from the rest folders
+        for innerCV in range(cv - 1):  # e.g. 1,2,3,4
+            print('Starting ', str(innerCV), ' inner loop...')
+            # todo chcek
+            # normalize the data
+            scaler = preprocessing.StandardScaler().fit(x_train)
+            x_train = scaler.transform(x_train)
+            # scale the test data based on the training data
+            x_test = scaler.transform(x_test)
+            # # scale the validation data based on the training data
+            # validation_x = scaler.transform(validation_x_raw)
 
-            # extract the training data indexes:
-            #khu: note, inside the
-            train_samples = []
-            for cl_ID in training_clusters:
-                for element in dict_cluster["%s" % cl_ID]:
-                    train_samples.append(names.index(element))# index in names list
-                    # if element in names_all:
-                    #     ind = names_all.index(element)
+            classifier.train()
+            for epoc in range(epochs):
+                optimizer.zero_grad()  # Clears existing gradients from previous epoch
+
+                x_train_new = torch.utils.data.TensorDataset(x_train)
+                y_train_new = torch.utils.data.TensorDataset(y_train)
+
+                all_data = list(zip(x_train_new, y_train_new))
+
+                # the model is trained for 100 batches
+                data_loader = torch.utils.data.DataLoader(
+                    all_data, batch_size=100, drop_last=False)
+
+                losses = []  # save the error for each iteration
+                for i, (sample_x, sample_y) in enumerate(data_loader):
+                    inputv = sample_x[0]
+                    # print(we.size())
+                    inputv = torch.FloatTensor(inputv)
+                    inputv = Variable(inputv).view(len(inputv), -1)
+                    # print(inputv.size())
+
+                    if anti_number == 1:
+                        labelsv = sample_y[0].view(len(sample_y[0]), -1)
+                    else:
+                        labelsv = sample_y[0][:, :]
+                    weights = labelsv.data.clone().view(len(sample_y[0]), -1)
+                    print(weights)
+                    # That step is added to handle missing outputs.
+                    # Weights are not updated in the presence of missing values.
+                    weights[weights == 1.0] = 1
+                    weights[weights == 0.0] = 1
+                    # weights[weights < 0] = 0
+                    weights.to(device)
+                    print(weights)
+
+                    # Calculate the loss/error using Binary Cross Entropy Loss
+
+                    criterion = nn.BCELoss(weight=weights, reduction="none")
+                    output = classifier(inputv)
+                    # print(output.size())
+                    # print(labelsv.size())
+                    loss = criterion(m_sigmoid(output), labelsv)
+                    loss = loss.mean()  # compute loss
+                    optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
+                    loss.backward()  # backpropagation
+                    optimizer.step()  # weights updated
+                    losses.append(loss.data.mean())
+                if epoc % 100 == 0:
+                    # print the loss per iteration
+                    print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, np.mean(losses)))
 
 
 
-
-
-
+        #2. testing
         # extract the test data indexes:
         test_samples = []
         for cl_ID in test_clusters:
@@ -422,68 +493,7 @@ def eval(species, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,
 
 
 
-        #todo chcek
-        # if user chose to normalize the data
-        # for currentArgument, currentValue in arguments:
-        #     if currentArgument in ("-n", "--normal"):
-        scaler = preprocessing.StandardScaler().fit(x_train)
-        x_train = scaler.transform(x_train)
-        # scale the test data based on the training data
-        x_test = scaler.transform(x_test)
-        # # scale the validation data based on the training data
-        # validation_x = scaler.transform(validation_x_raw)
 
-        classifier.train()
-        for epoc in range(epochs):
-            optimizer.zero_grad()  # Clears existing gradients from previous epoch
-
-            x_train_new = torch.utils.data.TensorDataset(x_train)
-            y_train_new = torch.utils.data.TensorDataset(y_train)
-
-            all_data = list(zip(x_train_new, y_train_new))
-
-
-            # the model is trained for 100 batches
-            data_loader = torch.utils.data.DataLoader(
-                all_data, batch_size=100, drop_last=False)
-
-            losses = []  # save the error for each iteration
-            for i, (sample_x, sample_y) in enumerate(data_loader):
-                inputv = sample_x[0]
-                # print(we.size())
-                inputv =torch.FloatTensor(inputv)
-                inputv=Variable(inputv).view(len(inputv), -1)
-                # print(inputv.size())
-
-                if anti_number == 1:
-                    labelsv = sample_y[0].view(len(sample_y[0]), -1)
-                else:
-                    labelsv = sample_y[0][:, :]
-                weights = labelsv.data.clone().view(len(sample_y[0]), -1)
-                print(weights)
-                # That step is added to handle missing outputs.
-                # Weights are not updated in the presence of missing values.
-                weights[weights == 1.0] = 1
-                weights[weights == 0.0] = 1
-                # weights[weights < 0] = 0
-                weights.to(device)
-                print(weights)
-
-                # Calculate the loss/error using Binary Cross Entropy Loss
-
-                criterion = nn.BCELoss(weight=weights, reduction="none")
-                output = classifier(inputv)
-                # print(output.size())
-                # print(labelsv.size())
-                loss = criterion(m_sigmoid(output), labelsv)
-                loss = loss.mean()  # compute loss
-                optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
-                loss.backward()  # backpropagation
-                optimizer.step()  # weights updated
-                losses.append(loss.data.mean())
-            if epoc % 100 == 0:
-                # print the loss per iteration
-                print('[%d/%d] Loss: %.3f' % (epoc+1, epochs, np.mean(losses)))
 
         # apply the trained model to the validation data
         classifier.eval()  # eval mode
