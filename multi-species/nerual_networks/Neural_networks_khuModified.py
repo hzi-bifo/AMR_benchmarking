@@ -39,8 +39,6 @@ use_cuda = torch.cuda.is_available()
 # # use_cuda=False
 device = torch.device("cuda" if use_cuda else "cpu")
 print(device)
-
-
 # print('torch.cuda.current_device()', torch.cuda.current_device())
 # print(device)
 
@@ -384,38 +382,39 @@ def eval(species, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,
     # =====================================
     # training
     # =====================================
-    # iterate the loop for number of epochs
+    folders_sample=prepare_folders(cv, Random_State, dict_cluster, names)
+
     for iter_cv in range(cv):
-        # test_clusters = all_data_splits[iter_cv]  # clusters including test data
-        #
-        # # 1. training and  validation
-        # iter_train_val = list(set(range(cv)) - set([iter_cv])).sort() #first round: set(0,1,2,3,4)-set(0)=set(1,2,3,4)
-        # train_val_clusters = []
-        # for cv_ID in iter_train_val:
-        #     for cl_ID in all_data_splits[cv_ID]:
-        #         train_val_clusters.append(cl_ID)# extract cluster ID from the rest folders. 4*(cluster_N)
-        #
-        # # extract the training data indexes:
-        # #khu: note, inside the
-        # train_val_samples = []
-        # for cl_ID in train_val_clusters:
-        #     for element in dict_cluster["%s" % cl_ID]:
-        #         train_val_samples.append(names.index(element))# 4*(sample_N), each list with different sample_N.
-        #         # if element in names_all:
-        #         #     ind = names_all.index(element)
-        # inner CV : innerCV=cv-1
-
-
+        #select testing folder
+        test_samples=folders_sample[iter_cv]
+        # remain= list(set(range(cv)) - set([iter_cv])).sort()#first round: set(0,1,2,3,4)-set(0)=set(1,2,3,4)
+        train_val_samples= folders_sample[:iter_cv] + folders_sample[iter_cv+1 :]
         for innerCV in range(cv - 1):  # e.g. 1,2,3,4
-            print('Starting ', str(innerCV), ' inner loop...')
-            # todo chcek
+            print('Starting outer: ', str(iter_cv), '; inner: ', str(innerCV), ' inner loop...')
+
+            val_samples=train_val_samples[innerCV]
+            train_samples=train_val_samples[:innerCV] + train_val_samples[innerCV+1 :]
+            # training and val samples
+            # select by order
+            x_train, x_val = data_x[train_samples], data_x[val_samples]
+            y_train, y_val = data_y[train_samples], data_y[val_samples]
+            print('sample lens for inner CV:')
+            print(len(x_train), len(x_train[0]))  # vary for each CV
+            print(len(x_val), len(x_val[0]))
+            x_train = torch.from_numpy(x_train).float()
+            y_train = torch.from_numpy(y_train).float()
+            # x_train = x_train.to(device)
+            # y_train = y_train.to(device)
+
             # normalize the data
             scaler = preprocessing.StandardScaler().fit(x_train)
             x_train = scaler.transform(x_train)
             # scale the test data based on the training data
-            x_test = scaler.transform(x_test)
-            # # scale the validation data based on the training data
-            # validation_x = scaler.transform(validation_x_raw)
+            scaler = preprocessing.StandardScaler().fit(x_val)
+            x_val = scaler.transform(x_val)
+            # In regards of the predicted response values they dont need to be in the range of -1,1.
+            # Scaling will only be done on the explanatory variables
+            # validation_x = scaler.transform(x_train)
 
             classifier.train()
             for epoc in range(epochs):
@@ -467,60 +466,99 @@ def eval(species, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,
                 if epoc % 100 == 0:
                     # print the loss per iteration
                     print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, np.mean(losses)))
+            classifier.eval()  # eval mode
+            pred_val = []
+            for v, v_sample in enumerate(x_val):
+                val = Variable(torch.FloatTensor(v_sample)).view(1, -1)
+                output_test = classifier(val)
+                out = m_sigmoid(output_test)
+                temp = []
+                for h in out[0]:
+                    temp.append(float(h))
+                pred_val.append(temp)
+            pred_val = np.array(pred_val)
+            pred_val_all.append(pred_val)
+            print('pred_val_all',pred_val_all)
+            ##
+            # Calculate macro f1.MCC for thresholds from 0 to 1.
+
+            mcc_thresholds = []  # MCC values for val data
+            f1_thresholds = []
+            for threshold in np.arange(0, 1.1, 0.1):
+                # predictions for the test data
+                pred = []
+                mcc_all = []
+
+                for x, x_sample in enumerate(x_test):
+                    test = Variable(torch.FloatTensor(x_sample)).view(1, -1)
+                    output_test = classifier(test)
+                    out = m_sigmoid(output_test)
+                    temp = []
+                    for c in out[0]:
+                        if c > threshold:
+                            temp.append(1)
+                        else:
+                            temp.append(0)
+
+                    pred.append(temp)
+                y_test = np.array(y_test)
+                pred = np.array(pred)
 
 
 
-        #2. testing
-        # extract the test data indexes:
-        test_samples = []
-        for cl_ID in test_clusters:
-            for element in dict_cluster["%s" % cl_ID]:
-                if element in names:#names:samples for training and testing.khu: can delete for nested CV
-                    test_samples.append(names.index(element))
-                # if element in names_all:
-                #     ind = names_all.index(element)
+                # mcc values for test and train data
+                # exclude missing outputs
+                for i in range(anti_number):
+                    comp = []
+                    for t in range(len(y_train)):
+                        if anti_number == 1:
+                            if -1 != y_train[t]:
+                                comp.append(t)
+                        else:
+                            if -1 != y_train[t][i]:
+                                comp.append(t)
+                    y_train_sub = y_train[comp]
+                    pred_sub_2 = pred_2[comp]
 
-        # training and test samples
-        # select by order
-        x_train, x_test = data_x[train_samples], data_x[test_samples]
-        y_train, y_test = data_y[train_samples], data_y[test_samples]
-        print(len(x_train),len(x_train[0]))#vary for each CV
-        print(len(x_test), len(x_test[0]))
-        x_train=torch.from_numpy(x_train).float()
-        y_train=torch.from_numpy(y_train).float()
-        x_train=x_train.to(device)
-        y_train=y_train.to(device)
+                    comp2 = []
+                    for t in range(len(y_test)):
+                        if anti_number == 1:
+                            if -1 != y_test[t]:
+                                comp2.append(t)
+                        else:
+                            if -1 != y_test[t][i]:
+                                comp2.append(t)
+                    y_test_sub = y_test[comp2]
+                    pred_sub = pred[comp2]
+                    if anti_number == 1:
+                        mcc = matthews_corrcoef(y_test_sub, pred_sub)
+                        mcc_2 = matthews_corrcoef(y_train_sub, pred_sub_2)
+                    else:
+                        mcc = matthews_corrcoef(y_test_sub[:, i], pred_sub[:, i])
+                        mcc_2 = matthews_corrcoef(
+                            y_train_sub[:, i], pred_sub_2[:, i])
+                    # print(mcc)
+                    mcc_all.append(mcc)
+                    mcc_all_2.append(mcc_2)
+                all_thresholds.append(mcc_all)
+                all_thresholds_2.append(mcc_all_2)
+            all_mcc_values.append([all_thresholds])
+            all_mcc_values_2.append(all_thresholds_2)
+            #====================================================
 
-
-
-
-
-        # apply the trained model to the validation data
-        classifier.eval()  # eval mode
-        pred_val = []
-        for v, v_sample in enumerate(validation_x):
-            val = Variable(torch.FloatTensor(v_sample)).view(1, -1)
-            output_test = classifier(val)
-            out = m_sigmoid(output_test)
-            temp = []
-            for h in out[0]:
-                temp.append(float(h))
-            pred_val.append(temp)
-        pred_val = np.array(pred_val)
-        pred_val_all.append(pred_val)
 
         # apply the trained model to the test data
-        pred_test_res = []
-        for a, a_sample in enumerate(x_test):
+        pred_test = []
+        for a, a_sample in enumerate(test_samples):
             tested = Variable(torch.FloatTensor(a_sample)).view(1, -1)
             output_test = classifier(tested)
             out = m_sigmoid(output_test)
             temp = []
             for h in out[0]:
                 temp.append(float(h))
-            pred_test_res.append(temp)
-        pred_test_res = np.array(pred_test_res)
-        pred_test_res_all.append(pred_test_res)
+            pred_test.append(temp)
+        pred_test = np.array(pred_test)
+        pred_test_res_all.append(pred_test)
 
         # '''
         # ================================================================================================================
