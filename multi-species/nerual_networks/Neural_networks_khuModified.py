@@ -2,12 +2,16 @@
 #Python 3.6
 #nested CV, modified by khu based on Derya Aytan's work.
 #https://bitbucket.org/deaytan/neural_networks/src/master/Neural_networks.py
+#Note: this scritp should be used as a module, otherwise the storage will be disrupted.
 import os
 os.environ["OMP_NUM_THREADS"] = "1" # export OMP_NUM_THREADS=4
 os.environ["OPENBLAS_NUM_THREADS"] = "1" # export OPENBLAS_NUM_THREADS=4
 os.environ["MKL_NUM_THREADS"] = "1" # export MKL_NUM_THREADS=6
 os.environ["VECLIB_MAXIMUM_THREADS"] = "1" # export VECLIB_MAXIMUM_THREADS=4
 os.environ["NUMEXPR_NUM_THREADS"] = "1" # export NUMEXPR_NUM_THREADS=6
+import sys
+sys.path.append('../')
+sys.path.insert(0, os.getcwd())
 import torch
 import torch.nn as nn
 import numpy as np
@@ -19,18 +23,20 @@ import sys
 import warnings
 import matplotlib
 matplotlib.use('Agg')
-# import nltk
 from sklearn.model_selection import KFold
 from sklearn.metrics import matthews_corrcoef
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.metrics import roc_curve, auc
+from sklearn.metrics import roc_curve, auc,confusion_matrix,classification_report,f1_score
 from scipy import interp
 import collections
 import random
 from sklearn import utils
 from sklearn import preprocessing
 import argparse
+import ast
+import amr_utility.name_utility
+
 '''
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
@@ -306,9 +312,9 @@ def prepare_folders(cv, Random_State, dict_cluster, names):
     all_data_splits = cluster_split(dict_cluster, Random_State,
                                     cv)  # split cluster into cv Folds. len(all_data_splits)=5
     folders_sample = []  # collection of samples for each split
-    for iter_cv in range(cv):
+    for out_cv in range(cv):
         folders_sample_sub = []
-        iter_clusters = all_data_splits[iter_cv]  # clusters included in that split
+        iter_clusters = all_data_splits[out_cv]  # clusters included in that split
         for cl_ID in iter_clusters:
             for element in dict_cluster[cl_ID]:
                 folders_sample_sub.append(names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
@@ -329,10 +335,61 @@ class _classifier(nn.Module):
         input.to(device)
         return self.main(input).to(device)
 
+def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number):
+    for epoc in range(epochs):
+        optimizer.zero_grad()  # Clears existing gradients from previous epoch
+
+        x_train_new = torch.utils.data.TensorDataset(x_train)
+        y_train_new = torch.utils.data.TensorDataset(y_train)
+
+        all_data = list(zip(x_train_new, y_train_new))
+
+        # the model is trained for 100 batches
+        data_loader = torch.utils.data.DataLoader(
+            all_data, batch_size=100, drop_last=False)
+
+        losses = []  # save the error for each iteration
+        for i, (sample_x, sample_y) in enumerate(data_loader):
+            inputv = sample_x[0]
+            # print(we.size())
+            inputv = torch.FloatTensor(inputv)
+            inputv = Variable(inputv).view(len(inputv), -1)
+            # print(inputv.size())
+
+            if anti_number == 1:
+                labelsv = sample_y[0].view(len(sample_y[0]), -1)
+            else:
+                labelsv = sample_y[0][:, :]
+            weights = labelsv.data.clone().view(len(sample_y[0]), -1)
+            print(weights)
+            # That step is added to handle missing outputs.
+            # Weights are not updated in the presence of missing values.
+            weights[weights == 1.0] = 1
+            weights[weights == 0.0] = 1
+            # weights[weights < 0] = 0
+            weights.to(device)
+            print(weights)
+
+            # Calculate the loss/error using Binary Cross Entropy Loss
+
+            criterion = nn.BCELoss(weight=weights, reduction="none")
+            output = classifier(inputv)
+            # print(output.size())
+            # print(labelsv.size())
+            loss = criterion(m_sigmoid(output), labelsv)
+            loss = loss.mean()  # compute loss
+            optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
+            loss.backward()  # backpropagation
+            optimizer.step()  # weights updated
+            losses.append(loss.data.mean())
+        if epoc % 100 == 0:
+            # print the loss per iteration
+            print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, np.mean(losses)))
+        return classifier
 
 
+def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs, learning, level, output):
 
-def eval(species, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs, learning, level, output):
     fileDir = os.path.dirname(os.path.realpath('__file__'))
     # sample name list
     names=prepare_sample_name(fileDir, p_names)
@@ -343,15 +400,20 @@ def eval(species, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,
     data_x = np.loadtxt(xdata, dtype="float")
     data_y =np.loadtxt(ydata)
 
-    ##prepare data stores##
-    all_mcc_values = []  # MCC results for the test data
-    all_mcc_values_2 = []  # MCC results for the validation data
+    ##prepare data stores for testing scores##
 
-    pred_val_all = []  # probabilities are for the validation set
-    pred_test_res_all = []  # probabilities for the test set
+    pred_test = []  # probabilities are for the validation set
+    pred_test_binary = [] #binary based on selected
+    thresholds_selected_test=[]# cv len, each is the selected threshold.
+    weight_test=[]# cv len, each is the index of the selected model in inner CV,
+    # only this weights are preseved in /log/temp/
 
-    aucs_all = []  # all AUC values for the test data
-    tprs_all = []  # all True Positives for the test data
+    mcc_test = []  # MCC results for the test data
+    f1_test = []
+    score_report_test = []
+
+    aucs_test = []  # all AUC values for the test data
+    tprs_test = []  # all True Positives for the test data
     mean_fpr = np.linspace(0, 1, 100)
     Random_State = random
 
@@ -384,13 +446,22 @@ def eval(species, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,
     # =====================================
     folders_sample=prepare_folders(cv, Random_State, dict_cluster, names)
 
-    for iter_cv in range(cv):
+    for out_cv in range(cv):
         #select testing folder
-        test_samples=folders_sample[iter_cv]
-        # remain= list(set(range(cv)) - set([iter_cv])).sort()#first round: set(0,1,2,3,4)-set(0)=set(1,2,3,4)
-        train_val_samples= folders_sample[:iter_cv] + folders_sample[iter_cv+1 :]
+        test_samples=folders_sample[out_cv]
+        x_test=data_x[test_samples]
+        y_test = data_y[test_samples]
+        # remain= list(set(range(cv)) - set([out_cv])).sort()#first round: set(0,1,2,3,4)-set(0)=set(1,2,3,4)
+        train_val_samples= folders_sample[:out_cv] + folders_sample[out_cv+1 :]
+        Validation_mcc_thresholds = []  #  inner CV *11 thresholds value
+        Validation_f1_thresholds = []  #  inner CV *11 thresholds value
+        # Validation_mcc = []  # len=inner CV
+        # Validation_f1 = []  # len=inner CV
+        #later choose the inner loop and relevant thresholds with the highest f1 score
         for innerCV in range(cv - 1):  # e.g. 1,2,3,4
-            print('Starting outer: ', str(iter_cv), '; inner: ', str(innerCV), ' inner loop...')
+            print('Starting outer: ', str(out_cv), '; inner: ', str(innerCV), ' inner loop...')
+
+
 
             val_samples=train_val_samples[innerCV]
             train_samples=train_val_samples[:innerCV] + train_val_samples[innerCV+1 :]
@@ -413,61 +484,16 @@ def eval(species, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,
             scaler = preprocessing.StandardScaler().fit(x_val)
             x_val = scaler.transform(x_val)
             # In regards of the predicted response values they dont need to be in the range of -1,1.
-            # Scaling will only be done on the explanatory variables
-            # validation_x = scaler.transform(x_train)
 
+            pred_val_inner=[]#predicted results on validation set.
+            # 1. Traininng.
             classifier.train()
-            for epoc in range(epochs):
-                optimizer.zero_grad()  # Clears existing gradients from previous epoch
-
-                x_train_new = torch.utils.data.TensorDataset(x_train)
-                y_train_new = torch.utils.data.TensorDataset(y_train)
-
-                all_data = list(zip(x_train_new, y_train_new))
-
-                # the model is trained for 100 batches
-                data_loader = torch.utils.data.DataLoader(
-                    all_data, batch_size=100, drop_last=False)
-
-                losses = []  # save the error for each iteration
-                for i, (sample_x, sample_y) in enumerate(data_loader):
-                    inputv = sample_x[0]
-                    # print(we.size())
-                    inputv = torch.FloatTensor(inputv)
-                    inputv = Variable(inputv).view(len(inputv), -1)
-                    # print(inputv.size())
-
-                    if anti_number == 1:
-                        labelsv = sample_y[0].view(len(sample_y[0]), -1)
-                    else:
-                        labelsv = sample_y[0][:, :]
-                    weights = labelsv.data.clone().view(len(sample_y[0]), -1)
-                    print(weights)
-                    # That step is added to handle missing outputs.
-                    # Weights are not updated in the presence of missing values.
-                    weights[weights == 1.0] = 1
-                    weights[weights == 0.0] = 1
-                    # weights[weights < 0] = 0
-                    weights.to(device)
-                    print(weights)
-
-                    # Calculate the loss/error using Binary Cross Entropy Loss
-
-                    criterion = nn.BCELoss(weight=weights, reduction="none")
-                    output = classifier(inputv)
-                    # print(output.size())
-                    # print(labelsv.size())
-                    loss = criterion(m_sigmoid(output), labelsv)
-                    loss = loss.mean()  # compute loss
-                    optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
-                    loss.backward()  # backpropagation
-                    optimizer.step()  # weights updated
-                    losses.append(loss.data.mean())
-                if epoc % 100 == 0:
-                    # print the loss per iteration
-                    print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, np.mean(losses)))
+            classifier=training(classifier, m_sigmoid, epochs, optimizer, x_train, y_train, anti_number)
+            name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, out_cv, innerCV)
+            torch.save(classifier.state_dict(), name_weights)
+            #2. evaluation
             classifier.eval()  # eval mode
-            pred_val = []
+            pred_val_sub = []
             for v, v_sample in enumerate(x_val):
                 val = Variable(torch.FloatTensor(v_sample)).view(1, -1)
                 output_test = classifier(val)
@@ -475,273 +501,125 @@ def eval(species, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,
                 temp = []
                 for h in out[0]:
                     temp.append(float(h))
-                pred_val.append(temp)
-            pred_val = np.array(pred_val)
-            pred_val_all.append(pred_val)
-            print('pred_val_all',pred_val_all)
+                pred_val_sub.append(temp)
+            pred_val_sub = np.array(pred_val_sub)# for this innerCV at this out_cv
+            pred_val_inner.append(pred_val_sub)#for all innerCV at this out_cv. #No further use so far. April,30.
+            print('pred_val_inner shape:', pred_val_inner.shape)#(cv-1)*n_sample
             ##
-            # Calculate macro f1.MCC for thresholds from 0 to 1.
+            # Calculate macro f1. for thresholds from 0 to 1.
 
-            mcc_thresholds = []  # MCC values for val data
-            f1_thresholds = []
+            mcc_sub = []
+            f1_sub = []
             for threshold in np.arange(0, 1.1, 0.1):
                 # predictions for the test data
+                # all_thresholds = []
+
                 pred = []
-                mcc_all = []
-
-                for x, x_sample in enumerate(x_test):
-                    test = Variable(torch.FloatTensor(x_sample)).view(1, -1)
-                    output_test = classifier(test)
-                    out = m_sigmoid(output_test)
-                    temp = []
-                    for c in out[0]:
-                        if c > threshold:
-                            temp.append(1)
-                        else:
-                            temp.append(0)
-
-                    pred.append(temp)
-                y_test = np.array(y_test)
-                pred = np.array(pred)
-
-
-
-                # mcc values for test and train data
-                # exclude missing outputs
-                for i in range(anti_number):
-                    comp = []
-                    for t in range(len(y_train)):
-                        if anti_number == 1:
-                            if -1 != y_train[t]:
-                                comp.append(t)
-                        else:
-                            if -1 != y_train[t][i]:
-                                comp.append(t)
-                    y_train_sub = y_train[comp]
-                    pred_sub_2 = pred_2[comp]
-
-                    comp2 = []
-                    for t in range(len(y_test)):
-                        if anti_number == 1:
-                            if -1 != y_test[t]:
-                                comp2.append(t)
-                        else:
-                            if -1 != y_test[t][i]:
-                                comp2.append(t)
-                    y_test_sub = y_test[comp2]
-                    pred_sub = pred[comp2]
-                    if anti_number == 1:
-                        mcc = matthews_corrcoef(y_test_sub, pred_sub)
-                        mcc_2 = matthews_corrcoef(y_train_sub, pred_sub_2)
+                for probability in pred_val_sub:# for this innerCV at this out_cv
+                    if probability > threshold:
+                        pred.append(1)
                     else:
-                        mcc = matthews_corrcoef(y_test_sub[:, i], pred_sub[:, i])
-                        mcc_2 = matthews_corrcoef(
-                            y_train_sub[:, i], pred_sub_2[:, i])
-                    # print(mcc)
-                    mcc_all.append(mcc)
-                    mcc_all_2.append(mcc_2)
-                all_thresholds.append(mcc_all)
-                all_thresholds_2.append(mcc_all_2)
-            all_mcc_values.append([all_thresholds])
-            all_mcc_values_2.append(all_thresholds_2)
-            #====================================================
+                        pred.append(0)
+                y_val = np.array(y_val)#ground truth
+                y_val_pred = np.array(pred)
 
+                for i in range(anti_number):
+                    if anti_number == 1:
+                        mcc=matthews_corrcoef(y_val, y_val_pred)
+                        # report = classification_report(y_val, y_val_pred, labels=[0, 1], output_dict=True)
+                        f1=f1_score(y_val, y_val_pred, average='macro')
+                    else:# multi-out
 
+                        mcc = matthews_corrcoef(y_val[:,i], y_val_pred[:,i])
+                        f1 = f1_score(y_val[:,i], y_val_pred[:,i], average='macro')
+                    mcc_sub.append(mcc)
+                    f1_sub.append(f1)
+                # todo
+                # all_thresholds.append(mcc_sub)#for multi-output & visualization
+
+            Validation_mcc_thresholds.append(mcc_sub)
+            Validation_f1_thresholds.append(f1_sub)
+        #====================================================
+        # select the inner loop index,and threshold with the highest f1 score in the matrix
+        Validation_f1_thresholds=np.array(Validation_f1_thresholds)
+        ind = np.unravel_index(np.argmax(Validation_f1_thresholds, axis=None), Validation_f1_thresholds.shape)
+        thresholds_selected=np.arange(0, 1.1, 0.1)[ind[1]]
+        weights_selected=ind[0]#the order of innerCV
+
+        weight_test.append(weights_selected)
+        thresholds_selected_test.append(thresholds_selected)
+        #rm other models' weight in the log
+        for i in (np.arange(cv-1)[:weights_selected] + np.arange(cv-1)[weights_selected+1 :]):
+            n=amr_utility.name_utility.name_multi_bench(species, antibiotics, out_cv, i)
+            os.system("rm "+ n )
+
+        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, out_cv, weights_selected)
+        classifier=torch.load_state_dict(torch.load(name_weights))
         # apply the trained model to the test data
-        pred_test = []
-        for a, a_sample in enumerate(test_samples):
+        classifier.eval()
+
+        pred_test_sub = []
+        for a, a_sample in enumerate(x_test):
             tested = Variable(torch.FloatTensor(a_sample)).view(1, -1)
             output_test = classifier(tested)
             out = m_sigmoid(output_test)
             temp = []
             for h in out[0]:
                 temp.append(float(h))
-            pred_test.append(temp)
-        pred_test = np.array(pred_test)
-        pred_test_res_all.append(pred_test)
+            pred_test_sub.append(temp)
+        pred_test_sub = np.array(pred_test_sub)
+        pred_test.append(pred_test_sub)#len= y_test
 
-        # '''
-        # ================================================================================================================
-        # ===============================================================================================================
-        # Calculate MCC for thresholds from 0 to 1.
-        # correlation coefficient between the actual and predicted series
-        all_thresholds = []  # MCC values for test data
-        all_thresholds_2 = []  # MCC values for training data
-        for threshold in np.arange(0, 1.1, 0.1):
-            # predictions for the test data
-            pred = []
-            mcc_all = []
-
-            for x, x_sample in enumerate(x_test):
-                test = Variable(torch.FloatTensor(x_sample)).view(1, -1)
-                output_test = classifier(test)
-                out = m_sigmoid(output_test)
-                temp = []
-                for c in out[0]:
-                    if c > threshold:
-                        temp.append(1)
-                    else:
-                        temp.append(0)
-
-                pred.append(temp)
-            y_test = np.array(y_test)
-            pred = np.array(pred)
-
-            # predictions for the training data
-            pred_2 = []
-            mcc_all_2 = []
-            for x, x_sample in enumerate(x_train):
-                train = Variable(torch.FloatTensor(x_sample)).view(1, -1)
-                output_test = classifier(train)
-                out = m_sigmoid(output_test)
-                temp = []
-                for c in out[0]:
-                    if c > threshold:
-                        temp.append(1)
-                    else:
-                        temp.append(0)
-
-                pred_2.append(temp)
-            y_train = np.array(y_train)
-            pred_2 = np.array(pred_2)
-
-            # mcc values for test and train data
-            # exclude missing outputs
-            for i in range(anti_number):
-                comp = []
-                for t in range(len(y_train)):
-                    if anti_number == 1:
-                        if -1 != y_train[t]:
-                            comp.append(t)
-                    else:
-                        if -1 != y_train[t][i]:
-                            comp.append(t)
-                y_train_sub = y_train[comp]
-                pred_sub_2 = pred_2[comp]
-
-                comp2 = []
-                for t in range(len(y_test)):
-                    if anti_number == 1:
-                        if -1 != y_test[t]:
-                            comp2.append(t)
-                    else:
-                        if -1 != y_test[t][i]:
-                            comp2.append(t)
-                y_test_sub = y_test[comp2]
-                pred_sub = pred[comp2]
-                if anti_number == 1:
-                    mcc = matthews_corrcoef(y_test_sub, pred_sub)
-                    mcc_2 = matthews_corrcoef(y_train_sub, pred_sub_2)
-                else:
-                    mcc = matthews_corrcoef(y_test_sub[:, i], pred_sub[:, i])
-                    mcc_2 = matthews_corrcoef(
-                        y_train_sub[:, i], pred_sub_2[:, i])
-                # print(mcc)
-                mcc_all.append(mcc)
-                mcc_all_2.append(mcc_2)
-            all_thresholds.append(mcc_all)
-            all_thresholds_2.append(mcc_all_2)
-        all_mcc_values.append([all_thresholds])
-        all_mcc_values_2.append(all_thresholds_2)
-
-        # '''
-        # TODO add Positive predictive value (PPV), Precision; Accuracy (ACC); f1-score here
-        # Calculate the AUC values, Area Under the Curve.
+        # 3. get measurement scores on testing set.
+        #Positive predictive value (PPV), Precision; Accuracy (ACC); f1-score here,
         # y: True positive rate (TPR), aka. sensitivity, hit rate, and recall,
         # X: False positive rate (FPR), aka. fall-out,
-        # Exclude missing values
+        pred_test_binary_sub = []
+        for probability in pred_test_sub:
+
+            if probability > thresholds_selected:
+                pred_test_binary_sub.append(1)
+            else:
+                pred_test_binary_sub.append(0)
+        y_test = np.array(y_test)
+        pred_test_binary_sub = np.array(pred_test_binary_sub)
+        pred_test_binary.append(pred_test_binary_sub)
         aucs = []
         tprs = []
-        for a in range(anti_number):
-            comp_auc = []
-            for t in range(len(y_test)):  # sample order
-                if anti_number == 1:  # only one antibiotic
-                    if -1 != y_test[t]:
-                        comp_auc.append(t)
-
-                else:  # multi-output
-                    if -1 != y_test[t][a]:
-                        comp_auc.append(t)
-
-            y_test_auc = y_test[comp_auc]
-            pred_auc = pred_test_res[comp_auc]
-
-            fpr = dict()
-            tpr = dict()
-            roc_auc = dict()
-
-            # Compute micro-average ROC curve and ROC area
+        for i in range(anti_number):
             if anti_number == 1:
-                fpr, tpr, _ = roc_curve(y_test_auc, pred_auc, pos_label=1)
-                # fpr: Increasing false positive rates such that element i is the false positive rate of predictions with score >= thresholds[i].
-            else:
-                fpr, tpr, _ = roc_curve(
-                    y_test_auc[:, a], pred_auc[:, a], pos_label=1)
-            # mean_fpr = np.linspace(0, 1, 100)
+                mcc = matthews_corrcoef(y_test, pred_test_binary_sub)
+                # report = classification_report(y_val, y_val_pred, labels=[0, 1], output_dict=True)
+                f1 = f1_score(y_test, pred_test_binary_sub, average='macro')
+                report = classification_report(y_test, pred_test_binary_sub, labels=['Susceptible','Resistant'], output_dict=True)
+                print(report)
+                fpr, tpr, _ = roc_curve(y_test, pred_test_binary_sub, pos_label=1)
+
+            else:  # multi-out
+                #todo
+                mcc = matthews_corrcoef(y_test[:, i], pred_test_binary_sub[:, i])
+                f1 = f1_score(y_test[:, i], pred_test_binary_sub[:, i], average='macro')
+                fpr, tpr, _ = roc_curve(y_test[:, i], pred_test_binary_sub[:, i], pos_label=1)
             tprs.append(interp(mean_fpr, fpr, tpr))
             tprs[-1][0] = 0.0
             roc_auc = auc(fpr, tpr)
             aucs.append(roc_auc)
-            #plt.plot(fpr, tpr, color='darkorange', alpha = 0.3,lw=1)
-        aucs_all.append(aucs)
-        tprs_all.append(tprs)
+
+        #note,here single output also matrixed, for use of the plot codes by the original author.
+        f1_test.append(f1)
+        score_report_test.append(report)
+        aucs_test.append(aucs)## multi-out
+        tprs_test.append(tprs)## multi-out
+        mcc_test.append(mcc)
+
+
     plot(anti_number, all_mcc_values, cv, validation, pred_val_all, validation_y, tprs_all, aucs_all, mean_fpr)
 
+    save_name_score=amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics)
+    print('thresholds_selected_test',thresholds_selected_test)
+    print('f1_test',f1_test)
+    score_report_test.to_csv('log/results/report_'+save_name_score+'.txt', sep="\t")
 
     torch.cuda.empty_cache()
 
-def extract_info(s,xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epochs, learning, level,output,n_jobs):
-    data = pd.read_csv('metadata/loose_Species_antibiotic_FineQuality.csv', index_col=0, dtype={'genome_id': object},
-                       sep="\t")
-    data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
-    # for training model on part of the dataset:-------------
-    # data=data.loc[['Escherichia coli'],:]
-    data = data.loc[s, :]
-    # data.at['Mycobacterium tuberculosis', 'modelling antibiotics']=['capreomycin', 'ciprofloxacin']
-    # --------------------------------------------------------
-    df_species = data.index.tolist()
-    antibiotics = data['modelling antibiotics'].tolist()
-    print(data)
-    # pool = mp.Pool(processes=5)
-    # pool.starmap(determination, zip(df_species,repeat(l),repeat(n_jobs)))
-    for species in df_species:
-        eval(species, xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epochs, learning, level,output)
-
-
-
-
-if __name__== '__main__':
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument("-x", "--xdata", default=None, type=float, required=True,
-						help='input x data')
-    parser.add_argument("-y", "--ydata", default=None, type=int, required=True,
-                        help='output y data')# todo check type
-    parser.add_argument("-names", "--p_names", default=None, type=str, required=True,
-						help='path to list of sample names')
-    parser.add_argument("-c", "--p_clusters", default=None, type=str, required=True,
-                        help='path to the sample clusters')
-    parser.add_argument("-cv", "--cv_number", default=10, type=int, required=True,
-                        help='CV splits number')
-    parser.add_argument("-r", "--random", default=42, type=int, required=True,
-                        help='random state related to shuffle cluster order')
-    parser.add_argument("-d", "--hidden", default=200, type=int, required=True,
-                        help='dimension of hidden layer')
-    parser.add_argument("-e", "--epochs", default=1000, type=int, required=True,
-                        help='epochs')
-    parser.add_argument("-learing", "--learning", default=0.001, type=int, required=True,
-                        help='learning rate')
-    parser.add_argument('--l', '--level', default=None, type=str, required=True,
-                        help='Quality control: strict or loose')
-    parser.add_argument("-o","--output", default=None, type=str, required=True,
-						help='Output file names')
-    parser.add_argument('--s', '--species', default=[], type=str, nargs='+', help='species to run: e.g.\'seudomonas aeruginosa\' \
-            \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
-            \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
-    parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel.')
-    parsedArgs = parser.parse_args()
-    # parser.print_help()
-    # print(parsedArgs)
-    extract_info(parsedArgs.s,parsedArgs.xdata,parsedArgs.ydata,parsedArgs.p_names,parsedArgs.p_clusters,parsedArgs.cv_number,
-                 parsedArgs.random,parsedArgs.hidden,parsedArgs.epochs,parsedArgs.learning,parsedArgs.level,parsedArgs.output,parsedArgs.n_jobs)
 
