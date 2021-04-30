@@ -21,41 +21,68 @@ import argparse
 from os import walk
 from itertools import repeat
 
-def run_Res(path,strain_ID,species,check):
+def cmd(path,strain_ID,species):
+    cmd_acquired = ("python3 run_resfinder.py"
+                    + " -ifa " + path + str(strain_ID) + ".fna"
+                    + " -o  /net/flashtest/scratch/khu/benchmarking/Results/" + str(
+                species.replace(" ", "_")) + "/" + str(strain_ID)
+                    + " -s \'" + str(species) + "\'"
+                    + " --min_cov 0.6"
+                    + " -t 0.8"
+                    + " --point"
+                    + " --db_path_point /home/khu/AMR/benchmarking/resfinder/db_pointfinder"
+                    + " --acquired"
+                    + " --db_path_res /home/khu/AMR/benchmarking/resfinder/db_resfinder"
+                    + " --blastPath /usr/bin/blastn"
+                    + " -u")
+
+    return cmd_acquired
+
+def run_Res(path,strain_ID,species,check,check_miss):
     try:
-        cmd_acquired = ("python3 run_resfinder.py"
-                        + " -ifa " + path + str(strain_ID) + ".fna"
-                        + " -o  /net/flashtest/scratch/khu/benchmarking/Results/" + str(species.replace(" ", "_")) + "/" + str(strain_ID)
-                        + " -s \'" + str(species) + "\'"
-                        + " --min_cov 0.6"
-                        + " -t 0.8"
-                        + " --point"
-                        + " --db_path_point /home/khu/AMR/benchmarking/resfinder/db_pointfinder"
-                        + " --acquired"
-                        + " --db_path_res /home/khu/AMR/benchmarking/resfinder/db_resfinder"
-                        + " --blastPath /usr/bin/blastn"
-                        + " -u")
-        procs = run(cmd_acquired, shell=True, stdout=PIPE, stderr=PIPE,
-                    check=True)
+        if species in ['Klebsiella pneumoniae','Escherichia coli','Staphylococcus aureus',
+                       'Mycobacterium tuberculosis','Salmonella enterica',
+                       'Neisseria gonorrhoeae','Enterococcus faecium']:
+            if check_miss==True:
+
+                already =os.listdir("/net/flashtest/scratch/khu/benchmarking/Results/" + str(species.replace(" ", "_")) )
+                if strain_ID  not in already:
+                    print('missing, nowing working on: ',strain_ID)
+                    cmd_acquired = cmd(path,strain_ID,species)
+                    procs = run(cmd_acquired, shell=True, stdout=PIPE, stderr=PIPE,
+                                check=True)
+                    print('finished: ',strain_ID)
+            else:
+                cmd_acquired = cmd(path,strain_ID,species)
+                procs = run(cmd_acquired, shell=True, stdout=PIPE, stderr=PIPE,
+                            check=True)
+
+        else:# PointFinder not possible for other species.
+            cmd_acquired = ("python3 run_resfinder.py"
+                            + " -ifa " + path + str(strain_ID) + ".fna"
+                            + " -o  /net/flashtest/scratch/khu/benchmarking/Results/" + str(
+                        species.replace(" ", "_")) + "/" + str(strain_ID)
+                            # + " -s \'" + str(species) + "\'"
+                            + " --min_cov 0.6"
+                            + " -t 0.8"
+                            + " --acquired"
+                            + " --db_path_res /home/khu/AMR/benchmarking/resfinder/db_resfinder"
+                            + " --blastPath /usr/bin/blastn"
+                            + " -u")
+            procs = run(cmd_acquired, shell=True, stdout=PIPE, stderr=PIPE,
+                        check=True)
+
     except:
         if check==True:
-            print("python3 run_resfinder.py"
-                        + " -ifa " + path + str(strain_ID) + ".fna"
-                        + " -o  /net/flashtest/scratch/khu/benchmarking/Results/" + str(species.replace(" ", "_")) + "/" + str(strain_ID)
-                        + " -s \'" + str(species) + "\'"
-                        + " --min_cov 0.6"
-                        + " -t 0.8"
-                        + " --point"
-                        + " --db_path_point /home/khu/AMR/benchmarking/resfinder/db_pointfinder"
-                        + " --acquired"
-                        + " --db_path_res /home/khu/AMR/benchmarking/resfinder/db_resfinder"
-                        + " --blastPath /usr/bin/blastn"
-                        + " -u")
+            print(cmd(path,strain_ID,species))
         else:
-            print(strain_ID)
+            print("Error, not finished: ",strain_ID)
+            # print(cmd_acquired)
 
 
-def determination(species,n_jobs,check):
+
+
+def determination(species,n_jobs,check,check_miss):
     path_data = "/net/projects/BIFO/patric_genome/"
     print(species)
     logDir = os.path.join("/net/flashtest/scratch/khu/benchmarking/Results/"+str(species.replace(" ", "_"))+"/")
@@ -84,7 +111,7 @@ def determination(species,n_jobs,check):
     # id_list=list(set(id_list) - set(d))
 
     pool = mp.Pool(processes=n_jobs)
-    pool.starmap(run_Res, zip(repeat(path_data),id_list,repeat(species),repeat(check)))
+    pool.starmap(run_Res, zip(repeat(path_data),id_list,repeat(species),repeat(check),repeat(check_miss)))
     '''
     # for strain_ID in data_sub_anti['genome_id'].to_list():
         # cmd_acquired = ("python3 run_resfinder.py"
@@ -140,7 +167,7 @@ def determination(species,n_jobs,check):
                     check=True)
         '''
 
-def extract_info(s,n_jobs,check):
+def extract_info(s,n_jobs,check,check_missing):
 
     data = pd.read_csv('metadata/loose_Species_antibiotic_FineQuality.csv', index_col=0, dtype={'genome_id': object}, sep="\t")
     data = data[data['number'] != 0]# drop the species with 0 in column 'number'.
@@ -155,7 +182,7 @@ def extract_info(s,n_jobs,check):
     # pool = mp.Pool(processes=5)
     # pool.starmap(determination, zip(df_species,repeat(l),repeat(n_jobs)))
     for species in df_species:
-        determination(species,n_jobs,check)
+        determination(species,n_jobs,check,check_missing)
 
 if __name__== '__main__':
     parser = argparse.ArgumentParser()
@@ -168,14 +195,15 @@ if __name__== '__main__':
      \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
      \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
     parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel.')
-    parser.add_argument('--check', dest='check',
-                                            help='debug ', action='store_true', )
+    parser.add_argument('--check', dest='check', help='debug ', action='store_true', )
+    parser.add_argument('--check_miss', dest='check_miss', help='process those still missing results. ', action='store_true', )
     #parser.set_defaults(canonical=True)
     parsedArgs=parser.parse_args()
     # parser.print_help()
-    print(parsedArgs)
-    extract_info(parsedArgs.s,parsedArgs.n_jobs,parsedArgs.check)
+    # print(parsedArgs)
+    extract_info(parsedArgs.s,parsedArgs.n_jobs,parsedArgs.check,parsedArgs.check_miss)
     # extract_info(parsedArgs.s,parsedArgs.b,parsedArgs.l)
+
 
 
 
