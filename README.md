@@ -111,8 +111,9 @@ balance_ratio > 2 or balance_ratio < 0.5
 - Y: matrix of phenotye lists. 'Resistant': 1, 'Susceptible': 0. Each list is the binary phenotype list for an antibiotic, corresponding to antibiotics list.
 
 Example usage:
+Copy the contents of Patric folder to your working directory, then:
 ```
-import Patric_data.load_data
+import amr_utility.load_data
 import numpy as np
 
 antibiotics,ID,Y=Patric_data.load_data.extract_info('Pseudomonas aeruginosa',True,'strict')
