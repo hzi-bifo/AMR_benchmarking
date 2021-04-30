@@ -36,7 +36,8 @@ from sklearn import preprocessing
 import argparse
 import ast
 import amr_utility.name_utility
-
+import itertools
+import statistics
 '''
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
@@ -48,11 +49,11 @@ print(device)
 # print('torch.cuda.current_device()', torch.cuda.current_device())
 # print(device)
 
-# if not sys.warnoptions:
-#     warnings.simplefilter("ignore")
+if not sys.warnoptions:
+    warnings.simplefilter("ignore")
 
 
-def plot(anti_number, all_mcc_values, cv, validation, pred_val_all, validation_y, tprs_all, aucs_all, mean_fpr):
+def plot(anti_number, all_mcc_values, cv, pred_val_all, validation_y, tprs_all, aucs_all, mean_fpr):
     #####Generate MCC plots#####
     # '''
     # Plot the average of the MCC results.
@@ -86,67 +87,10 @@ def plot(anti_number, all_mcc_values, cv, validation, pred_val_all, validation_y
     plt.ylabel("MCC average values for %s fold CV" % str(cv))
     plt.title("Thresholds vs MCC values")
     plt.legend(loc="best")
-    plt.savefig("./results/MCC_output_test.png")
+    plt.savefig("log/results/MCC_output_test.png")
     plt.close()
 
-    # Calculate the MCC for the validation data, for the same thresholds
-    all_thresholds_valid = []
-    for threshold in np.arange(0, 1.1, 0.1):
-        pred_validation = []
-        for r in range(0, len(validation)):
-            all_predictions = []
-            for item in pred_val_all:
-                all_predictions.append(item[r])
-            all_predictions_all = np.array(all_predictions).sum(
-                axis=0) / float(cv)  # take the average of the probabilities
-            temp = []
-            for c in all_predictions_all:
-                if c > threshold:
-                    temp.append(1)
-                else:
-                    temp.append(0)
 
-            pred_validation.append(temp)
-        pred_validation = np.array(pred_validation)
-
-        # mcc values for the validation data
-        # do not take into consideration missing outputs.
-        mcc_all = []
-        for i in range(anti_number):
-            comp = []
-            for t in range(len(validation_y)):
-                if anti_number == 1:
-                    if -1 != validation_y[t]:
-                        comp.append(t)
-                else:
-                    if -1 != validation_y[t][i]:
-                        comp.append(t)
-            y_val_sub = validation_y[comp]
-            pred_sub_val = pred_validation[comp]
-            if anti_number == 1:
-                mcc = matthews_corrcoef(y_val_sub, pred_sub_val)
-            else:
-                mcc = matthews_corrcoef(y_val_sub[:, i], pred_sub_val[:, i])
-            mcc_all.append(mcc)
-        all_thresholds_valid.append(mcc_all)
-
-    # plot MCC values per output
-    for i in range(anti_number):
-        aver_all_mcc = []
-        for val in all_thresholds_valid:
-            if anti_number == 1:
-                aver_all_mcc.append(val)
-            else:
-                aver_all_mcc.append(val[i])
-        plt.plot(np.arange(0, 1.1, 0.1), aver_all_mcc,
-                 color=colors[i], alpha=1, label=legends[i])
-    plt.xlim([0, 1])
-    plt.xlabel("Thresholds")
-    plt.ylabel("MCC average values for %s fold CV" % str(cv))
-    plt.title("Thresholds vs MCC values")
-    plt.legend(loc="best")
-    plt.savefig("./results/MCC_output_validation.png")
-    plt.close()
 
     # plot the AUC values
     plt.figure(figsize=(8, 8))  # figure size
@@ -253,8 +197,8 @@ def cluster_split(dict_cluster, Random_State, cv):
         sum_tem = sum(tem_Nsamples)
 
         print('sum_tem', sum_tem)  # all_samples in that folder: val,train,test.
-        print(len(all_samples) / float(cv))
-        print(len(all_samples))
+        print('average',len(all_samples) / float(cv))
+        print('len(all_samples)',len(all_samples))
         a = 0
         while sum_tem + 200 < len(all_samples) / float(cv):  # all_samples: val,train,test
             extra = list(utils.shuffle(
@@ -294,7 +238,7 @@ def prepare_cluster(fileDir, p_clusters):
                 splitted_2 = each_cluster.split(":")
                 dict_cluster[str(int(splitted_2[1].split()[0]) - 1)
                 ].append(splitted[6])
-    print("dict_cluster: ", dict_cluster)
+    # print("dict_cluster: ", dict_cluster)
     return dict_cluster
 def prepare_sample_name(fileDir, p_names):
     # sample name list
@@ -335,9 +279,9 @@ class _classifier(nn.Module):
         input.to(device)
         return self.main(input).to(device)
 
-def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number):
+def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number,fine_tune):
     for epoc in range(epochs):
-        optimizer.zero_grad()  # Clears existing gradients from previous epoch
+
 
         x_train_new = torch.utils.data.TensorDataset(x_train)
         y_train_new = torch.utils.data.TensorDataset(y_train)
@@ -360,15 +304,16 @@ def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number):
                 labelsv = sample_y[0].view(len(sample_y[0]), -1)
             else:
                 labelsv = sample_y[0][:, :]
+
+
             weights = labelsv.data.clone().view(len(sample_y[0]), -1)
-            print(weights)
             # That step is added to handle missing outputs.
             # Weights are not updated in the presence of missing values.
             weights[weights == 1.0] = 1
             weights[weights == 0.0] = 1
-            # weights[weights < 0] = 0
+            weights[weights < 0] = 0
             weights.to(device)
-            print(weights)
+
 
             # Calculate the loss/error using Binary Cross Entropy Loss
 
@@ -382,13 +327,44 @@ def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number):
             loss.backward()  # backpropagation
             optimizer.step()  # weights updated
             losses.append(loss.data.mean())
-        if epoc % 100 == 0:
+        # if epoc % 100 == 0:
             # print the loss per iteration
-            print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, np.mean(losses)))
-        return classifier
+            # print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, np.mean(losses)))
+    return classifier
+
+def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score):
+
+    summary = pd.DataFrame(index=['mean','std'], columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro','auc','mcc'])
+    #
+    f1=[]
+    precision=[]
+    recall=[]
+    accuracy=[]
+    for i in cv:
+        report=score_report_test[i]
+        f1.append(report.iloc[3,3])
+        precision.append(data.iloc[3, 1])
+        recall.append(data.iloc[3, 2])
+        accuracy.append(data.iloc[2, 2])
+    summary.loc['mean','f1_macro']=statistics.mean(f1)
+    summary.loc['std','f1_macro']=statistics.stdev(f1)
+    summary.loc['mean','precision_macro'] = statistics.mean(precision)
+    summary.loc['std','precision_macro'] = statistics.stdev(precision)
+    summary.loc['mean','_macro']  = statistics.mean(recall)
+    summary.loc['std','recall_macro'] = statistics.stdev(recall)
+    summary.loc['mean','accuracy_macro'] = statistics.mean(accuracy)
+    summary.loc['std','accuracy_macro'] = statistics.stdev(accuracy)
+    summary.loc['mean','auc'] = statistics.mean(aucs_test)
+    summary.loc['std','auc'] = statistics.stdev(aucs_test)
+    summary.loc['mean','mcc'] = statistics.mean(mcc_test)
+    summary.loc['std','mcc'] = statistics.stdev(mcc_test)
+    summary.to_csv('log/results/score_'+save_name_score+'.txt', sep="\t")
 
 
-def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs, learning, level, output):
+
+
+
+def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,re_epochs, learning,f_scaler,f_fixed_threshold):
 
     fileDir = os.path.dirname(os.path.realpath('__file__'))
     # sample name list
@@ -423,7 +399,7 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
     # The activation function used in the input and hidden layer is ReLU, in the output layer the sigmoid function.
     # -------------------------------------------------------------------------------------------------------------------
     m_sigmoid = nn.Sigmoid()  # sigmoid function for the ooutput layer
-    n_epochs = epochs
+
     n_hidden = hidden# number of neurons in the hidden layer
     learning_rate = learning
 
@@ -431,7 +407,7 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
     D_input = len(data_x[0])  # number of neurons in the input layer
     N_sample = len(data_x)  # number of input samples #should be equal to len(names)
     nlabel = data_y[0].size  # number of neurons in the output layer
-    epochs = n_epochs  # number of iterations the each model will be trained
+
     # cross validation loop where the training and testing performed.
     #khu:nested CV.
     # generate a NN model
@@ -452,7 +428,7 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
         x_test=data_x[test_samples]
         y_test = data_y[test_samples]
         # remain= list(set(range(cv)) - set([out_cv])).sort()#first round: set(0,1,2,3,4)-set(0)=set(1,2,3,4)
-        train_val_samples= folders_sample[:out_cv] + folders_sample[out_cv+1 :]
+        train_val_samples= folders_sample[:out_cv] + folders_sample[out_cv+1 :]#list
         Validation_mcc_thresholds = []  #  inner CV *11 thresholds value
         Validation_f1_thresholds = []  #  inner CV *11 thresholds value
         # Validation_mcc = []  # len=inner CV
@@ -461,37 +437,43 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
         for innerCV in range(cv - 1):  # e.g. 1,2,3,4
             print('Starting outer: ', str(out_cv), '; inner: ', str(innerCV), ' inner loop...')
 
-
-
             val_samples=train_val_samples[innerCV]
-            train_samples=train_val_samples[:innerCV] + train_val_samples[innerCV+1 :]
+            train_samples=train_val_samples[:innerCV] + train_val_samples[innerCV+1 :]#only works for list, not np
+            train_samples=list(itertools.chain.from_iterable(train_samples))
             # training and val samples
             # select by order
-            x_train, x_val = data_x[train_samples], data_x[val_samples]
+
+            x_train, x_val = data_x[train_samples], data_x[val_samples]#only np
             y_train, y_val = data_y[train_samples], data_y[val_samples]
-            print('sample lens for inner CV:')
-            print(len(x_train), len(x_train[0]))  # vary for each CV
-            print(len(x_val), len(x_val[0]))
-            x_train = torch.from_numpy(x_train).float()
-            y_train = torch.from_numpy(y_train).float()
+            print('sample lens for inner CV:',len(x_train), len(x_train[0]),len(x_val), len(x_val[0]))
+            # vary for each CV
+
+
             # x_train = x_train.to(device)
             # y_train = y_train.to(device)
 
             # normalize the data
-            scaler = preprocessing.StandardScaler().fit(x_train)
-            x_train = scaler.transform(x_train)
-            # scale the test data based on the training data
-            scaler = preprocessing.StandardScaler().fit(x_val)
-            x_val = scaler.transform(x_val)
-            # In regards of the predicted response values they dont need to be in the range of -1,1.
+            if f_scaler==True:
+                scaler = preprocessing.StandardScaler().fit(x_train)
+                x_train = scaler.transform(x_train)
+                # scale the val data based on the training data
+                scaler = preprocessing.StandardScaler().fit(x_train)
+                x_val = scaler.transform(x_val)
 
+
+            # In regards of the predicted response values they dont need to be in the range of -1,1.
+            x_train = torch.from_numpy(x_train).float()
+            y_train = torch.from_numpy(y_train).float()
             pred_val_inner=[]#predicted results on validation set.
+
             # 1. Traininng.
             classifier.train()
-            classifier=training(classifier, m_sigmoid, epochs, optimizer, x_train, y_train, anti_number)
+            optimizer.zero_grad()  # Clears existing gradients from previous epoch
+            classifier=training(classifier, m_sigmoid, epochs, optimizer, x_train, y_train, anti_number,False)
             name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, out_cv, innerCV)
+
             torch.save(classifier.state_dict(), name_weights)
-            #2. evaluation
+            #2. Evaluation
             classifier.eval()  # eval mode
             pred_val_sub = []
             for v, v_sample in enumerate(x_val):
@@ -504,7 +486,8 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
                 pred_val_sub.append(temp)
             pred_val_sub = np.array(pred_val_sub)# for this innerCV at this out_cv
             pred_val_inner.append(pred_val_sub)#for all innerCV at this out_cv. #No further use so far. April,30.
-            print('pred_val_inner shape:', pred_val_inner.shape)#(cv-1)*n_sample
+            print('pred_val_inner shape:', np.array(pred_val_inner).shape)#(cv-1)*n_sample
+
             ##
             # Calculate macro f1. for thresholds from 0 to 1.
 
@@ -523,6 +506,7 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
                 y_val = np.array(y_val)#ground truth
                 y_val_pred = np.array(pred)
 
+
                 for i in range(anti_number):
                     if anti_number == 1:
                         mcc=matthews_corrcoef(y_val, y_val_pred)
@@ -540,21 +524,62 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
             Validation_mcc_thresholds.append(mcc_sub)
             Validation_f1_thresholds.append(f1_sub)
         #====================================================
-        # select the inner loop index,and threshold with the highest f1 score in the matrix
-        Validation_f1_thresholds=np.array(Validation_f1_thresholds)
-        ind = np.unravel_index(np.argmax(Validation_f1_thresholds, axis=None), Validation_f1_thresholds.shape)
-        thresholds_selected=np.arange(0, 1.1, 0.1)[ind[1]]
-        weights_selected=ind[0]#the order of innerCV
+        if f_fixed_threshold==True:
+            thresholds_selected=0.5
+            Validation_f1_thresholds = np.array(Validation_f1_thresholds)
+            #select the inner loop index with the highest f1 score in the column w.r.t. 0.5
+            aim_column=np.where(np.arange(0, 1.1, 0.1) == 0.5)
+            aim_f1=Validation_f1_thresholds[:,aim_column]
+            weights_selected=np.argmax(aim_f1)
+
+        else:
+            # select the inner loop index,and threshold with the highest f1 score in the matrix
+            Validation_f1_thresholds=np.array(Validation_f1_thresholds)
+            ind = np.unravel_index(np.argmax(Validation_f1_thresholds, axis=None), Validation_f1_thresholds.shape)
+            thresholds_selected=np.arange(0, 1.1, 0.1)[ind[1]]
+            weights_selected=ind[0]#the order of innerCV
 
         weight_test.append(weights_selected)
         thresholds_selected_test.append(thresholds_selected)
-        #rm other models' weight in the log
-        for i in (np.arange(cv-1)[:weights_selected] + np.arange(cv-1)[weights_selected+1 :]):
-            n=amr_utility.name_utility.name_multi_bench(species, antibiotics, out_cv, i)
-            os.system("rm "+ n )
+
+        print(Validation_f1_thresholds)
+        print(Validation_mcc_thresholds)
+        print('weights_selected',weights_selected)
+        print('thresholds_selected', thresholds_selected)
+
+
 
         name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, out_cv, weights_selected)
-        classifier=torch.load_state_dict(torch.load(name_weights))
+        classifier.load_state_dict(torch.load(name_weights))
+        #=======================================================
+        #3. Re-train on both train and val data with the weights
+
+        print('Outer loop, testing.')
+        train_val_samples = list(itertools.chain.from_iterable(train_val_samples))
+        x_train_val= data_x[train_val_samples] # only np
+        y_train_val= data_y[train_val_samples]
+
+        if f_scaler==True:
+            scaler = preprocessing.StandardScaler().fit(x_train_val)
+            x_train_val = scaler.transform(x_train_val)
+            # scale the val data based on the training data
+            scaler = preprocessing.StandardScaler().fit(x_train_val)
+            x_test = scaler.transform(x_test)
+
+        x_train_val = torch.from_numpy(x_train_val).float()
+        y_train_val = torch.from_numpy(y_train_val).float()
+        classifier.train()
+
+        classifier = training(classifier, m_sigmoid, re_epochs, optimizer, x_train_val, y_train_val, anti_number,True)
+        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, out_cv,'')
+
+        torch.save(classifier.state_dict(), name_weights)
+
+        # rm inner loop models' weight in the log
+        for i in np.arange(cv-1):
+            n = amr_utility.name_utility.name_multi_bench(species, antibiotics, out_cv, i)
+            os.system("rm " + n)
+
         # apply the trained model to the test data
         classifier.eval()
 
@@ -569,8 +594,10 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
             pred_test_sub.append(temp)
         pred_test_sub = np.array(pred_test_sub)
         pred_test.append(pred_test_sub)#len= y_test
-
-        # 3. get measurement scores on testing set.
+        print('x_test',x_test.shape)
+        print('pred_test_sub',pred_test_sub.shape)
+        print('y_test',y_test.shape)
+        # 4. get measurement scores on testing set.
         #Positive predictive value (PPV), Precision; Accuracy (ACC); f1-score here,
         # y: True positive rate (TPR), aka. sensitivity, hit rate, and recall,
         # X: False positive rate (FPR), aka. fall-out,
@@ -586,12 +613,17 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
         pred_test_binary.append(pred_test_binary_sub)
         aucs = []
         tprs = []
+        # print(y_test)
+        # print(pred_test_binary_sub)
+
         for i in range(anti_number):
             if anti_number == 1:
                 mcc = matthews_corrcoef(y_test, pred_test_binary_sub)
                 # report = classification_report(y_val, y_val_pred, labels=[0, 1], output_dict=True)
                 f1 = f1_score(y_test, pred_test_binary_sub, average='macro')
-                report = classification_report(y_test, pred_test_binary_sub, labels=['Susceptible','Resistant'], output_dict=True)
+                print(f1)
+                print(mcc)
+                report = classification_report(y_test, pred_test_binary_sub, output_dict=True)
                 print(report)
                 fpr, tpr, _ = roc_curve(y_test, pred_test_binary_sub, pos_label=1)
 
@@ -613,12 +645,15 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
         mcc_test.append(mcc)
 
 
-    plot(anti_number, all_mcc_values, cv, validation, pred_val_all, validation_y, tprs_all, aucs_all, mean_fpr)
+    # plot(anti_number, mcc_test, cv, validation, pred_val_all, validation_y, tprs_all, aucs_all, mean_fpr)
 
     save_name_score=amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics)
+    if f_fixed_threshold==True:
+        save_name_score='fixed_threshold_'+save_name_score
+
     print('thresholds_selected_test',thresholds_selected_test)
     print('f1_test',f1_test)
-    score_report_test.to_csv('log/results/report_'+save_name_score+'.txt', sep="\t")
+    score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score)#save mean and std of each 6 score
 
     torch.cuda.empty_cache()
 
