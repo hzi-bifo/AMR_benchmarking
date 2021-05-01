@@ -281,8 +281,8 @@ class _classifier(nn.Module):
 
 def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number,fine_tune):
     for epoc in range(epochs):
-
-
+        x_train=x_train.to(device)
+        y_train = y_train.to(device)
         x_train_new = torch.utils.data.TensorDataset(x_train)
         y_train_new = torch.utils.data.TensorDataset(y_train)
 
@@ -332,20 +332,21 @@ def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number,f
             # print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, np.mean(losses)))
     return classifier
 
-def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score):
+def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
 
-    summary = pd.DataFrame(index=['mean','std'], columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro','auc','mcc'])
+    summary = pd.DataFrame(index=['mean','std'], columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro','auc','mcc','threshold'])
     #
     f1=[]
     precision=[]
     recall=[]
     accuracy=[]
-    for i in cv:
+    for i in np.arange(cv):
         report=score_report_test[i]
+        report=pd.DataFrame(report).transpose()
         f1.append(report.iloc[3,3])
-        precision.append(data.iloc[3, 1])
-        recall.append(data.iloc[3, 2])
-        accuracy.append(data.iloc[2, 2])
+        precision.append(report.iloc[3, 1])
+        recall.append(report.iloc[3, 2])
+        accuracy.append(report.iloc[2, 2])
     summary.loc['mean','f1_macro']=statistics.mean(f1)
     summary.loc['std','f1_macro']=statistics.stdev(f1)
     summary.loc['mean','precision_macro'] = statistics.mean(precision)
@@ -358,6 +359,8 @@ def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score):
     summary.loc['std','auc'] = statistics.stdev(aucs_test)
     summary.loc['mean','mcc'] = statistics.mean(mcc_test)
     summary.loc['std','mcc'] = statistics.stdev(mcc_test)
+    summary.loc['mean', 'threshold'] = statistics.mean(thresholds_selected_test)
+    summary.loc['std', 'threshold'] = statistics.stdev(thresholds_selected_test)
     summary.to_csv('log/results/score_'+save_name_score+'.txt', sep="\t")
 
 
@@ -653,7 +656,7 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
 
     print('thresholds_selected_test',thresholds_selected_test)
     print('f1_test',f1_test)
-    score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score)#save mean and std of each 6 score
+    score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score,thresholds_selected_test)#save mean and std of each 6 score
 
     torch.cuda.empty_cache()
 
