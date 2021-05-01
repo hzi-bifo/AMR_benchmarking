@@ -12,7 +12,7 @@ import amr_utility.name_utility
 import amr_utility.graph_utility
 
 
-
+#Note, this script should be called by a script in the same folder of metadata folder
 
 
 
@@ -70,12 +70,12 @@ def model(species,antibiotics,balance,level):
 
         # select genome_id and  resistant_phenotype
         #data_sub_anti = data_sub_anti.loc[:, ('genome_id', 'resistant_phenotype')]
-        print(species,',', anti, '=============>> loading' )
+        # print(species,',', anti, '=============' )
         # print(data_sub_anti)
         data_sub_anti = data_sub_anti.drop_duplicates()#should no duplicates. Just in case.
 
         #Downsampling for inbalance data set
-        print(data_sub_anti.groupby(by="resistant_phenotype").count())
+        # print(data_sub_anti.groupby(by="resistant_phenotype").count())
         # pheno = data_sub_anti.groupby(by="resistant_phenotype").count()
         # pheno_summary.loc[str(anti), 'Resistant'] = pheno.iloc[1, 0]
         # pheno_summary.loc[str(anti), 'Susceptible'] = pheno.iloc[0, 0]
@@ -94,6 +94,10 @@ def model(species,antibiotics,balance,level):
     return antibiotics_selected,ID_list,Y
 
 def summary(species,level):
+    '''
+    A summary of phenotype distribution for each species and antibiotic combination
+    '''
+
     data = pd.read_csv('metadata/' + str(level) + '_Species_antibiotic_FineQuality.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
     data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.

@@ -78,6 +78,19 @@ def load_metadata(SpeciesFile):#for metadata.py
 
     return data, info_species
 
+def name_multi_bench(species,antibiotics,cv,innerCV):
+
+
+    name_weights='log/temp/' + str(species.replace(" ", "_")) +'/'+\
+                 str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_' + str(cv) + str(innerCV)
+    return name_weights
+def name_multi_bench_save_name_score(species,antibiotics):
+    save_name_score = str(species.replace(" ", "_"))  +'/'+ str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'})))
+    return save_name_score
+
+
+
+
 '''
 def old(species,anti,canonical,k):
  

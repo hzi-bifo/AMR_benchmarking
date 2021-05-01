@@ -334,7 +334,8 @@ def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number,f
 
 def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
 
-    summary = pd.DataFrame(index=['mean','std'], columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro','auc','mcc','threshold'])
+    summary = pd.DataFrame(index=['mean','std'], columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                                          'auc','mcc','threshold'])
     #
     f1=[]
     precision=[]
@@ -392,6 +393,7 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
     score_report_test = []
 
     aucs_test = []  # all AUC values for the test data
+    aucs_test_all=[]# multi-output and plotting used
     tprs_test = []  # all True Positives for the test data
     mean_fpr = np.linspace(0, 1, 100)
     Random_State = random
@@ -643,12 +645,14 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
         #note,here single output also matrixed, for use of the plot codes by the original author.
         f1_test.append(f1)
         score_report_test.append(report)
-        aucs_test.append(aucs)## multi-out
+        aucs_test_all.append(aucs)## multi-out
         tprs_test.append(tprs)## multi-out
+        aucs_test.append(roc_auc) #single-out
+
         mcc_test.append(mcc)
 
 
-    # plot(anti_number, mcc_test, cv, validation, pred_val_all, validation_y, tprs_all, aucs_all, mean_fpr)
+    # plot(anti_number, mcc_test, cv, validation, pred_val_all, validation_y, tprs_test, aucs_test_all, mean_fpr)
 
     save_name_score=amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics)
     if f_fixed_threshold==True:
