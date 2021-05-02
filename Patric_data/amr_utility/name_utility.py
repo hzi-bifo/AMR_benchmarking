@@ -82,10 +82,11 @@ def name_multi_bench(species,antibiotics,cv,innerCV):
 
 
     name_weights='log/temp/' + str(species.replace(" ", "_")) +'/'+\
-                 str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_' + str(cv) + str(innerCV)
+                 str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_weights_' + str(cv) + str(innerCV)
     return name_weights
-def name_multi_bench_save_name_score(species,antibiotics):
-    save_name_score = str(species.replace(" ", "_"))  +'/'+ str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'})))
+def name_multi_bench_save_name_score(species,antibiotics,level):
+    save_name_score = str(level)+'/'+str(species.replace(" ", "_"))  +'/'+\
+                      str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'})))
     return save_name_score
 
 

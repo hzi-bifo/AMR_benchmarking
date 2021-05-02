@@ -169,9 +169,9 @@ def extract_info(s,balance,level):
     #data.at['Mycobacterium tuberculosis', 'modelling antibiotics']=['capreomycin', 'ciprofloxacin']
     # --------------------------------------------------------
     df_species = data.index.tolist()
-    print('Selected species: \n',data)
+    # print('Selected species: \n',data)
     antibiotics = data['modelling antibiotics'].tolist()
-    print(antibiotics)
+    # print(antibiotics)
 
     for df_species,antibiotics in zip(df_species, antibiotics):
         antibiotics, ID_list, Y=model(df_species, antibiotics,balance,level)

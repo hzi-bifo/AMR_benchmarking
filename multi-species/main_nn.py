@@ -14,37 +14,40 @@ import pandas as pd
 import neural_networks.Neural_networks_khuModified as nn_module
 
 
-def make_visualization(species,antibiotics):
+def make_visualization(species,antibiotics,level,f_fixed_threshold):
     #todo need re work
 
     print(species)
     antibiotics_selected = ast.literal_eval(antibiotics)
 
     print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
-    final=pd.DataFrame(index=antibiotics_selected, columns=['f1-score','precision', 'recall','accuracy'] )
+    final=pd.DataFrame(index=antibiotics_selected, columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                                          'auc','mcc','threshold'] )
     print(final)
     for anti in antibiotics_selected:
-        save_name_score = amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics)
+        save_name_score = amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics,level)
+        if f_fixed_threshold == True:
+            save_name_score = save_name_score + '_fixed_threshold'
         print(anti, '--------------------------------------------------------------------')
         try:
-            data = pd.read_csv('log/results/report_'+save_name_score+'.txt', sep="\t")
-            print(data)
-            final.loc[str(anti),'f1-score']=data.iloc[3,3]
-            final.loc[str(anti),'precision'] = data.iloc[3, 1]
-            final.loc[str(anti),'recall'] = data.iloc[3, 2]
-            final.loc[str(anti),'accuracy'] = data.iloc[2, 2]
+            data = pd.read_csv('log/results/'+save_name_score+'_score.txt', sep="\t")
+            data = data.astype(float).round(2)
+            data = data.astype(str)
+            final.loc[str(anti), :]=data.loc['mean',:].str.cat(data.loc['std',:], sep='±')
+
+
             print(final)
         except:
             pass
-    final=final.astype(float).round(2)
-    final.to_csv('log/results/report_'+str(species.replace(" ", "_"))+'.csv', sep="\t")
+    # final=final.astype(float).round(2)
+    final.to_csv('log/results/'+save_name_score+'_score.txt', sep="\t")
 
 
 def extract_info(s,xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epochs, re_epochs, learning,f_scaler,
-                 f_fixed_threshold, level,n_jobs):
+                 f_fixed_threshold, level):
     #for store temp data
 
-    data = pd.read_csv('metadata/loose_Species_antibiotic_FineQuality.csv', index_col=0, dtype={'genome_id': object},
+    data = pd.read_csv('metadata/'+str(level)+'_Species_antibiotic_FineQuality.csv', index_col=0, dtype={'genome_id': object},
                        sep="\t")
     data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
     # for training model on part of the dataset:-------------
@@ -65,7 +68,7 @@ def extract_info(s,xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epo
                 os.makedirs(logDir)
             except OSError:
                 print("Can't create logging directory:", logDir)
-        logDir = os.path.join('log/results/' + str(species.replace(" ", "_")))
+        logDir = os.path.join('log/results/')
         if not os.path.exists(logDir):
             try:
                 os.makedirs(logDir)
@@ -79,14 +82,14 @@ def extract_info(s,xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epo
         antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
         # for anti in ['mupirocin', 'penicillin', 'rifampin', 'tetracycline', 'vancomycin']:
 
-        # for anti in antibiotics:
-        for anti in ['trimethoprim']:
+        for anti in antibiotics:
+        # for anti in ['trimethoprim']:
 
-            nn_module.eval(species,anti, xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epochs,re_epochs,learning,
+            nn_module.eval(species,anti,level, xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epochs,re_epochs,learning,
                            f_scaler,f_fixed_threshold)
 
         #put out final table with scores:'f1-score','precision', 'recall','accuracy'
-        make_visualization(species, antibiotics)
+    make_visualization(species, antibiotics,level,f_fixed_threshold)
 
 
 
@@ -125,10 +128,10 @@ if __name__== '__main__':
     parser.add_argument('-s', '--species', default=[], type=str, nargs='+', help='species to run: e.g.\'seudomonas aeruginosa\' \
             \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
             \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
-    parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel.')
+    # parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel.')
     parsedArgs = parser.parse_args()
     # parser.print_help()
     # print(parsedArgs)
     extract_info(parsedArgs.species,parsedArgs.xdata,parsedArgs.ydata,parsedArgs.p_names,parsedArgs.p_clusters,parsedArgs.cv_number,
-                 parsedArgs.random,parsedArgs.hidden,parsedArgs.epochs,parsedArgs.re_epochs,parsedArgs.learning,parsedArgs.f_scaler,parsedArgs.f_fixed_threshold,parsedArgs.level,parsedArgs.n_jobs)
+                 parsedArgs.random,parsedArgs.hidden,parsedArgs.epochs,parsedArgs.re_epochs,parsedArgs.learning,parsedArgs.f_scaler,parsedArgs.f_fixed_threshold,parsedArgs.level)
 

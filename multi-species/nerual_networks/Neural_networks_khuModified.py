@@ -276,8 +276,8 @@ class _classifier(nn.Module):
         )
 
     def forward(self, input):
-        input.to(device)
-        return self.main(input).to(device)
+        input
+        return self.main(input)
 
 def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number,fine_tune):
     for epoc in range(epochs):
@@ -295,8 +295,9 @@ def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number,f
         losses = []  # save the error for each iteration
         for i, (sample_x, sample_y) in enumerate(data_loader):
             inputv = sample_x[0]
-            # print(we.size())
-            inputv = torch.FloatTensor(inputv)
+            inputv=inputv.to(device)
+
+            # inputv = torch.FloatTensor(inputv)
             inputv = Variable(inputv).view(len(inputv), -1)
             # print(inputv.size())
 
@@ -319,17 +320,18 @@ def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number,f
 
             criterion = nn.BCELoss(weight=weights, reduction="none")
             output = classifier(inputv)
-            # print(output.size())
+            # print('------------',output.is_cuda)
             # print(labelsv.size())
             loss = criterion(m_sigmoid(output), labelsv)
             loss = loss.mean()  # compute loss
             optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
             loss.backward()  # backpropagation
             optimizer.step()  # weights updated
-            losses.append(loss.data.mean())
-        # if epoc % 100 == 0:
+            losses.append(loss.item())
+
+        if epoc % 100 == 0:
             # print the loss per iteration
-            # print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, np.mean(losses)))
+            print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, loss.item()))
     return classifier
 
 def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
@@ -344,15 +346,17 @@ def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresh
     for i in np.arange(cv):
         report=score_report_test[i]
         report=pd.DataFrame(report).transpose()
-        f1.append(report.iloc[3,3])
-        precision.append(report.iloc[3, 1])
-        recall.append(report.iloc[3, 2])
-        accuracy.append(report.iloc[2, 2])
+        print(report)
+        print('--------')
+        f1.append(report.loc['macro avg','f1-score'])
+        precision.append(report.loc['macro avg','precision'])
+        recall.append(report.loc['macro avg','recall'])
+        accuracy.append(report.loc['accuracy','f1-score'])
     summary.loc['mean','f1_macro']=statistics.mean(f1)
     summary.loc['std','f1_macro']=statistics.stdev(f1)
     summary.loc['mean','precision_macro'] = statistics.mean(precision)
     summary.loc['std','precision_macro'] = statistics.stdev(precision)
-    summary.loc['mean','_macro']  = statistics.mean(recall)
+    summary.loc['mean','recall_macro']  = statistics.mean(recall)
     summary.loc['std','recall_macro'] = statistics.stdev(recall)
     summary.loc['mean','accuracy_macro'] = statistics.mean(accuracy)
     summary.loc['std','accuracy_macro'] = statistics.stdev(accuracy)
@@ -362,13 +366,14 @@ def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresh
     summary.loc['std','mcc'] = statistics.stdev(mcc_test)
     summary.loc['mean', 'threshold'] = statistics.mean(thresholds_selected_test)
     summary.loc['std', 'threshold'] = statistics.stdev(thresholds_selected_test)
-    summary.to_csv('log/results/score_'+save_name_score+'.txt', sep="\t")
+    summary.to_csv('log/temp/'+save_name_score+'_score.txt', sep="\t")
+    print(summary)
 
 
 
 
 
-def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,re_epochs, learning,f_scaler,f_fixed_threshold):
+def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,re_epochs, learning,f_scaler,f_fixed_threshold):
 
     fileDir = os.path.dirname(os.path.realpath('__file__'))
     # sample name list
@@ -419,6 +424,7 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
     classifier = _classifier(nlabel, D_input, n_hidden)
     classifier.to(device)
 
+
     # generate the optimizer - Stochastic Gradient Descent
     optimizer = optim.SGD(classifier.parameters(), lr=learning_rate)
 
@@ -432,6 +438,9 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
         test_samples=folders_sample[out_cv]
         x_test=data_x[test_samples]
         y_test = data_y[test_samples]
+        x_test = torch.from_numpy(x_test).float()
+        y_test = torch.from_numpy(y_test).float()
+        x_test = x_test.to(device)
         # remain= list(set(range(cv)) - set([out_cv])).sort()#first round: set(0,1,2,3,4)-set(0)=set(1,2,3,4)
         train_val_samples= folders_sample[:out_cv] + folders_sample[out_cv+1 :]#list
         Validation_mcc_thresholds = []  #  inner CV *11 thresholds value
@@ -469,6 +478,8 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
             # In regards of the predicted response values they dont need to be in the range of -1,1.
             x_train = torch.from_numpy(x_train).float()
             y_train = torch.from_numpy(y_train).float()
+            x_val = torch.from_numpy(x_val).float()
+            y_val = torch.from_numpy(y_val).float()
             pred_val_inner=[]#predicted results on validation set.
 
             # 1. Traininng.
@@ -481,8 +492,11 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
             #2. Evaluation
             classifier.eval()  # eval mode
             pred_val_sub = []
+            x_val=x_val.to(device)
             for v, v_sample in enumerate(x_val):
-                val = Variable(torch.FloatTensor(v_sample)).view(1, -1)
+
+                # val = Variable(torch.FloatTensor(v_sample)).view(1, -1)
+                val = Variable(v_sample).view(1, -1)
                 output_test = classifier(val)
                 out = m_sigmoid(output_test)
                 temp = []
@@ -590,7 +604,8 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
 
         pred_test_sub = []
         for a, a_sample in enumerate(x_test):
-            tested = Variable(torch.FloatTensor(a_sample)).view(1, -1)
+            tested = Variable(a_sample).view(1, -1)
+            # tested = Variable(torch.FloatTensor(a_sample)).view(1, -1)
             output_test = classifier(tested)
             out = m_sigmoid(output_test)
             temp = []
@@ -628,7 +643,7 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
                 f1 = f1_score(y_test, pred_test_binary_sub, average='macro')
                 print(f1)
                 print(mcc)
-                report = classification_report(y_test, pred_test_binary_sub, output_dict=True)
+                report = classification_report(y_test, pred_test_binary_sub, labels=[0, 1],output_dict=True)
                 print(report)
                 fpr, tpr, _ = roc_curve(y_test, pred_test_binary_sub, pos_label=1)
 
@@ -654,12 +669,13 @@ def eval(species, antibiotics, xdata, ydata, p_names, p_clusters, cv, random, hi
 
     # plot(anti_number, mcc_test, cv, validation, pred_val_all, validation_y, tprs_test, aucs_test_all, mean_fpr)
 
-    save_name_score=amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics)
+    save_name_score=amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics,level)
     if f_fixed_threshold==True:
-        save_name_score='fixed_threshold_'+save_name_score
+        save_name_score=save_name_score+'_fixed_threshold'
 
     print('thresholds_selected_test',thresholds_selected_test)
     print('f1_test',f1_test)
+    print('mcc_test',mcc_test)
     score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score,thresholds_selected_test)#save mean and std of each 6 score
 
     torch.cuda.empty_cache()
