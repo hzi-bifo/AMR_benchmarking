@@ -228,7 +228,7 @@ def extract_info(input_path,file,out_path,mutcol):
 
 						results.write(str(score))
 						results.write("\t")
-						if mutation==True:
+						if mutcol==True:
 							results.write(str(1))
 							results.write("\t")
 						# for currentArgument, currentValue in arguments:
@@ -241,7 +241,7 @@ def extract_info(input_path,file,out_path,mutcol):
 							if "*" != each.split("_")[1] and "?" != each.split("_")[1]:
 								score = blosum[each.split("_")[1], each.split("_")[1]]
 							else:
-								print(each)
+								# print(each)
 								score = -5
 							results.write(str(score))
 
@@ -270,7 +270,7 @@ def extract_info(input_path,file,out_path,mutcol):
 							if "*" != f.split("_")[1] and "?" != f.split("_")[1]:
 								score = blosum[f.split("_")[1], f.split("_")[1]]
 							else:
-								print(f.split("_")[1])
+								# print(f.split("_")[1])
 								score = -5
 							results.write(str(score))
 						elif f[-1] == "r":
