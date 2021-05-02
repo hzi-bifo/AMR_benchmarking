@@ -23,7 +23,7 @@ import data_preparation.merge_resfinder_pointfinder_khuModified
 import data_preparation.merge_input_output_files_khuModified
 import main_nn
 
-def run(species,anti,level,f_pre_cluster,f_cluster,f_res,f_merge_mution_gene,f_matching_io,f_merge_species,f_nn,cv,
+def run(species,anti,level,f_pre_cluster,f_cluster,run_file,f_res,f_merge_mution_gene,f_matching_io,f_merge_species,f_nn,cv,
         random, hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold):
     logDir = os.path.join('log/temp/' + str(level)+'/'+str(species.replace(" ", "_")))
     if not os.path.exists(logDir):
@@ -75,16 +75,26 @@ def run(species,anti,level,f_pre_cluster,f_cluster,f_res,f_merge_mution_gene,f_m
 
         print(species,anti,': finished merge_scaffold!')
     if f_cluster==True:
-        #will spaw other threads
-        subprocess.run("cat %s | %s -i -- -k 16 -Sparse - -ht 0.9 -hq 0.9 -NI -o %s &> %s;wait;echo \' finished. \';"
-                       "wait; rm %s %s.seq.b %s.length.b %s.name"
-                       % (path_large_temp, path_to_kma_clust, path_cluster_temp, path_cluster_results,path_large_temp,
-                          path_cluster_temp, path_cluster_temp,path_cluster_temp),
-                       shell=True)
-        print(species,anti,': finished kma!')
+        run_file.write("(")
+        cmd="cat %s | %s -i -- -k 16 -Sparse - -ht 0.9 -hq 0.9 -NI -o %s &> %s"\
+             %(path_large_temp,path_to_kma_clust,path_cluster_temp,path_cluster_results)
+        run_file.write(cmd)
+        run_file.write("\n")
+        run_file.write("wait")
+        run_file.write("\n")
+        run_file.write('rm '+ path_large_temp)
+        run_file.write("\n")
+        run_file.write('rm ' + path_cluster_temp+'.seq.b '+path_cluster_temp+'.length.b '+path_cluster_temp+'.name')
+        run_file.write("\n")
+        run_file.write("echo \" one thread finised! \"")
+        run_file.write(")&")
+
+        run_file.write("\n")
     if f_res==True:
         #2. Analysing PointFinder results
         # Analysing ResFinder results
+        print((path_res_result,path_metadata,path_point_repre_results,True))
+        exit()
         data_preparation.scored_representation_blast_khuModified.extract_info(path_res_result,path_metadata,
                                                                                      path_point_repre_results,True)
 
@@ -93,6 +103,8 @@ def run(species,anti,level,f_pre_cluster,f_cluster,f_res,f_merge_mution_gene,f_m
 
     if f_merge_mution_gene==True:
         # 3. Merging ResFinder and PointFinder results
+        print(path_point_repre_results,path_res_repre_results,path_mutation_gene_results)
+        exit()
         data_preparation.merge_resfinder_pointfinder_khuModified.extract_info(path_point_repre_results,
                                                                               path_res_repre_results,path_mutation_gene_results)
 
@@ -115,7 +127,7 @@ def run(species,anti,level,f_pre_cluster,f_cluster,f_res,f_merge_mution_gene,f_m
 # def extract_info(s,xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epochs, re_epochs, learning,f_scaler,
 #                  f_fixed_threshold, level,n_jobs):
 def extract_info(s,level,f_pre_cluster,f_cluster,f_res,f_merge_mution_gene,f_matching_io,f_merge_species,f_nn,cv, random,
-                 hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,n_jobs):
+                 hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,n_jobs,debug):
 
     data = pd.read_csv('metadata/' + str(level) + '_Species_antibiotic_FineQuality.csv', index_col=0,
                        dtype={'genome_id': object},sep="\t")
@@ -127,31 +139,62 @@ def extract_info(s,level,f_pre_cluster,f_cluster,f_res,f_merge_mution_gene,f_mat
     df_species = data.index.tolist()
     antibiotics = data['modelling antibiotics'].tolist()
     # print(data)
+    if debug==True:
+        for species, antibiotics in zip(df_species, antibiotics):
+            print(species)
+            antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
 
-    # if f_cluster==False:
-    for species in df_species:
-        print(species)
-        antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
+            run_file = None
 
-        pool = mp.Pool(processes=n_jobs)
-        pool.starmap(run,
-                     zip(repeat(species), antibiotics, repeat(level), repeat( f_pre_cluster),repeat(f_cluster), repeat(f_res),
-                         repeat(f_merge_mution_gene),repeat(f_matching_io),repeat(f_merge_species),repeat(f_nn),repeat(cv)))
-    pool.close()
-    pool.join()
+            antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
+            # for anti in ['mupirocin', 'penicillin', 'rifampin', 'tetracycline', 'vancomycin']:
+            for anti in antibiotics:
+                run(species, anti, level, f_pre_cluster, f_cluster, run_file, f_res, f_merge_mution_gene, f_matching_io,
+                    f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler, f_fixed_threshold)
 
-    # else:#C program from bash
-    #     # no n_job version:
-    #     for species, antibiotics in zip(df_species, antibiotics):
-    #         antibiotics_selected = ast.literal_eval(antibiotics)
-    #         print(species)
-    #         print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
-    #         antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
-    #         # for anti in ['mupirocin', 'penicillin', 'rifampin', 'tetracycline', 'vancomycin']:
-    #         for anti in antibiotics:
-    #
-    #             run(species, anti, level, f_pre_cluster, f_cluster, f_res, f_nn)
 
+
+    else:
+        if f_cluster==False:
+            for species in df_species:
+                print(species)
+                antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
+
+                run_file=None
+                pool = mp.Pool(processes=n_jobs)
+                pool.starmap(run,
+                             zip(repeat(species), antibiotics, repeat(level), repeat( f_pre_cluster),repeat(f_cluster),repeat(run_file),repeat(f_res),
+                                 repeat(f_merge_mution_gene),repeat(f_matching_io),repeat(f_merge_species),repeat(f_nn),repeat(cv),
+                                 repeat(random),repeat(hidden),repeat(epochs),repeat(re_epochs),repeat(learning),repeat(f_scaler),repeat(f_fixed_threshold)))
+
+                pool.close()
+                pool.join()
+
+        else:#C program from bash
+            # kma clustering of samples
+            # no n_job version:
+            logDir = os.path.join('cv_folders/' + str(level))
+            if not os.path.exists(logDir):
+                try:
+                    os.makedirs(logDir)
+                except OSError:
+                    print("Can't create logging directory:", logDir)
+
+            for species, antibiotics in zip(df_species, antibiotics):
+                # produce a bash file
+                run_file = open('./cv_folders/' + str(level) + '/' + str(species.replace(" ", "_")) + "_kma.sh", "w")
+                run_file.write("#!/bin/bash")
+                run_file.write("\n")
+                antibiotics_selected = ast.literal_eval(antibiotics)
+                print(species)
+                print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
+                antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
+                # for anti in ['mupirocin', 'penicillin', 'rifampin', 'tetracycline', 'vancomycin']:
+                for anti in antibiotics:
+                    run(species, anti, level, f_pre_cluster, f_cluster,run_file, f_res, f_merge_mution_gene, f_matching_io,
+                        f_merge_species, f_nn, cv,random, hidden, epochs, re_epochs, learning, f_scaler, f_fixed_threshold)
+                run_file.write("echo \" running \"")
+                run_file.close()
 
 
 if __name__== '__main__':
@@ -198,6 +241,9 @@ if __name__== '__main__':
             \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
             \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
     parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel.')
+    parser.add_argument('-debug', '--debug', dest='debug', action='store_true',
+                        help='debug')
+
     parsedArgs = parser.parse_args()
     # parser.print_help()
     # print(parsedArgs)
@@ -207,4 +253,4 @@ if __name__== '__main__':
     extract_info(parsedArgs.species,parsedArgs.level,parsedArgs.f_pre_cluster,parsedArgs.f_cluster,parsedArgs.f_res,
                  parsedArgs.f_merge_mution_gene,parsedArgs.f_matching_io,parsedArgs.f_merge_species,
                  parsedArgs.f_nn,parsedArgs.cv_number,parsedArgs.random,parsedArgs.hidden,parsedArgs.epochs,parsedArgs.re_epochs,
-                 parsedArgs.learning,parsedArgs.f_scaler,parsedArgs.f_fixed_threshold,parsedArgs.n_jobs)
+                 parsedArgs.learning,parsedArgs.f_scaler,parsedArgs.f_fixed_threshold,parsedArgs.n_jobs,parsedArgs.debug)
