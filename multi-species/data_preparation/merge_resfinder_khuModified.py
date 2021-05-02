@@ -10,14 +10,15 @@ import argparse
 
 
 
-def extract_info(point_path,res_path,output):
+def extract_info(list,res_path,output):
 
-	##this script aims to merge pointfinder data and resfinder data into a file
+	##this script aims to transfer resfinder data into a matrix
 
 
-	snps = np.genfromtxt(point_path, dtype = "str")
-	print(snps.shape)
+	# snps = np.genfromtxt(point_path, dtype = "str")
+	# print(snps.shape)
 
+	list_sample = np.genfromtxt(list, dtype='str')
 	genes = np.genfromtxt(res_path, dtype= "str")
 	print(genes.shape)
 
@@ -30,14 +31,14 @@ def extract_info(point_path,res_path,output):
 	uniq_genes.sort()
 
 	file_w = open(output, "w")
-	for each in snps:#sample+feature
-		for e in each:
-			file_w.write(e)
-			file_w.write("\t")# SNPs finished loading
-		if each[0] in genes[:,0]:#a specific sample in Gene sample list(samples without AMR gene not listed)
+	for each in list_sample:#sample+feature
+		# for e in each:
+		# 	file_w.write(e)
+		# 	file_w.write("\t")# SNPs finished loading
+		if each in genes[:,0]:#a specific sample in Gene sample list(samples without AMR gene not listed)
 			# print(each[0])
 
-			gene_index = [i for i, x in enumerate(genes[:,0]) if x == each[0]]#genes[:,0]: sample list
+			gene_index = [i for i, x in enumerate(genes[:,0]) if x == each]#genes[:,0]: sample list
 			#curent sample related gene presence list, e.g. [1,2,4,45]
 			# print(gene_index)
 			acquired_genes = []
@@ -48,14 +49,14 @@ def extract_info(point_path,res_path,output):
 				# print(genes[g,1])
 				# print(acquired_genes)
 				coverage.append(genes[g, 2])
-			
+
 			#index w.r.t. uniq_genes.
 			# acquired_genes = list(set(acquired_genes))#rm duplicates
 
 			gap = 0
 			acquired_genes_uniq = list(set(acquired_genes))
 			for a in sorted(acquired_genes_uniq):
-				b = a - gap		
+				b = a - gap
 				for i in range(0, b):
 					file_w.write("-1")
 					file_w.write("\t")
@@ -76,9 +77,10 @@ def extract_info(point_path,res_path,output):
 
 def main():
 	parser = argparse.ArgumentParser()
-
-	parser.add_argument("-p","--pointfin", default=None, type=str, required=True,
-						help='PointFinder results.')
+	parser.add_argument("-l","--list", default=None, type=str, required=True,
+						help='path to sample list( metadata)')
+	# parser.add_argument("-p","--pointfin", default=None, type=str, required=True,
+						# help='PointFinder results.')
 	parser.add_argument("-r","--resfin", default=None, type=str, required=True,
 						help='ResFinder results.')
 	parser.add_argument("-o","--output", default=None, type=str, required=True,
@@ -87,7 +89,7 @@ def main():
 	parsedArgs = parser.parse_args()
 	# parser.print_help()
 	# print(parsedArgs)
-	extract_info(parsedArgs.pointfin,parsedArgs.resfin,parsedArgs.output)
+	extract_info(parsedArgs.list,parsedArgs.resfin,parsedArgs.output)
 
 if __name__ == '__main__':
     main()

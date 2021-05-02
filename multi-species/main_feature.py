@@ -21,6 +21,7 @@ import data_preparation.scored_representation_blast_khuModified
 import data_preparation.ResFinder_analyser_blast_khuModified
 import data_preparation.merge_resfinder_pointfinder_khuModified
 import data_preparation.merge_input_output_files_khuModified
+import data_preparation.merge_resfinder_khuModified
 import main_nn
 
 def run(species,anti,level,f_pre_cluster,f_cluster,run_file,f_res,f_merge_mution_gene,f_matching_io,f_merge_species,f_nn,cv,
@@ -93,21 +94,25 @@ def run(species,anti,level,f_pre_cluster,f_cluster,run_file,f_res,f_merge_mution
     if f_res==True:
         #2. Analysing PointFinder results
         # Analysing ResFinder results
-        print((path_res_result,path_metadata,path_point_repre_results,True))
-        exit()
-        data_preparation.scored_representation_blast_khuModified.extract_info(path_res_result,path_metadata,
-                                                                                     path_point_repre_results,True)
+        if species in ['Klebsiella pneumoniae','Escherichia coli','Staphylococcus aureus',
+                       'Mycobacterium tuberculosis','Salmonella enterica',
+                       'Neisseria gonorrhoeae','Enterococcus faecium']:
+            data_preparation.scored_representation_blast_khuModified.extract_info(path_res_result,path_metadata,
+                                                                                         path_point_repre_results,True)
 
         data_preparation.ResFinder_analyser_blast_khuModified.extract_info(path_res_result,path_metadata,
                                                                            path_res_repre_results)
 
     if f_merge_mution_gene==True:
         # 3. Merging ResFinder and PointFinder results
-        print(path_point_repre_results,path_res_repre_results,path_mutation_gene_results)
-        exit()
-        data_preparation.merge_resfinder_pointfinder_khuModified.extract_info(path_point_repre_results,
+        if species in ['Klebsiella pneumoniae', 'Escherichia coli', 'Staphylococcus aureus',
+                       'Mycobacterium tuberculosis', 'Salmonella enterica',
+                       'Neisseria gonorrhoeae', 'Enterococcus faecium']:
+            data_preparation.merge_resfinder_pointfinder_khuModified.extract_info(path_point_repre_results,
                                                                               path_res_repre_results,path_mutation_gene_results)
-
+        else:#only AMR gene feature
+            data_preparation.merge_resfinder_khuModified.extract_info(path_metadata,path_res_repre_results,path_mutation_gene_results)
+            pass
 
     if f_matching_io==True:
         #4. Matching input and output results
@@ -117,6 +122,9 @@ def run(species,anti,level,f_pre_cluster,f_cluster,run_file,f_res,f_merge_mution
         #5. Multi-species merging
         #todo
         pass
+
+
+
     if f_nn==True:
         #6. nn
         main_nn.extract_info(species,path_x,path_y,path_name,path_cluster_results,cv, random, hidden, epochs, re_epochs,
@@ -152,25 +160,10 @@ def extract_info(s,level,f_pre_cluster,f_cluster,f_res,f_merge_mution_gene,f_mat
                 run(species, anti, level, f_pre_cluster, f_cluster, run_file, f_res, f_merge_mution_gene, f_matching_io,
                     f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler, f_fixed_threshold)
 
-
-
     else:
-        if f_cluster==False:
-            for species in df_species:
-                print(species)
-                antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
-
-                run_file=None
-                pool = mp.Pool(processes=n_jobs)
-                pool.starmap(run,
-                             zip(repeat(species), antibiotics, repeat(level), repeat( f_pre_cluster),repeat(f_cluster),repeat(run_file),repeat(f_res),
-                                 repeat(f_merge_mution_gene),repeat(f_matching_io),repeat(f_merge_species),repeat(f_nn),repeat(cv),
-                                 repeat(random),repeat(hidden),repeat(epochs),repeat(re_epochs),repeat(learning),repeat(f_scaler),repeat(f_fixed_threshold)))
-
-                pool.close()
-                pool.join()
-
-        else:#C program from bash
+        #should be starting here when everything finished.
+        if f_cluster==True:
+            # C program from bash
             # kma clustering of samples
             # no n_job version:
             logDir = os.path.join('cv_folders/' + str(level))
@@ -191,10 +184,48 @@ def extract_info(s,level,f_pre_cluster,f_cluster,f_res,f_merge_mution_gene,f_mat
                 antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
                 # for anti in ['mupirocin', 'penicillin', 'rifampin', 'tetracycline', 'vancomycin']:
                 for anti in antibiotics:
-                    run(species, anti, level, f_pre_cluster, f_cluster,run_file, f_res, f_merge_mution_gene, f_matching_io,
-                        f_merge_species, f_nn, cv,random, hidden, epochs, re_epochs, learning, f_scaler, f_fixed_threshold)
+                    run(species, anti, level, f_pre_cluster, f_cluster, run_file, f_res, f_merge_mution_gene,
+                        f_matching_io,
+                        f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
+                        f_fixed_threshold)
                 run_file.write("echo \" running \"")
                 run_file.close()
+
+
+        elif f_nn==True:
+            #Gpu, on luna
+            for species, antibiotics in zip(df_species, antibiotics):
+                # produce a bash file
+                run_file=None
+                antibiotics_selected = ast.literal_eval(antibiotics)
+                print(species)
+                print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
+                antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
+                # for anti in ['mupirocin', 'penicillin', 'rifampin', 'tetracycline', 'vancomycin']:
+                for anti in antibiotics:
+                    run(species, anti, level, f_pre_cluster, f_cluster, run_file, f_res, f_merge_mution_gene,
+                        f_matching_io,
+                        f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
+                        f_fixed_threshold)
+
+        else:#other process, should be very light and fast.
+            for species in df_species:
+                print(species)
+                antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
+
+                run_file=None
+                pool = mp.Pool(processes=n_jobs)
+                pool.starmap(run,
+                             zip(repeat(species), antibiotics, repeat(level), repeat( f_pre_cluster),repeat(f_cluster),repeat(run_file),repeat(f_res),
+                                 repeat(f_merge_mution_gene),repeat(f_matching_io),repeat(f_merge_species),repeat(f_nn),repeat(cv),
+                                 repeat(random),repeat(hidden),repeat(epochs),repeat(re_epochs),repeat(learning),repeat(f_scaler),repeat(f_fixed_threshold)))
+
+                pool.close()
+                pool.join()
+
+
+
+
 
 
 if __name__== '__main__':
