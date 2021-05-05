@@ -286,8 +286,24 @@ class _classifier(nn.Module):
 
 def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_number):
     patience = 200
-    early_stopping = EarlyStopping(patience=patience, verbose=False) #todo
+
+    # to track the average training loss per epoch as the model trains
+    avg_train_losses = []
+    # to track the average validation loss per epoch as the model trains
+    avg_valid_losses = []
+
     for epoc in range(epochs):
+        if epoc>1000:
+            if epoc==1001:
+                early_stopping = EarlyStopping(patience=patience, verbose=False) #starting checking after a certain time.
+            else:
+                # early_stopping needs the validation loss to check if it has decresed,
+                # and if it has, it will make a checkpoint of the current model
+                early_stopping(valid_loss, classifier)
+                if early_stopping.early_stop:
+                    print("Early stopping")
+                    break
+
         ###################
         #1. train the model #
         ###################
@@ -306,10 +322,7 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
         train_losses = []
         # to track the validation loss as the model trains
         valid_losses = []
-        # to track the average training loss per epoch as the model trains
-        avg_train_losses = []
-        # to track the average validation loss per epoch as the model trains
-        avg_valid_losses = []
+
         # losses = []  # save the error for each iteration
         for i, (sample_x, sample_y) in enumerate(data_loader):
             optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
@@ -407,19 +420,7 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
                      f'train_loss: {train_loss:.5f} ' +
                      f'valid_loss: {valid_loss:.5f}')
             print(print_msg)
-            # clear lists to track next epoch
-        # clear lists to track next epoch
-        train_losses = []
-        valid_losses = []
 
-        # early_stopping needs the validation loss to check if it has decresed,
-        # and if it has, it will make a checkpoint of the current model
-        early_stopping(valid_loss, classifier)
-
-        if epoc>1000:
-            if early_stopping.early_stop:
-                print("Early stopping")
-                break
     return classifier
 
 def fine_tune_training(classifier,epochs,optimizer,x_train,y_train,anti_number):
