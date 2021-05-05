@@ -279,6 +279,16 @@ class _classifier(nn.Module):
         input
         return self.main(input)
 
+def reset_weights(m):
+  '''
+    Try resetting model weights to avoid
+    weight leakage.
+  '''
+  for layer in m.children():
+   if hasattr(layer, 'reset_parameters'):
+    print(f'Reset trainable parameters of layer = {layer}')
+    layer.reset_parameters()
+
 def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number,fine_tune):
     for epoc in range(epochs):
         x_train=x_train.to(device)
@@ -294,6 +304,7 @@ def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number,f
 
         losses = []  # save the error for each iteration
         for i, (sample_x, sample_y) in enumerate(data_loader):
+            optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
             inputv = sample_x[0]
             inputv=inputv.to(device)
 
@@ -324,7 +335,7 @@ def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number,f
             # print(labelsv.size())
             loss = criterion(m_sigmoid(output), labelsv)
             loss = loss.mean()  # compute loss
-            optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
+
             loss.backward()  # backpropagation
             optimizer.step()  # weights updated
             losses.append(loss.item())
@@ -420,13 +431,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
 
     # cross validation loop where the training and testing performed.
     #khu:nested CV.
-    # generate a NN model
-    classifier = _classifier(nlabel, D_input, n_hidden)
-    classifier.to(device)
 
-
-    # generate the optimizer - Stochastic Gradient Descent
-    optimizer = optim.SGD(classifier.parameters(), lr=learning_rate)
 
     # =====================================
     # training
@@ -483,10 +488,21 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
             pred_val_inner=[]#predicted results on validation set.
 
             # 1. Traininng.
+            # generate a NN model
+            classifier = _classifier(nlabel, D_input, n_hidden)#reload, after testing(there is fine tune traning!)
+            classifier.to(device)
+
+            # generate the optimizer - Stochastic Gradient Descent
+            optimizer = optim.SGD(classifier.parameters(), lr=learning_rate)
             classifier.train()
             optimizer.zero_grad()  # Clears existing gradients from previous epoch
+            # for name, param in classifier.named_parameters():
+            #     if param.requires_grad:
+            #         print( name, param.data)
+            #loop:
             classifier=training(classifier, m_sigmoid, epochs, optimizer, x_train, y_train, anti_number,False)
-            name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, out_cv, innerCV)
+            print(species, antibiotics,level, out_cv, innerCV)
+            name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv, innerCV)
 
             torch.save(classifier.state_dict(), name_weights)
             #2. Evaluation
@@ -568,8 +584,9 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
 
 
 
-        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, out_cv, weights_selected)
+        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, level,out_cv, weights_selected)
         classifier.load_state_dict(torch.load(name_weights))
+
         #=======================================================
         #3. Re-train on both train and val data with the weights
 
@@ -590,13 +607,13 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
         classifier.train()
 
         classifier = training(classifier, m_sigmoid, re_epochs, optimizer, x_train_val, y_train_val, anti_number,True)
-        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, out_cv,'')
-
+        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv,'')
+        optimizer = optim.SGD(classifier.parameters(), lr=learning_rate)
         torch.save(classifier.state_dict(), name_weights)
 
         # rm inner loop models' weight in the log
         for i in np.arange(cv-1):
-            n = amr_utility.name_utility.name_multi_bench(species, antibiotics, out_cv, i)
+            n = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv, i)
             os.system("rm " + n)
 
         # apply the trained model to the test data
@@ -670,8 +687,8 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
     # plot(anti_number, mcc_test, cv, validation, pred_val_all, validation_y, tprs_test, aucs_test_all, mean_fpr)
 
     save_name_score=amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics,level)
-    if f_fixed_threshold==True:
-        save_name_score=save_name_score+'_fixed_threshold'
+    # if f_fixed_threshold==True:
+    save_name_score=save_name_score+'_fixed_threshold_'+str(f_fixed_threshold)+'e_'+str(epochs)
 
     print('thresholds_selected_test',thresholds_selected_test)
     print('f1_test',f1_test)
