@@ -7,6 +7,9 @@
     - [Get IDs for each species and antibiotic combination](#u)
         - [Get the ID list directly from txt files](#files)
         - [Load ID list and phenotype through a module](#getdata)
+- [Cross-validation folders preparing](#cv)
+    - [KMA](#kma)
+    - [Phylogenetic tree based split](#tree)
 - [ResFinder(4.0)](#p)
 - [Multi-species](#m)
    - [Prerequirements](#Prerequirements)
@@ -130,6 +133,20 @@ for i in np.arange(len(ID)):
 antibiotics_selected=load_data.summary('Pseudomonas aeruginosa','loose')
 
 ```
+
+## <a name="cv"></a> Cross-validation folders preparing
+### 1. <a name="kma"></a>KMA
+
+
+### 2. <a name="tree"></a>Phylogenetic tree based split
+
+- Prerequirements: 
+Annotate FASTA files with PROKKA
+
+Roary –e –mafft *.gff
+
+
+
 
 
 
