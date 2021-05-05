@@ -4,6 +4,3 @@
 [submodule "PanPred"]
 	path = PanPred
 	url = https://github.com/DaneshMoradigaravand/PanPred.git
-[submodule "Roary"]
-	path = Roary
-	url = https://github.com/sanger-pathogens/Roary.git
