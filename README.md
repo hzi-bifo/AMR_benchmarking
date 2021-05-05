@@ -141,11 +141,21 @@ antibiotics_selected=load_data.summary('Pseudomonas aeruginosa','loose')
 ### 2. <a name="tree"></a>Phylogenetic tree based split
 
 - Prerequirements: 
+
 Annotate FASTA files with PROKKA
 
 Roary –e –mafft *.gff
 
+```
+conda config --add channels r
+conda config --add channels defaults
+conda config --add channels conda-forge
+conda config --add channels bioconda
+conda install roary
 
+
+
+```
 
 
 
