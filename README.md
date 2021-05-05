@@ -9,7 +9,8 @@
         - [Load ID list and phenotype through a module](#getdata)
 - [ResFinder(4.0)](#p)
 - [Multi-species](#m)
-
+   - [Prerequirements](#Prerequirements)
+   - 
 
 ## <a name="data"></a>Patric data set
 ### <a name="pro"></a>**1. The procedures for data acquisition:**
@@ -198,19 +199,21 @@ python Kaixin_Predictions_Res_PointFinder_tools.py --l="loose"  --s 'Escherichia
 ## <a name="m"></a> Multi-species
 D Aytan-Aktug, Philip Thomas Lanken Conradsen Clausen, Valeria Bortolaia, Frank Møller Aarestrup, and Ole Lund. Prediction of acquired antimicrobial resistance for multiple bacterial species using neural networks.Msystems, 5(1), 2020.
 
-Codes are based on:
+### <a name="Prerequirements"></a>Prerequirements
 
 https://bitbucket.org/deaytan/data_preparation
+
 https://bitbucket.org/deaytan/neural_networks/src/master/
 
-TODO:
+https://github.com/Bjarten/early-stopping-pytorch/blob/master/pytorchtools.py
 
-- We provide a python file starting from the beginning to the end, w.r.t. Patric genomic data. The original is w.r.t. raw sequence data.
-- We rewrite the python codes, changing from Python 2 to Python 3, and adapting to the benchmarking situation, i.e. more species and antibiotic combinations. The codes modified for that purpose are renamed as *original_name + "\_khuModified".*
-- We rewrite the hard-coding codes related to multi-species feature merging, so that it can be used with more flexibility.
-- For the multi-species model, when generating the AMR GPA feature, we considering AMR genes from all the species together. In the original work, they treat each species' GPA information separately.???TO BE check!
+Pytorch version: https://pytorch.org/get-started/previous-versions/
 
-
+```shell
+conda create -n multi_bench python=3.6
+conda activate multi_bench
+pip install sklearn numpy pandas seaborn 
+```
 
 
 
