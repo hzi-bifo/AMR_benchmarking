@@ -10,7 +10,7 @@
 - [ResFinder(4.0)](#p)
 - [Multi-species](#m)
    - [Prerequirements](#Prerequirements)
-   - 
+   - [References](#References) 
 
 ## <a name="data"></a>Patric data set
 ### <a name="pro"></a>**1. The procedures for data acquisition:**
@@ -201,12 +201,6 @@ D Aytan-Aktug, Philip Thomas Lanken Conradsen Clausen, Valeria Bortolaia, Frank 
 
 ### <a name="Prerequirements"></a>Prerequirements
 
-https://bitbucket.org/deaytan/data_preparation
-
-https://bitbucket.org/deaytan/neural_networks/src/master/
-
-https://github.com/Bjarten/early-stopping-pytorch/blob/master/pytorchtools.py
-
 Pytorch version: https://pytorch.org/get-started/previous-versions/
 
 ```shell
@@ -215,5 +209,12 @@ conda activate multi_bench
 pip install sklearn numpy pandas seaborn 
 ```
 
+### <a name="References"></a>References
+
+https://bitbucket.org/deaytan/data_preparation
+
+https://bitbucket.org/deaytan/neural_networks/src/master/
+
+https://github.com/Bjarten/early-stopping-pytorch/blob/master/pytorchtools.py
 
 
