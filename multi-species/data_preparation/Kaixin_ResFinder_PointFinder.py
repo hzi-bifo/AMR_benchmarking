@@ -40,9 +40,8 @@ def cmd(path,strain_ID,species):
 
 def run_Res(path,strain_ID,species,check,check_miss):
     try:
-        if species in ['Klebsiella pneumoniae','Escherichia coli','Staphylococcus aureus',
-                       'Mycobacterium tuberculosis','Salmonella enterica',
-                       'Neisseria gonorrhoeae','Enterococcus faecium']:
+        if species in ['Klebsiella pneumoniae','Escherichia coli','Staphylococcus aureus','Mycobacterium tuberculosis','Salmonella enterica',
+                       'Neisseria gonorrhoeae','Enterococcus faecium','Campylobacter jejuni']:
             if check_miss==True:
 
                 already =os.listdir("/net/flashtest/scratch/khu/benchmarking/Results/" + str(species.replace(" ", "_")) )

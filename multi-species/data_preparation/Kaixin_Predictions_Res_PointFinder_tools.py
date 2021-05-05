@@ -88,16 +88,23 @@ def determination(species,antibiotics,level,tool):
                     end=position
 
 
+
             file = get_file(species, strain_ID, tool)
             # print(start,end)
             temp_file = open("./temp/"+str(species.replace(" ", "_"))+"temp.txt", "w+")
 
             for position, line in enumerate(file):
                     #starting to record into dataframe
-                    if (position > start) & (position < end) :
-                        # print(position)
-                        # line=line.strip().split('\t')
-                        temp_file.write(line)
+                    try:
+                        if (position > start) & (position < end) :
+                            # print(position)
+                            # line=line.strip().split('\t')
+                            temp_file.write(line)
+                    except:
+                        if (position > start):
+                            # print(position)
+                            # line=line.strip().split('\t')
+                            temp_file.write(line)
 
             temp_file.close()
             pheno_table =pd.read_csv("./temp/"+str(species.replace(" ", "_"))+"temp.txt", index_col=None, header=None,
@@ -126,9 +133,9 @@ def determination(species,antibiotics,level,tool):
         ###confussion matrix
             tn, fp, fn, tp = confusion_matrix(y, y_pre).ravel()
 
-            print("sensitivity", float(tp) / (tp + fn))
+            print("sensitivity", float(tp) / (tp + fn))#recall
             print("specificity", float(tn) / (tn + fp))
-            report=classification_report(y, y_pre, labels=[0, 1], output_dict=True)
+            report=classification_report(y, y_pre, target_names=['Susceptible','Resistant'],output_dict=True)
             print(report)
 
             correct_results2 = []
@@ -148,7 +155,7 @@ def determination(species,antibiotics,level,tool):
 def make_visualization(species,antibiotics,level,tool,score):
     '''
     make final summary
-    :return:
+     recall of the positive class is also known as “sensitivity”; recall of the negative class is “specificity”.
     '''
     # path_to_pointfinder = "Results/Point_results" + str(species.replace(" ", "_")) + "/"
     # path_to_resfinder = "Results/Res_results_" + str(species.replace(" ", "_")) + "/"
