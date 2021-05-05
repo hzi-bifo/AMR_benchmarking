@@ -23,6 +23,7 @@ import data_preparation.merge_resfinder_pointfinder_khuModified
 import data_preparation.merge_input_output_files_khuModified
 import data_preparation.merge_resfinder_khuModified
 import main_nn
+import neural_networks.Neural_networks_khuModified as nn_module
 
 def run(species,anti,level,f_pre_cluster,f_cluster,run_file,f_res,f_merge_mution_gene,f_matching_io,f_merge_species,f_nn,cv,
         random, hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold):
@@ -127,10 +128,11 @@ def run(species,anti,level,f_pre_cluster,f_cluster,run_file,f_res,f_merge_mution
 
     if f_nn==True:
         #6. nn
-        main_nn.extract_info(species,path_x,path_y,path_name,path_cluster_results,cv, random, hidden, epochs, re_epochs,
-                             learning,f_scaler,f_fixed_threshold)
+        # main_nn.extract_info(species,path_x,path_y,path_name,path_cluster_results,cv, random, hidden, epochs, re_epochs,
+        #                      learning,f_scaler,f_fixed_threshold,level)
 
-
+        nn_module.eval(species, anti, level, path_x,path_y, path_name, path_cluster_results, cv, random, hidden, epochs,
+                       re_epochs, learning,f_scaler, f_fixed_threshold)
 
 # def extract_info(s,xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epochs, re_epochs, learning,f_scaler,
 #                  f_fixed_threshold, level,n_jobs):
@@ -192,8 +194,8 @@ def extract_info(s,level,f_pre_cluster,f_cluster,f_res,f_merge_mution_gene,f_mat
                 run_file.close()
 
 
-        elif f_nn==True:
-            #Gpu, on luna
+        elif f_nn==True or f_merge_species==True:
+            #f_nn:Gpu, on luna
             for species, antibiotics in zip(df_species, antibiotics):
                 # produce a bash file
                 run_file=None
@@ -207,7 +209,7 @@ def extract_info(s,level,f_pre_cluster,f_cluster,f_res,f_merge_mution_gene,f_mat
                         f_matching_io,
                         f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
                         f_fixed_threshold)
-
+                main_nn.make_visualization(species, antibiotics,level,f_fixed_threshold)
         else:#other process, should be very light and fast.
             for species in df_species:
                 print(species)
