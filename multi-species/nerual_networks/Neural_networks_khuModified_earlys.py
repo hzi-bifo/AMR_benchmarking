@@ -499,15 +499,23 @@ def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresh
         f1.append(report.loc['macro avg','f1-score'])
         precision.append(report.loc['macro avg','precision'])
         recall.append(report.loc['macro avg','recall'])
-        accuracy.append(report.loc['accuracy','f1-score'])
+        try:
+            accuracy.append(report.loc['accuracy','f1-score'])
+        except:#one class missing in the support.
+            accuracy.append('-')
+
     summary.loc['mean','f1_macro']=statistics.mean(f1)
     summary.loc['std','f1_macro']=statistics.stdev(f1)
     summary.loc['mean','precision_macro'] = statistics.mean(precision)
     summary.loc['std','precision_macro'] = statistics.stdev(precision)
     summary.loc['mean','recall_macro']  = statistics.mean(recall)
     summary.loc['std','recall_macro'] = statistics.stdev(recall)
-    summary.loc['mean','accuracy_macro'] = statistics.mean(accuracy)
-    summary.loc['std','accuracy_macro'] = statistics.stdev(accuracy)
+    try:
+        summary.loc['mean','accuracy_macro'] = statistics.mean(accuracy)
+        summary.loc['std','accuracy_macro'] = statistics.stdev(accuracy)
+    except:
+        summary.loc['mean', 'accuracy_macro'] = '-'
+        summary.loc['std', 'accuracy_macro'] = '-'
     summary.loc['mean','auc'] = statistics.mean(aucs_test)
     summary.loc['std','auc'] = statistics.stdev(aucs_test)
     summary.loc['mean','mcc'] = statistics.mean(mcc_test)
@@ -515,6 +523,7 @@ def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresh
     summary.loc['mean', 'threshold'] = statistics.mean(thresholds_selected_test)
     summary.loc['std', 'threshold'] = statistics.stdev(thresholds_selected_test)
     summary.to_csv('log/temp/'+save_name_score+'_score.txt', sep="\t")
+    #Truncate file to zero length or create text file for writing.
     print(summary)
 
 
@@ -642,7 +651,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
             #==================================================
 
             print(species, antibiotics,level, out_cv, innerCV)
-            name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv, innerCV)
+            name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv, innerCV,learning,epochs,f_fixed_threshold)
             torch.save(classifier.state_dict(), name_weights)
 
             ######################
@@ -716,7 +725,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
             Validation_f1_thresholds=np.array(Validation_f1_thresholds)
             ind = np.unravel_index(np.argmax(Validation_f1_thresholds, axis=None), Validation_f1_thresholds.shape)
             thresholds_selected=np.arange(0, 1.1, 0.1)[ind[1]]
-            weights_selected=ind[0]#the order of innerCV
+            weights_selected=ind[0]#the order of innerCV#todo bug!
 
         weight_test.append(weights_selected)
         thresholds_selected_test.append(thresholds_selected)
@@ -728,7 +737,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
 
 
 
-        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, level,out_cv, weights_selected)
+        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, level,out_cv, weights_selected,learning,epochs,f_fixed_threshold)
         classifier.load_state_dict(torch.load(name_weights))
 
         #=======================================================
@@ -751,13 +760,13 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
         classifier.train()
         optimizer = optim.SGD(classifier.parameters(), lr=0.0001)
         classifier = fine_tune_training(classifier, re_epochs, optimizer, x_train_val, y_train_val, anti_number)
-        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv,'')
+        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv,'',learning,epochs,f_fixed_threshold)
 
         torch.save(classifier.state_dict(), name_weights)
 
         # rm inner loop models' weight in the log
         for i in np.arange(cv-1):
-            n = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv, i)
+            n = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv, i,learning,epochs,f_fixed_threshold)
             os.system("rm " + n)
 
         # apply the trained model to the test data
@@ -830,9 +839,8 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
 
     # plot(anti_number, mcc_test, cv, validation, pred_val_all, validation_y, tprs_test, aucs_test_all, mean_fpr)
 
-    save_name_score=amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics,level)
-    # if f_fixed_threshold==True:
-    save_name_score=save_name_score+'_fixed_threshold_'+str(f_fixed_threshold)+'e_'+str(epochs)+'lr_'+str(learning)
+    save_name_score=amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics,level,learning,epochs,f_fixed_threshold)
+
 
     print('thresholds_selected_test',thresholds_selected_test)
     print('f1_test',f1_test)

@@ -20,6 +20,7 @@ import pickle
 import argparse
 from os import walk
 from itertools import repeat
+import psutil
 
 def cmd(path,strain_ID,species):
     cmd_acquired = ("python3 run_resfinder.py"
@@ -38,19 +39,33 @@ def cmd(path,strain_ID,species):
 
     return cmd_acquired
 
+
+def has_handle(fpath):
+    for proc in psutil.process_iter():
+        try:
+            for item in proc.open_files():
+                if fpath == item.path:
+                    return True
+        except Exception:
+            pass
+
+    return False
 def run_Res(path,strain_ID,species,check,check_miss):
     try:
         if species in ['Klebsiella pneumoniae','Escherichia coli','Staphylococcus aureus','Mycobacterium tuberculosis','Salmonella enterica',
                        'Neisseria gonorrhoeae','Enterococcus faecium','Campylobacter jejuni']:
             if check_miss==True:
 
-                already =os.listdir("/net/flashtest/scratch/khu/benchmarking/Results/" + str(species.replace(" ", "_")) )
-                if strain_ID  not in already:
-                    print('missing, nowing working on: ',strain_ID)
-                    cmd_acquired = cmd(path,strain_ID,species)
-                    procs = run(cmd_acquired, shell=True, stdout=PIPE, stderr=PIPE,
-                                check=True)
-                    print('finished: ',strain_ID)
+                # already =os.listdir("/net/flashtest/scratch/khu/benchmarking/Results/" + str(species.replace(" ", "_")) )
+                # if strain_ID  not in already:
+                if not has_handle(("/net/flashtest/scratch/khu/benchmarking/Results/" + str(species.replace(" ", "_"))+'/'+str(strain_ID))):
+                    already =os.listdir("/net/flashtest/scratch/khu/benchmarking/Results/" + str(species.replace(" ", "_"))+'/'+str(strain_ID))
+                    if 'pheno_table.txt' not in already:
+                        print('missing table, nowing working on: ',strain_ID)
+                        cmd_acquired = cmd(path,strain_ID,species)
+                        procs = run(cmd_acquired, shell=True, stdout=PIPE, stderr=PIPE,
+                                    check=True)
+                        print('finished: ',strain_ID)
             else:
                 cmd_acquired = cmd(path,strain_ID,species)
                 procs = run(cmd_acquired, shell=True, stdout=PIPE, stderr=PIPE,

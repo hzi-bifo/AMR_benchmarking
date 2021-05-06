@@ -38,6 +38,7 @@ import ast
 import amr_utility.name_utility
 import itertools
 import statistics
+from pytorchtools import EarlyStopping
 '''
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
@@ -200,7 +201,7 @@ def cluster_split(dict_cluster, Random_State, cv):
         print('average',len(all_samples) / float(cv))
         print('len(all_samples)',len(all_samples))
         a = 0
-        while sum_tem + 200 < len(all_samples) / float(cv):  # all_samples: val,train,test
+        while sum_tem + 100 < len(all_samples) / float(cv):  # all_samples: val,train,test
             extra = list(utils.shuffle(
                 all_data_splits_pre[m_fromprevious], random_state=Random_State))[a]  # cluster order
             extracted = extracted + [extra]  # cluster order
@@ -279,17 +280,10 @@ class _classifier(nn.Module):
         input
         return self.main(input)
 
-def reset_weights(m):
-  '''
-    Try resetting model weights to avoid
-    weight leakage.
-  '''
-  for layer in m.children():
-   if hasattr(layer, 'reset_parameters'):
-    print(f'Reset trainable parameters of layer = {layer}')
-    layer.reset_parameters()
 
-def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number,fine_tune):
+
+def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number):
+
     for epoc in range(epochs):
         x_train=x_train.to(device)
         y_train = y_train.to(device)
@@ -500,9 +494,9 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
             #     if param.requires_grad:
             #         print( name, param.data)
             #loop:
-            classifier=training(classifier, m_sigmoid, epochs, optimizer, x_train, y_train, anti_number,False)
+            classifier=training(classifier, m_sigmoid, epochs, optimizer, x_train, y_train, anti_number)
             print(species, antibiotics,level, out_cv, innerCV)
-            name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv, innerCV)
+            name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv, innerCV,learning,epochs,f_fixed_threshold)
 
             torch.save(classifier.state_dict(), name_weights)
             #2. Evaluation
@@ -584,7 +578,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
 
 
 
-        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, level,out_cv, weights_selected)
+        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, level,out_cv, weights_selected,learning,epochs,f_fixed_threshold)
         classifier.load_state_dict(torch.load(name_weights))
 
         #=======================================================
@@ -606,14 +600,14 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
         y_train_val = torch.from_numpy(y_train_val).float()
         classifier.train()
 
-        classifier = training(classifier, m_sigmoid, re_epochs, optimizer, x_train_val, y_train_val, anti_number,True)
-        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv,'')
+        classifier = training(classifier, m_sigmoid, re_epochs, optimizer, x_train_val, y_train_val, anti_number)
+        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv,'',learning,epochs,f_fixed_threshold)
         optimizer = optim.SGD(classifier.parameters(), lr=learning_rate)
         torch.save(classifier.state_dict(), name_weights)
 
         # rm inner loop models' weight in the log
         for i in np.arange(cv-1):
-            n = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv, i)
+            n = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv, i,learning,epochs,f_fixed_threshold)
             os.system("rm " + n)
 
         # apply the trained model to the test data
@@ -686,9 +680,8 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
 
     # plot(anti_number, mcc_test, cv, validation, pred_val_all, validation_y, tprs_test, aucs_test_all, mean_fpr)
 
-    save_name_score=amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics,level)
-    # if f_fixed_threshold==True:
-    save_name_score=save_name_score+'_fixed_threshold_'+str(f_fixed_threshold)+'e_'+str(epochs)
+    save_name_score=amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics,level,learning,epochs,f_fixed_threshold)
+
 
     print('thresholds_selected_test',thresholds_selected_test)
     print('f1_test',f1_test)

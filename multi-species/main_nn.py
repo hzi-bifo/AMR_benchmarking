@@ -14,7 +14,7 @@ import pandas as pd
 import neural_networks.Neural_networks_khuModified as nn_module
 
 
-def make_visualization(species,antibiotics,level,f_fixed_threshold):
+def make_visualization(species,antibiotics,level,f_fixed_threshold,epochs,learning):
     #todo need re work
 
     print(species)
@@ -25,9 +25,8 @@ def make_visualization(species,antibiotics,level,f_fixed_threshold):
                                                           'auc','mcc','threshold'] )
     print(final)
     for anti in antibiotics_selected:
-        save_name_score = amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics,level)
-        if f_fixed_threshold == True:
-            save_name_score = save_name_score + '_fixed_threshold'
+        save_name_score = amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics,level,learning,epochs,f_fixed_threshold)
+
         print(anti, '--------------------------------------------------------------------')
         try:
             data = pd.read_csv('log/results/'+save_name_score+'_score.txt', sep="\t")
@@ -40,7 +39,7 @@ def make_visualization(species,antibiotics,level,f_fixed_threshold):
         except:
             pass
     # final=final.astype(float).round(2)
-    final.to_csv('log/results/'+save_name_score+'_score.txt', sep="\t")
+    final.to_csv('log/results/'+save_name_score+'_score_final.txt', sep="\t")
 
 
 def extract_info(s,xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epochs, re_epochs, learning,f_scaler,
@@ -82,14 +81,14 @@ def extract_info(s,xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epo
         antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
         # for anti in ['mupirocin', 'penicillin', 'rifampin', 'tetracycline', 'vancomycin']:
 
-        for anti in antibiotics:
-        # for anti in ['trimethoprim']:
-
-            nn_module.eval(species,anti,level, xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epochs,re_epochs,learning,
-                           f_scaler,f_fixed_threshold)
+        # for anti in antibiotics:
+        # # for anti in ['trimethoprim']:
+        #
+        #     nn_module.eval(species,anti,level, xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epochs,re_epochs,learning,
+        #                    f_scaler,f_fixed_threshold)
 
         #put out final table with scores:'f1-score','precision', 'recall','accuracy'
-    make_visualization(species, antibiotics,level,f_fixed_threshold)
+    make_visualization(species, antibiotics,level,f_fixed_threshold, epochs,learning)
 
 
 

@@ -10,7 +10,7 @@ import argparse
 
 
 
-def extract_info(list,res_path,output):
+def extract_info(list_path,res_path,output):
 
 	##this script aims to transfer resfinder data into a matrix
 
@@ -18,7 +18,7 @@ def extract_info(list,res_path,output):
 	# snps = np.genfromtxt(point_path, dtype = "str")
 	# print(snps.shape)
 
-	list_sample = np.genfromtxt(list, dtype='str')
+	list_sample = np.genfromtxt(list_path, dtype= "str")
 	genes = np.genfromtxt(res_path, dtype= "str")
 	print(genes.shape)
 
@@ -27,7 +27,8 @@ def extract_info(list,res_path,output):
 	for each in genes[:,1]:
 		uniq_genes.append(each)
 
-	uniq_genes = list(set(uniq_genes))#gene string,.e.g. aadA5
+	uniq_genes = list(set(uniq_genes))
+	print(len(uniq_genes))
 	uniq_genes.sort()
 
 	file_w = open(output, "w")
@@ -77,7 +78,7 @@ def extract_info(list,res_path,output):
 
 def main():
 	parser = argparse.ArgumentParser()
-	parser.add_argument("-l","--list", default=None, type=str, required=True,
+	parser.add_argument("-l","--list_path", default=None, type=str, required=True,
 						help='path to sample list( metadata)')
 	# parser.add_argument("-p","--pointfin", default=None, type=str, required=True,
 						# help='PointFinder results.')
@@ -89,7 +90,7 @@ def main():
 	parsedArgs = parser.parse_args()
 	# parser.print_help()
 	# print(parsedArgs)
-	extract_info(parsedArgs.list,parsedArgs.resfin,parsedArgs.output)
+	extract_info(parsedArgs.list_path,parsedArgs.resfin,parsedArgs.output)
 
 if __name__ == '__main__':
     main()
