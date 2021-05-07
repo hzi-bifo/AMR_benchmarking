@@ -40,7 +40,7 @@ import itertools
 import statistics
 from pytorchtools import EarlyStopping
 import pickle
-
+import copy
 '''
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
@@ -204,7 +204,7 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
         print('totals====================================',totals)
         # print(all_data_splits)
         b=0
-        while (sum_sub + 200 < len(all_samples) / float(cv)) and (sum_sub < 100) and b<100:  # all_samples: val,train,test
+        while (sum_sub + 100 < len(all_samples) / float(cv)) and (sum_sub < 100) and b<100:  # all_samples: val,train,test
             b+=1
 
             m_from = np.argmax(totals)  # the most samples CV index

@@ -250,7 +250,7 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
         print('totals====================================',totals)
         # print(all_data_splits)
         b=0
-        while (sum_sub + 200 < len(all_samples) / float(cv)) and (sum_sub < 100) and b<100:  # all_samples: val,train,test
+        while (sum_sub + 100 < len(all_samples) / float(cv)) and (sum_sub < 100) and b<100:  # all_samples: val,train,test
             b+=1
 
             m_from = np.argmax(totals)  # the most samples CV index
@@ -298,6 +298,9 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
                 print('totals=========', totals)
 
     return all_data_splits
+
+
+
 def prepare_cluster(fileDir, p_clusters):
     # prepare a dictionary for clusters, the keys are cluster numbers, items are sample names.
     # cluster index collection.
@@ -513,7 +516,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
     # training
     # =====================================
     folders_sample=prepare_folders(cv, Random_State, dict_cluster, names)
-    exit()
+
     for out_cv in range(cv):
         #select testing folder
         test_samples=folders_sample[out_cv]
