@@ -38,7 +38,8 @@ import ast
 import amr_utility.name_utility
 import itertools
 import statistics
-from pytorchtools import EarlyStopping
+import copy
+import pickle
 '''
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
@@ -145,11 +146,59 @@ def plot(anti_number, all_mcc_values, cv, pred_val_all, validation_y, tprs_all, 
     plt.close()
     # '''
 
-def cluster_split(dict_cluster, Random_State, cv):
+'''
+def re_sampling(all_data_splits,totals,dict_cluster,Random_State,cv):
+    all_samples = []  # all the samples had in the clusters
+    for i in dict_cluster:
+        for each in dict_cluster[i]:
+            all_samples.append(each)
+    all_extra = []
+    # all_data_splits_pre=copy.deepcopy(all_data_splits)
+    print('Re_sampling...........')
+
+    for i in range(len(all_data_splits)):  # 5.#cluster order
+        # print(dict_cluster['0'])
+
+        extracted = list(set(all_data_splits[i]) - set(all_extra))  # order of cluster, w.r.t dict_cluster
+        sum_tem=totals[i]
+        print(sum_tem)
+        print(totals)
+        print(all_data_splits)
+        while (sum_tem + 100 < len(all_samples) / float(cv)) or (sum_tem < 10) :  # all_samples: val,train,test
+            m_from = np.argmax(totals)  # the most samples CV index
+            extra = list(utils.shuffle(
+                all_data_splits[m_from], random_state=Random_State))[0]  # cluster order
+            extracted = extracted + [extra]  # cluster order
+            all_extra.append(extra)
+
+            tem_Nsamples = []
+            print('extracted', extracted)
+            for e in extracted:  # every time add one cluster order
+                elements = dict_cluster[str(e)]
+                tem_Nsamples.append(len(elements))  # sample number
+            sum_tem = sum(tem_Nsamples)
+            totals[i] = sum_tem
+            print('sum_tem',sum_tem,'next draw from:',m_from)
+
+            all_data_splits[m_from] = list(
+                set(all_data_splits[m_from]) - set([extra]))  # rm previous cluster order, because it's moved to this fold.
+
+            tem_Nsamples = []
+            for e in all_data_splits[m_from]:  # every time add one cluster order
+                elements = dict_cluster[str(e)]
+                tem_Nsamples.append(len(elements))  # sample number
+            sum_tem = sum(tem_Nsamples)
+            totals[m_from]=sum_tem
+
+
+    return all_data_splits
+'''
+
+def cluster_split(dict_cluster, Random_State, cv):#khu: modified
     # Custom k fold cross validation
     # cross validation method divides the clusters and adds to the partitions.
     # Samples are not divided directly due to sample similarity issue
-    all_data_splits_pre = []  # cluster order
+    # all_data_splits_pre = []  # cluster order
     all_data_splits = []  # cluster order
     all_available_data = range(0, len(dict_cluster))  # all the clusters had
     clusters_n = len(dict_cluster)  # number of clusters
@@ -169,7 +218,7 @@ def cluster_split(dict_cluster, Random_State, cv):
     b = r
     for i in range(cv):  # 5
 
-        all_data_splits_pre.append(shuffled[a:b])
+        all_data_splits.append(shuffled[a:b])
 
         if i != cv - 2:  # 1 =0,1,2,4
             a = b
@@ -179,45 +228,75 @@ def cluster_split(dict_cluster, Random_State, cv):
             a = b
             b = len(shuffled)
 
-    # Extract the samples inside the clusters
-    # If the number of samples are lower than the expected number of samples per partition, get an extra cluster
 
     totals = []
-    all_extra = []
-    for i in range(len(all_data_splits_pre)):  # 5.#cluster order
-        if i == 0:
-            m_fromprevious = i + 1  # 1
-        else:
-            m_fromprevious = np.argmax(totals)  # the most samples CV index
-        tem_Nsamples = []  # number of samples in the selected clusters
-        extracted = list(set(all_data_splits_pre[i]) - set(all_extra))  # order of cluster, w.r.t dict_cluster
-
-        for e in extracted:
+    for folder_cluster in all_data_splits:  # 5.#cluster order
+        tem=[]
+        for e in folder_cluster:
             elements = dict_cluster[str(e)]
-            tem_Nsamples.append(len(elements))
-        sum_tem = sum(tem_Nsamples)
+            tem.append(len(elements))
+        totals.append(sum(tem))
+    print('all samples',sum(totals),totals,len(all_samples) / float(cv))
 
-        print('sum_tem', sum_tem)  # all_samples in that folder: val,train,test.
-        print('average',len(all_samples) / float(cv))
-        print('len(all_samples)',len(all_samples))
-        a = 0
-        while sum_tem + 100 < len(all_samples) / float(cv):  # all_samples: val,train,test
-            extra = list(utils.shuffle(
-                all_data_splits_pre[m_fromprevious], random_state=Random_State))[a]  # cluster order
-            extracted = extracted + [extra]  # cluster order
-            all_extra.append(extra)
-            a = a + 1
+
+    # all_data_splits_pre=copy.deepcopy(all_data_splits)
+    print('Re_sampling...........')
+
+    for i in range(len(all_data_splits)):  # 5.#cluster order
+
+        extracted = list(set(all_data_splits[i]))  # order of cluster, w.r.t dict_cluster
+        sum_sub = totals[i]
+        print(sum_sub)
+        print('totals====================================',totals)
+        # print(all_data_splits)
+        b=0
+        while (sum_sub + 200 < len(all_samples) / float(cv)) and (sum_sub < 100) and b<100:  # all_samples: val,train,test
+            b+=1
+
+            m_from = np.argmax(totals)  # the most samples CV index
+            extra = list(utils.shuffle(all_data_splits[m_from], random_state=Random_State))[0]  # cluster order
+
+            a = 0
+            while len(dict_cluster[extra]) >= 0.5*(len(all_samples) / float(cv)) and a < 5:  # in case one cluster contain a lot of samples
+                m_from = np.argmax(totals)  # the most samples CV index
+                extra = list(utils.shuffle(all_data_splits[m_from], random_state=Random_State))[0]  # shuffle again, and try
+                a += 1
+
+
+
+            a=0
+            totals_sub = copy.deepcopy(totals)
+            while len(dict_cluster[extra]) >= 0.5*(len(all_samples) / float(cv) ) and a < 5:#in case one cluster contain a lot of samples
+                totals_sub[m_from]=0
+                m_from = np.argmax(totals_sub)
+                extra = list(utils.shuffle(all_data_splits[m_from], random_state=Random_State))[0]  # cluster order
+
+                a+=1
+                # print(a)
+            #==========make sure the folder giving out the cluster still have enough samples left.
             tem_Nsamples = []
-            print('extracted', extracted)
+            for e in  list(set(all_data_splits[m_from]) - set([extra])):  # every time add one cluster order
+                elements = dict_cluster[str(e)]
+                tem_Nsamples.append(len(elements))  # sample number
+            sum_from = sum(tem_Nsamples)
+
+            extracted = extracted + [extra]  # cluster order
+            tem_Nsamples = []
+
             for e in extracted:  # every time add one cluster order
                 elements = dict_cluster[str(e)]
                 tem_Nsamples.append(len(elements))  # sample number
-            sum_tem = sum(tem_Nsamples)
-            for item in range(len(all_data_splits)):
-                all_data_splits[item] = list(
-                    set(all_data_splits[item]) - set([extra]))  # rm previous cluster order, because it's moved to this fold.
-        totals.append(sum_tem)  # sample number for each CV. #no use afterwards.
-        all_data_splits.append(extracted)  ##cluster order for each CV
+            sum_sub = sum(tem_Nsamples)
+            if len(dict_cluster[extra]) < 0.5*(len(all_samples) / float(cv)) and sum_from > sum_sub:
+
+                print('extracted', extracted)
+                print('sum_sub', sum_sub, 'draw from:', m_from,'extra',extra)
+                totals[i] = sum_sub
+                totals[m_from] = sum_from
+                all_data_splits[i]=extracted
+                all_data_splits[m_from] = list(set(all_data_splits[m_from]) - set([extra]))  # rm previous cluster order, because it's moved to this fold.
+                print('totals=========', totals)
+
     return all_data_splits
 def prepare_cluster(fileDir, p_clusters):
     # prepare a dictionary for clusters, the keys are cluster numbers, items are sample names.
@@ -254,8 +333,7 @@ def prepare_sample_name(fileDir, p_names):
         names.append(names_read[each].replace("\n", ""))  # correct the sample names #no need w.r.t. Patric data
     return names
 def prepare_folders(cv, Random_State, dict_cluster, names):
-    all_data_splits = cluster_split(dict_cluster, Random_State,
-                                    cv)  # split cluster into cv Folds. len(all_data_splits)=5
+    all_data_splits = cluster_split(dict_cluster, Random_State,cv)  # split cluster into cv Folds. len(all_data_splits)=5
     folders_sample = []  # collection of samples for each split
     for out_cv in range(cv):
         folders_sample_sub = []
@@ -264,6 +342,10 @@ def prepare_folders(cv, Random_State, dict_cluster, names):
             for element in dict_cluster[cl_ID]:
                 folders_sample_sub.append(names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
         folders_sample.append(folders_sample_sub)
+    print('final sample distribution in each folder:')
+    for i in folders_sample:
+        print(len(i))
+
 
     return folders_sample
 
@@ -431,10 +513,11 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
     # training
     # =====================================
     folders_sample=prepare_folders(cv, Random_State, dict_cluster, names)
-
+    exit()
     for out_cv in range(cv):
         #select testing folder
         test_samples=folders_sample[out_cv]
+
         x_test=data_x[test_samples]
         y_test = data_y[test_samples]
         x_test = torch.from_numpy(x_test).float()
@@ -687,7 +770,9 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
     print('f1_test',f1_test)
     print('mcc_test',mcc_test)
     score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score,thresholds_selected_test)#save mean and std of each 6 score
-
+    score = [thresholds_selected_test, f1_test, mcc_test, score_report_test,aucs_test,tprs_test]
+    with open('log/temp/'+save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
+        pickle.dump(score, f)
     torch.cuda.empty_cache()
 
 
