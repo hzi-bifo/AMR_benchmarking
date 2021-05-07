@@ -153,6 +153,10 @@ conda config --add channels defaults
 conda config --add channels conda-forge
 conda config --add channels bioconda
 conda install roary
+pip3 install biopython
+conda install -c conda-forge scikit-learn 
+pip install seaborn
+conda install pandas
 ```
 - Reference:
 
