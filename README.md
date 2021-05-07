@@ -147,14 +147,12 @@ Annotate FASTA files with PROKKA
 Roary –e –mafft *.gff
 
 ```
+conda install -c bioconda -c conda-forge prokka
 conda config --add channels r
 conda config --add channels defaults
 conda config --add channels conda-forge
 conda config --add channels bioconda
 conda install roary
-
-
-
 ```
 - Reference:
 
