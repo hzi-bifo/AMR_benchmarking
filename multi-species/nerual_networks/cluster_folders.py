@@ -169,7 +169,7 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
         print('totals====================================',totals)
         # print(all_data_splits)
         b=0
-        while (sum_sub + 100 < len(all_samples) / float(cv)) and b<100:  # all_samples: val,train,test
+        while (sum_sub < 0.2*(len(all_samples) / float(cv))) and b<100:  # all_samples: val,train,test
             b+=1
 
             m_from = np.argmax(totals)  # the most samples CV index
@@ -281,6 +281,6 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
             tem.append(len(elements))
         totals.append(sum(tem))
 
-    return totals
+    return folders_sample,totals
 
 

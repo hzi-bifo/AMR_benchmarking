@@ -41,6 +41,7 @@ import statistics
 from pytorchtools import EarlyStopping
 import pickle
 import copy
+import neural_networks.cluster_folders
 '''
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
@@ -57,248 +58,249 @@ if not sys.warnoptions:
     warnings.simplefilter("ignore")
 
 
-def plot(anti_number, all_mcc_values, cv, pred_val_all, validation_y, tprs_all, aucs_all, mean_fpr):
-    #####Generate MCC plots#####
-    # '''
-    # Plot the average of the MCC results.
+# def plot(anti_number, all_mcc_values, cv, pred_val_all, validation_y, tprs_all, aucs_all, mean_fpr):
+#     #####Generate MCC plots#####
+#     # '''
+#     # Plot the average of the MCC results.
+#
+#     all_ant1 = []
+#     for i in range(anti_number):
+#         cv_list = []
+#         for c in all_mcc_values:
+#             all_ant = []
+#             for each in c:
+#                 each = np.array(each)
+#                 if anti_number == 1:
+#                     all_ant.append(each)
+#                 else:
+#                     all_ant.append(each[:, i])
+#             cv_list.append(all_ant)
+#         all_ant1.append((np.sum(cv_list, axis=0))[0])
+#
+#     colors = ["darkblue", "darkred", "darkgreen",
+#               "orange", "purple", "magenta"] * 100
+#     legends = range(1, 501)
+#
+#     for i in range(anti_number):
+#         aver_all_mcc = []
+#         for val in all_ant1[i]:
+#             aver_all_mcc.append(val / cv)  # average of the MCC results
+#         plt.plot(np.arange(0, 1.1, 0.1), aver_all_mcc,
+#                  color=colors[i], alpha=1, label=str(legends[i]))
+#     plt.xlim([0, 1])
+#     plt.xlabel("Thresholds")
+#     plt.ylabel("MCC average values for %s fold CV" % str(cv))
+#     plt.title("Thresholds vs MCC values")
+#     plt.legend(loc="best")
+#     plt.savefig("log/results/MCC_output_test.png")
+#     plt.close()
+#
+#
+#
+#     # plot the AUC values
+#     plt.figure(figsize=(8, 8))  # figure size
+#     # take the average of the validation predictions
+#     pred_val_all = np.sum(pred_val_all, axis=0) / float(cv)
+#
+#     # calculate the AUCs for the validation data
+#     # do not take into consideration missing outputs
+#     for i in range(anti_number):
+#         comp = []
+#         for t in range(len(validation_y)):
+#             if anti_number == 1:
+#                 if -1 != validation_y[t] or -1.0 != validation_y[t]:
+#                     comp.append(t)
+#             else:
+#                 if -1 != validation_y[t][i] or -1.0 != validation_y[t][i]:
+#                     comp.append(t)
+#         y_val_sub = validation_y[comp]
+#         pred_sub_val = pred_val_all[comp]
+#         tprs = []
+#         aucs = []
+#
+#         for t in tprs_all:
+#             tprs.append(t[i])
+#         for z in aucs_all:
+#             aucs.append(z[i])
+#         mean_tpr = np.mean(tprs, axis=0)
+#         mean_tpr[-1] = 1.0
+#         mean_auc = auc(mean_fpr, mean_tpr)
+#         std_auc = np.std(aucs)
+#         plt.plot(mean_fpr, mean_tpr, color=colors[i],
+#                  label=r'%s-Mean ROC (AUC = %0.2f $\pm$ %0.2f)' % (legends[i], mean_auc, std_auc), lw=2, alpha=.8)
+#         if anti_number == 1:
+#             fpr1, tpr1, _ = roc_curve(y_val_sub, pred_sub_val, pos_label=1)
+#         else:
+#             fpr1, tpr1, _ = roc_curve(
+#                 y_val_sub[:, i], pred_sub_val[:, i], pos_label=1)
+#         roc_auc1 = auc(fpr1, tpr1)
+#         plt.plot(fpr1, tpr1, color=colors[i], alpha=1, lw=1,
+#                  label='ROC curve for validation (area = %0.2f)' % roc_auc1)
+#
+#     plt.plot([0, 1], [0, 1], linestyle='--', lw=2,
+#              color='r', label='Chance', alpha=.8)
+#     plt.xlim([-0.05, 1.05])
+#     plt.ylim([-0.05, 1.05])
+#     plt.xlabel('False Positive Rate')
+#     plt.ylabel('True Positive Rate')
+#     plt.title("ROC Curve")
+#     plt.legend(loc="lower right")
+#     plt.savefig("./results/ROC_curve.png")
+#     plt.close()
+#     # '''
 
-    all_ant1 = []
-    for i in range(anti_number):
-        cv_list = []
-        for c in all_mcc_values:
-            all_ant = []
-            for each in c:
-                each = np.array(each)
-                if anti_number == 1:
-                    all_ant.append(each)
-                else:
-                    all_ant.append(each[:, i])
-            cv_list.append(all_ant)
-        all_ant1.append((np.sum(cv_list, axis=0))[0])
+# def cluster_split(dict_cluster, Random_State, cv):#khu: modified
+#     # Custom k fold cross validation
+#     # cross validation method divides the clusters and adds to the partitions.
+#     # Samples are not divided directly due to sample similarity issue
+#     # all_data_splits_pre = []  # cluster order
+#     all_data_splits = []  # cluster order
+#     all_available_data = range(0, len(dict_cluster))  # all the clusters had
+#     clusters_n = len(dict_cluster)  # number of clusters
+#     all_samples = []  # all the samples had in the clusters
+#     for i in dict_cluster:
+#         for each in dict_cluster[i]:
+#             all_samples.append(each)
+#
+#     # Shuffle the clusters and divide them
+#     shuffled = list(utils.shuffle(list(dict_cluster.keys()),
+#                                   random_state=Random_State))  # shuffled cluster names
+#
+#     # Divide the clusters equally
+#     r = int(len(shuffled) / cv)  # batches size,e.g. 105/5=21
+#
+#     a = 0
+#     b = r
+#     for i in range(cv):  # 5
+#
+#         all_data_splits.append(shuffled[a:b])
+#
+#         if i != cv - 2:  # 1 =0,1,2,4
+#             a = b
+#             b = b + r
+#
+#         else:
+#             a = b
+#             b = len(shuffled)
+#
+#
+#     totals = []
+#     for folder_cluster in all_data_splits:  # 5.#cluster order
+#         tem=[]
+#         for e in folder_cluster:
+#             elements = dict_cluster[str(e)]
+#             tem.append(len(elements))
+#         totals.append(sum(tem))
+#     print('all samples',sum(totals),totals,len(all_samples) / float(cv))
+#
+#
+#     # all_data_splits_pre=copy.deepcopy(all_data_splits)
+#     print('Re_sampling...........')
+#
+#     for i in range(len(all_data_splits)):  # 5.#cluster order
+#
+#         extracted = list(set(all_data_splits[i]))  # order of cluster, w.r.t dict_cluster
+#         sum_sub = totals[i]
+#         print(sum_sub)
+#         print('totals====================================',totals)
+#         # print(all_data_splits)
+#         b=0
+#         while (sum_sub < 0.2*(len(all_samples) / float(cv))) and b<100:  # all_samples: val,train,test
+#             b+=1
+#
+#             m_from = np.argmax(totals)  # the most samples CV index
+#             extra = list(utils.shuffle(all_data_splits[m_from], random_state=Random_State))[0]  # cluster order
+#
+#             a = 0
+#             while len(dict_cluster[extra]) >= 1.0*(len(all_samples) / float(cv)) and a < 5:  # in case one cluster contain a lot of samples
+#                 m_from = np.argmax(totals)  # the most samples CV index
+#                 extra = list(utils.shuffle(all_data_splits[m_from], random_state=a))[0]  # shuffle again, and try
+#                 a += 1
+#
+#
+#
+#             a=0
+#             totals_sub = copy.deepcopy(totals)
+#             while len(dict_cluster[extra]) >= 1.0*(len(all_samples) / float(cv) ) and a < 5:#in case one cluster contain a lot of samples
+#                 totals_sub[m_from]=0
+#                 m_from = np.argmax(totals_sub)
+#                 extra = list(utils.shuffle(all_data_splits[m_from], random_state=a))[0]  # shuffle again, and try
+#
+#                 a+=1
+#                 # print(a)
+#             #==========make sure the folder giving out the cluster still have enough samples left.
+#             tem_Nsamples = []
+#             for e in  list(set(all_data_splits[m_from]) - set([extra])):  # every time add one cluster order
+#                 elements = dict_cluster[str(e)]
+#                 tem_Nsamples.append(len(elements))  # sample number
+#             sum_from = sum(tem_Nsamples)
+#
+#             extracted = extracted + [extra]  # cluster order
+#             tem_Nsamples = []
+#
+#             for e in extracted:  # every time add one cluster order
+#                 elements = dict_cluster[str(e)]
+#                 tem_Nsamples.append(len(elements))  # sample number
+#             sum_sub = sum(tem_Nsamples)
+#             if len(dict_cluster[extra]) < 1.0*(len(all_samples) / float(cv)) and sum_from > sum_sub:
+#
+#                 print('extracted', extracted)
+#                 print('sum_sub', sum_sub, 'draw from:', m_from,'extra',extra)
+#                 totals[i] = sum_sub
+#                 totals[m_from] = sum_from
+#                 all_data_splits[i]=extracted
+#                 all_data_splits[m_from] = list(set(all_data_splits[m_from]) - set([extra]))  # rm previous cluster order, because it's moved to this fold.
+#                 print('totals=========', totals)
+#
+#     return all_data_splits
+# def prepare_cluster(fileDir, p_clusters):
+#     # prepare a dictionary for clusters, the keys are cluster numbers, items are sample names.
+#     # cluster index collection.
+#     # cluster order list
+#     filename = os.path.join(fileDir, p_clusters)
+#     filename = os.path.abspath(os.path.realpath(filename))
+#     output_file_open = open(filename, "r")
+#     cluster_summary = output_file_open.readlines()
+#     dict_cluster = collections.defaultdict(list)  # key: starting from 0
+#
+#     for each_cluster in cluster_summary:
+#         splitted = each_cluster.split()
+#         if splitted != []:
+#             if splitted[0].isdigit():
+#                 dict_cluster[str(int(splitted[0]) - 1)].append(splitted[3])
+#             if splitted[0] == "Similar":
+#                 splitted = each_cluster.split()
+#                 splitted_2 = each_cluster.split(":")
+#                 dict_cluster[str(int(splitted_2[1].split()[0]) - 1)
+#                 ].append(splitted[6])
+#     # print("dict_cluster: ", dict_cluster)
+#     return dict_cluster
+# def prepare_sample_name(fileDir, p_names):
+#     # sample name list
+#
+#     filename = os.path.join(fileDir, p_names)
+#     filename = os.path.abspath(os.path.realpath(filename))
+#     names_open = open(filename, "r")
+#     names_read = names_open.readlines()
+#     # sample names collection.
+#     names = []
+#     for each in range(len(names_read)):
+#         names.append(names_read[each].replace("\n", ""))  # correct the sample names #no need w.r.t. Patric data
+#     return names
+# def prepare_folders(cv, Random_State, dict_cluster, names):
+#     all_data_splits = cluster_split(dict_cluster, Random_State,
+#                                     cv)  # split cluster into cv Folds. len(all_data_splits)=5
+#     folders_sample = []  # collection of samples for each split
+#     for out_cv in range(cv):
+#         folders_sample_sub = []
+#         iter_clusters = all_data_splits[out_cv]  # clusters included in that split
+#         for cl_ID in iter_clusters:
+#             for element in dict_cluster[cl_ID]:
+#                 folders_sample_sub.append(names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
+#         folders_sample.append(folders_sample_sub)
+#
+#     return folders_sample
 
-    colors = ["darkblue", "darkred", "darkgreen",
-              "orange", "purple", "magenta"] * 100
-    legends = range(1, 501)
-
-    for i in range(anti_number):
-        aver_all_mcc = []
-        for val in all_ant1[i]:
-            aver_all_mcc.append(val / cv)  # average of the MCC results
-        plt.plot(np.arange(0, 1.1, 0.1), aver_all_mcc,
-                 color=colors[i], alpha=1, label=str(legends[i]))
-    plt.xlim([0, 1])
-    plt.xlabel("Thresholds")
-    plt.ylabel("MCC average values for %s fold CV" % str(cv))
-    plt.title("Thresholds vs MCC values")
-    plt.legend(loc="best")
-    plt.savefig("log/results/MCC_output_test.png")
-    plt.close()
-
-
-
-    # plot the AUC values
-    plt.figure(figsize=(8, 8))  # figure size
-    # take the average of the validation predictions
-    pred_val_all = np.sum(pred_val_all, axis=0) / float(cv)
-
-    # calculate the AUCs for the validation data
-    # do not take into consideration missing outputs
-    for i in range(anti_number):
-        comp = []
-        for t in range(len(validation_y)):
-            if anti_number == 1:
-                if -1 != validation_y[t] or -1.0 != validation_y[t]:
-                    comp.append(t)
-            else:
-                if -1 != validation_y[t][i] or -1.0 != validation_y[t][i]:
-                    comp.append(t)
-        y_val_sub = validation_y[comp]
-        pred_sub_val = pred_val_all[comp]
-        tprs = []
-        aucs = []
-
-        for t in tprs_all:
-            tprs.append(t[i])
-        for z in aucs_all:
-            aucs.append(z[i])
-        mean_tpr = np.mean(tprs, axis=0)
-        mean_tpr[-1] = 1.0
-        mean_auc = auc(mean_fpr, mean_tpr)
-        std_auc = np.std(aucs)
-        plt.plot(mean_fpr, mean_tpr, color=colors[i],
-                 label=r'%s-Mean ROC (AUC = %0.2f $\pm$ %0.2f)' % (legends[i], mean_auc, std_auc), lw=2, alpha=.8)
-        if anti_number == 1:
-            fpr1, tpr1, _ = roc_curve(y_val_sub, pred_sub_val, pos_label=1)
-        else:
-            fpr1, tpr1, _ = roc_curve(
-                y_val_sub[:, i], pred_sub_val[:, i], pos_label=1)
-        roc_auc1 = auc(fpr1, tpr1)
-        plt.plot(fpr1, tpr1, color=colors[i], alpha=1, lw=1,
-                 label='ROC curve for validation (area = %0.2f)' % roc_auc1)
-
-    plt.plot([0, 1], [0, 1], linestyle='--', lw=2,
-             color='r', label='Chance', alpha=.8)
-    plt.xlim([-0.05, 1.05])
-    plt.ylim([-0.05, 1.05])
-    plt.xlabel('False Positive Rate')
-    plt.ylabel('True Positive Rate')
-    plt.title("ROC Curve")
-    plt.legend(loc="lower right")
-    plt.savefig("./results/ROC_curve.png")
-    plt.close()
-    # '''
-
-def cluster_split(dict_cluster, Random_State, cv):#khu: modified
-    # Custom k fold cross validation
-    # cross validation method divides the clusters and adds to the partitions.
-    # Samples are not divided directly due to sample similarity issue
-    # all_data_splits_pre = []  # cluster order
-    all_data_splits = []  # cluster order
-    all_available_data = range(0, len(dict_cluster))  # all the clusters had
-    clusters_n = len(dict_cluster)  # number of clusters
-    all_samples = []  # all the samples had in the clusters
-    for i in dict_cluster:
-        for each in dict_cluster[i]:
-            all_samples.append(each)
-
-    # Shuffle the clusters and divide them
-    shuffled = list(utils.shuffle(list(dict_cluster.keys()),
-                                  random_state=Random_State))  # shuffled cluster names
-
-    # Divide the clusters equally
-    r = int(len(shuffled) / cv)  # batches size,e.g. 105/5=21
-
-    a = 0
-    b = r
-    for i in range(cv):  # 5
-
-        all_data_splits.append(shuffled[a:b])
-
-        if i != cv - 2:  # 1 =0,1,2,4
-            a = b
-            b = b + r
-
-        else:
-            a = b
-            b = len(shuffled)
-
-
-    totals = []
-    for folder_cluster in all_data_splits:  # 5.#cluster order
-        tem=[]
-        for e in folder_cluster:
-            elements = dict_cluster[str(e)]
-            tem.append(len(elements))
-        totals.append(sum(tem))
-    print('all samples',sum(totals),totals,len(all_samples) / float(cv))
-
-
-    # all_data_splits_pre=copy.deepcopy(all_data_splits)
-    print('Re_sampling...........')
-
-    for i in range(len(all_data_splits)):  # 5.#cluster order
-
-        extracted = list(set(all_data_splits[i]))  # order of cluster, w.r.t dict_cluster
-        sum_sub = totals[i]
-        print(sum_sub)
-        print('totals====================================',totals)
-        # print(all_data_splits)
-        b=0
-        while (sum_sub < 0.2*(len(all_samples) / float(cv))) and b<100:  # all_samples: val,train,test
-            b+=1
-
-            m_from = np.argmax(totals)  # the most samples CV index
-            extra = list(utils.shuffle(all_data_splits[m_from], random_state=Random_State))[0]  # cluster order
-
-            a = 0
-            while len(dict_cluster[extra]) >= 1.0*(len(all_samples) / float(cv)) and a < 5:  # in case one cluster contain a lot of samples
-                m_from = np.argmax(totals)  # the most samples CV index
-                extra = list(utils.shuffle(all_data_splits[m_from], random_state=a))[0]  # shuffle again, and try
-                a += 1
-
-
-
-            a=0
-            totals_sub = copy.deepcopy(totals)
-            while len(dict_cluster[extra]) >= 1.0*(len(all_samples) / float(cv) ) and a < 5:#in case one cluster contain a lot of samples
-                totals_sub[m_from]=0
-                m_from = np.argmax(totals_sub)
-                extra = list(utils.shuffle(all_data_splits[m_from], random_state=a))[0]  # shuffle again, and try
-
-                a+=1
-                # print(a)
-            #==========make sure the folder giving out the cluster still have enough samples left.
-            tem_Nsamples = []
-            for e in  list(set(all_data_splits[m_from]) - set([extra])):  # every time add one cluster order
-                elements = dict_cluster[str(e)]
-                tem_Nsamples.append(len(elements))  # sample number
-            sum_from = sum(tem_Nsamples)
-
-            extracted = extracted + [extra]  # cluster order
-            tem_Nsamples = []
-
-            for e in extracted:  # every time add one cluster order
-                elements = dict_cluster[str(e)]
-                tem_Nsamples.append(len(elements))  # sample number
-            sum_sub = sum(tem_Nsamples)
-            if len(dict_cluster[extra]) < 1.0*(len(all_samples) / float(cv)) and sum_from > sum_sub:
-
-                print('extracted', extracted)
-                print('sum_sub', sum_sub, 'draw from:', m_from,'extra',extra)
-                totals[i] = sum_sub
-                totals[m_from] = sum_from
-                all_data_splits[i]=extracted
-                all_data_splits[m_from] = list(set(all_data_splits[m_from]) - set([extra]))  # rm previous cluster order, because it's moved to this fold.
-                print('totals=========', totals)
-
-    return all_data_splits
-def prepare_cluster(fileDir, p_clusters):
-    # prepare a dictionary for clusters, the keys are cluster numbers, items are sample names.
-    # cluster index collection.
-    # cluster order list
-    filename = os.path.join(fileDir, p_clusters)
-    filename = os.path.abspath(os.path.realpath(filename))
-    output_file_open = open(filename, "r")
-    cluster_summary = output_file_open.readlines()
-    dict_cluster = collections.defaultdict(list)  # key: starting from 0
-
-    for each_cluster in cluster_summary:
-        splitted = each_cluster.split()
-        if splitted != []:
-            if splitted[0].isdigit():
-                dict_cluster[str(int(splitted[0]) - 1)].append(splitted[3])
-            if splitted[0] == "Similar":
-                splitted = each_cluster.split()
-                splitted_2 = each_cluster.split(":")
-                dict_cluster[str(int(splitted_2[1].split()[0]) - 1)
-                ].append(splitted[6])
-    # print("dict_cluster: ", dict_cluster)
-    return dict_cluster
-def prepare_sample_name(fileDir, p_names):
-    # sample name list
-
-    filename = os.path.join(fileDir, p_names)
-    filename = os.path.abspath(os.path.realpath(filename))
-    names_open = open(filename, "r")
-    names_read = names_open.readlines()
-    # sample names collection.
-    names = []
-    for each in range(len(names_read)):
-        names.append(names_read[each].replace("\n", ""))  # correct the sample names #no need w.r.t. Patric data
-    return names
-def prepare_folders(cv, Random_State, dict_cluster, names):
-    all_data_splits = cluster_split(dict_cluster, Random_State,
-                                    cv)  # split cluster into cv Folds. len(all_data_splits)=5
-    folders_sample = []  # collection of samples for each split
-    for out_cv in range(cv):
-        folders_sample_sub = []
-        iter_clusters = all_data_splits[out_cv]  # clusters included in that split
-        for cl_ID in iter_clusters:
-            for element in dict_cluster[cl_ID]:
-                folders_sample_sub.append(names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
-        folders_sample.append(folders_sample_sub)
-
-    return folders_sample
 class _classifier(nn.Module):
     def __init__(self, nlabel,D_in,H):
         super(_classifier, self).__init__()
@@ -313,6 +315,62 @@ class _classifier(nn.Module):
         out=nn.Sigmoid()(out)
         return out
 
+def training_original(classifier,epochs,optimizer,x_train,y_train,anti_number):
+
+    for epoc in range(epochs):
+        x_train=x_train.to(device)
+        y_train = y_train.to(device)
+        x_train_new = torch.utils.data.TensorDataset(x_train)
+        y_train_new = torch.utils.data.TensorDataset(y_train)
+
+        all_data = list(zip(x_train_new, y_train_new))
+
+        # the model is trained for 100 batches
+        data_loader = torch.utils.data.DataLoader(
+            all_data, batch_size=100, drop_last=False)
+
+        losses = []  # save the error for each iteration
+        for i, (sample_x, sample_y) in enumerate(data_loader):
+            optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
+            inputv = sample_x[0]
+            inputv=inputv.to(device)
+
+            # inputv = torch.FloatTensor(inputv)
+            inputv = Variable(inputv).view(len(inputv), -1)
+            # print(inputv.size())
+
+            if anti_number == 1:
+                labelsv = sample_y[0].view(len(sample_y[0]), -1)
+            else:
+                labelsv = sample_y[0][:, :]
+
+
+            weights = labelsv.data.clone().view(len(sample_y[0]), -1)
+            # That step is added to handle missing outputs.
+            # Weights are not updated in the presence of missing values.
+            weights[weights == 1.0] = 1
+            weights[weights == 0.0] = 1
+            weights[weights < 0] = 0
+            weights.to(device)
+
+
+            # Calculate the loss/error using Binary Cross Entropy Loss
+
+            criterion = nn.BCELoss(weight=weights, reduction="none")
+            output = classifier(inputv)
+            # print('------------',output.is_cuda)
+            # print(labelsv.size())
+            loss = criterion(output, labelsv)
+            loss = loss.mean()  # compute loss
+
+            loss.backward()  # backpropagation
+            optimizer.step()  # weights updated
+            losses.append(loss.item())
+
+        if epoc % 100 == 0:
+            # print the loss per iteration
+            print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, loss.item()))
+    return classifier
 
 def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_number):
     patience = 200
@@ -510,66 +568,8 @@ def fine_tune_training(classifier,epochs,optimizer,x_train,y_train,anti_number):
             print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, loss.item()))
     return classifier
 
+def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,re_epochs, learning,f_scaler,f_fixed_threshold,f_no_early_stop):
 
-
-def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
-
-    summary = pd.DataFrame(index=['mean','std'], columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
-                                                          'auc','mcc','threshold'])
-    #
-    f1=[]
-    precision=[]
-    recall=[]
-    accuracy=[]
-    for i in np.arange(cv):
-        report=score_report_test[i]
-        report=pd.DataFrame(report).transpose()
-        print(report)
-        print('--------')
-        f1.append(report.loc['macro avg','f1-score'])
-        precision.append(report.loc['macro avg','precision'])
-        recall.append(report.loc['macro avg','recall'])
-        try:
-            accuracy.append(report.loc['accuracy','f1-score'])
-        except:#one class missing in the support.
-            accuracy.append('-')
-
-    summary.loc['mean','f1_macro']=statistics.mean(f1)
-    summary.loc['std','f1_macro']=statistics.stdev(f1)
-    summary.loc['mean','precision_macro'] = statistics.mean(precision)
-    summary.loc['std','precision_macro'] = statistics.stdev(precision)
-    summary.loc['mean','recall_macro']  = statistics.mean(recall)
-    summary.loc['std','recall_macro'] = statistics.stdev(recall)
-    try:
-        summary.loc['mean','accuracy_macro'] = statistics.mean(accuracy)
-        summary.loc['std','accuracy_macro'] = statistics.stdev(accuracy)
-    except:
-        summary.loc['mean', 'accuracy_macro'] = '-'
-        summary.loc['std', 'accuracy_macro'] = '-'
-    summary.loc['mean','auc'] = statistics.mean(aucs_test)
-    summary.loc['std','auc'] = statistics.stdev(aucs_test)
-    summary.loc['mean','mcc'] = statistics.mean(mcc_test)
-    summary.loc['std','mcc'] = statistics.stdev(mcc_test)
-    summary.loc['mean', 'threshold'] = statistics.mean(thresholds_selected_test)
-    summary.loc['std', 'threshold'] = statistics.stdev(thresholds_selected_test)
-    summary.to_csv('log/temp/'+save_name_score+'_score.txt', sep="\t")
-    #Truncate file to zero length or create text file for writing.
-    print(summary)
-
-
-
-
-
-def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,re_epochs, learning,f_scaler,f_fixed_threshold):
-
-    fileDir = os.path.dirname(os.path.realpath('__file__'))
-
-
-
-    # sample name list
-    names=prepare_sample_name(fileDir, p_names)
-    # prepare a dictionary for clusters, the keys are cluster numbers, items are sample names.
-    dict_cluster = prepare_cluster(fileDir, p_clusters)
 
     #data
     data_x = np.loadtxt(xdata, dtype="float")
@@ -604,18 +604,25 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
     learning_rate = learning
 
     anti_number = data_y[0].size  # number of antibiotics
+    nlabel = data_y[0].size  # number of neurons in the output layer
+
     D_input = len(data_x[0])  # number of neurons in the input layer
     N_sample = len(data_x)  # number of input samples #should be equal to len(names)
-    nlabel = data_y[0].size  # number of neurons in the output layer
+
 
     # cross validation loop where the training and testing performed.
     #khu:nested CV.
-
-
+    #====================================
+    fileDir = os.path.dirname(os.path.realpath('__file__'))
+    # # sample name list
+    # names = prepare_sample_name(fileDir, p_names)
+    # # prepare a dictionary for clusters, the keys are cluster numbers, items are sample names.
+    # dict_cluster = prepare_cluster(fileDir, p_clusters)
     # =====================================
     # training
     # =====================================
-    folders_sample=prepare_folders(cv, Random_State, dict_cluster, names)
+    # folders_sample=prepare_folders(cv, Random_State, dict_cluster, names)
+    folders_sample,_ = neural_networks.cluster_folders.prepare_folders(cv, random, p_names, p_clusters, 'new')
 
     for out_cv in range(cv):
         #select testing folder
@@ -678,7 +685,10 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
             optimizer = optim.SGD(classifier.parameters(), lr=learning_rate)
             optimizer.zero_grad()  # Clears existing gradients from previous epoch
             #loop:
-            classifier=training(classifier, epochs, optimizer, x_train, y_train,x_val,y_val, anti_number)
+            if f_no_early_stop==True:
+                classifier = training_original(classifier,epochs,optimizer,x_train,y_train,anti_number)
+            else:
+                classifier=training(classifier, epochs, optimizer, x_train, y_train,x_val,y_val, anti_number)
 
 
             #==================================================
@@ -727,21 +737,34 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
                 y_val = np.array(y_val)#ground truth
                 y_val_pred = np.array(pred)
 
-                comp = []#becasue in the multi-species model, some species,anti combination are missing data
-                #so those won't be counted when evaluating scores.
+                mcc_sub_anti = []
+                f1_sub_anti = []
                 for i in range(anti_number):
-                    if anti_number == 1:
-                        mcc=matthews_corrcoef(y_val, y_val_pred)
-                        # report = classification_report(y_val, y_val_pred, labels=[0, 1], output_dict=True)
-                        f1=f1_score(y_val, y_val_pred, average='macro')
-                    else:# multi-out
 
-                        mcc = matthews_corrcoef(y_val[:,i], y_val_pred[:,i])
-                        f1 = f1_score(y_val[:,i], y_val_pred[:,i], average='macro')
-                    mcc_sub.append(mcc)
-                    f1_sub.append(f1)
-                # todo
-                # all_thresholds.append(mcc_sub)#for multi-output & visualization
+                    comp = []  # becasue in the multi-species model, some species,anti combination are missing data
+                    # so those won't be counted when evaluating scores.
+
+                    if anti_number == 1:
+                        mcc = matthews_corrcoef(y_val, y_val_pred)
+                        # report = classification_report(y_val, y_val_pred, labels=[0, 1], output_dict=True)
+                        f1 = f1_score(y_val, y_val_pred, average='macro')
+                        mcc_sub.append(mcc)
+                        f1_sub.append(f1)
+
+                    else:# multi-out
+                        for t in range(len(y_val)):
+                            if -1 != y_val[t][i]:
+                                comp.append(t)
+                        y_val_multi_sub = y_val[comp]
+                        y_val_pred_multi_sub=y_val_pred[comp]
+                        mcc = matthews_corrcoef(y_val_multi_sub[:,i], y_val_pred_multi_sub[:,i])
+                        f1 = f1_score(y_val_multi_sub[:,i], y_val_pred_multi_sub[:,i], average='macro')
+                        mcc_sub_anti.append(mcc)
+                        f1_sub_anti.append(f1)
+                if anti_number > 1:# multi-out, scores based on mean of all the involved antibotics
+                    mcc_sub.append(statistics.mean(mcc_sub_anti))#mcc_sub_anti dimension: n_anti
+                    f1_sub.append(statistics.mean(f1_sub_anti))
+
 
             Validation_mcc_thresholds.append(mcc_sub)
             Validation_f1_thresholds.append(f1_sub)
@@ -835,12 +858,18 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
         y_test = np.array(y_test)
         pred_test_binary_sub = np.array(pred_test_binary_sub)
         pred_test_binary.append(pred_test_binary_sub)
-        aucs = []
-        tprs = []
+
+
         # print(y_test)
         # print(pred_test_binary_sub)
+        f1_test_anti=[]# multi-out
+        score_report_test_anti=[]# multi-out
+        tprs = []# multi-out
+        aucs_test_anti=[]# multi-out
+        mcc_test_anti=[]# multi-out
 
         for i in range(anti_number):
+            comp = []
             if anti_number == 1:
                 mcc = matthews_corrcoef(y_test, pred_test_binary_sub)
                 # report = classification_report(y_val, y_val_pred, labels=[0, 1], output_dict=True)
@@ -851,24 +880,48 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
                 print(report)
                 fpr, tpr, _ = roc_curve(y_test, pred_test_binary_sub, pos_label=1)
 
+                tprs.append(interp(mean_fpr, fpr, tpr))
+                tprs[-1][0] = 0.0
+                roc_auc = auc(fpr, tpr)
+                # aucs.append(roc_auc)
+
+
             else:  # multi-out
-                #todo
+                #todo check
+                for t in range(len(y_test)):
+                    if -1 != y_val[t][i]:
+                        comp.append(t)
                 mcc = matthews_corrcoef(y_test[:, i], pred_test_binary_sub[:, i])
                 f1 = f1_score(y_test[:, i], pred_test_binary_sub[:, i], average='macro')
                 fpr, tpr, _ = roc_curve(y_test[:, i], pred_test_binary_sub[:, i], pos_label=1)
-            tprs.append(interp(mean_fpr, fpr, tpr))
-            tprs[-1][0] = 0.0
-            roc_auc = auc(fpr, tpr)
-            aucs.append(roc_auc)
+                report = classification_report(y_test[:, i], pred_test_binary_sub[:, i], labels=[0, 1], output_dict=True)
+                roc_auc = auc(fpr, tpr)
+                tprs.append(interp(mean_fpr, fpr, tpr))
+                tprs[-1][0] = 0.0
+                # aucs.append(roc_auc)
+                f1_test_anti.append(f1)
+                score_report_test_anti.append(report)
+                aucs_test_anti.append(roc_auc)
+                mcc_test_anti.append(mcc)
 
-        #note,here single output also matrixed, for use of the plot codes by the original author.
-        f1_test.append(f1)
-        score_report_test.append(report)
-        aucs_test_all.append(aucs)## multi-out
-        tprs_test.append(tprs)## multi-out
-        aucs_test.append(roc_auc) #single-out
 
-        mcc_test.append(mcc)
+        #summerise each outer loop's results.
+        if anti_number>1:
+            f1_test.append(f1_test_anti)
+            score_report_test.append(score_report_test_anti)
+            aucs_test.append(aucs_test_anti)  # single-out
+            mcc_test.append(mcc_test_anti)
+        else:
+            f1_test.append(f1)
+            score_report_test.append(report)
+            aucs_test.append(roc_auc)  # single-out
+            mcc_test.append(mcc)
+
+        # aucs_test_all.append(aucs)  ## multi-out
+        tprs_test.append(tprs)  ## multi-out
+
+
+
 
 
     # plot(anti_number, mcc_test, cv, validation, pred_val_all, validation_y, tprs_test, aucs_test_all, mean_fpr)

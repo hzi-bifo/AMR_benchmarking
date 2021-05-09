@@ -44,7 +44,7 @@ def make_visualization(species,antibiotics,level,f_fixed_threshold,epochs,learni
         final.loc[anti,:]=m.str.cat(n, sep='±').values
 
         print(final)
-        
+
 
     # final=final.astype(float).round(2)
     final.to_csv('log/results/'+save_name_score+'_score_final.txt', sep="\t")
@@ -146,12 +146,12 @@ def extract_info(s,level,cv,hidden, epochs, re_epochs, learning,f_fixed_threshol
     print(data)
 
     for species in df_species:
-        logDir = os.path.join('log/results/'+str(level)+'/'+ str(species.replace(" ", "_")))
-        if not os.path.exists(logDir):
-            try:
-                os.makedirs(logDir)
-            except OSError:
-                print("Can't create logging directory:", logDir)
+        # logDir = os.path.join('log/results/'+str(level)+'/'+ str(species.replace(" ", "_")))
+        # if not os.path.exists(logDir):
+        #     try:
+        #         os.makedirs(logDir)
+        #     except OSError:
+        #         print("Can't create logging directory:", logDir)
 
 
         antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
