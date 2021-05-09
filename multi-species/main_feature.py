@@ -27,7 +27,7 @@ import data_preparation.ResFinder_analyser_blast_khuModified
 import data_preparation.merge_resfinder_pointfinder_khuModified
 import data_preparation.merge_input_output_files_khuModified
 import data_preparation.merge_resfinder_khuModified
-import main_nn
+# import main_nn
 import neural_networks.Neural_networks_khuModified_earlys as nn_module
 import neural_networks.Neural_networks_khuModified as nn_module_original
 import csv
@@ -36,18 +36,7 @@ import neural_networks.cluster_folders
 
 def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_roary,f_pre_cluster,f_cluster,f_cluster_folders,run_file,f_res,f_merge_mution_gene,f_matching_io,f_merge_species,f_nn,cv,
         random, hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,f_nn_base):
-    logDir = os.path.join('log/temp/' + str(level)+'/'+str(species.replace(" ", "_")))
-    if not os.path.exists(logDir):
-        try:
-            os.makedirs(logDir)
-        except OSError:
-            print("Can't create logging directory:", logDir)
-    logDir = os.path.join('log/results/'+str(level))
-    if not os.path.exists(logDir):
-        try:
-            os.makedirs(logDir)
-        except OSError:
-            print("Can't create logging directory:", logDir)
+
     print(species, anti, '-------------------------------------------------')
     # path_sequence = '/net/projects/BIFO/patric_genome'# in the future, change it to custom setting variable.
     # path_to_nn = ("./Neural_Networks/Neural_networks.py")
@@ -64,17 +53,18 @@ def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_
     '''
     path_feature = './log/temp/' + str(level)+'/'+str(species.replace(" ", "_")) # all feature temp data(except large files)
     # path_res_result='/net/flashtest/scratch/khu/benchmarking/Results/'+str(species.replace(" ", "_"))#old
-    path_res_result = '/net/sgi/metagenomics/data/khu/benchmarking/Results/' + str(species.replace(" ", "_"))
+    path_res_result = '/net/sgi/metagenomics/data/khu/benchmarking/resfinder_results/' + str(species.replace(" ", "_"))
     path_metadata='./'+save_name_modelID #anti,species
     # path_large_temp='/net/flashtest/scratch/khu/benchmarking/Results/clustering/'+name_species_anti+'all_strains_assembly.txt'#
-    path_large_temp_kma = '/net/sgi/metagenomics/data/khu/benchmarking/Results/clustering/' + name_species_anti + 'all_strains_assembly.txt'
+    path_large_temp_kma = path_large_temp+'/clustering/' + name_species_anti + 'all_strains_assembly.txt'
+
     path_large_temp_prokka =path_large_temp+'/prokka/'+str(species.replace(" ", "_"))
     path_large_temp_roary=path_large_temp+'/roary/' + str(level) +'/'+ name_species_anti
     path_metadata_prokka='metadata/model/id_' + str(species.replace(" ", "_"))
     path_cluster_temp=path_feature+'/clustered_90_'+save_name_anti# todo check!!! checked
     path_metadata_pheno=path_metadata+'resfinder'
     #temp results
-    path_roary_results=path_large_temp+'/results/'+str(level) +'/'+ name_species_anti
+    path_roary_results=path_large_temp+'/results_roary/'+str(level) +'/'+ name_species_anti
     path_cluster_results=path_feature+'/'+save_name_anti+'_clustered_90.txt'
     path_point_repre_results=path_feature+'/'+save_name_anti+'_mutations.txt'
     path_res_repre_results = path_feature + '/' + save_name_anti + '_acquired_genes.txt'
@@ -133,7 +123,7 @@ def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_
         run_file.write("\n")
         run_file.write("wait")
         run_file.write("\n")
-        cmd = 'FastTree -nt -gtr %s/core_gene_alignment.aln > my_tree.newick' % path_roary_results
+        cmd = 'fasttreeMP -nt -gtr %s/core_gene_alignment.aln > my_tree.newick' % path_roary_results
         run_file.write(cmd)
         run_file.write("\n")
         run_file.write("wait")
@@ -153,15 +143,19 @@ def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_
         # if Neisseria gonorrhoeae, then use  -ht 1.0 -hq 1.0, otherwise, all genomes will be clustered into one group #todo check
 
         run_file.write("(")
-        cmd="cat %s | %s -i -- -k 16 -Sparse - -ht 0.9 -hq 0.9 -NI -o %s &> %s"\
-             %(path_large_temp_kma ,path_to_kma_clust,path_cluster_temp,path_cluster_results)
+        if species=='Neisseria gonorrhoeae':
+            cmd="cat %s | %s -i -- -k 16 -Sparse - -ht 0.98 -hq 0.98 -NI -o %s &> %s"\
+                 %(path_large_temp_kma ,path_to_kma_clust,path_cluster_temp,path_cluster_results)
+        else:
+            cmd = "cat %s | %s -i -- -k 16 -Sparse - -ht 0.9 -hq 0.9 -NI -o %s &> %s" \
+                  % (path_large_temp_kma, path_to_kma_clust, path_cluster_temp, path_cluster_results)
         run_file.write(cmd)
         run_file.write("\n")
         run_file.write("wait")
         run_file.write("\n")
-        run_file.write('rm '+ path_large_temp_kma )
+        # run_file.write('rm '+ path_large_temp_kma )
         run_file.write("\n")
-        run_file.write('rm ' + path_cluster_temp+'.seq.b '+path_cluster_temp+'.length.b '+path_cluster_temp+'.name'+path_cluster_temp+'.comp.b')
+        run_file.write('rm ' + path_cluster_temp+'.seq.b '+path_cluster_temp+'.length.b '+path_cluster_temp+'.name '+path_cluster_temp+'.comp.b')
         run_file.write("\n")
         run_file.write("echo \" one thread finised! \"")
         run_file.write(")&")
@@ -169,8 +163,8 @@ def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_
 
     if f_cluster_folders == True:
 
-        split_original = neural_networks.cluster_folders.prepare_folders(cv, random,path_name, path_cluster_results,'original')
-        split_new_k = neural_networks.cluster_folders.prepare_folders(cv, random, path_name, path_cluster_results,'new')
+        folders_sample,split_original = neural_networks.cluster_folders.prepare_folders(cv, random,path_name, path_cluster_results,'original')
+        folders_sample_new,split_new_k = neural_networks.cluster_folders.prepare_folders(cv, random, path_name, path_cluster_results,'new')
         return split_original,split_new_k
 
     if f_res==True:
@@ -211,17 +205,16 @@ def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_
         #                      learning,f_scaler,f_fixed_threshold,level)
 
         nn_module.eval(species, anti, level, path_x,path_y, path_name, path_cluster_results, cv, random, hidden, epochs,
-                       re_epochs, learning,f_scaler, f_fixed_threshold)
+                       re_epochs, learning,f_scaler, f_fixed_threshold,f_nn_base)
 
 
 
-    if f_nn_base == True:#benchmarking baseline.
-        nn_module_original.eval(species, anti, level, path_x,path_y, path_name, path_cluster_results, cv, random, hidden, epochs,
-                       re_epochs, learning,f_scaler, f_fixed_threshold)
+    # if f_nn_base == True:#benchmarking baseline.
+    #     nn_module_original.eval(species, anti, level, path_x,path_y, path_name, path_cluster_results, cv, random, hidden, epochs,
+    #                    re_epochs, learning,f_scaler, f_fixed_threshold)
 
 
-# def extract_info(s,xdata,ydata,p_names,p_clusters,cv_number, random, hidden, epochs, re_epochs, learning,f_scaler,
-#                  f_fixed_threshold, level,n_jobs):
+
 def extract_info(path_sequence,path_large_temp,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluster,f_cluster,f_cluster_folders,f_res,f_merge_mution_gene,f_matching_io,f_merge_species,f_nn,cv, random,
                  hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,f_nn_base,n_jobs,debug):
 
@@ -237,6 +230,40 @@ def extract_info(path_sequence,path_large_temp,s,level,f_phylo_prokka,f_phylo_ro
     df_species = data.index.tolist()
     antibiotics = data['modelling antibiotics'].tolist()
     # print(data)
+    logDir = os.path.join(path_large_temp + '/clustering')
+    if not os.path.exists(logDir):
+        try:
+            os.makedirs(logDir)
+        except OSError:
+            print("Can't create logging directory:", logDir)
+    logDir = os.path.join(path_large_temp + '/prokka')
+    if not os.path.exists(logDir):
+        try:
+            os.makedirs(logDir)
+        except OSError:
+            print("Can't create logging directory:", logDir)
+    logDir = os.path.join(path_large_temp + '/roary')
+    if not os.path.exists(logDir):
+        try:
+            os.makedirs(logDir)
+        except OSError:
+            print("Can't create logging directory:", logDir)
+    
+    for species in df_species:
+        logDir = os.path.join('log/temp/' + str(level) + '/' + str(species.replace(" ", "_")))
+        if not os.path.exists(logDir):
+            try:
+                os.makedirs(logDir)
+            except OSError:
+                print("Can't create logging directory:", logDir)
+        logDir = os.path.join('log/results/' + str(level) + '/' + str(species.replace(" ", "_")))
+        if not os.path.exists(logDir):
+            try:
+                os.makedirs(logDir)
+            except OSError:
+                print("Can't create logging directory:", logDir)
+
+
     if debug==True:#no n_job
         for species, antibiotics in zip(df_species, antibiotics):
             print(species)
@@ -345,7 +372,7 @@ def extract_info(path_sequence,path_large_temp,s,level,f_phylo_prokka,f_phylo_ro
                 #     except OSError:
                 #         print("Can't create logging directory:", logDir)
                 # for storage roary results
-                logDir = os.path.join(path_large_temp+'/results/' + str(level))
+                logDir = os.path.join(path_large_temp+'/results_roary/' + str(level))
                 if not os.path.exists(logDir):
                     try:
                         os.makedirs(logDir)
@@ -403,9 +430,13 @@ def extract_info(path_sequence,path_large_temp,s,level,f_phylo_prokka,f_phylo_ro
 
             with open('./cv_folders/run_roary2.sh', 'w') as outfile:
                 outfile.write("#!/bin/bash")
+
                 outfile.write("\n")
                 if path_sequence == '/vol/projects/BIFO/patric_genome':
-                    outfile = amr_utility.file_utility.hzi_cpu_header(outfile, 'run_roary2', 22)
+                    outfile = amr_utility.file_utility.hzi_cpu_header(outfile, 'run_roary2', 20)
+                outfile.write("\n")
+                outfile.write("export OMP_NUM_THREADS=20")
+                outfile.write("\n")
                 for names in ID_files:
                     # Open each file in read mode
                     with open(names) as infile:
