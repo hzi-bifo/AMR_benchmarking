@@ -78,15 +78,21 @@ def load_metadata(SpeciesFile):#for metadata.py
 
     return data, info_species
 
-def name_multi_bench(species,antibiotics,cv,innerCV):
+def name_multi_bench_folder(species,level,learning,epochs,f_fixed_threshold):
+    #only for mkdir folders at the beginning
+    name_weights_folder='log/temp/' +str(level)+ '/'+ str(species.replace(" ", "_")) +'/lr_'+ str(learning)+'_ep_'+str(epochs)+'_fixT_'+str(f_fixed_threshold)
+    return name_weights_folder
+def name_multi_bench(species,antibiotics,level,cv,innerCV,learning,epochs,f_fixed_threshold):
 
-
-    name_weights='log/temp/' + str(species.replace(" ", "_")) +'/'+\
+    name_weights='log/temp/' +str(level)+ '/'+ str(species.replace(" ", "_")) +'/lr_'+ str(learning)+'_ep_'+str(epochs)+'_fixT_'+str(f_fixed_threshold)+'/'+\
                  str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_weights_' + str(cv) + str(innerCV)
     return name_weights
-def name_multi_bench_save_name_score(species,antibiotics,level):
+
+
+
+def name_multi_bench_save_name_score(species,antibiotics,level,learning,epochs,f_fixed_threshold):
     save_name_score = str(level)+'/'+str(species.replace(" ", "_"))  +'/'+\
-                      str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'})))
+                      str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'})))+'_lr_'+ str(learning)+'_ep_'+str(epochs)+'_fixT_'+str(f_fixed_threshold)
     return save_name_score
 
 

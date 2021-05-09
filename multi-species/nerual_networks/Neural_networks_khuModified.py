@@ -250,14 +250,14 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
         print('totals====================================',totals)
         # print(all_data_splits)
         b=0
-        while (sum_sub + 100 < len(all_samples) / float(cv)) and (sum_sub < 100) and b<100:  # all_samples: val,train,test
+        while (sum_sub <0.2*( len(all_samples) / float(cv))) and b<100:  # all_samples: val,train,test
             b+=1
 
             m_from = np.argmax(totals)  # the most samples CV index
             extra = list(utils.shuffle(all_data_splits[m_from], random_state=Random_State))[0]  # cluster order
 
             a = 0
-            while len(dict_cluster[extra]) >= 0.5*(len(all_samples) / float(cv)) and a < 5:  # in case one cluster contain a lot of samples
+            while len(dict_cluster[extra]) >= 1.0*(len(all_samples) / float(cv)) and a < 5:  # in case one cluster contain a lot of samples
                 m_from = np.argmax(totals)  # the most samples CV index
                 extra = list(utils.shuffle(all_data_splits[m_from], random_state=Random_State))[0]  # shuffle again, and try
                 a += 1
@@ -266,7 +266,7 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
 
             a=0
             totals_sub = copy.deepcopy(totals)
-            while len(dict_cluster[extra]) >= 0.5*(len(all_samples) / float(cv) ) and a < 5:#in case one cluster contain a lot of samples
+            while len(dict_cluster[extra]) >= 1.0*(len(all_samples) / float(cv) ) and a < 5:#in case one cluster contain a lot of samples
                 totals_sub[m_from]=0
                 m_from = np.argmax(totals_sub)
                 extra = list(utils.shuffle(all_data_splits[m_from], random_state=Random_State))[0]  # cluster order
@@ -287,7 +287,7 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
                 elements = dict_cluster[str(e)]
                 tem_Nsamples.append(len(elements))  # sample number
             sum_sub = sum(tem_Nsamples)
-            if len(dict_cluster[extra]) < 0.5*(len(all_samples) / float(cv)) and sum_from > sum_sub:
+            if len(dict_cluster[extra]) < 1.0*(len(all_samples) / float(cv)) and sum_from > sum_sub:
 
                 print('extracted', extracted)
                 print('sum_sub', sum_sub, 'draw from:', m_from,'extra',extra)
@@ -424,40 +424,40 @@ def training(classifier,m_sigmoid,epochs,optimizer,x_train,y_train,anti_number):
             print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, loss.item()))
     return classifier
 
-def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
-
-    summary = pd.DataFrame(index=['mean','std'], columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
-                                                          'auc','mcc','threshold'])
-    #
-    f1=[]
-    precision=[]
-    recall=[]
-    accuracy=[]
-    for i in np.arange(cv):
-        report=score_report_test[i]
-        report=pd.DataFrame(report).transpose()
-        print(report)
-        print('--------')
-        f1.append(report.loc['macro avg','f1-score'])
-        precision.append(report.loc['macro avg','precision'])
-        recall.append(report.loc['macro avg','recall'])
-        accuracy.append(report.loc['accuracy','f1-score'])
-    summary.loc['mean','f1_macro']=statistics.mean(f1)
-    summary.loc['std','f1_macro']=statistics.stdev(f1)
-    summary.loc['mean','precision_macro'] = statistics.mean(precision)
-    summary.loc['std','precision_macro'] = statistics.stdev(precision)
-    summary.loc['mean','recall_macro']  = statistics.mean(recall)
-    summary.loc['std','recall_macro'] = statistics.stdev(recall)
-    summary.loc['mean','accuracy_macro'] = statistics.mean(accuracy)
-    summary.loc['std','accuracy_macro'] = statistics.stdev(accuracy)
-    summary.loc['mean','auc'] = statistics.mean(aucs_test)
-    summary.loc['std','auc'] = statistics.stdev(aucs_test)
-    summary.loc['mean','mcc'] = statistics.mean(mcc_test)
-    summary.loc['std','mcc'] = statistics.stdev(mcc_test)
-    summary.loc['mean', 'threshold'] = statistics.mean(thresholds_selected_test)
-    summary.loc['std', 'threshold'] = statistics.stdev(thresholds_selected_test)
-    summary.to_csv('log/temp/'+save_name_score+'_score.txt', sep="\t")
-    print(summary)
+# def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
+#
+#     summary = pd.DataFrame(index=['mean','std'], columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+#                                                           'auc','mcc','threshold'])
+#     #
+#     f1=[]
+#     precision=[]
+#     recall=[]
+#     accuracy=[]
+#     for i in np.arange(cv):
+#         report=score_report_test[i]
+#         report=pd.DataFrame(report).transpose()
+#         print(report)
+#         print('--------')
+#         f1.append(report.loc['macro avg','f1-score'])
+#         precision.append(report.loc['macro avg','precision'])
+#         recall.append(report.loc['macro avg','recall'])
+#         accuracy.append(report.loc['accuracy','f1-score'])
+#     summary.loc['mean','f1_macro']=statistics.mean(f1)
+#     summary.loc['std','f1_macro']=statistics.stdev(f1)
+#     summary.loc['mean','precision_macro'] = statistics.mean(precision)
+#     summary.loc['std','precision_macro'] = statistics.stdev(precision)
+#     summary.loc['mean','recall_macro']  = statistics.mean(recall)
+#     summary.loc['std','recall_macro'] = statistics.stdev(recall)
+#     summary.loc['mean','accuracy_macro'] = statistics.mean(accuracy)
+#     summary.loc['std','accuracy_macro'] = statistics.stdev(accuracy)
+#     summary.loc['mean','auc'] = statistics.mean(aucs_test)
+#     summary.loc['std','auc'] = statistics.stdev(aucs_test)
+#     summary.loc['mean','mcc'] = statistics.mean(mcc_test)
+#     summary.loc['std','mcc'] = statistics.stdev(mcc_test)
+#     summary.loc['mean', 'threshold'] = statistics.mean(thresholds_selected_test)
+#     summary.loc['std', 'threshold'] = statistics.stdev(thresholds_selected_test)
+#     summary.to_csv('log/temp/'+save_name_score+'_score.txt', sep="\t")
+#     print(summary)
 
 
 
@@ -772,7 +772,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
     print('thresholds_selected_test',thresholds_selected_test)
     print('f1_test',f1_test)
     print('mcc_test',mcc_test)
-    score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score,thresholds_selected_test)#save mean and std of each 6 score
+    # score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score,thresholds_selected_test)#save mean and std of each 6 score
     score = [thresholds_selected_test, f1_test, mcc_test, score_report_test,aucs_test,tprs_test]
     with open('log/temp/'+save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
         pickle.dump(score, f)

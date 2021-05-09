@@ -204,26 +204,26 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
         print('totals====================================',totals)
         # print(all_data_splits)
         b=0
-        while (sum_sub + 100 < len(all_samples) / float(cv)) and (sum_sub < 100) and b<100:  # all_samples: val,train,test
+        while (sum_sub < 0.2*(len(all_samples) / float(cv))) and b<100:  # all_samples: val,train,test
             b+=1
 
             m_from = np.argmax(totals)  # the most samples CV index
             extra = list(utils.shuffle(all_data_splits[m_from], random_state=Random_State))[0]  # cluster order
 
             a = 0
-            while len(dict_cluster[extra]) >= 0.5*(len(all_samples) / float(cv)) and a < 5:  # in case one cluster contain a lot of samples
+            while len(dict_cluster[extra]) >= 1.0*(len(all_samples) / float(cv)) and a < 5:  # in case one cluster contain a lot of samples
                 m_from = np.argmax(totals)  # the most samples CV index
-                extra = list(utils.shuffle(all_data_splits[m_from], random_state=Random_State))[0]  # shuffle again, and try
+                extra = list(utils.shuffle(all_data_splits[m_from], random_state=a))[0]  # shuffle again, and try
                 a += 1
 
 
 
             a=0
             totals_sub = copy.deepcopy(totals)
-            while len(dict_cluster[extra]) >= 0.5*(len(all_samples) / float(cv) ) and a < 5:#in case one cluster contain a lot of samples
+            while len(dict_cluster[extra]) >= 1.0*(len(all_samples) / float(cv) ) and a < 5:#in case one cluster contain a lot of samples
                 totals_sub[m_from]=0
                 m_from = np.argmax(totals_sub)
-                extra = list(utils.shuffle(all_data_splits[m_from], random_state=Random_State))[0]  # cluster order
+                extra = list(utils.shuffle(all_data_splits[m_from], random_state=a))[0]  # shuffle again, and try
 
                 a+=1
                 # print(a)
@@ -241,7 +241,7 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
                 elements = dict_cluster[str(e)]
                 tem_Nsamples.append(len(elements))  # sample number
             sum_sub = sum(tem_Nsamples)
-            if len(dict_cluster[extra]) < 0.5*(len(all_samples) / float(cv)) and sum_from > sum_sub:
+            if len(dict_cluster[extra]) < 1.0*(len(all_samples) / float(cv)) and sum_from > sum_sub:
 
                 print('extracted', extracted)
                 print('sum_sub', sum_sub, 'draw from:', m_from,'extra',extra)
@@ -563,6 +563,9 @@ def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresh
 def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,re_epochs, learning,f_scaler,f_fixed_threshold):
 
     fileDir = os.path.dirname(os.path.realpath('__file__'))
+
+
+
     # sample name list
     names=prepare_sample_name(fileDir, p_names)
     # prepare a dictionary for clusters, the keys are cluster numbers, items are sample names.
@@ -724,7 +727,8 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
                 y_val = np.array(y_val)#ground truth
                 y_val_pred = np.array(pred)
 
-
+                comp = []#becasue in the multi-species model, some species,anti combination are missing data
+                #so those won't be counted when evaluating scores.
                 for i in range(anti_number):
                     if anti_number == 1:
                         mcc=matthews_corrcoef(y_val, y_val_pred)
@@ -875,7 +879,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
     print('thresholds_selected_test',thresholds_selected_test)
     print('f1_test',f1_test)
     print('mcc_test',mcc_test)
-    score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score,thresholds_selected_test)#save mean and std of each 6 score
+    # score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score,thresholds_selected_test)#save mean and std of each 6 score
     score = [thresholds_selected_test, f1_test, mcc_test, score_report_test, aucs_test, tprs_test]
     with open('log/temp/' + save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
         pickle.dump(score, f)
