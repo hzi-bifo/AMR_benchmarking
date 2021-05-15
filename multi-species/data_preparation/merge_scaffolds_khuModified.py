@@ -1,10 +1,13 @@
 #!/usr/bin/env/python
 import getopt, sys
 import warnings
+import os
+import sys
+sys.path.append('../')
+sys.path.insert(0, os.getcwd())
 import numpy as np
 import argparse
-import os
-
+import amr_utility.file_utility
 # if not sys.warnoptions:
 #     warnings.simplefilter("ignore")
 
@@ -12,11 +15,13 @@ import os
 
 
 def extract_info(input_path,files,output,spacer):
+	output_dir=os.path.dirname(output)
+	amr_utility.file_utility.make_dir(output_dir)
 
 	files=np.genfromtxt(files, dtype='str')
-	new_file = open(output, "w")
+	new_file = open(output, "w")#'w' for only writing (an existing file with the same name will be erased)
 	for i in files:
-		print(i)
+		# print(i)
 		open_scaf = open("%s/%s.fna" % (input_path, i), "r")
 
 		scaf = open_scaf.readlines()

@@ -64,7 +64,7 @@ def model(species,antibiotics,balance,level):
     pheno_summary = pd.DataFrame(index=antibiotics_selected, columns=['Resistant', 'Susceptible','Resistant(downsampling)', 'Susceptible(downsampling)'])
     for anti in antibiotics_selected:
 
-        save_name_meta, save_name_modelID = amr_utility.name_utility.save_name_modelID(level,species, anti)
+        save_name_meta, save_name_modelID = amr_utility.name_utility.GETsave_name_modelID(level,species, anti)
 
         data_sub_anti = pd.read_csv(save_name_modelID + '.txt', index_col=0, dtype={'genome_id': object}, sep="\t")
 
@@ -123,7 +123,7 @@ def summary(species,level):
     pheno_summary = pd.DataFrame(index=antibiotics_selected, columns=['Resistant', 'Susceptible','Resistant(downsampling)', 'Susceptible(downsampling)'])
     for anti in antibiotics_selected:
 
-        save_name_meta, save_name_modelID = amr_utility.name_utility.save_name_modelID(level,species, anti)
+        save_name_meta, save_name_modelID = amr_utility.name_utility.GETsave_name_modelID(level,species, anti)
 
         data_sub_anti = pd.read_csv(save_name_modelID + '.txt', index_col=0, dtype={'genome_id': object}, sep="\t")
 

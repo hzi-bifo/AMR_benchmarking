@@ -568,7 +568,7 @@ def fine_tune_training(classifier,epochs,optimizer,x_train,y_train,anti_number):
             print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, loss.item()))
     return classifier
 
-def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, random, hidden, epochs,re_epochs, learning,f_scaler,f_fixed_threshold,f_no_early_stop):
+def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Random_State, hidden, epochs,re_epochs, learning,f_scaler,f_fixed_threshold,f_no_early_stop,f_optimize_score):
 
 
     #data
@@ -591,7 +591,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
     aucs_test_all=[]# multi-output and plotting used
     tprs_test = []  # all True Positives for the test data
     mean_fpr = np.linspace(0, 1, 100)
-    Random_State = random
+
 
     # -------------------------------------------------------------------------------------------------------------------
     ###construct the Artificial Neural Networks Model###
@@ -612,17 +612,12 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
 
     # cross validation loop where the training and testing performed.
     #khu:nested CV.
-    #====================================
-    fileDir = os.path.dirname(os.path.realpath('__file__'))
-    # # sample name list
-    # names = prepare_sample_name(fileDir, p_names)
-    # # prepare a dictionary for clusters, the keys are cluster numbers, items are sample names.
-    # dict_cluster = prepare_cluster(fileDir, p_clusters)
     # =====================================
     # training
     # =====================================
-    # folders_sample=prepare_folders(cv, Random_State, dict_cluster, names)
-    folders_sample,_ = neural_networks.cluster_folders.prepare_folders(cv, random, p_names, p_clusters, 'new')
+    # dimension: cv*(sample_n in each split(it varies))
+    # element: index of sampels w.r.t. data_x, data_y
+    folders_sample,_ = neural_networks.cluster_folders.prepare_folders(cv, Random_State, p_names, p_clusters, 'new')
 
     for out_cv in range(cv):
         #select testing folder
@@ -636,6 +631,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
         train_val_samples= folders_sample[:out_cv] + folders_sample[out_cv+1 :]#list
         Validation_mcc_thresholds = []  #  inner CV *11 thresholds value
         Validation_f1_thresholds = []  #  inner CV *11 thresholds value
+        Validation_auc = []  # inner CV
         # Validation_mcc = []  # len=inner CV
         # Validation_f1 = []  # len=inner CV
         #later choose the inner loop and relevant thresholds with the highest f1 score
@@ -694,7 +690,8 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
             #==================================================
 
             print(species, antibiotics,level, out_cv, innerCV)
-            name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv, innerCV,learning,epochs,f_fixed_threshold)
+            name_weights = amr_utility.name_utility.GETname_multi_bench_weight(species, antibiotics,level, out_cv, innerCV,learning,epochs,f_fixed_threshold,f_no_early_stop,f_optimize_score)
+            # print(name_weights)
             torch.save(classifier.state_dict(), name_weights)
 
             ######################
@@ -716,60 +713,94 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
                 pred_val_sub.append(temp)
 
             pred_val_sub = np.array(pred_val_sub)# for this innerCV at this out_cv
-            pred_val_inner.append(pred_val_sub)#for all innerCV at this out_cv. #No further use so far. April,30.
-            print('pred_val_inner shape:', np.array(pred_val_inner).shape)#(cv-1)*n_sample
+            # pred_val_inner.append(pred_val_sub)#for all innerCV at this out_cv. #No further use so far. April,30.
+            print('pred_val_sub shape:', pred_val_sub.shape)#(cv-1)*n_sample
+            print('y_val',np.array(y_val).shape)
 
-            ##
-            # Calculate macro f1. for thresholds from 0 to 1.
+            #--------------------------------------------------
+            #auc score, threshould operation is contained in itself definition.
+            #khu add: 13May
+            print('f_optimize_score:',f_optimize_score)
+            if f_optimize_score=='auc':
 
-            mcc_sub = []
-            f1_sub = []
-            for threshold in np.arange(0, 1.1, 0.1):
-                # predictions for the test data
-                # all_thresholds = []
-
-                pred = []
-                for probability in pred_val_sub:# for this innerCV at this out_cv
-                    if probability > threshold:
-                        pred.append(1)
-                    else:
-                        pred.append(0)
-                y_val = np.array(y_val)#ground truth
-                y_val_pred = np.array(pred)
-
-                mcc_sub_anti = []
-                f1_sub_anti = []
+                aucs_val_sub_anti=[]
                 for i in range(anti_number):
-
-                    comp = []  # becasue in the multi-species model, some species,anti combination are missing data
-                    # so those won't be counted when evaluating scores.
-
+                    comp = []
                     if anti_number == 1:
-                        mcc = matthews_corrcoef(y_val, y_val_pred)
-                        # report = classification_report(y_val, y_val_pred, labels=[0, 1], output_dict=True)
-                        f1 = f1_score(y_val, y_val_pred, average='macro')
-                        mcc_sub.append(mcc)
-                        f1_sub.append(f1)
-
-                    else:# multi-out
+                        fpr, tpr, _ = roc_curve(y_val, pred_val_sub, pos_label=1)
+                        # tprs.append(interp(mean_fpr, fpr, tpr))
+                        # tprs[-1][0] = 0.0
+                        roc_auc = auc(fpr, tpr)
+                        Validation_auc.append(roc_auc)
+                    else:  # multi-out
+                        # todo check
                         for t in range(len(y_val)):
                             if -1 != y_val[t][i]:
                                 comp.append(t)
-                        y_val_multi_sub = y_val[comp]
-                        y_val_pred_multi_sub=y_val_pred[comp]
-                        mcc = matthews_corrcoef(y_val_multi_sub[:,i], y_val_pred_multi_sub[:,i])
-                        f1 = f1_score(y_val_multi_sub[:,i], y_val_pred_multi_sub[:,i], average='macro')
-                        mcc_sub_anti.append(mcc)
-                        f1_sub_anti.append(f1)
+                        fpr, tpr, _ = roc_curve(y_val[:, i], pred_val_sub[:, i], pos_label=1)
+
+                        roc_auc = auc(fpr, tpr)
+                        # tprs.append(interp(mean_fpr, fpr, tpr))
+                        # tprs[-1][0] = 0.0
+                        aucs_val_sub_anti.append(roc_auc)
                 if anti_number > 1:# multi-out, scores based on mean of all the involved antibotics
-                    mcc_sub.append(statistics.mean(mcc_sub_anti))#mcc_sub_anti dimension: n_anti
-                    f1_sub.append(statistics.mean(f1_sub_anti))
+                    aucs_val_sub=statistics.mean(aucs_val_sub_anti)#dimension: n_anti to 1
+                    Validation_auc.append(aucs_val_sub)# D: n_innerCV
 
 
-            Validation_mcc_thresholds.append(mcc_sub)
-            Validation_f1_thresholds.append(f1_sub)
-        #====================================================
-        if f_fixed_threshold==True:
+            #====================================================
+            elif f_optimize_score=='f1_macro':
+                # Calculate macro f1. for thresholds from 0 to 1.
+                mcc_sub = []
+                f1_sub = []
+                #todo for multi-species!!!
+                for threshold in np.arange(0, 1.1, 0.1):
+                    # predictions for the test data
+                    #turn probabilty to binary
+                    threshold_matrix = np.full(pred_val_sub.shape, threshold)
+                    y_val_pred = (pred_val_sub > threshold_matrix)
+                    y_val_pred = 1*y_val_pred
+
+                    y_val = np.array(y_val)  # ground truth
+
+                    mcc_sub_anti = []
+                    f1_sub_anti = []
+                    for i in range(anti_number):
+
+                        comp = []  # becasue in the multi-species model, some species,anti combination are missing data
+                        # so those won't be counted when evaluating scores.
+
+                        if anti_number == 1:
+                            mcc = matthews_corrcoef(y_val, y_val_pred)
+                            # report = classification_report(y_val, y_val_pred, labels=[0, 1], output_dict=True)
+                            f1 = f1_score(y_val, y_val_pred, average='macro')
+                            mcc_sub.append(mcc)
+                            f1_sub.append(f1)
+
+                        else:  # multi-out
+                            for t in range(len(y_val)):
+                                if -1 != y_val[t][i]:
+                                    comp.append(t)
+                            y_val_multi_sub = y_val[comp]
+                            y_val_pred_multi_sub = y_val_pred[comp]
+                            mcc = matthews_corrcoef(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i])
+                            f1 = f1_score(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i], average='macro')
+                            mcc_sub_anti.append(mcc)
+                            f1_sub_anti.append(f1)
+                    if anti_number > 1:  # multi-out, scores based on mean of all the involved antibotics
+                        mcc_sub.append(statistics.mean(mcc_sub_anti))  # mcc_sub_anti dimension: n_anti
+                        f1_sub.append(statistics.mean(f1_sub_anti))
+
+
+                Validation_mcc_thresholds.append(mcc_sub)
+                Validation_f1_thresholds.append(f1_sub)
+                print(Validation_f1_thresholds)
+                print(Validation_mcc_thresholds)
+
+
+
+        # finish evaluation in the inner loop.
+        if f_fixed_threshold==True and f_optimize_score=='f1_macro':
             thresholds_selected=0.5
             Validation_f1_thresholds = np.array(Validation_f1_thresholds)
             #select the inner loop index with the highest f1 score in the column w.r.t. 0.5
@@ -777,24 +808,25 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
             aim_f1=Validation_f1_thresholds[:,aim_column]
             weights_selected=np.argmax(aim_f1)
 
-        else:
+        elif f_fixed_threshold==False and f_optimize_score=='f1_macro':
             # select the inner loop index,and threshold with the highest f1 score in the matrix
             Validation_f1_thresholds=np.array(Validation_f1_thresholds)
             ind = np.unravel_index(np.argmax(Validation_f1_thresholds, axis=None), Validation_f1_thresholds.shape)
             thresholds_selected=np.arange(0, 1.1, 0.1)[ind[1]]
-            weights_selected=ind[0]#the order of innerCV#todo bug!
+            weights_selected=ind[0]#the order of innerCV# bug ? seems no 13May.
+            print('weifhts--------------',weights_selected)
+        elif f_optimize_score=='auc':
 
-        weight_test.append(weights_selected)
-        thresholds_selected_test.append(thresholds_selected)
-
-        print(Validation_f1_thresholds)
-        print(Validation_mcc_thresholds)
-        print('weights_selected',weights_selected)
+            thresholds_selected = 0.5
+            Validation_auc = np.array(Validation_auc)
+            weights_selected = np.argmax(Validation_auc)
+        print('weights_selected', weights_selected)
         print('thresholds_selected', thresholds_selected)
 
 
-
-        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics, level,out_cv, weights_selected,learning,epochs,f_fixed_threshold)
+        weight_test.append(weights_selected)
+        thresholds_selected_test.append(thresholds_selected)
+        name_weights = amr_utility.name_utility.GETname_multi_bench_weight(species, antibiotics, level,out_cv, weights_selected,learning,epochs,f_fixed_threshold,f_no_early_stop,f_optimize_score)
         classifier.load_state_dict(torch.load(name_weights))
 
         #=======================================================
@@ -817,13 +849,13 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
         classifier.train()
         optimizer = optim.SGD(classifier.parameters(), lr=0.0001)
         classifier = fine_tune_training(classifier, re_epochs, optimizer, x_train_val, y_train_val, anti_number)
-        name_weights = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv,'',learning,epochs,f_fixed_threshold)
+        name_weights = amr_utility.name_utility.GETname_multi_bench_weight(species, antibiotics,level, out_cv,'',learning,epochs,f_fixed_threshold,f_no_early_stop,f_optimize_score)
 
         torch.save(classifier.state_dict(), name_weights)
 
         # rm inner loop models' weight in the log
         for i in np.arange(cv-1):
-            n = amr_utility.name_utility.name_multi_bench(species, antibiotics,level, out_cv, i,learning,epochs,f_fixed_threshold)
+            n = amr_utility.name_utility.GETname_multi_bench_weight(species, antibiotics,level, out_cv, i,learning,epochs,f_fixed_threshold,f_no_early_stop,f_optimize_score)
             os.system("rm " + n)
 
         # apply the trained model to the test data
@@ -848,15 +880,14 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
         #Positive predictive value (PPV), Precision; Accuracy (ACC); f1-score here,
         # y: True positive rate (TPR), aka. sensitivity, hit rate, and recall,
         # X: False positive rate (FPR), aka. fall-out,
-        pred_test_binary_sub = []
-        for probability in pred_test_sub:
 
-            if probability > thresholds_selected:
-                pred_test_binary_sub.append(1)
-            else:
-                pred_test_binary_sub.append(0)
+        #turn probability to binary.
+        threshold_matrix=np.full(pred_test_sub.shape, thresholds_selected)
+        pred_test_binary_sub = (pred_test_sub > threshold_matrix)
+        pred_test_binary_sub = 1 * pred_test_binary_sub
+
         y_test = np.array(y_test)
-        pred_test_binary_sub = np.array(pred_test_binary_sub)
+        # pred_test_binary_sub = np.array(pred_test_binary_sub)
         pred_test_binary.append(pred_test_binary_sub)
 
 
@@ -889,7 +920,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
             else:  # multi-out
                 #todo check
                 for t in range(len(y_test)):
-                    if -1 != y_val[t][i]:
+                    if -1 != y_test[t][i]:
                         comp.append(t)
                 mcc = matthews_corrcoef(y_test[:, i], pred_test_binary_sub[:, i])
                 f1 = f1_score(y_test[:, i], pred_test_binary_sub[:, i], average='macro')
@@ -909,7 +940,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
         if anti_number>1:
             f1_test.append(f1_test_anti)
             score_report_test.append(score_report_test_anti)
-            aucs_test.append(aucs_test_anti)  # single-out
+            aucs_test.append(aucs_test_anti)  # multi-out
             mcc_test.append(mcc_test_anti)
         else:
             f1_test.append(f1)
@@ -926,7 +957,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
 
     # plot(anti_number, mcc_test, cv, validation, pred_val_all, validation_y, tprs_test, aucs_test_all, mean_fpr)
 
-    save_name_score=amr_utility.name_utility.name_multi_bench_save_name_score(species, antibiotics,level,learning,epochs,f_fixed_threshold)
+    save_name_score=amr_utility.name_utility.GETname_multi_bench_save_name_score(species, antibiotics,level,learning,epochs,f_fixed_threshold,f_no_early_stop,f_optimize_score)
 
 
     print('thresholds_selected_test',thresholds_selected_test)
@@ -934,7 +965,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, ran
     print('mcc_test',mcc_test)
     # score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score,thresholds_selected_test)#save mean and std of each 6 score
     score = [thresholds_selected_test, f1_test, mcc_test, score_report_test, aucs_test, tprs_test]
-    with open('log/temp/' + save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
+    with open(save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
         pickle.dump(score, f)
 
 

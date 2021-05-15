@@ -8,6 +8,16 @@ import numpy as np
 import seaborn as sns
 from matplotlib import pyplot as plt
 
+def make_dir(name):
+    logDir = os.path.join(name)
+    if not os.path.exists(logDir):
+        try:
+            os.makedirs(logDir)
+        except OSError:
+            print("Can't create logging directory:", logDir)
+
+
+
 def hzi_cpu_header(run_file,name,cpu_n):
 
     run_file.write("#$ -N %s" % name)
@@ -47,6 +57,24 @@ def plot_kma_split_dif(split_original_all,split_new_k_all,level):
     plt.xlabel('Each species and antibiotic combinations')
     plt.title('Standard deviation of sample number in the CV folders')
     plt.savefig('cv_folders/' + str(level) + '/kma_split_dif.png')
+
+
+def plot_kma_split(split_original,split_new_k,level,list_species,merge_name):
+    fig, axs = plt.subplots(2)
+    fig.suptitle('Eaxh species\' sample number in each CV folder')
+    ind = np.arange(split_original.shape[1])
+    width=0.1
+    n=0
+    for s in np.arange(split_original.shape[0]):
+        axs[0].bar(ind+n*width,split_original[s], width, label=list_species[s])
+
+        axs[1].bar(ind+n*width,split_new_k[s], width, label=list_species[s])
+        n += 1
+
+    plt.savefig('cv_folders/' + str(level) + '/'+ merge_name+'kma_split_multi.png')
+
+
+
 
     # X = np.arange(len(split_original_all))
     # fig = plt.figure()

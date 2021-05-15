@@ -19,22 +19,9 @@ import sys
 import warnings
 import matplotlib
 matplotlib.use('Agg')
-from sklearn.model_selection import KFold
-from sklearn.metrics import matthews_corrcoef
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.metrics import roc_curve, auc,confusion_matrix,classification_report,f1_score
 import collections
 import random
 from sklearn import utils
-from sklearn import preprocessing
-import argparse
-import ast
-import amr_utility.name_utility
-import itertools
-import statistics
-
-import pickle
 import copy
 
 def cluster_split_old(dict_cluster, Random_State, cv):
@@ -217,28 +204,87 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
                 print('totals=========', totals)
 
     return all_data_splits
+
+# def prepare_cluster(fileDir, p_clusters):
+#     # prepare a dictionary for clusters, the keys are cluster numbers, items are sample names.
+#     # cluster index collection.
+#     # cluster order list
+#
+#     filename = os.path.join(fileDir, p_clusters)
+#     filename = os.path.abspath(os.path.realpath(filename))
+#     output_file_open = open(filename, "r")
+#     cluster_summary = output_file_open.readlines()
+#
+#     # starting..........................................................
+#     dict_cluster = collections.defaultdict(list)  # key: starting from 0
+#
+#     for each_cluster in cluster_summary:
+#         splitted = each_cluster.split()
+#         if splitted != []:
+#             if splitted[0].isdigit():
+#                 dict_cluster[str(int(splitted[0]) - 1)].append(splitted[3])
+#             if splitted[0] == "Similar":
+#                 splitted = each_cluster.split()
+#                 splitted_2 = each_cluster.split(":")
+#                 dict_cluster[str(int(splitted_2[1].split()[0]) - 1)
+#                 ].append(splitted[6])
+#     print("dict_cluster size: ", len(dict_cluster))
+#     return dict_cluster
+
 def prepare_cluster(fileDir, p_clusters):
     # prepare a dictionary for clusters, the keys are cluster numbers, items are sample names.
     # cluster index collection.
     # cluster order list
-    filename = os.path.join(fileDir, p_clusters)
-    filename = os.path.abspath(os.path.realpath(filename))
-    output_file_open = open(filename, "r")
-    cluster_summary = output_file_open.readlines()
-    dict_cluster = collections.defaultdict(list)  # key: starting from 0
+    if type(p_clusters) == list:#multi_species, & multi-output.
+        dict_cluster=[]#D: number of speceis
+        for each_cluster in p_clusters:
+            filename = os.path.join(fileDir, each_cluster)
+            filename = os.path.abspath(os.path.realpath(filename))
+            output_file_open = open(filename, "r")
+            cluster_summary = output_file_open.readlines()
+            # starting..........................................................
+            dict_cluster_sub = collections.defaultdict(list)  # key: starting from 0
 
-    for each_cluster in cluster_summary:
-        splitted = each_cluster.split()
-        if splitted != []:
-            if splitted[0].isdigit():
-                dict_cluster[str(int(splitted[0]) - 1)].append(splitted[3])
-            if splitted[0] == "Similar":
+            for each_cluster in cluster_summary:
                 splitted = each_cluster.split()
-                splitted_2 = each_cluster.split(":")
-                dict_cluster[str(int(splitted_2[1].split()[0]) - 1)
-                ].append(splitted[6])
-    # print("dict_cluster: ", dict_cluster)
+                if splitted != []:
+                    if splitted[0].isdigit():
+                        dict_cluster_sub[str(int(splitted[0]) - 1)].append(splitted[3])
+                    if splitted[0] == "Similar":
+                        splitted = each_cluster.split()
+                        splitted_2 = each_cluster.split(":")
+                        dict_cluster_sub[str(int(splitted_2[1].split()[0]) - 1)
+                        ].append(splitted[6])
+                    # if splitted[1]=='Indexing':#meaning starting next species ina multi-species setting.
+            dict_cluster.append(dict_cluster_sub)
+            # count=dict_cluster_sub.keys()[-1]+1
+            # # count+=1
+
+
+
+    else:
+        filename = os.path.join(fileDir, p_clusters)
+        filename = os.path.abspath(os.path.realpath(filename))
+        output_file_open = open(filename, "r")
+        cluster_summary = output_file_open.readlines()
+
+
+        # starting..........................................................
+        dict_cluster = collections.defaultdict(list)  # key: starting from 0
+
+        for each_cluster in cluster_summary:
+            splitted = each_cluster.split()
+            if splitted != []:
+                if splitted[0].isdigit():
+                    dict_cluster[str(int(splitted[0]) - 1)].append(splitted[3])
+                if splitted[0] == "Similar":
+                    splitted = each_cluster.split()
+                    splitted_2 = each_cluster.split(":")
+                    dict_cluster[str(int(splitted_2[1].split()[0]) - 1)
+                    ].append(splitted[6])
+    print("dict_cluster size: ", len(dict_cluster))
     return dict_cluster
+
 def prepare_sample_name(fileDir, p_names):
     # sample name list
 
@@ -253,33 +299,71 @@ def prepare_sample_name(fileDir, p_names):
     return names
 
 def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
-
+    '''
+    :param p_names: list of sample names, in the same order of day_x, day_y.
+    :param p_clusters: kma cluster output, with a suffix of '_clustered_90.txt'.
+    :param f_version: "new": khu; original: Derya Aytan's work.
+    :return: folders_sample: Dimension: cv*(sample_n in each split(it varies)). Elements: index of sampels w.r.t. data_x, data_y
+            totals: sample number in each folder.
+    '''
     fileDir = os.path.dirname(os.path.realpath('__file__'))
     names=prepare_sample_name(fileDir, p_names)
 
     dict_cluster = prepare_cluster(fileDir, p_clusters)
-    if f_version=='original':
-        all_data_splits = cluster_split_old(dict_cluster, Random_State,cv)  # split cluster into cv Folds. len(all_data_splits)=5
-    else:
-        all_data_splits = cluster_split(dict_cluster, Random_State,cv)  # split cluster into cv Folds. len(all_data_splits)=5
+    if type(dict_cluster)==dict:
+        if f_version=='original':
+            all_data_splits = cluster_split_old(dict_cluster, Random_State,cv)  # split cluster into cv Folds. len(all_data_splits)=5
+        else:
+            all_data_splits = cluster_split(dict_cluster, Random_State,cv)  # split cluster into cv Folds. len(all_data_splits)=5
 
 
-    folders_sample = []  # collection of samples for each split
-    for out_cv in range(cv):
-        folders_sample_sub = []
-        iter_clusters = all_data_splits[out_cv]  # clusters included in that split
-        for cl_ID in iter_clusters:
-            for element in dict_cluster[cl_ID]:
-                folders_sample_sub.append(names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
-        folders_sample.append(folders_sample_sub)
+        folders_sample = []  # collection of samples for each split
+        for out_cv in range(cv):
+            folders_sample_sub = []
+            iter_clusters = all_data_splits[out_cv]  # clusters included in that split
+            for cl_ID in iter_clusters:
+                for element in dict_cluster[cl_ID]:
+                    folders_sample_sub.append(names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
+            folders_sample.append(folders_sample_sub)
 
-    totals = []
-    for folder_cluster in all_data_splits:  # 5.#cluster order
-        tem = []
-        for e in folder_cluster:
-            elements = dict_cluster[str(e)]
-            tem.append(len(elements))
-        totals.append(sum(tem))
+        totals = []
+        for folder_cluster in all_data_splits:  # 5.#cluster order
+            tem = []
+            for e in folder_cluster:
+                elements = dict_cluster[str(e)]
+                tem.append(len(elements))
+            totals.append(sum(tem))
+
+    elif type(dict_cluster)==list:#multi-species
+        folders_sample=[]#D:n_cv* sample numbers
+        totals=[]
+        for out_cv in range(cv):
+            folders_sample.append([])
+
+
+        for  dict_cluster_sub in dict_cluster:
+            if f_version == 'original':
+                all_data_splits = cluster_split_old(dict_cluster_sub, Random_State,
+                                                    cv)  # split cluster into cv Folds. len(all_data_splits)=5
+            else:
+                all_data_splits = cluster_split(dict_cluster_sub, Random_State,
+                                                cv)  # split cluster into cv Folds. len(all_data_splits)=5
+            # folders_sample_single_species=[]
+            for out_cv in range(cv):
+                # folders_sample_sub = []
+                iter_clusters = all_data_splits[out_cv]  # clusters included in that split
+                for cl_ID in iter_clusters:
+                    for element in dict_cluster_sub[cl_ID]:
+                        folders_sample[out_cv].append(
+                            names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
+            totals_sub = []
+            for folder_cluster in all_data_splits:  # 5.#cluster order
+                tem = []
+                for e in folder_cluster:
+                    elements = dict_cluster_sub[str(e)]
+                    tem.append(len(elements))
+                totals_sub.append(sum(tem))
+            totals.append(totals_sub)# in the order of species , the oder comes from list: p_cluster.
 
     return folders_sample,totals
 
