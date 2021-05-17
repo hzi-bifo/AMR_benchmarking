@@ -5,7 +5,7 @@
     - [Resulting species and antibiotics based on **strict** Quality Control](#strict)
     - [Resulting species and antibiotics based on **loose** Quality Control](#loose)
     - [Get IDs and phenotype for each species and antibiotic combination](#u)
-        - [Get the ID list with phenotypedirectly from txt files](#files)
+        - [Get the ID list with phenotype directly from txt files](#files)
         - [Load ID list and phenotype through a module](#getdata)
 - [Cross-validation folders preparing](#cv)
     - [KMA](#kma)
