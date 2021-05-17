@@ -91,7 +91,14 @@ With the column named 'resistant_phenotype': 'Resistant': 1, 'Susceptible': 0.
 **<a name="getdata"></a>(b). Load ID list and phenotype through a module**
 
 ```
-import Patric_data.load_data
+cd Patric_data
+python
+```
+
+```
+import amr_utility.load_data
+import numpy as np
+
 antibiotics,ID,Y=Patric_data.load_data.extract_info(s,balance,level)
 
 ```
