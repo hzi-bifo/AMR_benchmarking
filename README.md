@@ -4,8 +4,8 @@
     - [The procedures for data acquisition](#pro)
     - [Resulting species and antibiotics based on **strict** Quality Control](#strict)
     - [Resulting species and antibiotics based on **loose** Quality Control](#loose)
-    - [Get IDs for each species and antibiotic combination](#u)
-        - [Get the ID list directly from txt files](#files)
+    - [Get IDs and phenotype for each species and antibiotic combination](#u)
+        - [Get the ID list with phenotype directly from txt files](#files)
         - [Load ID list and phenotype through a module](#getdata)
 - [Cross-validation folders preparing](#cv)
     - [KMA](#kma)
@@ -91,7 +91,14 @@ With the column named 'resistant_phenotype': 'Resistant': 1, 'Susceptible': 0.
 **<a name="getdata"></a>(b). Load ID list and phenotype through a module**
 
 ```
-import Patric_data.load_data
+cd Patric_data
+python
+```
+
+```
+import amr_utility.load_data
+import numpy as np
+
 antibiotics,ID,Y=Patric_data.load_data.extract_info(s,balance,level)
 
 ```
