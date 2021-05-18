@@ -20,7 +20,7 @@ import argparse
 def get_file(species,strain_ID,tool):
     path_to_pointfinder = "/net/flashtest/scratch/khu/benchmarking/Results/Point_results_" + str(species.replace(" ", "_"))
     path_to_resfinder = "/net/flashtest/scratch/khu/benchmarking/Results/Res_results_" + str(species.replace(" ", "_"))
-    path_to_pr = "/net/flashtest/scratch/khu/benchmarking/Results/" + str(species.replace(" ", "_"))
+    path_to_pr = "/net/sgi/metagenomics/data/khu/benchmarking/resfinder_results/" + str(species.replace(" ", "_"))
     if tool == "point":
         point = open("%s/%s/pheno_table.txt" % (path_to_pointfinder, strain_ID), "r")
         file = point
@@ -88,19 +88,26 @@ def determination(species,antibiotics,level,tool):
                     end=position
 
 
+
             file = get_file(species, strain_ID, tool)
             # print(start,end)
-            temp_file = open("./temp/temp.txt", "w+")
+            temp_file = open("./temp/"+str(species.replace(" ", "_"))+"temp.txt", "w+")
 
             for position, line in enumerate(file):
                     #starting to record into dataframe
-                    if (position > start) & (position < end) :
-                        # print(position)
-                        # line=line.strip().split('\t')
-                        temp_file.write(line)
+                    try:
+                        if (position > start) & (position < end) :
+                            # print(position)
+                            # line=line.strip().split('\t')
+                            temp_file.write(line)
+                    except:
+                        if (position > start):
+                            # print(position)
+                            # line=line.strip().split('\t')
+                            temp_file.write(line)
 
             temp_file.close()
-            pheno_table =pd.read_csv("./temp/temp.txt", index_col=None, header=None,
+            pheno_table =pd.read_csv("./temp/"+str(species.replace(" ", "_"))+"temp.txt", index_col=None, header=None,
                                      names=['Antimicrobial', 'Class', 'WGS-predicted phenotype', 'Match', 'Genetic background'],
                                     sep="\t")
 
@@ -126,9 +133,9 @@ def determination(species,antibiotics,level,tool):
         ###confussion matrix
             tn, fp, fn, tp = confusion_matrix(y, y_pre).ravel()
 
-            print("sensitivity", float(tp) / (tp + fn))
+            print("sensitivity", float(tp) / (tp + fn))#recall
             print("specificity", float(tn) / (tn + fp))
-            report=classification_report(y, y_pre, labels=[0, 1], output_dict=True)
+            report=classification_report(y, y_pre, target_names=['Susceptible','Resistant'],output_dict=True)
             print(report)
 
             correct_results2 = []
@@ -141,14 +148,14 @@ def determination(species,antibiotics,level,tool):
 
             print("f1_score", f1_score(correct_results2, prediction_results2))
             df = pd.DataFrame(report).transpose()
-            df.to_csv('Results/summary/'+str(species.replace(" ", "_")) + '_' + str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.txt', sep="\t")
+            df.to_csv('Results/summary/'+ str(level)+'/'+str(species.replace(" ", "_")) + '_' + str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.txt', sep="\t")
         else:
             print("No information for antibiotic: ", anti)
 
 def make_visualization(species,antibiotics,level,tool,score):
     '''
     make final summary
-    :return:
+     recall of the positive class is also known as “sensitivity”; recall of the negative class is “specificity”.
     '''
     # path_to_pointfinder = "Results/Point_results" + str(species.replace(" ", "_")) + "/"
     # path_to_resfinder = "Results/Res_results_" + str(species.replace(" ", "_")) + "/"
@@ -172,7 +179,7 @@ def make_visualization(species,antibiotics,level,tool,score):
         except:
             pass
     final=final.astype(float).round(2)
-    final.to_csv('Results/summary/' + str(species.replace(" ", "_")) + '.csv', sep="\t")
+    final.to_csv('Results/summary/'+ str(level)+'/'+str(species.replace(" ", "_")) + '.csv', sep="\t")
 
 def extract_info(s,l,tool,visualize,score):
 
@@ -198,10 +205,10 @@ def extract_info(s,l,tool,visualize,score):
 
 if __name__== '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--l','--level',default=None, type=str, required=True,
+    parser.add_argument('--l','--level',default='loose', type=str,
                         help='Quality control: strict or loose')
 
-    parser.add_argument('--t', '--tool', default='Both', type=str, required=True,
+    parser.add_argument('--t', '--tool', default='Both', type=str,
                         help='res, point, both')
     parser.add_argument('--s','--species', default=[], type=str,nargs='+',help='species to run: e.g.\'seudomonas aeruginosa\' \
      \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
