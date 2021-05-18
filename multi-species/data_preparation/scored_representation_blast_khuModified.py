@@ -7,6 +7,7 @@ import os
 import collections
 import re
 from Bio.SubsMat import MatrixInfo
+import zipfile
 # if not sys.warnoptions:
 #     warnings.simplefilter("ignore")
 
@@ -54,11 +55,14 @@ def extract_info(input_path,file,out_path,mutcol):
 	all_aa = []
 
 	for item in list_point:
-		if "PointFinder_results.txt" in os.listdir("%s/%s/" % (input_path, item)):
-			data_tsv = open("%s/%s/PointFinder_results.txt" % (input_path, item), "r")
+		# if "PointFinder_results.txt" in os.listdir("%s/%s/" % (input_path, item)): #for not zipped res results
+		with zipfile.ZipFile("%s/%s.zip" % (input_path, item)) as z:
+			# data_tsv = open("%s/%s/PointFinder_results.txt" % (input_path, item), "r")#for not zipped res results
+			data_tsv = z.open("%s/PointFinder_results.txt" % item, "r")
 			tsv = data_tsv.readlines()
 			temp_dict = collections.defaultdict(list)
 			for each in tsv[1:]:
+					each= each.decode("utf-8")#only needed if the res results are zipped.
 					each = each.replace(" promotor", "")
 					each = each.replace(" promoter", "")
 					
@@ -208,8 +212,9 @@ def extract_info(input_path,file,out_path,mutcol):
 								elif (mutation.upper(), wild.upper()) in nucleotide:
 									score = nucleotide[(str(mutation).upper(), str(wild).upper())]
 								else:
-									print("nucleotide")
-									print(mutation, wild)
+									# print("nucleotide")
+									# print(mutation, wild)
+									pass
 							else:					
 								score = -5
 						elif each[-1] == "r":
@@ -221,8 +226,9 @@ def extract_info(input_path,file,out_path,mutcol):
 								elif (mutation.upper(), wild.upper()) in nucleotide:
 									score = nucleotide[(str(mutation).upper(), str(wild).upper())]
 								else:
-									print("RNA")
-									print(mutation, wild)
+									# print("RNA")
+									# print(mutation, wild)
+									pass
 							else:
 								score = -5
 

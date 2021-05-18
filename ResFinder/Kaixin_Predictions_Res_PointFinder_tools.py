@@ -8,58 +8,35 @@ from subprocess import PIPE, run
 import pandas as pd
 import numpy as np
 import ast
-from os import walk
-from itertools import repeat
-from collections import defaultdict
 from sklearn.metrics import matthews_corrcoef
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn.metrics import f1_score
 import argparse
+import zipfile
 
-def get_file(species,strain_ID,tool):
-    path_to_pointfinder = "/net/flashtest/scratch/khu/benchmarking/Results/Point_results_" + str(species.replace(" ", "_"))
-    path_to_resfinder = "/net/flashtest/scratch/khu/benchmarking/Results/Res_results_" + str(species.replace(" ", "_"))
-    path_to_pr = "/net/sgi/metagenomics/data/khu/benchmarking/resfinder_results/" + str(species.replace(" ", "_"))
-    if tool == "point":
-        point = open("%s/%s/pheno_table.txt" % (path_to_pointfinder, strain_ID), "r")
-        file = point
-    elif tool == "res":
-        res = open("%s/%s/pheno_table.txt" % (path_to_resfinder, strain_ID), "r")
-        file = res
-    else:
-        both = open("%s/%s/pheno_table.txt" % (path_to_pr, strain_ID), "r")
-        file = both
-        # only applied for debug, check and run ResFinder
-        # check the file exsistence
-        # _, _, f_check = next(walk("%s/%s/pheno_table.txt" % (path_to_pr, strain_ID)))
-        # if "pheno_table.txt" in f_check:
-        #
-        #     both = open("%s/%s/pheno_table.txt" % (path_to_pr, strain_ID), "r")
-        #     file = both
-        # else:
-        #     path_data = "/net/projects/BIFO/patric_genome/"
-        #     run_Res(path_data, strain_ID, species)
-        #     both = open("%s/%s/pheno_table.txt" % (path_to_pr, strain_ID), "r")
-        #     file = both
-    return file
-def determination(species,antibiotics,level,tool):
-    logDir ="./temp/"
+def make_dir(name):
+    logDir = os.path.join(name)
     if not os.path.exists(logDir):
         try:
             os.makedirs(logDir)
         except OSError:
             print("Can't create logging directory:", logDir)
+
+
+def determination(species,antibiotics,level,tool):
+
+    path_to_pr = "/net/sgi/metagenomics/data/khu/benchmarking/resfinder_results/" + str(
+        species.replace(" ", "_"))
+    logDir ="./temp/"
+    make_dir(logDir)
     print(species)
     antibiotics_selected = ast.literal_eval(antibiotics)
     print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
-
+    mcc_all=[]
     for anti in antibiotics_selected:
         print(anti,'--------------------------------------------------------------------')
 
-
-    # for anti in ['aztreonam']:
-        # save_name_meta, save_name_modelID = amr_utility.name_utility.save_name_modelID(level, species, anti)
         save_name_modelID = 'metadata/model/' + str(level) + '/Data_' + str(species.replace(" ", "_")) + '_' + str(
             anti.translate(str.maketrans({'/': '_', ' ': '_'})))
 
@@ -72,29 +49,20 @@ def determination(species,antibiotics,level,tool):
 
         for strain_ID in samples:
 
-            # lines_start_read = 16
-
-
             # Read prediction info---------------------------------------------------------------------------
-            file = get_file(species, strain_ID, tool)
-
-            for position, line in enumerate(file):
-
-
-                if "# Antimicrobial	Class" in line:
-                    start=position
-
-                if "# WARNING:" in line:
-                    end=position
-
-
-
-            file = get_file(species, strain_ID, tool)
-            # print(start,end)
+            # file = get_file(species, strain_ID, tool)
             temp_file = open("./temp/"+str(species.replace(" ", "_"))+"temp.txt", "w+")
 
-            for position, line in enumerate(file):
-                    #starting to record into dataframe
+            with zipfile.ZipFile("%s/%s.zip" % (path_to_pr, strain_ID)) as z:
+                file = z.open("%s/pheno_table.txt" % strain_ID, "r")
+                for position, line in enumerate(file):
+                    line.decode('utf-8')
+                    if "# Antimicrobial	Class" in line:
+                        start = position
+
+                    if "# WARNING:" in line:
+                        end = position
+
                     try:
                         if (position > start) & (position < end) :
                             # print(position)
@@ -126,59 +94,59 @@ def determination(species,antibiotics,level,tool):
         if len(y_pre)>0:
             print('y_pre',len(y_pre))
             y = data_sub_anti['resistant_phenotype'].to_numpy()
+            mcc=matthews_corrcoef(y, y_pre)
             print('y',len(y))
-            print("mcc results")
-            print(matthews_corrcoef(y, y_pre))
-
-        ###confussion matrix
-            tn, fp, fn, tp = confusion_matrix(y, y_pre).ravel()
-
-            print("sensitivity", float(tp) / (tp + fn))#recall
-            print("specificity", float(tn) / (tn + fp))
-            report=classification_report(y, y_pre, target_names=['Susceptible','Resistant'],output_dict=True)
+            print("mcc results",mcc)
+            report=classification_report(y, y_pre, labels=[0, 1],output_dict=True)
             print(report)
-
-            correct_results2 = []
-            for each in y:
-                correct_results2.append(int(each))
-
-            prediction_results2 = []
-            for each in y_pre:
-                prediction_results2.append(int(each))
-
-            print("f1_score", f1_score(correct_results2, prediction_results2))
             df = pd.DataFrame(report).transpose()
             df.to_csv('Results/summary/'+ str(level)+'/'+str(species.replace(" ", "_")) + '_' + str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.txt', sep="\t")
+            mcc_all.append(mcc)
         else:
+            mcc_all.append(None)
             print("No information for antibiotic: ", anti)
+
+        return mcc_all
 
 def make_visualization(species,antibiotics,level,tool,score):
     '''
     make final summary
-     recall of the positive class is also known as “sensitivity”; recall of the negative class is “specificity”.
+    recall of the positive class is also known as “sensitivity”; recall of the negative class is “specificity”.
     '''
     # path_to_pointfinder = "Results/Point_results" + str(species.replace(" ", "_")) + "/"
     # path_to_resfinder = "Results/Res_results_" + str(species.replace(" ", "_")) + "/"
     # path_to_pr = "Results/" + str(species.replace(" ", "_")) + "/"
     print(species)
     antibiotics_selected = ast.literal_eval(antibiotics)
-
     print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
-    final=pd.DataFrame(index=antibiotics_selected, columns=['f1-score','precision', 'recall','accuracy'] )
+
+
+    mcc_all=determination(species,antibiotics,level,tool)
+    final=pd.DataFrame(index=antibiotics_selected, columns=['f1_macro','precision', 'recall','accuracy','mcc','f1_positive',
+                                                            'precision_positive','recall_positive','mcc','support','support_positive'] )
     print(final)
+    i=0
     for anti in antibiotics_selected:
         print(anti, '--------------------------------------------------------------------')
         try:
-            data = pd.read_csv('Results/summary/'+str(species.replace(" ", "_")) + '_' + str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.txt', sep="\t")
+            data = pd.read_csv('Results/summary/'+str(species.replace(" ", "_")) + '_' +
+                               str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.txt', sep="\t")
             print(data)
-            final.loc[str(anti),'f1-score']=data.iloc[3,3]
-            final.loc[str(anti),'precision'] = data.iloc[3, 1]
-            final.loc[str(anti),'recall'] = data.iloc[3, 2]
-            final.loc[str(anti),'accuracy'] = data.iloc[2, 2]
-            print(final)
+            final.loc[str(anti),'f1_macro']=data.loc['macro avg','f1-score']
+            final.loc[str(anti),'precision'] = data.loc['macro avg','precision']
+            final.loc[str(anti),'recall'] = data.loc['macro avg','recall']
+            final.loc[str(anti),'accuracy'] = data.loc['accuracy', 'f1-score']
+            final.loc[str(anti), 'support'] = data.loc['macro avg','support']
+            final.loc[str(anti), 'f1_positive'] = data.loc['1', 'f1-score']
+            final.loc[str(anti), 'precision_positive'] = data.loc['1', 'precision']
+            final.loc[str(anti), 'recall_positive'] = data.loc['1', 'recall']
+            final.loc[str(anti), 'support_positive'] = data.loc['1', 'support']
+            final.loc[str(anti), 'mcc'] = mcc_all[i]
         except:
             pass
+        i+=1
     final=final.astype(float).round(2)
+    print(final)
     final.to_csv('Results/summary/'+ str(level)+'/'+str(species.replace(" ", "_")) + '.csv', sep="\t")
 
 def extract_info(s,l,tool,visualize,score):
@@ -193,12 +161,12 @@ def extract_info(s,l,tool,visualize,score):
     df_species = data.index.tolist()
     antibiotics = data['modelling antibiotics'].tolist()
     print(data)
-    if visualize == False:
-        for df_species,antibiotics in zip(df_species, antibiotics):
-            determination(df_species,antibiotics,l,tool)
-    else:
-        for df_species,antibiotics in zip(df_species, antibiotics):
-            make_visualization(df_species,antibiotics,l,tool,score)
+    # if visualize == False:
+    #     for df_species,antibiotics in zip(df_species, antibiotics):
+    #         determination(df_species,antibiotics,l,tool)
+    # else:
+    for df_species,antibiotics in zip(df_species, antibiotics):
+        make_visualization(df_species,antibiotics,l,tool,score)
 
 
 

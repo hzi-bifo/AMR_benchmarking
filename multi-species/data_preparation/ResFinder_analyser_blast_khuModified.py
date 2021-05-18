@@ -4,6 +4,7 @@ import warnings
 import argparse
 import pandas as pd
 import numpy as np
+import zipfile
 # if not sys.warnoptions:
 #     warnings.simplefilter("ignore")
 
@@ -15,16 +16,19 @@ def extract_info(input_path,file,out_path):
 	# print(file_list)
 	for strain in file_list:
 		# print(strain)
-		aq_open = open("%s/%s/ResFinder_results_tab.txt" % (input_path, str(strain)), "r")
-		aq = aq_open.readlines()
-		for i in range(1,len(aq)):
-			output.write(str(strain))
-			output.write("\t")
-			output.write(aq[i].split("\t")[0])
-			output.write("\t")
-			output.write(str(float(aq[i].split("\t")[3])/100))
-			output.write("\n")
-		aq_open.close()
+		with zipfile.ZipFile("%s/%s.zip" % (input_path, strain)) as z:
+			aq_open = z.open("%s/ResFinder_results_tab.txt" % strain, "r")
+			# aq_open = open("%s/%s/ResFinder_results_tab.txt" % (input_path, str(strain)), "r")
+			aq = aq_open.readlines()
+
+			for i in range(1,len(aq)):
+				output.write(str(strain))
+				output.write("\t")
+				output.write(aq[i].decode("utf-8").split("\t")[0])#delete ".decode("utf-8")" if results not zipped.
+				output.write("\t")
+				output.write(str(float(aq[i].decode("utf-8").split("\t")[3])/100))#delete ".decode("utf-8")" if results not zipped.
+				output.write("\n")
+			aq_open.close()
 
 	output.close()
 
