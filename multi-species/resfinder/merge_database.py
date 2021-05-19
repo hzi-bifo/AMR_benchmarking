@@ -51,6 +51,9 @@ def main():
     open(path_gene_summary, "w")
     open(path_RNAgene_summary, "w")
     open(resistens_file_summary, "w")
+    #copy a resistens-overview.txt from a random species
+    cmd0 = 'cp ./db_pointfinder/escherichia_coli/resistens-overview.txt %s' % (path_merge)
+    subprocess.run(cmd0, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
 
     for species in out_lst:
         #get al the genes in the species file, plus one or two summary txt files.
@@ -64,16 +67,25 @@ def main():
         print(path_gene)
         print(file_names)
         for item in file_names:
-           if "txt" not in item:
+           if ".fsa" in item:
                 list_genes.append(item)
 
         print(species,'**',list_genes)
 
         for gene_file in list_genes:
-            gene_name=gene_file.split('.')[0]
+
+            print(gene_file)
+            gene_name = gene_file.split('.')[0]
             cmd='cp %s/%s %s/%s_%s.fsa'%(path_gene,gene_file,path_merge,gene_name,species)
             subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,check=True)
+            # modify the header in each fsa file
+            with open(('%s/%s_%s.fsa') %(path_merge,gene_name,species))as f:
+                lines = f.readlines()
 
+            lines[0] = ">%s_%s\n"%(gene_name,species)
+
+            with open(('%s/%s_%s.fsa') %(path_merge,gene_name,species), "w") as f:
+                f.writelines(lines)
         #summerize gene.txt
 
         if 'genes.txt' in file_names:
@@ -85,7 +97,7 @@ def main():
                         outfile.write(line_new + "_" + species)
                         outfile.write("\n")
 
-        #summerize RNA_genes.txt
+        # summerize RNA_genes.txt
         if 'RNA_genes.txt' in file_names:
             with open(path_RNAgene_summary, 'a') as outfile:
                 with open(path_RNAgene_summary_sub) as infile:
@@ -94,6 +106,7 @@ def main():
                         line_new=line.split('\n')[0]
                         outfile.write(line_new+"_"+species)
                         outfile.write("\n")
+
 
 
 

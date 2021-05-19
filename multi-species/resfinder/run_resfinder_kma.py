@@ -535,6 +535,10 @@ if args.point is True and args.species:
         results_pnt = finder.find_best_seqs(results, min_cov)
     else:
         results_pnt = results[finder.species]
+        # print(finder.species)
+        # print('results_pnt',results_pnt)
+        # print(results)
+        # exit()
         if(results_pnt == "No hit found"):
             results_pnt = {}
         else:
