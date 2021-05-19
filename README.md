@@ -269,9 +269,7 @@ https://github.com/Bjarten/early-stopping-pytorch/blob/master/pytorchtools.py
 
 2. Index the newly merged database
 
+Add "merge_species" to the config file under /db_pointfinder, and then index the database with kma_indexing:
 ```
-cd path/to/db_pointfinder
-/vol/projects/khu/amr/benchmarking/resfinder/cge/kma/kma_index -i  ./merge_species/*.fsa -o ./merge_species/merge_species
+python3 INSTALL.py non_interactive
 ```
-
-
