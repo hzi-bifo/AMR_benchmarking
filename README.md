@@ -14,6 +14,9 @@
 - [Multi-species](#m)
    - [Prerequirements](#Prerequirements)
    - [References](#References) 
+   - [Single-species model](#single)
+   - [Discrete multi-species model](#dis)
+   - [Concatenated multi-species model](#con)
 
 ## <a name="data"></a>Patric data set
 ### <a name="pro"></a>**1. The procedures for data acquisition:**
@@ -253,5 +256,22 @@ https://bitbucket.org/deaytan/data_preparation
 https://bitbucket.org/deaytan/neural_networks/src/master/
 
 https://github.com/Bjarten/early-stopping-pytorch/blob/master/pytorchtools.py
+
+### <a name="single"></a>Single-species model
+
+
+### <a name="dis"></a>Discrete multi-species model
+
+
+### <a name="con"></a>Concatenated multi-species model
+1. Merge reference sequences of all the species in db_pointfinder
+
+
+2. Index the newly merged database
+
+```
+cd path/to/db_pointfinder
+/vol/projects/khu/amr/benchmarking/resfinder/cge/kma/kma_index -i  ./merge_species/*.fsa -o ./merge_species/merge_species
+```
 
 
