@@ -1,9 +1,0 @@
-resistant_phenotype	genome_id
-Resistant	1345
-Susceptible	2017
-resistant_phenotype	genome_id
-Resistant	1345
-Susceptible	2017
-resistant_phenotype	genome_id
-Resistant	1345
-Susceptible	2017

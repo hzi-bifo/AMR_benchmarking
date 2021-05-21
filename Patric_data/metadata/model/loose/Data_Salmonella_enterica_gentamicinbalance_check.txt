@@ -1,9 +1,0 @@
-resistant_phenotype	genome_id
-Resistant	170
-Susceptible	255
-resistant_phenotype	genome_id
-Resistant	170
-Susceptible	255
-resistant_phenotype	genome_id
-Resistant	170
-Susceptible	255

@@ -1,9 +1,0 @@
-resistant_phenotype	genome_id
-Resistant	380
-Susceptible	570
-resistant_phenotype	genome_id
-Resistant	380
-Susceptible	570
-resistant_phenotype	genome_id
-Resistant	380
-Susceptible	570

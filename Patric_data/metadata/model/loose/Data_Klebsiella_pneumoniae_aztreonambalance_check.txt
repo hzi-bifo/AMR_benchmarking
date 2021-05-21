@@ -1,6 +1,0 @@
-resistant_phenotype	genome_id
-Resistant	196
-Susceptible	131
-resistant_phenotype	genome_id
-Resistant	196
-Susceptible	131

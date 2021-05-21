@@ -1,9 +1,0 @@
-resistant_phenotype	genome_id
-Resistant	150
-Susceptible	225
-resistant_phenotype	genome_id
-Resistant	150
-Susceptible	225
-resistant_phenotype	genome_id
-Resistant	150
-Susceptible	225

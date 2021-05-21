@@ -1,9 +1,0 @@
-resistant_phenotype	genome_id
-Resistant	202
-Susceptible	303
-resistant_phenotype	genome_id
-Resistant	202
-Susceptible	303
-resistant_phenotype	genome_id
-Resistant	202
-Susceptible	303

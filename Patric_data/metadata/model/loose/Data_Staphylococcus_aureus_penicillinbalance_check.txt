@@ -1,6 +1,0 @@
-resistant_phenotype	genome_id
-Resistant	237
-Susceptible	158
-resistant_phenotype	genome_id
-Resistant	237
-Susceptible	158

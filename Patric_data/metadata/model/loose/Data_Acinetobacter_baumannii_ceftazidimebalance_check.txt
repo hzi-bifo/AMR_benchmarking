@@ -1,6 +1,0 @@
-resistant_phenotype	genome_id
-Resistant	160
-Susceptible	107
-resistant_phenotype	genome_id
-Resistant	160
-Susceptible	107

@@ -1,6 +1,0 @@
-resistant_phenotype	genome_id
-Resistant	549
-Susceptible	366
-resistant_phenotype	genome_id
-Resistant	549
-Susceptible	366

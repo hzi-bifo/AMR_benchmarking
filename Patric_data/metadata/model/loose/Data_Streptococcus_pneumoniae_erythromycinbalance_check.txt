@@ -1,9 +1,0 @@
-resistant_phenotype	genome_id
-Resistant	766
-Susceptible	1149
-resistant_phenotype	genome_id
-Resistant	766
-Susceptible	1149
-resistant_phenotype	genome_id
-Resistant	766
-Susceptible	1149

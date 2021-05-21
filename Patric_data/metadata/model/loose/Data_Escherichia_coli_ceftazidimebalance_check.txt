@@ -1,9 +1,0 @@
-resistant_phenotype	genome_id
-Resistant	194
-Susceptible	291
-resistant_phenotype	genome_id
-Resistant	194
-Susceptible	291
-resistant_phenotype	genome_id
-Resistant	194
-Susceptible	291

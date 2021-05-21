@@ -1,9 +1,0 @@
-resistant_phenotype	genome_id
-Resistant	259
-Susceptible	388
-resistant_phenotype	genome_id
-Resistant	259
-Susceptible	388
-resistant_phenotype	genome_id
-Resistant	259
-Susceptible	388
