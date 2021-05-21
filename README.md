@@ -59,6 +59,8 @@ Strain number w.r.t. each species before and after Quality control:
 
 - Retain strains with phenotype either R(resistant) or S(susceptible), i.e. strains with only I(intermediate)or none phenotype are excluded.
 
+- Delete strains with a conflict phenotype to an antibiotics.
+
 - Retain the species with at least 100 strains w.r.t.  each antibiotic’s each R and S phenotype classrespectively. 
 
 
@@ -269,9 +271,7 @@ https://github.com/Bjarten/early-stopping-pytorch/blob/master/pytorchtools.py
 
 2. Index the newly merged database
 
+Add "merge_species" to the config file under /db_pointfinder, and then index the database with kma_indexing:
 ```
-cd path/to/db_pointfinder
-/vol/projects/khu/amr/benchmarking/resfinder/cge/kma/kma_index -i  ./merge_species/*.fsa -o ./merge_species/merge_species
+python3 INSTALL.py non_interactive
 ```
-
-
