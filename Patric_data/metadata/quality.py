@@ -7,6 +7,7 @@ import pandas as pd
 import amr_utility.name_utility
 import amr_utility.graph_utility
 import seaborn as sns
+import argparse
 
 
 def download_quality():
@@ -66,7 +67,7 @@ def extract_id_quality(level):
     number_FineQuality=[]
     for species in info_species:
     #for species in ['Pseudomonas aeruginosa']:
-        save_all_quality,save_quality=amr_utility.name_utility.save_quality(species,level)
+        save_all_quality,save_quality=amr_utility.name_utility.GETsave_quality(species,level)
         df=pd.read_csv(save_all_quality,dtype={'genome.genome_id': object, 'genome.genome_name': object}, sep="\t")
         number_All.append(df.shape[0])
         #with pd.option_context('display.max_rows', 5, 'display.max_columns', None):
@@ -107,7 +108,7 @@ def extract_id_quality_analysis(check_dif,check_all,plot_contig):
     #for species in ['Pseudomonas aeruginosa']:
     for species in info_species:
 
-        save_all_quality,save_quality = amr_utility.name_utility.save_quality(species, level)
+        save_all_quality,save_quality = amr_utility.name_utility.GETsave_quality(species, level)
         df = pd.read_csv(save_all_quality, dtype={'genome.genome_id': object, 'genome.genome_name': object,'genome.contigs': int}, sep="\t")
         number_All.append(df.shape[0])
         #1.
@@ -230,7 +231,7 @@ def filter_quality(level,f_balance):
     #print(Species_quality)
     #for species in ['Pseudomonas aeruginosa']:
     for species in info_species:
-        save_all_quality,save_quality=amr_utility.name_utility.save_quality(species,level)
+        save_all_quality,save_quality=amr_utility.name_utility.GETsave_quality(species,level)
         data_sub = data[data['species'] == species]
         #with pd.option_context('display.max_columns', None):
             #print(data_sub)
@@ -257,7 +258,7 @@ def filter_quality(level,f_balance):
         print('============= Select_antibiotic:', len(select_antibiotic), select_antibiotic)
         select_antibiotic_fianl= select_antibiotic.copy()
         for anti in select_antibiotic:
-            save_name_meta,save_name_modelID=amr_utility.name_utility.save_name_modelID(level,species,anti,True)
+            save_name_meta,save_name_modelID=amr_utility.name_utility.GETsave_name_modelID(level,species,anti,True)
             # for anti in ['mupirocin', 'penicillin', 'rifampin', 'tetracycline', 'vancomycin']:
             # logDir = os.path.join('log/log_' + str(species.replace(" ", "_"))+'_'+str(anti))
 
@@ -267,6 +268,15 @@ def filter_quality(level,f_balance):
             print(species, '=============>>', anti)
             #print(data_sub_anti)
             data_sub_anti=data_sub_anti.drop_duplicates()
+            #Drop the all rows with the same 'genome_id' but different 'resistant_phenotype!!! May 21st.
+            #
+            df_bad=data_sub_anti[data_sub_anti.duplicated(['genome_id'])]#all rows with the same 'genome_id' but different 'resistant_phenotype
+            #drop
+            bad=df_bad['genome_id'].to_list()
+            if bad != []:
+                print(bad)
+                data_sub_anti = data_sub_anti[~data_sub_anti['genome_id'].isin(bad)]
+            #----------------------------------------------------------------
 
             pheno = {'Resistant': 1, 'Susceptible': 0, 'S': 0, 'Non-susceptible': 1, 'RS': 1}
             data_sub_anti.resistant_phenotype = [pheno[item] for item in data_sub_anti.resistant_phenotype]
@@ -282,8 +292,16 @@ def filter_quality(level,f_balance):
                     print('not selected')
                     print(balance_check)
                 else:#final selected
-
-                    data_sub_anti.to_csv(save_name_modelID + '.txt', sep="\t")
+                    # save the ID for each species and each antibiotic
+                    data_sub_anti.to_csv(save_name_modelID + '.txt', sep="\t") #dataframe with metadata
+                    # fna location list
+                    # data_sub_anti['genome_id_location'] = '/net/projects/BIFO/patric_genome/'+ data_sub_anti['genome_id'].astype(str)+'.fna'
+                    # data_sub_anti['genome_id_location'].to_csv(save_name_modelID+'_path', sep="\t",index=False,header=False)
+                    data_sub_anti.to_csv(save_name_modelID+'resfinder', sep="\t", index=False, header=False)#for the use of resfinder cluster
+                    #For Ehsan generating CV splits
+            #         data_sub_anti.to_csv('model/TO_Ehsan/'+str(level)+'/Data_' + str(species.replace(" ", "_")) + '_' + str(
+            # anti.translate(str.maketrans({'/': '_', ' ': '_'}))), sep="\t", index=False, header=False)
+                    data_sub_anti['genome_id'].to_csv(save_name_modelID, sep="\t", index=False, header=False)
                     if (f_balance== True) and (balance_ratio > 2 or balance_ratio < 0.5):# #final selected, need to downsample.
                         # if not balance, downsampling
                         print('Downsampling starts.....balance_ratio=', balance_ratio)
@@ -303,17 +321,29 @@ def filter_quality(level,f_balance):
                         print('balanced dataset.', balance_check)
             else:
                 select_antibiotic_fianl.remove(anti)
+
+
+
         Species_quality.at[species,'modelling antibiotics']= select_antibiotic_fianl
         Species_quality.at[species, 'number'] =len(select_antibiotic_fianl)
 
-    print(Species_quality)
+    print(Species_quality)#visualization of selected species.
     Species_quality.to_csv(str(level)+'_Species_antibiotic_FineQuality.csv', sep="\t")
-
+    return
 
 
 if __name__ == '__main__':
+    # parser = argparse.ArgumentParser()
+    # parser.add_argument('--k', '--Kmer', default=8, type=int, required=True,
+    #                     help='Kmer size')
+    # parser.add_argument('-p', '--pca', dest='pca',
+    #                     help='Use pca', action='store_true', )
+    #
+
+
+
     # download_quality()
-    level='strict'# quality control level:'strict','loose'.
+    level='loose'# quality control level:'strict','loose'.
     f_balance=False
     # extract_id_quality(level) #downloaded quality meta data, saved at the subdirectory quality.
     filter_quality(level,f_balance)
