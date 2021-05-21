@@ -59,6 +59,8 @@ Strain number w.r.t. each species before and after Quality control:
 
 - Retain strains with phenotype either R(resistant) or S(susceptible), i.e. strains with only I(intermediate)or none phenotype are excluded.
 
+- Delete strains with a conflict phenotype to an antibiotics.
+
 - Retain the species with at least 100 strains w.r.t.  each antibiotic’s each R and S phenotype classrespectively. 
 
 
