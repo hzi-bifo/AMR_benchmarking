@@ -21,21 +21,24 @@ import matplotlib.pyplot as plt
 
 
 
-def make_visualization_pos(species,antibiotics,level,f_fixed_threshold,epochs,learning,f_optimize_score,f_nn_base):
+def make_visualization_pos(summary_all,species,antibiotics,level,f_fixed_threshold,epochs,learning,f_optimize_score,f_nn_base):
 
-    print(species)
-    # antibiotics_selected = ast.literal_eval(antibiotics)
-    print('====> Select_antibiotic:', len(antibiotics), antibiotics)
+    # print(species)
+    # # antibiotics_selected = ast.literal_eval(antibiotics)
+    # print('====> Select_antibiotic:', len(antibiotics), antibiotics)
     final=pd.DataFrame(index=antibiotics, columns=['weighted-f1_macro', 'weighted-precision_macro', 'weighted-recall_macro', 'weighted-accuracy_macro',
                                                    'weighted-mcc','weighted-f1_positive', 'weighted-precision_positive','weighted-recall_positive','weighted-threshold','support','support_positive'] )
-    print(final)
+    # print(final)
+    count=0
     for anti in antibiotics:
         save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(species, anti,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score)
 
-        print(anti, '--------------------------------------------------------------------')
+        # print(anti, '--------------------------------------------------------------------')
 
-        data = pd.read_csv(save_name_score+'_score.txt', sep="\t",index_col=0, header=0)
+        # data = pd.read_csv(save_name_score+'_score.txt', sep="\t",index_col=0, header=0)
         # print(data)
+        data=summary_all[count]
+        count+=1
         data=data.loc[['weighted-mean','weighted-std'],:]
         # print(data)
         data = data.astype(float).round(2)
@@ -47,11 +50,12 @@ def make_visualization_pos(species,antibiotics,level,f_fixed_threshold,epochs,le
 
         final.loc[anti,:]=m.str.cat(n, sep='±').values
 
-        print(final)
+    print(final)
 
-    save_name_score_final=amr_utility.name_utility.GETname_multi_bench_save_name_final(species, level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score)
+    #None means not multi-species results.
+    save_name_score_final=amr_utility.name_utility.GETname_multi_bench_save_name_final(species,None,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score)
     # final=final.astype(float).round(2)
-    final.to_csv('log/results/'+save_name_score_final+'_score_final.txt', sep="\t")
+    final.to_csv(save_name_score_final+'_score_final.txt', sep="\t")
 
 
 
@@ -63,12 +67,8 @@ def weithgted_var(values,average,weights):
 
 #Re-design it accorind to Eshan.
 #when positive related prediction results are more interesting.
-def score_summary_pos(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
+def score_summary_pos(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
 
-    summary = pd.DataFrame(index=['mean','std','weighted-mean','weighted-std'], columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
-                                                          'mcc','f1_positive', 'precision_positive', 'recall_positive', 'threshold','support','support_positive'])
-
-    #
     f1=[]
     precision=[]
     recall=[]
@@ -79,12 +79,22 @@ def score_summary_pos(cv,score_report_test,aucs_test,mcc_test,save_name_score,th
     support_pos=[]
     support=[]
     f_noAccu = []
-    for i in np.arange(cv):
-        report=score_report_test[i]
-        report=pd.DataFrame(report).transpose()
-        print(report)
+    # print(count_anti)
+    if count_anti != None:#multi-species model.
+        mcc_test=np.array(mcc_test)
+        mcc_test=mcc_test[ : ,count_anti]
+        mcc_test=mcc_test.tolist()
 
-        print('--------')
+    for i in np.arange(cv):
+        if count_anti != None:
+            report=score_report_test[i][count_anti]#multi-species model.
+            # mcc_test_anti.append(mcc_test[i][count_anti])
+        else:
+            report = score_report_test[i]
+        report=pd.DataFrame(report).transpose()
+        # print(report)
+
+        # print('--------')
 
         if 'accuracy' not in report.index.to_list():# no resitance pheno in test folder
             accuracy.append('-')
@@ -102,6 +112,8 @@ def score_summary_pos(cv,score_report_test,aucs_test,mcc_test,save_name_score,th
         precision_pos.append(report.loc['1', 'precision'])
         recall_pos.append(report.loc['1', 'recall'])
         support_pos.append(report.loc['1', 'support'])
+
+
 
     if f_noAccu != []:
         #rm the iteration's results, where no resistance phenotype in the test folder.
@@ -156,7 +168,7 @@ def score_summary_pos(cv,score_report_test,aucs_test,mcc_test,save_name_score,th
     mcc_average = np.average(mcc_test, weights=support)
     thr_average = np.average(thresholds_selected_test, weights=support)
     accuracy_average = np.average(accuracy, weights=support)
-    print(summary)
+    # print(summary)
     summary.loc['weighted-mean', :] = [f1_average, precision_average, recall_average, accuracy_average,
                                        mcc_average,f1_pos_average, precision_pos_average,recall_pos_average, thr_average,
                                        statistics.mean(support),statistics.mean(support_pos)]
@@ -174,8 +186,9 @@ def score_summary_pos(cv,score_report_test,aucs_test,mcc_test,save_name_score,th
 
 
 
-    summary.to_csv('log/temp/'+save_name_score+'_score.txt', sep="\t")
-    print(summary)
+    # summary.to_csv(save_name_score+'_score.txt', sep="\t")
+    # print(summary)
+    return summary
 
 def make_visualization(species,antibiotics,level,f_fixed_threshold,epochs,learning,f_optimize_score,f_nn_base):
 
@@ -184,11 +197,11 @@ def make_visualization(species,antibiotics,level,f_fixed_threshold,epochs,learni
     print('====> Select_antibiotic:', len(antibiotics), antibiotics)
     final=pd.DataFrame(index=antibiotics, columns=['weighted-f1_macro', 'weighted-precision_macro', 'weighted-recall_macro', 'weighted-accuracy_macro',
                                                           'weighted-auc','weighted-mcc','weighted-threshold'] )
-    print(final)
+    # print(final)
     for anti in antibiotics:
-        save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(species, anti,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score)
+        save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(species,anti,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score)
 
-        print(anti, '--------------------------------------------------------------------')
+        # print(anti, '--------------------------------------------------------------------')
 
         data = pd.read_csv(save_name_score+'_score.txt', sep="\t",index_col=0, header=0)
         # print(data)
@@ -203,16 +216,15 @@ def make_visualization(species,antibiotics,level,f_fixed_threshold,epochs,learni
 
         final.loc[anti,:]=m.str.cat(n, sep='±').values
 
-        print(final)
-
-    save_name_score_final=amr_utility.name_utility.GETname_multi_bench_save_name_final(species, level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score)
+    print(final)
+    # None means not multi-species results.
+    save_name_score_final=amr_utility.name_utility.GETname_multi_bench_save_name_final(species,None, level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score)
     # final=final.astype(float).round(2)
-    final.to_csv('log/results/'+save_name_score_final+'_score_final.txt', sep="\t")
+    final.to_csv(save_name_score_final+'_score_final.txt', sep="\t")
 
-def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
+def score_summary(summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
 
-    summary = pd.DataFrame(index=['mean','std','weighted-mean','weighted-std'], columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
-                                                          'auc','mcc','threshold'])
+
 
     #
     f1=[]
@@ -285,43 +297,190 @@ def score_summary(cv,score_report_test,aucs_test,mcc_test,save_name_score,thresh
 
 
 
-    summary.to_csv('log/temp/'+save_name_score+'_score.txt', sep="\t")
+    summary.to_csv(save_name_score+'_score.txt', sep="\t")
     print(summary)
 
+def multi_make_visualization_pos(merge_name,All_antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score,
+                             f_nn_base,cv,score_report_test, aucs_test, mcc_test, thresholds_selected_test,save_name_score,save_name_score_final):
+
+    final = pd.DataFrame(index=All_antibiotics,
+                         columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                        'mcc', 'f1_positive', 'precision_positive', 'recall_positive', 'threshold',
+                                        'support', 'support_positive'])
+    count_anti = 0
+    for anti in All_antibiotics:
 
 
-def extract_info(s,level,cv,hidden, epochs, re_epochs, learning,f_fixed_threshold,f_nn_base,f_optimize_score):
-    data = pd.read_csv('metadata/'+str(level)+'_Species_antibiotic_FineQuality.csv', index_col=0, dtype={'genome_id': object},
-                       sep="\t")
-    data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
-    data = data.loc[s, :]
-    df_species = data.index.tolist()
-    # antibiotics = data['modelling antibiotics'].tolist()
-    print(data)
+        summary = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
+                               columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                        'mcc', 'f1_positive', 'precision_positive', 'recall_positive', 'threshold',
+                                        'support', 'support_positive'])
 
-    for species in df_species:
-        amr_utility.file_utility.make_dir('log/results/'+str(level)+'/'+ str(species.replace(" ", "_")))
+        summary=score_summary_pos(count_anti,summary,cv, score_report_test, aucs_test, mcc_test, save_name_score, thresholds_selected_test)
 
 
-        antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
-        for anti in antibiotics:
-            save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(species, anti, level,
-                                                                                        learning, epochs, f_fixed_threshold,f_nn_base,f_optimize_score)
 
-            score = pickle.load(open(save_name_score + '_all_score.pickle', "rb"))
-            aucs_test=score[4]
-            score_report_test=score[3]
-            mcc_test=score[2]
-            thresholds_selected_test=score[0]
-            score_summary_pos(cv, score_report_test, aucs_test, mcc_test, save_name_score, thresholds_selected_test)
-        #put out final table with scores:'f1-score','precision', 'recall','accuracy'
-        # make_visualization(species, antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score)
-        make_visualization_pos(species, antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score,f_nn_base)#with scores only for positive class
+        count_anti+=1
+        data = summary.loc[['weighted-mean', 'weighted-std'], :]
+        # print(data)
+        data = data.astype(float).round(2)
+        # print(data)
+        m = data.loc['weighted-mean', :].apply(lambda x: "{:.2f}".format(x))
+        # print(m)
+        n = data.loc['weighted-std', :].apply(lambda x: "{:.2f}".format(x))
+        # print(data.dtypes)
+
+        final.loc[anti, :] = m.str.cat(n, sep='±').values
+
+
+
+    final.to_csv(save_name_score_final + '_score_final.txt', sep="\t")
+    print(final)
+
+
+
+
+
+
+def extract_info(f_multi,f_concat,f_all,s,level,cv,hidden, epochs, re_epochs, learning,f_fixed_threshold,f_nn_base,f_optimize_score):
+    if f_multi==True:
+        merge_name = []
+
+        data = pd.read_csv('metadata/' + str(level) + '_multi-species_summary.csv', index_col=0,
+                           dtype={'genome_id': object}, sep="\t")
+        if f_all:
+            s = data.index.tolist()[:-1]
+
+        data = data.loc[s, :]
+
+        # --------------------------------------------------------
+        # drop columns(antibotics) all zero
+        data = data.loc[:, (data != 0).any(axis=0)]
+        All_antibiotics = data.columns.tolist()  # all envolved antibiotics # todo
+        for n in s:
+            merge_name.append(n[0] + n.split(' ')[1][0])
+        merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
+        multi_results = 'log/results/' + str(level) + '/multi_species/' + merge_name
+        amr_utility.file_utility.make_dir(multi_results)
+        save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(merge_name, 'all_possible_anti', level,
+                                                                                       learning, epochs,
+                                                                                       f_fixed_threshold, f_nn_base,
+                                                                                       f_optimize_score)
+        save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(merge_name,
+                                                                                             'all_possible_anti', level,
+                                                                                             learning,
+                                                                                             epochs, f_fixed_threshold,
+                                                                                             f_nn_base,
+                                                                                             f_optimize_score)
+        score = pickle.load(open(save_name_score + '_all_score.pickle', "rb"))
+        aucs_test = score[4]
+        score_report_test = score[3]
+        mcc_test = score[2]
+        thresholds_selected_test = score[0]
+        multi_make_visualization_pos(merge_name,All_antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score,
+                                     f_nn_base,cv,score_report_test, aucs_test, mcc_test, thresholds_selected_test,save_name_score,save_name_score_final)
+
+    elif f_concat==True:
+        merge_name = []
+
+        data = pd.read_csv('metadata/' + str(level) + '_multi-species_summary.csv', index_col=0,
+                           dtype={'genome_id': object}, sep="\t")
+        if f_all:
+            list_species = data.index.tolist()[:-1]
+
+        data = data.loc[list_species, :]
+
+        # --------------------------------------------------------
+        # drop columns(antibotics) all zero
+        data = data.loc[:, (data != 0).any(axis=0)]
+        All_antibiotics = data.columns.tolist()  # all envolved antibiotics # todo
+        for n in list_species:
+            merge_name.append(n[0] + n.split(' ')[1][0])
+        merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
+        multi_log = './log/temp/' + str(level) + '/multi_concat/' + merge_name
+
+        for species_testing in list_species:
+            list_species_training = list_species.remove(species_testing)
+            # do a nested CV on list_species, select the best estimator for testing on the standing out species
+            merge_name_train = []
+            for n in list_species_training:
+                merge_name_train.append(n[0] + n.split(' ')[1][0])
+            merge_name_train = '_'.join(merge_name_train)  # e.g.Se_Kp_Pa
+            merge_name_test = species_testing.replace(" ", "_")
+            save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score_concat(merge_name,
+                                                                                                  merge_name_test,
+                                                                                                  level, learning,
+                                                                                                  epochs,
+                                                                                                  f_fixed_threshold,
+                                                                                                  f_nn_base,
+                                                                                                  f_optimize_score)
+            save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_concat_final(merge_name,
+                                                                                                  merge_name_test,
+                                                                                                  level, learning,
+                                                                                                  epochs,
+                                                                                                  f_fixed_threshold,
+                                                                                                  f_nn_base,
+                                                                                                  f_optimize_score)
+
+            score = pickle.load(open(save_name_score+'_TEST.pickle', "rb"))
+            aucs_test = score[4]
+            score_report_test = score[3]
+            mcc_test = score[2]
+            thresholds_selected_test = score[0]
+
+            multi_make_visualization_pos(merge_name, All_antibiotics, level, f_fixed_threshold, epochs, learning,
+                                         f_optimize_score, f_nn_base, cv, score_report_test, aucs_test, mcc_test,
+                                         thresholds_selected_test, save_name_score,save_name_score_final)
+
+
+
+
+    else:#single-species model.
+        data = pd.read_csv('metadata/'+str(level)+'_Species_antibiotic_FineQuality.csv', index_col=0, dtype={'genome_id': object},
+                           sep="\t")
+        data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
+        data = data.loc[s, :]
+        df_species = data.index.tolist()
+        # antibiotics = data['modelling antibiotics'].tolist()
+        print(data)
+
+        for species in df_species:
+            amr_utility.file_utility.make_dir('log/results/'+str(level)+'/'+ str(species.replace(" ", "_")))
+
+
+            antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
+            summary_all=[]
+            for anti in antibiotics:
+                save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(species, anti, level,
+                                                                                            learning, epochs, f_fixed_threshold,f_nn_base,f_optimize_score)
+
+                score = pickle.load(open(save_name_score + '_all_score.pickle', "rb"))
+                aucs_test=score[4]
+                score_report_test=score[3]
+                mcc_test=score[2]
+                thresholds_selected_test=score[0]
+                # summary = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
+                #                        columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                #                                 'auc', 'mcc', 'threshold'])
+                summary = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
+                                       columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                                'mcc', 'f1_positive', 'precision_positive', 'recall_positive',
+                                                'threshold', 'support', 'support_positive'])
+                summary=score_summary_pos(None,summary,cv, score_report_test, aucs_test, mcc_test, save_name_score, thresholds_selected_test)
+                summary_all.append(summary)
+            #put out final table with scores:'f1-score','precision', 'recall','accuracy'
+            # make_visualization(species, antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score)
+            make_visualization_pos(summary_all,species, antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score,f_nn_base)#with scores only for positive class
 
 
 if __name__== '__main__':
     parser = argparse.ArgumentParser()
-
+    parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
+                        help='all the possible species, regarding multi-model.')
+    parser.add_argument("-f_m", "--f_multi",  dest='f_multi', action='store_true',
+                        help='flag for multi-species model')
+    parser.add_argument("-f_concat", "--f_concat", dest='f_concat', action='store_true',
+                        help='flag for multi-species concatenated model')
     parser.add_argument("-cv", "--cv_number", default=10, type=int,
                         help='CV splits number')
     parser.add_argument("-d", "--hidden", default=200, type=int,
@@ -349,6 +508,6 @@ if __name__== '__main__':
     parsedArgs = parser.parse_args()
     # parser.print_help()
     # print(parsedArgs)
-    extract_info(parsedArgs.species,parsedArgs.level,parsedArgs.cv_number,parsedArgs.hidden,parsedArgs.epochs,
-                 parsedArgs.re_epochs,parsedArgs.learning,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base,parsedArg.f_optimize_score)
+    extract_info(parsedArgs.f_multi,parsedArgs.f_concat,parsedArgs.f_all,parsedArgs.species,parsedArgs.level,parsedArgs.cv_number,parsedArgs.hidden,parsedArgs.epochs,
+                 parsedArgs.re_epochs,parsedArgs.learning,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base,parsedArgs.f_optimize_score)
 

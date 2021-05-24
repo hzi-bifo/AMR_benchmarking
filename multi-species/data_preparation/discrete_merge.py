@@ -18,8 +18,7 @@ import pandas as pd
 
 
 
-def merge_feature(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,level,f_all,f_phylo_prokka,f_phylo_roary,
-        f_pre_cluster,f_cluster,f_cluster_folders,f_res,f_merge_mution_gene,f_matching_io):
+def merge_feature(merge_name,path_large_temp,list_species,All_antibiotics,level):
     '''
     :return: merged feature matrix , data_x, data_y, data_name
     '''
@@ -30,7 +29,7 @@ def merge_feature(merge_name,path_sequence,path_large_temp,list_species,All_anti
     if len(list_species)<2:
         print('pleas feed in at lest 2 species.')
         exit()
-    multi_log, path_metadata_multi, path_metadata_pheno_multi, run_file_kma, run_file_roary1, run_file_roary2, run_file_roary3, path_x, path_y, path_name \
+    _, path_ID_multi, _, _, _, _, _, path_x, path_y, path_name \
         = amr_utility.name_utility.GETname_multi_bench_multi(level, path_large_temp, merge_name)
     for s in list_species:
         path_large_temp_kma_multi, path_cluster_temp_multi, path_cluster_results_multi, path_large_temp_roary_multi, \
@@ -73,17 +72,30 @@ def merge_feature(merge_name,path_sequence,path_large_temp,list_species,All_anti
     print('======================')
     print(df_feature_s_f)
     print(feature_dimension_all)
+
+
+    #Note!!! force the data_x 's order in according with id_list. Also done in merge_input_output_files_khuModified.py file..
+    id_list = np.genfromtxt(path_ID_multi, dtype="str")
+    df_feature_s_f = df_feature_s_f.reindex(id_list)
+    # df_feature_s_f = df_feature_s_f.reset_index()
+
+
     # print(df_feature_s_f.columns)
     # exit()
     # Pad nan with 0 in feature matrix, with -1 in phen matrix
-    df_feature_final=df_feature_s_f.loc[:,np.array(np.arange(sum(feature_dimension_all['feature dimension'].to_list())),dtype='object')]
+    df_feature_final=df_feature_s_f.loc[:,np.array(np.arange(sum(feature_dimension_all['feature dimension'].to_list())),dtype='object')]#exclude pheno part
     df_feature_final=df_feature_final.fillna(0)
     df_feature_final.to_csv(path_x,index=False,header=False, sep="\t")
 
     df_phenotype_final=df_feature_s_f.loc[:, All_antibiotics]
     df_phenotype_final=df_phenotype_final.fillna(-1)
+    print(df_phenotype_final)
     df_phenotype_final.to_csv(path_y,index=False,header=False, sep="\t")
     df_feature_s_f.index.to_series().to_csv(path_name,header=False, index=False,sep="\t")
+
+    print('Feature part of discerte multi-s model finished. Can procede to NN model now.')
+    # done!
+    # Note, discrete version of multi-s model,no need to use merge_input_output_files_khuModified.py file.
 
 
 
@@ -120,13 +132,16 @@ def prepare_meta(path_large_temp,list_species,selected_anti,level,f_all):
     for n in list_species:
         merge_name.append(n[0] + n.split(' ')[1][0])
     merge_name = '_'.join(merge_name)#e.g.Se_Kp_Pa
-    multi_log = './log/temp/' + str(level) + '/multi_species/'+merge_name+'/'
-    # amr_utility.file_utility.make_dir(multi_log)
+    # multi_log = './log/temp/' + str(level) + '/multi_species/'+merge_name+'/'
+    # # amr_utility.file_utility.make_dir(multi_log)
+    #
+    #
+    # # todo: if anti can be selected, then this name should be reconsidered.
+    # #path_metadata_multi = multi_log + '/'+ save_name_anti+'meta.txt'# both ID and pheno.#so far, no this option.
+    # path_metadata_multi = multi_log + '/meta.txt'# both ID and pheno.
+    multi_log, path_ID_multi,path_metadata_multi, _, _, _, _, _, _, _ \
+        = amr_utility.name_utility.GETname_multi_bench_multi(level, path_large_temp, merge_name)
 
-
-    # todo: if anti can be selected, then this name should be reconsidered.
-    #path_metadata_multi = multi_log + '/'+ save_name_anti+'meta.txt'# both ID and pheno.#so far, no this option.
-    path_metadata_multi = multi_log + '/meta.txt'# both ID and pheno.
     if selected_anti==[]:
         cols = data.columns
         bt = data.apply(lambda x: x > 0)#all possible antibiotics
@@ -155,23 +170,23 @@ def prepare_meta(path_large_temp,list_species,selected_anti,level,f_all):
         if len(metadata_pheno_all_sub)>1:
             metadata_pheno=metadata_pheno_all_sub[0]
             for i in metadata_pheno_all_sub[1:]:
-                metadata_pheno = pd.merge(metadata_pheno, i, how="outer", on=["id"])
+                metadata_pheno = pd.merge(metadata_pheno, i, how="outer", on=["id"])# merge antibiotics within one species
                 # print(metadata_pheno)
                 # print('************')
         else:
             pass#no need for merge.
 
-        metadata_pheno.to_csv(multi_log+str(species.replace(" ", "_"))+'_meta', sep="\t", index=True, header=True)
+        metadata_pheno.to_csv(multi_log+str(species.replace(" ", "_"))+'_meta.txt', sep="\t", index=True, header=True)
         metadata_pheno['id'].to_csv(multi_log+str(species.replace(" ", "_"))+'_id', sep="\t", index=False, header=False)
         metadata_pheno_all.append(metadata_pheno)
         # print(metadata_pheno)
 
     metadata_pheno_f=metadata_pheno_all[0]
     for i in metadata_pheno_all[1:]:
-        metadata_pheno_f =  metadata_pheno_f.append(i)
+        metadata_pheno_f =  metadata_pheno_f.append(i) # append all the species
 
     # print(metadata_pheno_f)
 
-    metadata_pheno.to_csv(multi_log + 'pheno', sep="\t",index=False, header=True)
-    metadata_pheno['id'].to_csv(multi_log + 'ID', sep="\t", index=False,header=False)
+    metadata_pheno_f.to_csv(path_metadata_multi, sep="\t",index=True, header=True)
+    metadata_pheno_f['id'].to_csv(path_ID_multi, sep="\t", index=False,header=False)
 

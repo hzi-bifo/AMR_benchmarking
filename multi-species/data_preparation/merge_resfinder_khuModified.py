@@ -34,8 +34,8 @@ def extract_info(list_path,res_path,output):
 	file_w = open(output, "w")
 	for each in list_sample:#sample+feature
 		# for e in each:
-		# 	file_w.write(e)
-		# 	file_w.write("\t")# SNPs finished loading
+		file_w.write(each)
+		file_w.write("\t")
 		if each in genes[:,0]:#a specific sample in Gene sample list(samples without AMR gene not listed)
 			# print(each[0])
 

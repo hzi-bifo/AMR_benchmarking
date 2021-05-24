@@ -24,6 +24,15 @@ import random
 from sklearn import utils
 import copy
 
+'''
+Note;
+This script prepares CV folders in accordance with the id list in meta/model/loose/species_anti for single-species model;
+./log/temp/loose/multi-species/merge_name_id(CV training) for multi-concat model.
+'./log/temp/' + str(level) + '/multi_species/' + merge_name + '/' + 'ID' for discrete multi-s model.
+'''
+
+
+
 def cluster_split_old(dict_cluster, Random_State, cv):
     # Custom k fold cross validation
     # cross validation method divides the clusters and adds to the partitions.
@@ -80,7 +89,8 @@ def cluster_split_old(dict_cluster, Random_State, cv):
         print('average',len(all_samples) / float(cv))
         print('len(all_samples)',len(all_samples))
         a = 0
-        while sum_tem + 200 < len(all_samples) / float(cv):  # all_samples: val,train,test
+        # while sum_tem + 200 < len(all_samples) / float(cv):  # all_samples: val,train,test
+        while sum_tem + 1000 < len(all_samples) / float(cv):  # all_samples: val,train,test
             extra = list(utils.shuffle(
                 all_data_splits_pre[m_fromprevious], random_state=Random_State))[a]  # cluster order
             extracted = extracted + [extra]  # cluster order
@@ -150,7 +160,8 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
 
     for i in range(len(all_data_splits)):  # 5.#cluster order
 
-        extracted = list(set(all_data_splits[i]))  # order of cluster, w.r.t dict_cluster
+        # extracted = list(set(all_data_splits[i]))  # order of cluster, w.r.t dict_cluster
+        extracted = all_data_splits[i]
         sum_sub = totals[i]
         print(sum_sub)
         print('totals====================================',totals)
@@ -176,12 +187,14 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
                 totals_sub[m_from]=0
                 m_from = np.argmax(totals_sub)
                 extra = list(utils.shuffle(all_data_splits[m_from], random_state=a))[0]  # shuffle again, and try
-
+                print('!!!!',m_from,extra)
                 a+=1
                 # print(a)
+
+
             #==========make sure the folder giving out the cluster still have enough samples left.
             tem_Nsamples = []
-            for e in  list(set(all_data_splits[m_from]) - set([extra])):  # every time add one cluster order
+            for e in sorted(list(set(all_data_splits[m_from]) - set([extra]))):  # every time add one cluster order
                 elements = dict_cluster[str(e)]
                 tem_Nsamples.append(len(elements))  # sample number
             sum_from = sum(tem_Nsamples)
@@ -200,7 +213,7 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
                 totals[i] = sum_sub
                 totals[m_from] = sum_from
                 all_data_splits[i]=extracted
-                all_data_splits[m_from] = list(set(all_data_splits[m_from]) - set([extra]))  # rm previous cluster order, because it's moved to this fold.
+                all_data_splits[m_from] = sorted(list(set(all_data_splits[m_from]) - set([extra]))) # rm previous cluster order, because it's moved to this fold.
                 print('totals=========', totals)
 
     return all_data_splits
@@ -310,7 +323,8 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
     names=prepare_sample_name(fileDir, p_names)
 
     dict_cluster = prepare_cluster(fileDir, p_clusters)
-    if type(dict_cluster)==dict:
+
+    if type(dict_cluster)==collections.defaultdict:
         if f_version=='original':
             all_data_splits = cluster_split_old(dict_cluster, Random_State,cv)  # split cluster into cv Folds. len(all_data_splits)=5
         else:

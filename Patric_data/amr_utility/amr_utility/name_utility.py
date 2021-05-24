@@ -119,16 +119,13 @@ def GETname_multi_bench_folder(species,level,learning,epochs,f_fixed_threshold,f
         # name_weights_folder='log/temp/' +str(level)+ '/'+ str(species.replace(" ", "_")) +'/lr_'+ str(learning)+'_ep_'+str(epochs)+'_base_'+str(f_nn_base)+'_fixT_'+str(f_fixed_threshold)
 
     return name_weights_folder
-def GETname_multi_bench_weight(merge_name,species,antibiotics,level,cv,innerCV,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score):
+def GETname_multi_bench_weight(species,antibiotics,level,cv,innerCV,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score):
 
-    # if antibiotics=='all_possible_anti' or type(antibiotics)==list:#multi_species/output.
-    if antibiotics == 'all_possible_anti':
+    if antibiotics=='all_possible_anti' or type(antibiotics)==list:#multi_species/output.
         folder = GETname_multi_bench_folder_multi(species, level, learning, epochs, f_fixed_threshold, f_nn_base,
                                             f_optimize_score)
         if type(antibiotics)==list:
             antibiotics='_'.join(antibiotics)#no use so far. maybe in the future, the user can choose antibiotics to envolve.
-    elif antibiotics== 'all_possible_anti_concat':
-        folder= GETname_multi_bench_folder_concat(merge_name,species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score)
 
     else:
         folder = GETname_multi_bench_folder(species, level, learning, epochs, f_fixed_threshold, f_nn_base,
@@ -146,8 +143,6 @@ def GETname_multi_bench_save_name_score(species,antibiotics,level,learning,epoch
 
         if type(antibiotics)==list:
             antibiotics='_'.join(antibiotics)#no use so far. maybe in the future, the user can choose antibiotics to envolve.
-
-
     else:
         folder ='log/temp/' + str(level) + '/' + str(species.replace(" ", "_"))
 
@@ -200,7 +195,7 @@ def GETname_multi_bench_main_feature(level, species, anti,path_large_temp):
     '''
     path_feature = './log/temp/' + str(level)+'/'+str(species.replace(" ", "_")) # all feature temp data(except large files)
     # path_res_result='/net/flashtest/scratch/khu/benchmarking/Results/'+str(species.replace(" ", "_"))#old
-    if Path(path_large_temp).parts[1]=='vol': #only because on different servers
+    if Path(path_large_temp).parts[0]=='vol': #only because on different servers
         path_res_result = '/vol/projects/khu/amr/benchmarking2_kma/large_temp/resfinder_results/' + str(
             species.replace(" ", "_"))
     else:
@@ -237,8 +232,8 @@ def GETname_multi_bench_multi(level,path_large_temp,merge_name):
 
     # path_large_temp_kma_multi='/net/sgi/metagenomics/data/khu/benchmarking/phylo' or '/vol/projects/khu/amr/benchmarking/large_temp'
     multi_log='./log/temp/' + str(level) + '/multi_species/' + merge_name + '/'
-    path_ID_multi = multi_log + 'ID'
-    path_metadata_multi = multi_log + 'pheno.txt'
+    path_metadata_multi = multi_log + 'ID'
+    path_metadata_pheno_multi = multi_log + 'pheno'
     run_file_kma='./cv_folders/' + str(level) + '/multi_species/' + merge_name + "_kma.sh"
     run_file_roary1 ='./cv_folders/' + str(level) + '/multi_species/' +merge_name+ "_roary1.sh"
     run_file_roary2  = './cv_folders/' + str(level) + '/multi_species/' + merge_name + "_roary2.sh"
@@ -247,7 +242,7 @@ def GETname_multi_bench_multi(level,path_large_temp,merge_name):
     path_y = multi_log + 'data_y.txt'
     path_name = multi_log + 'data_names.txt'
 
-    return multi_log,path_ID_multi,path_metadata_multi,run_file_kma,run_file_roary1,run_file_roary2,run_file_roary3,path_x,path_y,path_name
+    return multi_log,path_metadata_multi,path_metadata_pheno_multi,run_file_kma,run_file_roary1,run_file_roary2,run_file_roary3,path_x,path_y,path_name
 
 def GETname_multi_bench_multi_species(level,path_large_temp,merge_name,s):
     # multi_log,_,_,_,_,_,_=GETname_multi_bench_multi(level,path_large_temp,merge_name)
@@ -262,13 +257,13 @@ def GETname_multi_bench_multi_species(level,path_large_temp,merge_name,s):
     path_roary_results_multi=path_large_temp+'/results_roary/'+str(level) +'/multi_species/'+merge_name+'/'+ str(s.replace(" ", "_"))
 
     path_metadata_s_multi = path_feature_multi + str(s.replace(" ", "_")) + '_id'
-    path_metadata_pheno_s_multi=path_feature_multi+str(s.replace(" ", "_"))+'_meta.txt'
+    path_metadata_pheno_s_multi=path_feature_multi+str(s.replace(" ", "_"))+'_meta'
     #-----
     # The same as single-species model name
     path_large_temp_prokka = path_large_temp + '/prokka/' + str(s.replace(" ", "_"))
     # path_metadata_prokka_multi = path_feature_multi + str(s.replace(" ", "_")) + '_id'
 
-    if Path(path_large_temp).parts[1]=='vol': #only because on different servers
+    if Path(path_large_temp).parts[0]=='vol': #only because on different servers
         path_res_result = '/vol/projects/khu/amr/benchmarking2_kma/large_temp/resfinder_results/' + str(
             s.replace(" ", "_"))
     else:
@@ -295,7 +290,7 @@ def GETname_multi_bench_concat(level,path_large_temp,merge_name,threshold_point,
     # path_large_temp_kma_multi='/net/sgi/metagenomics/data/khu/benchmarking/phylo' or '/vol/projects/khu/amr/benchmarking/large_temp'
     multi_log='./log/temp/' + str(level) + '/multi_concat/' + merge_name + '/'
     path_metadata_multi=multi_log + 'ID'
-    path_metadata_pheno_multi=multi_log + 'pheno.txt'
+    path_metadata_pheno_multi=multi_log + 'pheno'
     # run_file_kma='./cv_folders/' + str(level) + '/multi_concat/' + merge_name + "_kma.sh"
     # run_file_roary1='./cv_folders/' + str(level) + '/multi_concat/' +merge_name+ "_roary1.sh"
     # run_file_roary2 = './cv_folders/' + str(level) + '/multi_concat/' + merge_name + "_roary2.sh"
@@ -316,7 +311,7 @@ def GETname_multi_bench_concat_species(level,path_large_temp,merge_name,merge_na
     # path_large_temp_kma_multi='/net/sgi/metagenomics/data/khu/benchmarking/phylo' or '/vol/projects/khu/amr/benchmarking/large_temp'
     multi_log = './log/temp/' + str(level) + '/multi_concat/' + merge_name + '/'
     path_id_multi = multi_log + merge_name_train + '_id'
-    path_metadata_multi = multi_log + merge_name_train + '_metaresfinder'
+    path_metadata_multi = multi_log + merge_name_train + '_pheno'
 
 
     path_point_repre_results = multi_log + merge_name_train + '_mutations.txt'  #
@@ -337,13 +332,6 @@ def GETname_multi_bench_folder_concat(species,merge_name_test,level,learning,epo
         learning) + '_ep_' + str(epochs)  +'_base_'+str(f_nn_base)+ '_ops_' + f_optimize_score+'_fixT_'+str(f_fixed_threshold)
 
     return name_weights_folder
-
-# def GETname_multi_bench_weight_concat(species,antibiotics,level,cv,innerCV,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score):
-#
-#     folder= GETname_multi_bench_folder_concat(species,species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score)
-#
-#     name_weights=folder+'/'+str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_weights_' + str(cv) + str(innerCV)
-#     return name_weights
 
 def GETname_multi_bench_save_name_score_concat(merge_name,merge_name_test,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score):
 

@@ -13,7 +13,7 @@ import zipfile
 
 
 
-def extract_info(input_path,file,out_path,mutcol):
+def extract_info(input_path,file,out_path,mutcol,f_no_zip):
 
 	##this script analyses all the pointfinder results
 	##takes the pointfinder input and does blosum coding
@@ -56,114 +56,224 @@ def extract_info(input_path,file,out_path,mutcol):
 
 	for item in list_point:
 		# if "PointFinder_results.txt" in os.listdir("%s/%s/" % (input_path, item)): #for not zipped res results
-		with zipfile.ZipFile("%s/%s.zip" % (input_path, item)) as z:
-			# data_tsv = open("%s/%s/PointFinder_results.txt" % (input_path, item), "r")#for not zipped res results
-			data_tsv = z.open("%s/PointFinder_results.txt" % item, "r")
-			tsv = data_tsv.readlines()
-			temp_dict = collections.defaultdict(list)
-			for each in tsv[1:]:
-					each= each.decode("utf-8")#only needed if the res results are zipped.
-					each = each.replace(" promotor", "")
-					each = each.replace(" promoter", "")
-					
-					splitted1 = each.split("\t")[0]
-					splitted = splitted1.split(" ")[0:2]
-				
-					if splitted[1][0] == "p":
-						position = re.findall("(\-?\d+)", splitted[1])
-						mutation = str(position[0]) + "_" + str(splitted[1][2]) + "_" + str(splitted[1][-1])
-						
-						if "ins" not in each and "del" not in each and "delins" not in each:
-								dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted[1][2]))
-								temp_dict[splitted[0].lower()].append(mutation)
-								all_aa.append(str(splitted[1][-1]))
-						else:
-								splitted2 = (each.split("\t")[1]).split("->")[0].replace(" ", "")
-								splitted3 = (each.split("\t")[1]).split("->")[1].replace(" ", "")
-								splitted4 = (each.split("\t")[2]).split("->")[0].replace(" ", "")
-								splitted5 = (each.split("\t")[2]).split("->")[1].replace(" ", "") 
-								if "*" in each:
-									dict_mutations[splitted[0].lower()].append(str(position[0])+ "_" + splitted[1][2])
-									temp_dict[splitted[0].lower()].append(str(position[0]))
-								elif "del" in each:
-									if len(position) > 1:
-										i = 0
-										for l in range(int(position[0]), int(position[1])+1):
-											dict_mutations[splitted[0].lower()].append(str(l)+ "_" + splitted4[i])
-											temp_dict[splitted[0].lower()].append(str(l))	
-											i = i + 1
-											
+		if f_no_zip==False:#for not zipped res results
+			with zipfile.ZipFile("%s/%s.zip" % (input_path, item)) as z:
+				# data_tsv = open("%s/%s/PointFinder_results.txt" % (input_path, item), "r")#for not zipped res results
+				data_tsv = z.open("%s/PointFinder_results.txt" % item, "r")
+				tsv = data_tsv.readlines()
+				temp_dict = collections.defaultdict(list)
+				for each in tsv[1:]:
+						each= each.decode("utf-8")#only needed if the res results are zipped.
+						each = each.replace(" promotor", "")
+						each = each.replace(" promoter", "")
 
-									else:
+						splitted1 = each.split("\t")[0]
+						splitted = splitted1.split(" ")[0:2]
+
+						if splitted[1][0] == "p":
+							position = re.findall("(\-?\d+)", splitted[1])
+							mutation = str(position[0]) + "_" + str(splitted[1][2]) + "_" + str(splitted[1][-1])
+
+							if "ins" not in each and "del" not in each and "delins" not in each:
+									dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted[1][2]))
+									temp_dict[splitted[0].lower()].append(mutation)
+									all_aa.append(str(splitted[1][-1]))
+							else:
+									splitted2 = (each.split("\t")[1]).split("->")[0].replace(" ", "")
+									splitted3 = (each.split("\t")[1]).split("->")[1].replace(" ", "")
+									splitted4 = (each.split("\t")[2]).split("->")[0].replace(" ", "")
+									splitted5 = (each.split("\t")[2]).split("->")[1].replace(" ", "")
+									if "*" in each:
 										dict_mutations[splitted[0].lower()].append(str(position[0])+ "_" + splitted[1][2])
 										temp_dict[splitted[0].lower()].append(str(position[0]))
-										
-								elif "ins" in each:
-									dict_mutations[splitted[0].lower()].append(str(position[0])+ "_" + splitted[1][2])
-									temp_dict[splitted[0].lower()].append(str(position[0]))
-									
-								else:
-									print(each)
-							
+									elif "del" in each:
+										if len(position) > 1:
+											i = 0
+											for l in range(int(position[0]), int(position[1])+1):
+												dict_mutations[splitted[0].lower()].append(str(l)+ "_" + splitted4[i])
+												temp_dict[splitted[0].lower()].append(str(l))
+												i = i + 1
 
-					elif splitted[1][0] == "n":
-						position = re.findall("(\-?\d+)", splitted[1])
-						splitted2 = (each.split("\t")[1]).split("->")[0].replace(" ", "")
-						splitted3 = (each.split("\t")[1]).split("->")[1].replace(" ", "")
-						if "ins" not in each and "del" not in each and "delins" not in each:
-							dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "n")
-							temp_dict[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "_" + str(splitted3)+"n")	
 
-						else:
-							if "del" in each:
-								if len(position) > 1:
-									print(position)
-									for l in range(int(position[0]), int(position[1])+1):
-										dict_mutations[splitted[0].lower()].append(str(l) + "_" + str(splitted2) + "n")##wild type
-										temp_dict[splitted[0].lower()].append(str(l))
-										
-								else:
-									dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "n")##wild type
-									temp_dict[splitted[0].lower()].append(str(position[0]))
-									
-							else:
+										else:
+											dict_mutations[splitted[0].lower()].append(str(position[0])+ "_" + splitted[1][2])
+											temp_dict[splitted[0].lower()].append(str(position[0]))
+
+									elif "ins" in each:
+										dict_mutations[splitted[0].lower()].append(str(position[0])+ "_" + splitted[1][2])
+										temp_dict[splitted[0].lower()].append(str(position[0]))
+
+									else:
+										print(each)
+
+
+						elif splitted[1][0] == "n":
+							position = re.findall("(\-?\d+)", splitted[1])
+							splitted2 = (each.split("\t")[1]).split("->")[0].replace(" ", "")
+							splitted3 = (each.split("\t")[1]).split("->")[1].replace(" ", "")
+							if "ins" not in each and "del" not in each and "delins" not in each:
 								dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "n")
-								temp_dict[splitted[0].lower()].append(str(position[0]))
-								
-											
+								temp_dict[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "_" + str(splitted3)+"n")
 
-					elif splitted[1][0] == "r":
-						position = re.findall("(\d+)", splitted[1])
-						splitted2 = (each.split("\t")[1]).split("->")[0].replace(" ", "")
-						splitted3 = (each.split("\t")[1]).split("->")[1].replace(" ", "")
-						
-						if "ins" not in each and "del" not in each and "delins" not in each:
-							#print(each)
-							dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "r")##wild type
-							temp_dict[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "_" + str(splitted3)+"r")	
+							else:
+								if "del" in each:
+									if len(position) > 1:
+										print(position)
+										for l in range(int(position[0]), int(position[1])+1):
+											dict_mutations[splitted[0].lower()].append(str(l) + "_" + str(splitted2) + "n")##wild type
+											temp_dict[splitted[0].lower()].append(str(l))
+
+									else:
+										dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "n")##wild type
+										temp_dict[splitted[0].lower()].append(str(position[0]))
+
+								else:
+									dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "n")
+									temp_dict[splitted[0].lower()].append(str(position[0]))
+
+
+
+						elif splitted[1][0] == "r":
+							position = re.findall("(\d+)", splitted[1])
+							splitted2 = (each.split("\t")[1]).split("->")[0].replace(" ", "")
+							splitted3 = (each.split("\t")[1]).split("->")[1].replace(" ", "")
+
+							if "ins" not in each and "del" not in each and "delins" not in each:
+								#print(each)
+								dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "r")##wild type
+								temp_dict[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "_" + str(splitted3)+"r")
+
+							else:
+								if "del" in each:
+									#print(each)
+									if len(position) > 1:
+										for l in range(int(position[0]), int(position[1])+1):
+											dict_mutations[splitted[0].lower()].append(str(l) + "_" + str(splitted2) + "r")##wild type
+											temp_dict[splitted[0].lower()].append(str(l))
+									else:
+										dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "r")##wild type
+										temp_dict[splitted[0].lower()].append(str(position[0]))
+
+								else:
+									dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "r")
+									temp_dict[splitted[0].lower()].append(str(position[0]))
+
 
 						else:
-							if "del" in each:
-								#print(each)
-								if len(position) > 1:
-									for l in range(int(position[0]), int(position[1])+1):
-										dict_mutations[splitted[0].lower()].append(str(l) + "_" + str(splitted2) + "r")##wild type
-										temp_dict[splitted[0].lower()].append(str(l))
-								else:
-									dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "r")##wild type
-									temp_dict[splitted[0].lower()].append(str(position[0]))
-									
+							print("unexpected mutation", each)
+
+
+				sample = item.split("_")[0]
+				all_samples[sample].append(temp_dict)
+		else:
+			# print('using non-zipped files.')
+			if "PointFinder_results.txt" in os.listdir("%s/%s/" % (input_path, item)):
+				data_tsv = open("%s/%s/PointFinder_results.txt" % (input_path, item), "r")
+				tsv = data_tsv.readlines()
+				temp_dict = collections.defaultdict(list)
+				for each in tsv[1:]:
+
+						each = each.replace(" promotor", "")
+						each = each.replace(" promoter", "")
+
+						splitted1 = each.split("\t")[0]
+						splitted = splitted1.split(" ")[0:2]
+
+						if splitted[1][0] == "p":
+							position = re.findall("(\-?\d+)", splitted[1])
+							mutation = str(position[0]) + "_" + str(splitted[1][2]) + "_" + str(splitted[1][-1])
+
+							if "ins" not in each and "del" not in each and "delins" not in each:
+									dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted[1][2]))
+									temp_dict[splitted[0].lower()].append(mutation)
+									all_aa.append(str(splitted[1][-1]))
 							else:
-								dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "r")
-								temp_dict[splitted[0].lower()].append(str(position[0]))
-								
-											
-					else:
-						print("unexpected mutation", each)
-								
-									
-			sample = item.split("_")[0]
-			all_samples[sample].append(temp_dict)
+									splitted2 = (each.split("\t")[1]).split("->")[0].replace(" ", "")
+									splitted3 = (each.split("\t")[1]).split("->")[1].replace(" ", "")
+									splitted4 = (each.split("\t")[2]).split("->")[0].replace(" ", "")
+									splitted5 = (each.split("\t")[2]).split("->")[1].replace(" ", "")
+									if "*" in each:
+										dict_mutations[splitted[0].lower()].append(str(position[0])+ "_" + splitted[1][2])
+										temp_dict[splitted[0].lower()].append(str(position[0]))
+									elif "del" in each:
+										if len(position) > 1:
+											i = 0
+											for l in range(int(position[0]), int(position[1])+1):
+												dict_mutations[splitted[0].lower()].append(str(l)+ "_" + splitted4[i])
+												temp_dict[splitted[0].lower()].append(str(l))
+												i = i + 1
+
+
+										else:
+											dict_mutations[splitted[0].lower()].append(str(position[0])+ "_" + splitted[1][2])
+											temp_dict[splitted[0].lower()].append(str(position[0]))
+
+									elif "ins" in each:
+										dict_mutations[splitted[0].lower()].append(str(position[0])+ "_" + splitted[1][2])
+										temp_dict[splitted[0].lower()].append(str(position[0]))
+
+									else:
+										print(each)
+
+
+						elif splitted[1][0] == "n":
+							position = re.findall("(\-?\d+)", splitted[1])
+							splitted2 = (each.split("\t")[1]).split("->")[0].replace(" ", "")
+							splitted3 = (each.split("\t")[1]).split("->")[1].replace(" ", "")
+							if "ins" not in each and "del" not in each and "delins" not in each:
+								dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "n")
+								temp_dict[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "_" + str(splitted3)+"n")
+
+							else:
+								if "del" in each:
+									if len(position) > 1:
+										print(position)
+										for l in range(int(position[0]), int(position[1])+1):
+											dict_mutations[splitted[0].lower()].append(str(l) + "_" + str(splitted2) + "n")##wild type
+											temp_dict[splitted[0].lower()].append(str(l))
+
+									else:
+										dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "n")##wild type
+										temp_dict[splitted[0].lower()].append(str(position[0]))
+
+								else:
+									dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "n")
+									temp_dict[splitted[0].lower()].append(str(position[0]))
+
+
+
+						elif splitted[1][0] == "r":
+							position = re.findall("(\d+)", splitted[1])
+							splitted2 = (each.split("\t")[1]).split("->")[0].replace(" ", "")
+							splitted3 = (each.split("\t")[1]).split("->")[1].replace(" ", "")
+
+							if "ins" not in each and "del" not in each and "delins" not in each:
+								#print(each)
+								dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "r")##wild type
+								temp_dict[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "_" + str(splitted3)+"r")
+
+							else:
+								if "del" in each:
+									#print(each)
+									if len(position) > 1:
+										for l in range(int(position[0]), int(position[1])+1):
+											dict_mutations[splitted[0].lower()].append(str(l) + "_" + str(splitted2) + "r")##wild type
+											temp_dict[splitted[0].lower()].append(str(l))
+									else:
+										dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "r")##wild type
+										temp_dict[splitted[0].lower()].append(str(position[0]))
+
+								else:
+									dict_mutations[splitted[0].lower()].append(str(position[0]) + "_" + str(splitted2) + "r")
+									temp_dict[splitted[0].lower()].append(str(position[0]))
+
+
+						else:
+							print("unexpected mutation", each)
+
+
+				sample = item.split("_")[0]
+				all_samples[sample].append(temp_dict)
 
 		
 	results = open(out_path, "w")
@@ -308,11 +418,12 @@ def main():
 	parser.add_argument("-m", "--mutcol", dest='mutcol',
 						help='Add the binary mutation column. The scored representation merges with the scored and binary representation.',
 						action='store_true', )  # default:false
-
+	parser.add_argument('-f_no_zip', '--f_no_zip', dest='f_no_zip', action='store_true',
+						help=' Point/ResFinder results are not stored in zip format.')
 	parsedArgs = parser.parse_args()
 	# parser.print_help()
 	# print(parsedArgs)
-	extract_info(parsedArgs.respath,parsedArgs.list,parsedArgs.output,parsedArgs.mutcol)
+	extract_info(parsedArgs.respath,parsedArgs.list,parsedArgs.output,parsedArgs.mutcol,parsedArgs.f_no_zip)
 
 
 if __name__ == '__main__':
