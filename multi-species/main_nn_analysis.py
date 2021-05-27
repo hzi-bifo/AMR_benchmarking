@@ -65,6 +65,7 @@ def weithgted_var(values,average,weights):
     s_variance=p_variance * n/(n-1)
     return s_variance
 
+
 #Re-design it accorind to Eshan.
 #when positive related prediction results are more interesting.
 def score_summary_pos(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
@@ -82,6 +83,7 @@ def score_summary_pos(count_anti,summary,cv,score_report_test,aucs_test,mcc_test
     # print(count_anti)
     if count_anti != None:#multi-species model.
         mcc_test=np.array(mcc_test)
+        print('mcc_test shape',mcc_test.shape)
         mcc_test=mcc_test[ : ,count_anti]
         mcc_test=mcc_test.tolist()
 
@@ -302,6 +304,7 @@ def score_summary(summary,cv,score_report_test,aucs_test,mcc_test,save_name_scor
 
 def multi_make_visualization_pos(merge_name,All_antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score,
                              f_nn_base,cv,score_report_test, aucs_test, mcc_test, thresholds_selected_test,save_name_score,save_name_score_final):
+    #only for multi-s models
 
     final = pd.DataFrame(index=All_antibiotics,
                          columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
@@ -338,26 +341,82 @@ def multi_make_visualization_pos(merge_name,All_antibiotics,level,f_fixed_thresh
     print(final)
 
 
+def multi_make_visualization_pos_concat(merge_name, All_antibiotics, level, f_fixed_threshold, epochs, learning,
+                                 f_optimize_score,
+                                 f_nn_base, cv, score_report_test, aucs_test, mcc_test, thresholds_selected_test,
+                                 save_name_score, save_name_score_final):
+    # only for multi-s concat models
+
+    final = pd.DataFrame(index=All_antibiotics,
+                         columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                  'mcc', 'f1_positive', 'precision_positive', 'recall_positive', 'threshold',
+                                  'support', 'support_positive'])
+    count=0
+    for anti in All_antibiotics:
+
+        # for i in np.arange(cv):
+        if  len(All_antibiotics) > 1:
+            report = score_report_test[count]  # multi-species model. should always be this
+            mcc = mcc_test[count]
+            thr=thresholds_selected_test
+        else:
+            report = score_report_test
+        report = pd.DataFrame(report).transpose()
+        # print(report)
+        # print('--------')
+
+        # if 'accuracy' not in report.index.to_list():  # no resitance pheno in test folder.  should not happen
+        #     accuracy='-'
+        # else:
+        #     accuracy=report.loc['accuracy', 'f1-score']
+        # print(report)
+        if not report.empty:
+            accuracy = report.loc['accuracy', 'f1-score']
+            f1=(report.loc['macro avg', 'f1-score'])
+            precision=(report.loc['macro avg', 'precision'])
+            recall=(report.loc['macro avg', 'recall'])
+            support=(report.loc['macro avg', 'support'])
+
+            f1_pos=(report.loc['1', 'f1-score'])
+            precision_pos=(report.loc['1', 'precision'])
+            recall_pos=(report.loc['1', 'recall'])
+            support_pos=(report.loc['1', 'support'])
+
+            final.loc[anti, :] = [f1, precision, recall, accuracy,
+                                               mcc, f1_pos, precision_pos, recall_pos,
+                                               thr, support, support_pos]
+
+            final = final.astype(float).round(2)
+
+        count+=1
+    final=final.fillna('-')
+    final.to_csv(save_name_score_final + '_score_final.txt', sep="\t")
+    print(final)
 
 
-
-
-def extract_info(f_multi,f_concat,f_all,s,level,cv,hidden, epochs, re_epochs, learning,f_fixed_threshold,f_nn_base,f_optimize_score):
+def extract_info(f_multi,f_concat,f_all,list_species,level,cv,hidden, epochs, re_epochs, learning,f_fixed_threshold,f_nn_base,f_optimize_score):
     if f_multi==True:
         merge_name = []
 
         data = pd.read_csv('metadata/' + str(level) + '_multi-species_summary.csv', index_col=0,
                            dtype={'genome_id': object}, sep="\t")
         if f_all:
-            s = data.index.tolist()[:-1]
-
-        data = data.loc[s, :]
+            list_species = data.index.tolist()[:-1]
+            data = data.loc[list_species, :]
+        else:
+            # --------------------------------------------------------
+            # drop columns(antibotics) all zero
+            # data = data.loc[:, (data != 0).any(axis=0)]
+            # drop columns(antibotics) less than 2 antibiotics
+            data = data.loc[list_species, :]
+            data = data.loc[:, (data.sum() > 1)]
+            print(data)
 
         # --------------------------------------------------------
         # drop columns(antibotics) all zero
         data = data.loc[:, (data != 0).any(axis=0)]
         All_antibiotics = data.columns.tolist()  # all envolved antibiotics # todo
-        for n in s:
+        for n in list_species:
             merge_name.append(n[0] + n.split(' ')[1][0])
         merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
         multi_results = 'log/results/' + str(level) + '/multi_species/' + merge_name
@@ -385,10 +444,18 @@ def extract_info(f_multi,f_concat,f_all,s,level,cv,hidden, epochs, re_epochs, le
 
         data = pd.read_csv('metadata/' + str(level) + '_multi-species_summary.csv', index_col=0,
                            dtype={'genome_id': object}, sep="\t")
+
         if f_all:
             list_species = data.index.tolist()[:-1]
-
-        data = data.loc[list_species, :]
+            data = data.loc[list_species, :]
+        else:
+            # --------------------------------------------------------
+            # drop columns(antibotics) all zero
+            # data = data.loc[:, (data != 0).any(axis=0)]
+            # drop columns(antibotics) less than 2 antibiotics
+            data = data.loc[list_species, :]
+            data = data.loc[:, (data.sum() > 1)]
+            print(data)
 
         # --------------------------------------------------------
         # drop columns(antibotics) all zero
@@ -397,10 +464,13 @@ def extract_info(f_multi,f_concat,f_all,s,level,cv,hidden, epochs, re_epochs, le
         for n in list_species:
             merge_name.append(n[0] + n.split(' ')[1][0])
         merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
-        multi_log = './log/temp/' + str(level) + '/multi_concat/' + merge_name
+        multi_results = 'log/results/' + str(level) + '/multi_concat/' + merge_name
 
+        amr_utility.file_utility.make_dir(multi_results)
+        count = 0
         for species_testing in list_species:
-            list_species_training = list_species.remove(species_testing)
+            list_species_training = list_species[:count] + list_species[count + 1:]
+            count += 1
             # do a nested CV on list_species, select the best estimator for testing on the standing out species
             merge_name_train = []
             for n in list_species_training:
@@ -428,7 +498,7 @@ def extract_info(f_multi,f_concat,f_all,s,level,cv,hidden, epochs, re_epochs, le
             mcc_test = score[2]
             thresholds_selected_test = score[0]
 
-            multi_make_visualization_pos(merge_name, All_antibiotics, level, f_fixed_threshold, epochs, learning,
+            multi_make_visualization_pos_concat(merge_name, All_antibiotics, level, f_fixed_threshold, epochs, learning,
                                          f_optimize_score, f_nn_base, cv, score_report_test, aucs_test, mcc_test,
                                          thresholds_selected_test, save_name_score,save_name_score_final)
 
@@ -439,7 +509,7 @@ def extract_info(f_multi,f_concat,f_all,s,level,cv,hidden, epochs, re_epochs, le
         data = pd.read_csv('metadata/'+str(level)+'_Species_antibiotic_FineQuality.csv', index_col=0, dtype={'genome_id': object},
                            sep="\t")
         data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
-        data = data.loc[s, :]
+        data = data.loc[list_species, :]
         df_species = data.index.tolist()
         # antibiotics = data['modelling antibiotics'].tolist()
         print(data)

@@ -356,7 +356,8 @@ def fine_tune_training(classifier,epochs,optimizer,x_train,y_train,anti_number):
             print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, loss.item()))
     return classifier
 
-def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Random_State, hidden, epochs,re_epochs, learning,f_scaler,f_fixed_threshold,f_no_early_stop,f_optimize_score,save_name_score,concat_merge_name):
+def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Random_State, hidden, epochs,re_epochs,
+         learning,f_scaler,f_fixed_threshold,f_no_early_stop,f_optimize_score,save_name_score,concat_merge_name,threshold_point,min_cov_point):
 
 
     #data
@@ -405,7 +406,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
     # =====================================
     # dimension: cv*(sample_n in each split(it varies))
     # element: index of sampels w.r.t. data_x, data_y
-    folders_sample,_ = neural_networks.cluster_folders.prepare_folders(cv, Random_State, p_names, p_clusters, 'new')
+    folders_sample,_,_ = neural_networks.cluster_folders.prepare_folders(cv, Random_State, p_names, p_clusters, 'new')
 
     for out_cv in range(cv):
         #select testing folder
@@ -478,7 +479,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
             #==================================================
 
             print(species, antibiotics,level, out_cv, innerCV)
-            name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level, out_cv, innerCV,learning,epochs,f_fixed_threshold,f_no_early_stop,f_optimize_score)
+            name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level, out_cv, innerCV,learning,epochs,f_fixed_threshold,f_no_early_stop,f_optimize_score,threshold_point,min_cov_point)
             # print(name_weights)
             torch.save(classifier.state_dict(), name_weights)
 
@@ -620,7 +621,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
 
         weight_test.append(weights_selected)
         thresholds_selected_test.append(thresholds_selected)
-        name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics, level,out_cv, weights_selected,learning,epochs,f_fixed_threshold,f_no_early_stop,f_optimize_score)
+        name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics, level,out_cv, weights_selected,learning,epochs,f_fixed_threshold,f_no_early_stop,f_optimize_score,threshold_point,min_cov_point)
         classifier.load_state_dict(torch.load(name_weights))
 
         #=======================================================
@@ -643,13 +644,13 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
         classifier.train()
         optimizer = optim.SGD(classifier.parameters(), lr=0.0001)
         classifier = fine_tune_training(classifier, re_epochs, optimizer, x_train_val, y_train_val, anti_number)
-        name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level, out_cv,'',learning,epochs,f_fixed_threshold,f_no_early_stop,f_optimize_score)
+        name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level, out_cv,'',learning,epochs,f_fixed_threshold,f_no_early_stop,f_optimize_score,threshold_point,min_cov_point)
 
         torch.save(classifier.state_dict(), name_weights)
 
         # rm inner loop models' weight in the log
         for i in np.arange(cv-1):
-            n = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level, out_cv, i,learning,epochs,f_fixed_threshold,f_no_early_stop,f_optimize_score)
+            n = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level, out_cv, i,learning,epochs,f_fixed_threshold,f_no_early_stop,f_optimize_score,threshold_point,min_cov_point)
             os.system("rm " + n)
 
         # apply the trained model to the test data
@@ -842,20 +843,28 @@ def test(species, antibiotics, weights,threshold_select,level, xdata, ydata, p_n
                     comp.append(t)
             y_test_anti = y_test[comp]
             pred_test_binary_sub_anti = pred_test_binary_sub[comp]
+            # print('prey_test', pred_test_binary_sub.shape)
+            # print('precomy_test', pred_test_binary_sub_anti.shape)
+            # print(comp)
+            if comp!=[]:
+                mcc = matthews_corrcoef(y_test_anti[:, i], pred_test_binary_sub_anti[:, i])
+                f1 = f1_score(y_test_anti[:, i], pred_test_binary_sub_anti[:, i], average='macro')
+                fpr, tpr, _ = roc_curve(y_test_anti[:, i], pred_test_binary_sub_anti[:, i], pos_label=1)
+                report = classification_report(y_test_anti[:, i], pred_test_binary_sub_anti[:, i], labels=[0, 1],
+                                               output_dict=True)
+                roc_auc = auc(fpr, tpr)
+                tprs.append(interp(mean_fpr, fpr, tpr))
+                tprs[-1][0] = 0.0
+                # aucs.append(roc_auc)
+                f1_test_anti.append(f1)
+                score_report_test_anti.append(report)
+                aucs_test_anti.append(roc_auc)
+                mcc_test_anti.append(mcc)
+            else:
+                f1_test_anti.append(None)
+                score_report_test_anti.append(None)
+                aucs_test_anti.append(None)
+                mcc_test_anti.append(None)
 
-            mcc = matthews_corrcoef(y_test_anti[:, i], pred_test_binary_sub_anti[:, i])
-            f1 = f1_score(y_test_anti[:, i], pred_test_binary_sub_anti[:, i], average='macro')
-            fpr, tpr, _ = roc_curve(y_test_anti[:, i], pred_test_binary_sub_anti[:, i], pos_label=1)
-            report = classification_report(y_test_anti[:, i], pred_test_binary_sub_anti[:, i], labels=[0, 1],
-                                           output_dict=True)
-            roc_auc = auc(fpr, tpr)
-            tprs.append(interp(mean_fpr, fpr, tpr))
-            tprs[-1][0] = 0.0
-            # aucs.append(roc_auc)
-            f1_test_anti.append(f1)
-            score_report_test_anti.append(report)
-            aucs_test_anti.append(roc_auc)
-            mcc_test_anti.append(mcc)
-
-    return ['',f1_test_anti,mcc_test_anti,score_report_test_anti,aucs_test_anti,tprs]
+    return [threshold_select,f1_test_anti,mcc_test_anti,score_report_test_anti,aucs_test_anti,tprs]
 

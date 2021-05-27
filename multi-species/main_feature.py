@@ -29,7 +29,7 @@ import neural_networks.Neural_networks_khuModified_earlys as nn_module
 # import data_preparation.discrete_merge
 # import neural_networks.Neural_networks_khuModified as nn_module_original #no use now.
 import csv
-import neural_networks.cluster_folders
+import neural_networks.cluster_folders as pre_cluster_folders
 import pickle
 
 
@@ -137,8 +137,8 @@ def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_
 
     if f_cluster_folders == True:
 
-        folders_sample,split_original = neural_networks.cluster_folders.prepare_folders(cv, random,path_metadata, path_cluster_results,'original')
-        folders_sample_new,split_new_k = neural_networks.cluster_folders.prepare_folders(cv, random, path_metadata, path_cluster_results,'new')
+        folders_sample,split_original = pre_cluster_folders.prepare_folders(cv, random,path_metadata, path_cluster_results,'original')
+        folders_sample_new,split_new_k = pre_cluster_folders.prepare_folders(cv, random, path_metadata, path_cluster_results,'new')
         return split_original,split_new_k
 
 
@@ -184,7 +184,7 @@ def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_
                                                                                        f_optimize_score)
         # todo change names for concat
         nn_module.eval(species, anti, level, path_x,path_y, path_name, path_cluster_results, cv, random, hidden, epochs,
-                       re_epochs, learning,f_scaler, f_fixed_threshold,f_nn_base,f_optimize_score,save_name_score,None)
+                       re_epochs, learning,f_scaler, f_fixed_threshold,f_nn_base,f_optimize_score,save_name_score,None) # the last None means not concat multi-s model.
         #f_nn_base corresponds to no early stoppping
 
 

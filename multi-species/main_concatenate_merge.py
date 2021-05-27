@@ -313,7 +313,7 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
             f1_test=f1_test.mean(1)
             ind_best_es=np.argmax(f1_test)
 
-            weights_best = amr_utility.name_utility.GETname_multi_bench_weight(merge_name,merge_name_train, 'all_possible_anti',
+            weights_best = amr_utility.name_utility.GETname_multi_bench_weight(merge_name,merge_name_train, 'all_possible_anti_concat',
                                                                                level, ind_best_es, '',
                                                                                learning, epochs, f_fixed_threshold,
                                                                                f_nn_base, f_optimize_score)
