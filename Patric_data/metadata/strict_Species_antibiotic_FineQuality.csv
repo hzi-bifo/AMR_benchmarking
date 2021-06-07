@@ -1,5 +1,5 @@
 	number	modelling antibiotics
-Mycobacterium tuberculosis	10	['amikacin', 'capreomycin', 'ethambutol', 'ethionamide', 'isoniazid', 'kanamycin', 'ofloxacin', 'pyrazinamide', 'rifampin', 'streptomycin']
+Mycobacterium tuberculosis	9	['capreomycin', 'ethambutol', 'ethionamide', 'isoniazid', 'kanamycin', 'ofloxacin', 'pyrazinamide', 'rifampin', 'streptomycin']
 Salmonella enterica	8	['amoxicillin/clavulanic acid', 'ampicillin', 'ceftiofur', 'ceftriaxone', 'chloramphenicol', 'streptomycin', 'sulfisoxazole', 'tetracycline']
 Streptococcus pneumoniae	5	['beta-lactam', 'erythromycin', 'penicillin', 'tetracycline', 'trimethoprim/sulfamethoxazole']
 Neisseria gonorrhoeae	2	['azithromycin', 'cefixime']

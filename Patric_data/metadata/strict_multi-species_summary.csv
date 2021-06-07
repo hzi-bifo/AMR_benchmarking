@@ -1,0 +1,9 @@
+	amoxicillin/clavulanic acid	ciprofloxacin	erythromycin	meropenem	penicillin	streptomycin	tetracycline	tobramycin	trimethoprim/sulfamethoxazole
+Mycobacterium tuberculosis	0	0	0	0	0	1	0	0	0
+Salmonella enterica	1	0	0	0	0	1	1	0	0
+Streptococcus pneumoniae	0	0	1	0	1	0	1	0	1
+Escherichia coli	1	1	0	0	0	0	0	0	0
+Staphylococcus aureus	0	1	1	0	1	0	1	0	0
+Klebsiella pneumoniae	0	1	0	1	0	0	1	1	1
+Pseudomonas aeruginosa	0	1	0	1	0	0	0	1	0
+Total	2	4	2	2	2	2	4	2	2

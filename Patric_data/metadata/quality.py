@@ -231,7 +231,9 @@ def filter_quality(level,f_balance):
     Species_quality=pd.DataFrame(index=info_species, columns=['number','modelling antibiotics'])#initialize for visualization
     #print(Species_quality)
     #for species in ['Pseudomonas aeruginosa']:
+
     for species in info_species:
+        BAD=[]
         save_all_quality,save_quality=amr_utility.name_utility.GETsave_quality(species,level)
         data_sub = data[data['species'] == species]
         #with pd.option_context('display.max_columns', None):
@@ -255,8 +257,8 @@ def filter_quality(level,f_balance):
         # print(data_sub)
         # [2]. check balance of the phenotype
         # ====================================================================
-        print(species)
-        print('============= Select_antibiotic:', len(select_antibiotic), select_antibiotic)
+        # print(species)
+        # print('============= Select_antibiotic:', len(select_antibiotic), select_antibiotic)
         select_antibiotic_fianl= select_antibiotic.copy()
         for anti in select_antibiotic:
             save_name_meta,save_name_modelID=amr_utility.name_utility.GETsave_name_modelID(level,species,anti,True)
@@ -266,7 +268,7 @@ def filter_quality(level,f_balance):
             # select genome_id and  resistant_phenotype
             data_sub_anti = data_sub.loc[data_sub['antibiotic'] == anti]
             data_sub_anti = data_sub_anti.loc[:, ('genome_id', 'resistant_phenotype')]
-            print(species, '=============>>', anti)
+            # print(species, '=============>>', anti)
             #print(data_sub_anti)
             data_sub_anti=data_sub_anti.drop_duplicates()
             #Drop the all rows with the same 'genome_id' but different 'resistant_phenotype!!! May 21st.
@@ -274,8 +276,11 @@ def filter_quality(level,f_balance):
             df_bad=data_sub_anti[data_sub_anti.duplicated(['genome_id'])]#all rows with the same 'genome_id' but different 'resistant_phenotype
             #drop
             bad=df_bad['genome_id'].to_list()
+            BAD.append(bad)
             if bad != []:
-                print(bad)
+                # print(bad)
+                # print(len(bad),'out of',data_sub_anti.shape[0] )
+                # print(species,anti)
                 data_sub_anti = data_sub_anti[~data_sub_anti['genome_id'].isin(bad)]
             #----------------------------------------------------------------
 
@@ -284,14 +289,14 @@ def filter_quality(level,f_balance):
             # check data balance
             balance_check = data_sub_anti.groupby(by="resistant_phenotype").count()
             balance_check.to_csv(save_name_meta + 'balance_check.txt', sep="\t")
-            print('balanced dataset.', balance_check)
+            # print('balanced dataset.', balance_check)
             #print('Check phenotype balance.', balance_check)
             if balance_check.index.shape[0] == 2:# there is Neisseria gonorrhoeae w.r.t. ceftriaxone, no R pheno.
                 balance_ratio = balance_check.iloc[0]['genome_id'] / balance_check.iloc[1]['genome_id']
                 if min(balance_check.iloc[0]['genome_id'], balance_check.iloc[1]['genome_id']) <100:
                     select_antibiotic_fianl.remove(anti)
-                    print('not selected')
-                    print(balance_check)
+                    # print('not selected')
+                    # print(balance_check)
                 else:#final selected
                     # save the ID for each species and each antibiotic
                     data_sub_anti.to_csv(save_name_modelID + '.txt', sep="\t") #dataframe with metadata
@@ -300,8 +305,8 @@ def filter_quality(level,f_balance):
                     # data_sub_anti['genome_id_location'].to_csv(save_name_modelID+'_path', sep="\t",index=False,header=False)
                     data_sub_anti.to_csv(save_name_modelID+'resfinder', sep="\t", index=False, header=False)#for the use of resfinder cluster
                     #For Ehsan generating CV splits
-            #         data_sub_anti.to_csv('model/TO_Ehsan/'+str(level)+'/Data_' + str(species.replace(" ", "_")) + '_' + str(
-            # anti.translate(str.maketrans({'/': '_', ' ': '_'}))), sep="\t", index=False, header=False)
+                    #data_sub_anti.to_csv('model/TO_Ehsan/'+str(level)+'/Data_' + str(species.replace(" ", "_")) + '_' + str(
+                    # anti.translate(str.maketrans({'/': '_', ' ': '_'}))), sep="\t", index=False, header=False)
                     data_sub_anti['genome_id'].to_csv(save_name_modelID, sep="\t", index=False, header=False)
                     if (f_balance== True) and (balance_ratio > 2 or balance_ratio < 0.5):# #final selected, need to downsample.
                         # if not balance, downsampling
@@ -319,18 +324,49 @@ def filter_quality(level,f_balance):
                         print('Check phenotype balance after downsampling.', balance_check)
                         balance_check.to_csv(save_name_modelID + 'balance_check.txt', mode='a', sep="\t")
                     else:
-                        print('balanced dataset.', balance_check)
+                        # print('balanced dataset.', balance_check)
+                        pass
             else:
                 select_antibiotic_fianl.remove(anti)
+        #check if samples with conflicting pheno exit in other antibiotic groups
+        BAD=[j for sub in BAD for j in sub]
+        if BAD !=[]:
+            for anti in select_antibiotic_fianl:
+                save_name_meta, save_name_modelID = amr_utility.name_utility.GETsave_name_modelID(level, species, anti,
+                                                                                                  True)
+                # for anti in ['mupirocin', 'penicillin', 'rifampin', 'tetracycline', 'vancomycin']:
+                # logDir = os.path.join('log/log_' + str(species.replace(" ", "_"))+'_'+str(anti))
 
-
+                # select genome_id and  resistant_phenotype
+                data_sub_anti = pd.read_csv(save_name_modelID + '.txt', sep="\t")
+                data_sub_anti = data_sub_anti[~data_sub_anti['genome_id'].isin(BAD)]
+                # maybebad=data_sub_anti[data_sub_anti['genome_id'].isin(BAD)]
+                # print(maybebad.shape[0])
+                # print('out of ',data_sub_anti.shape[0])
+                # print(species,anti)
+                # print('==============================================')
+                balance_check = data_sub_anti.groupby(by="resistant_phenotype").count()
+                if min(balance_check.iloc[0]['genome_id'], balance_check.iloc[1]['genome_id']) <100:
+                    select_antibiotic_fianl.remove(anti)
+                    print('not selected in second run!!!!!!!!!')
+                    print(species,anti)
+                    print(balance_check)
+                else:#final selected
+                    # save the ID for each species and each antibiotic
+                    data_sub_anti.to_csv(save_name_modelID + '.txt', sep="\t") #dataframe with metadata
+                    data_sub_anti['genome_id'].to_csv(save_name_modelID, sep="\t", index=False, header=False)
+                    # fna location list
+                    # data_sub_anti['genome_id_location'] = '/net/projects/BIFO/patric_genome/'+ data_sub_anti['genome_id'].astype(str)+'.fna'
+                    # data_sub_anti['genome_id_location'].to_csv(save_name_modelID+'_path', sep="\t",index=False,header=False)
+                    data_sub_anti.to_csv(save_name_modelID+'resfinder', sep="\t", index=False, header=False)#for the use of resfinder cluster
+                    #For Ehsan generating CV splits
 
         Species_quality.at[species,'modelling antibiotics']= select_antibiotic_fianl
         Species_quality.at[species, 'number'] =len(select_antibiotic_fianl)
 
     print(Species_quality)#visualization of selected species.
     Species_quality.to_csv(str(level)+'_Species_antibiotic_FineQuality.csv', sep="\t")
-    return
+
 
 
 if __name__ == '__main__':

@@ -5,7 +5,8 @@ sys.path.append('../')
 sys.path.insert(0, os.getcwd())
 import pandas as pd
 import amr_utility.name_utility
-
+import numpy as np
+from ast import literal_eval
 
 '''
 #Summarize the number of strains and species in the Patric 
@@ -121,11 +122,17 @@ def extract_id_species(path):
         data_sub_uniqueID = data_sub.groupby(by="genome_id").count()
         ID = data_sub_uniqueID.index.to_list()
         ID_kmer = pd.DataFrame(ID, columns=["genome_id"])
+
         # --------
         #for kmer use
-        save_name_speciesID=amr_utility.name_utility.save_name_speciesID(species,f=True)
+        save_name_speciesID=amr_utility.name_utility.GETsave_name_speciesID(species,f=True)
         ID_kmer.to_csv(save_name_speciesID, sep="\t")
 
+        # -------------
+        # for prokka
+        ID_kmer.to_csv('model/id_' + str(species.replace(" ", "_")), sep="\t",index=False, header=False)
+
+        '''
         #-------------
         #for ODH use
         path = []
@@ -137,9 +144,60 @@ def extract_id_species(path):
         # print('Number of strains:', len(ID))
         print(ID_odh)
         ID_odh.to_csv('../log/feature/odh/log_'+str(species.replace(" ", "_"))+'.list',header=0,  sep="\t")
+        '''
+
+#==============================================================
+# multi-species                                              ==
+#==============================================================
+def extract_multi_model_summary(l):
+    #check which species' metadata share the same antibiotic.
+    #This can be done after the quality control and filter.
+    data = pd.read_csv(str(l) + '_Species_antibiotic_FineQuality.csv', index_col=0,
+                       dtype={'genome_id': object}, sep="\t")
+
+    print(data)
+    #gather all the possible anti
+    data_sub=data['modelling antibiotics'].apply(literal_eval)
+    print(data_sub)
+    print('------------')
+
+    All_anti=np.concatenate(data_sub)
+    print(data_sub['Salmonella enterica'])
+    print('==============')
+
+    All_anti=list(set(All_anti))
+    All_anti.sort()
+
+    print(All_anti)
+
+    summary=pd.DataFrame(index=data.index, columns=All_anti)  # initialize for visualization
+    # print(summary)
+    for i in All_anti:
+        summary[i] =data_sub.apply(lambda x: 1 if i in x else 0)
 
 
+    #select those can be used on multi-species model
+    # summary.loc['Total'] = summary.sum()
+    # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    #     print(summary)
+    summary = summary.loc[:, (summary.sum() >1)]
+    # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+    #     print(summary)
+    print(summary.columns,summary.columns.size)
+    summary = summary[(summary.T != 0).any()]#drops rows(bacteria) where all zero
 
+
+    summary.loc['Total'] = summary.sum()
+    with pd.option_context('display.max_rows', None, 'display.max_columns', None):
+        print(summary)
+    summary.to_csv(str(l)+'_multi-species_summary.csv',sep="\t")
+
+
+def get_absolute_pathname(p_names):
+    fileDir=os.path.dirname(os.path.realpath('__file__'))
+    filename = os.path.join(fileDir, p_names)
+    filename = os.path.abspath(os.path.realpath(filename))
+    return filename
 
 
 
@@ -149,7 +207,7 @@ if __name__ == '__main__':
     # summarise_species()
     # sorting_deleteing(500)#retain only this that has >=N strains for a specif antibotic w.r.t. a species'''
     # extract_id()
-    extract_id_species('/vol/projects/BIFO/patric_genome/')#the path of the sequence data
+    # extract_id_species('/vol/projects/BIFO/patric_genome/')#the path of the sequence data
     # download_quality()
     # extract_id_quality() #downloaded quality meta data, saved at the subdirectory quality.
     # filter_quality()
@@ -157,7 +215,9 @@ if __name__ == '__main__':
     # only for the author use, delete when completing.
     # check_dif: check the difference of included strains for two sets of criteria
     # extract_id_quality_analysis(check_dif=False)
-    #============================================
-
+    # =============================================================
+    # multi-species                                              ==
+    # =============================================================
+    extract_multi_model_summary("loose")#"strict", "loose"
 
 
