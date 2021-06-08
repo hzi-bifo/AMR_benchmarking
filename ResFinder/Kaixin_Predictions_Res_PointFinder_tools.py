@@ -14,6 +14,7 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import f1_score
 import argparse
 import zipfile
+from pathlib import Path
 
 def make_dir(name):
     logDir = os.path.join(name)
@@ -24,10 +25,14 @@ def make_dir(name):
             print("Can't create logging directory:", logDir)
 
 
-def determination(species,antibiotics,level,tool):
-
-    path_to_pr = "/net/sgi/metagenomics/data/khu/benchmarking/resfinder_results/" + str(
-        species.replace(" ", "_"))
+def determination(species,antibiotics,level,f_no_zip):
+    fileDir = os.path.dirname(os.path.realpath('__file__'))
+    if Path(fileDir).parts[1]=='vol':
+        path_to_pr =  '/vol/projects/khu/amr/benchmarking2_kma/large_temp/resfinder_results/' + str(
+            species.replace(" ", "_"))
+    else:
+        path_to_pr = "/net/sgi/metagenomics/data/khu/benchmarking/resfinder_results/" + str(
+            species.replace(" ", "_"))
     logDir ="./temp/"
     make_dir(logDir)
     print(species)
@@ -37,7 +42,7 @@ def determination(species,antibiotics,level,tool):
     for anti in antibiotics_selected:
         print(anti,'--------------------------------------------------------------------')
 
-        save_name_modelID = 'metadata/model/' + str(level) + '/Data_' + str(species.replace(" ", "_")) + '_' + str(
+        save_name_modelID = '../metadata/model/' + str(level) + '/Data_' + str(species.replace(" ", "_")) + '_' + str(
             anti.translate(str.maketrans({'/': '_', ' ': '_'})))
 
         data_sub_anti = pd.read_csv(save_name_modelID + '.txt', index_col=0, dtype={'genome_id': object}, sep="\t")
@@ -52,19 +57,19 @@ def determination(species,antibiotics,level,tool):
             # Read prediction info---------------------------------------------------------------------------
             # file = get_file(species, strain_ID, tool)
             temp_file = open("./temp/"+str(species.replace(" ", "_"))+"temp.txt", "w+")
-
-            with zipfile.ZipFile("%s/%s.zip" % (path_to_pr, strain_ID)) as z:
-                file = z.open("%s/pheno_table.txt" % strain_ID, "r")
+            if f_no_zip==True:# ResFinder results are not in zip format
+                file = open("%s/%s/pheno_table.txt" % (path_to_pr,strain_ID), "r")
                 for position, line in enumerate(file):
-                    line.decode('utf-8')
+
                     if "# Antimicrobial	Class" in line:
                         start = position
 
                     if "# WARNING:" in line:
                         end = position
-
+                file = open("%s/%s/pheno_table.txt" % (path_to_pr, strain_ID), "r")
+                for position, line in enumerate(file):
                     try:
-                        if (position > start) & (position < end) :
+                        if (position > start) & (position < end):
                             # print(position)
                             # line=line.strip().split('\t')
                             temp_file.write(line)
@@ -73,6 +78,28 @@ def determination(species,antibiotics,level,tool):
                             # print(position)
                             # line=line.strip().split('\t')
                             temp_file.write(line)
+            else:#zip format
+                with zipfile.ZipFile("%s/%s.zip" % (path_to_pr, strain_ID)) as z:
+                    file = z.open("%s/pheno_table.txt" % strain_ID, "r")
+                    for position, line in enumerate(file):
+                        line.decode('utf-8')
+                        if "# Antimicrobial	Class" in line:
+                            start = position
+
+                        if "# WARNING:" in line:
+                            end = position
+                    file = z.open("%s/pheno_table.txt" % strain_ID, "r")
+                    for position, line in enumerate(file):
+                        try:
+                            if (position > start) & (position < end) :
+                                # print(position)
+                                # line=line.strip().split('\t')
+                                temp_file.write(line)
+                        except:
+                            if (position > start):
+                                # print(position)
+                                # line=line.strip().split('\t')
+                                temp_file.write(line)
 
             temp_file.close()
             pheno_table =pd.read_csv("./temp/"+str(species.replace(" ", "_"))+"temp.txt", index_col=None, header=None,
@@ -106,9 +133,9 @@ def determination(species,antibiotics,level,tool):
             mcc_all.append(None)
             print("No information for antibiotic: ", anti)
 
-        return mcc_all
+    return mcc_all
 
-def make_visualization(species,antibiotics,level,tool,score):
+def make_visualization(species,antibiotics,level,tool,score,f_no_zip):
     '''
     make final summary
     recall of the positive class is also known as “sensitivity”; recall of the negative class is “specificity”.
@@ -116,22 +143,25 @@ def make_visualization(species,antibiotics,level,tool,score):
     # path_to_pointfinder = "Results/Point_results" + str(species.replace(" ", "_")) + "/"
     # path_to_resfinder = "Results/Res_results_" + str(species.replace(" ", "_")) + "/"
     # path_to_pr = "Results/" + str(species.replace(" ", "_")) + "/"
-    print(species)
+    # print(species)
     antibiotics_selected = ast.literal_eval(antibiotics)
-    print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
+    # print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
 
-
-    mcc_all=determination(species,antibiotics,level,tool)
+    make_dir('Results/summary/'+ str(level))
+    mcc_all=determination(species,antibiotics,level,f_no_zip)
     final=pd.DataFrame(index=antibiotics_selected, columns=['f1_macro','precision', 'recall','accuracy','mcc','f1_positive',
-                                                            'precision_positive','recall_positive','mcc','support','support_positive'] )
+                                                            'precision_positive','recall_positive','support','support_positive'] )
     print(final)
+    print(mcc_all)
+
+
     i=0
     for anti in antibiotics_selected:
-        print(anti, '--------------------------------------------------------------------')
+        # print(anti, '--------------------------------------------------------------------')
         try:
             data = pd.read_csv('Results/summary/'+str(species.replace(" ", "_")) + '_' +
-                               str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.txt', sep="\t")
-            print(data)
+                               str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.txt', index_col=0, header=0,sep="\t")
+            # print(data)
             final.loc[str(anti),'f1_macro']=data.loc['macro avg','f1-score']
             final.loc[str(anti),'precision'] = data.loc['macro avg','precision']
             final.loc[str(anti),'recall'] = data.loc['macro avg','recall']
@@ -149,9 +179,9 @@ def make_visualization(species,antibiotics,level,tool,score):
     print(final)
     final.to_csv('Results/summary/'+ str(level)+'/'+str(species.replace(" ", "_")) + '.csv', sep="\t")
 
-def extract_info(s,l,tool,visualize,score):
+def extract_info(s,l,tool,score,f_no_zip):
 
-    data = pd.read_csv('metadata/'+str(l)+'_Species_antibiotic_FineQuality.csv', index_col=0, dtype={'genome_id': object}, sep="\t")
+    data = pd.read_csv('../metadata/'+str(l)+'_Species_antibiotic_FineQuality.csv', index_col=0, dtype={'genome_id': object}, sep="\t")
     data = data[data['number'] != 0]# drop the species with 0 in column 'number'.
     # for training model on part of the dataset:-------------
     # data=data.loc[['Escherichia coli'],:]
@@ -166,7 +196,7 @@ def extract_info(s,l,tool,visualize,score):
     #         determination(df_species,antibiotics,l,tool)
     # else:
     for df_species,antibiotics in zip(df_species, antibiotics):
-        make_visualization(df_species,antibiotics,l,tool,score)
+        make_visualization(df_species,antibiotics,l,tool,score,f_no_zip)
 
 
 
@@ -175,19 +205,20 @@ if __name__== '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--l','--level',default='loose', type=str,
                         help='Quality control: strict or loose')
-
     parser.add_argument('--t', '--tool', default='Both', type=str,
                         help='res, point, both')
+    parser.add_argument('-f_no_zip', '--f_no_zip', dest='f_no_zip', action='store_true',
+                        help=' Point/ResFinder results are not stored in zip format.')
     parser.add_argument('--s','--species', default=[], type=str,nargs='+',help='species to run: e.g.\'seudomonas aeruginosa\' \
      \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
      \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
-    parser.add_argument('-v', '--visualize', dest='v',
-                        help='visualize the final outcome ', action='store_true', )
-    parser.add_argument('--score', default='f1-score', type=str, required=False,
+    # parser.add_argument('-v', '--visualize', dest='v',
+    #                     help='visualize the final outcome ', action='store_true', )
+    parser.add_argument('--score', default='all', type=str, required=False,
                         help='Score:f1-score, precision, recall, all. All scores are macro.')
     #parser.set_defaults(canonical=True)
     parsedArgs=parser.parse_args()
     # parser.print_help()
     print(parsedArgs)
-    extract_info(parsedArgs.s, parsedArgs.l,parsedArgs.t,parsedArgs.v,parsedArgs.score)
-    # extract_info(parsedArgs.s,parsedArgs.b,parsedArgs.l)
+    extract_info(parsedArgs.s, parsedArgs.l,parsedArgs.t,parsedArgs.score,parsedArgs.f_no_zip)
+
