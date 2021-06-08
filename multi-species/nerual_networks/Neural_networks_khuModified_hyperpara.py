@@ -12,6 +12,7 @@ os.environ["NUMEXPR_NUM_THREADS"] = "1" # export NUMEXPR_NUM_THREADS=6
 import sys
 sys.path.append('../')
 sys.path.insert(0, os.getcwd())
+import time
 import torch
 import torch.nn as nn
 import numpy as np
@@ -59,15 +60,18 @@ print(device)
 if not sys.warnoptions:
     warnings.simplefilter("ignore")
 class _classifier3(nn.Module):
-    def __init__(self, nlabel,D_in,H):
+    def __init__(self, nlabel,D_in,H,dropout):
         super(_classifier3, self).__init__()
         self.main = nn.Sequential(
             nn.Linear(D_in, H),
             nn.ReLU(),
+            nn.Dropout(dropout),
             nn.Linear(H, H),
             nn.ReLU(),
+            nn.Dropout(dropout),
             nn.Linear(H, H),
             nn.ReLU(),
+            nn.Dropout(dropout),
             nn.Linear(H, nlabel),
         )
 
@@ -76,13 +80,15 @@ class _classifier3(nn.Module):
         out=nn.Sigmoid()(out)
         return out
 class _classifier2(nn.Module):
-    def __init__(self, nlabel,D_in,H):
+    def __init__(self, nlabel,D_in,H,dropout):
         super(_classifier2, self).__init__()
         self.main = nn.Sequential(
             nn.Linear(D_in, H),
             nn.ReLU(),
+            nn.Dropout(dropout),
             nn.Linear(H, H),
             nn.ReLU(),
+            nn.Dropout(dropout),
             nn.Linear(H, nlabel),
         )
 
@@ -92,11 +98,12 @@ class _classifier2(nn.Module):
         return out
 
 class _classifier(nn.Module):
-    def __init__(self, nlabel,D_in,H):
+    def __init__(self, nlabel,D_in,H,dropout):
         super(_classifier, self).__init__()
         self.main = nn.Sequential(
             nn.Linear(D_in, H),
             nn.ReLU(),
+            nn.Dropout(dropout),
             nn.Linear(H, nlabel),
         )
 
@@ -159,11 +166,13 @@ def training_original(classifier,epochs,optimizer,x_train,y_train,anti_number):
 
         if epoc % 100 == 0:
             # print the loss per iteration
-            print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, loss.item()))
+            print(losses)
+            print(np.average(losses))
+            print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs,  np.average(losses)))
     return classifier,epoc
 
-def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_number):
-    patience = 200
+def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_number,patience):
+    # patience = 200
     print('with early stop setting..')
     # to track the average training loss per epoch as the model trains
     avg_train_losses = []
@@ -412,27 +421,37 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
     # element: index of sampels w.r.t. data_x, data_y
     folders_sample,_,_ = neural_networks.cluster_folders.prepare_folders(cv, Random_State, p_names, p_clusters, 'new')
     if f_no_early_stop==True:
-        if anti_number==1:
-            hyper_space={'n_hidden': [200,300], 'epochs': [1000,2000, 3000,4000],'lr':[0.001,0.0005],'classifier':[1]}
-
-        else:
-            hyper_space = {'n_hidden': [200,300,400], 'epochs': [2000, 3000,4000,5000], 'lr': [ 0.001,0.0005,0.0001],
-                           'classifier': [1,2,3]}
+        print('please do not use this option, because no patience is included in the hyper=para selection.')
+        # if anti_number==1:
+        #     hyper_space={'n_hidden': [200,300], 'epochs': [1000,2000,3000,4000],'lr':[0.001,0.0005],'classifier':[1],
+        #                  'dropout':[0,0.2,0.5],'patience':[200,600,1000,30000]}
+        #
+        # else:
+        #     hyper_space = {'n_hidden': [200,300,400], 'epochs': [2000,3000,4000,5000,6000], 'lr': [ 0.001,0.0005,0.0001],
+        #                    'classifier': [1,2,3],'dropout':[0,0.2,0.5],'patience':[200,600,1000,30000]}
 
     else:
         if anti_number==1:
-            hyper_space = {'n_hidden': [200,300], 'epochs': [20000], 'lr': [ 0.001,0.0005,0.0001],
-                           'classifier': [1]}
+            hyper_space = {'n_hidden': [200], 'epochs': [10000], 'lr': [ 0.001,0.0005],
+                           'classifier': [1],'dropout':[0,0.2],'patience':[200,600]}#June.3rd.
             # hyper_space = {'n_hidden': [200, 300], 'epochs': [200], 'lr': [0.001, 0.0005],
-            #                'classifier': [1]}
+            #                'classifier': [1],'dropout':[0,0.2,0.5]}
+        elif antibiotics=='all_possible_anti_concat' and anti_number>1:
+            hyper_space = {'n_hidden': [200, 400], 'epochs': [30000], 'lr': [0.0005, 0.0001],
+                           'classifier': [1, 2], 'dropout': [0, 0.2], 'patience': [200, 4000, 8000]}  # June.3rd.
         else:
-            hyper_space = {'n_hidden': [200,300,400], 'epochs': [30000], 'lr': [ 0.001,0.0005,0.0001],
-                           'classifier': [1,2,3]}
+            hyper_space = {'n_hidden': [200,400], 'epochs': [30000], 'lr': [0.0005,0.0001],
+                           'classifier': [1,2],'dropout':[0,0.2],'patience':[200]}#June.3rd.
             # hyper_space = {'n_hidden': [200, 300], 'epochs': [200], 'lr': [0.001, 0.0005],
-            #                'classifier': [1, 2]}
-
-
-
+            #                'classifier': [1, 2],'dropout':[0,0.2,0.5]}
+            # if anti_number == 1:  June 3rd
+            #     hyper_space = {'n_hidden': [200, 300], 'epochs': [20000], 'lr': [0.001, 0.0005, 0.0001],
+            #                    'classifier': [1], 'dropout': [0, 0.2, 0.5], 'patience': [200, 600, 1000, 30000]}
+            #     # hyper_space = {'n_hidden': [200, 300], 'epochs': [200], 'lr': [0.001, 0.0005],
+            #     #                'classifier': [1],'dropout':[0,0.2,0.5]}
+            # else:
+            #     hyper_space = {'n_hidden': [200, 300, 400], 'epochs': [30000], 'lr': [0.001, 0.0005, 0.0001],
+            #                    'classifier': [1, 2, 3], 'dropout': [0, 0.2, 0.5], 'patience': [200, 600, 1000, 30000]}
 
     for out_cv in range(cv):
         #select testing folder
@@ -483,7 +502,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
             x_train = torch.from_numpy(x_train).float()
             y_train = torch.from_numpy(y_train).float()
             x_val = torch.from_numpy(x_val).float()
-
+            y_val = torch.from_numpy(y_val).float()
             pred_val_inner = []  # predicted results on validation set.
             ###################
             # 1. train the model #
@@ -495,19 +514,21 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
             Validation_actul_epoc_split = []
 
             for grid_iteration in np.arange(len(list(ParameterGrid(hyper_space)))):
-                y_val = torch.from_numpy(y_val).float()
+
                 # --------------------------------------------------------------------
                 epochs=list(ParameterGrid(hyper_space))[grid_iteration]['epochs']
                 n_hidden=list(ParameterGrid(hyper_space))[grid_iteration]['n_hidden']
                 learning=list(ParameterGrid(hyper_space))[grid_iteration]['lr']
                 n_cl=list(ParameterGrid(hyper_space))[grid_iteration]['classifier']
+                dropout=list(ParameterGrid(hyper_space))[grid_iteration]['dropout']
+                patience=list(ParameterGrid(hyper_space))[grid_iteration]['patience']
                 # generate a NN model
                 if n_cl==1:
-                    classifier = _classifier(nlabel, D_input, n_hidden)#reload, after testing(there is fine tune traning!)
+                    classifier = _classifier(nlabel, D_input, n_hidden,dropout)#reload, after testing(there is fine tune traning!)
                 elif n_cl==2:
-                    classifier = _classifier2(nlabel, D_input, n_hidden)
+                    classifier = _classifier2(nlabel, D_input, n_hidden,dropout)
                 elif n_cl==3:
-                    classifier = _classifier3(nlabel, D_input, n_hidden)
+                    classifier = _classifier3(nlabel, D_input, n_hidden,dropout)
                 print(list(ParameterGrid(hyper_space))[grid_iteration])
                 # print('Hyper_parameters:',n_cl)
                 # print(epochs,n_hidden,learning)
@@ -516,15 +537,18 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
                 optimizer = optim.SGD(classifier.parameters(), lr=learning)
                 optimizer.zero_grad()  # Clears existing gradients from previous epoch
                 #loop:
+                print(species, antibiotics, level, out_cv, innerCV)
+                start = time.time()
                 if f_no_early_stop==True:
                     classifier,actual_epoc = training_original(classifier,epochs,optimizer,x_train,y_train,anti_number)
                 else:
-                    classifier,actual_epoc =training(classifier, epochs, optimizer, x_train, y_train,x_val,y_val, anti_number)
+                    classifier,actual_epoc =training(classifier, epochs, optimizer, x_train, y_train,x_val,y_val, anti_number,patience)
                 Validation_actul_epoc_split.append(actual_epoc)
-
+                end = time.time()
+                print('Time used: ',end - start)
                 #==================================================
 
-                print(species, antibiotics,level, out_cv, innerCV)
+
                 #if hyperparameter selectio mode, set learning and epoch as 0 for naming the output.
                 # name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level, out_cv, innerCV,0.0,0,f_fixed_threshold,f_no_early_stop,f_optimize_score,threshold_point,min_cov_point)
                 # print(name_weights)
@@ -559,7 +583,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
                 #khu add: 13May
                 print('f_optimize_score:',f_optimize_score)
                 if f_optimize_score=='auc':
-
+                    # y_val=np.array(y_val)
                     aucs_val_sub_anti=[]
                     for i in range(anti_number):
                         comp = []
@@ -604,7 +628,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
                         y_val_pred = (pred_val_sub > threshold_matrix)
                         y_val_pred = 1*y_val_pred
 
-                        y_val = np.array(y_val)  # ground truth
+                        # y_val = np.array(y_val)  # ground truth
 
                         mcc_sub_anti = []
                         f1_sub_anti = []
@@ -734,13 +758,14 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
         n_hidden = hyperparameters_test[out_cv]['n_hidden']
         learning = hyperparameters_test[out_cv]['lr']
         n_cl = hyperparameters_test[out_cv]['classifier']
+        dropout=hyperparameters_test[out_cv]['dropout']
         # generate a NN model
         if n_cl == 1:
-            classifier = _classifier(nlabel, D_input, n_hidden)  # reload, after testing(there is fine tune traning!)
+            classifier = _classifier(nlabel, D_input, n_hidden,dropout)  # reload, after testing(there is fine tune traning!)
         elif n_cl == 2:
-            classifier = _classifier2(nlabel, D_input, n_hidden)
+            classifier = _classifier2(nlabel, D_input, n_hidden,dropout)
         elif n_cl == 3:
-            classifier = _classifier3(nlabel, D_input, n_hidden)
+            classifier = _classifier3(nlabel, D_input, n_hidden,dropout)
         print( 'testing hyper-parameter: ',hyperparameters_test[out_cv])
         # print('Hyper_parameters:',n_cl)
         # print(epochs,n_hidden,learning)
@@ -878,6 +903,11 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
     torch.cuda.empty_cache()
     return score
 
+def concat_eval():
+    #retrain the model on all the data based on selected hyper-parameters
+    pass
+
+
 
 def test(hyperparameters,species, antibiotics, weights,threshold_select,level, xdata, ydata, p_names, p_clusters, cv, Random_State, n_hidden, epochs,re_epochs, learning,f_scaler,f_fixed_threshold,f_no_early_stop,f_optimize_score):
     x_test = np.loadtxt(xdata, dtype="float")
@@ -896,13 +926,14 @@ def test(hyperparameters,species, antibiotics, weights,threshold_select,level, x
     n_hidden = hyperparameters['n_hidden']
     # learning = hyperparameters['lr']
     n_cl = hyperparameters['classifier']
+    dropout=hyperparameters['dropout']
     # generate a NN model
     if n_cl == 1:
-        classifier = _classifier(anti_number, D_input, n_hidden)  # reload, after testing(there is fine tune traning!)
+        classifier = _classifier(anti_number, D_input, n_hidden,dropout)  # reload, after testing(there is fine tune traning!)
     elif n_cl == 2:
-        classifier = _classifier2(anti_number, D_input, n_hidden)
+        classifier = _classifier2(anti_number, D_input, n_hidden,dropout)
     elif n_cl == 3:
-        classifier = _classifier3(anti_number, D_input, n_hidden)
+        classifier = _classifier3(anti_number, D_input, n_hidden,dropout)
 
     # classifier = _classifier(anti_number, D_input, n_hidden)  # reload, after testing(there is fine tune traning!)
     classifier.to(device)
