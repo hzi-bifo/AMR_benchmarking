@@ -5,6 +5,7 @@ os.environ["MKL_NUM_THREADS"] = "1" # export MKL_NUM_THREADS=6
 os.environ["VECLIB_MAXIMUM_THREADS"] = "1" # export VECLIB_MAXIMUM_THREADS=4
 os.environ["NUMEXPR_NUM_THREADS"] = "1" # export NUMEXPR_NUM_THREADS=6
 import numpy as np
+import copy
 import ast
 import time
 import amr_utility.name_utility
@@ -21,7 +22,7 @@ import data_preparation.merge_resfinder_pointfinder_khuModified
 import data_preparation.merge_input_output_files_khuModified
 import data_preparation.merge_resfinder_khuModified
 import resfinder.ResFinder_PointFinder_concat_khuModified
-
+import neural_networks.Neural_networks_khuModified_hyperpara as nn_module_hyper
 import neural_networks.Neural_networks_khuModified_earlys as nn_module
 # import data_preparation.discrete_merge
 # import neural_networks.Neural_networks_khuModified as nn_module_original
@@ -39,7 +40,7 @@ This concatenated scripts depends on relevant discete parts. So fisrt run the ma
 
 
 def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta,f_phylo_prokka,f_phylo_roary,
-                 f_pre_cluster,f_cluster,f_cluster_folders,f_run_res,f_res,threshold_point,min_cov_point,f_merge_mution_gene,f_matching_io,f_nn,cv, random,
+                 f_pre_cluster,f_cluster,f_cluster_folders,f_run_res,f_res,threshold_point,min_cov_point,f_merge_mution_gene,f_matching_io,f_divers_rank,f_nn,f_nn_nCV,f_nn_all,cv, random,
                  hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,f_nn_base,f_optimize_score,n_jobs):
     if path_sequence=='/net/projects/BIFO/patric_genome':
         path_large_temp='/net/sgi/metagenomics/data/khu/benchmarking/phylo'
@@ -70,15 +71,15 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
     for n in list_species:
         merge_name.append(n[0] + n.split(' ')[1][0])
     merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
-    multi_log = './log/temp/' + str(level) + '/multi_concat/' + merge_name
+    # multi_log = './log/temp/' + str(level) + '/multi_concat/' + merge_name
 
-    amr_utility.file_utility.make_dir(multi_log)
+
 
     # --------------------------------------------------------
     # high level names
     multi_log,path_metadata_multi,path_metadata_pheno_multi,path_res_concat,path_point_repre_results_concat,path_res_repre_results_concat,path_mutation_gene_results_concat \
         = amr_utility.name_utility.GETname_multi_bench_concat(level, path_large_temp, merge_name,threshold_point,min_cov_point)
-
+    amr_utility.file_utility.make_dir(multi_log)
     #1. Metadata
     if f_pre_meta==True:
         'First run main_discrete_merge.py' \
@@ -122,8 +123,7 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
 
 
 
-    # 3. run resfinder only -point option
-    # for -res results , get them from already generated results by species.
+    # 3. run resfinder
     if f_run_res==True:
 
         # path_res_concat=path_large_temp+'/resfinder_results/merge_species_t_'+str(threshold_point)+'_cov_'+str(min_cov_point)+'/'
@@ -158,6 +158,39 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
         data_preparation.merge_resfinder_pointfinder_khuModified.extract_info(path_point_repre_results_concat,
                                                                               path_res_repre_results_concat,
                                                                               path_mutation_gene_results_concat)
+    if f_divers_rank:
+        # rank spceis by diversity via FastANI
+        # later use the species with lowest diversity as evaluation set.
+        pass
+        for s in  list_species:
+            _, _, _, _, \
+            _, path_metadata_s_multi_discrete, path_metadata_pheno_s_multi_discrete, _, _, _, \
+            _, _, _ = \
+                amr_utility.name_utility.GETname_multi_bench_multi_species(level, path_large_temp, merge_name, s)
+            _, _, _, _, _, _, _, _,_ ,path_ani= \
+                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,
+                                                                            str(s.replace(" ", "_")), threshold_point,
+                                                                            min_cov_point)
+            #prepare QUERY_LIST and REFERENCE_LIST for fastANI
+            data_sub_anti = pd.read_csv(path_metadata_pheno_s_multi_discrete, dtype={'id': object}, index_col=0, sep="\t")
+            data_sub_anti['genome_id_location'] = '/vol/projects/BIFO/patric_genome/' + data_sub_anti[
+                'id'].astype(str) + '.fna'
+            data_sub_anti['genome_id_location'].to_csv(path_metadata_s_multi_discrete + '_path', sep="\t", index=False, header=False)
+
+            file_sub = os.path.join('./cv_folders/' + str(level) + '/multi_concat/', merge_name, str(s.replace(" ", "_")) + '_ani.sh')
+            amr_utility.file_utility.make_dir(os.path.dirname(file_sub))
+            run_file = open(file_sub, "w")  # to change if anti choosable
+            run_file.write("#!/bin/bash")
+            run_file.write("\n")
+            run_file = amr_utility.file_utility.hzi_cpu_header(run_file,
+                                                                str(s.replace(" ", "_")) + '_ani.sh',
+                                                                20)
+            cmd = 'fastANI --threads 20 --ql %s  --rl %s --matrix -o %s' % (path_metadata_s_multi_discrete+'_path',path_metadata_s_multi_discrete+'_path',path_ani)
+            run_file.write(cmd)
+            run_file.write("\n")
+            run_file.close()
+
+
     if f_matching_io == True:
         # feature_dimension_all = pd.DataFrame(index=list_species, columns=['feature dimension'])
         count=0
@@ -175,12 +208,12 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
 
             # prepare metadata for training, testing  no need(use the single species meta data)
             path_id_train, path_metadata_train, path_point_repre_results_train, path_res_repre_results_train,\
-            path_mutation_gene_results_train,path_x_y_train,_, _, _=\
-                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,merge_name_train)
+            path_mutation_gene_results_train,path_x_y_train,_, _, _,_=\
+                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,merge_name_train,threshold_point,min_cov_point)
 
             path_id_test, path_metadata_test, path_point_repre_results_test,path_res_repre_results_test, \
-            path_mutation_gene_results_test,path_x_y_test,_, _, _ = \
-                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp,merge_name, merge_name_test)
+            path_mutation_gene_results_test,path_x_y_test,_, _, _,_ = \
+                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp,merge_name, merge_name_test,threshold_point,min_cov_point)
 
             # path_metadata_test = multi_log + merge_name_test + '_meta'
             # path_id_test = multi_log + merge_name_test + '_id'
@@ -210,7 +243,7 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
             id_test=np.genfromtxt(path_id_test, dtype="str")
             df_path_meta_test=pd.DataFrame(index=np.arange(len(id_test)),columns=np.insert(np.array(All_antibiotics, dtype='object'), 0, 'id'))#initialize with the right order of anti.
             df_path_meta_test_all=pd.read_csv(multi_log+str(species_testing.replace(" ", "_"))+'_meta.txt', sep="\t", index_col=0, header=0,dtype={'id': object})
-            # todo add all the antibiotic completely for testing dataset. And delete the antibiotis that are not included in this set of species combination.
+            #  add all the antibiotic completely for testing dataset. And delete the antibiotis that are not included in this set of species combination.
             print('check anti order test')
             print(df_path_meta_test_all)
             df_path_meta_test.loc[:,'id']=df_path_meta_test_all.loc[:,'id']
@@ -242,7 +275,7 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
             df_feature_train.to_csv(path_mutation_gene_results_train,sep="\t", index=True, header=False)
             print(df_feature_train)
             df_feature_test.to_csv(path_mutation_gene_results_test,sep="\t", index=True, header=False)
-            #todo need to check
+            #need to check. checked.
             print(df_feature_test)
             # preparing x y
             data_preparation.merge_input_output_files_khuModified.extract_info(path_id_train,path_mutation_gene_results_train,
@@ -254,10 +287,28 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
 
     if f_nn == True:
         # =================================
-        # 3.  model
+        # 3.  model. June8th
         # =================================
+        #analyze the results from fastANI
+        RANK=[]
+        for s in list_species:
+            _, _, _, _, _, _, _, _, _, path_ani = \
+                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,
+                                                                            str(s.replace(" ", "_")), threshold_point,
+                                                                            min_cov_point)
+            pass
+            # todo
+
+
+        exit()
         count = 0
+        score_test_all = []
         for species_testing in list_species:
+            #select the first of the rest species in RANK as valuation set.
+            #
+            rank=copy.deepcopy(RANK)
+            rank.remove(species_testing)
+            merge_name_eval=rank[0]
             print('the anibiotics to predict:', All_antibiotics)
             print('the species to test: ', species_testing)
             list_species_training=list_species[:count] + list_species[count+1 :]
@@ -271,15 +322,87 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
 
             # prepare metadata for training, testing  no need(use the single species meta data)
 
-            _, _, _, _, _,_, path_x_train, path_y_train, path_name_train=\
-                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,merge_name_train)
-            _, _, _, _, _,_, path_x_test, path_y_test, path_name_test = \
-                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,merge_name_test)
-
+            _, _, _, _, _,_, path_x_train, path_y_train, path_name_train,_=\
+                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,merge_name_train,threshold_point,min_cov_point)
+            _, _, _, _, _,_, path_x_test, path_y_test, path_name_test,_ = \
+                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,merge_name_test,threshold_point,min_cov_point)
+            _, _, _, _, _, _, path_x_val, path_y_val, path_name_val, _ = \
+                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,
+                                                                            merge_name_eval, threshold_point,
+                                                                            min_cov_point)
 
             name_weights_folder = amr_utility.name_utility.GETname_multi_bench_folder_concat(merge_name,merge_name_train,level, learning,
                                                                                         epochs,f_fixed_threshold,
-                                                                                        f_nn_base, f_optimize_score)
+                                                                                        f_nn_base, f_optimize_score,threshold_point,min_cov_point)
+
+            amr_utility.file_utility.make_dir(name_weights_folder)  # for storage of weights.
+
+
+            save_name_score_concat = amr_utility.name_utility.GETname_multi_bench_save_name_score_concat(merge_name,
+                                                                                                         merge_name_train,
+                                                                                                         level,
+                                                                                                         learning,
+                                                                                                         epochs,
+                                                                                                         f_fixed_threshold,
+                                                                                                         f_nn_base,
+                                                                                                         f_optimize_score,threshold_point,min_cov_point)
+
+            score=nn_module_hyper.concat_eval(merge_name_train, 'all_possible_anti_concat', level, path_x_train, path_y_train,
+                                    path_name_train, path_x_val, path_y_val,
+                                    path_name_val, path_x_test, path_y_test,
+                                    path_name_test,
+                                    random, f_scaler, f_fixed_threshold,f_nn_base,
+                                    f_optimize_score, save_name_score_concat, merge_name, threshold_point,
+                                    min_cov_point)
+            score.append(merge_name_eval)#add valuation information.
+            score_test_all.append(score)
+            # save the score related to the standing out testing data.
+        save_name_score_concat = amr_utility.name_utility.GETname_multi_bench_save_name_score_concat(merge_name,
+                                                                                                     merge_name_test,
+                                                                                                     level,
+                                                                                                     learning,
+                                                                                                     epochs,
+                                                                                                     f_fixed_threshold,
+                                                                                                     f_nn_base,
+                                                                                                     f_optimize_score,threshold_point,min_cov_point)
+        with open(save_name_score_concat+'_TEST.pickle', 'wb') as f:  # overwrite
+            pickle.dump(score_test_all, f)
+
+    if f_nn_nCV==True:
+        '''Do a nested CV on above training data, in order to show the model robustness on predicting stand-out species.'''
+
+        count = 0
+        for species_testing in list_species:
+            print('the anibiotics to predict:', All_antibiotics)
+            print('the species to test: ', species_testing)
+            list_species_training = list_species[:count] + list_species[count + 1:]
+            count += 1
+            # do a nested CV on list_species, select the best estimator for testing on the standing out species
+            merge_name_train = []
+            for n in list_species_training:
+                merge_name_train.append(n[0] + n.split(' ')[1][0])
+            merge_name_train = '_'.join(merge_name_train)  # e.g.Se_Kp_Pa
+            merge_name_test = species_testing.replace(" ", "_")
+
+            # prepare metadata for training, testing  no need(use the single species meta data)
+
+            _, _, _, _, _, _, path_x_train, path_y_train, path_name_train = \
+                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,
+                                                                            merge_name_train, threshold_point,
+                                                                            min_cov_point)
+            _, _, _, _, _, _, path_x_test, path_y_test, path_name_test = \
+                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,
+                                                                            merge_name_test, threshold_point,
+                                                                            min_cov_point)
+
+            name_weights_folder = amr_utility.name_utility.GETname_multi_bench_folder_concat(merge_name,
+                                                                                             merge_name_train, level,
+                                                                                             learning,
+                                                                                             epochs, f_fixed_threshold,
+                                                                                             f_nn_base,
+                                                                                             f_optimize_score,
+                                                                                             threshold_point,
+                                                                                             min_cov_point)
 
             amr_utility.file_utility.make_dir(name_weights_folder)  # for storage of weights.
             path_cluster_results = []
@@ -288,11 +411,11 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
                 _, _, _, _, _, _, \
                 _, _, _ = \
                     amr_utility.name_utility.GETname_multi_bench_multi_species(level, path_large_temp, merge_name, s)
-                path_cluster_results.append(path_cluster_results_multi)#note: this depend on discrte parts.
+                path_cluster_results.append(path_cluster_results_multi)  # note: this depend on discrte parts.
 
-            # in the eval fundtion, 2nd parameter is only used in names.
+            # in the eval fundtion, 2nd parameter is only used in output names.
             # Nested CV.
-            #scores related to nCV
+            # scores related to nCV
             save_name_score_concat = amr_utility.name_utility.GETname_multi_bench_save_name_score_concat(merge_name,
                                                                                                          merge_name_train,
                                                                                                          level,
@@ -300,40 +423,58 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
                                                                                                          epochs,
                                                                                                          f_fixed_threshold,
                                                                                                          f_nn_base,
-                                                                                                         f_optimize_score)
+                                                                                                         f_optimize_score,
+                                                                                                         threshold_point,
+                                                                                                         min_cov_point)
 
-            scores=nn_module.eval(merge_name_train, 'all_possible_anti_concat', level, path_x_train, path_y_train, path_name_train, path_cluster_results, cv,
-                           random, hidden, epochs, re_epochs, learning, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score,save_name_score_concat,merge_name)
-            # Test the best estimator on test data.
-
-            threshold_select=scores[0]
-            f1_test=scores[1]#f1_macro, 10* n_anti
-
-            f1_test=np.array(f1_test)
-            f1_test=f1_test.mean(1)
-            ind_best_es=np.argmax(f1_test)
-
-            weights_best = amr_utility.name_utility.GETname_multi_bench_weight(merge_name,merge_name_train, 'all_possible_anti_concat',
-                                                                               level, ind_best_es, '',
-                                                                               learning, epochs, f_fixed_threshold,
-                                                                               f_nn_base, f_optimize_score)
-            #todo fine-tune the model with all the data
-            score_test=nn_module.test(merge_name_train, 'all_possible_anti', weights_best, threshold_select[ind_best_es],level, path_x_test, path_y_test, path_name_test,
-                           path_cluster_results, cv,random, hidden, epochs, re_epochs, learning, f_scaler, f_fixed_threshold, f_nn_base,
-                           f_optimize_score)
-            # save the score related to the standing out testing data.
-            save_name_score_concat = amr_utility.name_utility.GETname_multi_bench_save_name_score_concat(merge_name,
-                                                                                                         merge_name_test,
-                                                                                                         level,
-                                                                                                         learning,
-                                                                                                         epochs,
-                                                                                                         f_fixed_threshold,
-                                                                                                         f_nn_base,
-                                                                                                         f_optimize_score)
-            with open(save_name_score_concat+'_TEST.pickle', 'wb') as f:  # overwrite
-                pickle.dump(score_test, f)
+            nn_module_hyper.eval(merge_name_train, 'all_possible_anti_concat', level, path_x_train,
+                                          path_y_train,
+                                          path_name_train, path_cluster_results, cv,
+                                          random, re_epochs, f_scaler, f_fixed_threshold, f_nn_base,
+                                          f_optimize_score, save_name_score_concat, merge_name, threshold_point,
+                                          min_cov_point)
 
 
+
+    if f_nn_all==True:
+        '''Do a nested CV for all species, for a comparison with multi-discrete model. Finished on June 8th.'''
+        path_cluster_results = []
+        for s in list_species:
+            _, _, path_cluster_results_multi, _, \
+            _, _, _, _, _, _, \
+            _, _, _ = \
+                amr_utility.name_utility.GETname_multi_bench_multi_species(level, path_large_temp, merge_name, s)
+            path_cluster_results.append(path_cluster_results_multi)  # note: this depend on discrte parts.
+
+        #todo create relevant files. Seems finished. June 8th
+        _, _, _, _, \
+        path_mutation_gene_results_all, path_x_y_all, path_x_all, path_y_all, path_name_all,_= \
+            amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,
+                                                                        merge_name, threshold_point,
+                                                                        min_cov_point)
+        path_id_all=path_metadata_multi #multi_log + 'ID'
+        path_metadata_all=path_metadata_pheno_multi #multi_log + 'pheno.txt'
+
+        data_preparation.merge_input_output_files_khuModified.extract_info(path_id_all,
+                                                                           path_mutation_gene_results_all,
+                                                                           path_metadata_all, path_x_y_all)
+        # scores related to nCV
+        save_name_score_concat = amr_utility.name_utility.GETname_multi_bench_save_name_score_concat(merge_name,
+                                                                                                     merge_name,
+                                                                                                     level,
+                                                                                                     learning,
+                                                                                                     epochs,
+                                                                                                     f_fixed_threshold,
+                                                                                                     f_nn_base,
+                                                                                                     f_optimize_score,
+                                                                                                     threshold_point,
+                                                                                                     min_cov_point)
+
+        nn_module_hyper.eval(merge_name, 'all_possible_anti_concat', level, path_x_all, path_y_all,
+                                      path_name_all, path_cluster_results, cv,
+                                      random, re_epochs, f_scaler, f_fixed_threshold, f_nn_base,
+                                      f_optimize_score, save_name_score_concat, merge_name, threshold_point,
+                                      min_cov_point)
 
 
 if __name__== '__main__':
@@ -371,6 +512,10 @@ if __name__== '__main__':
                         help='Threshold for identity of Pointfinder. ')
     parser.add_argument('-l_p', '--min_cov_point', default=0.6, type=float,
                         help=' Minimum (breadth-of) coverage of Pointfinder. ')
+    parser.add_argument('-f_divers_rank', '--f_divers_rank', dest='f_divers_rank',
+                        action='store_true',
+                        help='Rank species by diversity.')
+
     parser.add_argument('-f_merge_mution_gene', '--f_merge_mution_gene', dest='f_merge_mution_gene',
                         action='store_true',
                         help=' Merging ResFinder and PointFinder results')
@@ -379,6 +524,10 @@ if __name__== '__main__':
     # para for nn nestedCV
     parser.add_argument('-f_nn', '--f_nn', dest='f_nn', action='store_true',
                         help='Run the NN model')
+    parser.add_argument('-f_nn_nCV', '--f_nn_nCV', dest='f_nn_nCV', action='store_true',
+                        help='Do a nested on the species involved in the training for predicting a stand-out species.')
+    parser.add_argument('-f_nn_all', '--f_nn_all', dest='f_nn_all', action='store_true',
+                        help='Do a nested CV for all species, for comparison with multi-discrete model.')
     parser.add_argument("-cv", "--cv_number", default=10, type=int,
                         help='CV splits number')
     parser.add_argument("-r", "--random", default=42, type=int,
@@ -418,7 +567,7 @@ if __name__== '__main__':
                  parsedArgs.f_pre_meta,parsedArgs.f_phylo_prokka,
                  parsedArgs.f_phylo_roary, parsedArgs.f_pre_cluster, parsedArgs.f_cluster, parsedArgs.f_cluster_folders,parsedArgs.f_run_res,
                  parsedArgs.f_res,parsedArgs.threshold_point,parsedArgs.min_cov_point,
-                 parsedArgs.f_merge_mution_gene, parsedArgs.f_matching_io,
-                 parsedArgs.f_nn, parsedArgs.cv_number, parsedArgs.random, parsedArgs.hidden, parsedArgs.epochs,
+                 parsedArgs.f_merge_mution_gene, parsedArgs.f_matching_io,parsedArgs.f_divers_rank,
+                 parsedArgs.f_nn, parsedArgs.f_nn_nCV,parsedArgs.f_nn_all,parsedArgs.cv_number, parsedArgs.random, parsedArgs.hidden, parsedArgs.epochs,
                  parsedArgs.re_epochs,
                  parsedArgs.learning, parsedArgs.f_scaler, parsedArgs.f_fixed_threshold, parsedArgs.f_nn_base,parsedArgs.f_optimize_score,parsedArgs.n_jobs)

@@ -21,7 +21,7 @@ import data_preparation.merge_resfinder_pointfinder_khuModified
 import data_preparation.merge_input_output_files_khuModified
 import data_preparation.merge_resfinder_khuModified
 # import data_preparation.merge_species_khuModified
-
+import neural_networks.Neural_networks_khuModified_hyperpara as nn_module_hyper
 import neural_networks.Neural_networks_khuModified_earlys as nn_module
 # import data_preparation.discrete_merge
 # import neural_networks.Neural_networks_khuModified as nn_module_original
@@ -267,9 +267,13 @@ def run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,le
                                                                     2)
                 # run_file.write("(")
                 # if s == 'Neisseria gonorrhoeae' or s=='Mycobacterium tuberculosis':
-                if s == 'Mycobacterium tuberculosis':
+                if s in ['Mycobacterium tuberculosis']:
                     cmd = "cat %s | %s -i -- -k 16 -Sparse - -ht 0.99 -hq 0.99 -NI -o %s &> %s" \
                           % (path_large_temp_kma_multi, path_to_kma_clust, path_cluster_temp_multi, path_cluster_results_multi)
+                elif s in ['Klebsiella pneumoniae']:
+                    cmd = "cat %s | %s -i -- -k 16 -Sparse - -ht 0.98 -hq 0.98 -NI -o %s &> %s" \
+                          % (path_large_temp_kma_multi, path_to_kma_clust, path_cluster_temp_multi,
+                             path_cluster_results_multi)
                 else:
                     cmd = "cat %s | %s -i -- -k 16 -Sparse - -ht 0.9 -hq 0.9 -NI -o %s &> %s" \
                           % (path_large_temp_kma_multi, path_to_kma_clust, path_cluster_temp_multi, path_cluster_results_multi)
@@ -299,7 +303,7 @@ def run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,le
                 # if Neisseria gonorrhoeae, then use  -ht 1.0 -hq 1.0, otherwise, all genomes will be clustered into one group #todo check....
 
                 run_file.write("(")
-                if s == 'Neisseria gonorrhoeae':
+                if s in ['Mycobacterium tuberculosis','Klebsiella pneumoniae']:
                     cmd = "cat %s | %s -i -- -k 16 -Sparse - -ht 0.98 -hq 0.98 -NI -o %s &> %s" \
                           % (path_large_temp_kma_multi, path_to_kma_clust, path_cluster_temp_multi,
                              path_cluster_results_multi)
@@ -454,13 +458,24 @@ def run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,le
             path_cluster_results.append(path_cluster_results_multi)
 
         # in the eval fundtion, 2nd parameter is only used in names.
-        save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(merge_name,'all_possible_anti', level,
-                                                                                       learning, epochs,
+        # save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(merge_name,'all_possible_anti', level,
+        #                                                                                learning, epochs,
+        #                                                                                f_fixed_threshold,
+        #                                                                                f_nn_base,
+        #                                                                                f_optimize_score)
+        # nn_module.eval(merge_name, 'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv, random, hidden,
+        #                epochs,re_epochs, learning, f_scaler, f_fixed_threshold, f_nn_base,f_optimize_score,save_name_score,None,None,None) # the last 3 Nones mean not concat multi-s model.
+        #todo save_name_score
+        save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(merge_name, 'all_possible_anti',
+                                                                                       level,
+                                                                                      0.0,0,
                                                                                        f_fixed_threshold,
                                                                                        f_nn_base,
                                                                                        f_optimize_score)
-        nn_module.eval(merge_name, 'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv, random, hidden,
-                       epochs,re_epochs, learning, f_scaler, f_fixed_threshold, f_nn_base,f_optimize_score,save_name_score,None)
+
+        nn_module_hyper.eval(merge_name,'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv, random,
+                             re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score, None,
+                             None, None)  # hyperparmeter selection in inner loop of nested CV
 
     if f_cluster_folders == True:
         #analysis the number of each species' samples in each folder.
