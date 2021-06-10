@@ -6,6 +6,7 @@ os.environ["VECLIB_MAXIMUM_THREADS"] = "1" # export VECLIB_MAXIMUM_THREADS=4
 os.environ["NUMEXPR_NUM_THREADS"] = "1" # export NUMEXPR_NUM_THREADS=6
 import numpy as np
 import copy
+import itertools
 import ast
 import time
 import amr_utility.name_utility
@@ -290,14 +291,37 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
         # 3.  model. June8th
         # =================================
         #analyze the results from fastANI
-        RANK=[]
-        for s in list_species:
+
+        print(list_species)
+        df_rank=pd.DataFrame(index=list_species, columns=['mean','std'])
+        for s in list_species[1:]:
+            print(s)
             _, _, _, _, _, _, _, _, _, path_ani = \
                 amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,
                                                                             str(s.replace(" ", "_")), threshold_point,
                                                                             min_cov_point)
-            pass
-            # todo
+            # distance_matrix=pd.read_csv(path_ani+'.matrix',header=0,index_col=0)
+            # distance_matrix=np.genfromtxt(path_ani+'.matrix')
+            file = open(path_ani+'.matrix', "r")
+            count=0
+            dis=[]
+            for position, line in enumerate(file):
+                count+=1
+                if count>2:
+                    line_new = line.split('\n')[0]
+                    dis.append(line_new.split("\t")[1:])
+
+            dis=list(itertools.chain.from_iterable(dis))
+            dis=[float(x) for x in dis]
+            print(len(dis))
+            mean = statistics.mean(dis)
+            std = statistics.stdev(dis)
+            df_rank.loc[s,:]=[mean,std]
+
+        print(df_rank)
+        #rank the species by mean from high to low. At the same time, the std should be the smaller the better.
+        df_rank=df_rank.sort_values(['mean','std'],ascending=[ False,True])
+        RANK = df_rank.index.to_list()
 
 
         exit()
