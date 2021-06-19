@@ -367,6 +367,55 @@ def fine_tune_training(classifier,epochs,optimizer,x_train,y_train,anti_number):
             print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, loss.item()))
     return classifier
 
+def hyper_range(anti_number,f_no_early_stop,antibiotics):
+    if f_no_early_stop==True:
+        print('please do not use this option, because no patience is included in the hyper=para selection.')
+        # if anti_number==1:
+        #     hyper_space={'n_hidden': [200,300], 'epochs': [1000,2000,3000,4000],'lr':[0.001,0.0005],'classifier':[1],
+        #                  'dropout':[0,0.2,0.5],'patience':[200,600,1000,30000]}
+        #
+        # else:
+        #     hyper_space = {'n_hidden': [200,300,400], 'epochs': [2000,3000,4000,5000,6000], 'lr': [ 0.001,0.0005,0.0001],
+        #                    'classifier': [1,2,3],'dropout':[0,0.2,0.5],'patience':[200,600,1000,30000]}
+
+    else:
+        if anti_number==1:
+            hyper_space = {'n_hidden': [200], 'epochs': [10000], 'lr': [0.001, 0.0005],
+                           'classifier': [1], 'dropout': [0, 0.2], 'patience': [200]}  # June.13 th.
+            # hyper_space = {'n_hidden': [200], 'epochs': [10000], 'lr': [ 0.001,0.0005],
+            #                'classifier': [1],'dropout':[0,0.2],'patience':[200,600]}#June.3rd.
+            # hyper_space = {'n_hidden': [200, 300], 'epochs': [200], 'lr': [0.001, 0.0005],
+            #                'classifier': [1],'dropout':[0,0.2,0.5]}
+        # elif antibiotics=='all_possible_anti_concat' and anti_number>1:
+        #     hyper_space = {'n_hidden': [200, 400], 'epochs': [30000], 'lr': [0.0005, 0.0001],
+        #                    'classifier': [1, 2], 'dropout': [0, 0.2], 'patience': [200,600]}  # June.3rd.
+        #     # hyper_space = {'n_hidden': [200, 300], 'epochs': [200], 'lr': [0.001, 0.0005],
+        #     #                'classifier': [1, 2], 'dropout': [0, 0.2],'patience': [200]}
+        else: #discrete multi-model and concat model for comparison.
+            hyper_space = {'n_hidden': [200,400], 'epochs': [30000], 'lr': [0.0005,0.0001],
+                           'classifier': [1,2],'dropout':[0,0.2],'patience':[200]}#June.12th.
+            # hyper_space = {'n_hidden': [200, 400], 'epochs': [30000], 'lr': [0.0005, 0.0001],
+            #                'classifier': [1, 2], 'dropout': [0, 0.2], 'patience': [200]}  # June.3rd.
+            # hyper_space = {'n_hidden': [200, 300], 'epochs': [200], 'lr': [0.001, 0.0005],
+            #                'classifier': [1, 2],'dropout':[0,0.2],'patience': [200]}
+            # if anti_number == 1:  June 3rd
+            #     hyper_space = {'n_hidden': [200, 300], 'epochs': [20000], 'lr': [0.001, 0.0005, 0.0001],
+            #                    'classifier': [1], 'dropout': [0, 0.2, 0.5], 'patience': [200, 600, 1000, 30000]}
+            #     # hyper_space = {'n_hidden': [200, 300], 'epochs': [200], 'lr': [0.001, 0.0005],
+            #     #                'classifier': [1],'dropout':[0,0.2,0.5]}
+            # else:
+            #     hyper_space = {'n_hidden': [200, 300, 400], 'epochs': [30000], 'lr': [0.001, 0.0005, 0.0001],
+            #                    'classifier': [1, 2, 3], 'dropout': [0, 0.2, 0.5], 'patience': [200, 600, 1000, 30000]}
+    return hyper_space
+def hyper_range_concat(anti_number,f_no_early_stop,antibiotics):
+    if f_no_early_stop==True:
+        print('please do not use this option, because no patience is included in the hyper=para selection.')
+    else:
+
+        hyper_space = {'n_hidden': [200, 400], 'epochs': [30000], 'lr': [0.0005, 0.0001],
+                       'classifier': [1, 2], 'dropout': [0, 0.2], 'patience': [200,600]}  # June.3rd.
+    return hyper_space
+
 # def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Random_State, hidden, epochs,re_epochs,
 #          learning,f_scaler,f_fixed_threshold,f_no_early_stop,f_optimize_score,save_name_score,concat_merge_name,threshold_point,min_cov_point):
 def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Random_State,
@@ -374,6 +423,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
 
     #data
     data_x = np.loadtxt(xdata, dtype="float")
+
     data_y =np.loadtxt(ydata)
 
     ##prepare data stores for testing scores##
@@ -420,39 +470,8 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
     # dimension: cv*(sample_n in each split(it varies))
     # element: index of sampels w.r.t. data_x, data_y
     folders_sample,_,_ = neural_networks.cluster_folders.prepare_folders(cv, Random_State, p_names, p_clusters, 'new')
-    if f_no_early_stop==True:
-        print('please do not use this option, because no patience is included in the hyper=para selection.')
-        # if anti_number==1:
-        #     hyper_space={'n_hidden': [200,300], 'epochs': [1000,2000,3000,4000],'lr':[0.001,0.0005],'classifier':[1],
-        #                  'dropout':[0,0.2,0.5],'patience':[200,600,1000,30000]}
-        #
-        # else:
-        #     hyper_space = {'n_hidden': [200,300,400], 'epochs': [2000,3000,4000,5000,6000], 'lr': [ 0.001,0.0005,0.0001],
-        #                    'classifier': [1,2,3],'dropout':[0,0.2,0.5],'patience':[200,600,1000,30000]}
 
-    else:
-        if anti_number==1:
-            hyper_space = {'n_hidden': [200], 'epochs': [10000], 'lr': [ 0.001,0.0005],
-                           'classifier': [1],'dropout':[0,0.2],'patience':[200,600]}#June.3rd.
-            # hyper_space = {'n_hidden': [200, 300], 'epochs': [200], 'lr': [0.001, 0.0005],
-            #                'classifier': [1],'dropout':[0,0.2,0.5]}
-        elif antibiotics=='all_possible_anti_concat' and anti_number>1:
-            hyper_space = {'n_hidden': [200, 400], 'epochs': [30000], 'lr': [0.0005, 0.0001],
-                           'classifier': [1, 2], 'dropout': [0, 0.2], 'patience': [200, 4000, 8000]}  # June.3rd.
-        else:
-            hyper_space = {'n_hidden': [200,400], 'epochs': [30000], 'lr': [0.0005,0.0001],
-                           'classifier': [1,2],'dropout':[0,0.2],'patience':[200]}#June.3rd.
-            # hyper_space = {'n_hidden': [200, 300], 'epochs': [200], 'lr': [0.001, 0.0005],
-            #                'classifier': [1, 2],'dropout':[0,0.2,0.5]}
-            # if anti_number == 1:  June 3rd
-            #     hyper_space = {'n_hidden': [200, 300], 'epochs': [20000], 'lr': [0.001, 0.0005, 0.0001],
-            #                    'classifier': [1], 'dropout': [0, 0.2, 0.5], 'patience': [200, 600, 1000, 30000]}
-            #     # hyper_space = {'n_hidden': [200, 300], 'epochs': [200], 'lr': [0.001, 0.0005],
-            #     #                'classifier': [1],'dropout':[0,0.2,0.5]}
-            # else:
-            #     hyper_space = {'n_hidden': [200, 300, 400], 'epochs': [30000], 'lr': [0.001, 0.0005, 0.0001],
-            #                    'classifier': [1, 2, 3], 'dropout': [0, 0.2, 0.5], 'patience': [200, 600, 1000, 30000]}
-
+    hyper_space = hyper_range(anti_number, f_no_early_stop, antibiotics)
     for out_cv in range(cv):
         #select testing folder
         test_samples=folders_sample[out_cv]
@@ -512,6 +531,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
             Validation_f1_thresholds_split = []  # inner CV *11 thresholds value
             Validation_auc_split = []  # inner CV
             Validation_actul_epoc_split = []
+
 
             for grid_iteration in np.arange(len(list(ParameterGrid(hyper_space)))):
 
@@ -736,7 +756,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
 
         #finish innner loop
         #=======================================================
-        #3. Re-train on both train and val data with the weights
+        #3. Re-train on both train and val data with the selected hyper-para
 
         print('Outer loop, testing.')
         train_val_samples = list(itertools.chain.from_iterable(train_val_samples))
@@ -903,13 +923,352 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
     torch.cuda.empty_cache()
     return score
 
-def concat_eval():
-    #retrain the model on all the data based on selected hyper-parameters
-    pass
+def concat_eval(species, antibiotics, level, path_x_train, path_y_train,
+                                    path_name_train,  path_x_val, path_y_val,
+                                    path_name_val, path_x_test, path_y_test,
+                                    path_name_test,
+                                    Random_State, f_scaler, f_fixed_threshold,f_no_early_stop,
+                                    f_optimize_score, save_name_score, concat_merge_name, threshold_point,
+                                    min_cov_point):
+    '''
+    concatenated multi-species model.
+    Evaluation on selected species via fastANI, training on rest species
+    '''
+    # data
+    data_x_train = np.loadtxt(path_x_train, dtype="float")
+    data_y_train = np.loadtxt(path_y_train)
+    data_x_val = np.loadtxt(path_x_val, dtype="float")
+    data_y_val =np.loadtxt(path_y_val)
+
+
+    # -------------------------------------------------------------------------------------------------------------------
+    # -------------------------------------------For hyper-para selection
+    Validation_mcc_thresholds = []  # N_gridsearch*11 thresholds value
+    Validation_f1_thresholds = []  # N_gridsearch*11 thresholds value
+    Validation_auc = []  # N_gridsearch
+    Validation_actul_epoc = [] #N_gridsearch
+
+    #---------------------------------------------Only for validation scores output
+    # f1_val = []#only for validation score saving
+    mcc_val = []#only for validation score saving
+    score_report_val = []#only for validation score saving
+    aucs_val = []#only for validation score saving
+    # tprs_val = []#only for validation score saving
+    # --------------------------------------------
+    # ------------------------------------------------------------------------------------
+    anti_number = data_y_train[0].size  # number of antibiotics
+    nlabel = data_y_train[0].size  # number of neurons in the output layer
+
+    D_input = len(data_x_train[0])  # number of neurons in the input layer
+    N_sample = len(data_x_train)  # number of input samples #should be equal to len(names)
 
 
 
-def test(hyperparameters,species, antibiotics, weights,threshold_select,level, xdata, ydata, p_names, p_clusters, cv, Random_State, n_hidden, epochs,re_epochs, learning,f_scaler,f_fixed_threshold,f_no_early_stop,f_optimize_score):
+    data_x_train = torch.from_numpy(data_x_train).float()
+    data_y_train = torch.from_numpy(data_y_train).float()
+    data_x_val = torch.from_numpy(data_x_val).float()
+    data_y_val = torch.from_numpy(data_y_val).float()
+    data_x_train=data_x_train.to(device)
+    data_x_val = data_x_val.to(device)
+    hyper_space=hyper_range_concat(anti_number, False, antibiotics)
+
+    for grid_iteration in np.arange(len(list(ParameterGrid(hyper_space)))):
+        # =====================================
+        # 1. training
+        # =====================================
+        # --------------------------------------------------------------------
+        epochs = list(ParameterGrid(hyper_space))[grid_iteration]['epochs']
+        n_hidden = list(ParameterGrid(hyper_space))[grid_iteration]['n_hidden']
+        learning = list(ParameterGrid(hyper_space))[grid_iteration]['lr']
+        n_cl = list(ParameterGrid(hyper_space))[grid_iteration]['classifier']
+        dropout = list(ParameterGrid(hyper_space))[grid_iteration]['dropout']
+        patience = list(ParameterGrid(hyper_space))[grid_iteration]['patience']
+        # generate a NN model
+        if n_cl == 1:
+            classifier = _classifier(nlabel, D_input, n_hidden,
+                                     dropout)  # reload, after testing(there is fine tune traning!)
+        elif n_cl == 2:
+            classifier = _classifier2(nlabel, D_input, n_hidden, dropout)
+        elif n_cl == 3:
+            classifier = _classifier3(nlabel, D_input, n_hidden, dropout)
+        print(list(ParameterGrid(hyper_space))[grid_iteration])
+        # print('Hyper_parameters:',n_cl)
+        # print(epochs,n_hidden,learning)
+        classifier.to(device)
+        # generate the optimizer - Stochastic Gradient Descent
+        optimizer = optim.SGD(classifier.parameters(), lr=learning)
+        optimizer.zero_grad()  # Clears existing gradients from previous epoch
+        # loop:
+        print(species, antibiotics, level)
+        start = time.time()
+        if f_no_early_stop == True:
+            classifier, actual_epoc = training_original(classifier, epochs, optimizer, data_x_train, data_y_train, anti_number)
+        else:
+            classifier, actual_epoc = training(classifier, epochs, optimizer, data_x_train, data_y_train, data_x_val, data_y_val,
+                                               anti_number, patience)
+        Validation_actul_epoc.append(actual_epoc)
+        end = time.time()
+        print('Time used: ', end - start)
+        # ==================================================
+        #2. evaluate
+        # ==================================================
+        classifier.eval()  # eval mode
+        pred_val_sub = []
+        # data_x_val = data_x_val.to(device)
+        for v, v_sample in enumerate(data_x_val):
+
+            # val = Variable(torch.FloatTensor(v_sample)).view(1, -1)
+            val = Variable(v_sample).view(1, -1)
+            output_test = classifier(val)
+            out = output_test
+            temp = []
+            for h in out[0]:
+                temp.append(float(h))
+            pred_val_sub.append(temp)
+
+        pred_val_sub = np.array(pred_val_sub)  # for this innerCV at this out_cv
+        # pred_val_inner.append(pred_val_sub)#for all innerCV at this out_cv. #No further use so far. April,30.
+        print('pred_val_sub shape:', pred_val_sub.shape)  # (cv-1)*n_sample
+        print('y_val', np.array(data_y_val).shape)
+
+        # --------------------------------------------------
+        # auc score, threshould operation is contained in itself definition.
+        # khu add: 13May
+        print('f_optimize_score:', f_optimize_score)
+        # for validation scores output
+        score_report_val_sub_anti = []
+        mcc_val_sub_anti = []
+        aucs_val_sub_anti = []
+        if f_optimize_score == 'auc':
+            # y_val=np.array(y_val)
+
+            for i in range(anti_number):
+                comp = []
+                if anti_number == 1:# Not in use for cacatenated case.
+                    fpr, tpr, _ = roc_curve(data_y_val, pred_val_sub, pos_label=1)
+                    # tprs.append(interp(mean_fpr, fpr, tpr))
+                    # tprs[-1][0] = 0.0
+                    roc_auc = auc(fpr, tpr)
+                    Validation_auc.append(roc_auc)
+                else:  # multi-out
+                    # todo check
+                    for t in range(len(data_y_val)):
+                        if -1 != data_y_val[t][i]:
+                            comp.append(t)
+
+                    y_val_anti = data_y_val[comp]
+                    pred_val_sub_anti = pred_val_sub[comp]
+                    fpr, tpr, _ = roc_curve(y_val_anti[:, i], pred_val_sub_anti[:, i], pos_label=1)
+                    roc_auc = auc(fpr, tpr)
+                    # tprs.append(interp(mean_fpr, fpr, tpr))
+                    # tprs[-1][0] = 0.0
+                    aucs_val_sub_anti.append(roc_auc)
+                    #June 14th
+                    report = classification_report(y_val_anti[:, i], pred_val_sub_anti[:, i], labels=[0, 1],
+                                                   output_dict=True)
+                    score_report_val_sub_anti.apend(report)
+                    mcc = matthews_corrcoef(y_val_anti[:, i], pred_val_sub_anti[:, i])
+
+                    mcc_val_sub_anti.append(mcc)
+            if anti_number > 1:  # multi-out, scores based on mean of all the involved antibotics
+                aucs_val_sub = statistics.mean(aucs_val_sub_anti)  # dimension: n_anti to 1
+                Validation_auc.append(aucs_val_sub)  # D: n_innerCV
+                # June 14th
+                score_report_val.append(score_report_val_sub_anti)
+                aucs_val.append(aucs_val_sub_anti)
+                mcc_val.append(mcc_val_sub_anti)
+        # ====================================================
+        elif f_optimize_score == 'f1_macro':
+            # Calculate macro f1. for thresholds from 0 to 1.
+            mcc_sub = []
+            f1_sub = []
+            #only for validation score saving
+            score_report_val_sub=[]
+            aucs_va_sub=[]
+            mcc_val_sub=[]
+            for threshold in np.arange(0, 1.1, 0.1):
+                # predictions for the test data
+                # turn probabilty to binary
+                threshold_matrix = np.full(pred_val_sub.shape, threshold)
+                y_val_pred = (pred_val_sub > threshold_matrix)
+                y_val_pred = 1 * y_val_pred
+
+                # y_val = np.array(y_val)  # ground truth
+
+                mcc_sub_anti = []
+                f1_sub_anti = []
+                for i in range(anti_number):
+
+                    comp = []  # becasue in the multi-species model, some species,anti combination are missing data
+                    # so those won't be counted when evaluating scores.
+
+                    if anti_number == 1:
+                        mcc = matthews_corrcoef(data_y_val, y_val_pred)
+                        # report = classification_report(y_val, y_val_pred, labels=[0, 1], output_dict=True)
+                        f1 = f1_score(data_y_val, y_val_pred, average='macro')
+                        mcc_sub.append(mcc)
+                        f1_sub.append(f1)
+
+                    else:  # multi-out
+                        for t in range(len(data_y_val)):
+                            if -1 != data_y_val[t][i]:
+                                comp.append(t)
+                        y_val_multi_sub = data_y_val[comp]
+                        y_val_pred_multi_sub = y_val_pred[comp]
+                        mcc = matthews_corrcoef(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i])
+                        f1 = f1_score(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i], average='macro')
+                        mcc_sub_anti.append(mcc)
+                        f1_sub_anti.append(f1)
+                        #June 16th
+                        fpr, tpr, _ = roc_curve(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i], pos_label=1)
+                        roc_auc = auc(fpr, tpr)
+                        report = classification_report(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i], labels=[0, 1],
+                                                       output_dict=True)
+                        mcc_val_sub_anti.append(mcc)
+                        score_report_val_sub_anti.apend(report)
+                        aucs_val_sub_anti.append(roc_auc)
+                if anti_number > 1:  # multi-out, scores based on mean of all the involved antibotics
+                    mcc_sub.append(statistics.mean(mcc_sub_anti))  # mcc_sub_anti dimension: n_anti
+                    f1_sub.append(statistics.mean(f1_sub_anti))
+                    # --for validation scores output
+                    score_report_val_sub.append(score_report_val_sub_anti)
+                    aucs_val_sub.append(aucs_val_sub_anti)
+                    mcc_val_sub.append(mcc_val_sub_anti)
+
+
+            Validation_mcc_thresholds.append(mcc_sub)
+            Validation_f1_thresholds.append(f1_sub)
+            # print(Validation_f1_thresholds)
+            # print(Validation_mcc_thresholds)
+            # --for validation scores output
+            score_report_val.append(score_report_val_sub)
+            aucs_val.append(aucs_val_sub)
+            mcc_val.append(mcc_val_sub)
+
+
+    #finish grid search
+    # finish evaluation with all hyper-para combination.
+    if f_fixed_threshold == True and f_optimize_score == 'f1_macro':
+        thresholds_selected = 0.5
+        Validation_f1_thresholds = np.array(Validation_f1_thresholds)
+        # select the inner loop index with the highest f1 score in the column w.r.t. 0.5
+        aim_column = np.where(np.arange(0, 1.1, 0.1) == 0.5)
+        aim_f1 = Validation_f1_thresholds[:, aim_column]
+        weights_selected = np.argmax(aim_f1)
+        # score_val=aim_f1[weights_selected]#foe save
+
+        ind = np.unravel_index(np.argmax(aim_f1, axis=None), aim_f1.shape)
+        hyperparameters_test = list(ParameterGrid(hyper_space))[ind[0]]
+        actual_epoc_test = Validation_actul_epoc[ind[0]]
+        actual_epoc_test_std = Validation_actul_epoc.std(axis=0)
+
+        # only for validation score saving.June 16th
+        score_report_val=score_report_val[ind[0]][aim_column]
+        aucs_val=score_report_val[ind[0]][aim_column]
+        mcc_val=score_report_val[ind[0]][aim_column]
+
+
+    elif f_fixed_threshold == False and f_optimize_score == 'f1_macro':
+        # select the inner loop index,and threshold with the highest f1 score in the matrix
+        Validation_f1_thresholds = np.array(Validation_f1_thresholds)
+        ind = np.unravel_index(np.argmax(Validation_f1_thresholds, axis=None), Validation_f1_thresholds.shape)
+        thresholds_selected = np.arange(0, 1.1, 0.1)[ind[1]]
+        weights_selected = ind[0]  # the order of innerCV# bug ? seems no 13May.
+        # score_val = Validation_f1_thresholds[weights_selected]#for save
+        hyperparameters_test = list(ParameterGrid(hyper_space))[ind[0]]
+        actual_epoc_test = Validation_actul_epoc[ind[0]]
+        actual_epoc_test_std = Validation_actul_epoc.std(axis=0)
+
+        # only for validation score saving.June 16th
+        score_report_val = score_report_val[ind[0]][thresholds_selected]
+        aucs_val = score_report_val[ind[0]][thresholds_selected]
+        mcc_val = score_report_val[ind[0]][thresholds_selected]
+
+    elif f_optimize_score == 'auc':
+
+        thresholds_selected = 0.5
+
+        Validation_auc = np.array(Validation_auc)
+        weights_selected = np.argmax(Validation_auc)
+        # score_val = Validation_auc[weights_selected]#for save
+        ind = np.unravel_index(np.argmax(Validation_auc, axis=None), Validation_auc.shape)
+        print('ind',ind)
+        hyperparameters_test=list(ParameterGrid(hyper_space))[ind]
+        actual_epoc_test=Validation_actul_epoc[ind]
+        actual_epoc_test_std=Validation_actul_epoc.std(axis=0)
+
+        # only for validation score saving
+        score_report_val = score_report_val[ind]
+        aucs_val = score_report_val[ind]
+        mcc_val = score_report_val[ind]
+
+    # print('weights_selected', weights_selected)
+    print('thresholds_selected', thresholds_selected)
+    print('hyperparameters_test',hyperparameters_test)
+    # weight_test.append(weights_selected)
+    # thresholds_selected_test.append(thresholds_selected)
+
+    # save training and val scores w.r.t. selected hyperpara. June 16th
+    score_val = [score_report_val,aucs_val,mcc_val]
+    # with open(save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
+    #     pickle.dump(score_val, f)
+
+
+    # =======================================================
+    # 3. Re-train on both train and val data with the selected hyper-para
+    data_x_train=np.array(data_x_train)
+    data_y_train = np.array(data_y_train)
+    data_x_val = np.array(data_x_val)
+    data_y_val = np.array(data_y_val)
+    x_train_val = np.concatenate((data_x_train, data_x_val), axis=0)
+    y_train_val =np.concatenate((data_y_train, data_y_val), axis=0)
+    x_train_val = torch.from_numpy(x_train_val).float()
+    y_train_val = torch.from_numpy(y_train_val).float()
+
+    # -
+    # epochs_testing = hyperparameters_test[out_cv]['epochs']
+    n_hidden = hyperparameters_test['n_hidden']
+    learning = hyperparameters_test['lr']
+    n_cl = hyperparameters_test['classifier']
+    dropout = hyperparameters_test['dropout']
+    # generate a NN model
+    if n_cl == 1:
+        classifier = _classifier(nlabel, D_input, n_hidden,
+                                 dropout)  # reload, after testing(there is fine tune traning!)
+    elif n_cl == 2:
+        classifier = _classifier2(nlabel, D_input, n_hidden, dropout)
+    elif n_cl == 3:
+        classifier = _classifier3(nlabel, D_input, n_hidden, dropout)
+    print('testing hyper-parameter: ', hyperparameters_test)
+
+    classifier.to(device)
+    # generate the optimizer - Stochastic Gradient Descent
+    optimizer = optim.SGD(classifier.parameters(), lr=learning)
+    optimizer.zero_grad()  # Clears existing gradients from previous epoch
+    classifier.train()
+
+    print('actual_epoc_test[out_cv]', actual_epoc_test)
+    classifier = fine_tune_training(classifier, int(actual_epoc_test), optimizer, x_train_val, y_train_val,
+                                    anti_number)
+    name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name, species, antibiotics, level,
+                                                                       '', '', 0.0, 0, f_fixed_threshold,
+                                                                       f_no_early_stop, f_optimize_score,
+                                                                       threshold_point, min_cov_point)
+
+    torch.save(classifier.state_dict(), name_weights)
+
+
+    # ===============================================
+    # 4. apply the trained model to the test data
+    score=test(hyperparameters_test,species, antibiotics, name_weights,thresholds_selected,level,path_x_test, path_y_test, f_scaler)
+    score.append([score_val,hyperparameters_test,actual_epoc_test])#the scored used to select best estimator in the first training phase.
+    torch.cuda.empty_cache()
+    return score
+
+def test(hyperparameters,species, antibiotics, weights,threshold_select,level, xdata, ydata, f_scaler):
+    '''
+     return: scores based on given weights, hyper-parameters, testing set.
+    '''
     x_test = np.loadtxt(xdata, dtype="float")
     y_test = np.loadtxt(ydata)
     anti_number = y_test[0].size  # number of neurons in the output layer

@@ -441,8 +441,8 @@ def extract_info(f_multi,f_concat,f_all,f_hy,list_species,level,cv,hidden, epoch
     elif f_concat==True:
         merge_name = []
 
-        data = pd.read_csv('metadata/' + str(level) + '_multi-species_summary.csv', index_col=0,
-                           dtype={'genome_id': object}, sep="\t")
+        data = pd.read_csv('metadata/' + str(level) + '_multi-species_summary_old.csv', index_col=0,
+                           dtype={'genome_id': object}, sep=",")
 
         if f_all:
             list_species = data.index.tolist()[:-1]
@@ -479,6 +479,7 @@ def extract_info(f_multi,f_concat,f_all,f_hy,list_species,level,cv,hidden, epoch
             merge_name_train = '_'.join(merge_name_train)  # e.g.Se_Kp_Pa
             merge_name_test = species_testing.replace(" ", "_")
             # 1. testing on the left-out species scores
+            print(merge_name_test)
             save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score_concat(merge_name,
                                                                                                   merge_name_test,
                                                                                                   level, learning,
