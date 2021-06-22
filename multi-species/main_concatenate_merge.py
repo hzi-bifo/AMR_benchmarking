@@ -295,61 +295,13 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
         # 3.  model. June8th
         # =================================
 
-        if f_nn_r:
-            #randomlu select a species as validation set.
-            RANK=copy.deepcopy(list_species)
-            random.Random(0).shuffle(RANK)#seed:0.So always return the same shuttled list
-            print(list_species)
-            print('After a random ranking')
-            print(RANK)
-
-        else:#analyze the results from fastANI
-            print(list_species)
-            df_rank=pd.DataFrame(index=list_species, columns=['mean','std'])
-            for s in list_species[1:]:
-                print(s)
-                _, _, _, _, _, _, _, _, _,  _,path_ani = \
-                    amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,
-                                                                                str(s.replace(" ", "_")), threshold_point,
-                                                                                min_cov_point)
-                # distance_matrix=pd.read_csv(path_ani+'.matrix',header=0,index_col=0)
-                # distance_matrix=np.genfromtxt(path_ani+'.matrix')
-                file = open(path_ani+'.matrix', "r")
-                count=0
-                dis=[]
-                for position, line in enumerate(file):
-                    count+=1
-                    if count>2:
-                        line_new = line.split('\n')[0]
-                        dis.append(line_new.split("\t")[1:])
-
-                dis=list(itertools.chain.from_iterable(dis))
-                dis=[float(x) for x in dis]
-                print(len(dis))
-                mean = statistics.mean(dis)
-                std = statistics.stdev(dis)
-                df_rank.loc[s,:]=[mean,std]
-
-            print(df_rank)
-            #rank the species by mean from high to low. At the same time, the std should be the smaller the better.
-            df_rank=df_rank.sort_values(['mean','std'],ascending=[ False,True])
-            RANK = df_rank.index.to_list()
-            print('Not in use.')
-            exit()
-
-
         count = 0
         score_test_all = []
         for species_testing in list_species:
             #select the first of the rest species in RANK as valuation set.
-            #
-            print(RANK)
-            rank=copy.deepcopy(RANK)
-            rank.remove(species_testing)
-            merge_name_val=rank[0]
-            merge_name_val=str(merge_name_val.replace(" ", "_"))
-            print('the anibiotics to predict:', All_antibiotics)
-            print('the species to test and val: ', species_testing,merge_name_val)
+
+            # print('the anibiotics to predict:', All_antibiotics)
+            print('the species to test: ', species_testing)
             list_species_training=list_species[:count] + list_species[count+1 :]
             count += 1
             # do a nested CV on list_species, select the best estimator for testing on the standing out species
@@ -376,15 +328,15 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
                 amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,merge_name_train,threshold_point,min_cov_point)
             _, _, _, _, _,_, _, path_x_test, path_y_test, path_name_test,_ = \
                 amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,merge_name_test,threshold_point,min_cov_point)
-            _, _, _, _, _, _, _, path_x_val, path_y_val, path_name_val, _ = \
-                amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,
-                                                                             merge_name_val, threshold_point,
-                                                                            min_cov_point)
+            # _, _, _, _, _, _, _, path_x_val, path_y_val, path_name_val, _ = \
+            #     amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,
+            #                                                                  merge_name_val, threshold_point,
+            #                                                                 min_cov_point)
 
             name_weights_folder = amr_utility.name_utility.GETname_multi_bench_folder_concat(merge_name,merge_name_train,level, learning,
                                                                                         epochs,f_fixed_threshold,
                                                                                         f_nn_base, f_optimize_score,threshold_point,min_cov_point)
-
+            print('-----',name_weights_folder)
             amr_utility.file_utility.make_dir(name_weights_folder)  # for storage of weights.
 
 
@@ -399,12 +351,9 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
 
 
             score=nn_module_hyper.concat_eval(merge_name_train, 'all_possible_anti_concat', level, path_x_train, path_y_train,
-                                    path_name_train, path_x_val, path_y_val,
-                                    path_name_val, path_x_test, path_y_test,
-                                    path_name_test,
-                                    seed, f_scaler, f_fixed_threshold,f_nn_base,
-                                    f_optimize_score, save_name_score_concat, merge_name, threshold_point,
-                                    min_cov_point)
+                                    path_name_train,path_cluster_results,path_x_test, path_y_test,
+                                              cv,seed, re_epochs, f_scaler, f_fixed_threshold, f_nn_base,
+                                              f_optimize_score, save_name_score_concat, merge_name, threshold_point,min_cov_point)
             # score=nn_module_hyper.multi_eval(merge_name, 'all_possible_anti_concat', level, path_x_train, path_y_train,
             #                               path_name_train, path_cluster_results, cv,
             #                               seed, re_epochs, f_scaler, f_fixed_threshold, f_nn_base,
@@ -413,8 +362,8 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
 
 
 
-            score.append(merge_name_val)#add valuation set name/information.
-            score_test_all.append(score)
+            # score.append(merge_name_val)#add valuation set name/information.
+            # score_test_all.append(score)
             # save the score related to the standing out testing data.
             save_name_score_concat_test = amr_utility.name_utility.GETname_multi_bench_save_name_score_concat(merge_name,
                                                                                                          merge_name_test,
@@ -425,7 +374,7 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
                                                                                                          f_nn_base,
                                                                                                          f_optimize_score,threshold_point,min_cov_point)
             with open(save_name_score_concat_test+'_TEST.pickle', 'wb') as f:  # overwrite
-                pickle.dump(score_test_all, f)
+                pickle.dump(score, f)
     '''
     if f_nn_nCV==True: # Not reasonable. Jun13th.
         # Do a nested CV on above training data, in order to show the model robustness on predicting stand-out species.
