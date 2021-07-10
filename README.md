@@ -18,6 +18,11 @@
    - [Discrete multi-species model](#dis)
    - [Concatenated multi-species model](#con)
 
+- [Seq2Geno2Pheno](#s1g2p)
+    - [Installment](#install)
+
+
+
 ## <a name="data"></a>Patric data set
 ### <a name="pro"></a>**1. The procedures for data acquisition:**
 
@@ -275,3 +280,42 @@ Add "merge_species" to the config file under /db_pointfinder, and then index the
 ```
 python3 INSTALL.py non_interactive
 ```
+
+## <a name="s1g2p"></a>Seq2Geno2Pheno
+
+
+### <a name="install"></a>Installment
+
+
+```
+git clone --recurse-submodules https://github.com/hzi-bifo/seq2geno.git
+cd seq2geno
+git submodule update --init --recursive
+git branch  origin/precomputed_assemblies
+git checkout  origin/precomputed_assemblies
+
+```
+
+And then follow the instruction here: https://github.com/hzi-bifo/seq2geno/tree/precomputed_assemblies
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
