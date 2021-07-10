@@ -283,6 +283,7 @@ python3 INSTALL.py non_interactive
 
 ## <a name="s1g2p"></a>Seq2Geno2Pheno
 
+Kuo, T.-H., Weimann, A., Bremges, A., & McHardy, A. C. (2021). Seq2Geno (v1.00001) [A reproducibility-aware, integrated package for microbial sequence analyses].
 
 ### <a name="install"></a>Installment
 
