@@ -299,10 +299,13 @@ git checkout  origin/precomputed_assemblies
 
 And then follow the instruction here: https://github.com/hzi-bifo/seq2geno/tree/precomputed_assemblies
 
+After installment, do the following:
 
+```
+source activate snakemake_env
+pip install sklearn seaborn
 
-
-
+```
 
 
 
