@@ -240,9 +240,17 @@ Namespace(l='loose', s=['Escherichia coli'], score='all', t='both', v=True)
 
 ### 5. Example.
 ```
-python Kaixin_Predictions_Res_PointFinder_tools.py --s 'Escherichia coli' --t=both
-python Kaixin_Predictions_Res_PointFinder_tools.py --l="loose"  --s 'Escherichia coli' --t=both -v --score "all"
+python ./data_preparation/Kaixin_ResFinder_PointFinder.py  --n_jobs=1 --s 'Escherichia coli'
 
+python Kaixin_Predictions_Res_PointFinder_tools.py --s 'Escherichia coli'
+
+```
+or 
+
+```
+python ./data_preparation/Kaixin_ResFinder_PointFinder_kma.py  --n_jobs=1 -f_all
+
+python Kaixin_Predictions_Res_PointFinder_tools.py -f_all
 ```
 
 
@@ -270,19 +278,36 @@ https://github.com/Bjarten/early-stopping-pytorch/blob/master/pytorchtools.py
 ### <a name="single"></a>Single-species model
 
 
+
+
+
+
 ### <a name="dis"></a>Discrete multi-species model
 
 
 ### <a name="con"></a>Concatenated multi-species model
 1. Merge reference sequences of all the species in db_pointfinder
 
+``
+cd ResFinder
+python merge_database.py
+```
 
 2. Index the newly merged database
 
 Add "merge_species" to the config file under /db_pointfinder, and then index the database with kma_indexing:
+
 ```
+cd db_pointfinder
 python3 INSTALL.py non_interactive
 ```
+3. Run the Resfinder tool with merged database
+
+```
+cd ../../
+python main_concatenate_merge.py  -n_jobs 20 -f_all -f_run_res
+```
+
 
 ## <a name="s1g2p"></a>Seq2Geno2Pheno
 
