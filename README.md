@@ -385,7 +385,7 @@ Run the Seq2Geno tool:
 
 ```
 source activate snakemake_env
-bash 
+bash log/temp/loose/Pseudomonas_aeruginosa/run.sh 
 
 ```
 
