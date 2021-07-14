@@ -360,25 +360,31 @@ python main_concatenate_merge.py -f_nn -f_optimize_score 'auc' -learning 0.0 -e 
 
 Kuo, T.-H., Weimann, A., Bremges, A., & McHardy, A. C. (2021). Seq2Geno (v1.00001) [A reproducibility-aware, integrated package for microbial sequence analyses].
 
-### <a name="install"></a>Installment
+### <a name="install"></a>Installment of Seq2Geno
 
+The original tool , which deals with the original sequence, can be found here: https://github.com/hzi-bifo/seq2geno.git
+
+We use a branch of it, which deals with assembled data: https://github.com/hzi-bifo/seq2geno/tree/precomputed_assemblies
+
+But there is a slight modification on top of that, so please use the Seq2Geno tool downloaded from this repository, and then follow the install instructions:
+```
+cd install/
+./SETENV.sh snakemake_env
+conda activate snakemake_env
+./TESTING.sh
 
 ```
-git clone --recurse-submodules https://github.com/hzi-bifo/seq2geno.git
-cd seq2geno
-git submodule update --init --recursive
-git branch  origin/precomputed_assemblies
-git checkout  origin/precomputed_assemblies
-
+After installment, prepare the files for Seq2Geno:
 ```
-
-And then follow the instruction here: https://github.com/hzi-bifo/seq2geno/tree/precomputed_assemblies
-
-After installment, do the following:
+source activate multi_bench
+python main_s2p.py -f_prepare_meta -f_all
+conda deactivate
+````
+Run the Seq2Geno tool:
 
 ```
 source activate snakemake_env
-pip install sklearn seaborn
+bash 
 
 ```
 
