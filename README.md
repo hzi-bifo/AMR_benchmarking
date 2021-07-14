@@ -189,6 +189,7 @@ Bortolaia, Valeria, et al. "ResFinder 4.0 for predictions of phenotypes from gen
 https://bitbucket.org/genomicepidemiology/resfinder/src/master/
 
 Database version: 2021.May. 6th
+To use the reference database version we used, please unzip the database.zip, otherwise you can follow the instructions of ResFinder 4.0 to download the latest version.
 
 ### 2. Preparing.
 
