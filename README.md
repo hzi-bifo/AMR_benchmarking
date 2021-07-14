@@ -288,7 +288,7 @@ https://github.com/Bjarten/early-stopping-pytorch/blob/master/pytorchtools.py
 ### <a name="con"></a>Concatenated multi-species model
 1. Merge reference sequences of all the species in db_pointfinder
 
-``
+```
 cd ResFinder
 python merge_database.py
 ```
