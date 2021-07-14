@@ -188,6 +188,8 @@ Bortolaia, Valeria, et al. "ResFinder 4.0 for predictions of phenotypes from gen
 
 https://bitbucket.org/genomicepidemiology/resfinder/src/master/
 
+Database version: 2021.May. 6th
+
 ### 2. Preparing.
 
 Copy the contents of /ResFinder to installed ResFinder 4.0 Folder, i.e. /resfinder.
@@ -283,6 +285,7 @@ python3 INSTALL.py non_interactive
 
 ## <a name="s1g2p"></a>Seq2Geno2Pheno
 
+Kuo, T.-H., Weimann, A., Bremges, A., & McHardy, A. C. (2021). Seq2Geno (v1.00001) [A reproducibility-aware, integrated package for microbial sequence analyses].
 
 ### <a name="install"></a>Installment
 
@@ -298,10 +301,13 @@ git checkout  origin/precomputed_assemblies
 
 And then follow the instruction here: https://github.com/hzi-bifo/seq2geno/tree/precomputed_assemblies
 
+After installment, do the following:
 
+```
+source activate snakemake_env
+pip install sklearn seaborn
 
-
-
+```
 
 
 
