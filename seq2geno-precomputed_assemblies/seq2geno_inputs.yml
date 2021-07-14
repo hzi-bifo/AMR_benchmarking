@@ -1,0 +1,29 @@
+features:
+  dryrun: N
+  snps: N
+  denovo: Y
+  phylo: N
+  expr: N
+  de: N
+  ar: N
+general:
+  cores: 
+    20
+  mem_mb:
+    2000
+  dna_reads: 
+    /vol/projects/khu/amr/seq2geno/example_sg_dataset/dna_list
+  phe_table: 
+    /vol/projects/khu/amr/seq2geno/example_sg_dataset/mem_phenotypes.mat
+  ref_fa: 
+    /vol/projects/khu/amr/seq2geno/example_sg_dataset/reference/Pseudomonas_aeruginosa_PA14.edit.fasta.sub
+  ref_gff: 
+    /vol/projects/khu/amr/seq2geno/example_sg_dataset/reference/RefCln_UCBPP-PA14.edit.gff.sub.coor_shift
+  ref_gbk: 
+    /vol/projects/khu/amr/seq2geno/example_sg_dataset/reference/Pseudomonas_aeruginosa_PA14_ncRNA.edit.utf-8.gbk.sub
+  rna_reads:
+    /vol/projects/khu/amr/seq2geno/example_sg_dataset/rna_list
+  wd:
+    /vol/projects/khu/amr/seq2geno/example_sg_dataset/seq2geno_test
+  assemblies:
+    /vol/projects/khu/amr/seq2geno/example_sg_dataset/dna_new

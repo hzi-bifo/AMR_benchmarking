@@ -1,0 +1,12 @@
+.snakemake/
+.ori_backup/
+.dag/
+_developing/
+env/
+__pycache__/
+nohup.out
+refactor_*/
+.deprived/
+examples/example_input/
+S2G
+keyfile

@@ -1,0 +1,7 @@
+[submodule "denovo/lib/Roary"]
+	path = denovo/lib/Roary
+	url = https://github.com/hzi-bifo/Roary.git
+
+[submodule "lib/Geno2PhenoClient"]
+	path = lib/Geno2PhenoClient
+	url = https://github.com/hzi-bifo/Geno2PhenoClient.git

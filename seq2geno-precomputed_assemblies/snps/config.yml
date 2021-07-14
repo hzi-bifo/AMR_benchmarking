@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2021 Tzu-Hao Kuo
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+list_f: 'data/samples.10.dna_full.tsv'
+ref_fasta: 'Pseudomonas_aeruginosa_PA14.edit.fasta'
+ref_gbk: 'Pseudomonas_aeruginosa_PA14_ncRNA.gbk'
+annot_tab: 'Pseudomonas_aeruginosa_PA14_annotation_with_ncRNAs_07_2011_12genes.tab'
+r_annot: 'Pseudomonas_aeruginosa_PA14_12genes_R_annotation'
+snps_table: 'all_SNPs.tab'
+snps_aa_table: 'all_SNPs_final.tab'
+nonsyn_snps_aa_table: 'nonsyn_SNPs_final.tab'
+snps_aa_bin_mat: 'all_SNPs_final.bin.mat'
+nonsyn_snps_aa_bin_mat: 'nonsyn_SNPs_final.bin.mat'

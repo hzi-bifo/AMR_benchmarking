@@ -1,0 +1,5 @@
+24.June.21	add zip input mode
+17.June.21	add the output packing options to the GUI
+15.June.21	enable packing the results (all, main, or g2p for only thoe needed by Geno2Pheno)
+		clean redundant scripts
+		update the logging method
