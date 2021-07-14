@@ -388,8 +388,17 @@ source activate snakemake_env
 bash log/temp/loose/Pseudomonas_aeruginosa/run.sh 
 
 ```
+Make a phylo-tree for each species
+```
+source activate multi_bench_phylo
+python main_s2p.py -f_tree -f_all
+```
+Clear the large tempt folders
+```
+source activate multi_bench_phylo
+python main_s2p.py -f_finished -f_all
 
-
+```
 
 
 
