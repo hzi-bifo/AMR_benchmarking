@@ -295,6 +295,22 @@ python main_feature.py -f_nn -f_fixed_threshold -f_optimize_score 'f1_macro' -le
 
 ### <a name="dis"></a>Discrete multi-species model
 
+```
+python main_discrete_merge.py -f_all  -f_pre_meta
+python main_discrete_merge.py -f_all -f_pre_cluster #note: this is merege sequence to one file
+for file in cv_folders/loose/multi_species/Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj/*.sh; do qsub $file; done
+python main_discrete_merge.py -f_cluster -f_phylo_roary -f_all #not need redo
+python main_discrete_merge.py -f_res -f_merge_mution_gene -f_all
+python main_discrete_merge.py -f_matching_io -f_all 
+
+```
+
+```
+python  main_discrete_merge.py  -f_nn -f_optimize_score 'f1_macro' -learning 0.0 -e 0 -f_all 
+python main_discrete_merge.py  -f_nn -f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -f_all 
+python main_discrete_merge.py  -f_nn -f_optimize_score 'auc' -learning 0.0 -e 0 -f_all 
+
+```
 
 ### <a name="con"></a>Concatenated multi-species model
 1. Merge reference sequences of all the species in db_pointfinder
@@ -318,7 +334,27 @@ python3 INSTALL.py non_interactive
 cd ../../
 python main_concatenate_merge.py  -n_jobs 20 -f_all -f_run_res
 ```
+4. Neural network validation
+```
+python main_concatenate_merge.py -f_all  -f_pre_meta
+python main_concatenate_merge.py  -f_res  -f_all 
+python main_concatenate_merge.py  -f_matching_io  -f_all 
+python main_concatenate_merge.py -f_all -f_divers_rank
+for file in  cv_folders/loose/multi_concat/Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj/*.sh; do qsub $file; done
+python main_concatenate_merge.py -f_all -f_cluster
+```
 
+```
+python main_concatenate_merge.py -f_all -f_nn_all_io -f_nn_all -f_optimize_score 'f1_macro' -learning 0.0 -e 0 
+python main_concatenate_merge.py -f_all -f_nn_all -f_optimize_score 'f1_macro' -f_fixed_threshold  -learning 0.0 -e 0 
+python main_concatenate_merge.py -f_all -f_nn_all -f_optimize_score 'auc' -learning 0.0 -e 0 #on 024, June 13th , qsub. Stoped. June 20th  
+python main_concatenate_merge.py -f_all -f_nn_all -f_optimize_score 'f1_macro' -learning 0.0 -e 0 #025 June 12th. Stoped. June 20th 
+
+python main_concatenate_merge.py -f_nn -f_optimize_score 'f1_macro' -f_fixed_threshold  -learning 0.0 -e 0 -f_all
+python main_concatenate_merge.py -f_nn -f_optimize_score 'f1_macro' -learning 0.0 -e 0 -f_all 
+python main_concatenate_merge.py -f_nn -f_optimize_score 'auc' -learning 0.0 -e 0 -f_all
+
+```
 
 ## <a name="s1g2p"></a>Seq2Geno2Pheno
 
