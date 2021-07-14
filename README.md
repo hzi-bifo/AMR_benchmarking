@@ -277,7 +277,18 @@ https://github.com/Bjarten/early-stopping-pytorch/blob/master/pytorchtools.py
 
 ### <a name="single"></a>Single-species model
 
+```
+python main_feature.py -l "loose" -f_cluster  -s 'Salmonella enterica'
+python main_feature.py -l "loose" -f_pre_cluster --n_jobs 9 -s 'Salmonella enterica'
+bash ./cv_folders/loose/Salmonella_enterica_kma.sh
+python main_feature.py -l "loose" -f_res --n_jobs 14 -s 'Salmonella enterica'
+python main_feature.py -l "loose" -f_merge_mution_gene --n_jobs 14 -s 'Salmonella enterica'
+python main_feature.py -l "loose" -f_matching_io --n_jobs 14 -s 'Salmonella enterica'
+python main_feature.py -f_nn -f_optimize_score 'auc' -learning 0.0 -e 0 -s 'Salmonella enterica'
+python main_feature.py -f_nn -f_optimize_score 'f1_macro' -learning 0.0 -e 0 -s 'Salmonella enterica'
+python main_feature.py -f_nn -f_fixed_threshold -f_optimize_score 'f1_macro' -learning 0.0 -e 0 -s 'Salmonella enterica'
 
+```
 
 
 
