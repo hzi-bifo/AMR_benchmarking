@@ -18,9 +18,10 @@
    - [Discrete multi-species model](#dis)
    - [Concatenated multi-species model](#con)
 
-- [Seq2Geno2Pheno](#s1g2p)
+- [Seq2Geno2Pheno](#s2g2p)
     - [Installment](#install)
-
+    - [Seq2Geno](#s2g)
+    - [Geno2Pheno](#g2p)
 
 
 ## <a name="data"></a>Patric data set
@@ -356,7 +357,7 @@ python main_concatenate_merge.py -f_nn -f_optimize_score 'auc' -learning 0.0 -e 
 
 ```
 
-## <a name="s1g2p"></a>Seq2Geno2Pheno
+## <a name="s2g2p"></a>Seq2Geno2Pheno
 
 Kuo, T.-H., Weimann, A., Bremges, A., & McHardy, A. C. (2021). Seq2Geno (v1.00001) [A reproducibility-aware, integrated package for microbial sequence analyses].
 
