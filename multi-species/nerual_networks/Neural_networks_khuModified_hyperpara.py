@@ -180,7 +180,7 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
     avg_valid_losses = []
 
     for epoc in range(epochs):
-        if epoc>1000:
+        if epoc>1000 and epoc % 100 == 0:
             if epoc==1001:
                 early_stopping = EarlyStopping(patience=patience, verbose=False) #starting checking after a certain time.
             else:
@@ -250,48 +250,49 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
         ######################
         # 2. validate the model #
         ######################
-        classifier.eval()  # prep model for evaluation
-        x_val = x_val.to(device)
-        y_val = y_val.to(device)
-        x_val_new = torch.utils.data.TensorDataset(x_val)
-        y_val_new = torch.utils.data.TensorDataset(y_val)
-        all_data = list(zip(x_val_new, y_val_new))
+        if epoc % 100 == 0:
+            classifier.eval()  # prep model for evaluation
+            x_val = x_val.to(device)
+            y_val = y_val.to(device)
+            x_val_new = torch.utils.data.TensorDataset(x_val)
+            y_val_new = torch.utils.data.TensorDataset(y_val)
+            all_data = list(zip(x_val_new, y_val_new))
 
-        # the model is trained for 100 batches
-        data_loader = torch.utils.data.DataLoader(
-            all_data, batch_size=100, drop_last=False)
+            # the model is trained for 100 batches
+            data_loader = torch.utils.data.DataLoader(
+                all_data, batch_size=100, drop_last=False)
 
-        for i, (sample_x, sample_y) in enumerate(data_loader):
-            inputv = sample_x[0]
-            inputv = inputv.to(device)
+            for i, (sample_x, sample_y) in enumerate(data_loader):
+                inputv = sample_x[0]
+                inputv = inputv.to(device)
 
-            # inputv = torch.FloatTensor(inputv)
-            inputv = Variable(inputv).view(len(inputv), -1)
-            # print(inputv.size())
+                # inputv = torch.FloatTensor(inputv)
+                inputv = Variable(inputv).view(len(inputv), -1)
+                # print(inputv.size())
 
-            if anti_number == 1:
-                labelsv = sample_y[0].view(len(sample_y[0]), -1)
-            else:
-                labelsv = sample_y[0][:, :]
+                if anti_number == 1:
+                    labelsv = sample_y[0].view(len(sample_y[0]), -1)
+                else:
+                    labelsv = sample_y[0][:, :]
 
-            weights = labelsv.data.clone().view(len(sample_y[0]), -1)
-            # That step is added to handle missing outputs.
-            # Weights are not updated in the presence of missing values.
-            weights[weights == 1.0] = 1
-            weights[weights == 0.0] = 1
-            weights[weights < 0] = 0
-            weights.to(device)
+                weights = labelsv.data.clone().view(len(sample_y[0]), -1)
+                # That step is added to handle missing outputs.
+                # Weights are not updated in the presence of missing values.
+                weights[weights == 1.0] = 1
+                weights[weights == 0.0] = 1
+                weights[weights < 0] = 0
+                weights.to(device)
 
-            # Calculate the loss/error using Binary Cross Entropy Loss
+                # Calculate the loss/error using Binary Cross Entropy Loss
 
-            criterion = nn.BCELoss(weight=weights, reduction="none")
-            output = classifier(inputv)
-            # calculate the loss
-            loss = criterion(output, labelsv)
-            # record validation loss
-            loss = loss.mean()
-            # print(loss.size())
-            valid_losses.append(loss.item())
+                criterion = nn.BCELoss(weight=weights, reduction="none")
+                output = classifier(inputv)
+                # calculate the loss
+                loss = criterion(output, labelsv)
+                # record validation loss
+                loss = loss.mean()
+                # print(loss.size())
+                valid_losses.append(loss.item())
 
         # print training/validation statistics
         # calculate average loss over an epoch
@@ -381,7 +382,7 @@ def hyper_range(anti_number,f_no_early_stop,antibiotics):
     else:
         if anti_number==1:
             hyper_space = {'n_hidden': [200], 'epochs': [10000], 'lr': [0.001, 0.0005],
-                           'classifier': [1], 'dropout': [0, 0.2], 'patience': [200]}  # June.13 th.
+                           'classifier': [1], 'dropout': [0, 0.2], 'patience': [1]}  # June.13 th. July 16. delete patience 600
             # hyper_space = {'n_hidden': [200], 'epochs': [10000], 'lr': [ 0.001,0.0005],
             #                'classifier': [1],'dropout':[0,0.2],'patience':[200,600]}#June.3rd.
             # hyper_space = {'n_hidden': [200, 300], 'epochs': [200], 'lr': [0.001, 0.0005],
@@ -393,7 +394,7 @@ def hyper_range(anti_number,f_no_early_stop,antibiotics):
         #     #                'classifier': [1, 2], 'dropout': [0, 0.2],'patience': [200]}
         else: #discrete multi-model and concat model for comparison.
             hyper_space = {'n_hidden': [200,400], 'epochs': [30000], 'lr': [0.0005,0.0001],
-                           'classifier': [1,2],'dropout':[0,0.2],'patience':[200,600]}#June.12th. New
+                           'classifier': [1,2],'dropout':[0,0.2],'patience':[1]}#June.12th. New. July 16. delete patience 600
             # hyper_space = {'n_hidden': [200, 400], 'epochs': [30000], 'lr': [0.0005, 0.0001],
             #                'classifier': [1, 2], 'dropout': [0, 0.2], 'patience': [200]}  # June.3rd.old
             # hyper_space = {'n_hidden': [200], 'epochs': [200], 'lr': [0.001],
@@ -954,9 +955,9 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
     aucs_test_all = []  # multi-output and plotting used
     tprs_test = []  # all True Positives for the test data
     mean_fpr = np.linspace(0, 1, 100)
-    hyperparameters_test = []
-    actual_epoc_test = []
-    actual_epoc_test_std = []
+    hyperparameters_test = []#outCV_N, i.e. one-element list
+    actual_epoc_test = []#outCV_N, i.e. one-element list. mean of the selected hyper-para among n_innerCV
+    actual_epoc_test_std = []#outCV_N, i.e. one-element list. std of the selected hyper-para among n_innerCV
     # -------------------------------------------------------------------------------------------------------------------
     ###construct the Artificial Neural Networks Model###
     # The feed forward NN has only one hidden layer
