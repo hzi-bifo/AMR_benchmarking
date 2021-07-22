@@ -404,6 +404,23 @@ python main_s2p.py -f_finished -f_all
 ```
 
 
+Another option would be to install it from the S2G normal version:
+```
+git submodule update --init
+git fetch --prune
+git reset --hard HEAD
+git pull origin precomputed_assemblies
+```
+then replave the main folder and denovo/denovo.in_one.smk file,
+install mafft in the 
+
+```
+conda activate /vol/projects/khu/amr/seq2geno/denovo/env/f0664b93
+conda install mafft
+conda deactivate
+
+```
+
 ### <a name="g2p"></a>Geno2Pheno
 
 
