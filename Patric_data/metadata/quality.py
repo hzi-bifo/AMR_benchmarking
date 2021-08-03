@@ -306,16 +306,17 @@ def filter_quality(level,f_balance):
                     print(anti)
                     print(balance_check)
                     data_sub_anti.to_csv(save_name_modelID + '.txt', sep="\t") #dataframe with metadata
-                    # fna location list
                     data_sub_anti.to_csv(save_name_modelID + 'resfinder', sep="\t", index=False,
-                                         header=False)  # for the use of resfinder cluster
-                    data_sub_anti['genome_id_location'] = 'to_csv'+ data_sub_anti['genome_id'].astype(str)+'.fna'
+                                         header=False)  # for the use of resfinder cluster # fna location list
+                    data_sub_anti['genome_id_location'] = '/net/projects/BIFO/patric_genome/'+ data_sub_anti['genome_id'].astype(str)+'.fna'
                     data_sub_anti['genome_id_location'].to_csv(save_name_modelID+'_path', sep="\t",index=False,header=False)
+                    data_sub_anti['genome_id'].to_csv(save_name_modelID, sep="\t", index=False, header=False)
+
 
                     #For Ehsan generating CV splits . Aug 3 not need any more seems.
                     #data_sub_anti.to_csv('model/TO_Ehsan/'+str(level)+'/Data_' + str(species.replace(" ", "_")) + '_' + str(
                     # anti.translate(str.maketrans({'/': '_', ' ': '_'}))), sep="\t", index=False, header=False)
-                    data_sub_anti['genome_id'].to_csv(save_name_modelID, sep="\t", index=False, header=False)
+
                     if (f_balance== True) and (balance_ratio > 2 or balance_ratio < 0.5):# #final selected, need to downsample.
                         # if not balance, downsampling
                         print('Downsampling starts.....balance_ratio=', balance_ratio)
