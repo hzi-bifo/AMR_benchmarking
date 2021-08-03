@@ -233,6 +233,7 @@ def filter_quality(level,f_balance):
     #for species in ['Pseudomonas aeruginosa']:
 
     for species in info_species:
+        print(species)
         BAD=[]
         save_all_quality,save_quality=amr_utility.name_utility.GETsave_quality(species,level)
         data_sub = data[data['species'] == species]
@@ -244,6 +245,9 @@ def filter_quality(level,f_balance):
         id_GoodQuality=df['genome.genome_id']
         data_sub=data_sub[data_sub['genome_id'].isin(id_GoodQuality)]
         #=====================================================================
+        # replace amoxicillin-clavulanate'	with 'amoxicillin/clavulanic acid'
+        data_sub=data_sub.replace('amoxicillin-clavulanate', 'amoxicillin/clavulanic acid')
+
         # by each antibiotic.
         data_anti = data_sub.groupby(by="antibiotic")['genome_id']
         summary = data_anti.count().to_frame()
@@ -279,7 +283,7 @@ def filter_quality(level,f_balance):
             BAD.append(bad)
             if bad != []:
                 # print(bad)
-                # print(len(bad),'out of',data_sub_anti.shape[0] )
+                # # print(len(bad),'out of',data_sub_anti.shape[0] )
                 # print(species,anti)
                 data_sub_anti = data_sub_anti[~data_sub_anti['genome_id'].isin(bad)]
             #----------------------------------------------------------------
@@ -299,12 +303,16 @@ def filter_quality(level,f_balance):
                     # print(balance_check)
                 else:#final selected
                     # save the ID for each species and each antibiotic
+                    print(anti)
+                    print(balance_check)
                     data_sub_anti.to_csv(save_name_modelID + '.txt', sep="\t") #dataframe with metadata
                     # fna location list
-                    # data_sub_anti['genome_id_location'] = '/net/projects/BIFO/patric_genome/'+ data_sub_anti['genome_id'].astype(str)+'.fna'
-                    # data_sub_anti['genome_id_location'].to_csv(save_name_modelID+'_path', sep="\t",index=False,header=False)
-                    data_sub_anti.to_csv(save_name_modelID+'resfinder', sep="\t", index=False, header=False)#for the use of resfinder cluster
-                    #For Ehsan generating CV splits
+                    data_sub_anti.to_csv(save_name_modelID + 'resfinder', sep="\t", index=False,
+                                         header=False)  # for the use of resfinder cluster
+                    data_sub_anti['genome_id_location'] = 'to_csv'+ data_sub_anti['genome_id'].astype(str)+'.fna'
+                    data_sub_anti['genome_id_location'].to_csv(save_name_modelID+'_path', sep="\t",index=False,header=False)
+
+                    #For Ehsan generating CV splits . Aug 3 not need any more seems.
                     #data_sub_anti.to_csv('model/TO_Ehsan/'+str(level)+'/Data_' + str(species.replace(" ", "_")) + '_' + str(
                     # anti.translate(str.maketrans({'/': '_', ' ': '_'}))), sep="\t", index=False, header=False)
                     data_sub_anti['genome_id'].to_csv(save_name_modelID, sep="\t", index=False, header=False)
@@ -338,27 +346,35 @@ def filter_quality(level,f_balance):
                 # logDir = os.path.join('log/log_' + str(species.replace(" ", "_"))+'_'+str(anti))
 
                 # select genome_id and  resistant_phenotype
-                data_sub_anti = pd.read_csv(save_name_modelID + '.txt', sep="\t")
-                data_sub_anti = data_sub_anti[~data_sub_anti['genome_id'].isin(BAD)]
-                # maybebad=data_sub_anti[data_sub_anti['genome_id'].isin(BAD)]
+
+                data_sub_anti = pd.read_csv(save_name_modelID + '.txt', dtype={'genome_id': object}, index_col=0,sep="\t")
+
+                maybebad=data_sub_anti[data_sub_anti['genome_id'].isin(BAD)]
                 # print(maybebad.shape[0])
                 # print('out of ',data_sub_anti.shape[0])
                 # print(species,anti)
                 # print('==============================================')
+                data_sub_anti = data_sub_anti[~data_sub_anti['genome_id'].isin(BAD)]
                 balance_check = data_sub_anti.groupby(by="resistant_phenotype").count()
                 if min(balance_check.iloc[0]['genome_id'], balance_check.iloc[1]['genome_id']) <100:
                     select_antibiotic_fianl.remove(anti)
-                    print('not selected in second run!!!!!!!!!')
-                    print(species,anti)
-                    print(balance_check)
+                    os.remove(save_name_modelID + '.txt')
+                    os.remove(save_name_modelID)
+                    os.remove(save_name_modelID+'resfinder')
+                    os.remove(save_name_modelID+'_path')
+                    # print('not selected in second run!')
+                    # print(species,anti)
+                    # print(balance_check)
                 else:#final selected
                     # save the ID for each species and each antibiotic
+
                     data_sub_anti.to_csv(save_name_modelID + '.txt', sep="\t") #dataframe with metadata
                     data_sub_anti['genome_id'].to_csv(save_name_modelID, sep="\t", index=False, header=False)
                     # fna location list
-                    # data_sub_anti['genome_id_location'] = '/net/projects/BIFO/patric_genome/'+ data_sub_anti['genome_id'].astype(str)+'.fna'
-                    # data_sub_anti['genome_id_location'].to_csv(save_name_modelID+'_path', sep="\t",index=False,header=False)
                     data_sub_anti.to_csv(save_name_modelID+'resfinder', sep="\t", index=False, header=False)#for the use of resfinder cluster
+                    data_sub_anti['genome_id_location'] = '/vol/projects/BIFO/patric_genome/'+ data_sub_anti['genome_id'].astype(str)+'.fna'
+                    data_sub_anti['genome_id_location'].to_csv(save_name_modelID+'_path', sep="\t",index=False,header=False)
+
                     #For Ehsan generating CV splits
 
         Species_quality.at[species,'modelling antibiotics']= select_antibiotic_fianl
@@ -380,7 +396,7 @@ if __name__ == '__main__':
 
 
     # download_quality()
-    level='loose'# quality control level:'strict','loose'.
+    level='strict'# quality control level:'strict','loose'.
     f_balance=False
     # extract_id_quality(level) #downloaded quality meta data, saved at the subdirectory quality.
     filter_quality(level,f_balance)

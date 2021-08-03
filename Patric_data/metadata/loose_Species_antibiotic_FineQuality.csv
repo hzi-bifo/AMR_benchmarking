@@ -3,7 +3,7 @@ Mycobacterium tuberculosis	12	['amikacin', 'capreomycin', 'ethambutol', 'ethiomi
 Salmonella enterica	11	['amoxicillin/clavulanic acid', 'ampicillin', 'cefoxitin', 'ceftiofur', 'ceftriaxone', 'chloramphenicol', 'gentamicin', 'nalidixic acid', 'streptomycin', 'sulfisoxazole', 'tetracycline']
 Streptococcus pneumoniae	7	['beta-lactam', 'chloramphenicol', 'cotrimoxazole', 'erythromycin', 'penicillin', 'tetracycline', 'trimethoprim/sulfamethoxazole']
 Neisseria gonorrhoeae	2	['azithromycin', 'cefixime']
-Escherichia coli	14	['amoxicillin', 'amoxicillin-clavulanate', 'amoxicillin/clavulanic acid', 'ampicillin', 'aztreonam', 'cefotaxime', 'ceftazidime', 'ceftriaxone', 'cefuroxime', 'ciprofloxacin', 'gentamicin', 'piperacillin/tazobactam', 'tetracycline', 'trimethoprim']
+Escherichia coli	13	['amoxicillin', 'amoxicillin/clavulanic acid', 'ampicillin', 'aztreonam', 'cefotaxime', 'ceftazidime', 'ceftriaxone', 'cefuroxime', 'ciprofloxacin', 'gentamicin', 'piperacillin/tazobactam', 'tetracycline', 'trimethoprim']
 Staphylococcus aureus	9	['cefoxitin', 'ciprofloxacin', 'clindamycin', 'erythromycin', 'fusidic acid', 'gentamicin', 'methicillin', 'penicillin', 'tetracycline']
 Klebsiella pneumoniae	13	['amikacin', 'aztreonam', 'cefepime', 'cefoxitin', 'ciprofloxacin', 'gentamicin', 'imipenem', 'levofloxacin', 'meropenem', 'piperacillin/tazobactam', 'tetracycline', 'tobramycin', 'trimethoprim/sulfamethoxazole']
 Enterococcus faecium	1	['vancomycin']
