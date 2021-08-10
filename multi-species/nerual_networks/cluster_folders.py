@@ -311,13 +311,85 @@ def prepare_sample_name(fileDir, p_names):
         names.append(names_read[each].replace("\n", ""))  # correct the sample names #no need w.r.t. Patric data
     return names
 
+# def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
+#     '''
+#     :param p_names: list of sample names, in the same order of day_x, day_y.
+#     :param p_clusters: kma cluster output, with a suffix of '_clustered_90.txt'.
+#     :param f_version: "new": khu; original: Derya Aytan's work.
+#     :return: folders_sample: Dimension: cv*(sample_n in each split(it varies)). Elements: index of sampels w.r.t. data_x, data_y
+#             totals: sample number in each folder.
+#     '''
+#     fileDir = os.path.dirname(os.path.realpath('__file__'))
+#     names=prepare_sample_name(fileDir, p_names)
+#
+#     dict_cluster = prepare_cluster(fileDir, p_clusters)
+#
+#     if type(dict_cluster)==collections.defaultdict:
+#         if f_version=='original':
+#             all_data_splits = cluster_split_old(dict_cluster, Random_State,cv)  # split cluster into cv Folds. len(all_data_splits)=5
+#         else:
+#             all_data_splits = cluster_split(dict_cluster, Random_State,cv)  # split cluster into cv Folds. len(all_data_splits)=5
+#
+#
+#         folders_sample = []  # collection of samples for each split
+#         for out_cv in range(cv):
+#             folders_sample_sub = []
+#             iter_clusters = all_data_splits[out_cv]  # clusters included in that split
+#             for cl_ID in iter_clusters:
+#                 for element in dict_cluster[cl_ID]:
+#                     folders_sample_sub.append(names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
+#             folders_sample.append(folders_sample_sub)
+#
+#         totals = []
+#         for folder_cluster in all_data_splits:  # 5.#cluster order
+#             tem = []
+#             for e in folder_cluster:
+#                 elements = dict_cluster[str(e)]
+#                 tem.append(len(elements))
+#             totals.append(sum(tem))
+#
+#     elif type(dict_cluster)==list:#multi-species
+#         folders_sample=[]#D:n_cv* sample numbers
+#         totals=[]
+#         for out_cv in range(cv):
+#             folders_sample.append([])
+#
+#
+#         for  dict_cluster_sub in dict_cluster:
+#             if f_version == 'original':
+#                 all_data_splits = cluster_split_old(dict_cluster_sub, Random_State,
+#                                                     cv)  # split cluster into cv Folds. len(all_data_splits)=5
+#             else:
+#                 all_data_splits = cluster_split(dict_cluster_sub, Random_State,
+#                                                 cv)  # split cluster into cv Folds. len(all_data_splits)=5
+#             # folders_sample_single_species=[]
+#             for out_cv in range(cv):
+#                 # folders_sample_sub = []
+#                 iter_clusters = all_data_splits[out_cv]  # clusters included in that split
+#                 for cl_ID in iter_clusters:
+#                     for element in dict_cluster_sub[cl_ID]:
+#                         folders_sample[out_cv].append(
+#                             names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
+#             totals_sub = []
+#             for folder_cluster in all_data_splits:  # 5.#cluster order
+#                 tem = []
+#                 for e in folder_cluster:
+#                     elements = dict_cluster_sub[str(e)]
+#                     tem.append(len(elements))
+#                 totals_sub.append(sum(tem))
+#             totals.append(totals_sub)# in the order of species , the oder comes from list: p_cluster.
+#
+#     return folders_sample,totals
+
+
 def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
     '''
+    Based on kma clusers.
     :param p_names: list of sample names, in the same order of day_x, day_y.
     :param p_clusters: kma cluster output, with a suffix of '_clustered_90.txt'.
     :param f_version: "new": khu; original: Derya Aytan's work.
     :return: folders_sample: Dimension: cv*(sample_n in each split(it varies)). Elements: index of sampels w.r.t. data_x, data_y
-            totals: sample number in each folder.
+            totals: sample number in each folder. folders_sampleName: sample names in each folder.
     '''
     fileDir = os.path.dirname(os.path.realpath('__file__'))
     names=prepare_sample_name(fileDir, p_names)
@@ -332,13 +404,17 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
 
 
         folders_sample = []  # collection of samples for each split
+        folders_sampleName=[] # only for G2P use
         for out_cv in range(cv):
             folders_sample_sub = []
+            folders_sampleName_sub=[]
             iter_clusters = all_data_splits[out_cv]  # clusters included in that split
             for cl_ID in iter_clusters:
                 for element in dict_cluster[cl_ID]:
                     folders_sample_sub.append(names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
+                    folders_sampleName_sub.append('iso_'+element)
             folders_sample.append(folders_sample_sub)
+            folders_sampleName.append(folders_sampleName_sub)
 
         totals = []
         for folder_cluster in all_data_splits:  # 5.#cluster order
@@ -350,12 +426,13 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
 
     elif type(dict_cluster)==list:#multi-species
         folders_sample=[]#D:n_cv* sample numbers
+        folders_sampleName = []
         totals=[]
         for out_cv in range(cv):
             folders_sample.append([])
+            folders_sampleName.append([])# only for G2P use
 
-
-        for  dict_cluster_sub in dict_cluster:
+        for dict_cluster_sub in dict_cluster:
             if f_version == 'original':
                 all_data_splits = cluster_split_old(dict_cluster_sub, Random_State,
                                                     cv)  # split cluster into cv Folds. len(all_data_splits)=5
@@ -370,6 +447,8 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
                     for element in dict_cluster_sub[cl_ID]:
                         folders_sample[out_cv].append(
                             names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
+                        folders_sampleName[out_cv].append(
+                            'iso_'+element)
             totals_sub = []
             for folder_cluster in all_data_splits:  # 5.#cluster order
                 tem = []
@@ -377,8 +456,50 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
                     elements = dict_cluster_sub[str(e)]
                     tem.append(len(elements))
                 totals_sub.append(sum(tem))
-            totals.append(totals_sub)# in the order of species , the oder comes from list: p_cluster.
+            totals.append(totals_sub)# in the order of species , the order comes from list: p_cluster.
 
-    return folders_sample,totals
+    return folders_sample,totals,folders_sampleName
 
+def prepare_folder_tree(cv,species,anti,p_names,f_multi):
+    '''
+    Based on phylo-trees.
+    :return:
+    '''
+    fileDir = os.path.dirname(os.path.realpath('__file__'))
+    main_path='/net/sgi/metagenomics/nobackup/prot/ecoli_res/'+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+\
+              '/res-all/classification/cv/ecoli_'+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+\
+              '_tree/tree/6mers-std-tree_resistant_phenotype/cv_folds.txt'
+
+
+    tree_names=[]
+    with open(main_path) as f:
+        lines = f.readlines()
+        for i in lines:
+            # print(i.split('\t'))
+            tree_names_sub=[]
+            for each in i.split('\t'):
+                tree_names_sub.append(each.replace("ISO_", "").replace("\n", ""))
+                # print(tree_names_sub)
+            tree_names.append(tree_names_sub)
+    # print(tree_names)
+    names = prepare_sample_name(fileDir, p_names)
+    # print(names)
+    if f_multi:
+        pass
+        #todo
+    else:#single-species model
+        folders_sample = []  # collection of samples for each split
+
+        for out_cv in range(cv):
+            folders_sample_sub = []
+
+            tree_names_split = tree_names[out_cv]  # list: names included in that split
+            for cl_ID in tree_names_split:
+
+                folders_sample_sub.append(
+                    names.index(cl_ID))  # extract cluster ID from the rest folders. 4*(cluster_N)
+
+            folders_sample.append(folders_sample_sub)
+    # print(folders_sample)
+    return folders_sample
 
