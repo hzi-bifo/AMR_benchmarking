@@ -227,15 +227,16 @@ rule indel_select_core_genes:
 rule indel_align_families:
     #' Compute family-wise alignments
     input:
-        ffn_files = expand(os.path.join(
-            out_prokka_dir, '{strain}', '{strain}.ffn'),
-            strain=list(dna_reads.keys())),
+#        ffn_files = expand(os.path.join(
+#            out_prokka_dir, '{strain}', '{strain}.ffn'),
+#            strain=list(dna_reads.keys())),
         core_gene_list = os.path.join(out_roary_dir,'core_genes_50.txt'),
         prot_tab = os.path.join(out_roary_dir, 'clustered_proteins')
     output:
         fam_aln_files = dynamic(os.path.join(
             extracted_proteins_dir, '{fam}.aln'))
     params:
+        prokka_dir = out_prokka_dir,
         gene_cluster2multi_script = 'gene_clusters2multi_fasta.py',
         extracted_proteins_dir = extracted_proteins_dir,
         parallel_log= 'mafft.log'
@@ -243,14 +244,15 @@ rule indel_align_families:
     conda: 'indel_cluster_env.yml'
     shell:
         '''
-        core_genes={input.core_gene_list}
+	core_genes={input.core_gene_list}
         #number of core genes
         core_genes_wc=$(wc -l $core_genes | cut -f1 -d" ")
         #extract fasta sequences for each gene family
+
         {params.gene_cluster2multi_script} \
-{params.extracted_proteins_dir} \
-<(head -n $core_genes_wc {input.prot_tab}) \
-{input.ffn_files}
+        {params.extracted_proteins_dir} \
+        <(head -n $core_genes_wc {input.prot_tab}) \
+        {params.prokka_dir}/*/*ffn
         # align
         cd {params.extracted_proteins_dir}
         parallel --joblog {params.parallel_log} -j {threads} \
@@ -322,13 +324,15 @@ rule roary:
     #' Run Roary to compute orthologous groups
     input:
         gff_files= expand(os.path.join(out_prokka_dir, '{strain}', '{strain}.gff'),
-            strain= list(dna_reads.keys()))
+                        strain= list(dna_reads.keys()))
+
     output:
         gpa_csv = '{roary_dir}/gene_presence_absence.csv',
         gpa_rtab = '{roary_dir}/gene_presence_absence.Rtab',
         prot_tab = '{roary_dir}/clustered_proteins'
     conda: 'perl5_22_env.yml'
     params:
+        prokka_dir=out_prokka_dir,
         check_add_perl_env_script = 'install_perl_mods.sh',
         check_add_software_script = 'set_roary_env.sh',
         roary_bin = 'roary'
@@ -355,7 +359,7 @@ $ROARY_HOME/build/bedtools2/lib:$PERL5LIB
         echo $PERLLIB
         rm -r {wildcards.roary_dir}
         {params.roary_bin} -f {wildcards.roary_dir} \
--v {input.gff_files} -p {threads} -e -g 100000 -z
+-v {params.prokka_dir}/*/*gff -p {threads} -e --mafft -g 700000 -z
         set -u
         '''
 
