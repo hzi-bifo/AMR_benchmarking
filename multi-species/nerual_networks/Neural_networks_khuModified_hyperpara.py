@@ -178,12 +178,20 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
     avg_train_losses = []
     # to track the average validation loss per epoch as the model trains
     avg_valid_losses = []
+    if anti_number==1:
+        n_critical = 1000
+    else:
+        n_critical=500
 
     for epoc in range(epochs):
-        if epoc>1000 and epoc % 100 == 0:
-            if epoc==1001:
+        if epoc >( n_critical-1 )and epoc % 100 == 0:#July 16: change 1000 to 500. So so far, all the single species model are at lest 1000 epoches.
+
+            if epoc==n_critical:
+                print('starting earlystop monitor...')
                 early_stopping = EarlyStopping(patience=patience, verbose=False) #starting checking after a certain time.
+                early_stopping(valid_loss, classifier)
             else:
+
                 # early_stopping needs the validation loss to check if it has decresed,
                 # and if it has, it will make a checkpoint of the current model
                 early_stopping(valid_loss, classifier)
@@ -250,7 +258,8 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
         ######################
         # 2. validate the model #
         ######################
-        if epoc % 100 == 0:
+        if epoc>(n_critical-2) and (epoc+1) % 100 == 0:
+
             classifier.eval()  # prep model for evaluation
             x_val = x_val.to(device)
             y_val = y_val.to(device)
@@ -300,7 +309,7 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
         valid_loss = np.average(valid_losses)
         avg_train_losses.append(train_loss)
         avg_valid_losses.append(valid_loss)
-        if epoc % 100 == 0:
+        if (epoc+1) % 100 == 0:
             # print the loss per iteration
             # print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, loss.item()))
             epoch_len = len(str(epochs))
@@ -314,6 +323,7 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
 def fine_tune_training(classifier,epochs,optimizer,x_train,y_train,anti_number):
     #for each outer CV, use the best estimator selected from inner CVs. The selected estimator are fine tuned, using both
     # validation and training data.
+    # July 17: seems not based on previous weights
 
     for epoc in range(epochs):
         x_train=x_train.to(device)
@@ -382,7 +392,10 @@ def hyper_range(anti_number,f_no_early_stop,antibiotics):
     else:
         if anti_number==1:
             hyper_space = {'n_hidden': [200], 'epochs': [10000], 'lr': [0.001, 0.0005],
-                           'classifier': [1], 'dropout': [0, 0.2], 'patience': [1]}  # June.13 th. July 16. delete patience 600
+                           'classifier': [1], 'dropout': [0, 0.2], 'patience': [2]}  # June.13 th. July 16. delete patience 600
+            # hyper_space = {'n_hidden': [200], 'epochs': [10000], 'lr': [0.01],
+            #                'classifier': [1], 'dropout': [0, 0.2],
+            #                'patience': [1]}  # June.13 th. July 16. delete patience 600
             # hyper_space = {'n_hidden': [200], 'epochs': [10000], 'lr': [ 0.001,0.0005],
             #                'classifier': [1],'dropout':[0,0.2],'patience':[200,600]}#June.3rd.
             # hyper_space = {'n_hidden': [200, 300], 'epochs': [200], 'lr': [0.001, 0.0005],
@@ -394,7 +407,7 @@ def hyper_range(anti_number,f_no_early_stop,antibiotics):
         #     #                'classifier': [1, 2], 'dropout': [0, 0.2],'patience': [200]}
         else: #discrete multi-model and concat model for comparison.
             hyper_space = {'n_hidden': [200,400], 'epochs': [30000], 'lr': [0.0005,0.0001],
-                           'classifier': [1,2],'dropout':[0,0.2],'patience':[1]}#June.12th. New. July 16. delete patience 600
+                           'classifier': [1,2],'dropout':[0,0.2],'patience':[2]}#June.12th. New. July 16. delete patience 600
             # hyper_space = {'n_hidden': [200, 400], 'epochs': [30000], 'lr': [0.0005, 0.0001],
             #                'classifier': [1, 2], 'dropout': [0, 0.2], 'patience': [200]}  # June.3rd.old
             # hyper_space = {'n_hidden': [200], 'epochs': [200], 'lr': [0.001],
@@ -424,7 +437,7 @@ def hyper_range_concat(anti_number,f_no_early_stop,antibiotics):
 # def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Random_State, hidden, epochs,re_epochs,
 #          learning,f_scaler,f_fixed_threshold,f_no_early_stop,f_optimize_score,save_name_score,concat_merge_name,threshold_point,min_cov_point):
 def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Random_State,
-         re_epochs, f_scaler,f_fixed_threshold,f_no_early_stop, f_optimize_score, save_name_score,concat_merge_name,threshold_point,min_cov_point):
+         re_epochs, f_scaler,f_fixed_threshold,f_no_early_stop,f_phylotree, f_optimize_score, save_name_score,concat_merge_name,threshold_point,min_cov_point):
 
     #data
     data_x = np.loadtxt(xdata, dtype="float")
@@ -473,7 +486,11 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
     # =====================================
     # dimension: cv*(sample_n in each split(it varies))
     # element: index of sampels w.r.t. data_x, data_y
-    folders_sample,_,_ = neural_networks.cluster_folders.prepare_folders(cv, Random_State, p_names, p_clusters, 'new')
+    if f_phylotree:#phylo-tree based cv folders
+        folders_sample = neural_networks.cluster_folders.prepare_folders_tree(cv,species,antibiotics,p_names,False)
+    else:#kma cluster based cv folders
+        folders_sample,_,_ = neural_networks.cluster_folders.prepare_folders(cv, Random_State, p_names, p_clusters,
+                                                                               'new')
 
     hyper_space = hyper_range(anti_number, f_no_early_stop, antibiotics)
     for out_cv in range(cv):
@@ -803,7 +820,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
         # classifier = fine_tune_training(classifier, re_epochs, optimizer, x_train_val, y_train_val, anti_number)
         print('actual_epoc_test[out_cv]',actual_epoc_test[out_cv])
         classifier = fine_tune_training(classifier, int(actual_epoc_test[out_cv]), optimizer, x_train_val, y_train_val, anti_number)
-        name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level, out_cv,'',0.0,0,f_fixed_threshold,f_no_early_stop,f_optimize_score,threshold_point,min_cov_point)
+        name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level, out_cv,'',0.0,0,f_fixed_threshold,f_no_early_stop,f_phylotree,f_optimize_score,threshold_point,min_cov_point)
 
         torch.save(classifier.state_dict(), name_weights)
 
@@ -923,8 +940,12 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
     print('hyperparameters_test',hyperparameters_test)
     # score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score,thresholds_selected_test)#save mean and std of each 6 score
     score = [thresholds_selected_test, f1_test, mcc_test, score_report_test, aucs_test, tprs_test,hyperparameters_test,actual_epoc_test,actual_epoc_test_std]
-    with open(save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
-        pickle.dump(score, f)
+    if f_phylotree:
+        with open(save_name_score + '_all_score_Tree.pickle', 'wb') as f:  # overwrite
+            pickle.dump(score, f)
+    else:
+        with open(save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
+            pickle.dump(score, f)
 
 
     torch.cuda.empty_cache()
@@ -1388,8 +1409,8 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
                                     anti_number)
     name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name, species, antibiotics, level,
                                                                        out_cv, '', 0.0, 0, f_fixed_threshold,
-                                                                       f_no_early_stop, f_optimize_score,
-                                                                       threshold_point, min_cov_point)
+                                                                       f_no_early_stop, False,f_optimize_score,
+                                                                       threshold_point, min_cov_point)#todo , if tree-based need change.
 
     torch.save(classifier.state_dict(), name_weights)
 
@@ -1973,8 +1994,8 @@ def concat_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters,p
                                     anti_number)
     name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name, species, antibiotics, level,
                                                                        out_cv, '', 0.0, 0, f_fixed_threshold,
-                                                                       f_no_early_stop, f_optimize_score,
-                                                                       threshold_point, min_cov_point)
+                                                                       f_no_early_stop, False,f_optimize_score,
+                                                                       threshold_point, min_cov_point)#todo, if tree based need change.
 
     torch.save(classifier.state_dict(), name_weights)
 

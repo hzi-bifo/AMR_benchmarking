@@ -448,7 +448,7 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
                         folders_sample[out_cv].append(
                             names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
                         folders_sampleName[out_cv].append(
-                            'iso_'+element)
+                            'ISO_'+element)
             totals_sub = []
             for folder_cluster in all_data_splits:  # 5.#cluster order
                 tem = []
@@ -460,7 +460,7 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
 
     return folders_sample,totals,folders_sampleName
 
-def prepare_folder_tree(cv,species,anti,p_names,f_multi):
+def prepare_folders_tree(cv,species,anti,p_names,f_multi):
     '''
     Based on phylo-trees.
     :return:
