@@ -11,8 +11,8 @@ def weithgted_var(values,average,weights):
     s_variance=p_variance * n/(n-1)
     return s_variance
 
-def score_summary_pos_normalCV(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
-    #only for normal CV. Aug 13th,2021.
+def score_summary_normalCV(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
+    #only for normal CV. So a score without std. Aug 13th,2021.
     f1=[]
     precision=[]
     recall=[]
@@ -30,29 +30,30 @@ def score_summary_pos_normalCV(count_anti,summary,cv,score_report_test,aucs_test
         mcc_test=np.array(mcc_test)
 
         # print('mcc_test shape',mcc_test.shape)
-        mcc_test=mcc_test[ : ,count_anti]
-        mcc_test=mcc_test.tolist()
+        mcc_test=mcc_test[count_anti]
+        # mcc_test=mcc_test.tolist()
         aucs_test = np.array(aucs_test)
-        aucs_test = aucs_test[:, count_anti]
-        aucs_test = aucs_test.tolist()
+        aucs_test = aucs_test[count_anti]
+        # aucs_test = aucs_test.tolist()
     for i in np.arange(1):
 
         if count_anti != None:
             # print(len(score_report_test[0]))
             # print()
-            report=score_report_test[i][count_anti]#multi-species model.
+            # print(score_report_test)
+            # print('count_anti',count_anti)
+            # print(score_report_test)
+            report=score_report_test[count_anti]#multi-species model.
 
             # mcc_test_anti.append(mcc_test[i][count_anti])
         else:
-            report = score_report_test[i]
+            report = score_report_test
 
         report=pd.DataFrame(report).transpose()
-
-
-
-
+        # print('*****',report)
 
         # if 'accuracy' not in report.index.to_list():# no resitance pheno in test folder
+        # print(report)
         if report.loc['1', 'support']==0 or report.loc['0', 'support']==0:  #  todo only one pheno in test folder
             # accuracy.append('-')
             print('Warning! Only one phenotype in the testing set. Exit!')
@@ -70,28 +71,30 @@ def score_summary_pos_normalCV(count_anti,summary,cv,score_report_test,aucs_test
         f1_pos=(report.loc['1', 'f1-score'])
         f1_neg=(report.loc['0', 'f1-score'])
         precision_pos=(report.loc['1', 'precision'])
+
         recall_pos=(report.loc['1', 'recall'])
         support_pos=(report.loc['1', 'support'])
         support_neg=(report.loc['0', 'support'])
 
-        summary.loc['score','accuracy_macro'] =  (accuracy)
-        summary.loc['score', 'f1_macro'] = (f1)
-        summary.loc['score', 'precision_macro'] = (precision)
-        summary.loc['score', 'recall_macro'] = (recall)
-        summary.loc['score', 'auc'] = (aucs_test)
-        summary.loc['score', 'mcc'] =  (mcc_test)
-        summary.loc['score', 'threshold'] =  (thresholds_selected_test)
-        summary.loc['score', 'f1_positive'] = (f1_pos)
-        summary.loc['score', 'f1_negative'] =  (f1_neg)
-        summary.loc['score', 'precision_positive'] =  (precision_pos)
-        summary.loc['score', 'recall_positive'] = (recall_pos)
-        summary.loc['score', 'support'] = (support)
-        summary.loc['score', 'support_positive'] =  (support_pos)
+        summary.loc['score','accuracy_macro'] =  accuracy
+        summary.loc['score', 'f1_macro'] = f1
+        summary.loc['score', 'precision_macro'] = precision
+        summary.loc['score', 'recall_macro'] = recall
+        summary.loc['score', 'auc'] = aucs_test
+        summary.loc['score', 'mcc'] =  mcc_test
+        summary.loc['score', 'threshold'] = thresholds_selected_test
+        summary.loc['score', 'f1_positive'] = f1_pos
+        summary.loc['score', 'f1_negative'] =  f1_neg
+
+        summary.loc['score', 'precision_positive'] =  precision_pos
+        summary.loc['score', 'recall_positive'] = recall_pos
+        summary.loc['score', 'support'] = support
+        summary.loc['score', 'support_positive'] =  support_pos
 
 
     return summary
 
-def score_summary_pos(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
+def score_summary(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
     #only for nested CV
     f1=[]
     precision=[]
@@ -115,8 +118,9 @@ def score_summary_pos(count_anti,summary,cv,score_report_test,aucs_test,mcc_test
         aucs_test = aucs_test[:, count_anti]
         aucs_test = aucs_test.tolist()
     for i in np.arange(cv):
-
-        if count_anti != None:
+        print('i:',i)
+        print(len(score_report_test),len(score_report_test[i]))
+        if count_anti != None:#multi-species model.
             # print(len(score_report_test[0]))
             # print()
             report=score_report_test[i][count_anti]#multi-species model.
@@ -238,7 +242,7 @@ def score_summary_pos(count_anti,summary,cv,score_report_test,aucs_test,mcc_test
     # print(summary)
     return summary
 
-def score_summary_pos_Tree(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
+def score_summary_Tree(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
 
     f1=[]
     precision=[]

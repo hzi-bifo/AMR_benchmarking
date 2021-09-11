@@ -53,6 +53,11 @@ def check_balance(data_sub_anti):
     return balance_check,data_sub_anti_downsampling
 
 def model(species,antibiotics,balance,level):
+    '''
+    antibiotics_selected: antibiotics list for each species
+    ID_list: sample name matrix. n_anti* n_SampleName. in the order of model/loose/Data_s_anti
+    Y:  n_anti* [pheno]
+    '''
     antibiotics_selected = ast.literal_eval(antibiotics)
 
     print(species)
@@ -66,7 +71,7 @@ def model(species,antibiotics,balance,level):
 
         save_name_meta, save_name_modelID = amr_utility.name_utility.GETsave_name_modelID(level,species, anti)
 
-        data_sub_anti = pd.read_csv(save_name_modelID + '.txt', index_col=0, dtype={'genome_id': object}, sep="\t")
+        data_sub_anti = pd.read_csv(save_name_modelID + '.txt', index_col=0, dtype={'genome_id': object,'resistant_phenotype':int}, sep="\t")
 
         # select genome_id and  resistant_phenotype
         #data_sub_anti = data_sub_anti.loc[:, ('genome_id', 'resistant_phenotype')]
@@ -74,21 +79,21 @@ def model(species,antibiotics,balance,level):
         # print(data_sub_anti)
         data_sub_anti = data_sub_anti.drop_duplicates()#should no duplicates. Just in case.
 
-        #Downsampling for inbalance data set
-        # print(data_sub_anti.groupby(by="resistant_phenotype").count())
-        # pheno = data_sub_anti.groupby(by="resistant_phenotype").count()
-        # pheno_summary.loc[str(anti), 'Resistant'] = pheno.iloc[1, 0]
-        # pheno_summary.loc[str(anti), 'Susceptible'] = pheno.iloc[0, 0]
+
         if balance==True:
             balance_check,data_sub_anti=check_balance(data_sub_anti)
             print('Check phenotype balance after downsampling.', balance_check)
 
-        ID_sub_anti=data_sub_anti.genome_id
+        ID_sub_anti=data_sub_anti.genome_id.to_list()
+        # print(ID_sub_anti)
         ID_list.append(ID_sub_anti)
 
         # pheno = {'Resistant': 1, 'Susceptible': 0, 'S': 0, 'Non-susceptible': 1,'RS':1}
         # data_sub_anti.resistant_phenotype = [pheno[item] for item in data_sub_anti.resistant_phenotype]
-        y=data_sub_anti['resistant_phenotype'].to_numpy()
+        # y=data_sub_anti['resistant_phenotype'].to_numpy()
+        y = data_sub_anti['resistant_phenotype']
+        y = np.array(y)
+
         Y.append(y)
     # print(pheno_summary)
     return antibiotics_selected,ID_list,Y
@@ -154,7 +159,7 @@ def summary(species,level):
         y=data_sub_anti['resistant_phenotype'].to_numpy()
         Y.append(y)
     print(pheno_summary)
-    pheno_summary.to_csv( 'metadata/balance/'+str(level)+'/log_' + str(species.replace(" ", "_")) + '_ pheno_summary' + '.txt', sep="\t")
+    pheno_summary.to_csv('metadata/balance/'+str(level)+'/log_' + str(species.replace(" ", "_")) + '_ pheno_summary' + '.txt', sep="\t")
     return antibiotics_selected
 
 

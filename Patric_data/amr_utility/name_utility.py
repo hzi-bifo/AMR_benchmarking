@@ -35,10 +35,13 @@ def GETsave_name_modelID(level,species,anti,f=False):#f: flag for the location o
 
     return save_name_meta,save_name_modelID
 
+
+
+
 def GETsave_name_odh(species,anti,k,m,d):#for odh
     save_name_odh ='log/feature/odh/log_' + str(species.replace(" ", "_"))+'.k{}m{}d{}.hd5'.format(k, m, d)
-    save_name_odh_score='../log/validation_results/log_' + str(species.replace(" ", "_"))+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.k{}m{}d{}.hd5'.format(k, m, d)
-    return save_name_odh,save_name_odh_score
+    # save_name_odh_score='../log/validation_results/log_' + str(species.replace(" ", "_"))+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.k{}m{}d{}.hd5'.format(k, m, d)
+    return save_name_odh
 
 def GETsave_name_kmer(species,canonical,k):#for kmer
     if canonical == True:
@@ -51,12 +54,34 @@ def GETsave_name_kmer(species,canonical,k):#for kmer
 
     return save_mame_kmc,save_name_kmer
 
-def GETsave_name_score(species,anti,canonical,k):#for kmer
-    if canonical == True:
-        save_name_score = 'log/validation_results/cano_' + str(k) + '_mer_' +str(species.replace(" ", "_")) + '_' + str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
-    else:
-        save_name_score = 'log/validation_results/non_cano_' + str(k) + '_mer_'  + str(species.replace(" ", "_")) + '_' + str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+def GETname_folder(species,anti,level):
+    name_folder='cv_folders/'+str(level) + '/'+str(species.replace(" ", "_"))+'/'+str(
+            anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_clustered_90.txt'
+    return name_folder
+
+def GETsave_name_score(species,anti,chosen_cl):
+
+    save_name_score = 'log/validation_results/' +str(species.replace(" ", "_"))  + '_' + str(anti.translate(str.maketrans({'/': '_', ' ': '_'}))) +  '_cl_'+str(chosen_cl)
+
     return save_name_score
+
+def GETsave_name_final(species,f_kma,f_phylotree,chosen_cl):
+
+    save_name_score = 'log/results/' +str(species.replace(" ", "_"))+'_kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'_'+chosen_cl
+    save_name_final = 'log/results/' + str(species.replace(" ", "_")) + '_kma_' + str(f_kma) + '_tree_' + str(
+        f_phylotree)
+    return save_name_score,save_name_final
+
+
+
+
+
+# def GETsave_name_score(species,anti,canonical,k):#for kmer
+#     if canonical == True:
+#         save_name_score = 'log/validation_results/cano_' + str(k) + '_mer_' +str(species.replace(" ", "_")) + '_' + str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+#     else:
+#         save_name_score = 'log/validation_results/non_cano_' + str(k) + '_mer_'  + str(species.replace(" ", "_")) + '_' + str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+#     return save_name_score
 
 
 
@@ -108,18 +133,22 @@ def GETname_multi_bench_folder_multi(species,level,learning,epochs,f_fixed_thres
     else:
         name_weights_folder='log/temp/' +str(level)+ '/multi_species/'+ str(species.replace(" ", "_")) +'/lr_'+ str(learning)+'_ep_'+str(epochs)+'_fixT_'+str(f_fixed_threshold)
     return name_weights_folder
-def GETname_multi_bench_folder(species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score):
+def GETname_multi_bench_folder(species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score):
     #only for mkdir folders at the beginning
+    if f_phylotree:
+        f='_Tree'
+    else:
+        f=''
     if f_optimize_score=='auc':
         name_weights_folder = 'log/temp/' + str(level) + '/' + str(species.replace(" ", "_")) + '/lr_' + str(
-            learning) + '_ep_' + str(epochs)  +'_base_'+str(f_nn_base)+ '_ops_' + f_optimize_score
+            learning) + '_ep_' + str(epochs)  +'_base_'+str(f_nn_base)+ '_ops_' + f_optimize_score+f
     else:
-        name_weights_folder='log/temp/' +str(level)+ '/'+ str(species.replace(" ", "_")) +'/lr_'+ str(learning)+'_ep_'+str(epochs)+'_fixT_'+str(f_fixed_threshold)
+        name_weights_folder='log/temp/' +str(level)+ '/'+ str(species.replace(" ", "_")) +'/lr_'+ str(learning)+'_ep_'+str(epochs)+'_fixT_'+str(f_fixed_threshold)+f
         # in the future
         # name_weights_folder='log/temp/' +str(level)+ '/'+ str(species.replace(" ", "_")) +'/lr_'+ str(learning)+'_ep_'+str(epochs)+'_base_'+str(f_nn_base)+'_fixT_'+str(f_fixed_threshold)
 
     return name_weights_folder
-def GETname_multi_bench_weight(merge_name,species,antibiotics,level,cv,innerCV,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score):
+def GETname_multi_bench_weight(merge_name,species,antibiotics,level,cv,innerCV,learning,epochs,f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score,threshold_point,min_cov_point):
 
     # if antibiotics=='all_possible_anti' or type(antibiotics)==list:#multi_species/output.
     if antibiotics == 'all_possible_anti':
@@ -128,10 +157,10 @@ def GETname_multi_bench_weight(merge_name,species,antibiotics,level,cv,innerCV,l
         if type(antibiotics)==list:
             antibiotics='_'.join(antibiotics)#no use so far. maybe in the future, the user can choose antibiotics to envolve.
     elif antibiotics== 'all_possible_anti_concat':
-        folder= GETname_multi_bench_folder_concat(merge_name,species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score)
+        folder= GETname_multi_bench_folder_concat(merge_name,species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,threshold_point,min_cov_point)#todo bug. seems finihsed May29th.
 
     else:
-        folder = GETname_multi_bench_folder(species, level, learning, epochs, f_fixed_threshold, f_nn_base,
+        folder = GETname_multi_bench_folder(species, level, learning, epochs, f_fixed_threshold, f_nn_base,f_phylotree,
                                             f_optimize_score)
     if f_optimize_score=='auc':
         name_weights = folder + '/' + str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_weights_' + str(cv) + str(innerCV)
@@ -147,10 +176,8 @@ def GETname_multi_bench_save_name_score(species,antibiotics,level,learning,epoch
         if type(antibiotics)==list:
             antibiotics='_'.join(antibiotics)#no use so far. maybe in the future, the user can choose antibiotics to envolve.
 
-
     else:
         folder ='log/temp/' + str(level) + '/' + str(species.replace(" ", "_"))
-
 
     if f_optimize_score=='auc':
         save_name_score =folder + '/' + str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_lr_' + str(
@@ -170,6 +197,9 @@ def GETname_multi_bench_save_name_final(species,antibiotics,level,learning,epoch
         if type(antibiotics) == list:
             antibiotics = '_'.join(
                 antibiotics)  # no use so far. maybe in the future, the user can choose antibiotics to envolve.
+
+    # elif antibiotics== 'all_possible_anti_concat':
+    #     folder= 'log/results/' + str(level) + '/multi_concat/' + str(species.replace(" ", "_"))
 
     else:
         folder = 'log/results/' + str(level) + '/' + str(species.replace(" ", "_"))
@@ -293,7 +323,11 @@ def GETname_multi_bench_multi_species(level,path_large_temp,merge_name,s):
 def GETname_multi_bench_concat(level,path_large_temp,merge_name,threshold_point,min_cov_point):
 
     # path_large_temp_kma_multi='/net/sgi/metagenomics/data/khu/benchmarking/phylo' or '/vol/projects/khu/amr/benchmarking/large_temp'
-    multi_log='./log/temp/' + str(level) + '/multi_concat/' + merge_name + '/'
+    if threshold_point != 0.8 or min_cov_point != 0.6: # Parameter for ResFinder tool.
+        multi_log = './log/temp/' + str(level) + '/multi_concat/' + merge_name + '_thrcovpoint_' + str(
+            threshold_point) + '_' + str(min_cov_point) + '/'
+    else:
+        multi_log='./log/temp/' + str(level) + '/multi_concat/' + merge_name + '/'
     path_metadata_multi=multi_log + 'ID'
     path_metadata_pheno_multi=multi_log + 'pheno.txt'
     # run_file_kma='./cv_folders/' + str(level) + '/multi_concat/' + merge_name + "_kma.sh"
@@ -312,9 +346,11 @@ def GETname_multi_bench_concat(level,path_large_temp,merge_name,threshold_point,
 
     return multi_log,path_metadata_multi,path_metadata_pheno_multi,path_res_concat,path_point_repre_results,path_res_repre_results,path_mutation_gene_results
 
-def GETname_multi_bench_concat_species(level,path_large_temp,merge_name,merge_name_train):
+def GETname_multi_bench_concat_species(level,path_large_temp,merge_name,merge_name_train,threshold_point,min_cov_point):
     # path_large_temp_kma_multi='/net/sgi/metagenomics/data/khu/benchmarking/phylo' or '/vol/projects/khu/amr/benchmarking/large_temp'
-    multi_log = './log/temp/' + str(level) + '/multi_concat/' + merge_name + '/'
+    # multi_log = './log/temp/' + str(level) + '/multi_concat/' + merge_name + '/'
+    multi_log,_,_,_,_,_,_ =GETname_multi_bench_concat(level,'',merge_name,threshold_point,min_cov_point)
+
     path_id_multi = multi_log + merge_name_train + '_id'
     path_metadata_multi = multi_log + merge_name_train + '_metaresfinder'
 
@@ -323,47 +359,80 @@ def GETname_multi_bench_concat_species(level,path_large_temp,merge_name,merge_na
     path_res_repre_results = multi_log + merge_name_train + '_acquired_genes.txt'
     path_mutation_gene_results = multi_log + merge_name_train + '_res_point.txt'
 
+    path_cluster_results=multi_log + merge_name_train +'_clustered_90.txt'
+
     path_x_y = multi_log + merge_name_train
     path_x = path_x_y + 'data_x.txt'
     path_y = path_x_y + 'data_y.txt'
     path_name = path_x_y + 'data_names.txt'
 
-    return path_id_multi, path_metadata_multi, path_point_repre_results, path_res_repre_results,path_mutation_gene_results,path_x_y,path_x, path_y, path_name
+    path_ani=path_x_y+'_ani.out'
+    return path_id_multi, path_metadata_multi, path_cluster_results,path_point_repre_results, path_res_repre_results,path_mutation_gene_results,path_x_y,path_x, path_y, path_name,path_ani
 
-def GETname_multi_bench_folder_concat(species,merge_name_test,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score):
+def GETname_multi_bench_folder_concat(species,merge_name_test,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,threshold_point,min_cov_point):
     #only for mkdir folders at the beginning
-
-    name_weights_folder = 'log/temp/' + str(level) + '/multi_concat/' + str(species.replace(" ", "_")) + '/'+merge_name_test+'_lr_' + str(
+    folder,_,_,_,_,_,_=GETname_multi_bench_concat(level, '', species, threshold_point, min_cov_point)
+    name_weights_folder =folder + merge_name_test+'_lr_' + str(
         learning) + '_ep_' + str(epochs)  +'_base_'+str(f_nn_base)+ '_ops_' + f_optimize_score+'_fixT_'+str(f_fixed_threshold)
-
+    # name_weights_folder_nCV = folder + 'nCV_'+merge_name_test + '_lr_' + str(
+    #     learning) + '_ep_' + str(epochs) + '_base_' + str(f_nn_base) + '_ops_' + f_optimize_score + '_fixT_' + str(
+    #     f_fixed_threshold)
+    # name_weights_folder_All_nCV = folder + 'AllnCV_' + merge_name_test + '_lr_' + str(
+    #     learning) + '_ep_' + str(epochs) + '_base_' + str(f_nn_base) + '_ops_' + f_optimize_score + '_fixT_' + str(
+    #     f_fixed_threshold)
     return name_weights_folder
 
-# def GETname_multi_bench_weight_concat(species,antibiotics,level,cv,innerCV,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score):
+# def GETname_multi_bench_weight_concat(species,antibiotics,level,cv,innerCV,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,threshold_point,min_cov_point):
 #
-#     folder= GETname_multi_bench_folder_concat(species,species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score)
+#     folder,_,_,_,_,_,_= GETname_multi_bench_folder_concat(species,species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score)
 #
 #     name_weights=folder+'/'+str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_weights_' + str(cv) + str(innerCV)
 #     return name_weights
 
-def GETname_multi_bench_save_name_score_concat(merge_name,merge_name_test,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score):
+def GETname_multi_bench_save_name_score_concat(merge_name,merge_name_test,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,threshold_point,min_cov_point):
 
-    folder ='log/temp/' +  str(level) +'/multi_concat/' + merge_name
+    folder,_,_,_,_,_,_ =GETname_multi_bench_concat(level,'',merge_name,threshold_point,min_cov_point)
     # if type(antibiotics)==list:
     #     antibiotics='_'.join(antibiotics)#no use so far. maybe in the future, the user can choose antibiotics to envolve.
-    save_name_score =folder + '/' + merge_name_test + '_lr_' + str(
+    save_name_score =folder + merge_name_test + '_lr_' + str(
         learning) + '_ep_' + str(epochs) + '_base_'+str(f_nn_base)+ '_ops_' + f_optimize_score+'_fixT_'+str(f_fixed_threshold)
 
     return save_name_score
 
-def GETname_multi_bench_save_name_concat_final(merge_name,merge_name_test,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score):
-
-    folder ='log/results/' + str(level) + '/multi_concat/' + merge_name
+# todo change names
+def GETname_multi_bench_save_name_concat_final(merge_name,merge_name_test,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,threshold_point,min_cov_point):
+    multi_log,_,_,_,_,_,_=GETname_multi_bench_concat(level, '', merge_name, threshold_point, min_cov_point) #multi_log='./log/temp/' + str(level) + '/multi_concat/' + merge_name + '/'
+    temp_name=Path(multi_log).parts[4]
+    folder='log/results/' + str(level) + '/multi_concat/' + temp_name
     # if type(antibiotics) == list:
     #     antibiotics = '_'.join(antibiotics)  # no use so far. maybe in the future, the user can choose antibiotics to envolve.
 
     save_name_score_f = folder + '/' + merge_name_test +'_lr_' + str(learning) + '_ep_' + str(epochs) +'_base_' + \
                         str(f_nn_base) +  '_ops_' + f_optimize_score+'_fixT_' + str(f_fixed_threshold)
+
+
     return save_name_score_f
+
+
+def s2g_GETname(level,species,anti):
+     name='metadata/model/'+str(level)+'/Data_' + str(species.replace(" ", "_")) + '_' + str(
+            anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.txt'
+     # fileDir = os.path.dirname(os.path.realpath('__file__'))
+     # if Path(fileDir).parts[1]=='vol':
+     path='metadata/model/' + str(level) + '/Data_' + str(species.replace(" ", "_")) + '_' + str(
+         anti.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_path'
+     # else:
+     #     path = 'metadata/model/' + str(level) + '/Data_' + str(species.replace(" ", "_")) + '_' + str(
+     #         anti.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_path_bifo'
+     dna_list='log/temp/' + str(level) + '/' + str(species.replace(" ", "_"))+'/'+'dna_list'
+     assemble_list='log/temp/' + str(level) + '/' + str(species.replace(" ", "_"))+'/'+'assemble_list'
+     yml_file='log/temp/' + str(level) + '/' + str(species.replace(" ", "_"))+'/'+'seq2geno_inputs.yml'
+     run_file='log/temp/' + str(level) + '/' + str(species.replace(" ", "_"))+'/'+'run.sh'
+     wd='log/temp/' + str(level) + '/' + str(species.replace(" ", "_"))
+
+     return name,path,dna_list,assemble_list,yml_file,run_file,wd
+
+
 
 
 '''
