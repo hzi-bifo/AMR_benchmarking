@@ -348,3 +348,57 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,aucs_test,mcc_tes
     summary.loc['std', 'support_positive'] = statistics.stdev(support_pos)
 
     return summary
+
+
+def summary_allLoop(count_anti,summary, cv,score_report_test, aucs_test, mcc_test,anti ):
+    f1 = []
+    precision = []
+    recall = []
+    accuracy = []
+    f1_pos = []
+    f1_neg = []
+    precision_pos = []
+    recall_pos = []
+    support_pos = []
+    support_neg = []
+    support = []
+    f_noAccu = []
+    # print(count_anti)
+    if count_anti != None:  # multi-species model.
+        mcc_test = np.array(mcc_test)
+        print('mcc_test shape', mcc_test.shape)
+        mcc_test = mcc_test[:, count_anti]
+        mcc_test = mcc_test.tolist()
+        aucs_test = np.array(aucs_test)
+        aucs_test = aucs_test[:, count_anti]
+        aucs_test = aucs_test.tolist()
+    for i in np.arange(cv):
+        if count_anti != None:
+            report = score_report_test[i][count_anti]  # multi-species model.
+            # mcc_test_anti.append(mcc_test[i][count_anti])
+        else:
+            report = score_report_test[i]
+        report = pd.DataFrame(report).transpose()
+        # print(report)
+
+        # check if only one pheno in test folder
+
+        # if 'accuracy' not in report.index.to_list():# no resitance pheno in test folder
+        if report.loc['1', 'support'] == 0 or report.loc['0', 'support'] == 0:  # todo only one pheno in test folder
+            # accuracy.append('-')
+            # print('Please count this! Only one phenotype in the testing folder!!!!!!!!!!!!!!!!')
+            # print(report)
+            # f_noAccu.append(i)
+            pass
+        else:
+            # print(report)
+            summary_sub=pd.DataFrame(columns=['antibiotic','f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                            'mcc', 'f1_positive', 'f1_negative', 'precision_positive',
+                                            'recall_positive', 'auc'])
+
+            summary_sub.loc['score',:]=[anti,report.loc['macro avg', 'f1-score'],report.loc['macro avg', 'precision'],report.loc['macro avg', 'recall'],
+                                    report.loc['accuracy', 'f1-score'],mcc_test[i],report.loc['1', 'f1-score'],report.loc['0', 'f1-score'],
+                                    report.loc['1', 'precision'],report.loc['1', 'recall'],aucs_test[i]]
+
+            summary = summary.append(summary_sub, ignore_index=True)
+    return summary
