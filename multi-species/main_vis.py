@@ -20,20 +20,10 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-def plot(species,n,axs,summary_plot,final_score):
-    row= (n//3)
-    col= n%3
-    sns.boxplot(x="antibiotic", y=final_score, hue='single or concat',
-                   data=summary_plot, dodge=True, ax=axs[row, col]).set_title(species)
-
-
-
-
-
-
 
 #plot a 3D plot of single-s model and concatenated multiple-s model.
-def extract_info(final_score,level,f_all,threshold_point,min_cov_point,learning,epochs,f_optimize_score,f_fixed_threshold,f_nn_base):
+def extract_info(final_score,level,f_all,threshold_point,min_cov_point,learning,epochs,f_optimize_score,f_fixed_threshold,
+                 f_nn_base,f_phylotree,cv):
     data = pd.read_csv('metadata/' +str(level)+'_multi-species_summary.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
     # --------------------------------------------------------
@@ -58,15 +48,49 @@ def extract_info(final_score,level,f_all,threshold_point,min_cov_point,learning,
 
     n = 0
     for species in list_species:
+
         print('------------------------------',species)
         #1.
-        single_s_score = amr_utility.name_utility.GETname_multi_bench_save_name_final(species, None,
-                                                                                      level,learning,
-                                                                                             epochs,
-                                                                                             f_fixed_threshold,
-                                                                                             f_nn_base,
-                                                                                             f_optimize_score)
-        single_results = pd.read_csv(single_s_score + '_score_final_PLOT.txt', sep="\t", header=0, index_col=0)
+        # single_s_score = amr_utility.name_utility.GETname_multi_bench_save_name_final(species, None,
+        #                                                                               level,learning,
+        #                                                                                      epochs,
+        #                                                                                      f_fixed_threshold,
+        #                                                                                      f_nn_base,
+        #                                                                                      f_optimize_score)
+        # single_results = pd.read_csv(single_s_score + '_score_final_PLOT.txt', sep="\t", header=0, index_col=0)
+        single_results = pd.DataFrame(columns=[ 'antibiotic','f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                            'mcc', 'f1_positive', 'f1_negative', 'precision_positive',
+                                            'recall_positive', 'auc'])
+        antibiotics, _, _ = amr_utility.load_data.extract_info(species, False, level)
+        for anti in antibiotics:
+            print(anti)
+            save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(species, anti, level,
+                                                                                           learning, epochs,
+                                                                                           f_fixed_threshold,
+                                                                                           f_nn_base,
+                                                                                           f_optimize_score)
+            if f_phylotree:
+                score = pickle.load(open(save_name_score + '_all_score_Tree.pickle', "rb"))
+
+            else:
+                score = pickle.load(open(save_name_score + '_all_score.pickle', "rb"))
+
+            aucs_test = score[4]
+            score_report_test = score[3]
+            mcc_test = score[2]
+            thresholds_selected_test = score[0]
+
+
+            summary = pd.DataFrame(columns=[ 'antibiotic','f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                            'mcc', 'f1_positive', 'f1_negative', 'precision_positive',
+                                            'recall_positive', 'auc'])
+
+            summary=analysis_results.extract_score.summary_allLoop(None,summary, cv,score_report_test, aucs_test, mcc_test,anti )
+
+            single_results=single_results.append(summary, ignore_index=True)
+
+
+
         #2.-------------------
 
         merge_name_test = species.replace(" ", "_")
@@ -86,16 +110,23 @@ def extract_info(final_score,level,f_all,threshold_point,min_cov_point,learning,
         #-------------------------------
         #Prepare dataframe for plotting.
         #-------------------------------
-        anti = df_anti[species].split(';')
+        antibiotics = df_anti[species].split(';')
 
         summary_plot = pd.DataFrame(columns=[final_score, 'antibiotic', 'model'])
 
-        for each_anti in anti:
+        for each_anti in antibiotics:
             # summary_plot_sub.loc[species, each_anti] = data_score.loc[each_anti, each_score]
-            summary_plot_sub = pd.DataFrame(columns=[final_score, 'antibiotic', 'model'])
-            summary_plot_sub.loc['e'] = [concat_results.loc[each_anti,final_score], each_anti, 'multi-species model']
-            summary_plot_sub.loc['e+1'] = [single_results.loc[each_anti, 'weighted-'+final_score], each_anti, 'single-speceis model']
-            summary_plot = summary_plot.append(summary_plot_sub, sort=False)
+            summary_plot_multi = pd.DataFrame(columns=[final_score, 'antibiotic', 'model'])
+            summary_plot_multi.loc['e'] = [concat_results.loc[each_anti,final_score], each_anti, 'multi-species model']
+            summary_plot = summary_plot.append(summary_plot_multi, ignore_index=True)
+            #--------------------------------------
+            print(single_results)
+            summary_plot_single=single_results.loc[single_results['antibiotic']==each_anti]
+            summary_plot_single=summary_plot_single[[final_score,'antibiotic']]
+            summary_plot_single['model']='single-speceis model'
+            summary_plot = summary_plot.append(summary_plot_single, ignore_index=True)
+
+
         # print(summary_plot)
         # ax =sns.barplot(x="antibiotic", y=final_score, hue='model',
         #             data=summary_plot, dodge=True).set_title(species)
@@ -155,17 +186,22 @@ if __name__== '__main__':
                         help='set a fixed threshod:0.5.')
     parser.add_argument('-f_optimize_score', '--f_optimize_score', default='f1_macro', type=str,
                         help='the optimizing-score for choosing the best estimator in inner loop. Choose: auc or f1_macro.')
-    parser.add_argument("-e", "--epochs", default=1000, type=int,
+    parser.add_argument("-e", "--epochs", default=0, type=int,
                         help='epochs')
-    parser.add_argument("-learning", "--learning", default=0.001, type=float,
+    parser.add_argument("-learning", "--learning", default=0.0, type=float,
                         help='learning rate')
     parser.add_argument('-f_nn_base', '--f_nn_base', dest='f_nn_base', action='store_true',
                         help='benchmarking baseline.')
+    parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
+                        help=' phylo-tree based cv folders.')
+    parser.add_argument("-cv", "--cv_number", default=10, type=int,
+                        help='CV splits number')
     parsedArgs = parser.parse_args()
     # parser.print_help()
     # print(parsedArgs)
     extract_info(parsedArgs.score,parsedArgs.level,parsedArgs.f_all,parsedArgs.threshold_point,parsedArgs.min_cov_point,
-                 parsedArgs.learning,parsedArgs.epochs,parsedArgs.f_optimize_score,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base)
+                 parsedArgs.learning,parsedArgs.epochs,parsedArgs.f_optimize_score,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base,
+                 parsedArgs.f_phylotree,parsedArgs.cv_number)
 
 
 
