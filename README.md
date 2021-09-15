@@ -23,6 +23,10 @@
     - [Seq2Geno](#s2g)
     - [Geno2Pheno](#g2p)
 
+- [PhenotypeSeeker](#PhenotypeSeeker)
+
+
+
 
 ## <a name="data"></a>Patric data set
 ### <a name="pro"></a>**1. The procedures for data acquisition:**
@@ -427,6 +431,18 @@ conda deactivate
 
 
 
+### <a name="PhenotypeSeeker"></a>PhenotypeSeeker
+
+
+
+## Install
+```
+conda create -n PhenotypeSeeker python=3.7
+source activate PhenotypeSeeker
+conda install -c bioconda mash
+conda install -c bioconda genometester4
+
+```
 
 
 
