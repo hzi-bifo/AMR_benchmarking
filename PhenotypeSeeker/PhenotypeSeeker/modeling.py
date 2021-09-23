@@ -144,7 +144,7 @@ class Input():
             cls, alphas, alpha_min, alpha_max, n_alphas,
             gammas, gamma_min, gamma_max, n_gammas, 
             min_samples, max_samples, kmer_length,
-            cutoff, num_threads, pvalue_cutoff, kmer_limit,
+            cutoff, num_threads, pvalue_cutoff, kmer_limit,cv_K,
             FDR, B, binary_classifier, regressor, penalty, max_iter,
             tol, l1_ratio, n_splits_cv_outer, kernel, n_iter,
             n_splits_cv_inner, testset_size, train_on_whole,
@@ -165,6 +165,7 @@ class Input():
         Input.jump_to = jump_to
         phenotypes.pvalue_cutoff = pvalue_cutoff
         phenotypes.kmer_limit = kmer_limit
+        phenotypes.cv_K=cv_K
         phenotypes.FDR = FDR
         phenotypes.B = B
         phenotypes.penalty = penalty.upper()
@@ -322,11 +323,11 @@ class Samples():
                 ".list -l K-mer_lists/feature_vector.list"
                 ]
                 , shell=True, stdout=outputfile)
-            # call(
-            #     [
-            #     "rm " + "K-mer_lists/" + self.name + "_0_" + self.kmer_length + ".list"
-            #     ]
-            #     , shell=True)
+            call(
+                [
+                "rm " + "K-mer_lists/" + self.name + "_0_" + self.kmer_length + ".list"
+                ]
+                , shell=True)
         call(
             [
             "split -a 5 -d -n r/" + str(Input.num_threads) + \
@@ -335,7 +336,7 @@ class Samples():
             ],
             shell=True
             )
-        # call(["rm K-mer_lists/{}_mapped.txt".format(self.name)], shell=True)
+        call(["rm K-mer_lists/{}_mapped.txt".format(self.name)], shell=True)
 
         Input.lock.acquire()
         stderr_print.currentSampleNum.value += 1
@@ -365,7 +366,7 @@ class Samples():
                 ]
             Input.pool.map(partial(cls.get_union, round=i), iterate_to_union)
         call(["mv %s K-mer_lists/feature_vector.list" % cls.union_output[-1]], shell=True)
-        # [(lambda x: call(["rm -f {}".format(x)], shell=True))(union) for union in cls.union_output[:-1]]
+        [(lambda x: call(["rm -f {}".format(x)], shell=True))(union) for union in cls.union_output[:-1]]
 
     @classmethod
     def get_union(cls, lists_to_unite, round):
@@ -403,7 +404,7 @@ class Samples():
         process = Popen(mash_args, shell=True, stderr=PIPE, universal_newlines=True)
         for line in iter(process.stderr.readline, ''):
             stderr_print(line.strip())
-        # call(["rm K-mer_lists/*.msh"], shell=True)
+        call(["rm K-mer_lists/*.msh"], shell=True)
         with open("mash_distances.mat", "w+") as f1:
             call(["mash dist reference.msh reference.msh"], shell=True, stdout=f1)
 
@@ -450,7 +451,7 @@ class Samples():
     @staticmethod
     def _phyloxml_to_newick(phyloxml):
         #Converting phyloxml to newick
-        with open("tree_newick.txt", "w+") as f1:
+        with open("tree_newick.txt", "w+") as f1: #The file is created if it does not exist, otherwise it is truncated.
             Bio.Phylo.convert(phyloxml, "phyloxml", f1, "newick")
 
     @classmethod
@@ -547,6 +548,7 @@ class phenotypes():
     # Filtering parameters
     pvalue_cutoff = None
     kmer_limit = None
+    cv_K=None
     FDR = None
     B = None
 
@@ -626,7 +628,7 @@ class phenotypes():
         cls.progress_checkpoint.value = int(
             math.ceil(cls.no_kmers_to_analyse.value/(100*Input.num_threads))
             )
-        # call(["rm K-mer_lists/feature_vector.list"], shell=True)
+        call(["rm K-mer_lists/feature_vector.list"], shell=True)
 
         # Set up split up vectors as multiple input list
         for sample in Input.samples:
@@ -927,7 +929,7 @@ class phenotypes():
         stderr_print.previousPercent.value = 0
         checkpoint = int(math.ceil(nr_of_kmers_tested/100))
         inputfile = open(self.test_output) #"chi-squared_test_results_"
-        outputfile = open("k-mers_filtered_by_pvalue_" + self.name + ".txt", "w")
+        outputfile = open("k-mers_filtered_by_pvalue_" + self.name + ".txt", "w")# Truncate file to zero length or create text file for writing.
         self.write_headerline(outputfile)
 
         counter = 0
@@ -1005,128 +1007,128 @@ class phenotypes():
         self.set_hyperparameters()
         self.get_outputfile_names()
         self.get_ML_dataframe()
-        if phenotypes.n_splits_cv_outer:
-            self.assert_n_splits_cv_outer(phenotypes.n_splits_cv_outer, self.ML_df)
-            self.assert_n_splits_cv_inner(phenotypes.n_splits_cv_inner, self.ML_df)
-            if phenotypes.scale == "continuous":
-                kf = KFold(n_splits=self.n_splits_cv_outer)               
-            elif phenotypes.scale == "binary":
-                kf = StratifiedKFold(n_splits=self.n_splits_cv_outer)
-                #todo change folders
-
-
-            fold = 0
-            for train_index, test_index in kf.split(
-                    self.ML_df, self.ML_df['phenotype'].values
-                ):
-                fold += 1
-                self.ML_df_train, self.ML_df_test = (
-                    self.ML_df.iloc[train_index], self.ML_df.iloc[test_index]
-                    )
-                self.X_train, self.y_train, self.weights_train = self.split_df(
-                    self.ML_df_train
-                    )
-                self.X_test, self.y_test, self.weights_test = self.split_df(
-                    self.ML_df_test
-                    )
-
-                self.get_best_model()
-                self.fit_model()
-                self.summary_file.write(
-                    "\n##### Train/test split nr.%d: #####\n" % fold
-                    )
-                self.cross_validation_results()
-                self.summary_file.write('\nTraining set:\n')
-                self.predict(self.X_train, self.y_train, self.metrics_dict_train)
-                self.summary_file.write('\nTest set:\n')
-                self.predict(self.X_test, self.y_test, self.metrics_dict_test)
-            
-            if not self.train_on_whole:
-                self.summary_file.write(
-                '''\n### Outputting the last model to a model file! ###\n'''
-                )
-
-            if self.scale == "continuous":
-                self.summary_file.write(
-                    "\nMean performance metrics over all train splits: \n\n"
-                    )
-                self.mean_model_performance_regressor(self.metrics_dict_train)
-                self.summary_file.write(
-                    "\nMean performance metrics over all test splits: \n\n"
-                    )
-                self.mean_model_performance_regressor(self.metrics_dict_test)
-            elif self.scale == "binary":
-                self.summary_file.write(
-                    "\nMean performance metrics over all train splits: \n\n"
-                    )
-                self.mean_model_performance_classifier(self.metrics_dict_train)
-                self.summary_file.write(
-                    "\nMean performance metrics over all test splits: \n\n"
-                    )
-                self.mean_model_performance_classifier(self.metrics_dict_test)
-
-        elif self.testset_size:
-            if phenotypes.scale == "continuous":
-                stratify = None
-            elif phenotypes.scale == "binary":
-                stratify = self.ML_df['phenotype'].values
-            (
-            self.ML_df_train, self.ML_df_test
-            ) = train_test_split(
-            self.ML_df, test_size=self.testset_size, random_state=55,
-            stratify=stratify
-            )
-            self.X_train, self.y_train, self.weights_train = self.split_df(
-                self.ML_df_train
-                )
-            self.X_test, self.y_test, self.weights_test = self.split_df(
-                self.ML_df_test
-                )
-
-            self.assert_n_splits_cv_inner(
-                phenotypes.n_splits_cv_inner, self.ML_df, self.y_train.phenotype.values.tolist() 
-                )
-            self.get_best_model()
-            self.fit_model()
-            self.cross_validation_results()
-            self.summary_file.write('\nTraining set:\n')
-            self.predict(self.X_train, self.y_train, self.metrics_dict_train)
-            self.summary_file.write('\nTest set:\n')
-            self.predict(self.X_test, self.y_test, self.metrics_dict_test)
-
-            if not self.train_on_whole:
-                self.summary_file.write(
-                '\n### Outputting the model to a file! ###\n'
-                )
-
-        if (not phenotypes.n_splits_cv_outer and not self.testset_size) or self.train_on_whole:
-            if phenotypes.n_splits_cv_outer or self.testset_size:
-                self.summary_file.write(
-                '\nThe final output model training on the whole dataset:\n'
-                )
-            self.X_train, self.y_train, self.weights_train = self.split_df(self.ML_df)
-            self.get_best_model()
-            self.fit_model()
-            self.cross_validation_results()
-            self.predict(self.X_train, self.y_train)
-            if phenotypes.n_splits_cv_outer or self.testset_size:
-                self.summary_file.write(
-                '\n### Outputting the last model trained on whole data to a model file! ###\n'
-                )
-            else:                
-                self.summary_file.write(
-                '\n### Outputting the model to a model file! ###\n'
-                )
-
-        joblib.dump(self.model_fitted, self.model_file)
-        self.write_model_coefficients_to_file()
-
-        if phenotypes.model_name_long == "decision tree":
-            self.visualize_model()
-
-        self.summary_file.close()
-        self.coeff_file.close()
-        self.model_file.close()
+        # if phenotypes.n_splits_cv_outer:
+        #     self.assert_n_splits_cv_outer(phenotypes.n_splits_cv_outer, self.ML_df)
+        #     self.assert_n_splits_cv_inner(phenotypes.n_splits_cv_inner, self.ML_df)
+        #     if phenotypes.scale == "continuous":
+        #         kf = KFold(n_splits=self.n_splits_cv_outer)
+        #     elif phenotypes.scale == "binary":
+        #         kf = StratifiedKFold(n_splits=self.n_splits_cv_outer)
+        #         #todo change folders
+        #
+        #
+        #     fold = 0
+        #     for train_index, test_index in kf.split(
+        #             self.ML_df, self.ML_df['phenotype'].values
+        #         ):
+        #         fold += 1
+        #         self.ML_df_train, self.ML_df_test = (
+        #             self.ML_df.iloc[train_index], self.ML_df.iloc[test_index]
+        #             )
+        #         self.X_train, self.y_train, self.weights_train = self.split_df(
+        #             self.ML_df_train
+        #             )
+        #         self.X_test, self.y_test, self.weights_test = self.split_df(
+        #             self.ML_df_test
+        #             )
+        #
+        #         self.get_best_model()
+        #         self.fit_model()
+        #         self.summary_file.write(
+        #             "\n##### Train/test split nr.%d: #####\n" % fold
+        #             )
+        #         self.cross_validation_results()
+        #         self.summary_file.write('\nTraining set:\n')
+        #         self.predict(self.X_train, self.y_train, self.metrics_dict_train)
+        #         self.summary_file.write('\nTest set:\n')
+        #         self.predict(self.X_test, self.y_test, self.metrics_dict_test)
+        #
+        #     if not self.train_on_whole:
+        #         self.summary_file.write(
+        #         '''\n### Outputting the last model to a model file! ###\n'''
+        #         )
+        #
+        #     if self.scale == "continuous":
+        #         self.summary_file.write(
+        #             "\nMean performance metrics over all train splits: \n\n"
+        #             )
+        #         self.mean_model_performance_regressor(self.metrics_dict_train)
+        #         self.summary_file.write(
+        #             "\nMean performance metrics over all test splits: \n\n"
+        #             )
+        #         self.mean_model_performance_regressor(self.metrics_dict_test)
+        #     elif self.scale == "binary":
+        #         self.summary_file.write(
+        #             "\nMean performance metrics over all train splits: \n\n"
+        #             )
+        #         self.mean_model_performance_classifier(self.metrics_dict_train)
+        #         self.summary_file.write(
+        #             "\nMean performance metrics over all test splits: \n\n"
+        #             )
+        #         self.mean_model_performance_classifier(self.metrics_dict_test)
+        #
+        # elif self.testset_size:
+        #     if phenotypes.scale == "continuous":
+        #         stratify = None
+        #     elif phenotypes.scale == "binary":
+        #         stratify = self.ML_df['phenotype'].values
+        #     (
+        #     self.ML_df_train, self.ML_df_test
+        #     ) = train_test_split(
+        #     self.ML_df, test_size=self.testset_size, random_state=55,
+        #     stratify=stratify
+        #     )
+        #     self.X_train, self.y_train, self.weights_train = self.split_df(
+        #         self.ML_df_train
+        #         )
+        #     self.X_test, self.y_test, self.weights_test = self.split_df(
+        #         self.ML_df_test
+        #         )
+        #
+        #     self.assert_n_splits_cv_inner(
+        #         phenotypes.n_splits_cv_inner, self.ML_df, self.y_train.phenotype.values.tolist()
+        #         )
+        #     self.get_best_model()
+        #     self.fit_model()
+        #     self.cross_validation_results()
+        #     self.summary_file.write('\nTraining set:\n')
+        #     self.predict(self.X_train, self.y_train, self.metrics_dict_train)
+        #     self.summary_file.write('\nTest set:\n')
+        #     self.predict(self.X_test, self.y_test, self.metrics_dict_test)
+        #
+        #     if not self.train_on_whole:
+        #         self.summary_file.write(
+        #         '\n### Outputting the model to a file! ###\n'
+        #         )
+        #
+        # if (not phenotypes.n_splits_cv_outer and not self.testset_size) or self.train_on_whole:
+        #     if phenotypes.n_splits_cv_outer or self.testset_size:
+        #         self.summary_file.write(
+        #         '\nThe final output model training on the whole dataset:\n'
+        #         )
+        #     self.X_train, self.y_train, self.weights_train = self.split_df(self.ML_df)
+        #     self.get_best_model()
+        #     self.fit_model()
+        #     self.cross_validation_results()
+        #     self.predict(self.X_train, self.y_train)
+        #     if phenotypes.n_splits_cv_outer or self.testset_size:
+        #         self.summary_file.write(
+        #         '\n### Outputting the last model trained on whole data to a model file! ###\n'
+        #         )
+        #     else:
+        #         self.summary_file.write(
+        #         '\n### Outputting the model to a model file! ###\n'
+        #         )
+        #
+        # joblib.dump(self.model_fitted, self.model_file)
+        # self.write_model_coefficients_to_file()
+        #
+        # if phenotypes.model_name_long == "decision tree":
+        #     self.visualize_model()
+        #
+        # self.summary_file.close()
+        # self.coeff_file.close()
+        # self.model_file.close()
 
     @classmethod
     def split_df(cls, df):
@@ -1276,8 +1278,12 @@ class phenotypes():
             # print('Now finish the pipeline in advance!!!!!!!!!!')
             # exit()
             # print(self.ML_df)
+            self.ML_df.to_csv(self.name + "_" + str(self.cv_K) + "_df_beforecutting.csv")  #todo add anti names and cv infor
             self.ML_df.sort_values('p_val', axis=1, ascending=True, inplace=True)
             self.ML_df = self.ML_df.iloc[:,:self.kmer_limit]
+            # print(self.ML_df)
+            print(self.kmer_limit)
+            # print('----------------')
             self.ML_df.drop('p_val', inplace=True)
             self.ML_df['phenotype'] = [
                 sample.phenotypes[self.name] for sample in Input.samples.values()
@@ -1297,9 +1303,9 @@ class phenotypes():
 
             # self.summary_file.write("Dataset:\n%s\n\n" % self.skl_dataset) 
             # self.ML_df = self.ML_df.T.drop_duplicates().T
-            self.ML_df.to_csv(self.name + "_" + self.model_name_short + "_df.csv")
+            self.ML_df.to_csv(self.name + "_" + str(self.cv_K) + "_df.csv") #todo add anti names and cv infor
             print('target matrix generated, so exit...')
-            exit()
+
     def fit_model(self):
         if self.scale == "continuous":
             if self.model_name_short == "linreg":
@@ -1728,7 +1734,7 @@ def modeling(args):
         args.alphas, args.alpha_min, args.alpha_max, args.n_alphas,
         args.gammas, args.gamma_min, args.gamma_max, args.n_gammas,
         args.min, args.max, args.kmer_length, args.cutoff,
-        args.num_threads, args.pvalue, args.n_kmers, args.FDR, 
+        args.num_threads, args.pvalue, args.n_kmers,args.cv_K, args.FDR,
         args.Bonferroni, args.binary_classifier, args.regressor, 
         args.penalty, args.max_iter, args.tolerance, args.l1_ratio,
         args.n_splits_cv_outer, args.kernel, args.n_iter, args.n_splits_cv_inner,

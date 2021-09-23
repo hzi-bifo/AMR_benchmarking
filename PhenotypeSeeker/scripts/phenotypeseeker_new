@@ -9,7 +9,7 @@ __email__ = "erki.aun@ut.ee"
 import argparse
 import sys
 import math
-
+# sys.path.append('../../PhenotypeSeeker')
 from PhenotypeSeeker import modeling, prediction, annotation
 
 class _HelpAction(argparse._HelpAction):
@@ -122,6 +122,12 @@ def Main():
         help='The maximum number of (lowest p-valued) k-mers selected for \
         regression model (default = 1000).'
         )
+    kmer_selection_by_pval.add_argument(
+        '--cv_K', metavar='', type=int,
+        help='Outer cv loop. Added by K.'
+    )
+
+
 
     regression_models.add_argument(
     	"--alphas", metavar='FLOAT', type=float, nargs='+',
