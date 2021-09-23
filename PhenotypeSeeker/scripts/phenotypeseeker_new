@@ -124,8 +124,10 @@ def Main():
         )
     kmer_selection_by_pval.add_argument(
         '--cv_K', metavar='', type=int,
-        help='Outer cv loop. Added by K.'
-    )
+        help='Outer cv loop. Added by K. Sep 24, 2021')
+    kmer_selection_by_pval.add_argument(
+        '--f_train_test', metavar='', type=str,
+        help='train or test, to specify the output feature matrix is for training or testing. Added by K. Sep 24, 2021')
 
 
 

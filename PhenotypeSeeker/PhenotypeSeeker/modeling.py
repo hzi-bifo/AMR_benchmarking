@@ -144,7 +144,7 @@ class Input():
             cls, alphas, alpha_min, alpha_max, n_alphas,
             gammas, gamma_min, gamma_max, n_gammas, 
             min_samples, max_samples, kmer_length,
-            cutoff, num_threads, pvalue_cutoff, kmer_limit,cv_K,
+            cutoff, num_threads, pvalue_cutoff, kmer_limit,cv_K,f_train_test,
             FDR, B, binary_classifier, regressor, penalty, max_iter,
             tol, l1_ratio, n_splits_cv_outer, kernel, n_iter,
             n_splits_cv_inner, testset_size, train_on_whole,
@@ -166,6 +166,7 @@ class Input():
         phenotypes.pvalue_cutoff = pvalue_cutoff
         phenotypes.kmer_limit = kmer_limit
         phenotypes.cv_K=cv_K
+        phenotypes.f_train_test=f_train_test
         phenotypes.FDR = FDR
         phenotypes.B = B
         phenotypes.penalty = penalty.upper()
@@ -549,6 +550,7 @@ class phenotypes():
     pvalue_cutoff = None
     kmer_limit = None
     cv_K=None
+    f_train_test=None
     FDR = None
     B = None
 
@@ -1278,7 +1280,7 @@ class phenotypes():
             # print('Now finish the pipeline in advance!!!!!!!!!!')
             # exit()
             # print(self.ML_df)
-            self.ML_df.to_csv(self.name + "_" + str(self.cv_K) + "_df_beforecutting.csv")  #todo add anti names and cv infor
+            self.ML_df.to_csv(self.name + "_" + str(self.cv_K) +'_'+str(self.f_train_test)+ "_df_beforecutting.csv")  #todo add anti names and cv infor
             self.ML_df.sort_values('p_val', axis=1, ascending=True, inplace=True)
             self.ML_df = self.ML_df.iloc[:,:self.kmer_limit]
             # print(self.ML_df)
@@ -1303,7 +1305,7 @@ class phenotypes():
 
             # self.summary_file.write("Dataset:\n%s\n\n" % self.skl_dataset) 
             # self.ML_df = self.ML_df.T.drop_duplicates().T
-            self.ML_df.to_csv(self.name + "_" + str(self.cv_K) + "_df.csv") #todo add anti names and cv infor
+            self.ML_df.to_csv(self.name + "_" + str(self.cv_K) +'_'+str(self.f_train_test)+  "_df.csv") #todo add anti names and cv infor
             print('target matrix generated, so exit...')
 
     def fit_model(self):
@@ -1734,7 +1736,7 @@ def modeling(args):
         args.alphas, args.alpha_min, args.alpha_max, args.n_alphas,
         args.gammas, args.gamma_min, args.gamma_max, args.n_gammas,
         args.min, args.max, args.kmer_length, args.cutoff,
-        args.num_threads, args.pvalue, args.n_kmers,args.cv_K, args.FDR,
+        args.num_threads, args.pvalue, args.n_kmers,args.cv_K,args.f_train_test,args.FDR,
         args.Bonferroni, args.binary_classifier, args.regressor, 
         args.penalty, args.max_iter, args.tolerance, args.l1_ratio,
         args.n_splits_cv_outer, args.kernel, args.n_iter, args.n_splits_cv_inner,
