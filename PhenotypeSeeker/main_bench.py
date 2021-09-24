@@ -26,7 +26,7 @@ from sklearn import tree
 from sklearn.pipeline import Pipeline
 
 
-def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_ml,f_phylotree,f_kma):
+def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_ml,f_phylotree,f_kma,f_qsub):
 
     # if path_sequence=='/net/projects/BIFO/patric_genome':
     #     path_large_temp='/net/sgi/metagenomics/data/khu/benchmarking/s2g2p'#todo, may need a change
@@ -152,7 +152,40 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
     if f_tree == True:
 
             pass
+    if f_qsub:#prepare bash scripts for each species
+        for species, antibiotics in zip(df_species, antibiotics):
+            amr_utility.file_utility.make_dir('log/qsub')
+            run_file_name='log/qsub/'+str(species.replace(" ", "_"))+'_kmer.sh'
+            amr_utility.file_utility.make_dir('log/qsub')
+            run_file = open(run_file_name, "w")
+            run_file.write("#!/bin/bash")
+            run_file.write("\n")
+            # if path_sequence == '/vol/projects/BIFO/patric_genome':
+            if Path(fileDir).parts[1] == 'vol':
+                run_file = amr_utility.file_utility.hzi_cpu_header4(run_file,
+                                                                    str(species.replace(" ", "_"))+'kmer',
+                                                                    n_jobs, 'amr','uv2000.q')
+            # run_file = amr_utility.file_utility.header_THREADS(run_file,
+            #                                                    n_jobs)
+            cmd = 'python main_bench.py -f_ml --n_jobs %s -s \'%s\' -f_kma' % (n_jobs,species)
+            run_file.write(cmd)
+            run_file.write("\n")
 
+            #------------------------------------------------------------
+            run_file_name = 'log/qsub/' + str(species.replace(" ", "_")) + '_kmer2.sh'
+            run_file = open(run_file_name, "w")
+            run_file.write("#!/bin/bash")
+            run_file.write("\n")
+            # if path_sequence == '/vol/projects/BIFO/patric_genome':
+            if Path(fileDir).parts[1] == 'vol':
+                run_file = amr_utility.file_utility.hzi_cpu_header4(run_file,
+                                                                    str(species.replace(" ", "_")+'kmer'),
+                                                                    20, 'amr', 'all.q')
+            # run_file = amr_utility.file_utility.header_THREADS(run_file,
+            #                                                     20)
+            cmd = 'python main_bench.py -f_ml --n_jobs %s -s \'%s\' -f_kma' % (20, species)
+            run_file.write(cmd)
+            run_file.write("\n")
 
     if f_ml: #ML
         for species, antibiotics in zip(df_species, antibiotics):
@@ -174,8 +207,10 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
                     for out_cv in range(cv):
                         print('Starting outer: ', str(out_cv), '; chosen_cl: ', chosen_cl)
                         
-                        train_set=pd.read_csv(str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+ "_" + str(out_cv) +"_train_df.csv", sep="\t",index_col=0)
-                        test_set=pd.read_csv(str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+ "_" + str(out_cv) + "_test_df_beforecutting.csv", sep="\t",index_col=0)
+                        train_set=pd.read_csv(meta_txt+ "_" + str(out_cv) +"_train_df.csv",index_col=0)
+                        test_set=pd.read_csv(meta_txt+ "_" + str(out_cv) + "_test_df_beforecutting.csv",index_col=0)
+                        train_set = train_set.drop(train_set.tail(1).index)
+                        test_set = test_set.drop(test_set.tail(1).index)
                         hyper_list_feature = list(ParameterGrid(hyper_space))
                         pipe = Pipeline(steps=[('cl', cl)])
 
@@ -206,24 +241,30 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
                         #
 
 
-                        tain_val_test_set_order = pd.read_csv(meta_original, index_col=0, dtype={'genome_id': object}, sep="\t")
-                        tain_val_test_set_order['ID'] = 'iso_' + tain_val_test_set_order['genome_id'].astype(str)
-                        tain_val_test_set_order=tain_val_test_set_order.loc[:,'ID']
-
-                        # map train_set to tain_val_test_set_order, note there is some Nan data, which is normal, means belonging to test set.
+                        main_meta = pd.read_csv(meta_original, index_col=0, dtype={'genome_id': object}, sep="\t")
+                        main_meta['ID'] = 'iso_' + main_meta['genome_id'].astype(str)
+                        tain_val_test_set_order=main_meta.loc[:,['ID']]
+                        main_meta = main_meta.set_index('ID')
+                        # map train_set to tain_val_test_   set_order, note there is some Nan data, which is normal, means belonging to test set.
                         #todo check
-                        #set index ID,
+
                         tain_val_test_set_order=tain_val_test_set_order.set_index('ID')
                         train_set_new=pd.merge(tain_val_test_set_order, train_set, left_index=True, right_index=True, how="outer")
-                        print('---------------')
-                        print(tain_val_test_set_order)
-                        print(train_set)
-                        print('check train_set_new',train_set_new)
-                        #map test set to tain_val_test_set_order('ID') and train_set(columns)
+                        train_set_new=train_set_new.reindex(main_meta.index) #force the data_x 's order in according with id_list
 
-                        # test_set_new=pd.merge(tain_val_test_set_order, test_set, left_index=True, right_index=True, how="outer")
-                        test_set_new=test_set.loc[:,train_set.columns]
-                        print('check test_set_new', test_set_new)
+                        #map test set to tain_val_test_set_order('ID') and train_set(columns)
+                        test_set_new=pd.DataFrame(index=test_set.index,columns=train_set.columns.to_list()[:-1])
+                        test_set_new['phenotype'] = [main_meta.loc[sample, 'resistant_phenotype'] for sample in
+                                                 test_set.index] # add pheno infor to test set.
+                        for col in train_set.columns.to_list()[:-2]:
+                            if col in test_set.columns.to_list():
+                                test_set_new[col]=test_set[col]
+                        # print(test_set_new)
+
+                        test_set_new=test_set_new.fillna(0) #fill nan with 0
+                        # print(test_set_new)
+                        # test_set_new=test_set.loc[:,train_set.columns.to_list()[:-1]]
+
 
 
 
@@ -235,8 +276,8 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
                         X_train = train_set.iloc[:, 0:-2]
                         y_train = train_set[:, -2:-1]
 
-                        X_test = test_set_new.iloc[:,0:-2]
-                        y_test = test_set_new[:,-2:-1]
+                        X_test = test_set_new.iloc[:,0:-1]
+                        y_test = test_set_new[:,-1]
 
                         search = GridSearchCV(estimator=pipe, param_grid=hyper_list_feature, n_jobs=n_jobs,
                                               scoring='f1_macro',
@@ -285,7 +326,7 @@ def hyper_range(chosen_cl):
 
     if chosen_cl=='lr':
         cl=LogisticRegression( random_state=0,max_iter=10000,class_weight='balanced')
-        hyper_space = {'cl__C': _get_gammas(None,1E-6,1E6,25),'cl__penalty':['l1','l2','elasticnet']}
+        hyper_space = {'cl__C': _get_gammas(None,1E-6,1E6,25),'cl__penalty':['l1'],'cl__solver':["liblinear", "saga"]}
 
     if chosen_cl=='rf':
         cl=RandomForestClassifier(random_state=0, class_weight='balanced')
@@ -297,7 +338,7 @@ def hyper_range(chosen_cl):
         cl=tree.DecisionTreeClassifier(random_state=0,class_weight='balanced')
         hyper_space = {'cl__max_depth': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 'cl__criterion' :['gini', 'entropy']}
 
-    return cl,hyper_space
+    return hyper_space,cl
 
 
 def _get_gammas(gammas, gamma_min, gamma_max, n_gammas):
@@ -338,11 +379,14 @@ if __name__ == '__main__':
     parser.add_argument("-cv", "--cv", default=10, type=int,
                         help='CV splits number')
     parser.add_argument('-f_tree', '--f_tree', dest='f_tree', action='store_true',
-                        help='Kma cluster')  # c program
+                        help='Kma cluster')
+    parser.add_argument('-f_qsub', '--f_qsub', dest='f_qsub',
+                        help='Prepare scriptd for qsub.', action='store_true', )
     parser.add_argument('-s', '--species', default=[], type=str, nargs='+', help='species to run: e.g.\'Pseudomonas aeruginosa\' \
                     \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
                     \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
     parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel.')
     parsedArgs = parser.parse_args()
     extract_info(parsedArgs.path_sequence, parsedArgs.species, parsedArgs.f_all, parsedArgs.f_prepare_meta,
-                 parsedArgs.f_tree, parsedArgs.cv, parsedArgs.level, parsedArgs.n_jobs, parsedArgs.f_ml, parsedArgs.f_phylotree,parsedArgs.f_kma)
+                 parsedArgs.f_tree, parsedArgs.cv, parsedArgs.level, parsedArgs.n_jobs, parsedArgs.f_ml,
+                 parsedArgs.f_phylotree,parsedArgs.f_kma,parsedArgs.f_qsub)
