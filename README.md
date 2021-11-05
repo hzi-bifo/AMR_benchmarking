@@ -367,18 +367,30 @@ Kuo, T.-H., Weimann, A., Bremges, A., & McHardy, A. C. (2021). Seq2Geno (v1.0000
 
 ### <a name="install"></a>Installment of Seq2Geno
 
-The original tool , which deals with the original sequence, can be found here: https://github.com/hzi-bifo/seq2geno.git
+1. The original tool , which deals with the original sequence, can be found here: https://github.com/hzi-bifo/seq2geno.git
+Install Seq2Geno according to the instruction there. Through this step, an conda envioronment named snakemake_env will be created.
 
-We use a branch of it, which deals with assembled data: https://github.com/hzi-bifo/seq2geno/tree/precomputed_assemblies
-
-But there is a slight modification on top of that, so please use the Seq2Geno tool downloaded from this repository, and then follow the install instructions:
+2. Then we'll use a branch of it, which deals with assembled data: https://github.com/hzi-bifo/seq2geno/tree/precomputed_assemblies
+Update the scripts:
 ```
-cd install/
-./SETENV.sh snakemake_env
-conda activate snakemake_env
-./TESTING.sh
+git submodule update --init
+git fetch --prune
+git reset --hard HEAD
+git pull origin precomputed_assemblies
+```
+Then replave the main folder and denovo/denovo.in_one.smk file in seq2geno-precomputed_assemblies this repository.
+Alternatively, replace all the scripts in seq2geno-precomputed_assemblies in this repository.
+
+install mafft in the conda environment(todo: ask Tzuhao to solve it in the scripts):
 
 ```
+conda activate /vol/projects/khu/amr/seq2geno/denovo/env/f0664b93
+conda install mafft
+conda deactivate
+
+```
+
+
 ### <a name="s2g"></a>Seq2Geno
 
 
