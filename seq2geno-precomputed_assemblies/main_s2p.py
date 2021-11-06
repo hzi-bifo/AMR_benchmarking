@@ -1,28 +1,14 @@
 #!/usr/bin/python
 import os
-os.environ["OMP_NUM_THREADS"] = "1" # export OMP_NUM_THREADS=4
-os.environ["OPENBLAS_NUM_THREADS"] = "1" # export OPENBLAS_NUM_THREADS=4
-os.environ["MKL_NUM_THREADS"] = "1" # export MKL_NUM_THREADS=6
-os.environ["VECLIB_MAXIMUM_THREADS"] = "1" # export VECLIB_MAXIMUM_THREADS=4
-os.environ["NUMEXPR_NUM_THREADS"] = "1" # export NUMEXPR_NUM_THREADS=6
 import numpy as np
-import ast
-import statistics
-import operator
-import time
 import amr_utility.name_utility
 import amr_utility.graph_utility
 import amr_utility.file_utility
 import argparse
 import amr_utility.load_data
 import pandas as pd
-from itertools import repeat
-import multiprocessing as mp
 import subprocess
-import csv
-import pickle
-import cv_folders.cluster_folders
-
+from pathlib import Path
 
 
 def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_finished):
@@ -31,10 +17,10 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_f
     #     path_large_temp='/net/sgi/metagenomics/data/khu/benchmarking/s2g2p'#todo, may need a change
     # else:
     fileDir = os.path.dirname(os.path.realpath('__file__'))
-    path_large_temp = os.path.join(fileDir, 'large_temp')
-    print(path_large_temp)
-
-    amr_utility.file_utility.make_dir(path_large_temp)
+    # path_large_temp = os.path.join(fileDir, 'large_temp')
+    # # print(path_large_temp)
+    #
+    # amr_utility.file_utility.make_dir(path_large_temp)
 
     data = pd.read_csv('metadata/' + str(level) + '_Species_antibiotic_FineQuality.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
@@ -63,11 +49,15 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_f
             for anti in antibiotics:
                 name,path,_,_,_,_,_=amr_utility.name_utility.s2g_GETname(level, species, anti)
                 name_list = pd.read_csv(name, index_col=0, dtype={'genome_id': object}, sep="\t")
+                if Path(fileDir).parts[1] == 'vol':
+                    # path_list=np.genfromtxt(path, dtype="str")
+                    name_list['path'] = '/vol/projects/BIFO/patric_genome/' + name_list['genome_id'].astype(str)+'.fna'
+                else:
+                    name_list['path']= '/net/projects/BIFO/patric_genome/' + name_list['genome_id'].astype(str)+'.fna'
                 name_list['genome_id'] = 'iso_' + name_list['genome_id'].astype(str)
-                path_list=np.genfromtxt(path, dtype="str")
-                name_list['path']=path_list
-                pseudo=np.empty(path_list.shape[0],dtype='object')
-                pseudo.fill('/vol/projects/khu/amr/seq2geno/example_sg_dataset/reads_subset/dna/CH2500.1.fastq.gz,/vol/projects/khu/amr/seq2geno/example_sg_dataset/reads_subset/dna/CH2500.2.fastq.gz')
+
+                pseudo=np.empty(len(name_list.index.to_list()),dtype='object')
+                pseudo.fill(fileDir+'/example_sg_dataset/reads_subset/dna/CH2500.1.fastq.gz,'+fileDir+'/example_sg_dataset/reads_subset/dna/CH2500.2.fastq.gz')
                 name_list['path_pseudo'] = pseudo
                 ALL.append(name_list)
                 # print(name_list)
@@ -98,6 +88,7 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_f
             # #modify the yml file
             a_file = open("seq2geno_inputs.yml", "r")
             list_of_lines = a_file.readlines()
+            list_of_lines[12] = "    100000\n"
             list_of_lines[14] = "    %s\n" % dna_list
             list_of_lines[26] = "    %s\n" % wd_results
             list_of_lines[28] = "    %s\n" % assemble_list
@@ -112,11 +103,12 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_f
             run_file = open(run_file_name, "w")
             run_file.write("#!/bin/bash")
             run_file.write("\n")
-            if path_sequence == '/vol/projects/BIFO/patric_genome':
+            # if path_sequence == '/vol/projects/BIFO/patric_genome':
+            if Path(fileDir).parts[1] == 'vol':
                 run_file = amr_utility.file_utility.hzi_cpu_header4(run_file,
                                                                    str(species.replace(" ", "_")),
-                                                                   20,'snakemake_env')
-            cmd='seq2geno -f ./%s' % yml_file
+                                                                   20,'snakemake_env','all.q')
+            cmd='seq2geno -f ./%s -l ./%s' % (yml_file,wd+'/'+str(species.replace(" ", "_"))+'log.txt')
             run_file.write(cmd)
             run_file.write("\n")
 
@@ -133,12 +125,13 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_f
                                                                                                               species,
                                                                                                               '')
 
-            aln=wd+ '/results/denovo/roary/core_gene_alignment.aln'
+            aln=wd+ '/results/denovo/roary/core_gene_alignment_renamed.aln'
             tree=wd+ '/results/denovo/roary/nj_tree.newick'
             aln=amr_utility.file_utility.get_full_d(aln)
             tree = amr_utility.file_utility.get_full_d(tree)
-            cmd='Rscript --vanilla phylo_tree.r -f %s -o %s' %(aln,tree)
+            cmd='Rscript --vanilla ./cv_folders/phylo_tree.r -f %s -o %s' %(aln,tree)
             subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+            # print(cmd)
 
 
     if f_finished:# delete large unnecessary tempt files(folder:spades)
@@ -146,8 +139,10 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_f
             _, _, dna_list, assemble_list, yml_file, run_file_name, wd = amr_utility.name_utility.s2g_GETname(level,
                                                                                                               species,
                                                                                                               '')
-            spades_cp=amr_utility.file_utility.get_full_d(wd)+'/results/denovo/spades'
-            cmd = 'rm -r %s' % (spades_cp)
+            # spades_cp = amr_utility.file_utility.get_full_d(wd)+'/results/denovo/spades'
+            pan_cp = amr_utility.file_utility.get_full_d(wd) + '/results/denovo/roary/pan_genome_sequences'
+            # as_cp = amr_utility.file_utility.get_full_d(wd) + '/results/RESULTS/assemblies/'
+            cmd = 'rm -r %s' % (pan_cp)
             subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
 
 
