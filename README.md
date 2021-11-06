@@ -375,6 +375,7 @@ python main_concatenate_merge.py -f_nn -f_optimize_score 'auc' -learning 0.0 -e 
 Kuo, T.-H., Weimann, A., Bremges, A., & McHardy, A. C. (2021). Seq2Geno (v1.00001) [A reproducibility-aware, integrated package for microbial sequence analyses].
 
 ### <a name="install"></a>Installment of Seq2Geno
+version: Jul 11, 2021.
 
 1. The original Seq2Geno software, which deals with the original sequence, can be found here: https://github.com/hzi-bifo/seq2geno.git
 Install Seq2Geno according to the instruction there. Through this step, an conda envioronment named snakemake_env will be created.
