@@ -10,6 +10,7 @@
 - [Cross-validation folders preparing](#cv)
     - [KMA](#kma)
     - [Phylogenetic tree based split](#tree)
+- [Experiment environment](#env)
 - [ResFinder(4.0)](#p)
 - [Multi-species](#m)
    - [Prerequirements](#Prerequirements)
@@ -191,7 +192,9 @@ https://github.com/microgenomics/tutorials/blob/master/pangenome.md
 
 
 
+## <a name="env"></a> Experiment environment
 
+conda 4.8.3
 
 
 ## <a name="p"></a> ResFinder
@@ -271,23 +274,26 @@ python Kaixin_Predictions_Res_PointFinder_tools.py -f_all
 ## <a name="m"></a> Multi-species
 D Aytan-Aktug, Philip Thomas Lanken Conradsen Clausen, Valeria Bortolaia, Frank Møller Aarestrup, and Ole Lund. Prediction of acquired antimicrobial resistance for multiple bacterial species using neural networks.Msystems, 5(1), 2020.
 
+Version: 2021-04-26
+
 ### <a name="Prerequirements"></a>Prerequirements
 
-Pytorch version: https://pytorch.org/get-started/previous-versions/
+Pytorch version can be find here: https://pytorch.org/get-started/previous-versions/ . You have to select the right version according to the cuda version in your system. We use the the version 1.7.1 , with CUDA Version: 10.1. 
 
-```shell
+```
 conda create -n multi_bench python=3.6
 conda activate multi_bench
 pip install sklearn numpy pandas seaborn 
+conda install pytorch==1.7.1 torchvision==0.8.2 torchaudio==0.7.2 cudatoolkit=10.1 -c pytorch
 ```
 
 ### <a name="References"></a>References
 
-https://bitbucket.org/deaytan/data_preparation
+https://bitbucket.org/deaytan/data_preparation (Version: 2021-04-26)
 
-https://bitbucket.org/deaytan/neural_networks/src/master/
+https://bitbucket.org/deaytan/neural_networks/src/master/ (Version: 2019-12-19)
 
-https://github.com/Bjarten/early-stopping-pytorch/blob/master/pytorchtools.py
+https://github.com/Bjarten/early-stopping-pytorch/blob/master/pytorchtools.py (version: Aug 4, 2020)
 
 ### <a name="single"></a>Single-species model
 
