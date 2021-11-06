@@ -1,4 +1,10 @@
 import os
+os.environ["OMP_NUM_THREADS"] = "1" # export OMP_NUM_THREADS=4
+os.environ["OPENBLAS_NUM_THREADS"] = "1" # export OPENBLAS_NUM_THREADS=4
+os.environ["BLIS_NUM_THREADS"] = "1" # export OPENBLAS_NUM_THREADS=4
+os.environ["MKL_NUM_THREADS"] = "1" # export MKL_NUM_THREADS=6
+os.environ["VECLIB_MAXIMUM_THREADS"] = "1" # export VECLIB_MAXIMUM_THREADS=4
+os.environ["NUMEXPR_NUM_THREADS"] = "1" # export NUMEXPR_NUM_THREADS=6
 import argparse
 import pickle
 import amr_utility.name_utility
@@ -67,12 +73,17 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
             run_file.write("\n")
             # if path_sequence == '/vol/projects/BIFO/patric_genome':
             if Path(fileDir).parts[1] == 'vol':
-                run_file = amr_utility.file_utility.hzi_cpu_header4(run_file,
-                                                                    str(species.replace(" ", "_"))+'seeker',
-                                                                    8, 'PhenotypeSeeker','all.q')
+                #
+                # run_file = amr_utility.file_utility.hzi_cpu_header4(run_file,
+                #                                                     str(species.replace(" ", "_"))+'seeker',
+                #                                                     8, 'PhenotypeSeeker2','all.q')
+                run_file.write("export PYTHONPATH=/vol/projects/khu/amr/PhenotypeSeeker\n")
+                run_file.write("#")
+            else:
+                run_file.write("export PYTHONPATH=/net/sgi/metagenomics/data/khu/benchmarking/PhenotypeSeeker")
 
-            run_file.write("export PYTHONPATH=/vol/projects/khu/amr/PhenotypeSeeker")
-            run_file.write("\n")
+
+            # run_file.write("\n")
             for anti in antibiotics:
                 # prepare features for each training and testing sets, to prevent information leakage
                 id_all = ID[i_anti]#sample names
@@ -102,7 +113,7 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
 
                     #2. prepare meta files for this round of training samples-------------------
 
-                    name,meta_txt,_=amr_utility.name_utility.Pts_GETname(level, species, anti)
+                    name,meta_txt,_=amr_utility.name_utility.Pts_GETname(level, species, anti,'')
                     name_list = pd.read_csv(name, index_col=0, dtype={'genome_id': object}, sep="\t")
 
                     if Path(fileDir).parts[1] == 'vol':
@@ -115,8 +126,10 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
 
                     name_list_train['ID'] = 'iso_' + name_list_train['genome_id'].astype(str)
 
-                    name_list_train.rename(columns={'resistant_phenotype': anti}, inplace=True)
-                    name_list_train = name_list_train.loc[:, ['ID', 'Addresses',anti]]
+                    name_list_train.rename(columns={'resistant_phenotype': str(
+        anti.translate(str.maketrans({'/': '_', ' ': '_'})))}, inplace=True)
+                    name_list_train = name_list_train.loc[:, ['ID', 'Addresses',str(
+        anti.translate(str.maketrans({'/': '_', ' ': '_'})))]]
                     name_list_train.to_csv(meta_txt +'_Train_'+ str(out_cv) + '_data.pheno', sep="\t", index=False,
                                              header=True)
 
@@ -128,21 +141,23 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
 
                     name_list_test['ID'] = 'iso_' + name_list_test['genome_id'].astype(str)
 
-                    name_list_test.rename(columns={'resistant_phenotype': anti}, inplace=True)
-                    name_list_test = name_list_test.loc[:, ['ID', 'Addresses', anti]]
+                    name_list_test.rename(columns={'resistant_phenotype': str(
+        anti.translate(str.maketrans({'/': '_', ' ': '_'})))}, inplace=True)
+                    name_list_test = name_list_test.loc[:, ['ID', 'Addresses', str(
+        anti.translate(str.maketrans({'/': '_', ' ': '_'})))]]
                     name_list_test.to_csv(meta_txt + '_Test_' + str(out_cv) + '_data.pheno', sep="\t", index=False,
                                      header=True)# note: when running this set, set pval_limit==1.0. --pvalue 1.0
 
 
                     #4. prepare bash
 
-                    cmd = 'python /vol/projects/khu/amr/PhenotypeSeeker/scripts/phenotypeseeker_new modeling  ' \
-                          '--no_assembly --f_train_test %s --cv_K %s %s' % ('train',out_cv,str(
-        anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_Train_'+ str(out_cv) + '_data.pheno')
-                    run_file.write(cmd)
-                    run_file.write("\n")
-                    cmd = 'python /vol/projects/khu/amr/PhenotypeSeeker/scripts/phenotypeseeker_new modeling  ' \
-                          '--no_assembly --f_train_test %s --no_weights --cv_K %s %s' % ('test',out_cv, str(
+        #             cmd = 'python %s/scripts/phenotypeseeker_new modeling  ' \
+        #                   '--no_assembly --f_train_test %s --cv_K %s %s' % (fileDir,'train',out_cv,str(
+        # anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_Train_'+ str(out_cv) + '_data.pheno')
+        #             run_file.write(cmd)
+        #             run_file.write("\n")
+                    cmd = 'python %s/scripts/phenotypeseeker_new modeling  ' \
+                          '--no_assembly --f_train_test %s --no_weights --cv_K %s --pvalue 1 --n_kmers -1 %s' % (fileDir,'test',out_cv, str(
         anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_Test_' + str(out_cv) + '_data.pheno')
                     run_file.write(cmd)
                     run_file.write("\n")
@@ -152,7 +167,7 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
     if f_tree == True:
 
             pass
-    if f_qsub:#prepare bash scripts for each species
+    if f_qsub:#prepare bash scripts for each species for ML
         for species, antibiotics in zip(df_species, antibiotics):
             amr_utility.file_utility.make_dir('log/qsub')
             run_file_name='log/qsub/'+str(species.replace(" ", "_"))+'_kmer.sh'
@@ -164,10 +179,10 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
             if Path(fileDir).parts[1] == 'vol':
                 run_file = amr_utility.file_utility.hzi_cpu_header4(run_file,
                                                                     str(species.replace(" ", "_"))+'kmer',
-                                                                    n_jobs, 'amr','uv2000.q')
+                                                                    100, 'amr','uv2000.q')
             # run_file = amr_utility.file_utility.header_THREADS(run_file,
             #                                                    n_jobs)
-            cmd = 'python main_bench.py -f_ml --n_jobs %s -s \'%s\' -f_kma' % (n_jobs,species)
+            cmd = 'python main_bench.py -f_ml --n_jobs %s -s \'%s\' -f_kma' % (100,species)
             run_file.write(cmd)
             run_file.write("\n")
 
@@ -190,10 +205,10 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
     if f_ml: #ML
         for species, antibiotics in zip(df_species, antibiotics):
             antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
-
+            # antibiotics=antibiotics[2:]
             for anti in antibiotics:
 
-                for chosen_cl in ['svm', 'lr']:
+                for chosen_cl in ['svm', 'lr','rf']:
                     hyper_space, cl = hyper_range(chosen_cl)
 
                     mcc_test = []  # MCC results for the test data
@@ -201,7 +216,7 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
                     score_report_test = []
                     aucs_test = []
                     hyperparameters_test = []
-                    meta_original, meta_txt,save_name_score=amr_utility.name_utility.Pts_GETname(level, species, anti)
+                    meta_original, meta_txt,save_name_score=amr_utility.name_utility.Pts_GETname(level, species, anti,chosen_cl)
                     
 
                     for out_cv in range(cv):
@@ -211,7 +226,7 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
                         test_set=pd.read_csv(meta_txt+ "_" + str(out_cv) + "_test_df_beforecutting.csv",index_col=0)
                         train_set = train_set.drop(train_set.tail(1).index)
                         test_set = test_set.drop(test_set.tail(1).index)
-                        hyper_list_feature = list(ParameterGrid(hyper_space))
+                        # hyper_list_feature = list(ParameterGrid(hyper_space))
                         pipe = Pipeline(steps=[('cl', cl)])
 
 
@@ -252,6 +267,9 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
                         train_set_new=pd.merge(tain_val_test_set_order, train_set, left_index=True, right_index=True, how="outer")
                         train_set_new=train_set_new.reindex(main_meta.index) #force the data_x 's order in according with id_list
 
+                        train_set_new = train_set_new.fillna(0)#the nan part will not be used, because cv folders setting. But sklearn requires numerical type.
+                        # Those ann indicates samples bolong to the testing set.
+
                         #map test set to tain_val_test_set_order('ID') and train_set(columns)
                         test_set_new=pd.DataFrame(index=test_set.index,columns=train_set.columns.to_list()[:-1])
                         test_set_new['phenotype'] = [main_meta.loc[sample, 'resistant_phenotype'] for sample in
@@ -271,15 +289,16 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_m
                         #------------------------------------------
                         #------------------------------------------
 
-                        X = train_set_new.iloc[:,0:-2]#the whole set
-                        y = train_set_new[:,-2:-1]#the whole set
-                        X_train = train_set.iloc[:, 0:-2]
-                        y_train = train_set[:, -2:-1]
+                        X = train_set_new.iloc[:,0:-2].values#the whole set
+                        y = train_set_new.iloc[:,-2:-1].values.flatten() #the whole set
+                        X_train = train_set.iloc[:, 0:-2].values
+                        y_train = train_set.iloc[:, -2:-1].values.flatten()
 
-                        X_test = test_set_new.iloc[:,0:-1]
-                        y_test = test_set_new[:,-1]
 
-                        search = GridSearchCV(estimator=pipe, param_grid=hyper_list_feature, n_jobs=n_jobs,
+                        X_test = test_set_new.iloc[:,0:-1].values
+                        y_test = test_set_new.iloc[:,-1].values.flatten()
+
+                        search = GridSearchCV(estimator=pipe, param_grid=hyper_space, n_jobs=n_jobs,
                                               scoring='f1_macro',
                                               cv=create_generator(train_val_train_index), refit=True)
 
@@ -319,10 +338,9 @@ def hyper_range(chosen_cl):
 
     if chosen_cl=='svm':
         cl=SVC(random_state=0,class_weight='balanced')
-        hyper_space = {'odh': [False],'pca': [True,False], 'canonical': [True,False], 'cutting': [0.5,0.75,False],
-                       'kmer': [6,8],  'cl__C': _get_gammas(None,1E-3,1E3,13),
+        hyper_space = {'cl__C': _get_gammas(None,1E-3,1E3,13),
                         'cl__gamma':_get_gammas(None,1E-3,1E3,13),
-                         'cl__kernel': ['rbf', 'poly','sigmoid','linear']}
+                         'cl__kernel': ['rbf', 'linear']}#'poly','sigmoid',
 
     if chosen_cl=='lr':
         cl=LogisticRegression( random_state=0,max_iter=10000,class_weight='balanced')

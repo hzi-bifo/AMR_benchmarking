@@ -246,6 +246,7 @@ class Input():
         max_samples = int(max_samples)
         if max_samples == 0:
             max_samples = Samples.no_samples - 2
+            # max_samples = Samples.no_samples
         return min_samples, max_samples
 
     @staticmethod
@@ -360,14 +361,26 @@ class Samples():
         # Feature vector loop
         iterate_to_union = [[x] for x in list(Input.samples.values())]
         # print('&&&&&&&&&&',iterate_to_union)
-        for i in range(math.log(cls.no_samples, 2).__trunc__()):
-            iterate_to_union = [x[0] for x in iterate_to_union]
-            iterate_to_union = [
-                iterate_to_union[j: j + 4 if len(iterate_to_union) < j + 4 else j + 2] for j in range(0, len(iterate_to_union), 2) if j + 2 <= len(iterate_to_union)
-                ]
-            Input.pool.map(partial(cls.get_union, round=i), iterate_to_union)
-        call(["mv %s K-mer_lists/feature_vector.list" % cls.union_output[-1]], shell=True)
-        [(lambda x: call(["rm -f {}".format(x)], shell=True))(union) for union in cls.union_output[:-1]]
+        # for x in iterate_to_union:
+        #     print(x[0].name)
+        #     print(Samples.kmer_length)
+        # print(cls.no_samples)
+        # print(math.log(cls.no_samples, 2).__trunc__())
+
+        if cls.no_samples==1:# added by khu. Oct 5th, for the case only 1 samples in the test set.#todo need check
+            print('This is only allowed for testing set in a extreme case.')
+            call(["cp  K-mer_lists/%s K-mer_lists/feature_vector.list" %  (iterate_to_union[0][0].name + "_0_" + Samples.kmer_length + ".list")], shell=True)
+
+        else:
+            for i in range(math.log(cls.no_samples, 2).__trunc__()):
+                iterate_to_union = [x[0] for x in iterate_to_union]
+                iterate_to_union = [
+                    iterate_to_union[j: j + 4 if len(iterate_to_union) < j + 4 else j + 2] for j in range(0, len(iterate_to_union), 2) if j + 2 <= len(iterate_to_union)
+                    ]
+                Input.pool.map(partial(cls.get_union, round=i), iterate_to_union)
+            # print(cls.union_output)
+            call(["mv %s K-mer_lists/feature_vector.list" % cls.union_output[-1]], shell=True)
+            [(lambda x: call(["rm -f {}".format(x)], shell=True))(union) for union in cls.union_output[:-1]]
 
     @classmethod
     def get_union(cls, lists_to_unite, round):
@@ -649,8 +662,10 @@ class phenotypes():
             )
         self.pvalues = \
             sorted(list(chain(*pvalues_from_all_threads)))
+
         sys.stderr.write("\n")
         sys.stderr.flush()
+
         self.concatenate_test_files(self.name)
 
     def get_kmers_tested(self, split_of_kmer_lists):
@@ -668,6 +683,8 @@ class phenotypes():
                 "chi-squared_test_results_" + self.name + "_" + mt_code + ".txt", "w"
                 )
         for line in zip(*[open(item) for item in split_of_kmer_lists]):
+
+
             counter += 1
             if counter%self.progress_checkpoint.value == 0:
                 Input.lock.acquire()
@@ -681,8 +698,10 @@ class phenotypes():
                 )
             kmer = line[0].split()[0]
             kmer_presence_vector = [j.split()[1].strip() for j in line]
-            # print(kmer_presence_vector)
 
+            # print(kmer_presence_vector)
+            # if self.pvalue_cutoff <1:
+            # print( phenotypes.scale)
             if phenotypes.scale == "binary":
                 pvalue = self.conduct_chi_squared_test(
                     kmer, kmer_presence_vector,
@@ -692,9 +711,13 @@ class phenotypes():
                 pvalue = self.conduct_t_test(
                     kmer, kmer_presence_vector,
                     test_results_file, Input.samples.values()
-                    )
-            if pvalue:
+                        )
+
+            if pvalue:#??
+                # print(pvalue)
                 pvalues.append(pvalue)
+            # else:
+            #     pvalues.append(0)
         Input.lock.acquire()
         # print('!!!!!!!!!!')
         # print(stderr_print.currentKmerNum.value)
@@ -707,6 +730,7 @@ class phenotypes():
             self.no_kmers_to_analyse.value, "tests conducted.", self.name + ": "
         )
         test_results_file.close()
+        # print(pvalues)
         return(pvalues)
 
     def conduct_t_test(
@@ -792,9 +816,17 @@ class phenotypes():
             kmer_presence, samples_w_kmer, samples
             )
         no_samples_w_kmer = len(samples_w_kmer)
-        if no_samples_w_kmer < Samples.min_samples or no_samples_wo_kmer < 2 \
-            or no_samples_w_kmer > Samples.max_samples:
-            return None
+        if self.pvalue_cutoff == 1:#added by khu. Oct 5th. This is only for testind set in a extreme case.
+            pass
+        else:
+            if no_samples_w_kmer < Samples.min_samples or no_samples_wo_kmer < 2 \
+                or no_samples_w_kmer > Samples.max_samples:
+                # print('1:',no_samples_w_kmer)#1,1099
+                # print('2:',Samples.max_samples)#1097
+                # print('3:',Samples.min_samples)#2
+                # print('4:',no_samples_wo_kmer)#1098,0
+                # print('sample number issues.from khu.')
+                return None
         (w_pheno, wo_pheno, w_kmer, wo_kmer, total) = self.get_totals_in_classes(
             w_pheno_w_kmer, w_pheno_wo_kmer, wo_pheno_w_kmer, wo_pheno_wo_kmer
             )
@@ -815,6 +847,8 @@ class phenotypes():
             ],
             1
             )
+
+
         test_results_file.write(
             kmer + "\t%.2f\t%.2E\t" % chisquare_results 
             + str(no_samples_w_kmer)  +"\t| " + " ".join(samples_w_kmer) + "\n"
@@ -832,11 +866,14 @@ class phenotypes():
         without_pheno_with_kmer = 0
         without_pheno_without_kmer = 0
         for index, sample in enumerate(samples):
+            # print(index, sample)#
+            # print(kmers_presence_vector)#
+            # print('-------------')
             if sample.phenotypes[self.name] == 1:
                 if (kmers_presence_vector[index] != "0"):
                     with_pheno_with_kmer += sample.weight 
                     samples_w_kmer.append(sample.name)
-                else:
+                else:#
                     with_pheno_without_kmer += sample.weight
                     no_samples_wo_kmer += 1
             elif sample.phenotypes[self.name] == 0:
@@ -920,6 +957,7 @@ class phenotypes():
         phenotype = self.name
         nr_of_kmers_tested = float(len(self.pvalues))
         self.get_pvalue_cutoff(self.pvalues, nr_of_kmers_tested)
+
         pval_limit = float('{:.2e}'.format(self.pvalues[self.kmer_limit]))
         # while self.pvalues[self.kmer_limit-counter] == reference:
         #     counter +=1
@@ -942,21 +980,29 @@ class phenotypes():
             line_to_list = line.split()
             kmer, p_val = line_to_list[0], float(line_to_list[2])
             samples_with_kmer = set(line.split("|")[1].split())
-            if p_val < self.pvalue_cutoff:
-                outputfile.write(line)             
-                # if p_val in pvalues_for_ML_kmers:
-                if drop_collinearity:
-                    if line.split("|")[1] not in unique_patterns:
-                        unique_patterns.add(line.split("|")[1])
-                        self.kmers_for_ML[kmer] = [
-                            1 if sample in samples_with_kmer else 0 for sample in Input.samples.keys()
-                            ] + [p_val]
-                else:
-                    if p_val <= pval_limit:
-                        self.kmers_for_ML[kmer] = [
+            if self.pvalue_cutoff<1:
+                if p_val < self.pvalue_cutoff:
+                    outputfile.write(line)
+                    # if p_val in pvalues_for_ML_kmers:
+                    if drop_collinearity:
+                        if line.split("|")[1] not in unique_patterns:
+                            unique_patterns.add(line.split("|")[1])
+                            self.kmers_for_ML[kmer] = [
                                 1 if sample in samples_with_kmer else 0 for sample in Input.samples.keys()
                                 ] + [p_val]
-                # pvalues_for_ML_kmers.remove(p_val)
+                    else:
+                        # print('-----------',p_val,pval_limit)
+                        if p_val <= pval_limit:
+                            self.kmers_for_ML[kmer] = [
+                                    1 if sample in samples_with_kmer else 0 for sample in Input.samples.keys()
+                                    ] + [p_val]
+
+                    # pvalues_for_ML_kmers.remove(p_val)
+            else:# Sep 27, 2021. Added by K. just to skip filter.
+                outputfile.write(line)
+                self.kmers_for_ML[kmer] = [1 if sample in samples_with_kmer else 0 for sample in Input.samples.keys()
+                                          ] + [p_val]
+
             if counter%checkpoint == 0:
                 stderr_print.currentKmerNum.value += checkpoint
                 stderr_print.check_progress(
@@ -1003,11 +1049,13 @@ class phenotypes():
                 )
 
     def machine_learning_modelling(self):
+
         sys.stderr.write("\x1b[1;32m\t" + self.name + ".\x1b[0m\n")
         sys.stderr.flush()
         self.set_model()
         self.set_hyperparameters()
         self.get_outputfile_names()
+
         self.get_ML_dataframe()
         # if phenotypes.n_splits_cv_outer:
         #     self.assert_n_splits_cv_outer(phenotypes.n_splits_cv_outer, self.ML_df)
@@ -1270,20 +1318,24 @@ class phenotypes():
                 )
             self.ML_df.index = self.ML_df.index.astype(str)
         elif len(self.kmers_for_ML) == 0:
+            print('check?')
             self.summary_file.write("No k-mers passed the step of k-mer filtering for " \
                 "machine learning modelling.\n")
             return
         else:
             index = list(Input.samples.keys()) + ['p_val']
+            print('?')
             self.ML_df = pd.DataFrame(self.kmers_for_ML, index=index)
             # self.ML_df.to_csv('final_matrix.csv',sep="\t")
             # print('Now finish the pipeline in advance!!!!!!!!!!')
             # exit()
             # print(self.ML_df)
+            print('check??')
             self.ML_df.to_csv(self.name + "_" + str(self.cv_K) +'_'+str(self.f_train_test)+ "_df_beforecutting.csv")  #todo add anti names and cv infor
             self.ML_df.sort_values('p_val', axis=1, ascending=True, inplace=True)
             self.ML_df = self.ML_df.iloc[:,:self.kmer_limit]
             # print(self.ML_df)
+            print('check???')
             print(self.kmer_limit)
             # print('----------------')
             self.ML_df.drop('p_val', inplace=True)
@@ -1811,3 +1863,6 @@ def modeling(args):
             Input.phenotypes_to_analyse.values()
             )
     sys.stderr.write("\n\x1b[1;1;101m######          PhenotypeSeeker modeling finished          ######\x1b[0m\n")
+    # Input.pool.close()
+    # Input.pool.join()
+    exit()
