@@ -466,10 +466,10 @@ def prepare_folders_tree(cv,species,anti,p_names,f_multi):
     :return:
     '''
     fileDir = os.path.dirname(os.path.realpath('__file__'))
-    main_path='/net/sgi/metagenomics/nobackup/prot/ecoli_res/'+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+\
-              '/res-all/classification/cv/ecoli_'+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+\
-              '_tree/tree/6mers-std-tree_resistant_phenotype/cv_folds.txt'
-
+    # main_path='/net/sgi/metagenomics/nobackup/prot/ecoli_res/'+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+\
+    #           '/res-all/classification/cv/ecoli_'+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+\
+    #           '_tree/tree/6mers-std-tree_resistant_phenotype/cv_folds.txt'
+    main_path='cv_folders/'+'loose'+'/'+str(species.replace(" ", "_"))+'/cv_folds_'+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.txt'
 
     tree_names=[]
     with open(main_path) as f:
@@ -478,7 +478,7 @@ def prepare_folders_tree(cv,species,anti,p_names,f_multi):
             # print(i.split('\t'))
             tree_names_sub=[]
             for each in i.split('\t'):
-                tree_names_sub.append(each.replace("ISO_", "").replace("\n", ""))
+                tree_names_sub.append(each.replace("iso_", "").replace("\n", ""))
                 # print(tree_names_sub)
             tree_names.append(tree_names_sub)
     # print(tree_names)

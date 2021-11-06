@@ -27,7 +27,7 @@ import data_preparation.ResFinder_analyser_blast_khuModified
 import data_preparation.merge_resfinder_pointfinder_khuModified
 import data_preparation.merge_input_output_files_khuModified
 import data_preparation.merge_resfinder_khuModified
-import neural_networks.Neural_networks_khuModified_earlys as nn_module
+# import neural_networks.Neural_networks_khuModified_earlys as nn_module
 import neural_networks.Neural_networks_khuModified_hyperpara as nn_module_hyper
 # import data_preparation.discrete_merge
 # import neural_networks.Neural_networks_khuModified as nn_module_original #no use now.
@@ -211,14 +211,13 @@ def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_
         #                re_epochs, learning,f_scaler, f_fixed_threshold,f_nn_base,f_optimize_score,save_name_score,None,None,None) # the last 3 Nones mean not concat multi-s model.
         #f_nn_base corresponds to no early stoppping
         save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(species, anti, level,
-                                                                                       0.0, 0,
+                                                                                       learning, epochs,
                                                                                        f_fixed_threshold,
                                                                                        f_nn_base,
-                                                                                       f_optimize_score)#if learning, and epoch = None, it means hyper parameter selection mode.
+                                                                                       f_optimize_score)#if learning=0.0, and epoch = 0, it means hyper parameter selection mode.
 
         nn_module_hyper.eval(species, anti, level, path_x,path_y, path_name, path_cluster_results, cv, random,
-         re_epochs, f_scaler, f_fixed_threshold, f_nn_base,f_phylotree, f_optimize_score, save_name_score,None,None,None)# hyperparmeter selection in inner loop of nested CV
-
+                             re_epochs, f_scaler, f_fixed_threshold, f_nn_base,f_phylotree, f_optimize_score, save_name_score,learning, epochs,None,None,None)# hyperparmeter selection in inner loop of nested CV
 
 def make_dir(name):
     logDir = os.path.join(name)
@@ -477,18 +476,18 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
                         run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
                             f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
                             f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score)
-                elif species=='Escherichia coli':
-                    # for anti in ['pyrazinamide','rifampicin','rifampin','streptomycin']:
-                    for anti in ['amoxicillin/clavulanic acid']:
-                        run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
-                            f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
-                            f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score)
-                elif species=='Acinetobacter baumannii':
-                    for anti in ['levofloxacin','meropenem','tobramycin','trimethoprim/sulfamethoxazole']:
-                    # for anti in ['trimethoprim/sulfamethoxazole']:
-                        run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
-                            f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
-                            f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score)
+                # elif species=='Escherichia coli':
+                #     # for anti in ['pyrazinamide','rifampicin','rifampin','streptomycin']:
+                #     for anti in ['amoxicillin/clavulanic acid']:
+                #         run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
+                #             f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
+                #             f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score)
+                # elif species=='Acinetobacter baumannii':
+                #     for anti in ['levofloxacin','meropenem','tobramycin','trimethoprim/sulfamethoxazole']:
+                #     # for anti in ['trimethoprim/sulfamethoxazole']:
+                #         run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
+                #             f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
+                #             f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score)
 
                 else:
                     for anti in antibiotics:

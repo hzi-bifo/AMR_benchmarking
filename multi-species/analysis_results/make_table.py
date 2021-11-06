@@ -145,56 +145,16 @@ def multi_make_visualization_normalCV(out_score,merge_name,All_antibiotics,level
                                         'support', 'support_positive'])
     count_anti = 0
     # hy_para_all=[]
-
-
-
-
-
-def concat_make_visualization2(out_score, merge_name, All_antibiotics, level, f_fixed_threshold, epochs,
-                                      learning, f_optimize_score,
-                                      f_nn_base, cv, score, save_name_score, save_name_score_final):
-    # only for multi-species,multi-output models. normal CV.
-    # Only one table as output. i.e. all species share the same one score. June 23, finished.
-    score_val=score[9]
-    aucs_test = score_val[1]
-    score_report_test = score_val[0]
-    mcc_test = score_val[2]
-    # print(mcc_test)
-    thresholds_selected_test=[None]
-    # print(score_report_test)
-    # thresholds_selected_test = score[0][0]
-    # hyper_para=score[6]#one-element list
-    # hyper_para2 = score[7]
-    # hyper_para3 = score[8]
-    # print('check',hyper_para)
-    # hy_para_all = [score[6][0], score[7][0], score[8][0]]
-    final = pd.DataFrame(index=All_antibiotics,
-                         columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
-                                  'mcc', 'f1_positive', 'f1_negative', 'precision_positive', 'recall_positive', 'auc',
-                                  'threshold',
-                                  'support', 'support_positive'])
-    count_anti = 0
-    # hy_para_all=[]
-    # print(len(score_report_test))
-
-    for anti in All_antibiotics:  # this is for the sake of concat2, validation scores.
-        # if len(All_antibiotics) > 1:
-        #     report = score_report_test[count_anti]  # multi-species model. should always be this
-        # else:
-        #     pass
-        #
-        # report = pd.DataFrame(report).transpose()
-
-
+    for anti in All_antibiotics:
         summary = pd.DataFrame(index=['score'],
                                columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
-                                        'mcc', 'f1_positive', 'f1_negative', 'precision_positive',
-                                        'recall_positive', 'auc', 'threshold',
+                                        'mcc', 'f1_positive', 'f1_negative', 'precision_positive', 'recall_positive',
+                                        'auc', 'threshold',
                                         'support', 'support_positive'])
         # print('count_anti----------------------:',count_anti)
         summary = analysis_results.extract_score.score_summary_normalCV(count_anti, summary, cv, score_report_test,
-                                                                        aucs_test, mcc_test, save_name_score,
-                                                                        thresholds_selected_test)
+                                                                            aucs_test, mcc_test, save_name_score,
+                                                                            thresholds_selected_test)
 
         count_anti += 1
 
@@ -208,7 +168,6 @@ def concat_make_visualization2(out_score, merge_name, All_antibiotics, level, f_
         # print(m)
         n = data.loc['weighted-std', :].apply(lambda x: "{:.2f}".format(x))
         # print(data.dtypes)
-
         final.loc[anti, :] = m.str.cat(n, sep='±').values
         # hy_para_all.append([hyper_para[count_anti],hyper_para2[count_anti],hyper_para3[count_anti]])
         '''
@@ -223,14 +182,18 @@ def concat_make_visualization2(out_score, merge_name, All_antibiotics, level, f_
 
     else:  # all scores
         pass
-    # final['selected hyperparameter'] = [hy_para_all] * count_anti
+    final['selected hyperparameter'] = [hy_para_all] * count_anti
     final.to_csv(save_name_score_final + '_score_final.txt', sep="\t")
-    print('&&&&&&&&&&&&&&&',final)
+    print(final)
+
+
+
+
 
 
 def concat_multi_make_visualization(out_score,merge_name, All_antibiotics, level, f_fixed_threshold, epochs, learning,
                                  f_optimize_score,f_nn_base, cv, score,save_name_score, save_name_score_final):
-    # only for multi-s concat models
+    # only for multi-s concat models.
     aucs_test = score[4][0]
     score_report_test = score[3][0]
     mcc_test = score[2][0]
@@ -312,3 +275,82 @@ def concat_multi_make_visualization(out_score,merge_name, All_antibiotics, level
 
     final.to_csv(save_name_score_final + '_score_final.txt', sep="\t")
     print('concat2 final------------------',final)
+
+
+def concat_make_visualization2(out_score, merge_name, All_antibiotics, level, f_fixed_threshold, epochs,
+                                      learning, f_optimize_score,
+                                      f_nn_base, cv, score, save_name_score, save_name_score_final):
+    # only for multi-species,multi-output models. normal CV. training scores
+    # Only one table as output. i.e. all species share the same one score. June 23, finished.
+    score_val=score[9]
+    aucs_test = score_val[1]
+    score_report_test = score_val[0]
+    mcc_test = score_val[2]
+    # print(mcc_test)
+    thresholds_selected_test=[None]
+    # print(score_report_test)
+    # thresholds_selected_test = score[0][0]
+    # hyper_para=score[6]#one-element list
+    # hyper_para2 = score[7]
+    # hyper_para3 = score[8]
+    # print('check',hyper_para)
+    # hy_para_all = [score[6][0], score[7][0], score[8][0]]
+    final = pd.DataFrame(index=All_antibiotics,
+                         columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                  'mcc', 'f1_positive', 'f1_negative', 'precision_positive', 'recall_positive', 'auc',
+                                  'threshold',
+                                  'support', 'support_positive'])
+    count_anti = 0
+    # hy_para_all=[]
+    # print(len(score_report_test))
+
+    for anti in All_antibiotics:  # this is for the sake of concat2, validation scores.
+        # if len(All_antibiotics) > 1:
+        #     report = score_report_test[count_anti]  # multi-species model. should always be this
+        # else:
+        #     pass
+        #
+        # report = pd.DataFrame(report).transpose()
+
+
+        summary = pd.DataFrame(index=['score'],
+                               columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                        'mcc', 'f1_positive', 'f1_negative', 'precision_positive',
+                                        'recall_positive', 'auc', 'threshold',
+                                        'support', 'support_positive'])
+        # print('count_anti----------------------:',count_anti)
+        summary = analysis_results.extract_score.score_summary_normalCV(count_anti, summary, cv, score_report_test,
+                                                                        aucs_test, mcc_test, save_name_score,
+                                                                        thresholds_selected_test)
+
+        count_anti += 1
+
+        '''
+        #only for nested CV version.
+        data = summary.loc[['weighted-mean', 'weighted-std'], :]
+        # print(data)
+        data = data.astype(float).round(2)
+        # print(data)
+        m = data.loc['weighted-mean', :].apply(lambda x: "{:.2f}".format(x))
+        # print(m)
+        n = data.loc['weighted-std', :].apply(lambda x: "{:.2f}".format(x))
+        # print(data.dtypes)
+
+        final.loc[anti, :] = m.str.cat(n, sep='±').values
+        # hy_para_all.append([hyper_para[count_anti],hyper_para2[count_anti],hyper_para3[count_anti]])
+        '''
+
+        final.loc[anti, :] = summary.loc['score', :].to_list()
+
+    if out_score == 'f':
+        final = final[['f1_macro', 'f1_positive', 'f1_negative', 'accuracy_macro']]
+
+    elif out_score == 'f_p_r':
+        final = final[['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro']]
+
+    else:  # all scores
+        pass
+    # final['selected hyperparameter'] = [hy_para_all] * count_anti
+    final.to_csv(save_name_score_final + '_score_final.txt', sep="\t")
+    print('concat2,training scores:==============')
+    print(final)

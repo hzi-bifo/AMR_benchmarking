@@ -198,10 +198,18 @@ def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_m
 
             score = pickle.load(open(save_name_score_concat + '_all_score.pickle', "rb"))
             amr_utility.file_utility.make_dir(amr_utility.file_utility.get_directory(save_name_score_final))
-            analysis_results.make_table.multi_make_visualization_normalCV(out_score,merge_name, All_antibiotics, level, f_fixed_threshold, epochs, learning,
-                                         f_optimize_score,
-                                         f_nn_base, cv, score, save_name_score_concat, save_name_score_final)
+            # analysis_results.make_table.multi_make_visualization_normalCV(out_score,merge_name, All_antibiotics, level, f_fixed_threshold, epochs, learning,
+            #                              f_optimize_score,
+            #                              f_nn_base, cv, score, save_name_score_concat, save_name_score_final)
             #todo need checking
+            print('--------------===============')
+            analysis_results.make_table.concat_make_visualization2(out_score, merge_name, All_antibiotics, level,
+                                                                          f_fixed_threshold, epochs, learning,
+                                                                          f_optimize_score,
+                                                                          f_nn_base, cv, score, save_name_score_concat,
+                                                                          save_name_score_final)
+
+
 
         elif T_test == True and T_dis_con == True: #A paired T test between 2 sets of para: -t_p 0.6 -l_p 0.4 and  -t_p 0.8 -l_p 0.6
             pass
@@ -295,7 +303,7 @@ def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_m
                 #                                                                                              threshold_point,
                 #                                                                                              min_cov_point)
                 save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_concat_final(merge_name,
-                                                                                                            merge_name_train,
+                                                                                                            merge_name_test,
                                                                                                             level,
                                                                                                             learning,
                                                                                                             epochs,
@@ -311,6 +319,7 @@ def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_m
                 # mcc_test = score[2]
                 # thresholds_selected_test = score[0]
                 print('&&&&&&&&&&&&')
+                # similar as f_nn_all
                 analysis_results.make_table.concat_make_visualization2(out_score,merge_name_train, All_antibiotics, level, f_fixed_threshold, epochs,
                                              learning,
                                              f_optimize_score,

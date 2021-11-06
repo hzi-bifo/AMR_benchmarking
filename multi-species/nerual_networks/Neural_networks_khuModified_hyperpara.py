@@ -380,14 +380,16 @@ def fine_tune_training(classifier,epochs,optimizer,x_train,y_train,anti_number):
 
 def hyper_range(anti_number,f_no_early_stop,antibiotics):
     if f_no_early_stop==True:
-        print('please do not use this option, because no patience is included in the hyper=para selection.')
-        # if anti_number==1:
-        #     hyper_space={'n_hidden': [200,300], 'epochs': [1000,2000,3000,4000],'lr':[0.001,0.0005],'classifier':[1],
-        #                  'dropout':[0,0.2,0.5],'patience':[200,600,1000,30000]}
-        #
-        # else:
-        #     hyper_space = {'n_hidden': [200,300,400], 'epochs': [2000,3000,4000,5000,6000], 'lr': [ 0.001,0.0005,0.0001],
-        #                    'classifier': [1,2,3],'dropout':[0,0.2,0.5],'patience':[200,600,1000,30000]}
+        print('please do not use this option, because no patience is included in the hyper=para selection. ',
+              'If you really want to use it, we use the default hyper-para in the article.')
+        if anti_number==1:
+            hyper_space={'n_hidden': [200], 'epochs': [1000],'lr':[0.001],'classifier':[1],
+                         'dropout':[0],'patience':[30000]}
+
+        else:
+            pass
+            # hyper_space = {'n_hidden': [200,300,400], 'epochs': [2000,3000,4000,5000,6000], 'lr': [ 0.001,0.0005,0.0001],
+            #                'classifier': [1,2,3],'dropout':[0,0.2,0.5],'patience':[200,600,1000,30000]}
 
     else:
         if anti_number==1:
@@ -410,7 +412,7 @@ def hyper_range(anti_number,f_no_early_stop,antibiotics):
                            'classifier': [1,2],'dropout':[0,0.2],'patience':[2]}#June.12th. New. July 16. delete patience 600
             # hyper_space = {'n_hidden': [200, 400], 'epochs': [30000], 'lr': [0.0005, 0.0001],
             #                'classifier': [1, 2], 'dropout': [0, 0.2], 'patience': [200]}  # June.3rd.old
-            # hyper_space = {'n_hidden': [200], 'epochs': [200], 'lr': [0.001],
+            # hyper_space = {'n_hidden': [200], 'epochs': [800], 'lr': [0.001],
             #                'classifier': [1],'dropout':[0,0.2],'patience': [200]}
             # if anti_number == 1:  June 3rd
             #     hyper_space = {'n_hidden': [200, 300], 'epochs': [20000], 'lr': [0.001, 0.0005, 0.0001],
@@ -437,12 +439,12 @@ def hyper_range_concat(anti_number,f_no_early_stop,antibiotics):
 # def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Random_State, hidden, epochs,re_epochs,
 #          learning,f_scaler,f_fixed_threshold,f_no_early_stop,f_optimize_score,save_name_score,concat_merge_name,threshold_point,min_cov_point):
 def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Random_State,
-         re_epochs, f_scaler,f_fixed_threshold,f_no_early_stop,f_phylotree, f_optimize_score, save_name_score,concat_merge_name,threshold_point,min_cov_point):
+         re_epochs, f_scaler,f_fixed_threshold,f_no_early_stop,f_phylotree, f_optimize_score, save_name_score,f_learning,f_epochs,concat_merge_name,threshold_point,min_cov_point):
 
     #data
     data_x = np.loadtxt(xdata, dtype="float")
     data_y =np.loadtxt(ydata)
-
+    print('dataset shape',data_x.shape)
     ##prepare data stores for testing scores##
 
     pred_test = []  # probabilities are for the validation set
@@ -496,6 +498,14 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
     for out_cv in range(cv):
         #select testing folder
         test_samples=folders_sample[out_cv]
+
+        #----------to delete later---------for checking phylo-tree based folders.
+        o=list(itertools.chain.from_iterable(folders_sample))
+        print('--------', len(folders_sample))
+        print(len(o))
+        # ----------to delete later----------
+
+        #---------------------------
         x_test=data_x[test_samples]
         y_test = data_y[test_samples]
         x_test = torch.from_numpy(x_test).float()
@@ -511,13 +521,15 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
         # Validation_f1 = []  # len=inner CV
         #later choose the inner loop and relevant thresholds with the highest f1 score
 
-
+        print('x_test shape',x_test.shape)
         for innerCV in range(cv - 1):  # e.g. 1,2,3,4
             print('Starting outer: ', str(out_cv), '; inner: ', str(innerCV), ' inner loop...')
 
             val_samples=train_val_samples[innerCV]
             train_samples=train_val_samples[:innerCV] + train_val_samples[innerCV+1 :]#only works for list, not np
             train_samples=list(itertools.chain.from_iterable(train_samples))
+            print(len(val_samples))
+            print(len(train_samples))
             # training and val samples
             # select by order
 
@@ -685,6 +697,10 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
                                 mcc_sub.append(mcc)
                                 f1_sub.append(f1)
 
+                                # report= classification_report(y_val, y_val_pred,
+                                #                            labels=[0, 1],
+                                #                            output_dict=True)
+                                # #todo check
                             else:  # multi-out
                                 for t in range(len(y_val)):
                                     if -1 != y_val[t][i]:
@@ -820,7 +836,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
         # classifier = fine_tune_training(classifier, re_epochs, optimizer, x_train_val, y_train_val, anti_number)
         print('actual_epoc_test[out_cv]',actual_epoc_test[out_cv])
         classifier = fine_tune_training(classifier, int(actual_epoc_test[out_cv]), optimizer, x_train_val, y_train_val, anti_number)
-        name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level, out_cv,'',0.0,0,f_fixed_threshold,f_no_early_stop,f_phylotree,f_optimize_score,threshold_point,min_cov_point)
+        name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level, out_cv,'',f_learning,f_epochs,f_fixed_threshold,f_no_early_stop,f_phylotree,f_optimize_score,threshold_point,min_cov_point)
 
         torch.save(classifier.state_dict(), name_weights)
 
@@ -1070,14 +1086,15 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
         # 1. train the model #
         ###################
         # print(hyper_space)
-        Validation_mcc_thresholds_split = []  # inner CV *11 thresholds value.June 21: grid_number
+        # Validation_mcc_thresholds_split = []  # inner CV *11 thresholds value.June 21: grid_number
         Validation_f1_thresholds_split = []  # inner CV *11 thresholds value.June 21: grid_number
         Validation_auc_split = []  # inner CV
         Validation_actul_epoc_split = []
-        # only for validation score saving
-        score_report_val_sub = []
-        aucs_val_sub = []
-        mcc_val_sub = []
+        # for validation scores output. Oct 21.2021
+        score_report_val_split = []
+        mcc_val_split = []
+        aucs_val_split = []
+
         for grid_iteration in np.arange(len(list(ParameterGrid(hyper_space)))):
 
             # --------------------------------------------------------------------
@@ -1149,13 +1166,14 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
             # auc score, threshould operation is contained in itself definition.
             # khu add: 13May
             print('f_optimize_score:', f_optimize_score)
-            # for validation scores output
-            score_report_val_sub_anti = []
-            mcc_val_sub_anti = []
-            aucs_val_sub_anti = []
+
 
 
             if f_optimize_score == 'auc':
+                # for validation scores output
+                score_report_val_sub_anti = []
+                mcc_val_sub_anti = []
+                aucs_val_sub_anti = []
                 # y_val=np.array(y_val)
                 # aucs_val_sub_anti = []
                 for i in range(anti_number):
@@ -1201,9 +1219,9 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
                     aucs_val_sub_mean = statistics.mean(aucs_val_sub_anti)  # dimension: n_anti to 1
                     Validation_auc_split.append(aucs_val_sub_mean)  # D: n_innerCV
                     # June 14th
-                    score_report_val_sub.append(score_report_val_sub_anti)
-                    aucs_val_sub.append(aucs_val_sub_anti)
-                    mcc_val_sub.append(mcc_val_sub_anti)
+                    score_report_val_split.append(score_report_val_sub_anti)
+                    aucs_val_split.append(aucs_val_sub_anti)
+                    mcc_val_split.append(mcc_val_sub_anti)
 
 
             # ====================================================
@@ -1211,7 +1229,10 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
                 # Calculate macro f1. for thresholds from 0 to 1.
                 mcc_sub = []
                 f1_sub = []
-
+                # for validation scores output.Oct 21.2021
+                score_report_val_sub = []
+                mcc_val_sub = []
+                aucs_val_sub = []
                 for threshold in np.arange(0, 1.1, 0.1):
                     # predictions for the test data
                     # turn probabilty to binary
@@ -1223,6 +1244,12 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
 
                     mcc_sub_anti = []
                     f1_sub_anti = []
+
+                    # for validation scores output. Oct 21.2021
+                    score_report_val_sub_anti = []
+                    mcc_val_sub_anti = []
+                    aucs_val_sub_anti = []
+
                     for i in range(anti_number):
 
                         comp = []  # becasue in the multi-species model, some species,anti combination are missing data
@@ -1231,11 +1258,11 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
                         if anti_number == 1:
                             print('please check your antibiotic number')
                             exit()
-                            mcc = matthews_corrcoef(y_val, y_val_pred)
-                            # report = classification_report(y_val, y_val_pred, labels=[0, 1], output_dict=True)
-                            f1 = f1_score(y_val, y_val_pred, average='macro')
-                            mcc_sub.append(mcc)
-                            f1_sub.append(f1)
+                            # mcc = matthews_corrcoef(y_val, y_val_pred)
+                            # # report = classification_report(y_val, y_val_pred, labels=[0, 1], output_dict=True)
+                            # f1 = f1_score(y_val, y_val_pred, average='macro')
+                            # mcc_sub.append(mcc)
+                            # f1_sub.append(f1)
 
                         else:  # multi-out
                             for t in range(len(y_val)):
@@ -1245,7 +1272,7 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
                             y_val_pred_multi_sub = y_val_pred[comp]
                             mcc = matthews_corrcoef(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i])
                             f1 = f1_score(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i], average='macro')
-                            mcc_sub_anti.append(mcc)
+                            # mcc_sub_anti.append(mcc)
                             f1_sub_anti.append(f1)
                             # June 16th
                             fpr, tpr, _ = roc_curve(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i], pos_label=1)
@@ -1253,30 +1280,40 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
                             report = classification_report(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i],
                                                            labels=[0, 1],
                                                            output_dict=True)
+
+                            # print(report)
+
                             mcc_val_sub_anti.append(mcc)
                             score_report_val_sub_anti.append(report)
                             aucs_val_sub_anti.append(roc_auc)
                     if anti_number > 1:  # multi-out, scores based on mean of all the involved antibotics
-                        mcc_sub.append(statistics.mean(mcc_sub_anti))  # mcc_sub_anti dimension: n_anti
+                        # mcc_sub.append(statistics.mean(mcc_sub_anti))  # mcc_sub_anti dimension: n_anti
                         f1_sub.append(statistics.mean(f1_sub_anti))
                         # --for validation scores output
                         score_report_val_sub.append(score_report_val_sub_anti)
                         aucs_val_sub.append(aucs_val_sub_anti)
                         mcc_val_sub.append(mcc_val_sub_anti)
-                Validation_mcc_thresholds_split.append(mcc_sub)
+                # Validation_mcc_thresholds_split.append(mcc_sub)
                 Validation_f1_thresholds_split.append(f1_sub)
+                # --for validation scores output
+                score_report_val_split.append(score_report_val_sub)
+                aucs_val_split.append(aucs_val_sub)
+                mcc_val_split.append(mcc_val_sub)
+
+
                 # print(Validation_f1_thresholds)
                 # print(Validation_mcc_thresholds)
 
 
-        Validation_mcc_thresholds.append(Validation_mcc_thresholds_split)  # inner CV * hyperpara_combination
+        # Validation_mcc_thresholds.append(Validation_mcc_thresholds_split)  # inner CV * hyperpara_combination
         Validation_f1_thresholds.append(Validation_f1_thresholds_split)  # inner CV * hyperpara_combination
         Validation_auc.append(Validation_auc_split)  # inner CV * hyperpara_combination
         Validation_actul_epoc.append(Validation_actul_epoc_split)  # inner CV * hyperpara_combination
-        # --for validation scores output. June 21st
-        score_report_val.append(score_report_val_sub)
-        aucs_val.append(aucs_val_sub)
-        mcc_val.append(mcc_val_sub)
+        # -------------------------------------------------
+        # --for validation scores output. June 21st. Oct 21
+        score_report_val.append(score_report_val_split)
+        aucs_val.append(aucs_val_split)
+        mcc_val.append(mcc_val_split)
 
     # finish evaluation in the inner loop.
     if f_fixed_threshold == True and f_optimize_score == 'f1_macro':  # finished.May 30. 7am
@@ -1299,15 +1336,15 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
         ind = np.unravel_index(np.argmax(aim_f1, axis=None), aim_f1.shape)
         print('ind', ind)
         print(ind[0])
-        print()
+        print(score_report_val.shape)
         hyperparameters_test.append(list(ParameterGrid(hyper_space))[ind[0]])
         actual_epoc_test.append(Validation_actul_epoc[ind[0]])
         actual_epoc_test_std.append(Validation_actul_epoc_std[ind[0]])
 
         # only for validation score saving.June 16th
-        score_report_val = score_report_val[ind[0]][aim_column[0][0]]
-        aucs_val = aucs_val[ind[0]][aim_column[0][0]]
-        mcc_val = mcc_val[ind[0]][aim_column[0][0]]
+        score_report_val = score_report_val[:,ind[0],aim_column[0][0],:]
+        aucs_val = aucs_val[:,ind[0],aim_column[0][0],:]
+        mcc_val = mcc_val[:,ind[0],aim_column[0][0],:]
 
     elif f_fixed_threshold == False and f_optimize_score == 'f1_macro':  # finished.May 30. 7am
         # select the inner loop index,and threshold with the highest f1 score in the matrix
@@ -1322,6 +1359,7 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
         weights_selected = ind[0]  # the order of innerCV# bug ? seems no 13May.
         print(Validation_f1_thresholds.shape)
         print('ind', ind)
+        print(score_report_val.shape)
         hyperparameters_test.append(list(ParameterGrid(hyper_space))[ind[0]])
 
         actual_epoc_test.append(Validation_actul_epoc[ind[0]])
@@ -1329,9 +1367,9 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
         actual_epoc_test_std.append(Validation_actul_epoc_std[ind[0]])
 
         # only for validation score saving.June 16th
-        score_report_val = score_report_val[ind[0]][ind[1]]#[hyperparameter][thresholds]
-        aucs_val = aucs_val[ind[0]][ind[1]]
-        mcc_val = mcc_val[ind[0]][ind[1]]
+        score_report_val = score_report_val[:,ind[0],ind[1],:]#[hyperparameter][thresholds]
+        aucs_val = aucs_val[:,ind[0],ind[1],:]
+        mcc_val = mcc_val[:,ind[0],ind[1],:]
 
     elif f_optimize_score == 'auc':  # finished.May 30. 7am
 
@@ -1348,9 +1386,9 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
         actual_epoc_test.append(Validation_actul_epoc[ind[0]])  # actually it's mean epoch for that hyperpara.
         actual_epoc_test_std.append(Validation_actul_epoc_std[ind[0]])
         # only for validation score saving
-        score_report_val = score_report_val[ind[0]]
-        aucs_val = aucs_val[ind[0]]
-        mcc_val = mcc_val[ind[0]]
+        score_report_val = score_report_val[:,ind[0]]
+        aucs_val = aucs_val[:,ind[0]]
+        mcc_val = mcc_val[:,ind[0]]
 
     print('hyper_space selected: ', list(ParameterGrid(hyper_space))[ind[0]])
     print('weights_selected', weights_selected)
@@ -2113,8 +2151,8 @@ def concat_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters,p
     # score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score,thresholds_selected_test)#save mean and std of each 6 score
     score = [thresholds_selected_test, f1_test, mcc_test, score_report_test, aucs_test, tprs_test, hyperparameters_test,
              actual_epoc_test, actual_epoc_test_std,score_val]
-    with open(save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
-        pickle.dump(score, f)
+    # with open(save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
+    #     pickle.dump(score, f)
 
     torch.cuda.empty_cache()
     return score

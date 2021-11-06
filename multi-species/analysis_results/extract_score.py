@@ -50,7 +50,7 @@ def score_summary_normalCV(count_anti,summary,cv,score_report_test,aucs_test,mcc
             report = score_report_test
 
         report=pd.DataFrame(report).transpose()
-        # print('*****',report)
+        print('*****',report)
 
         # if 'accuracy' not in report.index.to_list():# no resitance pheno in test folder
         # print(report)
@@ -118,8 +118,8 @@ def score_summary(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,sav
         aucs_test = aucs_test[:, count_anti]
         aucs_test = aucs_test.tolist()
     for i in np.arange(cv):
-        print('i:',i)
-        print(len(score_report_test),len(score_report_test[i]))
+        # print('i:',i)
+        # print(len(score_report_test),len(score_report_test[i]))
         if count_anti != None:#multi-species model.
             # print(len(score_report_test[0]))
             # print()
