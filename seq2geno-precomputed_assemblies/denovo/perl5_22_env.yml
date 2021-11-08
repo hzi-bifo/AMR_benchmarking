@@ -193,4 +193,4 @@ dependencies:
   - xorg-xproto=7.0.31=h470a237_7
   - xz=5.2.4=h470a237_1
   - zlib=1.2.11=h470a237_4
-
+  - mafft=7.310=1 
