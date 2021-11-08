@@ -384,8 +384,9 @@ Kuo, T.-H., Weimann, A., Bremges, A., & McHardy, A. C. (2021). Seq2Geno (v1.0000
 version: Jul 11, 2021.
 
 1. The original Seq2Geno software, which deals with the original sequence, can be found here: https://github.com/hzi-bifo/seq2geno.git
-Install Seq2Geno according to the instruction there. Through this step, an conda envioronment named snakemake_env will be created.
-
+2. Please then replace the main folder, denovo/denovo.in_one.smk file, all the yml files under denovo folder in seq2geno-precomputed_assemblies this repository.
+3. Install Seq2Geno according to the instruction from: https://github.com/hzi-bifo/seq2geno.git. Through this step, an conda envioronment named snakemake_env will be created.
+<!--
 2.In order to use the seq2geno software to process assembled sequences instead of raw sequences, we'll use a branch of it, which deals with assembled data: https://github.com/hzi-bifo/seq2geno/tree/precomputed_assemblies
 Update the scripts:
 ```
@@ -394,9 +395,7 @@ git fetch --prune
 git reset --hard HEAD
 git pull origin precomputed_assemblies
 ```
-3. Please then replace the main folder, denovo/denovo.in_one.smk file, all the yml files under denovo folder in seq2geno-precomputed_assemblies this repository.
-
-
+-->
 
 
 ### <a name="s2g"></a>Seq2Geno
