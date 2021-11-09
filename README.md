@@ -430,8 +430,8 @@ python main_s2p.py -f_finished -f_all
 
 
 ### <a name="g2p"></a>Geno2Pheno
-
-
+Not open source:
+https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno
 
 
 
