@@ -447,7 +447,30 @@ conda install -c bioconda mash
 conda install -c bioconda genometester4
 
 ```
+## Command
+1. Generate k-mer countings
 
+```
+bash kmer.sh
+```
+2. Generate k-mer presence and absence matrix. Todo
+```
+python kmer_bench.py
+```
+3. Using mach to calculate weigts.
+```
+bash
+```
+
+4.chi-squared_test
+
+5.k-mer filtering on training set
+
+6. filter the testing set based on training set
+
+7. prepare training and testing set for nested CV.
+
+8. ML evaluation using nested CV.
 
 
 
