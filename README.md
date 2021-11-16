@@ -450,11 +450,13 @@ conda install -c bioconda genometester4
 ```
 ##<a name="cl_pts"></a> Command
 1. Generate k-mer countings
+environment: PhenotypeSeeker
 
 ```
 bash kmer.sh
 ```
 2. Generate k-mer presence and absence matrix. Todo
+environment:
 ```
 python kmer_bench.py
 ```
