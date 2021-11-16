@@ -25,7 +25,8 @@
     - [Geno2Pheno](#g2p)
 
 - [PhenotypeSeeker](#PhenotypeSeeker)
-
+    - [Installment](#install_pts)
+    - [Commands](#c_ptc)
 
 
 
@@ -439,7 +440,7 @@ https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno
 
 Scripts written by us, based on version: 0.7.3.
 
-## Install
+## <a name="g2p"></a> Install
 ```
 conda create -n PhenotypeSeeker python=3.7
 source activate PhenotypeSeeker
@@ -447,7 +448,7 @@ conda install -c bioconda mash
 conda install -c bioconda genometester4
 
 ```
-## Command
+##<a name="g2p"></a> Command
 1. Generate k-mer countings
 
 ```
