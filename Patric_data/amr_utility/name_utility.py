@@ -433,7 +433,64 @@ def s2g_GETname(level,species,anti):
      return name,path,dna_list,assemble_list,yml_file,run_file,wd
 
 
+def Pts_GETname(level, species, anti,cl):
+    id = 'metadata/model/' + str(level) + '/Data_' + str(species.replace(" ", "_")) + '_' + str(
+        anti.translate(str.maketrans({'/': '_', ' ': '_'}))) + '.txt'
 
+    meta_temp = 'log/temp/' + str(level) + '/' + str(species.replace(" ", "_"))  + '/' +  str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+    save_name_score='log/results/' + str(level) + '/' + str(species.replace(" ", "_"))  + '/' + \
+    str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl)
+
+    return id, meta_temp,save_name_score
+
+def g2pManu_GETname(species,anti,level,feature):#feature can be '6mer', and 's2g'
+    meta='./log/temp/'+ str(level)+'/'+ str(species.replace(" ", "_")) + '/'
+    meta_anti=str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+    path_x=meta+meta_anti+'_'+str(feature)+'_data_x.txt'
+    path_y=meta+meta_anti+'_'+str(feature)+'_data_y.txt'
+    path_name =  meta+meta_anti+'_'+str(feature)+'data_names.txt'
+    return path_x, path_y, path_name
+
+
+def g2pManu_weight_folder(species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score,feature):
+    #only for mkdir folders at the beginning
+    name_weights_folder = 'log/temp/' + str(level) + '/' + str(species.replace(" ", "_")) + '/lr_' + str(
+        learning) + '_ep_' + str(epochs) + '_base_' + str(f_nn_base) + '_fixT_'+str(f_fixed_threshold)+'_ops_' + f_optimize_score + '_Tree_'+str(f_phylotree)+'_feature_'+feature
+
+    return name_weights_folder
+def g2pManu_weight(merge_name,species,antibiotics,level,cv,innerCV,learning,epochs,f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score,threshold_point,min_cov_point,feature):
+
+    # if antibiotics=='all_possible_anti' or type(antibiotics)==list:#multi_species/output.
+    if antibiotics == 'all_possible_anti':
+        pass
+        # folder = GETname_multi_bench_folder_multi(species, level, learning, epochs, f_fixed_threshold, f_nn_base,
+        #                                     f_optimize_score)
+        # if type(antibiotics)==list:
+        #     antibiotics='_'.join(antibiotics)#no use so far. maybe in the future, the user can choose antibiotics to envolve.
+    elif antibiotics== 'all_possible_anti_concat':
+        # folder= GETname_multi_bench_folder_concat(merge_name,species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,threshold_point,min_cov_point)#todo bug. seems finihsed May29th.
+        pass
+    else:
+        folder = g2pManu_weight_folder(species, level, learning, epochs, f_fixed_threshold, f_nn_base,f_phylotree,
+                                            f_optimize_score,feature)
+
+    name_weights=folder+'/'+str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_weights_' + str(cv) + str(innerCV)
+    return name_weights
+def g2pManu_save_name_score(species,antibiotics,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_phylotree,feature):
+    if antibiotics=='all_possible_anti' or type(antibiotics)==list:#multi_species/output.
+        pass
+        # folder ='log/temp/' +  str(level) +'/multi_species/' + str(species.replace(" ", "_"))
+        #
+        # if type(antibiotics)==list:
+        #     antibiotics='_'.join(antibiotics)#no use so far. maybe in the future, the user can choose antibiotics to envolve.
+
+    else:
+        folder ='log/temp/' + str(level) + '/' + str(species.replace(" ", "_"))
+
+    save_name_score = folder + '/' + str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_lr_' + str(
+        learning) + '_ep_' + str(epochs) + '_base_'+str(f_nn_base)+  '_fixT_' + str(f_fixed_threshold)+ '_ops_' +\
+                      f_optimize_score + '_Tree_' + str(f_phylotree) + '_feature_' + feature
+    return save_name_score
 
 '''
 def old(species,anti,canonical,k):
