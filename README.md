@@ -440,7 +440,7 @@ https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno
 
 Scripts written by us, based on version: 0.7.3.
 
-## <a name="g2p"></a> Install
+## <a name="install_pts"></a> Install
 ```
 conda create -n PhenotypeSeeker python=3.7
 source activate PhenotypeSeeker
@@ -448,7 +448,7 @@ conda install -c bioconda mash
 conda install -c bioconda genometester4
 
 ```
-##<a name="g2p"></a> Command
+##<a name="cl_pts"></a> Command
 1. Generate k-mer countings
 
 ```
