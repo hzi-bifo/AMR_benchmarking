@@ -26,52 +26,63 @@ import logging
 import math
 
 
+# def prepare_meta(level,log_addr,k, species,antibiotics, n_jobs):#todo
+#     antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
+#     ALL = []
+#     for anti in antibiotics:
+#         name, path, _, _, _, _, _ = amr_utility.name_utility.s2g_GETname(level, species, anti)
+#         name_list = pd.read_csv(name, index_col=0, dtype={'genome_id': object}, sep="\t")
+#         if Path(fileDir).parts[1] == 'vol':
+#             # path_list=np.genfromtxt(path, dtype="str")
+#             name_list['path'] = '/vol/projects/BIFO/patric_genome/' + name_list['genome_id'].astype(str) + '.fna'
+#         else:
+#             name_list['path'] = '/net/projects/BIFO/patric_genome/' + name_list['genome_id'].astype(str) + '.fna'
+#         name_list['genome_id'] = 'iso_' + name_list['genome_id'].astype(str)
+#
+#         name_list['path_pseudo'] = pseudo
+#         ALL.append(name_list)
+#         # print(name_list)
+#     _, _, dna_list, assemble_list, yml_file, run_file_name, wd = amr_utility.name_utility.s2g_GETname(level, species,
+#                                                                                                       '')
+#
+#     # combine the list for all antis
+#     species_dna = ALL[0]
+#     for i in ALL[1:]:
+#         species_dna = pd.merge(species_dna, i, how="outer",
+#                                on=["genome_id", 'path', 'path_pseudo'])  # merge antibiotics within one species
+#     print(species_dna)
+#     species_dna_final = species_dna.loc[:, ['genome_id', 'path']]
+#     species_dna_final.to_csv(assemble_list, sep="\t", index=False, header=False)
+#     species_pseudo = species_dna.loc[:, ['genome_id', 'path_pseudo']]
+#     species_pseudo.to_csv(dna_list, sep="\t", index=False, header=False)
 
 
 
 def get_kmer(level,log_addr,k, species,antibiotics, n_jobs):
-    # 1.Generating the k-mer lists for every samples for each species
+    # 1.Generate the k-mer lists for every samples for each species
     #using scripts named kmer.sh
     # glistmaker
-    # glistquery
 
-    # 2. Mapping samples to the feature vector space
+
+    # 2. generate unions of k mer and then Map samples to the feature vector space
+    # get_mash_distances, perfrom chi-square test.
+    # map.sh <species>
+    # e.g. map.sh "Campylobacter_jejuni"
+
+    # 3.
     antibiotics_selected = ast.literal_eval(antibiotics)
     print(species)
+
+
     print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
     antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
-    #
-    # antibiotics, ID, Y = antibiotics[5:], ID[5:], Y[5:]
+    # _, meta_temp,_=amr_utility.name_utility.Pts_GETname(level, species, anti,'')#todo, may use this in the future.
     i_anti = 0
     for anti in antibiotics:
-        vocab = amr_utility.math_utility.vocab_build(False, k)  # all the kmer combinations in list
-        data = np.zeros((len(vocab), 1), dtype='uint16')
-        feature_matrix = pd.DataFrame(data, index=vocab, columns=['initializer'])  # delete later
-        feature_matrix.index.name = 'feature'
-
-        _, meta_temp,_=amr_utility.name_utility.Pts_GETname(level, species, anti,'')
-        # l = 0
-        for i in ID[i_anti]: #todo check
-            print(i)
-            # l += 1
-            # if (l % 1000 == 0):
-            #     print(l, species)
-            # map feature txt from stored data to feature matrix.
-            f = pd.read_csv('K-mer_lists/'+str(i)+'_mapped',
-                            names=['combination', str(i)], dtype={'genome_id': object}, sep="\t")
-            # print('f.shape')
-            # print(f.shape)
-            f = f.set_index('combination')
-            feature_matrix = pd.concat([feature_matrix, f], axis=1)
+        id_list=ID[i_anti]
         i_anti+=1
-        feature_matrix = feature_matrix.drop(['initializer'], axis=1)# delete initializer column
-        feature_matrix = feature_matrix.fillna(0)
 
-        # feature_matrix = feature_matrix.T
-        # print(feature_matrix)
-        # feature_matrix.to_hdf(meta_temp+'_'+str(k)+'mer.h5', key='df', mode='w', complevel=9)  # overwriting.
-        print(feature_matrix)
-        exit()
+
 
 
 
@@ -96,6 +107,7 @@ def extract_info(s,level,k,n_jobs):
     for species, antibiotics in zip(df_species, antibiotics):
         log_addr=fileDir+'/log/temp/' + str(level) + '/' + str(species.replace(" ", "_"))
         amr_utility.file_utility.make_dir(log_addr)
+        prepare_meta(level,log_addr,k, species,antibiotics, n_jobs)
         get_kmer(level,log_addr,k, species,antibiotics, n_jobs)
 
 
