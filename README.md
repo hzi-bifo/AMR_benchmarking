@@ -455,25 +455,16 @@ environment: PhenotypeSeeker
 ```
 bash kmer.sh
 ```
-2. Generate k-mer presence and absence matrix. Todo
-environment:
+
+2. Get kmer results w.r.t. feature space for each sample. Use mesh and PyCodent(chi-squared_test) to calculate weigts.
+k-mer filtering on training set according to the Chi-squared test; k-mer filtering on testing set according to the training set.
 ```
-python kmer_bench.py
-```
-3. Using mach to calculate weigts.
-```
-bash
+bash map.sh <species>
 ```
 
-4.chi-squared_test
+4. prepare training and testing set for nested CV.
 
-5.k-mer filtering on training set
-
-6. filter the testing set based on training set
-
-7. prepare training and testing set for nested CV.
-
-8. ML evaluation using nested CV.
+5. ML evaluation using nested CV.
 
 
 
