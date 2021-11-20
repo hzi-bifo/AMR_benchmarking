@@ -448,23 +448,36 @@ conda install -c bioconda mash
 conda install -c bioconda genometester4
 
 ```
-##<a name="cl_pts"></a> Command
-1. Generate k-mer countings
+
+
+##<a name="c_pts"></a> Commands
+1. Prepare meta files.
+
+```
+python  python main_bench.py -s 'Campylobacter jejuni' -f_prepare_meta
+```
+
+
+2. Generate k-mer countings
 environment: PhenotypeSeeker
 
 ```
 bash kmer.sh
 ```
 
-2. Get kmer results w.r.t. feature space for each sample. Use mesh and PyCodent(chi-squared_test) to calculate weigts.
-k-mer filtering on training set according to the Chi-squared test; k-mer filtering on testing set according to the training set.
+3. Get kmer results w.r.t. feature space for each sample. Use mesh and PyCodent(chi-squared_test) to calculate weigts.
 ```
 bash map.sh <species>
 ```
 
-4. prepare training and testing set for nested CV.
+4. k-mer filtering on training set according to the Chi-squared test; k-mer filtering on testing set according to the training set.
+```
+bash filter.sh <species>
+```
 
-5. ML evaluation using nested CV.
+5. prepare training and testing set for nested CV.
+
+6. ML evaluation using nested CV.
 
 
 
