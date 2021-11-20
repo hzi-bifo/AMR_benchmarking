@@ -466,18 +466,10 @@ bash kmer.sh
 ```
 
 3. Get kmer results w.r.t. feature space for each sample. Use mesh and PyCodent(chi-squared_test) to calculate weigts.
-```
-bash map.sh <species>
-```
-
 4. k-mer filtering on training set according to the Chi-squared test; k-mer filtering on testing set according to the training set.
-```
-bash filter.sh <species>
-```
-
 5. prepare training and testing set for nested CV.
 ```
-
+bash map.sh "Campylobacter_jejuni"
 ```
 
 
