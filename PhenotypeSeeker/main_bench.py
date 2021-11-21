@@ -67,10 +67,8 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_tree,cv,level,n_job
             antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
             i_anti = 0
 
-            #save the list to a txt file.
-            anti_list='log/temp/' + str(level) + '/' + str(species.replace(" ", "_"))  + '/anti_list'
-            pd.DataFrame(antibiotics).to_csv(anti_list, sep="\t", index=False, header=False)
 
+            antibiotics_=[]
             for anti in antibiotics:
                 # prepare features for each training and testing sets, to prevent information leakage
                 id_all = ID[i_anti]  # sample names
@@ -111,7 +109,7 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_tree,cv,level,n_job
                     name_list_train['ID'] = 'K-mer_lists/' + name_list_train['genome_id'].astype(str)+'_0_'+str(kmer)+'.list'
 
                     name_list_train.rename(columns={'resistant_phenotype': anti}, inplace=True)
-                    name_list_train = name_list_train.loc[:, ['ID', anti]]
+                    name_list_train = name_list_train.loc[:, ['ID', 'genome_id',anti]]
                     name_list_train.to_csv(meta_txt + '_Train_' + str(out_cv) + '_data.pheno', sep="\t", index=False,
                                            header=True)
                     name_list_train['ID'].to_csv(meta_txt + '_Train_' + str(out_cv) + '_id', sep="\t", index=False, header=False)
@@ -125,12 +123,18 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_tree,cv,level,n_job
                     name_list_test['ID'] = 'iso_' + name_list_test['genome_id'].astype(str)
 
                     name_list_test.rename(columns={'resistant_phenotype': anti}, inplace=True)
-                    name_list_test = name_list_test.loc[:, ['ID',  anti]]
+                    name_list_test = name_list_test.loc[:, ['ID', 'genome_id', anti]]
                     name_list_test.to_csv(meta_txt + '_Test_' + str(out_cv) + '_data.pheno', sep="\t", index=False,
                                           header=True)  # note: when running this set, set pval_limit==1.0. --pvalue 1.0
 
                     name_list_train['ID'].to_csv(meta_txt + '_Test_' + str(out_cv) + '_id', sep="\t", index=False,
                                                  header=False)
+                anti=str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+                antibiotics_.append(anti)
+            # save the list to a txt file.
+            anti_list = 'log/temp/' + str(level) + '/' + str(species.replace(" ", "_")) + '/anti_list'
+            pd.DataFrame(antibiotics_).to_csv(anti_list, sep="\t", index=False, header=False)
+
 
     if f_tree == True:
 
@@ -190,10 +194,14 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_tree,cv,level,n_job
                     for out_cv in range(cv):
                         print('Starting outer: ', str(out_cv), '; chosen_cl: ', chosen_cl)
                         
-                        train_set=pd.read_csv(meta_txt+ "_" + str(out_cv) +"_train_df.csv",index_col=0)
-                        test_set=pd.read_csv(meta_txt+ "_" + str(out_cv) + "_test_df_beforecutting.csv",index_col=0)
-                        train_set = train_set.drop(train_set.tail(1).index)
-                        test_set = test_set.drop(test_set.tail(1).index)
+                        train_set=pd.read_csv(meta_txt+ "_" + str(out_cv) +"_Train_df.csv",dtype={'genome_id': object}, sep="\t")
+                        test_set=pd.read_csv(meta_txt+ "_" + str(out_cv) + "_Test_df.csv",dtype={'genome_id': object}, sep=",")
+                        print(train_set)
+                        print(test_set)
+                        train_set=train_set.set_index('genome_id')
+                        test_set = test_set.set_index('genome_id')
+                        # train_set = train_set.drop(train_set.tail(1).index)
+                        # test_set = test_set.drop(test_set.tail(1).index)
                         # hyper_list_feature = list(ParameterGrid(hyper_space))
                         pipe = Pipeline(steps=[('cl', cl)])
 
@@ -225,15 +233,15 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_tree,cv,level,n_job
 
 
                         main_meta = pd.read_csv(meta_original, index_col=0, dtype={'genome_id': object}, sep="\t")
-                        main_meta['ID'] = 'iso_' + main_meta['genome_id'].astype(str)
-                        tain_val_test_set_order=main_meta.loc[:,['ID']]
-                        main_meta = main_meta.set_index('ID')
+                        # main_meta['ID'] = 'iso_' + main_meta['genome_id'].astype(str)
+                        tain_val_test_set_order=main_meta.loc[:,['genome_id']]
+                        main_meta = main_meta.set_index('genome_id')
                         # map train_set to tain_val_test_   set_order, note there is some Nan data, which is normal, means belonging to test set.
-                        #todo check
+                        #todo check. checked, Nov 20 2021.
 
-                        tain_val_test_set_order=tain_val_test_set_order.set_index('ID')
+                        tain_val_test_set_order=tain_val_test_set_order.set_index('genome_id')
                         train_set_new=pd.merge(tain_val_test_set_order, train_set, left_index=True, right_index=True, how="outer")
-                        train_set_new=train_set_new.reindex(main_meta.index) #force the data_x 's order in according with id_list
+                        train_set_new=train_set_new.reindex(main_meta.index) #[force] the data_x 's order in according with id_list
 
                         train_set_new = train_set_new.fillna(0)#the nan part will not be used, because cv folders setting. But sklearn requires numerical type.
                         # Those ann indicates samples bolong to the testing set.
@@ -242,10 +250,12 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_tree,cv,level,n_job
                         test_set_new=pd.DataFrame(index=test_set.index,columns=train_set.columns.to_list()[:-1])
                         test_set_new['phenotype'] = [main_meta.loc[sample, 'resistant_phenotype'] for sample in
                                                  test_set.index] # add pheno infor to test set.
+                        '''
                         for col in train_set.columns.to_list()[:-2]:
                             if col in test_set.columns.to_list():
                                 test_set_new[col]=test_set[col]
                         # print(test_set_new)
+                        '''
 
                         test_set_new=test_set_new.fillna(0) #fill nan with 0
                         # print(test_set_new)
@@ -257,10 +267,10 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_tree,cv,level,n_job
                         #------------------------------------------
                         #------------------------------------------
 
-                        X = train_set_new.iloc[:,0:-2].values#the whole set
-                        y = train_set_new.iloc[:,-2:-1].values.flatten() #the whole set
-                        X_train = train_set.iloc[:, 0:-2].values
-                        y_train = train_set.iloc[:, -2:-1].values.flatten()
+                        X = train_set_new.iloc[:,0:-1].values#the whole set
+                        y = train_set_new.iloc[:, -1].values.flatten() #the whole set
+                        X_train = train_set.iloc[:, 0:-1].values
+                        y_train = train_set.iloc[:,-1].values.flatten()
 
 
                         X_test = test_set_new.iloc[:,0:-1].values
