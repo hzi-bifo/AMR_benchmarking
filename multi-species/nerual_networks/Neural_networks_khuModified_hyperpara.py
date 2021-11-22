@@ -166,8 +166,8 @@ def training_original(classifier,epochs,optimizer,x_train,y_train,anti_number):
 
         if epoc % 100 == 0:
             # print the loss per iteration
-            print(losses)
-            print(np.average(losses))
+            # print(losses)
+            # print(np.average(losses))
             print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs,  np.average(losses)))
     return classifier,epoc
 
@@ -381,7 +381,7 @@ def fine_tune_training(classifier,epochs,optimizer,x_train,y_train,anti_number):
 def hyper_range(anti_number,f_no_early_stop,antibiotics):
     if f_no_early_stop==True:
         print('please do not use this option, because no patience is included in the hyper=para selection. ',
-              'If you really want to use it, we use the default hyper-para in the article.')
+              'If you really want to use it, we use the default hyper-para in the article Aytan-Aktug et al. 2020.')
         if anti_number==1:
             hyper_space={'n_hidden': [200], 'epochs': [1000],'lr':[0.001],'classifier':[1],
                          'dropout':[0],'patience':[30000]}
@@ -439,7 +439,8 @@ def hyper_range_concat(anti_number,f_no_early_stop,antibiotics):
 # def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Random_State, hidden, epochs,re_epochs,
 #          learning,f_scaler,f_fixed_threshold,f_no_early_stop,f_optimize_score,save_name_score,concat_merge_name,threshold_point,min_cov_point):
 def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Random_State,
-         re_epochs, f_scaler,f_fixed_threshold,f_no_early_stop,f_phylotree, f_optimize_score, save_name_score,f_learning,f_epochs,concat_merge_name,threshold_point,min_cov_point):
+         re_epochs, f_scaler,f_fixed_threshold,f_no_early_stop,f_phylotree, f_optimize_score, save_name_score,f_learning,
+         f_epochs,concat_merge_name,threshold_point,min_cov_point,feature):
 
     #data
     data_x = np.loadtxt(xdata, dtype="float")
@@ -496,21 +497,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
 
     hyper_space = hyper_range(anti_number, f_no_early_stop, antibiotics)
     for out_cv in range(cv):
-        #select testing folder
-        test_samples=folders_sample[out_cv]
 
-        #----------to delete later---------for checking phylo-tree based folders.
-        o=list(itertools.chain.from_iterable(folders_sample))
-        print('--------', len(folders_sample))
-        print(len(o))
-        # ----------to delete later----------
-
-        #---------------------------
-        x_test=data_x[test_samples]
-        y_test = data_y[test_samples]
-        x_test = torch.from_numpy(x_test).float()
-        y_test = torch.from_numpy(y_test).float()
-        x_test = x_test.to(device)
         # remain= list(set(range(cv)) - set([out_cv])).sort()#first round: set(0,1,2,3,4)-set(0)=set(1,2,3,4)
         train_val_samples= folders_sample[:out_cv] + folders_sample[out_cv+1 :]#list
         Validation_mcc_thresholds = []  #  inner CV *11 thresholds value
@@ -801,13 +788,22 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
         x_train_val= data_x[train_val_samples] # only np
         y_train_val= data_y[train_val_samples]
 
+        # ---------------------------
+        # select testing folder
+        test_samples = folders_sample[out_cv]
+        x_test = data_x[test_samples]
+        y_test = data_y[test_samples]
         if f_scaler==True:
             scaler = preprocessing.StandardScaler().fit(x_train_val)
             x_train_val = scaler.transform(x_train_val)
             # scale the val data based on the training data
             scaler = preprocessing.StandardScaler().fit(x_train_val)
             x_test = scaler.transform(x_test)
+            # x_test = torch.from_numpy(x_test).float()
 
+        x_test = torch.from_numpy(x_test).float()
+        y_test = torch.from_numpy(y_test).float()
+        x_test = x_test.to(device)
         x_train_val = torch.from_numpy(x_train_val).float()
         y_train_val = torch.from_numpy(y_train_val).float()
 
@@ -836,7 +832,16 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
         # classifier = fine_tune_training(classifier, re_epochs, optimizer, x_train_val, y_train_val, anti_number)
         print('actual_epoc_test[out_cv]',actual_epoc_test[out_cv])
         classifier = fine_tune_training(classifier, int(actual_epoc_test[out_cv]), optimizer, x_train_val, y_train_val, anti_number)
-        name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level, out_cv,'',f_learning,f_epochs,f_fixed_threshold,f_no_early_stop,f_phylotree,f_optimize_score,threshold_point,min_cov_point)
+        if feature =='res':#todo 1) need to change names for resfeature.
+            name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level,
+                                                                           out_cv,'',f_learning,f_epochs,f_fixed_threshold,
+                                                                           f_no_early_stop,f_phylotree,f_optimize_score,
+                                                                           threshold_point,min_cov_point)
+        else:#'kmer','s2g'. Nov 16.2021. so far only for g2p_Manu.
+            name_weights = amr_utility.name_utility.g2pManu_weight(concat_merge_name,species, antibiotics,level,
+                                                                           out_cv,'',f_learning,f_epochs,f_fixed_threshold,
+                                                                           f_no_early_stop,f_phylotree,f_optimize_score,
+                                                                           threshold_point,min_cov_point,feature)
 
         torch.save(classifier.state_dict(), name_weights)
 
@@ -956,12 +961,12 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
     print('hyperparameters_test',hyperparameters_test)
     # score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score,thresholds_selected_test)#save mean and std of each 6 score
     score = [thresholds_selected_test, f1_test, mcc_test, score_report_test, aucs_test, tprs_test,hyperparameters_test,actual_epoc_test,actual_epoc_test_std]
-    if f_phylotree:
-        with open(save_name_score + '_all_score_Tree.pickle', 'wb') as f:  # overwrite
-            pickle.dump(score, f)
-    else:
-        with open(save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
-            pickle.dump(score, f)
+    # if f_phylotree:
+    #     with open(save_name_score + '_all_score_Tree.pickle', 'wb') as f:  # overwrite
+    #         pickle.dump(score, f)
+    # else: #todo 2) need to change names for res feature
+    with open(save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
+        pickle.dump(score, f)
 
 
     torch.cuda.empty_cache()
@@ -1336,7 +1341,7 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
         ind = np.unravel_index(np.argmax(aim_f1, axis=None), aim_f1.shape)
         print('ind', ind)
         print(ind[0])
-        print(score_report_val.shape)
+        print(len(score_report_val))
         hyperparameters_test.append(list(ParameterGrid(hyper_space))[ind[0]])
         actual_epoc_test.append(Validation_actul_epoc[ind[0]])
         actual_epoc_test_std.append(Validation_actul_epoc_std[ind[0]])
@@ -1357,9 +1362,9 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
         ind = np.unravel_index(np.argmax(Validation_f1_thresholds, axis=None), Validation_f1_thresholds.shape)
         thresholds_selected = np.arange(0, 1.1, 0.1)[ind[1]]
         weights_selected = ind[0]  # the order of innerCV# bug ? seems no 13May.
-        print(Validation_f1_thresholds.shape)
-        print('ind', ind)
-        print(score_report_val.shape)
+        print(Validation_f1_thresholds.shape)#(16, 11)
+        print('ind', ind)# (0,4)
+        print(len(score_report_val))
         hyperparameters_test.append(list(ParameterGrid(hyper_space))[ind[0]])
 
         actual_epoc_test.append(Validation_actul_epoc[ind[0]])
