@@ -24,11 +24,11 @@
     - [Seq2Geno](#s2g)
     - [Geno2Pheno](#g2p)
 
-- [PhenotypeSeeker](#PhenotypeSeeker 0.7.3)
+- [PhenotypeSeeker 0.7.3](#PhenotypeSeeker)
     - [Installment](#install_pts)
     - [Commands example](#c_ptc)
 
-- [Kover](#kover 2.0)
+- [Kover 2.0](#kover)
     - [Installment](#install_kover)
     - [Commands example](#c_kover)
 
