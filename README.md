@@ -26,8 +26,11 @@
 
 - [PhenotypeSeeker](#PhenotypeSeeker)
     - [Installment](#install_pts)
-    - [Commands](#c_ptc)
+    - [Commands example](#c_ptc)
 
+- [Kover](#kover)
+    - [Installment](#install_kover)
+    - [Commands example](#c_kover)
 
 
 ## <a name="data"></a>Patric data set
@@ -439,6 +442,7 @@ https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno
 ### <a name="PhenotypeSeeker"></a>PhenotypeSeeker
 
 Scripts written by us, based on version: 0.7.3.
+https://github.com/bioinfo-ut/PhenotypeSeeker
 
 ## <a name="install_pts"></a> Install
 ```
@@ -450,7 +454,7 @@ conda install -c bioconda genometester4
 ```
 
 
-##<a name="c_pts"></a> Commands
+##<a name="c_pts"></a> Commands example
 1. Prepare meta files.
 
 ```
@@ -474,6 +478,46 @@ bash map.sh "Campylobacter_jejuni"
 
 
 6. ML evaluation using nested CV.
+
+```
+python main_bench.py -f_ml --n_jobs 10 -s 'Campylobacter jejuni' -f_kma
+
+```
+
+
+### <a name="kover"></a>Kover
+
+Version 2.0
+https://github.com/aldro61/kover
+
+## <a name="install_pts"></a> Install
+
+Install according to the documentations in Kover 2.0. https://aldro61.github.io/kover/doc_installation.html
+
+
+
+##<a name="c_pts"></a> Commands example
+1. Prepare the meta files to run Kover 2.0.
+```
+python main_bench.py -s 'Campylobacter jejuni' -f_prepare_meta
+```
+
+
+2. Use the Kover 2.0 to generate performance results for each of 10 folders using risk bound selection.
+```
+bash run_cv.sh "Pseudomonas_aeruginosa" 
+```
+
+3. Summerize and visualize the results.
+
+ ```
+ TODO
+ ```
+
+
+
+
+
 
 
 
