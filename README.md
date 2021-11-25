@@ -11,26 +11,28 @@
     - [KMA](#kma)
     - [Phylogenetic tree based split](#tree)
 - [Experiment environment](#env)
-- [ResFinder(4.0)](#p)
-- [Multi-species](#m)
+- [Benchmarking software: ResFinder(4.0)](#p)
+- [Benchmarking software: Multi-species](#m)
    - [Prerequirements](#Prerequirements)
    - [References](#References) 
    - [Single-species model](#single)
    - [Discrete multi-species model](#dis)
    - [Concatenated multi-species model](#con)
 
-- [Seq2Geno2Pheno](#s2g2p)
+- [Benchmarking software: Seq2Geno2Pheno](#s2g2p)
     - [Installment](#install)
     - [Seq2Geno](#s2g)
     - [Geno2Pheno](#g2p)
 
-- [PhenotypeSeeker 0.7.3](#PhenotypeSeeker)
+- [Benchmarking software: PhenotypeSeeker 0.7.3](#PhenotypeSeeker)
     - [Installment](#install_pts)
     - [Commands example](#c_ptc)
 
-- [Kover 2.0](#kover)
+- [Benchmarking software: Kover 2.0](#kover)
     - [Installment](#install_kover)
     - [Commands example](#c_kover)
+
+- [Benchmarking software: AMRP](#amrp)
 
 
 ## <a name="data"></a>Patric data set
@@ -485,7 +487,7 @@ python main_bench.py -f_ml --n_jobs 10 -s 'Campylobacter jejuni' -f_kma
 ```
 
 
-### <a name="kover"></a>Kover
+### <a name="kover"></a>Kover 2.0
 
 Version 2.0
 https://github.com/aldro61/kover
@@ -516,7 +518,8 @@ bash run_cv.sh "Pseudomonas_aeruginosa"
 
 
 
-
+### <a name="amrp"></a>AMRP
+https://github.com/hzi-bifo/AMR_khu
 
 
 
