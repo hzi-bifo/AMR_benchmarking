@@ -496,13 +496,13 @@ python main_bench.py -f_ml --n_jobs 10 -s 'Campylobacter jejuni' -f_kma
 Version 2.0
 https://github.com/aldro61/kover
 
-## <a name="install_pts"></a> Install
+## <a name="install_kover"></a> Install
 
 Install according to the documentations in Kover 2.0. https://aldro61.github.io/kover/doc_installation.html
 
 
 
-##<a name="c_pts"></a> Commands example
+##<a name="c_kover"></a> Commands example
 1. Prepare the meta files to run Kover 2.0.
 ```
 python main_bench.py -s 'Campylobacter jejuni' -f_prepare_meta
