@@ -8,6 +8,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+"For preparing meta files to run Kover 2.0."
 
 def extract_info(path_sequence, s,kmer,f_all, f_prepare_meta,cv, level, n_jobs, f_ml,f_phylotree,f_kma,f_qsub):
     fileDir = os.path.dirname(os.path.realpath('__file__'))
@@ -47,7 +48,7 @@ def extract_info(path_sequence, s,kmer,f_all, f_prepare_meta,cv, level, n_jobs, 
 
                 name, meta_txt, _ = amr_utility.name_utility.Pts_GETname(level, species, anti,'')
                 name_list = pd.read_csv(name, index_col=0, dtype={'genome_id': object}, sep="\t")
-                name_list['ID'] = 'iso_' + name_list['genome_id'].astype(str)
+                name_list.loc[:,'ID'] = 'iso_' + name_list['genome_id'].astype(str)
                 if Path(fileDir).parts[1] == 'vol':
                     # path_list=np.genfromtxt(path, dtype="str")
                     name_list['path'] = '/vol/projects/BIFO/patric_genome/' + name_list['genome_id'].astype(str)+'.fna'
@@ -84,7 +85,7 @@ def extract_info(path_sequence, s,kmer,f_all, f_prepare_meta,cv, level, n_jobs, 
                     # only retain those in the training and validataion CV folders
                     name_list_train = name_list.loc[name_list['genome_id'].isin(id_val_train)]
                     # name_list_train['genome_id'].to_csv(meta_txt + '_Train_' + str(out_cv) + '_id2', sep="\t", index=False, header=False)
-                    name_list_train['ID'] = 'iso_' + name_list_train['genome_id'].astype(str)
+                    name_list_train.loc[:,'ID'] = 'iso_' + name_list_train['genome_id'].astype(str)
                     name_list_train['ID'].to_csv(meta_txt +  '_Train_' + str(out_cv) + '_id', sep="\t", index=False, header=False)
                     #
                     # name_list_train1 = name_list_train.loc[:, ['ID', 'path']]
@@ -98,7 +99,7 @@ def extract_info(path_sequence, s,kmer,f_all, f_prepare_meta,cv, level, n_jobs, 
                     # only retain those in the training and validataion CV folders
                     name_list_test = name_list.loc[name_list['genome_id'].isin(id_test)]
                     # name_list_test['genome_id'].to_csv(meta_txt + '_Test_' + str(out_cv) + '_id2', sep="\t", index=False,header=False)
-                    name_list_test['ID'] = 'iso_' + name_list_test['genome_id'].astype(str)
+                    name_list_test.loc[:,'ID'] = 'iso_' + name_list_test['genome_id'].astype(str)
                     name_list_test['ID'].to_csv(meta_txt + '_Test_' + str(out_cv) + '_id', sep="\t", index=False, header=False)
 
                     # name_list_test1 =name_list_test.loc[:, ['ID', 'path']]
