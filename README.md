@@ -445,12 +445,12 @@ https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno
 Version: Nov 26.2021.
 
 
-### <a name="PhenotypeSeeker"></a>PhenotypeSeeker
+## <a name="PhenotypeSeeker"></a>PhenotypeSeeker
 
 Scripts written by us, based on version: 0.7.3.
 https://github.com/bioinfo-ut/PhenotypeSeeker
 
-## <a name="install_pts"></a> Install
+### <a name="install_pts"></a> Install
 ```
 conda create -n PhenotypeSeeker python=3.7
 source activate PhenotypeSeeker
@@ -460,7 +460,7 @@ conda install -c bioconda genometester4
 ```
 
 
-##<a name="c_pts"></a> Commands example
+### <a name="c_pts"></a> Commands example
 1. Prepare meta files.
 
 ```
@@ -491,18 +491,18 @@ python main_bench.py -f_ml --n_jobs 10 -s 'Campylobacter jejuni' -f_kma
 ```
 
 
-### <a name="kover"></a>Kover 2.0
+## <a name="kover"></a> Kover 2.0
 
 Version 2.0
 https://github.com/aldro61/kover
 
-## <a name="install_kover"></a> Install
+### <a name="install_kover"></a> Install
 
 Install according to the documentations in Kover 2.0. https://aldro61.github.io/kover/doc_installation.html
 
 
 
-## <a name="c_koverc"></a> Commands example
+### <a name="c_koverc"></a> Commands example
 1. Prepare the meta files to run Kover 2.0.
 ```
 python main_bench.py -s 'Campylobacter jejuni' -f_prepare_meta
@@ -523,7 +523,7 @@ python kover_analyse.py -s 'Campylobacter jejuni' -f_kma -f_benchmarking
 
 
 
-### <a name="amrp"></a>AMRP
+## <a name="amrp"></a>AMRP
 https://github.com/hzi-bifo/AMR_khu
 
 
