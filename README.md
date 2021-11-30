@@ -26,7 +26,7 @@
 
 - [Benchmarking software: PhenotypeSeeker 0.7.3](#PhenotypeSeeker)
     - [Installment](#install_pts)
-    - [Commands example](#c_ptc)
+    - [Commands example](#c_pts)
 
 - [Benchmarking software: Kover 2.0](#kover)
     - [Installment](#install_kover)
@@ -502,7 +502,7 @@ Install according to the documentations in Kover 2.0. https://aldro61.github.io/
 
 
 
-### <a name="c_koverc"></a> Commands example
+### <a name="c_kover"></a> Commands example
 1. Prepare the meta files to run Kover 2.0.
 ```
 python main_bench.py -s 'Campylobacter jejuni' -f_prepare_meta
