@@ -16,6 +16,7 @@ from scipy.stats import ttest_rel
 import math
 import seaborn as sns
 
+'''Visualize and summarize S2G2P results'''
 
 def get_mean_std(f1_pos_sub):
     '''
@@ -42,7 +43,7 @@ def extract_info_species(level,species,final_score,antibiotics,cv,f_phylotree,f_
     print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
     antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
     # cl_list=['svm','lr','lsvm','rf','et','ab','gb','xgboost']
-    cl_list = ['svm', 'lr','rf']
+    cl_list = ['svm', 'lr','rf','lsvm']
     for chosen_cl in cl_list:
         print('---------------------',chosen_cl)
         hy_para_fre=[]
@@ -158,8 +159,8 @@ def extract_best_estimator(level,species,final_score,antibiotics,cv,f_phylotree,
     summary_benchmarking=pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative',
                                                                  'classifier','selected hyperparameter','frequency(out of 10)'])
 
-    summary_benchmarking_plot=pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative','classifier'])
-
+    summary_benchmarking_plot=pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative',
+                                                                 'classifier'])
     for anti in antibiotics:
         for chosen_cl in cl_list:
             score_ ,_= amr_utility.name_utility.GETsave_name_final(species, f_kma, f_phylotree,chosen_cl)
@@ -192,16 +193,14 @@ def extract_best_estimator(level,species,final_score,antibiotics,cv,f_phylotree,
             summary_benchmarking.loc[anti, ['f1_macro','accuracy', 'f1_positive','f1_negative']] = score_sub.loc[anti, ['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative']].to_list()
             summary_benchmarking_plot.loc[[anti], ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']] = score_sub_plot.loc[
                 anti, ['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative']].to_list()
-
         else:
-            summary_benchmarking.loc[anti, ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']] = score_sub.loc[
+            summary_benchmarking.loc[[anti], ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']] = score_sub.loc[
                 anti, ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']].to_list()
             summary_benchmarking_plot.loc[[anti], ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']] = score_sub_plot.loc[
                 anti, ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']].to_list()
     print(summary_benchmarking)
     summary_benchmarking.to_csv(save_name_final + '_SummeryBenchmarking.txt', sep="\t")
     summary_benchmarking_plot.to_csv(save_name_final + '_SummeryBenchmarking_PLOT.txt', sep="\t")
-
 
 def plot(level, species, final_score, antibiotics, cv, f_phylotree, f_kma,old_version):
     '''
@@ -273,7 +272,7 @@ def plot(level, species, final_score, antibiotics, cv, f_phylotree, f_kma,old_ve
     ax = sns.boxplot(x="antibiotic", y=final_score, hue="classifier",
                      data=summary_plot, dodge=True, width=0.4)
     fig = ax.get_figure()
-    ax.set_xticklabels(ax.get_xticklabels(), rotation=15, horizontalalignment='right',fontsize=10)
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=15, fontsize=8,horizontalalignment='right',)
     fig.savefig(save_name_final + '_' + final_score + ".png")
 
 

@@ -12,6 +12,7 @@ for anti in ${Anti_List[@]};do
 
 
     for j in {0..9};do
+
         rm -rf ./log/temp/loose/${species}/${anti}_temp/CV_tr${j}
         rm -rf ./log/temp/loose/${species}/${anti}_temp/CV_te${j}
         echo "CV ${j}"
@@ -22,9 +23,9 @@ for anti in ${Anti_List[@]};do
 
 
         length=${#id_list[@]}
-        if [[ $length -gt 1024 ]]
+        if [[ $length -gt 500 ]]
         then
-            g=1024
+            g=500
 
             for((i=0; i < ${#id_list[@]}; i+=g))
             do
@@ -33,7 +34,7 @@ for anti in ${Anti_List[@]};do
               glistcompare -u -o ./log/temp/loose/${species}/${anti}_temp/CV_tr${j}/${anti}_feature_vector_${i}  ${part[*]}
             done
             #todo: need to check closely
-            echo "glistcompare -u -o ./log/temp/loose/${species}/${anti}_temp/CV_tr${j}/${anti}_feature_vector  ${anti}_feature_vector_*_13_union.list"
+#            echo "glistcompare -u -o ./log/temp/loose/${species}/${anti}_temp/CV_tr${j}/${anti}_feature_vector  ${anti}_feature_vector_*_13_union.list"
             glistcompare -u -o ./log/temp/loose/${species}/${anti}_temp/CV_tr${j}/${anti}_feature_vector  ./log/temp/loose/${species}/${anti}_temp/CV_tr${j}/${anti}_feature_vector_*_13_union.list
 
         else
@@ -87,6 +88,7 @@ for anti in ${Anti_List[@]};do
         rm -r ./log/temp/loose/${species}/${anti}_temp/CV_te${j}/
 
     done
+
 done
 
 

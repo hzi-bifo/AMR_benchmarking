@@ -384,7 +384,7 @@ def hyper_range(anti_number,f_no_early_stop,antibiotics):
               'If you really want to use it, we use the default hyper-para in the article Aytan-Aktug et al. 2020.')
         if anti_number==1:
             hyper_space={'n_hidden': [200], 'epochs': [1000],'lr':[0.001],'classifier':[1],
-                         'dropout':[0],'patience':[30000]}
+                         'dropout':[0],'patience':[1000]}
 
         else:
             pass
@@ -507,7 +507,11 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
         # Validation_mcc = []  # len=inner CV
         # Validation_f1 = []  # len=inner CV
         #later choose the inner loop and relevant thresholds with the highest f1 score
-
+        # ---------------------------
+        # select testing folder
+        test_samples = folders_sample[out_cv]
+        x_test = data_x[test_samples]
+        y_test = data_y[test_samples]
         print('x_test shape',x_test.shape)
         for innerCV in range(cv - 1):  # e.g. 1,2,3,4
             print('Starting outer: ', str(out_cv), '; inner: ', str(innerCV), ' inner loop...')
@@ -534,7 +538,7 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
                 scaler = preprocessing.StandardScaler().fit(x_train)
                 x_train = scaler.transform(x_train)
                 # scale the val data based on the training data
-                scaler = preprocessing.StandardScaler().fit(x_train)
+
                 x_val = scaler.transform(x_val)
 
             # In regards of the predicted response values they dont need to be in the range of -1,1.
@@ -788,16 +792,12 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
         x_train_val= data_x[train_val_samples] # only np
         y_train_val= data_y[train_val_samples]
 
-        # ---------------------------
-        # select testing folder
-        test_samples = folders_sample[out_cv]
-        x_test = data_x[test_samples]
-        y_test = data_y[test_samples]
+
         if f_scaler==True:
             scaler = preprocessing.StandardScaler().fit(x_train_val)
             x_train_val = scaler.transform(x_train_val)
             # scale the val data based on the training data
-            scaler = preprocessing.StandardScaler().fit(x_train_val)
+
             x_test = scaler.transform(x_test)
             # x_test = torch.from_numpy(x_test).float()
 
@@ -961,12 +961,12 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
     print('hyperparameters_test',hyperparameters_test)
     # score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score,thresholds_selected_test)#save mean and std of each 6 score
     score = [thresholds_selected_test, f1_test, mcc_test, score_report_test, aucs_test, tprs_test,hyperparameters_test,actual_epoc_test,actual_epoc_test_std]
-    # if f_phylotree:
-    #     with open(save_name_score + '_all_score_Tree.pickle', 'wb') as f:  # overwrite
-    #         pickle.dump(score, f)
-    # else: #todo 2) need to change names for res feature
-    with open(save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
-        pickle.dump(score, f)
+    if f_phylotree:
+        with open(save_name_score + '_all_score_Tree.pickle', 'wb') as f:  # overwrite
+            pickle.dump(score, f)
+    else: #todo 2) need to change names for res feature
+        with open(save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
+            pickle.dump(score, f)
 
 
     torch.cuda.empty_cache()
@@ -1078,7 +1078,7 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
             scaler = preprocessing.StandardScaler().fit(x_train)
             x_train = scaler.transform(x_train)
             # scale the val data based on the training data
-            scaler = preprocessing.StandardScaler().fit(x_train)
+            # scaler = preprocessing.StandardScaler().fit(x_train)
             x_val = scaler.transform(x_val)
 
         # In regards of the predicted response values they dont need to be in the range of -1,1.
@@ -1417,7 +1417,7 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
         scaler = preprocessing.StandardScaler().fit(x_train_val)
         x_train_val = scaler.transform(x_train_val)
         # scale the val data based on the training data
-        scaler = preprocessing.StandardScaler().fit(x_train_val)
+        # scaler = preprocessing.StandardScaler().fit(x_train_val)
         x_test = scaler.transform(x_test)
 
     x_train_val = torch.from_numpy(x_train_val).float()
@@ -1681,7 +1681,7 @@ def concat_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters,p
             scaler = preprocessing.StandardScaler().fit(x_train)
             x_train = scaler.transform(x_train)
             # scale the val data based on the training data
-            scaler = preprocessing.StandardScaler().fit(x_train)
+            # scaler = preprocessing.StandardScaler().fit(x_train)
             x_val = scaler.transform(x_val)
 
         # In regards of the predicted response values they dont need to be in the range of -1,1.
@@ -2002,7 +2002,7 @@ def concat_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters,p
         scaler = preprocessing.StandardScaler().fit(x_train_val)
         x_train_val = scaler.transform(x_train_val)
         # scale the val data based on the training data
-        scaler = preprocessing.StandardScaler().fit(x_train_val)
+        # scaler = preprocessing.StandardScaler().fit(x_train_val)
         x_test = scaler.transform(x_test)
 
     x_train_val = torch.from_numpy(x_train_val).float()

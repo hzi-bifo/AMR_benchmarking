@@ -21,7 +21,7 @@ import seaborn as sns
 
 
 
-#plot a 3D plot of single-s model and concatenated multiple-s model.
+#plot a comparative graph of single-s model and concatenated multiple-s model.
 def extract_info(final_score,level,f_all,threshold_point,min_cov_point,learning,epochs,f_optimize_score,f_fixed_threshold,
                  f_nn_base,f_phylotree,cv):
     data = pd.read_csv('metadata/' +str(level)+'_multi-species_summary.csv', index_col=0,
@@ -120,7 +120,7 @@ def extract_info(final_score,level,f_all,threshold_point,min_cov_point,learning,
             summary_plot_multi.loc['e'] = [concat_results.loc[each_anti,final_score], each_anti, 'multi-species model']
             summary_plot = summary_plot.append(summary_plot_multi, ignore_index=True)
             #--------------------------------------
-            print(single_results)
+            # print(single_results)
             summary_plot_single=single_results.loc[single_results['antibiotic']==each_anti]
             summary_plot_single=summary_plot_single[[final_score,'antibiotic']]
             summary_plot_single['model']='single-speceis model'

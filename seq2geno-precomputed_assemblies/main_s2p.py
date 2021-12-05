@@ -5,13 +5,22 @@ import amr_utility.name_utility
 import amr_utility.graph_utility
 import amr_utility.file_utility
 import argparse
+import itertools
 import amr_utility.load_data
 import pandas as pd
 import subprocess
 from pathlib import Path
+import cv_folders.cluster_folders
+import hyper_range
+from sklearn.pipeline import Pipeline
+from sklearn.model_selection import ParameterGrid
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import auc,roc_curve,matthews_corrcoef,confusion_matrix,f1_score,precision_recall_fscore_support,classification_report
+import pickle
 
 
-def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_finished):
+
+def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_finished,f_ml,f_phylotree,f_kma,f_qsub):
 
     # if path_sequence=='/net/projects/BIFO/patric_genome':
     #     path_large_temp='/net/sgi/metagenomics/data/khu/benchmarking/s2g2p'#todo, may need a change
@@ -121,6 +130,7 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_f
 
 
         for species in df_species:
+            print(species)
             _, _, dna_list, assemble_list, yml_file, run_file_name, wd = amr_utility.name_utility.s2g_GETname(level,
                                                                                                               species,
                                                                                                               '')
@@ -144,9 +154,156 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_f
             # as_cp = amr_utility.file_utility.get_full_d(wd) + '/results/RESULTS/assemblies/'
             cmd = 'rm -r %s' % (pan_cp)
             subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+    if f_qsub:#prepare bash scripts for each species for ML
+        for species, antibiotics in zip(df_species, antibiotics):
+            amr_utility.file_utility.make_dir('log/qsub')
+            run_file_name='log/qsub/'+str(species.replace(" ", "_"))+'_kmer.sh'
+            amr_utility.file_utility.make_dir('log/qsub')
+            run_file = open(run_file_name, "w")
+            run_file.write("#!/bin/bash")
+            run_file.write("\n")
+            # if path_sequence == '/vol/projects/BIFO/patric_genome':
+            if Path(fileDir).parts[1] == 'vol':
+                run_file = amr_utility.file_utility.hzi_cpu_header4(run_file,
+                                                                    str(species.replace(" ", "_"))+'g2p',
+                                                                    100, 'amr','uv2000.q')
+            # run_file = amr_utility.file_utility.header_THREADS(run_file,
+            #                                                    n_jobs)
+            cmd = 'python main_s2p.py -f_ml --n_jobs %s -s \'%s\' -f_kma' % (100,species)
+            run_file.write(cmd)
+            run_file.write("\n")
+
+            #------------------------------------------------------------
+            run_file_name = 'log/qsub/' + str(species.replace(" ", "_")) + '_kmer2.sh'
+            run_file = open(run_file_name, "w")
+            run_file.write("#!/bin/bash")
+            run_file.write("\n")
+            # if path_sequence == '/vol/projects/BIFO/patric_genome':
+            if Path(fileDir).parts[1] == 'vol':
+                run_file = amr_utility.file_utility.hzi_cpu_header4(run_file,
+                                                                    str(species.replace(" ", "_")+'g2p'),
+                                                                    20, 'amr', 'all.q')
+            # run_file = amr_utility.file_utility.header_THREADS(run_file,
+            #                                                     20)
+            cmd = 'python main_s2p.py -f_ml --n_jobs %s -s \'%s\' -f_kma' % (20, species)
+            run_file.write(cmd)
+            run_file.write("\n")
+
+    if f_ml:
+
+        for species, antibiotics in zip(df_species, antibiotics):
+            # amr_utility.file_utility.make_dir('log/temp/' + str(level) + '/' + str(species.replace(" ", "_")))
+            amr_utility.file_utility.make_dir('log/results/' + str(level) + '/' + str(species.replace(" ", "_")))
+            print(species)
+            run_file = None
+
+            antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
+            # antibiotics, ID, Y = antibiotics[1:], ID[1:], Y[1:]
+            antibiotics, ID, Y = antibiotics[1:], ID[1:], Y[1:]
+
+            i_anti = 0
+            for anti in antibiotics:
+                id_all = ID[i_anti]  # sample name list, e.g. [1352.10013,1352.10014,1354.10,1366.10]
+                y_all = Y[i_anti]
+                i_anti+=1
+
+
+                s2g_file='./log/temp/loose/'+ str(
+                            species.replace(" ", "_"))+'/results/RESULTS/bin_tables'
+                data_feature1 = pd.read_csv(s2g_file+'/gpa.mat_NONRDNT', index_col=0,sep="\t")
+                data_feature2 = pd.read_csv(s2g_file + '/indel.mat_NONRDNT',index_col=0,sep="\t")
+
+
+                init_feature = np.zeros((len(id_all), 1), dtype='uint16')
+                id_all=['iso_'+ s  for s in id_all]
+
+                data_model_init = pd.DataFrame(init_feature, index=id_all, columns=['initializer'])
+                X_all = pd.concat([data_model_init, data_feature1.reindex(data_model_init.index)], axis=1)
+                X_all = pd.concat([X_all, data_feature2.reindex(data_model_init.index)], axis=1)
+                X_all = X_all.drop(['initializer'], axis=1)
+                id_all = np.array(id_all)
+                y_all = np.array(y_all)
+                for chosen_cl in ['svm','lr', 'rf','lsvm']:
+
+                    hyper_space,cl=hyper_range.hyper_range(chosen_cl)
+                    # 1. by each classifier.2. by outer loop. 3. by inner loop. 4. by each hyper-para
+
+
+                    mcc_test = []  # MCC results for the test data
+                    f1_test = []
+                    score_report_test = []
+                    aucs_test = []
+                    hyperparameters_test = []
+                    meta_original, meta_txt,save_name_score=amr_utility.name_utility.Pts_GETname(level, species, anti,chosen_cl)
+                    for out_cv in range(cv):
+                        print(anti,'. Starting outer: ', str(out_cv), '; chosen_cl: ', chosen_cl)
+                        # 1. exrtact CV folders----------------------------------------------------------------
+                        save_name_meta, p_names = amr_utility.name_utility.GETsave_name_modelID(level, species, anti)
+                        Random_State = 42
+                        p_clusters = amr_utility.name_utility.GETname_folder(species, anti, level)
+                        if f_phylotree:  # phylo-tree based cv folders
+                            folders_index = cv_folders.cluster_folders.prepare_folders_tree(cv, species, antibiotics,
+                                                                                            p_names,
+                                                                                            False)
+                        else:  # kma cluster based cv folders
+                            folders_index, _, _ = cv_folders.cluster_folders.prepare_folders(cv, Random_State, p_names,
+                                                                                             p_clusters,'new')
+
+
+                        test_samples_index = folders_index[out_cv]# a list of index
+                        # print(test_samples)
+                        # print(id_all)
+                        id_test = id_all[test_samples_index]#sample name list
+                        y_test = y_all[test_samples_index]
+
+                        train_val_train_index =folders_index[:out_cv] +folders_index[out_cv + 1:]
+                        id_val_train = id_all[list(itertools.chain.from_iterable(train_val_train_index))]  # sample name list
+                        y_val_train = y_all[list(itertools.chain.from_iterable(train_val_train_index))]
+
+                        X_val_train=X_all.loc[id_val_train,:]
+                        X_test=X_all.loc[id_test,:]
 
 
 
+                        pipe = Pipeline(steps=[('cl', cl)])
+
+                        search = GridSearchCV(estimator=pipe, param_grid=hyper_space, n_jobs=n_jobs,
+                                                  scoring='f1_macro',
+                                                  cv=create_generator(train_val_train_index), refit=True)
+
+                        search.fit(X_all, y_all)
+                        hyperparameters_test_sub=search.best_estimator_
+                        current_pipe=hyperparameters_test_sub
+                        # -------------------------------------------------------
+                        # retrain on train and val
+                        current_pipe.fit(X_val_train, y_val_train)
+                        y_test_pred = current_pipe.predict(X_test)
+                        # scores
+                        f1 = f1_score(y_test, y_test_pred, average='macro')
+                        report = classification_report(y_test, y_test_pred, labels=[0, 1], output_dict=True)
+                        mcc = matthews_corrcoef(y_test, y_test_pred)
+                        fpr, tpr, _ = roc_curve(y_test, y_test_pred, pos_label=1)
+                        # tprs.append(interp(mean_fpr, fpr, tpr))
+                        # tprs[-1][0] = 0.0
+                        roc_auc = auc(fpr, tpr)
+
+                        f1_test.append(f1)
+                        score_report_test.append(report)
+                        aucs_test.append(roc_auc)
+                        mcc_test.append(mcc)
+                        hyperparameters_test.append(hyperparameters_test_sub)
+                    score = [f1_test, score_report_test, aucs_test, mcc_test, hyperparameters_test]
+                    with open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '.pickle',
+                              'wb') as f:  # overwrite mode
+                        pickle.dump(score, f)
+
+
+
+def create_generator(nFolds):
+    for idx in range(len(nFolds)):
+        test =nFolds[idx]
+        train = list(itertools.chain(*[fold for idy, fold in enumerate(nFolds) if idy != idx]))
+        yield train, test
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -157,7 +314,10 @@ if __name__ == '__main__':
     parser.add_argument('-path_sequence', '--path_sequence', default='/vol/projects/BIFO/patric_genome', type=str,
                         required=False,
                         help='path of sequence,another option: \'/net/projects/BIFO/patric_genome\'')
-
+    parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
+                        help=' phylo-tree based cv folders.')
+    parser.add_argument('-f_kma', '--f_kma', dest='f_kma', action='store_true',
+                        help='kma based cv folders.')
     parser.add_argument('-l', '--level', default='loose', type=str,
                         help='Quality control: strict or loose')
     parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
@@ -170,9 +330,15 @@ if __name__ == '__main__':
                         help='CV splits number')
     parser.add_argument('-f_tree', '--f_tree', dest='f_tree', action='store_true',
                         help='Kma cluster')  # c program
+    parser.add_argument('-f_ml', '--f_ml', dest='f_ml', action='store_true',
+                        help='ML')  # c program
+    parser.add_argument('-f_qsub', '--f_qsub', dest='f_qsub',
+                        help='Prepare scriptd for qsub.', action='store_true', )
     parser.add_argument('-s', '--species', default=[], type=str, nargs='+', help='species to run: e.g.\'Pseudomonas aeruginosa\' \
                 \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
                 \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
     parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel.')
     parsedArgs = parser.parse_args()
-    extract_info(parsedArgs.path_sequence,parsedArgs.species,parsedArgs.f_all,parsedArgs.f_prepare_meta,parsedArgs.f_tree,parsedArgs.cv,parsedArgs.level,parsedArgs.n_jobs,parsedArgs.f_finished)
+    extract_info(parsedArgs.path_sequence,parsedArgs.species,parsedArgs.f_all,parsedArgs.f_prepare_meta,parsedArgs.f_tree,
+                 parsedArgs.cv,parsedArgs.level,parsedArgs.n_jobs,parsedArgs.f_finished,parsedArgs.f_ml,
+                 parsedArgs.f_phylotree,parsedArgs.f_kma,parsedArgs.f_qsub)
