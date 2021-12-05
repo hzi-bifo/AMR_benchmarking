@@ -517,6 +517,7 @@ bash run_cv.sh "Pseudomonas_aeruginosa"
 3. Summerize and visualize the results.
 
  ```
+python cv_folder_checking.py -s 'Campylobacter jejuni'
 python kover_analyse.py -s 'Campylobacter jejuni' -f_kma
 python kover_analyse.py -s 'Campylobacter jejuni' -f_kma -f_benchmarking
  ```
