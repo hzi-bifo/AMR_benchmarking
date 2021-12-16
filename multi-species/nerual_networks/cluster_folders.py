@@ -84,10 +84,10 @@ def cluster_split_old(dict_cluster, Random_State, cv):
             elements = dict_cluster[str(e)]
             tem_Nsamples.append(len(elements))
         sum_tem = sum(tem_Nsamples)
-
-        print('sum_tem', sum_tem)  # all_samples in that folder: val,train,test.
-        print('average',len(all_samples) / float(cv))
-        print('len(all_samples)',len(all_samples))
+        #
+        # print('sum_tem', sum_tem)  # all_samples in that folder: val,train,test.
+        # print('average',len(all_samples) / float(cv))
+        # print('len(all_samples)',len(all_samples))
         a = 0
         # while sum_tem + 200 < len(all_samples) / float(cv):  # all_samples: val,train,test
         while sum_tem + 1000 < len(all_samples) / float(cv):  # all_samples: val,train,test
@@ -97,7 +97,7 @@ def cluster_split_old(dict_cluster, Random_State, cv):
             all_extra.append(extra)
             a = a + 1
             tem_Nsamples = []
-            print('extracted', extracted)
+            # print('extracted', extracted)
             for e in extracted:  # every time add one cluster order
                 elements = dict_cluster[str(e)]
                 tem_Nsamples.append(len(elements))  # sample number
@@ -152,19 +152,19 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
             elements = dict_cluster[str(e)]
             tem.append(len(elements))
         totals.append(sum(tem))
-    print('all samples',sum(totals),totals,len(all_samples) / float(cv))
+    # print('all samples',sum(totals),totals,len(all_samples) / float(cv))
 
 
     # all_data_splits_pre=copy.deepcopy(all_data_splits)
-    print('Re_sampling...........')
+    # print('Re_sampling...........')
 
     for i in range(len(all_data_splits)):  # 5.#cluster order
 
         # extracted = list(set(all_data_splits[i]))  # order of cluster, w.r.t dict_cluster
         extracted = all_data_splits[i]
         sum_sub = totals[i]
-        print(sum_sub)
-        print('totals====================================',totals)
+        # print(sum_sub)
+        # print('totals====================================',totals)
         # print(all_data_splits)
         b=0
         while (sum_sub < 0.2*(len(all_samples) / float(cv))) and b<100:  # all_samples: val,train,test
@@ -187,7 +187,7 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
                 totals_sub[m_from]=0
                 m_from = np.argmax(totals_sub)
                 extra = list(utils.shuffle(all_data_splits[m_from], random_state=a))[0]  # shuffle again, and try
-                print('!!!!',m_from,extra)
+                # print('!!!!',m_from,extra)
                 a+=1
                 # print(a)
 
@@ -208,13 +208,13 @@ def cluster_split(dict_cluster, Random_State, cv):#khu: modified
             sum_sub = sum(tem_Nsamples)
             if len(dict_cluster[extra]) < 1.0*(len(all_samples) / float(cv)) and sum_from > sum_sub:
 
-                print('extracted', extracted)
-                print('sum_sub', sum_sub, 'draw from:', m_from,'extra',extra)
+                # print('extracted', extracted)
+                # print('sum_sub', sum_sub, 'draw from:', m_from,'extra',extra)
                 totals[i] = sum_sub
                 totals[m_from] = sum_from
                 all_data_splits[i]=extracted
                 all_data_splits[m_from] = sorted(list(set(all_data_splits[m_from]) - set([extra]))) # rm previous cluster order, because it's moved to this fold.
-                print('totals=========', totals)
+                # print('totals=========', totals)
 
     return all_data_splits
 
@@ -295,7 +295,7 @@ def prepare_cluster(fileDir, p_clusters):
                     splitted_2 = each_cluster.split(":")
                     dict_cluster[str(int(splitted_2[1].split()[0]) - 1)
                     ].append(splitted[6])
-    print("dict_cluster size: ", len(dict_cluster))
+    # print("dict_cluster size: ", len(dict_cluster))
     return dict_cluster
 
 def prepare_sample_name(fileDir, p_names):
@@ -463,22 +463,32 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
 def prepare_folders_tree(cv,species,anti,p_names,f_multi):
     '''
     Based on phylo-trees.
-    :return:
+    :return:  index of sampels w.r.t. data_x, data_y, according to p_names
     '''
     fileDir = os.path.dirname(os.path.realpath('__file__'))
     # main_path='/net/sgi/metagenomics/nobackup/prot/ecoli_res/'+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+\
     #           '/res-all/classification/cv/ecoli_'+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+\
     #           '_tree/tree/6mers-std-tree_resistant_phenotype/cv_folds.txt'
-    main_path='cv_folders/'+'loose'+'/'+str(species.replace(" ", "_"))+'/cv_folds_'+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.txt'
-
+    main_path='cv_folders/'+'loose'+'/'+str(species.replace(" ", "_"))+'/cv_tree_'+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.txt'
+    mapping_file='cv_folders/'+'loose'+'/'+str(species.replace(" ", "_"))+'/mapping_2.npy'
     tree_names=[]
     with open(main_path) as f:
         lines = f.readlines()
         for i in lines:
             # print(i.split('\t'))
             tree_names_sub=[]
+
+
             for each in i.split('\t'):
-                tree_names_sub.append(each.replace("iso_", "").replace("\n", ""))
+                each=each.replace("\n", "")
+                # decode the md5 name to iso names
+                mapping_dic = np.load(mapping_file, allow_pickle='TRUE').item()
+                decoder_name = mapping_dic[each]
+
+                iso_name=decoder_name[0]
+
+                #------------------------------------
+                tree_names_sub.append(iso_name.replace("iso_", "").replace("\n", ""))
                 # print(tree_names_sub)
             tree_names.append(tree_names_sub)
     # print(tree_names)
