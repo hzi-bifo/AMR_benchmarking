@@ -30,14 +30,9 @@ from sklearn.pipeline import Pipeline
 
 def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_author,cv,level,n_jobs,f_ml,f_phylotree,f_kma,f_qsub):
 
-    # if path_sequence=='/net/projects/BIFO/patric_genome':
-    #     path_large_temp='/net/sgi/metagenomics/data/khu/benchmarking/s2g2p'#todo, may need a change
-    # else:
+
     fileDir = os.path.dirname(os.path.realpath('__file__'))
-    # path_large_temp = os.path.join(fileDir, 'large_temp')
-    # # print(path_large_temp)
-    #
-    # amr_utility.file_utility.make_dir(path_large_temp)
+
 
     data = pd.read_csv('metadata/' + str(level) + '_Species_antibiotic_FineQuality.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
@@ -80,13 +75,15 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_author,cv,level,n_j
                     Random_State = 42
                     p_clusters = amr_utility.name_utility.GETname_folder(species, anti, level)
                     if f_phylotree:  # phylo-tree based cv folders
-                        folders_index = cv_folders.cluster_folders.prepare_folders_tree(cv, species, antibiotics,
-                                                                                        p_names,
-                                                                                        False)
-                    else:  # kma cluster based cv folders
+                         folders_index = cv_folders.cluster_folders.prepare_folders_tree(cv, species, anti, p_names,
+                                                                                  False)
+                    elif f_kma:  # kma cluster based cv folders
                         folders_index, _, _ = cv_folders.cluster_folders.prepare_folders(cv, Random_State, p_names,
-                                                                                         p_clusters,
-                                                                                         'new')
+                                                                                               p_clusters,
+                                                                                               'new')
+                    else:#random
+                        folders_index = cv_folders.cluster_folders.prepare_folders_random(cv, species, anti, p_names,
+                                                                                              False)
                     test_samples_index = folders_index[out_cv]
                     train_val_train_index = folders_index[:out_cv] + folders_index[out_cv + 1:]
                     id_val_train = id_all[
@@ -102,13 +99,13 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_author,cv,level,n_j
                     # only retain those in the training and validataion CV folders
                     name_list_train = name_list.loc[name_list['genome_id'].isin(id_val_train)]
                     name_list_train['genome_id'].to_csv(meta_txt + '_Train_' + str(out_cv) + '_id2', sep="\t", index=False, header=False)
-                    name_list_train['ID'] = 'K-mer_lists/' + name_list_train['genome_id'].astype(str)+'_0_'+str(kmer)+'.list'
-
-                    name_list_train.rename(columns={'resistant_phenotype': anti}, inplace=True)
-                    name_list_train = name_list_train.loc[:, ['ID', 'genome_id',anti]]
-                    name_list_train.to_csv(meta_txt + '_Train_' + str(out_cv) + '_data.pheno', sep="\t", index=False,
-                                           header=True)
+                    name_list_train['ID'] = '/vol/projects/khu/amr/PhenotypeSeeker_Nov08/K-mer_lists/' + name_list_train['genome_id'].astype(str)+'_0_'+str(kmer)+'.list' #todo, when finished, make the path relative.
                     name_list_train['ID'].to_csv(meta_txt + '_Train_' + str(out_cv) + '_id', sep="\t", index=False, header=False)
+                    name_list_train.rename(columns={'resistant_phenotype': anti}, inplace=True)
+                    name_list_train = name_list_train.loc[:, ['genome_id',anti]]
+                    name_list_train.to_csv(meta_txt + '_Train_' + str(out_cv) + '_data.pheno', sep="\t", index=True,
+                                           header=True)
+
 
                     # 3. prepare meta files for this round of testing samples-------------------
 
@@ -116,15 +113,15 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_author,cv,level,n_j
                     name_list_test = name_list.loc[name_list['genome_id'].isin(id_test)]
                     name_list_test['genome_id'].to_csv(meta_txt + '_Test_' + str(out_cv) + '_id2', sep="\t", index=False,
                                                  header=False)
-                    name_list_test['ID'] = 'iso_' + name_list_test['genome_id'].astype(str)
+                    # name_list_test['ID'] = 'iso_' + name_list_test['genome_id'].astype(str)
+                    #
+                    # name_list_test.rename(columns={'resistant_phenotype': anti}, inplace=True)
+                    # name_list_test = name_list_test.loc[:, ['ID', 'genome_id', anti]]
+                    # name_list_test.to_csv(meta_txt + '_Test_' + str(out_cv) + '_data.pheno', sep="\t", index=False,
+                    #                       header=True)  # note: when running this set, set pval_limit==1.0. --pvalue 1.0
 
-                    name_list_test.rename(columns={'resistant_phenotype': anti}, inplace=True)
-                    name_list_test = name_list_test.loc[:, ['ID', 'genome_id', anti]]
-                    name_list_test.to_csv(meta_txt + '_Test_' + str(out_cv) + '_data.pheno', sep="\t", index=False,
-                                          header=True)  # note: when running this set, set pval_limit==1.0. --pvalue 1.0
-
-                    name_list_train['ID'].to_csv(meta_txt + '_Test_' + str(out_cv) + '_id', sep="\t", index=False,
-                                                 header=False)
+                    # name_list_test['ID'].to_csv(meta_txt + '_Test_' + str(out_cv) + '_id', sep="\t", index=False,
+                    #                              header=False)
                 anti=str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
                 antibiotics_.append(anti)
             # save the list to a txt file.
@@ -177,7 +174,12 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_author,cv,level,n_j
                                                                     100, 'amr','uv2000.q')
             # run_file = amr_utility.file_utility.header_THREADS(run_file,
             #                                                    n_jobs)
-            cmd = 'python main_bench.py -f_ml --n_jobs %s -s \'%s\' -f_kma' % (100,species)
+            if f_kma:
+                cmd = 'python main_bench.py -f_ml --n_jobs %s -s \'%s\' -f_kma' % (100,species)
+            elif f_phylotree:
+                cmd = 'python main_bench.py -f_ml --n_jobs %s -s \'%s\' -f_phylotree' % (100,species)
+            else:
+                cmd = 'python main_bench.py -f_ml --n_jobs %s -s \'%s\'' % (100,species)
             run_file.write(cmd)
             run_file.write("\n")
 
@@ -193,7 +195,10 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_author,cv,level,n_j
                                                                     20, 'amr', 'all.q')
             # run_file = amr_utility.file_utility.header_THREADS(run_file,
             #                                                     20)
-            cmd = 'python main_bench.py -f_ml --n_jobs %s -s \'%s\' -f_kma' % (20, species)
+            if f_kma:
+                cmd = 'python main_bench.py -f_ml --n_jobs %s -s \'%s\' -f_kma' % (20,species)
+            elif f_phylotree:
+                cmd = 'python main_bench.py -f_ml --n_jobs %s -s \'%s\' -f_phylotree' % (20,species)
             run_file.write(cmd)
             run_file.write("\n")
 
@@ -201,10 +206,10 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_author,cv,level,n_j
         for species, antibiotics in zip(df_species, antibiotics):
             antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
 
-            # antibiotics= antibiotics[1:]
+            antibiotics= [antibiotics[0]]
 
             for anti in antibiotics:
-
+                print(anti)
                 for chosen_cl in ['svm', 'lr','rf']:
                     hyper_space, cl = hyper_range(chosen_cl)
 
@@ -219,7 +224,7 @@ def extract_info(path_sequence,s,kmer,f_all,f_prepare_meta,f_author,cv,level,n_j
                     Random_State = 42
                     p_clusters = amr_utility.name_utility.GETname_folder(species, anti, level)
                     if f_phylotree:  # phylo-tree based cv folders
-                        folders_index = cv_folders.cluster_folders.prepare_folders_tree(cv, species, antibiotics,
+                        folders_index = cv_folders.cluster_folders.prepare_folders_tree(cv, species, anti,
                                                                                         p_names,
                                                                                         False)
                     else:  # kma cluster based cv folders
@@ -398,7 +403,7 @@ if __name__ == '__main__':
     parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
                         help='all the possible species, regarding multi-model.')
     parser.add_argument('-f_prepare_meta', '--f_prepare_meta', dest='f_prepare_meta', action='store_true',
-                        help='Prepare the list files for S2G.')
+                        help='Prepare the list files .')
     parser.add_argument('-f_ml', '--f_ml', dest='f_ml', action='store_true',
                         help='prepare bash')
     parser.add_argument("-cv", "--cv", default=10, type=int,

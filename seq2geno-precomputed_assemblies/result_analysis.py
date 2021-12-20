@@ -76,16 +76,17 @@ def extract_info_species(level,species,final_score,antibiotics,cv,f_phylotree,f_
                                    columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
                                             'mcc', 'f1_positive', 'f1_negative', 'precision_positive', 'recall_positive',
                                             'auc','threshold', 'support', 'support_positive'])
-            if f_phylotree:
+            if k_kma:# extract infor from report
+                summary_table_ByClassifier= analysis_results.extract_score.score_summary(None, summary_table_ByClassifier_, cv, score_report_test, aucs_test,
+                                                                           mcc_test, save_name_score,
+                                                                           np.zeros(cv))# the last 0: no meaning.
+            else:#if f_phylotree or random
                 #todo, still need check. should be fine.Sep 10.
                 summary_table_ByClassifier = analysis_results.extract_score.score_summary_Tree(None, summary_table_ByClassifier_, cv, score_report_test,
                                                                                 aucs_test, mcc_test,
                                                                                 save_name_score,
                                                                                 np.zeros(cv))# the last 0: no meaning.
-            else:# extract infor from report
-                summary_table_ByClassifier= analysis_results.extract_score.score_summary(None, summary_table_ByClassifier_, cv, score_report_test, aucs_test,
-                                                                           mcc_test, save_name_score,
-                                                                           np.zeros(cv))# the last 0: no meaning.
+
             summary_table_ByClassifier_all.append(summary_table_ByClassifier)
 
 
@@ -94,7 +95,14 @@ def extract_info_species(level,species,final_score,antibiotics,cv,f_phylotree,f_
         #finish one chosen_cl
         #[Low level]for each species and each classifier
         out_score='f' #['weighted-f1_macro','weighted-f1_positive', 'weighted-f1_negative','weighted-accuracy'
-        if f_phylotree:
+
+        if f_kma:
+            final, final_plot = analysis_results.make_table.make_visualization(out_score, summary_table_ByClassifier_all, antibiotics,
+                                                                                   level, None, None,
+                                                                                   None,
+                                                                                   None,
+                                                                                   None)
+        else:#if f_phylotree or random
             final, final_plot = analysis_results.make_table.make_visualization_Tree(out_score, summary_table_ByClassifier_all, antibiotics,
                                                                                         level,
                                                                                         None, None,
@@ -103,12 +111,7 @@ def extract_info_species(level,species,final_score,antibiotics,cv,f_phylotree,f_
                                                                                         None)
 
 
-        else:
-            final, final_plot = analysis_results.make_table.make_visualization(out_score, summary_table_ByClassifier_all, antibiotics,
-                                                                                   level, None, None,
-                                                                                   None,
-                                                                                   None,
-                                                                                   None)
+
         save_name_score_final,_ = amr_utility.name_utility.GETsave_name_final(species,f_kma,f_phylotree,chosen_cl)
         # print(final)
         # print(hyperparameters_test)
@@ -260,9 +263,9 @@ def plot(level, species, final_score, antibiotics, cv, f_phylotree, f_kma,old_ve
                     # summary_plot_sub[final_score] = final_score_
                     # summary_plot_sub['antibiotic'] = anti
                     # summary_plot_sub['classifier'] = chosen_cl
-                    print(summary_plot_sub)
+                    # print(summary_plot_sub)
                     summary_plot = summary_plot.append(summary_plot_sub, sort=False)
-                    print(summary_plot)
+                    # print(summary_plot)
 
 
     _, save_name_final = amr_utility.name_utility.GETsave_name_final(species, f_kma, f_phylotree, '')

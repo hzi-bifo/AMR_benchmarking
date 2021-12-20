@@ -17,7 +17,7 @@ from sklearn.model_selection import ParameterGrid
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import auc,roc_curve,matthews_corrcoef,confusion_matrix,f1_score,precision_recall_fscore_support,classification_report
 import pickle
-
+from sklearn import svm,preprocessing
 
 
 def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_finished,f_ml,f_phylotree,f_kma,f_qsub):
@@ -188,6 +188,40 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_f
             cmd = 'python main_s2p.py -f_ml --n_jobs %s -s \'%s\' -f_kma' % (20, species)
             run_file.write(cmd)
             run_file.write("\n")
+            #------------------------------------------------------------
+            run_file_name = 'log/qsub/' + str(species.replace(" ", "_")) + '_kmer3.sh'
+            run_file = open(run_file_name, "w")
+            run_file.write("#!/bin/bash")
+            run_file.write("\n")
+            # if path_sequence == '/vol/projects/BIFO/patric_genome':
+            if Path(fileDir).parts[1] == 'vol':
+                run_file = amr_utility.file_utility.hzi_cpu_header4(run_file,
+                                                                    str(species.replace(" ", "_")+'g2p'),
+                                                                    20, 'amr', 'all.q')
+            # run_file = amr_utility.file_utility.header_THREADS(run_file,
+            #                                                     20)
+            cmd = 'python main_s2p.py -f_ml --n_jobs %s -s \'%s\' -f_phylotree' % (20, species)
+            run_file.write(cmd)
+            run_file.write("\n")
+            #3. random--------------------------------------
+            run_file_name = 'log/qsub/' + str(species.replace(" ", "_")) + '_kmer4.sh'
+            run_file = open(run_file_name, "w")
+            run_file.write("#!/bin/bash")
+            run_file.write("\n")
+            # if path_sequence == '/vol/projects/BIFO/patric_genome':
+            if Path(fileDir).parts[1] == 'vol':
+                run_file = amr_utility.file_utility.hzi_cpu_header4(run_file,
+                                                                    str(species.replace(" ", "_")+'g2p'),
+                                                                    20, 'amr', 'all.q')
+            # run_file = amr_utility.file_utility.header_THREADS(run_file,
+            #                                                     20)
+            cmd = 'python main_s2p.py -f_ml --n_jobs %s -s \'%s\'' % (20, species)
+            run_file.write(cmd)
+            run_file.write("\n")
+
+
+
+
 
     if f_ml:
 
@@ -199,28 +233,42 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_f
 
             antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
             # antibiotics, ID, Y = antibiotics[1:], ID[1:], Y[1:]
-            antibiotics, ID, Y = antibiotics[1:], ID[1:], Y[1:]
+            # antibiotics, ID, Y = antibiotics[8:], ID[8:], Y[8:]
 
             i_anti = 0
             for anti in antibiotics:
+
+
                 id_all = ID[i_anti]  # sample name list, e.g. [1352.10013,1352.10014,1354.10,1366.10]
                 y_all = Y[i_anti]
                 i_anti+=1
-
+                mer6_file = '/vol/projects/khu/amr/patric_Mar/log/feature/kmer/cano_' + str(
+                    species.replace(" ", "_")) + '_6_mer.h5'
 
                 s2g_file='./log/temp/loose/'+ str(
                             species.replace(" ", "_"))+'/results/RESULTS/bin_tables'
                 data_feature1 = pd.read_csv(s2g_file+'/gpa.mat_NONRDNT', index_col=0,sep="\t")
                 data_feature2 = pd.read_csv(s2g_file + '/indel.mat_NONRDNT',index_col=0,sep="\t")
-
+                data_feature3 = pd.read_hdf(mer6_file)
+                data_feature3 = data_feature3.T
 
                 init_feature = np.zeros((len(id_all), 1), dtype='uint16')
-                id_all=['iso_'+ s  for s in id_all]
+
 
                 data_model_init = pd.DataFrame(init_feature, index=id_all, columns=['initializer'])
-                X_all = pd.concat([data_model_init, data_feature1.reindex(data_model_init.index)], axis=1)
-                X_all = pd.concat([X_all, data_feature2.reindex(data_model_init.index)], axis=1)
+                X_all = pd.concat([data_model_init, data_feature3.reindex(data_model_init.index)], axis=1)
+                #only scale the 6mer data
+                scaler = preprocessing.StandardScaler(with_mean=True, with_std=True).fit(X_all)
+                X_all = pd.DataFrame(data=scaler.transform(X_all),
+                               index=X_all.index,
+                               columns=X_all.columns)
+                X_all.index= 'iso_'+X_all.index
+                id_all=['iso_'+ s  for s in id_all]
+                X_all = pd.concat([X_all, data_feature1.reindex(X_all.index)], axis=1)
+                X_all = pd.concat([X_all, data_feature2.reindex(X_all.index)], axis=1)#todo check
                 X_all = X_all.drop(['initializer'], axis=1)
+
+
                 id_all = np.array(id_all)
                 y_all = np.array(y_all)
                 for chosen_cl in ['svm','lr', 'rf','lsvm']:
@@ -242,12 +290,15 @@ def extract_info(path_sequence,s,f_all,f_prepare_meta,f_tree,cv,level,n_jobs,f_f
                         Random_State = 42
                         p_clusters = amr_utility.name_utility.GETname_folder(species, anti, level)
                         if f_phylotree:  # phylo-tree based cv folders
-                            folders_index = cv_folders.cluster_folders.prepare_folders_tree(cv, species, antibiotics,
-                                                                                            p_names,
-                                                                                            False)
-                        else:  # kma cluster based cv folders
+                            folders_index = cv_folders.cluster_folders.prepare_folders_tree(cv, species, anti, p_names,
+                                                                                                  False)
+                        elif f_kma:  # kma cluster based cv folders
                             folders_index, _, _ = cv_folders.cluster_folders.prepare_folders(cv, Random_State, p_names,
-                                                                                             p_clusters,'new')
+                                                                                                   p_clusters,
+                                                                                                   'new')
+                        else:#random
+                            folders_index = cv_folders.cluster_folders.prepare_folders_random(cv, species, anti, p_names,
+                                                                                                  False)
 
 
                         test_samples_index = folders_index[out_cv]# a list of index

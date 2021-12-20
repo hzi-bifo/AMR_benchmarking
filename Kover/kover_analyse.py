@@ -44,18 +44,20 @@ def extract_info_species( level,species,score,antibiotics,cv,f_phylotree,f_kma):
 
             name, meta_txt, _ = amr_utility.name_utility.Pts_GETname(level, species, anti,'')
             for outer_cv in range(cv):
-                #check if in the ignore list
-                ignore_dictionary = np.load('cv_folders/'+str(level)+'/igore_list.npy',allow_pickle='TRUE').item()
                 index_checking =str(species.replace(" ", "_"))+'/'+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+
+                #check if in the ignore list
+                ignore_dictionary = np.load('cv_folders/'+str(level)+'/igore_list'+'_kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'.npy',allow_pickle='TRUE').item()
                 # print(ignore_dictionary[index_checking])
-                if outer_cv not in ignore_dictionary[index_checking]:
+                checking_list=ignore_dictionary[index_checking]
+
+
+                if outer_cv not in checking_list:
                     with open(meta_txt+'_temp/'+str(chosen_cl)+'_b_'+str(outer_cv)+'/results.json') as f:
                         data = json.load(f)
 
                         tn, fp, fn, tp=data["metrics"]['test']['tn'][0],data["metrics"]['test']['fp'][0],\
                                        data["metrics"]['test']['fn'][0],data["metrics"]['test']['tp'][0]
-
-
 
                         if tp!=0 :
                             f1=data["metrics"]['test']['f1_score'][0]
@@ -72,8 +74,6 @@ def extract_info_species( level,species,score,antibiotics,cv,f_phylotree,f_kma):
                         else:
                             f1_positive_list.append(0)
 
-
-
                         if tn!=0:
                             Recall_neg=tn/(tn+fp)
                             Precision_neg= tn/(tn+fn)
@@ -87,31 +87,47 @@ def extract_info_species( level,species,score,antibiotics,cv,f_phylotree,f_kma):
                         support_pos.append(tp+fn)
                         support_neg.append(tn+fp)
                         support.append(tp+fp+tn+fn)
-            final_table_sub=pd.DataFrame(index=['weighted-mean', 'weighted-std'],columns=['f1_macro', 'accuracy', 'f1_positive', 'f1_negative'])
-            # print(f1_list)
-            f1_average=np.average(f1_list, weights=support)
-            accuracy_average=np.average(accuracy_list, weights=support)
-            f1_pos_average=np.average(f1_positive_list, weights=support_pos)
-            f1_neg_average=np.average(f1_negative_list, weights=support_neg)
+            if f_kma:
+                final_table_sub=pd.DataFrame(index=['weighted-mean', 'weighted-std'],columns=['f1_macro', 'accuracy', 'f1_positive', 'f1_negative'])
+                # print(f1_list)
+                f1_average=np.average(f1_list, weights=support)
+                accuracy_average=np.average(accuracy_list, weights=support)
+                f1_pos_average=np.average(f1_positive_list, weights=support_pos)
+                f1_neg_average=np.average(f1_negative_list, weights=support_neg)
+                final_table_sub.loc['weighted-mean',:] = [f1_average,accuracy_average,f1_pos_average, f1_neg_average]
+                final_table_sub.loc['weighted-std',:] = [math.sqrt(weithgted_var(f1_list,f1_average,support )),
+                                                       math.sqrt(weithgted_var(accuracy_list, accuracy_average, support)),
+                                                       math.sqrt(weithgted_var(f1_positive_list, f1_pos_average, support_pos)),
+                                                       math.sqrt(weithgted_var(f1_negative_list, f1_neg_average, support_neg))]
 
-            final_table_sub.loc['weighted-mean',:] = [f1_average,accuracy_average,f1_pos_average, f1_neg_average]
+                m = final_table_sub.loc['weighted-mean',:].apply(lambda x: "{:.2f}".format(x))
+                n = final_table_sub.loc['weighted-std',:].apply(lambda x: "{:.2f}".format(x))
+                final_table.loc[anti,:]=m.str.cat(n, sep='±').values
+                final_plot.loc[anti,:]=final_table_sub.loc['weighted-mean',:].to_list()
+            else:
+                final_table_sub=pd.DataFrame(index=[' mean', ' std'],columns=['f1_macro', 'accuracy', 'f1_positive', 'f1_negative'])
+                # print(f1_list)
+                f1_average=np.average(f1_list )
+                accuracy_average=np.average(accuracy_list)
+                f1_pos_average=np.average(f1_positive_list)
+                f1_neg_average=np.average(f1_negative_list)
+                final_table_sub.loc['mean',:] = [f1_average,accuracy_average,f1_pos_average, f1_neg_average]
+                final_table_sub.loc['std',:] = [statistics.stdev(f1_list),
+                                                statistics.stdev(accuracy_list),
+                                                statistics.stdev(f1_positive_list),
+                                               statistics.stdev(f1_negative_list)]
 
-            final_table_sub.loc['weighted-std',:] = [math.sqrt(weithgted_var(f1_list,f1_average,support )),
-                                                   math.sqrt(weithgted_var(accuracy_list, accuracy_average, support)),
-                                                   math.sqrt(weithgted_var(f1_positive_list, f1_pos_average, support_pos)),
-                                                   math.sqrt(weithgted_var(f1_negative_list, f1_neg_average, support_neg))]
-
-            m = final_table_sub.loc['weighted-mean',:].apply(lambda x: "{:.2f}".format(x))
-            n = final_table_sub.loc['weighted-std',:].apply(lambda x: "{:.2f}".format(x))
-
-            final_table.loc[anti,:]=m.str.cat(n, sep='±').values
-
-            final_plot.loc[anti,:]=final_table_sub.loc['weighted-mean',:].to_list()
+                m = final_table_sub.loc['mean',:].apply(lambda x: "{:.2f}".format(x))
+                n = final_table_sub.loc['std',:].apply(lambda x: "{:.2f}".format(x))
+                final_table.loc[anti,:]=m.str.cat(n, sep='±').values
+                final_plot.loc[anti,:]=final_table_sub.loc['mean',:].to_list()
 
         save_name_score_final,_ = amr_utility.name_utility.GETsave_name_final(species,f_kma,f_phylotree,chosen_cl)
         final_table.to_csv(save_name_score_final + '.txt', sep="\t")
         final_plot.to_csv(save_name_score_final + '_PLOT.txt', sep="\t")
         print(final_table)
+
+
 
 def extract_best_estimator(level,species,final_score,antibiotics,cv,f_phylotree,f_kma):
     '''
@@ -178,7 +194,7 @@ def extract_best_estimator(level,species,final_score,antibiotics,cv,f_phylotree,
         score_sub_plot = pd.read_csv(score_ + '_PLOT.txt', header=0, index_col=0, sep="\t")
         # summary_benchmarking.loc[anti,'selected hyperparameter']=score_sub.loc[anti,'selected hyperparameter']
         # summary_benchmarking.loc[anti, 'frequency(out of 10)'] = score_sub.loc[anti, 'frequency']
-        if not f_phylotree:
+        if f_kma:
 
             summary_benchmarking.loc[anti, ['f1_macro','accuracy', 'f1_positive','f1_negative']] = score_sub.loc[
                 anti, ['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative']].to_list()

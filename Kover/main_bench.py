@@ -66,13 +66,15 @@ def extract_info(path_sequence, s,kmer,f_all, f_prepare_meta,cv, level, n_jobs, 
                     Random_State = 42
                     p_clusters = amr_utility.name_utility.GETname_folder(species, anti, level)
                     if f_phylotree:  # phylo-tree based cv folders
-                        folders_index = cv_folders.cluster_folders.prepare_folders_tree(cv, species, antibiotics,
-                                                                                        p_names,
-                                                                                        False)
-                    else:  # kma cluster based cv folders
+                        folders_index = cv_folders.cluster_folders.prepare_folders_tree(cv, species, anti, p_names,
+                                                                                              False)
+                    elif f_kma:  # kma cluster based cv folders
                         folders_index, _, _ = cv_folders.cluster_folders.prepare_folders(cv, Random_State, p_names,
-                                                                                         p_clusters,
-                                                                                         'new')
+                                                                                               p_clusters,
+                                                                                               'new')
+                    else:#random
+                        folders_index = cv_folders.cluster_folders.prepare_folders_random(cv, species, anti, p_names,
+                                                                                              False)
                     test_samples_index = folders_index[out_cv]
                     train_val_train_index = folders_index[:out_cv] + folders_index[out_cv + 1:]
                     id_val_train = id_all[list(itertools.chain.from_iterable(train_val_train_index))]  # sample name list

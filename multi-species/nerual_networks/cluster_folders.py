@@ -12,7 +12,7 @@ os.environ["NUMEXPR_NUM_THREADS"] = "1" # export NUMEXPR_NUM_THREADS=6
 import sys
 sys.path.append('../')
 sys.path.insert(0, os.getcwd())
-
+import pickle
 import numpy as np
 import getopt
 import sys
@@ -513,3 +513,46 @@ def prepare_folders_tree(cv,species,anti,p_names,f_multi):
     # print(folders_sample)
     return folders_sample
 
+def prepare_folders_random(cv,species,anti,p_names,f_multi):
+    '''
+    Based on phylo-trees.
+    :return:  index of sampels w.r.t. data_x, data_y, according to p_names
+    '''
+    fileDir = os.path.dirname(os.path.realpath('__file__'))
+
+    main_path='cv_folders/'+'loose'+'/'+str(species.replace(" ", "_"))+"/"+ \
+              str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_random_cv.pickle"
+    Random_names=[]
+    Random_names = pickle.load(open(main_path, "rb"))
+    # with open(main_path) as f:
+    #     lines = f.readlines()
+    #     for i in lines:
+    #         # print(i.split('\t'))
+    #         Random_names_sub=[]
+    #         for each in i.split('\t'):
+    #             each=each.replace("\n", "")
+    #             # print(each)
+    #             # print('-')
+    #             Random_names_sub.append(each)
+    #             # print(tree_names_sub)
+    #         Random_names.append(Random_names_sub)
+    names = prepare_sample_name(fileDir, p_names)
+    # print(names)
+    if f_multi:
+        pass
+        #todo
+    else:#single-species model
+        folders_sample = []  # collection of samples for each split
+
+        for out_cv in range(cv):
+            folders_sample_sub = []
+
+            tree_names_split = Random_names[out_cv]  # list: names included in that split
+            for cl_ID in tree_names_split:
+
+                folders_sample_sub.append(
+                    names.index(cl_ID))  # extract cluster ID from the rest folders. 4*(cluster_N)
+
+            folders_sample.append(folders_sample_sub)
+    # print(folders_sample)
+    return folders_sample

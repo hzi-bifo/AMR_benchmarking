@@ -395,8 +395,8 @@ def hyper_range(anti_number,f_no_early_stop,antibiotics):
         if anti_number==1:
             hyper_space = {'n_hidden': [200], 'epochs': [10000], 'lr': [0.001, 0.0005],
                            'classifier': [1], 'dropout': [0, 0.2], 'patience': [2]}  # June.13 th. July 16. delete patience 600
-            # hyper_space = {'n_hidden': [200], 'epochs': [10000], 'lr': [0.01],
-            #                'classifier': [1], 'dropout': [0, 0.2],
+            # hyper_space = {'n_hidden': [200], 'epochs': [1000], 'lr': [0.01],
+            #                'classifier': [1], 'dropout': [0]}#g2p manuscrpit. Dec 10
             #                'patience': [1]}  # June.13 th. July 16. delete patience 600
             # hyper_space = {'n_hidden': [200], 'epochs': [10000], 'lr': [ 0.001,0.0005],
             #                'classifier': [1],'dropout':[0,0.2],'patience':[200,600]}#June.3rd.
@@ -439,7 +439,7 @@ def hyper_range_concat(anti_number,f_no_early_stop,antibiotics):
 # def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Random_State, hidden, epochs,re_epochs,
 #          learning,f_scaler,f_fixed_threshold,f_no_early_stop,f_optimize_score,save_name_score,concat_merge_name,threshold_point,min_cov_point):
 def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Random_State,
-         re_epochs, f_scaler,f_fixed_threshold,f_no_early_stop,f_phylotree, f_optimize_score, save_name_score,f_learning,
+         re_epochs, f_scaler,f_fixed_threshold,f_no_early_stop,f_phylotree, f_random,f_optimize_score, save_name_score,f_learning,
          f_epochs,concat_merge_name,threshold_point,min_cov_point,feature):
 
     #data
@@ -491,6 +491,8 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
     # element: index of sampels w.r.t. data_x, data_y
     if f_phylotree:#phylo-tree based cv folders
         folders_sample = neural_networks.cluster_folders.prepare_folders_tree(cv,species,antibiotics,p_names,False)
+    elif f_random:
+        folders_sample = neural_networks.cluster_folders.prepare_folders_random(cv,species,antibiotics,p_names,False)
     else:#kma cluster based cv folders
         folders_sample,_,_ = neural_networks.cluster_folders.prepare_folders(cv, Random_State, p_names, p_clusters,
                                                                                'new')
@@ -797,7 +799,6 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
             scaler = preprocessing.StandardScaler().fit(x_train_val)
             x_train_val = scaler.transform(x_train_val)
             # scale the val data based on the training data
-
             x_test = scaler.transform(x_test)
             # x_test = torch.from_numpy(x_test).float()
 
@@ -961,14 +962,12 @@ def eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv, Ran
     print('hyperparameters_test',hyperparameters_test)
     # score_summary(cv, score_report_test, aucs_test, mcc_test, save_name_score,thresholds_selected_test)#save mean and std of each 6 score
     score = [thresholds_selected_test, f1_test, mcc_test, score_report_test, aucs_test, tprs_test,hyperparameters_test,actual_epoc_test,actual_epoc_test_std]
-    if f_phylotree:
-        with open(save_name_score + '_all_score_Tree.pickle', 'wb') as f:  # overwrite
-            pickle.dump(score, f)
-    else: #todo 2) need to change names for res feature
-        with open(save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
-            pickle.dump(score, f)
-
-
+    # if f_phylotree:
+    #     with open(save_name_score + '_all_score_Tree.pickle', 'wb') as f:  # overwrite
+    #         pickle.dump(score, f)
+    # else: #todo 2) need to change names for res feature
+    #     with open(save_name_score + '_all_score.pickle', 'wb') as f:  # overwrite
+    #         pickle.dump(score, f)
     torch.cuda.empty_cache()
     return score
 

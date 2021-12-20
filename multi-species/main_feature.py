@@ -37,8 +37,9 @@ import cv_folders.create_phylotree
 import pickle
 
 
-def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_roary,f_pre_cluster,f_cluster,f_cluster_folders,run_file,f_res,f_merge_mution_gene,f_matching_io,f_merge_species,f_nn,cv,
-        random, hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score):
+def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_roary,f_pre_cluster,f_cluster,f_cluster_folders,
+        run_file,f_res,f_merge_mution_gene,f_matching_io,f_merge_species,f_nn,cv,
+        random, hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score):
 
     print(species, anti, '-------------------------------------------------')
     # path_sequence = '/net/projects/BIFO/patric_genome'# in the future, change it to custom setting variable.
@@ -126,6 +127,7 @@ def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_
 
 
     if f_pre_cluster==True:
+
         data_preparation.merge_scaffolds_khuModified.extract_info(path_sequence,path_metadata,path_large_temp_kma ,16)
 
         print(species,anti,': finished merge_scaffold!')
@@ -216,8 +218,18 @@ def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_
                                                                                        f_nn_base,
                                                                                        f_optimize_score)#if learning=0.0, and epoch = 0, it means hyper parameter selection mode.
 
-        nn_module_hyper.eval(species, anti, level, path_x,path_y, path_name, path_cluster_results, cv, random,
-                             re_epochs, f_scaler, f_fixed_threshold, f_nn_base,f_phylotree, f_optimize_score, save_name_score,learning, epochs,None,None,None)# hyperparmeter selection in inner loop of nested CV
+        score=nn_module_hyper.eval(species, anti, level, path_x,path_y, path_name, path_cluster_results, cv, random,
+                             re_epochs, f_scaler, f_fixed_threshold, f_nn_base,f_phylotree,f_random, f_optimize_score, save_name_score,
+                             learning, epochs,None,None,None,'res')# hyperparmeter selection in inner loop of nested CV
+        if f_phylotree:
+            with open(save_name_score + '_all_score_Tree.pickle', 'wb') as f:  # overwrite
+                pickle.dump(score, f)
+        elif f_random:
+            with open(save_name_score + '_all_score_Random.pickle', 'wb') as f:
+                pickle.dump(score, f)
+        else:
+            with open(save_name_score + '_all_score.pickle', 'wb') as f:
+                pickle.dump(score, f)
 
 def make_dir(name):
     logDir = os.path.join(name)
@@ -228,7 +240,7 @@ def make_dir(name):
             print("Can't create logging directory:", logDir)
 
 def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluster,f_cluster,f_cluster_folders,f_res,f_merge_mution_gene,f_matching_io,f_merge_species,f_nn,cv, random,
-                 hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score,n_jobs,f_all,debug):
+                 hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,f_nn_base,f_phylotree,f_kma,f_random,f_optimize_score,n_jobs,f_all,debug,f_qsub):
     if path_sequence=='/net/projects/BIFO/patric_genome':
         path_large_temp='/net/sgi/metagenomics/data/khu/benchmarking/phylo'
     else:
@@ -256,6 +268,54 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
     for species in df_species:
         make_dir('log/temp/' + str(level) + '/' + str(species.replace(" ", "_")))
         make_dir('log/results/' + str(level) + '/' + str(species.replace(" ", "_")))
+        make_dir('log/qsub/' + str(level) + '/' )
+    if f_qsub:
+        for species, antibiotics in zip(df_species, antibiotics):
+            amr_utility.file_utility.make_dir('log/qsub')
+            run_file_name='log/qsub/'+str(species.replace(" ", "_"))+'.sh'
+            amr_utility.file_utility.make_dir('log/qsub')
+            run_file = open(run_file_name, "w")
+            run_file.write("#!/bin/bash")
+            run_file.write("\n")
+            # if path_sequence == '/vol/projects/BIFO/patric_genome':
+            if Path(fileDir).parts[1] == 'vol':
+                run_file = amr_utility.file_utility.hzi_cpu_header5(run_file,
+                                                                    str(species.replace(" ", "_")),
+                                                                    'multi_bench_torch','gpu.q')
+
+            cmd = 'python main_feature.py -f_nn -f_phylotree -f_fixed_threshold -f_optimize_score \'f1_macro\' -learning 0.0 -e 0 -s "%s"' % (species)
+            run_file.write(cmd)
+            run_file.write("\n")
+            # ==========================================================================
+            run_file_name='log/qsub/'+str(species.replace(" ", "_"))+'_kma.sh'
+            amr_utility.file_utility.make_dir('log/qsub')
+            run_file = open(run_file_name, "w")
+            run_file.write("#!/bin/bash")
+            run_file.write("\n")
+            # if path_sequence == '/vol/projects/BIFO/patric_genome':
+            if Path(fileDir).parts[1] == 'vol':
+                run_file = amr_utility.file_utility.hzi_cpu_header5(run_file,
+                                                                    str(species.replace(" ", "_")),
+                                                                    'multi_bench_torch','gpu.q')
+
+            cmd = 'python main_feature.py -f_nn -f_kma -f_fixed_threshold -f_optimize_score \'f1_macro\' -learning 0.0 -e 0 -s "%s"' % (species)
+            run_file.write(cmd)
+            run_file.write("\n")
+            #==================================================================================
+            run_file_name='log/qsub/'+str(species.replace(" ", "_"))+'_random.sh'
+            amr_utility.file_utility.make_dir('log/qsub')
+            run_file = open(run_file_name, "w")
+            run_file.write("#!/bin/bash")
+            run_file.write("\n")
+            # if path_sequence == '/vol/projects/BIFO/patric_genome':
+            if Path(fileDir).parts[1] == 'vol':
+                run_file = amr_utility.file_utility.hzi_cpu_header5(run_file,
+                                                                    str(species.replace(" ", "_")),
+                                                                    'multi_bench_torch','gpu.q')
+
+            cmd = 'python main_feature.py -f_nn -f_random -f_fixed_threshold -f_optimize_score \'f1_macro\' -learning 0.0 -e 0 -s "%s"' % (species)
+            run_file.write(cmd)
+            run_file.write("\n")
 
 
     if debug==True:#no n_job
@@ -267,7 +327,7 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
             # for anti in ['mupirocin', 'penicillin', 'rifampin', 'tetracycline', 'vancomycin']:
             for anti in antibiotics:
                 run(path_sequence,path_large_temp,species, anti, level, f_phylo_prokka,f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene, f_matching_io,
-                    f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler, f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score)
+                    f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler, f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
 
     else:
         #should be starting here when everything finished.
@@ -295,7 +355,7 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
                     run(path_sequence,path_large_temp,species, anti, level, f_phylo_prokka,f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
                         f_matching_io,
                         f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
-                        f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score)
+                        f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
                 run_file.write("echo \" running... \"")
                 run_file.close()
 
@@ -311,7 +371,7 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
                     split_original,split_new_k, splits_new_name=run(path_sequence, path_large_temp, species, anti, level, f_phylo_prokka, f_phylo_roary,
                         f_pre_cluster, f_cluster, f_cluster_folders,run_file, f_res, f_merge_mution_gene,
                         f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
-                        f_fixed_threshold, f_nn_base,f_phylotree,f_optimize_score)
+                        f_fixed_threshold, f_nn_base,f_phylotree,f_random,f_optimize_score)
                     combination.append(species+' '+anti)
                     try:
                         std_o= statistics.stdev(split_original)
@@ -357,7 +417,7 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
                 run(path_sequence,path_large_temp,species, antibiotics, level, f_phylo_prokka,f_phylo_roary,f_pre_cluster, f_cluster, f_cluster_folders,run_file, f_res, f_merge_mution_gene,
                     f_matching_io,
                     f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
-                    f_fixed_threshold, f_nn_base,f_phylotree,f_optimize_score)
+                    f_fixed_threshold, f_nn_base,f_phylotree,f_random,f_optimize_score)
             run_file.write("echo \" All finished. \"")
             run_file.close()
 
@@ -464,7 +524,7 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
                 print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
                 antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
 
-                name_weights_folder=amr_utility.name_utility.GETname_multi_bench_folder(species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score)
+                name_weights_folder=amr_utility.name_utility.GETname_multi_bench_folder(species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
                 # temp folder for storing weights
                 make_dir(name_weights_folder)
                 print(name_weights_folder)
@@ -475,25 +535,46 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
                     for anti in ['streptomycin']:
                         run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
                             f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
-                            f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score)
-                # elif species=='Escherichia coli':
-                #     # for anti in ['pyrazinamide','rifampicin','rifampin','streptomycin']:
-                #     for anti in ['amoxicillin/clavulanic acid']:
-                #         run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
-                #             f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
-                #             f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score)
-                # elif species=='Acinetobacter baumannii':
-                #     for anti in ['levofloxacin','meropenem','tobramycin','trimethoprim/sulfamethoxazole']:
-                #     # for anti in ['trimethoprim/sulfamethoxazole']:
-                #         run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
-                #             f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
-                #             f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score)
+                            f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
+                elif species=='Escherichia coli':
+                    antibiotics=antibiotics[5:]
+                    for anti in antibiotics:
 
-                else:
+                        run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
+                            f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
+                            f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
+                elif species=='Acinetobacter baumannii':
+                    antibiotics=antibiotics[2:]
                     for anti in antibiotics:
                         run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
                             f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
-                            f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score)
+                            f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
+                elif species=='Staphylococcus aureus':
+                    antibiotics=[antibiotics[0]]
+                    for anti in antibiotics:
+                        run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
+                            f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
+                            f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
+                elif species=='Klebsiella pneumoniae':
+                    antibiotics=antibiotics[3:]
+                    for anti in antibiotics:
+                    # for anti in ['trimethoprim/sulfamethoxazole']:
+                        run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
+                            f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
+                            f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
+                elif species=='Salmonella enterica':
+                    antibiotics=antibiotics[1:]
+                    for anti in antibiotics:
+                    # for anti in ['trimethoprim/sulfamethoxazole']:
+                        run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
+                            f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
+                            f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
+                else:
+
+                    for anti in antibiotics:
+                        run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
+                            f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
+                            f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
                 # main_nn.make_visualization(species, antibiotics,level,f_fixed_threshold,epochs,learning)
 
 
@@ -526,7 +607,7 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
                                  repeat(f_nn), repeat(cv),
                                  repeat(random), repeat(hidden), repeat(epochs), repeat(re_epochs), repeat(learning),
                                  repeat(f_scaler), repeat(f_fixed_threshold),
-                                 repeat(f_nn_base),repeat(f_phylotree), repeat(f_optimize_score)))
+                                 repeat(f_nn_base),repeat(f_phylotree), repeat(f_random),repeat(f_optimize_score)))
 
                 pool.close()
                 pool.join()
@@ -589,7 +670,7 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
                                  repeat(f_phylo_roary),repeat( f_pre_cluster),repeat(f_cluster),repeat(f_cluster_folders),repeat(run_file),repeat(f_res),
                                  repeat(f_merge_mution_gene),repeat(f_matching_io),repeat(f_merge_species),repeat(f_nn),repeat(cv),
                                  repeat(random),repeat(hidden),repeat(epochs),repeat(re_epochs),repeat(learning),repeat(f_scaler),repeat(f_fixed_threshold),
-                                 repeat(f_nn_base),repeat(f_optimize_score)))
+                                 repeat(f_nn_base),repeat(f_phylotree),repeat(f_random),repeat(f_optimize_score)))
 
                 pool.close()
                 pool.join()
@@ -659,10 +740,18 @@ if __name__== '__main__':
                         help='benchmarking baseline.')
     parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
                         help=' phylo-tree based cv folders.')
+    parser.add_argument('-f_kma', '--f_kma', dest='f_kma', action='store_true',
+                        help='kma based cv folders.')
+    parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
+                        help=' phylo-tree based cv folders.')
+    parser.add_argument('-f_random', '--f_random', dest='f_random', action='store_true',
+                        help='random cv folders.')
     parser.add_argument('-f_optimize_score', '--f_optimize_score', default='f1_macro', type=str,
                         help='optimize score for choosing the best estimator in inner loop.')
     parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
                         help='all the possible species, regarding multi-model.')
+    parser.add_argument('-f_qsub', '--f_qsub', dest='f_qsub',
+                        help='Prepare scriptd for qsub.', action='store_true', )
     #----------------------------------------------------------------------------------------------------------------
     # parser.add_argument("-o","--output", default=None, type=str, required=True,
 	# 					help='Output file names')
@@ -683,4 +772,5 @@ if __name__== '__main__':
                  parsedArgs.f_phylo_roary,parsedArgs.f_pre_cluster,parsedArgs.f_cluster,parsedArgs.f_cluster_folders,parsedArgs.f_res,
                  parsedArgs.f_merge_mution_gene,parsedArgs.f_matching_io,parsedArgs.f_merge_species,
                  parsedArgs.f_nn,parsedArgs.cv_number,parsedArgs.random,parsedArgs.hidden,parsedArgs.epochs,parsedArgs.re_epochs,
-                 parsedArgs.learning,parsedArgs.f_scaler,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base,parsedArgs.f_phylotree,parsedArgs.f_optimize_score,parsedArgs.n_jobs,parsedArgs.f_all,parsedArgs.debug)
+                 parsedArgs.learning,parsedArgs.f_scaler,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base,parsedArgs.f_phylotree,parsedArgs.f_kma,parsedArgs.f_random,
+                 parsedArgs.f_optimize_score,parsedArgs.n_jobs,parsedArgs.f_all,parsedArgs.debug,parsedArgs.f_qsub)

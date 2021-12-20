@@ -4,6 +4,7 @@ import ast
 import amr_utility.name_utility
 import amr_utility.graph_utility
 import amr_utility.file_utility
+import seaborn as sns
 import argparse
 import amr_utility.load_data
 import analysis_results.extract_score
@@ -17,13 +18,15 @@ import math
 from collections import Counter
 from pandas.plotting import table
 import matplotlib.pyplot as plt
+import collections
 
 
 
 
 
 
-def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_match_single,list_species,level,cv,hidden, epochs, re_epochs, learning,f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score,threshold_point,min_cov_point):
+def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_match_single,list_species,level,cv,
+                 epochs, learning,f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score,threshold_point,min_cov_point):
     if f_multi==True:
         if T_test == False and f_match_single==False:
             merge_name = []
@@ -349,7 +352,8 @@ def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_m
             df_species = data.index.tolist()
             # antibiotics = data['modelling antibiotics'].tolist()
             print(data)
-
+            # Ignore_dict = collections.defaultdict(list)#for a summary of the species and antibiotic KMA_based CV folders that are with one phenotype.
+            # # these folders' results will not be counted for mean and sdt.
             for species in df_species:
                 amr_utility.file_utility.make_dir('log/results/'+str(level)+'/'+ str(species.replace(" ", "_")))
                 antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
@@ -367,7 +371,8 @@ def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_m
                                                                                                    f_optimize_score)
                     if f_phylotree:
                         score = pickle.load(open(save_name_score + '_all_score_Tree.pickle', "rb"))
-
+                    elif f_random:
+                        score = pickle.load(open(save_name_score + '_all_score_Random.pickle', "rb"))
                     else:
                         score = pickle.load(open(save_name_score + '_all_score.pickle', "rb"))
 
@@ -387,7 +392,7 @@ def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_m
                                            columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
                                                     'mcc', 'f1_positive','f1_negative', 'precision_positive', 'recall_positive', 'auc',
                                                     'threshold', 'support', 'support_positive'])
-                    if f_phylotree:
+                    if f_phylotree or f_random:
                         summary = analysis_results.extract_score.score_summary_Tree(None, summary, cv, score_report_test, aucs_test, mcc_test,
                                                          save_name_score,
                                                          thresholds_selected_test)
@@ -397,7 +402,7 @@ def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_m
                     summary_all.append(summary)
                 # put out final table with scores:'f1-score','precision', 'recall','accuracy'
                 # make_visualization(species, antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score)
-                if f_phylotree:
+                if f_phylotree :
                     final, final_plot = analysis_results.make_table.make_visualization_Tree(out_score,summary_all, antibiotics, level,
                                                                     f_fixed_threshold, epochs,
                                                                     learning,
@@ -416,7 +421,24 @@ def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_m
                     final.to_csv(save_name_score_final + '_score_final_Tree.txt', sep="\t")
                     final_plot.to_csv(save_name_score_final + '_score_final_Tree_PLOT.txt', sep="\t")
 
+                elif f_random:
+                    final, final_plot = analysis_results.make_table.make_visualization_Tree(out_score,summary_all, antibiotics, level,
+                                                                    f_fixed_threshold, epochs,
+                                                                    learning,
+                                                                    f_optimize_score,
+                                                                    f_nn_base)  # with scores only for positive class
+                    save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(species, None,
+                                                                                                         level,
+                                                                                                         learning,
+                                                                                                         epochs,
+                                                                                                         f_fixed_threshold,
+                                                                                                         f_nn_base,
+                                                                                                         f_optimize_score)
 
+                    final['the most frequent hyperparameter'] = hy_para_fre
+                    final['selected hyperparameter'] = hy_para_all
+                    final.to_csv(save_name_score_final + '_score_final_Random.txt', sep="\t")
+                    final_plot.to_csv(save_name_score_final + '_score_final_Random_PLOT.txt', sep="\t")
                 else:
                     final,final_plot=analysis_results.make_table.make_visualization(out_score,summary_all,  antibiotics, level, f_fixed_threshold, epochs, learning,
                                            f_optimize_score, f_nn_base)  # with scores only for positive class
@@ -442,11 +464,17 @@ def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_m
                                dtype={'genome_id': object},
                                sep="\t")
             data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
-            data = data.loc[list_species, :]
-            df_species = data.index.tolist()
+
             # antibiotics = data['modelling antibiotics'].tolist()
             print(data)
+            if f_all:
+                list_species = data.index.tolist()
+                data = data.loc[list_species, :]
+            else:
+                data = data.loc[list_species, :]
 
+
+            df_species = data.index.tolist()
             for species in df_species:
                 amr_utility.file_utility.make_dir(
                     'log/results/' + str(level) + '/' + str(species.replace(" ", "_")))
@@ -457,6 +485,8 @@ def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_m
                 fix_select = []
                 fix_auc = []
                 auc_select=[]
+
+                summary_plot = pd.DataFrame(columns=[Tscore, 'antibiotic', 'selection Method'])
                 for anti in antibiotics:
                 # for anti in ['ceftazidime','ciprofloxacin','levofloxacin','meropenem']:#todo change back to normal
                     # 1. print('T tests of f1_macro between f1 fixed-threshold and threshold selection \n ----------------')
@@ -503,7 +533,7 @@ def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_m
                     result=ttest_rel(f1_macro_fix, f1_macro_select)
                     result_pos=ttest_rel(f1_macro_fix_pos, f1_macro_select_pos)
                     pvalue=result[1]
-                    pvalue_pos=result_pos[1]
+                    pvalue_pos=result_pos[1]#maybe useful in the furture.
                     # print(pvalue)
                     # print(pvalue_pos)
                     fix_select.append(pvalue)
@@ -605,6 +635,74 @@ def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_m
                     auc_select.append(pvalue)
 
 
+
+                    #4. plot the comparative graphs of the score.
+
+                    save_name_score_f1_fix = amr_utility.name_utility.GETname_multi_bench_save_name_score(species,
+                                                                                                          anti, level,
+                                                                                                          0.0,
+                                                                                                          0,
+                                                                                                          True,
+                                                                                                          False,
+                                                                                                          'f1_macro')
+
+                    save_name_score_f1_selection = amr_utility.name_utility.GETname_multi_bench_save_name_score(
+                        species,
+                        anti, level,
+                        0.0,
+                        0,
+                        False,
+                        False,
+                        'f1_macro')
+
+                    save_name_score_auc = amr_utility.name_utility.GETname_multi_bench_save_name_score(species,
+                                                                                                       anti, level,
+                                                                                                       0.0,
+                                                                                                       0,
+                                                                                                       True,
+                                                                                                       False,
+                                                                                                       'auc')
+                    score_auc = pickle.load(open(save_name_score_auc + '_all_score.pickle', "rb"))
+                    score_report_test_auc = score_auc[3]
+
+                    score_select = pickle.load(open(save_name_score_f1_selection + '_all_score.pickle', "rb"))
+                    score_report_test_select = score_select[3]
+                    score_fix = pickle.load(open(save_name_score_f1_fix + '_all_score.pickle', "rb"))
+                    score_report_test_fix = score_fix[3]
+                    for i in np.arange(cv):
+                        report_fix = score_report_test_fix[i]
+                        report_select = score_report_test_select[i]
+                        report_auc = score_report_test_auc[i]
+
+                        if Tscore == 'f1_positive':
+                            final_score_f =  pd.DataFrame(report_fix).transpose().loc['1', 'f1-score']
+                            final_score_s = pd.DataFrame(report_select).transpose().loc['1', 'f1-score']
+                            final_score_a = pd.DataFrame(report_auc).transpose().loc['1', 'f1-score']
+                        elif Tscore == 'f1_negative':
+                            final_score_f = pd.DataFrame(report_fix).transpose().loc['0', 'f1-score']
+                            final_score_s = pd.DataFrame(report_select).transpose().loc['0', 'f1-score']
+                            final_score_a = pd.DataFrame(report_auc).transpose().loc['0', 'f1-score']
+
+                        elif Tscore == 'f1_macro':
+                            final_score_f = pd.DataFrame(report_fix).transpose().loc['macro avg', 'f1-score']
+                            final_score_s = pd.DataFrame(report_select).transpose().loc['macro avg', 'f1-score']
+                            final_score_a = pd.DataFrame(report_auc).transpose().loc['macro avg', 'f1-score']
+
+                        elif Tscore == 'accuracy':
+                            final_score_f = pd.DataFrame(report_fix).transpose().loc['accuracy', 'f1-score']
+                            final_score_s = pd.DataFrame(report_select).transpose().loc['accuracy', 'f1-score']
+                            final_score_a = pd.DataFrame(report_auc).transpose().loc['accuracy', 'f1-score']
+
+                        summary_plot_sub = pd.DataFrame(columns=[Tscore, 'antibiotic', 'selection Method'])
+                        summary_plot_sub.loc['f'] = [final_score_f, anti, 'fixed threshold']
+                        summary_plot_sub.loc['s'] = [final_score_s, anti, 'threshold selection']
+                        summary_plot_sub.loc['a'] = [final_score_a, anti, 'AUC-based selection']
+                        summary_plot = summary_plot.append(summary_plot_sub, sort=False)
+
+
+
+
+
                 #--------
                 print(fix_select)
                 print(fix_auc)
@@ -622,6 +720,15 @@ def extract_info(out_score,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_m
                 final_p.to_csv(save_name_score_final + '_Ttest.txt', sep="\t")
 
 
+                #plotting
+                ax = sns.boxplot(x="antibiotic", y=Tscore, hue="selection Method",
+                                 data=summary_plot, dodge=True, width=0.4)
+                fig = ax.get_figure()
+                fig.tight_layout()
+                fig.set_size_inches(10, 8)
+                ax.set_xticklabels(ax.get_xticklabels(), rotation=10, horizontalalignment='right', fontsize=9)
+                fig.savefig(save_name_score_final + '_' + Tscore + ".png")
+                fig.clf()
 
 
 if __name__== '__main__':
@@ -647,14 +754,18 @@ if __name__== '__main__':
                         help='flag for match single-species model results to multi-species model results for a comparison.')
     parser.add_argument('-out_score', '--out_score', default='f', type=str,
                         help='Scores of the final output table. f:f_macro,f_pos,f_neg,f_micro. all:all scores. f_p_r:f1_macro,precision,recall,accuracy')
+    parser.add_argument('-Tscore', '--Tscore', default='f1_macro', type=str, required=False,
+                        help='the score used to compare f1 fixed-threshold and threshold selection, and auc based selection single-s model for each antibiotic. Can be f1_pos'
+                             'f1_neg, accuracy.')
+
     parser.add_argument("-cv", "--cv_number", default=10, type=int,
                         help='CV splits number')
-    parser.add_argument("-d", "--hidden", default=200, type=int,
-                        help='dimension of hidden layer')
+    # parser.add_argument("-d", "--hidden", default=200, type=int,
+    #                     help='dimension of hidden layer')
     parser.add_argument("-e", "--epochs", default=1000, type=int,
                         help='epochs')
-    parser.add_argument("-re_e", "--re_epochs", default=500, type=int,
-                        help='epochs')
+    # parser.add_argument("-re_e", "--re_epochs", default=500, type=int,
+    #                     help='epochs')
     parser.add_argument("-learning", "--learning", default=0.001, type=float,
                         help='learning rate')
     parser.add_argument('-l', '--level', default='loose', type=str,
@@ -666,7 +777,9 @@ if __name__== '__main__':
     parser.add_argument('-f_nn_base', '--f_nn_base', dest='f_nn_base', action='store_true',
                         help='benchmarking baseline.')
     parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
-                        help=' phylo-tree based cv folders.')
+                        help=' phylo-tree based cv folders.') #only single-species model
+    parser.add_argument('-f_random', '--f_random', dest='f_random', action='store_true',
+                        help='random cv folders.') #only single-species model
     # parser.add_argument("-o","--output", default=None, type=str, required=True,
 	# 					help='Output file names')
     parser.add_argument('-s', '--species', default=[], type=str, nargs='+', help='species to run: e.g.\'seudomonas aeruginosa\' \
@@ -676,8 +789,10 @@ if __name__== '__main__':
     parsedArgs = parser.parse_args()
     # parser.print_help()
     # print(parsedArgs)
-    extract_info(parsedArgs.out_score,parsedArgs.f_multi,parsedArgs.f_concat,parsedArgs.f_concat2,parsedArgs.f_all,parsedArgs.T_test,parsedArgs.T_dis_con,parsedArgs.f_match_single,parsedArgs.species,parsedArgs.level,parsedArgs.cv_number,parsedArgs.hidden,parsedArgs.epochs,
-                 parsedArgs.re_epochs,parsedArgs.learning,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base,parsedArgs.f_phylotree,parsedArgs.f_optimize_score,parsedArgs.threshold_point,parsedArgs.min_cov_point)
+    extract_info(parsedArgs.out_score,parsedArgs.Tscore,parsedArgs.f_multi,parsedArgs.f_concat,parsedArgs.f_concat2,parsedArgs.f_all,
+                 parsedArgs.T_test,parsedArgs.T_dis_con,parsedArgs.f_match_single,parsedArgs.species,parsedArgs.level,
+                 parsedArgs.cv_number,parsedArgs.epochs,parsedArgs.learning,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base,
+                 parsedArgs.f_phylotree,parsedArgs.f_random,parsedArgs.f_optimize_score,parsedArgs.threshold_point,parsedArgs.min_cov_point)
 
 
 
