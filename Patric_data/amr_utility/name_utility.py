@@ -133,10 +133,12 @@ def GETname_multi_bench_folder_multi(species,level,learning,epochs,f_fixed_thres
     else:
         name_weights_folder='log/temp/' +str(level)+ '/multi_species/'+ str(species.replace(" ", "_")) +'/lr_'+ str(learning)+'_ep_'+str(epochs)+'_fixT_'+str(f_fixed_threshold)
     return name_weights_folder
-def GETname_multi_bench_folder(species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score):
+def GETname_multi_bench_folder(species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score):
     #only for mkdir folders at the beginning
     if f_phylotree:
         f='_Tree'
+    elif f_random:
+        f='_Random'
     else:
         f=''
     if f_optimize_score=='auc':
@@ -491,7 +493,24 @@ def g2pManu_save_name_score(species,antibiotics,level,learning,epochs,f_fixed_th
         learning) + '_ep_' + str(epochs) + '_base_'+str(f_nn_base)+  '_fixT_' + str(f_fixed_threshold)+ '_ops_' +\
                       f_optimize_score + '_Tree_' + str(f_phylotree) + '_feature_' + feature
     return save_name_score
+def g2pManu_save_name_final(species,antibiotics,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_phylotree,feature):
+    if antibiotics == 'all_possible_anti' or type(antibiotics) == list:  # multi_species/output.
+        pass
+        # folder ='log/results/' + str(level) + '/multi_species/' + str(species.replace(" ", "_"))
+        # if type(antibiotics) == list:
+        #     antibiotics = '_'.join(
+        #         antibiotics)  # no use so far. maybe in the future, the user can choose antibiotics to envolve.
 
+    # elif antibiotics== 'all_possible_anti_concat':
+    #     folder= 'log/results/' + str(level) + '/multi_concat/' + str(species.replace(" ", "_"))
+
+    else:
+        folder = 'log/results/' + str(level) + '/' + str(species.replace(" ", "_"))
+
+    save_name_score_f= folder + '/lr_' + str(
+        learning) + '_ep_' + str(epochs) + '_base_'+str(f_nn_base)+  '_fixT_' + str(f_fixed_threshold)+ '_ops_' +\
+                      f_optimize_score + '_Tree_' + str(f_phylotree) + '_feature_' + feature
+    return save_name_score_f
 '''
 def old(species,anti,canonical,k):
  

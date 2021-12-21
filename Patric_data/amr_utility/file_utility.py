@@ -145,6 +145,31 @@ def hzi_cpu_header4(run_file,name,cpu_n,env_name,node):
     run_file.write("export PATH=~/miniconda2/bin:$PATH \nexport PYTHONPATH=$PWD \nsource activate %s \n" %env_name)
 
     return run_file
+def hzi_cpu_header5(run_file,name,env_name,node):
+
+    run_file.write("#$ -N %s" % name)
+    run_file.write("\n")
+    run_file.write('#$ -l arch=linux-x64')
+    run_file.write("\n")
+    run_file.write("#$ -l t4_gpu=1")
+    run_file.write("\n")
+    run_file.write('#$ -b n')
+    run_file.write("\n")
+    run_file.write("#$ -o /vol/cluster-data/khu/sge_stdout_logs/")
+    run_file.write("\n")
+    run_file.write("#$ -e /vol/cluster-data/khu/sge_stdout_logs/")
+    run_file.write("\n")
+    run_file.write("#$ -q %s" %node)
+    run_file.write("\n")
+    run_file.write("#$ -cwd")
+    run_file.write("\n")
+    run_file.write("hostname -f")
+    run_file.write("\n")
+    run_file.write("echo $PATH")
+    run_file.write("\n")
+    run_file.write("export PATH=~/miniconda2/bin:$PATH \nexport PYTHONPATH=$PWD \nsource activate %s \n" %env_name)
+
+    return run_file
 def header_THREADS(run_file,n):
     run_file.write("\n")
     run_file.write("OMP_NUM_THREADS=%s \n" % n)

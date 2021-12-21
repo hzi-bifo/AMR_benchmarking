@@ -71,6 +71,7 @@ def model(species,antibiotics,balance,level):
 
         save_name_meta, save_name_modelID = amr_utility.name_utility.GETsave_name_modelID(level,species, anti)
 
+
         data_sub_anti = pd.read_csv(save_name_modelID + '.txt', index_col=0, dtype={'genome_id': object,'resistant_phenotype':int}, sep="\t")
 
         # select genome_id and  resistant_phenotype
