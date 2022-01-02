@@ -151,7 +151,7 @@ def hzi_cpu_header5(run_file,name,env_name,node):
     run_file.write("\n")
     run_file.write('#$ -l arch=linux-x64')
     run_file.write("\n")
-    run_file.write("#$ -l t4_gpu=1")
+    run_file.write("#$ -l v100_gpu=1")
     run_file.write("\n")
     run_file.write('#$ -b n')
     run_file.write("\n")

@@ -65,10 +65,10 @@ def GETsave_name_score(species,anti,chosen_cl):
 
     return save_name_score
 
-def GETsave_name_final(species,f_kma,f_phylotree,chosen_cl):
+def GETsave_name_final(fscore,species,f_kma,f_phylotree,chosen_cl):
 
-    save_name_score = 'log/results/' +str(species.replace(" ", "_"))+'_kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'_'+chosen_cl
-    save_name_final = 'log/results/' + str(species.replace(" ", "_")) + '_kma_' + str(f_kma) + '_tree_' + str(
+    save_name_score = 'log/results/'+fscore+'/' +str(species.replace(" ", "_"))+'_kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'_'+chosen_cl
+    save_name_final = 'log/results/'+fscore+'/' + str(species.replace(" ", "_")) + '_kma_' + str(f_kma) + '_tree_' + str(
         f_phylotree)
     return save_name_score,save_name_final
 
@@ -150,7 +150,7 @@ def GETname_multi_bench_folder(species,level,learning,epochs,f_fixed_threshold,f
         # name_weights_folder='log/temp/' +str(level)+ '/'+ str(species.replace(" ", "_")) +'/lr_'+ str(learning)+'_ep_'+str(epochs)+'_base_'+str(f_nn_base)+'_fixT_'+str(f_fixed_threshold)
 
     return name_weights_folder
-def GETname_multi_bench_weight(merge_name,species,antibiotics,level,cv,innerCV,learning,epochs,f_fixed_threshold,f_nn_base,f_phylotree,f_optimize_score,threshold_point,min_cov_point):
+def GETname_multi_bench_weight(merge_name,species,antibiotics,level,cv,innerCV,learning,epochs,f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score,threshold_point,min_cov_point):
 
     # if antibiotics=='all_possible_anti' or type(antibiotics)==list:#multi_species/output.
     if antibiotics == 'all_possible_anti':
@@ -162,7 +162,7 @@ def GETname_multi_bench_weight(merge_name,species,antibiotics,level,cv,innerCV,l
         folder= GETname_multi_bench_folder_concat(merge_name,species,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,threshold_point,min_cov_point)#todo bug. seems finihsed May29th.
 
     else:
-        folder = GETname_multi_bench_folder(species, level, learning, epochs, f_fixed_threshold, f_nn_base,f_phylotree,
+        folder = GETname_multi_bench_folder(species, level, learning, epochs, f_fixed_threshold, f_nn_base,f_phylotree,f_random,
                                             f_optimize_score)
     if f_optimize_score=='auc':
         name_weights = folder + '/' + str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_weights_' + str(cv) + str(innerCV)
@@ -193,9 +193,9 @@ def GETname_multi_bench_save_name_score(species,antibiotics,level,learning,epoch
     return save_name_score
 
 
-def GETname_multi_bench_save_name_final(species,antibiotics,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score):
+def GETname_multi_bench_save_name_final(fscore,species,antibiotics,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score):
     if antibiotics == 'all_possible_anti' or type(antibiotics) == list:  # multi_species/output.
-        folder ='log/results/' + str(level) + '/multi_species/' + str(species.replace(" ", "_"))
+        folder ='log/results/' + str(level) + '/multi_species/' + str(species.replace(" ", "_"))+ '/' +fscore
         if type(antibiotics) == list:
             antibiotics = '_'.join(
                 antibiotics)  # no use so far. maybe in the future, the user can choose antibiotics to envolve.
@@ -204,7 +204,7 @@ def GETname_multi_bench_save_name_final(species,antibiotics,level,learning,epoch
     #     folder= 'log/results/' + str(level) + '/multi_concat/' + str(species.replace(" ", "_"))
 
     else:
-        folder = 'log/results/' + str(level) + '/' + str(species.replace(" ", "_"))
+        folder = 'log/results/' + str(level) + '/' + str(species.replace(" ", "_")) + '/' +fscore
 
 
 

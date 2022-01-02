@@ -10,6 +10,7 @@ import amr_utility.load_data
 import analysis_results.extract_score
 import analysis_results.make_table
 import analysis_results.math_utility
+import analysis_results.Ttest
 import pandas as pd
 import pickle
 import statistics
@@ -25,7 +26,7 @@ import collections
 
 
 
-def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_con,f_match_single,list_species,level,cv,
+def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test_hyper_opt,T_dis_con,f_match_single,list_species,level,cv,
                  epochs, learning,f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score,threshold_point,min_cov_point):
     if f_multi==True:
         if T_test == False and f_match_single==False:
@@ -57,7 +58,7 @@ def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_
                                                                                            learning, epochs,
                                                                                            f_fixed_threshold, f_nn_base,
                                                                                            f_optimize_score)
-            save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(merge_name,
+            save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,merge_name,
                                                                                                  'all_possible_anti', level,
                                                                                                  learning,
                                                                                                  epochs, f_fixed_threshold,
@@ -66,7 +67,7 @@ def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_
             score = pickle.load(open(save_name_score + '_all_score.pickle', "rb"))
             amr_utility.file_utility.make_dir(amr_utility.file_utility.get_directory(save_name_score_final))
 
-            analysis_results.make_table.multi_make_visualization_normalCV(out_score,merge_name,All_antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score,
+            analysis_results.make_table.multi_make_visualization_normalCV(fscore,out_score,merge_name,All_antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score,
                                          f_nn_base,cv,score,save_name_score,save_name_score_final)
 
             #June 23rd, seems finished.
@@ -91,7 +92,7 @@ def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_
             merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
             # --------------------------------------------------------
             # --------------------------------------------------------
-            save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(merge_name,
+            save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,merge_name,
                                                                                                  'all_possible_anti',
                                                                                                  level,
                                                                                                  learning,
@@ -113,7 +114,7 @@ def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_
                 anti=df_anti[species].split(';')
 
                 #read in resutls
-                single_s_score = amr_utility.name_utility.GETname_multi_bench_save_name_final(species, None,
+                single_s_score = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,species, None,
                                                                                                      level, learning,
                                                                                                      epochs,
                                                                                                      f_fixed_threshold,
@@ -206,7 +207,7 @@ def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_
             #                              f_nn_base, cv, score, save_name_score_concat, save_name_score_final)
             #todo need checking
             print('--------------===============')
-            analysis_results.make_table.concat_make_visualization2(out_score, merge_name, All_antibiotics, level,
+            analysis_results.make_table.concat_make_visualization2(fscore,out_score, merge_name, All_antibiotics, level,
                                                                           f_fixed_threshold, epochs, learning,
                                                                           f_optimize_score,
                                                                           f_nn_base, cv, score, save_name_score_concat,
@@ -290,7 +291,7 @@ def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_
                 # mcc_test = score[2]
                 # thresholds_selected_test = score[0]
 
-                analysis_results.make_table.concat_multi_make_visualization(out_score,merge_name, All_antibiotics, level, f_fixed_threshold, epochs,
+                analysis_results.make_table.concat_multi_make_visualization(fscore,out_score,merge_name, All_antibiotics, level, f_fixed_threshold, epochs,
                                                     learning,f_optimize_score, f_nn_base, 1, score, save_name_score,save_name_score_final)#this function only for concat2
 
 
@@ -323,7 +324,7 @@ def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_
                 # thresholds_selected_test = score[0]
                 print('&&&&&&&&&&&&')
                 # similar as f_nn_all
-                analysis_results.make_table.concat_make_visualization2(out_score,merge_name_train, All_antibiotics, level, f_fixed_threshold, epochs,
+                analysis_results.make_table.concat_make_visualization2(fscore,out_score,merge_name_train, All_antibiotics, level, f_fixed_threshold, epochs,
                                              learning,
                                              f_optimize_score,
                                              f_nn_base, cv, score, save_name_score, save_name_score_final)
@@ -385,36 +386,41 @@ def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_
                     hy_para_all.append([score[6],score[7],score[8]])#1*n_cv
                     #vote the most frequent used hyper-para
                     hy_para_collection=score[6]#10 dimension. each reapresents one outer loop.
-                    common,ind=analysis_results.math_utility.get_most_fre_hyper(hy_para_collection)
-                    hy_para_fre.append(common.to_dict())
-
+                    try:
+                        common,ind=analysis_results.math_utility.get_most_fre_hyper(hy_para_collection)
+                        hy_para_fre.append(common.to_dict())
+                    except:
+                        hy_para_fre.append(None)
                     summary = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
                                            columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
                                                     'mcc', 'f1_positive','f1_negative', 'precision_positive', 'recall_positive', 'auc',
                                                     'threshold', 'support', 'support_positive'])
                     if f_phylotree or f_random:
-                        summary = analysis_results.extract_score.score_summary_Tree(None, summary, cv, score_report_test, aucs_test, mcc_test,
+                        summary = analysis_results.extract_score.score_summary_Tree(fscore,None, summary, cv, score_report_test, aucs_test, mcc_test,
                                                          save_name_score,
                                                          thresholds_selected_test)
                     else:
-                        summary = analysis_results.extract_score.score_summary(None, summary, cv, score_report_test, aucs_test, mcc_test, save_name_score,
+                        summary = analysis_results.extract_score.score_summary(fscore,None, summary, cv, score_report_test, aucs_test, mcc_test, save_name_score,
                                                 thresholds_selected_test)
                     summary_all.append(summary)
                 # put out final table with scores:'f1-score','precision', 'recall','accuracy'
                 # make_visualization(species, antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score)
-                if f_phylotree :
-                    final, final_plot = analysis_results.make_table.make_visualization_Tree(out_score,summary_all, antibiotics, level,
-                                                                    f_fixed_threshold, epochs,
-                                                                    learning,
-                                                                    f_optimize_score,
-                                                                    f_nn_base)  # with scores only for positive class
-                    save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(species, None,
+
+                save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,species, None,
                                                                                                          level,
                                                                                                          learning,
                                                                                                          epochs,
                                                                                                          f_fixed_threshold,
                                                                                                          f_nn_base,
                                                                                                          f_optimize_score)
+
+                if f_phylotree :
+                    final, final_plot = analysis_results.make_table.make_visualization_Tree(out_score,summary_all, antibiotics, level,
+                                                                    f_fixed_threshold, epochs,
+                                                                    learning,
+                                                                    f_optimize_score,
+                                                                    f_nn_base)  # with scores only for positive class
+
 
                     final['the most frequent hyperparameter'] = hy_para_fre
                     final['selected hyperparameter'] = hy_para_all
@@ -427,35 +433,95 @@ def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_
                                                                     learning,
                                                                     f_optimize_score,
                                                                     f_nn_base)  # with scores only for positive class
-                    save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(species, None,
-                                                                                                         level,
-                                                                                                         learning,
-                                                                                                         epochs,
-                                                                                                         f_fixed_threshold,
-                                                                                                         f_nn_base,
-                                                                                                         f_optimize_score)
-
                     final['the most frequent hyperparameter'] = hy_para_fre
                     final['selected hyperparameter'] = hy_para_all
                     final.to_csv(save_name_score_final + '_score_final_Random.txt', sep="\t")
                     final_plot.to_csv(save_name_score_final + '_score_final_Random_PLOT.txt', sep="\t")
-                else:
+                else:#f_kma
                     final,final_plot=analysis_results.make_table.make_visualization(out_score,summary_all,  antibiotics, level, f_fixed_threshold, epochs, learning,
                                            f_optimize_score, f_nn_base)  # with scores only for positive class
-                    save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(species, None,
-                                                                                                         level, learning,
-                                                                                                         epochs,
-                                                                                                         f_fixed_threshold,
-                                                                                                         f_nn_base,
-                                                                                                         f_optimize_score)
-
-
                     final['the most frequent hyperparameter'] = hy_para_fre
                     final['selected hyperparameter'] = hy_para_all  # add hyperparameter information. Each antibiotic has 10 hyper-para, each for one outer loop.
 
                     final.to_csv(save_name_score_final + '_score_final.txt', sep="\t")
                     final_plot.to_csv(save_name_score_final + '_score_final_PLOT.txt', sep="\t")
                     print(final)
+
+
+        elif T_test_hyper_opt:#Dec 26.
+            # T test of f1 macro between default hyperparameters and hyperparameter optimization.
+            data = pd.read_csv('metadata/' + str(level) + '_Species_antibiotic_FineQuality.csv', index_col=0,
+                               dtype={'genome_id': object},
+                               sep="\t")
+            data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
+
+            # antibiotics = data['modelling antibiotics'].tolist()
+            print(data)
+            if f_all:
+                list_species = data.index.tolist()
+                data = data.loc[list_species, :]
+            else:
+                data = data.loc[list_species, :]
+
+
+            df_species = data.index.tolist()
+            for species in df_species:
+                amr_utility.file_utility.make_dir(
+                    'log/results/' + str(level) + '/' + str(species.replace(" ", "_")))
+                antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
+                summary_all = []
+
+                # only hyper-parameter selection mode, otherwaise use the main_nn_analysis.py
+                default_opt = []
+
+
+                summary_plot = pd.DataFrame(columns=[fscore, 'antibiotic', 'selection Method'])
+                for anti in antibiotics:
+
+                    save_name_score_f1_default = amr_utility.name_utility.GETname_multi_bench_save_name_score(species,
+                                                                                                   anti, level,
+                                                                                                   0.0,
+                                                                                                   0,
+                                                                                                   True,
+                                                                                                   False,
+                                                                                                   'f1_macro')
+
+                    save_name_score_f1_opt = amr_utility.name_utility.GETname_multi_bench_save_name_score(
+                        species,
+                        anti, level,
+                        0.001,
+                        1000,
+                        True,
+                        False,
+                        'f1_macro')
+                    #so far only f_kma folds.
+                    score_default = pickle.load(open(save_name_score_f1_default + '_all_score.pickle', "rb"))
+                    score_report_default = score_default[3]
+
+                    score_opt = pickle.load(open(save_name_score_f1_opt + '_all_score.pickle', "rb"))
+                    score_report_opt = score_opt[3]
+                    #Calculate P values.
+                    pvalue,pvalue_pos,pvalue_neg=analysis_results.Ttest.Get_pvalue(cv,score_report_default,score_report_opt)
+                    default_opt.append(pvalue)
+
+                    # Prepare dataframe for plotting the comparative graphs of the score.
+                    summary_plot=amr_utility.graph_utility.dataset_plot(summary_plot,anti,cv,fscore,[score_report_default,score_report_opt],['Default hyperparameter','Hyperparameter optimization'])
+
+
+                save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,species, None,
+                                                                                                     level, learning,
+                                                                                                     epochs,
+                                                                                                     f_fixed_threshold,
+                                                                                                     f_nn_base,
+                                                                                                     f_optimize_score)
+
+                data_p=np.array(default_opt)#P values
+                final_p=pd.DataFrame(data=data_p.T,index=antibiotics, columns=['Default hyperparameter VS Hyperparameter optimization'])
+                final_p.to_csv(save_name_score_final + '_default_opt_Ttest.txt', sep="\t")
+
+
+                #plotting
+                amr_utility.graph_utility.box_plot_multi(fscore,summary_plot,save_name_score_final+'_default_opt')
 
         # 3 paired T tests of f1_macro between fixed-threshold and threshold selection and auc based inner loop best estimator selection
         else:
@@ -486,10 +552,9 @@ def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_
                 fix_auc = []
                 auc_select=[]
 
-                summary_plot = pd.DataFrame(columns=[Tscore, 'antibiotic', 'selection Method'])
+                summary_plot = pd.DataFrame(columns=[fscore, 'antibiotic', 'selection Method'])
                 for anti in antibiotics:
-                # for anti in ['ceftazidime','ciprofloxacin','levofloxacin','meropenem']:#todo change back to normal
-                    # 1. print('T tests of f1_macro between f1 fixed-threshold and threshold selection \n ----------------')
+
                     save_name_score_f1_fix = amr_utility.name_utility.GETname_multi_bench_save_name_score(species,
                                                                                                    anti, level,
                                                                                                    0.0,
@@ -512,30 +577,7 @@ def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_
 
                     score_select = pickle.load(open(save_name_score_f1_selection + '_all_score.pickle', "rb"))
                     score_report_test_select = score_select[3]
-                    f1_macro_fix=[]
-                    f1_macro_select=[]
-                    f1_macro_fix_pos=[]
-                    f1_macro_select_pos=[]
-                    for i in np.arange(cv):
-                        report_fix = score_report_test_fix[i]
-                        report_select = score_report_test_select[i]
-                        f1_macro_fix_sub=pd.DataFrame(report_fix).transpose().loc['macro avg','f1-score']
-                        f1_macro_select_sub = pd.DataFrame(report_select).transpose().loc['macro avg','f1-score']
-                        f1_macro_fix_pos_sub = pd.DataFrame(report_fix).transpose().loc['1', 'f1-score']
-                        f1_macro_select_pos_sub = pd.DataFrame(report_select).transpose().loc['1', 'f1-score']
-                        f1_macro_fix.append(f1_macro_fix_sub)
-                        f1_macro_select.append(f1_macro_select_sub)
-                        f1_macro_fix_pos.append(f1_macro_fix_pos_sub)
-                        f1_macro_select_pos.append(f1_macro_select_pos_sub)
-
-
-
-                    result=ttest_rel(f1_macro_fix, f1_macro_select)
-                    result_pos=ttest_rel(f1_macro_fix_pos, f1_macro_select_pos)
-                    pvalue=result[1]
-                    pvalue_pos=result_pos[1]#maybe useful in the furture.
-                    # print(pvalue)
-                    # print(pvalue_pos)
+                    pvalue,pvalue_pos,pvalue_neg=analysis_results.Ttest.Get_pvalue(cv,score_report_test_fix,score_report_test_select)
                     fix_select.append(pvalue)
 
                     # 2. print('T tests of f1_macro between f1 fixed-threshold and auc based inner loop best estimator selection')
@@ -560,32 +602,8 @@ def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_
 
                     score_auc = pickle.load(open(save_name_score_auc + '_all_score.pickle', "rb"))
                     score_report_test_auc = score_auc[3]
-                    f1_macro_fix = []
-                    f1_macro_auc = []
-                    f1_macro_fix_pos = []
-                    f1_macro_auc_pos = []
-                    for i in np.arange(cv):
-                        report_fix = score_report_test_fix[i]
-                        report_auc = score_report_test_auc[i]
-                        f1_macro_fix_sub = pd.DataFrame(report_fix).transpose().loc['macro avg', 'f1-score']
-                        f1_macro_auc_sub = pd.DataFrame(report_auc).transpose().loc['macro avg', 'f1-score']
-                        f1_macro_fix_pos_sub = pd.DataFrame(report_fix).transpose().loc['1', 'f1-score']
-                        f1_macro_auc_pos_sub = pd.DataFrame(report_auc).transpose().loc['1', 'f1-score']
-                        f1_macro_fix.append(f1_macro_fix_sub)
-                        f1_macro_auc.append(f1_macro_auc_sub)
-                        f1_macro_fix_pos.append(f1_macro_fix_pos_sub)
-                        f1_macro_auc_pos.append(f1_macro_auc_pos_sub)
-
-                    result = ttest_rel(f1_macro_fix, f1_macro_auc)
-                    result_pos = ttest_rel(f1_macro_fix_pos, f1_macro_auc_pos)
-                    pvalue = result[1]
-                    pvalue_pos = result_pos[1]
-                    # print(pvalue)
-                    # print(pvalue_pos)
+                    pvalue,pvalue_pos,pvalue_neg=analysis_results.Ttest.Get_pvalue(cv,score_report_test_fix,score_report_test_auc)
                     fix_auc.append(pvalue)
-
-
-
 
 
                     # 3. print('T tests of f1_macro between f1 threshold selection and auc based inner loop best estimator selection')
@@ -610,125 +628,35 @@ def extract_info(out_score,Tscore,f_multi,f_concat,f_concat2,f_all,T_test,T_dis_
 
                     score_select = pickle.load(open(save_name_score_f1_selection + '_all_score.pickle', "rb"))
                     score_report_test_select = score_select[3]
-                    f1_macro_auc = []
-                    f1_macro_select = []
-                    f1_macro_auc_pos = []
-                    f1_macro_select_pos = []
-                    for i in np.arange(cv):
-                        report_auc = score_report_test_auc[i]
-                        report_select = score_report_test_select[i]
-                        f1_macro_auc_sub = pd.DataFrame(report_auc).transpose().loc['macro avg', 'f1-score']
-                        f1_macro_select_sub = pd.DataFrame(report_select).transpose().loc['macro avg', 'f1-score']
-                        f1_macro_auc_pos_sub = pd.DataFrame(report_auc).transpose().loc['1', 'f1-score']
-                        f1_macro_select_pos_sub = pd.DataFrame(report_select).transpose().loc['1', 'f1-score']
-                        f1_macro_auc.append(f1_macro_auc_sub)
-                        f1_macro_select.append(f1_macro_select_sub)
-                        f1_macro_auc_pos.append(f1_macro_auc_pos_sub)
-                        f1_macro_select_pos.append(f1_macro_select_pos_sub)
-
-                    result = ttest_rel(f1_macro_auc, f1_macro_select)
-                    result_pos = ttest_rel(f1_macro_auc_pos, f1_macro_select_pos)
-                    pvalue = result[1]
-                    pvalue_pos = result_pos[1]
-                    # print(pvalue)
-                    # print(pvalue_pos)
+                    pvalue,pvalue_pos,pvalue_neg=analysis_results.Ttest.Get_pvalue(cv,score_report_test_auc,score_report_test_select)
                     auc_select.append(pvalue)
 
 
 
                     #4. plot the comparative graphs of the score.
-
-                    save_name_score_f1_fix = amr_utility.name_utility.GETname_multi_bench_save_name_score(species,
-                                                                                                          anti, level,
-                                                                                                          0.0,
-                                                                                                          0,
-                                                                                                          True,
-                                                                                                          False,
-                                                                                                          'f1_macro')
-
-                    save_name_score_f1_selection = amr_utility.name_utility.GETname_multi_bench_save_name_score(
-                        species,
-                        anti, level,
-                        0.0,
-                        0,
-                        False,
-                        False,
-                        'f1_macro')
-
-                    save_name_score_auc = amr_utility.name_utility.GETname_multi_bench_save_name_score(species,
-                                                                                                       anti, level,
-                                                                                                       0.0,
-                                                                                                       0,
-                                                                                                       True,
-                                                                                                       False,
-                                                                                                       'auc')
-                    score_auc = pickle.load(open(save_name_score_auc + '_all_score.pickle', "rb"))
-                    score_report_test_auc = score_auc[3]
-
-                    score_select = pickle.load(open(save_name_score_f1_selection + '_all_score.pickle', "rb"))
-                    score_report_test_select = score_select[3]
-                    score_fix = pickle.load(open(save_name_score_f1_fix + '_all_score.pickle', "rb"))
-                    score_report_test_fix = score_fix[3]
-                    for i in np.arange(cv):
-                        report_fix = score_report_test_fix[i]
-                        report_select = score_report_test_select[i]
-                        report_auc = score_report_test_auc[i]
-
-                        if Tscore == 'f1_positive':
-                            final_score_f =  pd.DataFrame(report_fix).transpose().loc['1', 'f1-score']
-                            final_score_s = pd.DataFrame(report_select).transpose().loc['1', 'f1-score']
-                            final_score_a = pd.DataFrame(report_auc).transpose().loc['1', 'f1-score']
-                        elif Tscore == 'f1_negative':
-                            final_score_f = pd.DataFrame(report_fix).transpose().loc['0', 'f1-score']
-                            final_score_s = pd.DataFrame(report_select).transpose().loc['0', 'f1-score']
-                            final_score_a = pd.DataFrame(report_auc).transpose().loc['0', 'f1-score']
-
-                        elif Tscore == 'f1_macro':
-                            final_score_f = pd.DataFrame(report_fix).transpose().loc['macro avg', 'f1-score']
-                            final_score_s = pd.DataFrame(report_select).transpose().loc['macro avg', 'f1-score']
-                            final_score_a = pd.DataFrame(report_auc).transpose().loc['macro avg', 'f1-score']
-
-                        elif Tscore == 'accuracy':
-                            final_score_f = pd.DataFrame(report_fix).transpose().loc['accuracy', 'f1-score']
-                            final_score_s = pd.DataFrame(report_select).transpose().loc['accuracy', 'f1-score']
-                            final_score_a = pd.DataFrame(report_auc).transpose().loc['accuracy', 'f1-score']
-
-                        summary_plot_sub = pd.DataFrame(columns=[Tscore, 'antibiotic', 'selection Method'])
-                        summary_plot_sub.loc['f'] = [final_score_f, anti, 'fixed threshold']
-                        summary_plot_sub.loc['s'] = [final_score_s, anti, 'threshold selection']
-                        summary_plot_sub.loc['a'] = [final_score_a, anti, 'AUC-based selection']
-                        summary_plot = summary_plot.append(summary_plot_sub, sort=False)
-
-
-
-
+                    summary_plot=amr_utility.graph_utility.dataset_plot(summary_plot,anti,cv,fscore,
+                                                                        [score_report_test_fix,score_report_test_select,score_report_test_auc],
+                                                                        ['fixed threshold','threshold selection', 'AUC-based selection'])
 
                 #--------
                 print(fix_select)
                 print(fix_auc)
                 print(auc_select)
                 # save as dataframe
-                save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(species, None,
+                save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,species, None,
                                                                                                      level, learning,
                                                                                                      epochs,
                                                                                                      f_fixed_threshold,
                                                                                                      f_nn_base,
                                                                                                      f_optimize_score)
-                # antibiotics= ['ceftazidime','ciprofloxacin','levofloxacin','meropenem']#todo delete this later
-                data_p=np.array([fix_select,fix_auc,auc_select])
+
+                data_p=np.array([fix_select,fix_auc,auc_select])#P values
                 final_p=pd.DataFrame(data=data_p.T,index=antibiotics, columns=['fixed threshold VS threshold selection', 'fixed threshold VS AUC','threshold selection VS AUC'])
-                final_p.to_csv(save_name_score_final + '_Ttest.txt', sep="\t")
+                final_p.to_csv(save_name_score_final + '_fix_selection_auc_Ttest.txt', sep="\t")
 
 
                 #plotting
-                ax = sns.boxplot(x="antibiotic", y=Tscore, hue="selection Method",
-                                 data=summary_plot, dodge=True, width=0.4)
-                fig = ax.get_figure()
-                fig.tight_layout()
-                fig.set_size_inches(10, 8)
-                ax.set_xticklabels(ax.get_xticklabels(), rotation=10, horizontalalignment='right', fontsize=9)
-                fig.savefig(save_name_score_final + '_' + Tscore + ".png")
-                fig.clf()
+                amr_utility.graph_utility.box_plot_multi(fscore,summary_plot,save_name_score_final+ '_fix_selection_auc')
 
 
 if __name__== '__main__':
@@ -748,15 +676,17 @@ if __name__== '__main__':
                         help='flag for multi-species concatenated model, testing on a stand-out species')
     parser.add_argument("-T", "--T_test", dest='T_test', action='store_true',
                         help='flag for T test between threshold selected and fixed theshold and auc based selection.')
+    parser.add_argument( "--T_test_hyper_opt", dest='T_test_hyper_opt', action='store_true',
+                        help='flag for T test between default hyperparameter and hyperparameter optimization.')
     parser.add_argument("-T_dis_con", "--T_dis_con", dest='T_dis_con', action='store_true',
                         help='flag for T test between discrete vs concatenated m-s mode.')
     parser.add_argument("-f_match_single", "--f_match_single", dest='f_match_single', action='store_true',
                         help='flag for match single-species model results to multi-species model results for a comparison.')
     parser.add_argument('-out_score', '--out_score', default='f', type=str,
                         help='Scores of the final output table. f:f_macro,f_pos,f_neg,f_micro. all:all scores. f_p_r:f1_macro,precision,recall,accuracy')
-    parser.add_argument('-Tscore', '--Tscore', default='f1_macro', type=str, required=False,
-                        help='the score used to compare f1 fixed-threshold and threshold selection, and auc based selection single-s model for each antibiotic. Can be f1_pos'
-                             'f1_neg, accuracy.')
+    parser.add_argument('-fscore', '--fscore', default='f1_macro', type=str, required=False,
+                        help='The score used for final comparison. For example, to compare f1 fixed-threshold and threshold selection, and auc based selection\
+                             single-s model for each antibiotic.Can be one of: \'f1_macro\',\'f1_positive\',\'f1_negative\',\'accuracy\'.')
 
     parser.add_argument("-cv", "--cv_number", default=10, type=int,
                         help='CV splits number')
@@ -789,8 +719,8 @@ if __name__== '__main__':
     parsedArgs = parser.parse_args()
     # parser.print_help()
     # print(parsedArgs)
-    extract_info(parsedArgs.out_score,parsedArgs.Tscore,parsedArgs.f_multi,parsedArgs.f_concat,parsedArgs.f_concat2,parsedArgs.f_all,
-                 parsedArgs.T_test,parsedArgs.T_dis_con,parsedArgs.f_match_single,parsedArgs.species,parsedArgs.level,
+    extract_info(parsedArgs.out_score,parsedArgs.fscore,parsedArgs.f_multi,parsedArgs.f_concat,parsedArgs.f_concat2,parsedArgs.f_all,
+                 parsedArgs.T_test,parsedArgs.T_test_hyper_opt,parsedArgs.T_dis_con,parsedArgs.f_match_single,parsedArgs.species,parsedArgs.level,
                  parsedArgs.cv_number,parsedArgs.epochs,parsedArgs.learning,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base,
                  parsedArgs.f_phylotree,parsedArgs.f_random,parsedArgs.f_optimize_score,parsedArgs.threshold_point,parsedArgs.min_cov_point)
 

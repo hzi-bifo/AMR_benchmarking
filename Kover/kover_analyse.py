@@ -17,7 +17,7 @@ def weithgted_var(values,average,weights):
     s_variance=p_variance * n/(n-1)
     return s_variance
 
-def extract_info_species( level,species,score,antibiotics,cv,f_phylotree,f_kma):
+def extract_info_species( level,species,fscore,antibiotics,cv,f_phylotree,f_kma):
 
     antibiotics_selected = ast.literal_eval(antibiotics)
     print(species)
@@ -25,13 +25,13 @@ def extract_info_species( level,species,score,antibiotics,cv,f_phylotree,f_kma):
     antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
     i_anti = 0
     for chosen_cl in ['scm','tree']:
-        if f_phylotree:
-            final_table = pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative'])
-            final_plot = pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative'])
-        else:
+
+        if f_kma:
             final_table = pd.DataFrame(index=antibiotics,columns=['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative'])
             final_plot = pd.DataFrame(index=antibiotics,columns=['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative'])
-
+        else:#if f_phylotree or f_random
+            final_table = pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative'])
+            final_plot = pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative'])
         # final_best=pd.DataFrame(index=antibiotics,columns=['f1_macro','classifier'])# the results from the better classifier of scm and tree.
         antibiotics_=[]
         for anti in antibiotics:
@@ -47,7 +47,7 @@ def extract_info_species( level,species,score,antibiotics,cv,f_phylotree,f_kma):
                 index_checking =str(species.replace(" ", "_"))+'/'+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
 
                 #check if in the ignore list
-                ignore_dictionary = np.load('cv_folders/'+str(level)+'/igore_list'+'_kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'.npy',allow_pickle='TRUE').item()
+                ignore_dictionary = np.load('cv_folders/'+str(level)+'/igore_list'+'_kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'_'+fscore+'.npy',allow_pickle='TRUE').item()
                 # print(ignore_dictionary[index_checking])
                 checking_list=ignore_dictionary[index_checking]
 
@@ -62,7 +62,6 @@ def extract_info_species( level,species,score,antibiotics,cv,f_phylotree,f_kma):
                         if tp!=0 :
                             f1=data["metrics"]['test']['f1_score'][0]
                             f1_list.append(f1)
-
                         else:
                             f1_list.append(0)
 
@@ -122,14 +121,14 @@ def extract_info_species( level,species,score,antibiotics,cv,f_phylotree,f_kma):
                 final_table.loc[anti,:]=m.str.cat(n, sep='±').values
                 final_plot.loc[anti,:]=final_table_sub.loc['mean',:].to_list()
 
-        save_name_score_final,_ = amr_utility.name_utility.GETsave_name_final(species,f_kma,f_phylotree,chosen_cl)
+        save_name_score_final,_ = amr_utility.name_utility.GETsave_name_final(fscore,species,f_kma,f_phylotree,chosen_cl)
         final_table.to_csv(save_name_score_final + '.txt', sep="\t")
         final_plot.to_csv(save_name_score_final + '_PLOT.txt', sep="\t")
         print(final_table)
 
 
 
-def extract_best_estimator(level,species,final_score,antibiotics,cv,f_phylotree,f_kma):
+def extract_best_estimator(level,species,fscore,antibiotics,cv,f_phylotree,f_kma):
     '''
     for each species
     final_score:the score used for classifiers comparison.
@@ -169,16 +168,18 @@ def extract_best_estimator(level,species,final_score,antibiotics,cv,f_phylotree,
                                                                  'classifier'])
     for anti in antibiotics:
         for chosen_cl in cl_list:
-            score_ ,_= amr_utility.name_utility.GETsave_name_final(species, f_kma, f_phylotree,chosen_cl)
+            score_ ,_= amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree,chosen_cl)
             score_sub=pd.read_csv(score_ + '.txt', header=0, index_col=0,sep="\t")
             score_sub_ = pd.read_csv(score_ + '_PLOT.txt', header=0, index_col=0, sep="\t")
-            if not f_phylotree:
-                final_score_='weighted-'+final_score
+            if f_kma:
+                final_score_='weighted-'+fscore
+            else:
+                final_score_=fscore
 
             summary_table.loc[anti,chosen_cl]=score_sub.loc[anti,final_score_]
             summary_table_.loc[anti, chosen_cl] = score_sub_.loc[anti, final_score_]
 
-    _, save_name_final = amr_utility.name_utility.GETsave_name_final(species, f_kma, f_phylotree, '')
+    _, save_name_final = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, '')
     summary_table.to_csv(save_name_final + '_SummaryClassifier.txt', sep="\t")
     print('summary_table')
     print(summary_table)
@@ -189,7 +190,7 @@ def extract_best_estimator(level,species,final_score,antibiotics,cv,f_phylotree,
     summary_benchmarking['classifier']=summary_table_.idxmax(axis=1)
     for anti in antibiotics:
         chosen_cl=summary_benchmarking.loc[anti,'classifier']
-        score_, _ = amr_utility.name_utility.GETsave_name_final(species, f_kma, f_phylotree, chosen_cl)
+        score_, _ = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, chosen_cl)
         score_sub = pd.read_csv(score_ + '.txt', header=0, index_col=0, sep="\t")
         score_sub_plot = pd.read_csv(score_ + '_PLOT.txt', header=0, index_col=0, sep="\t")
         # summary_benchmarking.loc[anti,'selected hyperparameter']=score_sub.loc[anti,'selected hyperparameter']
@@ -252,9 +253,8 @@ if __name__ == '__main__':
                         help='Quality control: strict or loose')
     # parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
     #                     help='all the possible species, regarding multi-model.')
-    parser.add_argument('-score', '--score', default='f1_macro', type=str, required=False,
-                        help='the score used to choose the best classifier for each antibiotic. Can be f1_pos'
-                             'f1_neg, accuracy.')
+    parser.add_argument('-fscore', '--fscore', default='f1_macro', type=str, required=False,
+                        help='the score used to choose the best classifier for each antibiotic. Can be one of: \'f1_macro\',\'f1_positive\',\'f1_negative\',\'accuracy\'')
     parser.add_argument('-f_ml', '--f_ml', dest='f_ml', action='store_true',
                         help='prepare bash')
     parser.add_argument("-cv", "--cv", default=10, type=int,
@@ -268,5 +268,5 @@ if __name__ == '__main__':
                     \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
     # parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel.')
     parsedArgs = parser.parse_args()
-    extract_info( parsedArgs.level,parsedArgs.species, parsedArgs.score,parsedArgs.cv,parsedArgs.f_phylotree,
+    extract_info( parsedArgs.level,parsedArgs.species, parsedArgs.fscore,parsedArgs.cv,parsedArgs.f_phylotree,
                  parsedArgs.f_kma,parsedArgs.f_benchmarking,parsedArgs.f_plot)

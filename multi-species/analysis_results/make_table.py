@@ -49,7 +49,7 @@ def make_visualization_Tree(out_score,summary_all,antibiotics,level,f_fixed_thre
     # print('====> Select_antibiotic:', len(antibiotics), antibiotics)
     final=pd.DataFrame(index=antibiotics, columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
                                                    'mcc','f1_positive', 'f1_negative','precision_positive','recall_positive','auc','threshold','support','support_positive'] )
-    final_plot=pd.DataFrame(index=antibiotics, columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+    final_plot=pd.DataFrame(index=antibiotics, columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
                                                    'mcc','f1_positive', 'f1_negative','precision_positive','recall_positive','auc','threshold','support','support_positive'] )
 
     count=0
@@ -61,13 +61,16 @@ def make_visualization_Tree(out_score,summary_all,antibiotics,level,f_fixed_thre
         data=summary_all[count]
         count+=1
         data=data.loc[['mean','std'],:]
+        final_plot.loc[anti, :] = data.loc['mean', :].to_list()
         data = data.astype(float).round(2)
 
         m= data.loc['mean',:].apply(lambda x: "{:.2f}".format(x))
         n=data.loc['std',:].apply(lambda x: "{:.2f}".format(x))
 
         final.loc[anti,:]=m.str.cat(n, sep='±').values
-        final_plot.loc[anti, :] = data.loc['mean', :]
+
+
+
     if out_score=='f':
         final=final[['f1_macro','f1_positive', 'f1_negative','accuracy']]
         final_plot=final_plot[['f1_macro','f1_positive', 'f1_negative','accuracy']]
@@ -78,7 +81,7 @@ def make_visualization_Tree(out_score,summary_all,antibiotics,level,f_fixed_thre
         pass
     return final,final_plot
 
-def multi_make_visualization(out_score,merge_name,All_antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score,
+def multi_make_visualization(fscore,out_score,merge_name,All_antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score,
                              f_nn_base,cv,score,save_name_score,save_name_score_final):
     #only for multi-species,multi-output models. nested CV. No use till now. Aug 15,2021.
     #Only one table as output. i.e. all species share the same one score. June 23, finished.
@@ -105,7 +108,7 @@ def multi_make_visualization(out_score,merge_name,All_antibiotics,level,f_fixed_
                                         'mcc', 'f1_positive', 'f1_negative','precision_positive', 'recall_positive','auc', 'threshold',
                                         'support', 'support_positive'])
         print('count_anti----------------------:',count_anti)
-        summary=analysis_results.extract_score.score_summary_normalCV(count_anti,summary,cv, score_report_test, aucs_test, mcc_test, save_name_score, thresholds_selected_test)
+        summary=analysis_results.extract_score.score_summary_normalCV(fscore,count_anti,summary,cv, score_report_test, aucs_test, mcc_test, save_name_score, thresholds_selected_test)
 
 
 
@@ -125,7 +128,7 @@ def multi_make_visualization(out_score,merge_name,All_antibiotics,level,f_fixed_
     final['selected hyperparameter'] = [hy_para_all]*count_anti
     final.to_csv(save_name_score_final + '_score_final.txt', sep="\t")
     print(final)
-def multi_make_visualization_normalCV(out_score,merge_name,All_antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score,
+def multi_make_visualization_normalCV(fscore,out_score,merge_name,All_antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score,
                              f_nn_base,cv,score,save_name_score,save_name_score_final):
     #only for multi-species,multi-output models. normal CV.
     #Only one table as output. i.e. all species share the same one score. June 23, finished.
@@ -152,7 +155,7 @@ def multi_make_visualization_normalCV(out_score,merge_name,All_antibiotics,level
                                         'auc', 'threshold',
                                         'support', 'support_positive'])
         # print('count_anti----------------------:',count_anti)
-        summary = analysis_results.extract_score.score_summary_normalCV(count_anti, summary, cv, score_report_test,
+        summary = analysis_results.extract_score.score_summary_normalCV(fscore,count_anti, summary, cv, score_report_test,
                                                                             aucs_test, mcc_test, save_name_score,
                                                                             thresholds_selected_test)
 
@@ -187,11 +190,7 @@ def multi_make_visualization_normalCV(out_score,merge_name,All_antibiotics,level
     print(final)
 
 
-
-
-
-
-def concat_multi_make_visualization(out_score,merge_name, All_antibiotics, level, f_fixed_threshold, epochs, learning,
+def concat_multi_make_visualization(fscore,out_score,merge_name, All_antibiotics, level, f_fixed_threshold, epochs, learning,
                                  f_optimize_score,f_nn_base, cv, score,save_name_score, save_name_score_final):
     # only for multi-s concat models.
     aucs_test = score[4][0]
@@ -232,7 +231,7 @@ def concat_multi_make_visualization(out_score,merge_name, All_antibiotics, level
                                             'mcc', 'f1_positive', 'f1_negative','precision_positive', 'recall_positive', 'auc',
                                             'threshold','support', 'support_positive'])
 
-            summary = analysis_results.extract_score.score_summary_normalCV(count, summary, cv, score_report_test, aucs_test, mcc_test,
+            summary = analysis_results.extract_score.score_summary_normalCV(fscore,count, summary, cv, score_report_test, aucs_test, mcc_test,
                                         save_name_score, thresholds_selected_test)
 
             # count += 1
@@ -277,7 +276,7 @@ def concat_multi_make_visualization(out_score,merge_name, All_antibiotics, level
     print('concat2 final------------------',final)
 
 
-def concat_make_visualization2(out_score, merge_name, All_antibiotics, level, f_fixed_threshold, epochs,
+def concat_make_visualization2(fscore,out_score, merge_name, All_antibiotics, level, f_fixed_threshold, epochs,
                                       learning, f_optimize_score,
                                       f_nn_base, cv, score, save_name_score, save_name_score_final):
     # only for multi-species,multi-output models. normal CV. training scores
@@ -319,7 +318,7 @@ def concat_make_visualization2(out_score, merge_name, All_antibiotics, level, f_
                                         'recall_positive', 'auc', 'threshold',
                                         'support', 'support_positive'])
         # print('count_anti----------------------:',count_anti)
-        summary = analysis_results.extract_score.score_summary_normalCV(count_anti, summary, cv, score_report_test,
+        summary = analysis_results.extract_score.score_summary_normalCV(fscore,count_anti, summary, cv, score_report_test,
                                                                         aucs_test, mcc_test, save_name_score,
                                                                         thresholds_selected_test)
 

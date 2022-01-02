@@ -11,7 +11,7 @@ def weithgted_var(values,average,weights):
     s_variance=p_variance * n/(n-1)
     return s_variance
 
-def score_summary_normalCV(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
+def score_summary_normalCV(fscore,count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
     #only for normal CV. So a score without std. Aug 13th,2021.
     f1=[]
     precision=[]
@@ -24,7 +24,7 @@ def score_summary_normalCV(count_anti,summary,cv,score_report_test,aucs_test,mcc
     support_pos=[]
     support_neg = []
     support=[]
-    f_noAccu = []
+    f_no = []
     # print(count_anti)
     if count_anti != None:#multi-species model.
         mcc_test=np.array(mcc_test)
@@ -52,16 +52,26 @@ def score_summary_normalCV(count_anti,summary,cv,score_report_test,aucs_test,mcc
         report=pd.DataFrame(report).transpose()
         print('*****',report)
 
-        # if 'accuracy' not in report.index.to_list():# no resitance pheno in test folder
-        # print(report)
-        if report.loc['1', 'support']==0 or report.loc['0', 'support']==0:  #  todo only one pheno in test folder
-            # accuracy.append('-')
-            print('Warning! Only one phenotype in the testing set. Exit!')
-            print(report)
-            exit()
-            f_noAccu.append(i)
-        else:
-            accuracy=(report.loc['accuracy', 'f1-score'])
+        if fscore== 'f1_macro':
+            if report.loc['1', 'support']==0 or report.loc['0', 'support']==0:  #  only one pheno in test folder, we don't include them for final results.
+                f_no.append(i)
+                print('Only one phenotype in the testing folder! This folder\'s score will not be counted w.r.t. average. ' )
+            else:
+                accuracy.append(report.loc['accuracy', 'f1-score'])
+        elif fscore=='f1_negative':
+            if report.loc['0', 'support']==0:
+                f_no.append(i)
+                print('Only R phenotype in the testing folder! This folder\'s score will not be counted w.r.t. average. ' )
+            else:
+                accuracy.append(report.iat[2,2])#no use of this score
+        elif fscore=='f1_positive':
+            if report.loc['1', 'support']==0:
+                f_no.append(i)
+                print('Only S phenotype in the testing folder! This folder\'s score will not be counted w.r.t. average. ' )
+            else:
+                accuracy.append(report.iat[2,2])#no use of this score
+        elif fscore=='accuracy':
+            accuracy.append(report.iat[2,2])#no use of this score
 
         f1=(report.loc['macro avg','f1-score'])
         precision=(report.loc['macro avg','precision'])
@@ -94,7 +104,7 @@ def score_summary_normalCV(count_anti,summary,cv,score_report_test,aucs_test,mcc
 
     return summary
 
-def score_summary(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
+def score_summary(fscore,count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
     #only for nested CV
     f1=[]
     precision=[]
@@ -107,7 +117,7 @@ def score_summary(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,sav
     support_pos=[]
     support_neg = []
     support=[]
-    f_noAccu = []
+    f_no = []
     # print(count_anti)
     if count_anti != None:#multi-species model.
         mcc_test=np.array(mcc_test)
@@ -130,19 +140,28 @@ def score_summary(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,sav
         report=pd.DataFrame(report).transpose()
         # print(report)
 
-        # check if only one pheno in test folder
+        if fscore== 'f1_macro':
+            if report.loc['1', 'support']==0 or report.loc['0', 'support']==0:  #  only one pheno in test folder, we don't include them for final results.
+                f_no.append(i)
+                print('Only one phenotype in the testing folder! This folder\'s score will not be counted w.r.t. average. ' )
+            else:
+                accuracy.append(report.loc['accuracy', 'f1-score'])
+        elif fscore=='f1_negative':
+            if report.loc['0', 'support']==0:
+                f_no.append(i)
+                print('Only R phenotype in the testing folder! This folder\'s score will not be counted w.r.t. average. ' )
+            else:
+                accuracy.append(report.iat[2,2])#no use of this score
+        elif fscore=='f1_positive':
+            if report.loc['1', 'support']==0:
+                f_no.append(i)
+                print('Only S phenotype in the testing folder! This folder\'s score will not be counted w.r.t. average. ' )
+            else:
+                accuracy.append(report.iat[2,2])#no use of this score
+        elif fscore=='accuracy':
+            accuracy.append(report.iat[2,2])#no use of this score
 
 
-
-
-        # if 'accuracy' not in report.index.to_list():# no resitance pheno in test folder
-        if report.loc['1', 'support']==0 or report.loc['0', 'support']==0:  #  todo only one pheno in test folder
-            accuracy.append('-')
-            print('Please count this! Only one phenotype in the testing folder!!!!!!!!!!!!!!!!')
-            # print(report)
-            f_noAccu.append(i)
-        else:
-            accuracy.append(report.loc['accuracy', 'f1-score'])
 
         f1.append(report.loc['macro avg','f1-score'])
         precision.append(report.loc['macro avg','precision'])
@@ -157,22 +176,22 @@ def score_summary(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,sav
         support_neg.append(report.loc['0', 'support'])
 
 
-    if f_noAccu != []:
+    if f_no != []:
         #rm the iteration's results, where no resistance phenotype in the test folder.
-        f1 = [i for j, i in enumerate(f1) if j not in f_noAccu]
-        precision = [i for j, i in enumerate(precision) if j not in f_noAccu]
-        recall = [i for j, i in enumerate(recall) if j not in f_noAccu]
-        accuracy = [i for j, i in enumerate(accuracy) if j not in f_noAccu]
-        support = [i for j, i in enumerate(support) if j not in f_noAccu]
-        mcc_test = [i for j, i in enumerate(mcc_test) if j not in f_noAccu]
-        aucs_test = [i for j, i in enumerate(aucs_test) if j not in f_noAccu]
-        thresholds_selected_test = [i for j, i in enumerate(thresholds_selected_test) if j not in f_noAccu]
-        f1_pos = [i for j, i in enumerate(f1_pos) if j not in f_noAccu]
-        f1_neg = [i for j, i in enumerate(f1_neg) if j not in f_noAccu]
-        precision_pos = [i for j, i in enumerate(precision_pos) if j not in f_noAccu]
-        recall_pos = [i for j, i in enumerate(recall_pos) if j not in f_noAccu]
-        support_pos = [i for j, i in enumerate(support_pos) if j not in f_noAccu]
-        support_neg = [i for j, i in enumerate(support_neg) if j not in f_noAccu]
+        f1 = [i for j, i in enumerate(f1) if j not in f_no]
+        precision = [i for j, i in enumerate(precision) if j not in f_no]
+        recall = [i for j, i in enumerate(recall) if j not in f_no]
+        accuracy = [i for j, i in enumerate(accuracy) if j not in f_no]
+        support = [i for j, i in enumerate(support) if j not in f_no]
+        mcc_test = [i for j, i in enumerate(mcc_test) if j not in f_no]
+        aucs_test = [i for j, i in enumerate(aucs_test) if j not in f_no]
+        thresholds_selected_test = [i for j, i in enumerate(thresholds_selected_test) if j not in f_no]
+        f1_pos = [i for j, i in enumerate(f1_pos) if j not in f_no]
+        f1_neg = [i for j, i in enumerate(f1_neg) if j not in f_no]
+        precision_pos = [i for j, i in enumerate(precision_pos) if j not in f_no]
+        recall_pos = [i for j, i in enumerate(recall_pos) if j not in f_no]
+        support_pos = [i for j, i in enumerate(support_pos) if j not in f_no]
+        support_neg = [i for j, i in enumerate(support_neg) if j not in f_no]
 
     summary.loc['mean','accuracy_macro'] = statistics.mean(accuracy)
     summary.loc['std','accuracy_macro'] = statistics.stdev(accuracy)
@@ -242,7 +261,7 @@ def score_summary(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,sav
     # print(summary)
     return summary
 
-def score_summary_Tree(count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
+def score_summary_Tree(fscore,count_anti,summary,cv,score_report_test,aucs_test,mcc_test,save_name_score,thresholds_selected_test):
 
     f1=[]
     precision=[]
@@ -255,7 +274,7 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,aucs_test,mcc_tes
     support_pos=[]
     support_neg = []
     support=[]
-    f_noAccu = []
+    f_no = []
     # print(count_anti)
     if count_anti != None:#multi-species model.
         mcc_test=np.array(mcc_test)
@@ -274,19 +293,26 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,aucs_test,mcc_tes
         report=pd.DataFrame(report).transpose()
         # print(report)
 
-        # check if only one pheno in test folder
-
-
-
-
-        # if 'accuracy' not in report.index.to_list():# no resitance pheno in test folder
-        if report.loc['1', 'support']==0 or report.loc['0', 'support']==0:  #  todo only one pheno in test folder
-            accuracy.append('-')
-            print('Please count this! Only one phenotype in the testing folder!!!!!!!!!!!!!!!!')
-            # print(report)
-            f_noAccu.append(i)
-        else:
-            accuracy.append(report.loc['accuracy', 'f1-score'])
+        if fscore== 'f1_macro':
+            if report.loc['1', 'support']==0 or report.loc['0', 'support']==0:  #  only one pheno in test folder, we don't include them for final results.
+                f_no.append(i)
+                print('Only one phenotype in the testing folder! This folder\'s score will not be counted w.r.t. average. ' )
+            else:
+                accuracy.append(report.loc['accuracy', 'f1-score'])
+        elif fscore=='f1_negative':
+            if report.loc['0', 'support']==0:
+                f_no.append(i)
+                print('Only R phenotype in the testing folder! This folder\'s score will not be counted w.r.t. average. ' )
+            else:
+                accuracy.append(report.iat[2,2])#no use of this score
+        elif fscore=='f1_positive':
+            if report.loc['1', 'support']==0:
+                f_no.append(i)
+                print('Only S phenotype in the testing folder! This folder\'s score will not be counted w.r.t. average. ' )
+            else:
+                accuracy.append(report.iat[2,2])#no use of this score
+        elif fscore=='accuracy':
+            accuracy.append(report.iat[2,2])#no use of this score
 
         f1.append(report.loc['macro avg','f1-score'])
         precision.append(report.loc['macro avg','precision'])
@@ -301,22 +327,22 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,aucs_test,mcc_tes
         support_neg.append(report.loc['0', 'support'])
 
 
-    if f_noAccu != []:
+    if f_no != []:
         #rm the iteration's results, where no resistance phenotype in the test folder.
-        f1 = [i for j, i in enumerate(f1) if j not in f_noAccu]
-        precision = [i for j, i in enumerate(precision) if j not in f_noAccu]
-        recall = [i for j, i in enumerate(recall) if j not in f_noAccu]
-        accuracy = [i for j, i in enumerate(accuracy) if j not in f_noAccu]
-        support = [i for j, i in enumerate(support) if j not in f_noAccu]
-        mcc_test = [i for j, i in enumerate(mcc_test) if j not in f_noAccu]
-        aucs_test = [i for j, i in enumerate(aucs_test) if j not in f_noAccu]
-        thresholds_selected_test = [i for j, i in enumerate(thresholds_selected_test) if j not in f_noAccu]
-        f1_pos = [i for j, i in enumerate(f1_pos) if j not in f_noAccu]
-        f1_neg = [i for j, i in enumerate(f1_neg) if j not in f_noAccu]
-        precision_pos = [i for j, i in enumerate(precision_pos) if j not in f_noAccu]
-        recall_pos = [i for j, i in enumerate(recall_pos) if j not in f_noAccu]
-        support_pos = [i for j, i in enumerate(support_pos) if j not in f_noAccu]
-        support_neg = [i for j, i in enumerate(support_neg) if j not in f_noAccu]
+        f1 = [i for j, i in enumerate(f1) if j not in f_no]
+        precision = [i for j, i in enumerate(precision) if j not in f_no]
+        recall = [i for j, i in enumerate(recall) if j not in f_no]
+        accuracy = [i for j, i in enumerate(accuracy) if j not in f_no]
+        support = [i for j, i in enumerate(support) if j not in f_no]
+        mcc_test = [i for j, i in enumerate(mcc_test) if j not in f_no]
+        aucs_test = [i for j, i in enumerate(aucs_test) if j not in f_no]
+        thresholds_selected_test = [i for j, i in enumerate(thresholds_selected_test) if j not in f_no]
+        f1_pos = [i for j, i in enumerate(f1_pos) if j not in f_no]
+        f1_neg = [i for j, i in enumerate(f1_neg) if j not in f_no]
+        precision_pos = [i for j, i in enumerate(precision_pos) if j not in f_no]
+        recall_pos = [i for j, i in enumerate(recall_pos) if j not in f_no]
+        support_pos = [i for j, i in enumerate(support_pos) if j not in f_no]
+        support_neg = [i for j, i in enumerate(support_neg) if j not in f_no]
 
 
     summary.loc['mean','accuracy_macro'] = statistics.mean(accuracy)
@@ -350,55 +376,55 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,aucs_test,mcc_tes
     return summary
 
 
-def summary_allLoop(count_anti,summary, cv,score_report_test, aucs_test, mcc_test,anti ):
-    f1 = []
-    precision = []
-    recall = []
-    accuracy = []
-    f1_pos = []
-    f1_neg = []
-    precision_pos = []
-    recall_pos = []
-    support_pos = []
-    support_neg = []
-    support = []
-    f_noAccu = []
-    # print(count_anti)
-    if count_anti != None:  # multi-species model.
-        mcc_test = np.array(mcc_test)
-        print('mcc_test shape', mcc_test.shape)
-        mcc_test = mcc_test[:, count_anti]
-        mcc_test = mcc_test.tolist()
-        aucs_test = np.array(aucs_test)
-        aucs_test = aucs_test[:, count_anti]
-        aucs_test = aucs_test.tolist()
-    for i in np.arange(cv):
-        if count_anti != None:
-            report = score_report_test[i][count_anti]  # multi-species model.
-            # mcc_test_anti.append(mcc_test[i][count_anti])
-        else:
-            report = score_report_test[i]
-        report = pd.DataFrame(report).transpose()
-        # print(report)
-
-        # check if only one pheno in test folder
-
-        # if 'accuracy' not in report.index.to_list():# no resitance pheno in test folder
-        if report.loc['1', 'support'] == 0 or report.loc['0', 'support'] == 0:  # todo only one pheno in test folder
-            # accuracy.append('-')
-            # print('Please count this! Only one phenotype in the testing folder!!!!!!!!!!!!!!!!')
-            # print(report)
-            # f_noAccu.append(i)
-            pass
-        else:
-            # print(report)
-            summary_sub=pd.DataFrame(columns=['antibiotic','f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
-                                            'mcc', 'f1_positive', 'f1_negative', 'precision_positive',
-                                            'recall_positive', 'auc'])
-
-            summary_sub.loc['score',:]=[anti,report.loc['macro avg', 'f1-score'],report.loc['macro avg', 'precision'],report.loc['macro avg', 'recall'],
-                                    report.loc['accuracy', 'f1-score'],mcc_test[i],report.loc['1', 'f1-score'],report.loc['0', 'f1-score'],
-                                    report.loc['1', 'precision'],report.loc['1', 'recall'],aucs_test[i]]
-
-            summary = summary.append(summary_sub, ignore_index=True)
-    return summary
+# def summary_allLoop(count_anti,summary, cv,score_report_test, aucs_test, mcc_test,anti ):
+#     f1 = []
+#     precision = []
+#     recall = []
+#     accuracy = []
+#     f1_pos = []
+#     f1_neg = []
+#     precision_pos = []
+#     recall_pos = []
+#     support_pos = []
+#     support_neg = []
+#     support = []
+#     f_noAccu = []
+#     # print(count_anti)
+#     if count_anti != None:  # multi-species model.
+#         mcc_test = np.array(mcc_test)
+#         print('mcc_test shape', mcc_test.shape)
+#         mcc_test = mcc_test[:, count_anti]
+#         mcc_test = mcc_test.tolist()
+#         aucs_test = np.array(aucs_test)
+#         aucs_test = aucs_test[:, count_anti]
+#         aucs_test = aucs_test.tolist()
+#     for i in np.arange(cv):
+#         if count_anti != None:
+#             report = score_report_test[i][count_anti]  # multi-species model.
+#             # mcc_test_anti.append(mcc_test[i][count_anti])
+#         else:
+#             report = score_report_test[i]
+#         report = pd.DataFrame(report).transpose()
+#         # print(report)
+#
+#         # check if only one pheno in test folder
+#
+#         # if 'accuracy' not in report.index.to_list():# no resitance pheno in test folder
+#         if report.loc['1', 'support'] == 0 or report.loc['0', 'support'] == 0:  # todo only one pheno in test folder
+#             # accuracy.append('-')
+#             # print('Please count this! Only one phenotype in the testing folder!!!!!!!!!!!!!!!!')
+#             # print(report)
+#             # f_noAccu.append(i)
+#             pass
+#         else:
+#             # print(report)
+#             summary_sub=pd.DataFrame(columns=['antibiotic','f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+#                                             'mcc', 'f1_positive', 'f1_negative', 'precision_positive',
+#                                             'recall_positive', 'auc'])
+#
+#             summary_sub.loc['score',:]=[anti,report.loc['macro avg', 'f1-score'],report.loc['macro avg', 'precision'],report.loc['macro avg', 'recall'],
+#                                     report.loc['accuracy', 'f1-score'],mcc_test[i],report.loc['1', 'f1-score'],report.loc['0', 'f1-score'],
+#                                     report.loc['1', 'precision'],report.loc['1', 'recall'],aucs_test[i]]
+#
+#             summary = summary.append(summary_sub, ignore_index=True)
+#     return summary
