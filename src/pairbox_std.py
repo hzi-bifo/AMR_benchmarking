@@ -48,16 +48,16 @@ def combine_data(species_list,fscore,tool_list):
                                                                                                                          'f1_macro')
                             results_file='./benchmarking2_kma/'+results_file
                             if f_phylotree :
-                                results_file=results_file+'_score_final_Tree_PLOT.txt'
+                                results_file=results_file+'_score_final_Tree_std.txt'
                                 results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
                                 score=results.loc[anti,fscore]
                             elif f_kma:
-                                results_file=results_file+'_score_final_PLOT.txt'
+                                results_file=results_file+'_score_final_std.txt'
                                 fscore_="weighted-"+fscore
                                 results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
                                 score=results.loc[anti,fscore_]
                             else:
-                                results_file=results_file+ '_score_final_Random_PLOT.txt'
+                                results_file=results_file+ '_score_final_Random_std.txt'
                                 results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
                                 score=results.loc[anti,fscore]
 
@@ -65,7 +65,7 @@ def combine_data(species_list,fscore,tool_list):
                             if species !='Mycobacterium tuberculosis' :#no MT information.
                                 _, results_file = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, '')
                                 results_file='./patric_2022/'+results_file
-                                results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
+                                results=pd.read_csv(results_file + '_SummeryBenchmarking_std.txt', header=0, index_col=0,sep="\t")
                                 score=results.loc[anti,fscore]
                             else:
                                 score=np.nan
@@ -76,7 +76,7 @@ def combine_data(species_list,fscore,tool_list):
                             if species !='Mycobacterium tuberculosis':#no MT information.
                                 _, results_file = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, '')
                                 results_file='./seq2geno/'+results_file
-                                results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
+                                results=pd.read_csv(results_file + '_SummeryBenchmarking_std.txt', header=0, index_col=0,sep="\t")
                                 score=results.loc[anti,fscore]
                             else:
 
@@ -91,7 +91,7 @@ def combine_data(species_list,fscore,tool_list):
                             else:
                                 results_file='./PhenotypeSeeker_random/'+results_file
 
-                            results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
+                            results=pd.read_csv(results_file + '_SummeryBenchmarking_std.txt', header=0, index_col=0,sep="\t")
                             score=results.loc[anti,fscore]
                             # else:
                             #     score=np.nan
@@ -104,7 +104,7 @@ def combine_data(species_list,fscore,tool_list):
                                 results_file='./kover_tree/'+results_file
                             else:
                                 results_file='./kover_random/'+results_file
-                            results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
+                            results=pd.read_csv(results_file + '_SummeryBenchmarking_std.txt', header=0, index_col=0,sep="\t")
                             score=results.loc[anti,fscore]
 
                         if tool=='Baseline (Majority)':
@@ -117,7 +117,7 @@ def combine_data(species_list,fscore,tool_list):
                             else:
                                 results_file='./majority/'+results_file
 
-                            results=pd.read_csv(results_file + '_PLOT.txt', header=0, index_col=0,sep="\t")
+                            results=pd.read_csv(results_file + '_std.txt', header=0, index_col=0,sep="\t")
 
                             score=results.loc[anti,fscore]
 
@@ -233,7 +233,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
             data_plot= data_plot.astype({fscore:float})
             ax = sns.violinplot(x="folds", y=fscore, ax=axs[row, col],data=data_plot,
                         inner=None, color="0.95")
-            ax.set(ylim=(0, 1.0))
+            ax.set(ylim=(0,0.5))
             if col==0:
                 ax.set_ylabel(fscore,size = 25)
                 ax.tick_params(axis='y', which='major', labelsize=20)
@@ -260,23 +260,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
             df_x_jitter = pd.DataFrame(np.random.normal(loc=0, scale=jitter, size=df.values.shape), columns=df.columns)
             df_x_jitter += np.arange(len(df.columns))
             df=df.set_index(df_x_jitter.index)
-            # print(df)
-            # print(df_x_jitter)
 
-            # j=0
-            # # colors=['b','g']
-            # for col in df:
-            #     if species !='Mycobacterium tuberculosis':
-            #         ax.plot(df_x_jitter[col], df[col], 'o', alpha=.40, zorder=1, ms=8, mew=1)
-            #     else:
-            #
-            #         if j==1:
-            #             ax.plot(df_x_jitter[col], df[col], 'go', alpha=.40, zorder=1, ms=8, mew=1 )
-            #         else:
-            #             ax.plot(df_x_jitter[col], df[col], 'o', alpha=.40, zorder=1, ms=8, mew=1)
-            #         j+=1
-            #         if species=='Escherichia coli' and ( j in [1,2,3]):
-            #             ax.legend(bbox_to_anchor=(0.5, 1.09),ncol=3,fontsize=17,frameon=False)
             i_color=0
             for col_t in df:
                 if species !='Mycobacterium tuberculosis':
@@ -298,7 +282,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
                     #     ax.plot(df_x_jitter[col], df[col], 'go', alpha=.40, zorder=1, ms=8, mew=1)
                 i_color+=1
                 ax.set_title(species,style='italic', weight='bold',size=25)
-                ax.set(ylim=(0, 1.0))
+                ax.set(ylim=(0, 0.5))
                 if col==0:
                     ax.set_ylabel(fscore,size = 25)
                     ax.tick_params(axis='y', which='major', labelsize=25)
@@ -307,7 +291,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
                     ax.set(ylabel=None)
                     ax.tick_params(axis='y',bottom=False)
                 if species=='Escherichia coli' and ( i_color in [1,2,3]):
-                    leg=ax.legend(bbox_to_anchor=(0.8, 1.11),ncol=3,fontsize=30,frameon=False, markerscale=2)
+                    leg=ax.legend(bbox_to_anchor=(3.9, 1.4),ncol=3,fontsize=30,frameon=False, markerscale=2)
                     for lh in leg.legendHandles:
                         lh._legmarker.set_alpha(1)
 
@@ -329,19 +313,6 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
             ax.set(xlabel=None)
             ax.tick_params(axis='x',bottom=False)
 
-        # fig.savefig('log/results/FoldsChange_'+fscore+'.png')
-
-    # #2. Is it different for tools?
-    # if f_step=='2':
-    #     fig, axs = plt.subplots(2,3,figsize=(25, 20))
-    #     plt.tight_layout(pad=4)
-    #     fig.subplots_adjust(wspace=0.25, hspace=0.3, top=0.92, bottom=0.05)
-    #     title='Performance change w.r.t. different folds ('+fscore+')'
-    #     labels = tool_list
-    #     # fig.suptitle(title,size=17, weight='bold')
-
-        # axs[1,2].axis('off')
-        # i=0
         tool_list=[ 'Neural networks', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Baseline (Majority)']
         for tool in tool_list:
 
@@ -358,7 +329,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
             ax = sns.violinplot(x="folds", y=fscore, ax=axs[row, col],data=data_plot,
                         inner=None, color="0.95")
             # ax = sns.stripplot(x="folds", y=fscore,ax=axs[row, col],  data=data_plot)
-            ax.set(ylim=(0, 1.0))
+            ax.set(ylim=(0, 0.5))
             # ax.set_xticklabels(ax.get_xticks(), size = 17,rotation=10)
             if col==0:
                 ax.set_ylabel(fscore,size = 25)
@@ -425,7 +396,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
 
 
         # fig.savefig('log/results/FoldsChangeByTool_'+fscore+'.png')
-        fig.savefig('log/results/FoldsChange_'+fscore+'.png')
+        fig.savefig('log/results/FoldsChange_'+fscore+'_std.png')
     #2. Is it different for antis within species?
     if f_step=='3':
         # fig, axs = plt.subplots(11,1,figsize=(20, 30))
@@ -509,10 +480,10 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
                     #     ax.plot(df_x_jitter[col], df[col], 'go', alpha=.40, zorder=1, ms=8, mew=1)
                 i_color+=1
                 ax.set_title(species,style='italic', weight='bold',size=20)
-                ax.set(ylim=(0, 1.0))
+                ax.set(ylim=(0, 0.5))
                 ax.set_ylabel(fscore,size=16)
                 if species=='Escherichia coli' and ( i_color in [1,2,3]):
-                    ax.legend(bbox_to_anchor=(0.4, 1.09),ncol=3,fontsize=20,frameon=False)
+                    ax.legend(bbox_to_anchor=(0.9, 1.4),ncol=3,fontsize=20,frameon=False)
 
 
             ax.set_xticks(range(len(df.columns)))
@@ -547,7 +518,8 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
                         if i_label%2==0:
                             ax.plot(df_x_jitter.loc[idx,labels[i_label:i_label+2]], df.loc[idx,labels[i_label:i_label+2]], color = 'grey', linewidth = 0.5, linestyle = '--', zorder=-1)
 
-        fig.savefig('log/results/FoldsChangeWithinSpecies_'+fscore+'.png')
+        fig.savefig('log/results/FoldsChangeWithinSpecies_'+fscore+'_std.png')
+
 
 
 

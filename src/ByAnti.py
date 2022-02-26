@@ -57,7 +57,7 @@ def combine_data(species_list,anti,fscore, f_phylotree, f_kma,tool_list,merge_na
                     results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
                     score=results.loc[anti,fscore]
             if tool=='Neural networks Multi-species':
-                # todo
+
                 results_file = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,merge_name,
                                                                                                      'all_possible_anti', 'loose',
                                                                                                      0.0,
@@ -78,14 +78,14 @@ def combine_data(species_list,anti,fscore, f_phylotree, f_kma,tool_list,merge_na
                 else:
                     print('error')
                     exit()
-            if tool=='KmerC':
-                if species !='Mycobacterium tuberculosis' :#no MT information.
-                    _, results_file = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, '')
-                    results_file='./patric_2022/'+results_file
-                    results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
-                    score=results.loc[anti,fscore]
-                else:
-                    score=np.nan
+            # if tool=='KmerC':
+            #     if species !='Mycobacterium tuberculosis' :#no MT information.
+            #         _, results_file = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, '')
+            #         results_file='./patric_2022/'+results_file
+            #         results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
+            #         score=results.loc[anti,fscore]
+            #     else:
+            #         score=np.nan
 
 
 
@@ -99,19 +99,21 @@ def combine_data(species_list,anti,fscore, f_phylotree, f_kma,tool_list,merge_na
 
                     score=np.nan
             if tool=='PhenotypeSeeker':
-                if species !='Mycobacterium tuberculosis':
-                    _, results_file = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, '')
-                    if f_kma:
-                        results_file='./PhenotypeSeeker_Nov08/'+results_file
-                    elif f_phylotree:
-                        results_file='./PhenotypeSeeker_tree/'+results_file
-                    else:
-                        results_file='./PhenotypeSeeker_random/'+results_file
-
-                    results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
-                    score=results.loc[anti,fscore]
+                # if species !='Mycobacterium tuberculosis':
+                _, results_file = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, '')
+                if f_kma:
+                    results_file='./PhenotypeSeeker_Nov08/'+results_file
+                elif f_phylotree:
+                    results_file='./PhenotypeSeeker_tree/'+results_file
                 else:
-                    score=np.nan
+                    results_file='./PhenotypeSeeker_random/'+results_file
+
+                results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
+                score=results.loc[anti,fscore]
+                # else:
+                #     score=np.nan
+                #
+
             if tool=='Kover':
 
                 _, results_file = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, '')
@@ -171,8 +173,8 @@ def ComByAnti(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
 
     fig, axs = plt.subplots(4,5,figsize=(25, 20))
     # fig.subplots_adjust(top=0.88)
-    plt.tight_layout(pad=4)
-    fig.subplots_adjust(wspace=0.25, hspace=0.3, top=0.92, bottom=0.05)
+    plt.tight_layout(pad=6)
+    fig.subplots_adjust(wspace=0.25, hspace=0.5, top=0.95, bottom=0.08)
     if f_phylotree:
         title='Performance w.r.t. phylo-tree-based folds ('+fscore+')'
     elif f_kma:
@@ -180,7 +182,7 @@ def ComByAnti(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
     else:
         title='Performance w.r.t. random folds ('+fscore+')'
 
-    fig.suptitle(title,size='large', weight='bold')
+    # fig.suptitle(title,size='large', weight='bold')
     blue=(0.12156862745098039, 0.4666666666666667, 0.7058823529411765)
     orange=(1.0, 0.4980392156862745, 0.054901960784313725)
     green= (0.17254901960784313, 0.6274509803921569, 0.17254901960784313)
@@ -190,17 +192,17 @@ def ComByAnti(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
     brown=(0.5490196078431373, 0.33725490196078434, 0.29411764705882354)
 
     if (fscore=='f1_macro' or fscore=='accuracy') and f_kma==True:
-        tool_list=['Point-/ResFinder', 'Neural networks','Neural networks Multi-species', 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Majority']
-        colors = [blue,brown,"#FFD33C", orange,purp , green , red, "black"]# #ffd343
+        tool_list=['Point-/ResFinder', 'Neural networks','Neural networks Multi-species',  'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Majority']
+        colors = [blue,brown,"#FFD33C",purp , green , red, "black"]# #ffd343
     elif (fscore=='f1_macro' or fscore=='accuracy') and f_kma==False:
-        tool_list=['Point-/ResFinder', 'Neural networks' , 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Majority']
-        colors = [blue,brown, orange,purp , green , red, "black"]# #ffd343
+        tool_list=['Point-/ResFinder', 'Neural networks' , 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Majority']
+        colors = [blue,brown,purp , green , red, "black"]# #ffd343
     elif f_kma==True:
-        tool_list=['Point-/ResFinder', 'Neural networks','Neural networks Multi-species', 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
-        colors = [blue,brown,'#FFD33C', orange,purp , green , red]# #ffd343
+        tool_list=['Point-/ResFinder', 'Neural networks','Neural networks Multi-species',  'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+        colors = [blue,brown,'#FFD33C',purp , green , red]# #ffd343
     else:
-        tool_list=['Point-/ResFinder', 'Neural networks', 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
-        colors = [blue,brown, orange,purp , green , red]
+        tool_list=['Point-/ResFinder', 'Neural networks', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+        colors = [blue,brown,purp , green , red]
 
 
 
@@ -209,15 +211,8 @@ def ComByAnti(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
     print(df_s)
     All_antibiotics = data.columns.tolist()
     for anti in All_antibiotics:
-
         species=df_s[anti].split(';')
-
-
-
         data=combine_data(species,anti,fscore, f_phylotree, f_kma,tool_list,merge_name)
-
-
-
         print(data)
         # print(df1)
         row = (i // 5)
@@ -227,13 +222,17 @@ def ComByAnti(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
         # g = df.plot(ax=axs[row, col],kind="bar",color=colors, x='software',y=antibiotics)
         g = sns.barplot(x="species", y=fscore, hue='software',
                         data=data, dodge=True, ax=axs[row, col],palette=colors)
-        g.set_title(anti,style='italic', weight='bold')
-        if anti == 'tetracycline':
-            g.set_xticklabels(g.get_xticklabels(), rotation=20, horizontalalignment='right')
+        g.set_title(anti,style='italic', weight='bold',size=18)
+        if anti in[ 'tetracycline']:
+            g.set_xticklabels(g.get_xticklabels(), rotation=20,size=18, horizontalalignment='right',style='italic')
+        elif anti in['gentamicin' ]:
+            g.set_xticklabels(g.get_xticklabels(), rotation=20,size=18, horizontalalignment='center',style='italic')
         else:
-            g.set_xticklabels(g.get_xticklabels(), rotation=10, horizontalalignment='center')
+            g.set_xticklabels(g.get_xticklabels(), rotation=10, size=18,horizontalalignment='center',style='italic')
         g.set(ylim=(0, 1.0))
         g.set_xlabel('')
+        g.set_ylabel(fscore,size = 18)
+
         if i!=1:
             # handles, labels = g.get_legend_handles_labels()
             # g.legend('', '')
@@ -241,5 +240,5 @@ def ComByAnti(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
 
         else:
             handles, labels = g.get_legend_handles_labels()
-            g.legend(bbox_to_anchor=(0.5,1.25), ncol=8,fontsize=16,frameon=False)
+            g.legend(bbox_to_anchor=(0.5,1.3), ncol=8,fontsize=18,frameon=False)
     fig.savefig('log/results/ByAnti_'+'kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'_'+fscore+'.png')
