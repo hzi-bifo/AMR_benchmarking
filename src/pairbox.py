@@ -229,7 +229,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
             species_p=[species]
             data_plot=combine_data(species_p,fscore,tool_list)
             #[fscore, 'species', 'software','anti','folds']
-            print(data_plot)
+            # print(data_plot)
             data_plot= data_plot.astype({fscore:float})
             ax = sns.violinplot(x="folds", y=fscore, ax=axs[row, col],data=data_plot,
                         inner=None, color="0.95")
@@ -247,7 +247,8 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
             # ax = sns.stripplot(x="folds", y=fscore,ax=axs[row, col],  data=data_plot)
             # trans = ax.get_xaxis_transform()
             # ax.set_xlabel('')
-            ax.set_title(species,style='italic', weight='bold',size=30)
+            species_title= (species[0] +". "+ species.split(' ')[1] )
+            ax.set_title(species_title,style='italic', weight='bold',size=31,pad=10)
             ax.set(xticklabels=[])
             ax.set(xlabel=None)
             ax.tick_params(axis='x',bottom=False)
@@ -297,7 +298,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
                     # else:
                     #     ax.plot(df_x_jitter[col], df[col], 'go', alpha=.40, zorder=1, ms=8, mew=1)
                 i_color+=1
-                ax.set_title(species,style='italic', weight='bold',size=25)
+                # ax.set_title(species,style='italic', weight='bold',size=25)
                 ax.set(ylim=(0, 1.0))
                 if col==0:
                     ax.set_ylabel(fscore,size = 25)
@@ -352,7 +353,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
             tool_p=[tool]
             data_plot=combine_data(df_species,fscore,tool_p)
             #[fscore, 'species', 'software','anti','folds']
-            print(data_plot)
+            # print(data_plot)
             data_plot= data_plot.astype({fscore:float})
 
             ax = sns.violinplot(x="folds", y=fscore, ax=axs[row, col],data=data_plot,
@@ -369,7 +370,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
                 ax.tick_params(axis='y',bottom=False)
             # trans = ax.get_xaxis_transform()
             # ax.set_xlabel('')
-            ax.set_title(tool, weight='bold',size=25)
+            ax.set_title(tool, weight='bold',size=31)
             ax.set(xticklabels=[])
             ax.set(xlabel=None)
             ax.tick_params(axis='x',bottom=False)
@@ -381,7 +382,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
             df_whole,df_else,df_mt=change_layoutByTool(data_plot,fscore,tool)
 
             df=df_whole[['Random folds', 'Phylo-tree-based folds','KMA-based folds']]
-            print(df_mt)
+            # print(df_mt)
 
             jitter = 0.05
             df_x_jitter = pd.DataFrame(np.random.normal(loc=0, scale=jitter, size=df.values.shape), columns=df.columns)
@@ -433,7 +434,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
         fig = plt.figure(figsize=(20, 30))
         # plt.tight_layout(pad=1,rect=(-0.5, -0.5, 1, 1))
         plt.tight_layout()
-        fig.subplots_adjust(left=0.04,  right=0.98,wspace=0.1, hspace=0.35, top=0.97, bottom=0.03)
+        fig.subplots_adjust(left=0.04,  right=0.98,wspace=0.1, hspace=0.6, top=0.96, bottom=0.03)
         title='Performance change w.r.t. different folds ('+fscore+')'
         tool_list=[ 'Neural networks', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
         # fig.suptitle(title,size=17, weight='bold')
@@ -508,11 +509,12 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
                     # else:
                     #     ax.plot(df_x_jitter[col], df[col], 'go', alpha=.40, zorder=1, ms=8, mew=1)
                 i_color+=1
-                ax.set_title(species,style='italic', weight='bold',size=20)
+                species_title= (species[0] +". "+ species.split(' ')[1] )
+                ax.set_title(species_title,style='italic', weight='bold',size=25)
                 ax.set(ylim=(0, 1.0))
-                ax.set_ylabel(fscore,size=16)
+                ax.set_ylabel(fscore,size=22)
                 if species=='Escherichia coli' and ( i_color in [1,2,3]):
-                    ax.legend(bbox_to_anchor=(0.4, 1.09),ncol=3,fontsize=20,frameon=False)
+                    ax.legend(bbox_to_anchor=(1, 1.65),ncol=3,fontsize=26,frameon=False,markerscale=2)
 
 
             ax.set_xticks(range(len(df.columns)))
@@ -532,7 +534,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
                 else:
                     labels_p[temp]=''
                 temp+=1
-            ax.set_xticklabels(labels_p,size=15)
+            ax.set_xticklabels(labels_p,size=20,rotation=10)
 
             if species !='Mycobacterium tuberculosis':
                 for idx in df.index:
