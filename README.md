@@ -53,7 +53,7 @@ To install pytorch compatible with your CUDA version, please fellow this instruc
 ## <a name="data"></a>Data
 ### <a name="patric"></a>**1. PATRIC dataset**
 A list of species and antibiotics involved in this benchmarking study:
-
+<sub>
 | Species  | Antibiotics | Number of antibiotics |
 | ------------- | ------------- |------------- |
 | *Mycobacterium tuberculosis* | amikacin , capreomycin, ethambutol, ethiomide, ethionamide, isoniazid, kanamycin, ofloxacin, pyrazinamide, rifampicin, rifampin, streptomycin  | 12  |
@@ -67,7 +67,7 @@ A list of species and antibiotics involved in this benchmarking study:
 |*Acinetobacter baumannii*|amikacin, ampicillin/sulbactam, imipenem, levofloxacin, meropenem, tobramycin, trimethoprim/sulfamethoxazole|7|
 |*Pseudomonas aeruginosa*|ceftazidime, ciprofloxacin, levofloxacin, meropenem, tobramycin|5|
 |*Campylobacter jejuni*|tetracycline|1|
-
+</sub>
 
 ### <a name="test"></a>**2. Test dataset**
 
