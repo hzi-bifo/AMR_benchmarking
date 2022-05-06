@@ -422,9 +422,6 @@ python kover_analyse.py -s 'Campylobacter jejuni' -f_kma -f_benchmarking
 
 
 
-## <a name="amrp"></a>AMRP
-https://github.com/hzi-bifo/AMR_khu
-
 
 
 
