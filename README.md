@@ -56,7 +56,7 @@ A list of species and antibiotics involved in this benchmarking study:
 
 | Species  | Antibiotics | Number of antibiotics |
 | ------------- | ------------- |------------- |
-| *Mycobacterium tuberculosis* | Content Cell  | Content Cell  |
+| *Mycobacterium tuberculosis* |'amikacin', 'capreomycin', 'ethambutol', 'ethiomide', 'ethionamide', 'isoniazid', 'kanamycin', 'ofloxacin', 'pyrazinamide', 'rifampicin', 'rifampin', 'streptomycin'  | 12  |
 | Content Cell  | Content Cell  | Content Cell  |
 
 
