@@ -54,7 +54,10 @@ To install pytorch compatible with your CUDA version, please fellow this instruc
 ### <a name="patric"></a>**1. PATRIC dataset**
 A list of species and antibiotics involved in this benchmarking study:
 
-![plot](./images/species_loose.png)
+| Species  | Antibiotics | Number of antibiotics |
+| ------------- | ------------- |------------- |
+| *Mycobacterium tuberculosis* | Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  | Content Cell  |
 
 
 (2). Loose Quality Control:
