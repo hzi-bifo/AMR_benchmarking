@@ -22,7 +22,7 @@
 
 - [Benchmarking software: PhenotypeSeeker 0.7.3](#PhenotypeSeeker)
 - [Benchmarking software: Kover 2.0](#kover)
-<- - [Benchmarking software: AMRP](#amrp) ->
+<!-- - [Benchmarking software: AMRP](#amrp) -->
 - [The output structure](#output)
 
 
