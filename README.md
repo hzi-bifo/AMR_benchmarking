@@ -1,5 +1,8 @@
 # Benchmarking machine learning-based software for phenotypic antimicrobial resistance determination from genomic data
+We compared the performance of 4 machine learning (ML)- based antimicrobial resistance (AMR) determination sofware: [neural networks model](https://bitbucket.org/deaytan/neural_networks/src/master/), Seq2Geno2Pheno, PhenotypeSeeker, Kover. Point-/ResFinder, a direct association software based on AMR determinant database, was used as the baseline.
 
+
+TODO: add the workflow.
 
 ## Contents
 
