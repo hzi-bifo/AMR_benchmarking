@@ -1,5 +1,8 @@
 # AMR tools Benchmarking
 
+- [Prerequirements](#pre)
+
+
 - [Patric data set](#data)
     - [The procedures for data acquisition](#pro)
     - [Resulting species and antibiotics based on **strict** Quality Control](#strict)
@@ -40,6 +43,17 @@
 - [Benchmarking software: AMRP](#amrp)
 
 - [The output structureP](#output)
+
+
+
+## <a name="pre"></a>Prerequirements
+**1. Create conda env 
+```
+bash install/install.sh
+```
+**2. Install pytorch in the multi_torch_env env if GPU is available 
+
+To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
 
 
 ## <a name="data"></a>Patric data set
