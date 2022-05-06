@@ -1,7 +1,7 @@
 # AMR tools Benchmarking
 
 - [Prerequirements](#pre)
-- [data](#data)
+- [Data](#data)
     - [PATRIC](#patric)
     - [Test](#test)
 - [Cross-validation folders preparing](#cv)
@@ -50,7 +50,7 @@ bash install/install.sh
 To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
 
 
-## <a name="data"></a>Patric data set
+## <a name="data"></a>Data
 ### <a name="patric"></a>**1. PATRIC dataset**
 A list of species and antibiotics involved in this benchmarking study:
 
@@ -69,62 +69,6 @@ A list of species and antibiotics involved in this benchmarking study:
 |*Campylobacter jejuni*|tetracycline|1|
 
 
-(2). Loose Quality Control:
-
-The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/loose/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt
-
-With the column named 'resistant_phenotype': 'Resistant': 1, 'Susceptible': 0.
-
-**<a name="getdata"></a>(b). Load ID list and phenotype through a module**
-
-```
-cd Patric_data
-python
-```
-
-```
-import amr_utility.load_data
-import numpy as np
-
-antibiotics,ID,Y=Patric_data.load_data.extract_info(s,balance,level)
-
-```
-**Input**
-
-- s: one of 'Pseudomonas aeruginosa' 'Klebsiella pneumoniae' 'Escherichia coli' 'Staphylococcus aureus' 'Mycobacterium tuberculosis' 'Salmonella enterica' 'Streptococcus pneumoniae'  'Neisseria gonorrhoeae' 
-- balance: True; False. If True is set, it provides additional functions of downsampling for unbalanced data set. Reset the majority category's size to 1.5 of the minority category's size, by random selection.
-
-unbalance definition:
-
-balance_ratio=(Number of strains in Susceptible)/(Number of strains in Resistance)
-
-balance_ratio > 2 or balance_ratio < 0.5
-
-- level: 'strict';'loose'.
-
-**Output**
-
-- antibiotics: a list of selected antibiotics w.r.t. specified species.
-- ID : matrix of id lists. Each list is the id list for an antibiotic, corresponding to antibiotics list.
-- Y: matrix of phenotye lists. 'Resistant': 1, 'Susceptible': 0. Each list is the binary phenotype list for an antibiotic, corresponding to antibiotics list.
-
-Example usage:
-Copy the contents of Patric folder to your working directory, then:
-```
-import amr_utility.load_data
-import numpy as np
-
-antibiotics,ID,Y=Patric_data.load_data.extract_info('Pseudomonas aeruginosa',True,'strict')
-
-
-print('Check: antibiotics ',antibiotics,len(ID),len(Y))
-print(len(antibiotics))
-for i in np.arange(len(ID)):
-    print('Check number of strains for antibiotics ', antibiotics[i], ': ' ,len(ID[i]),' in ID list, ',len(Y[i]), 'in y list')
-    
-    
-# Output a summary of phenotype distribution w.r.t. each antibiotic
-antibiotics_selected=load_data.summary('Pseudomonas aeruginosa','loose')
 
 ```
 
