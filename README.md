@@ -69,9 +69,6 @@ A list of species and antibiotics involved in this benchmarking study:
 |*Campylobacter jejuni*|tetracycline|1|
 
 
-
-```
-
 ### <a name="test"></a>**2. Test dataset**
 
 
