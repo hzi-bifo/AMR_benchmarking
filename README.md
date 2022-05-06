@@ -12,34 +12,18 @@
     - [Phylogenetic tree based split](#tree)
 - [Experiment environment](#env)
 - [Benchmarking software: ResFinder(4.0)](#p)
-    - [Prerequirements](#Prerequirements_res)
 
 - [Benchmarking software: Multi-species](#m)
-   - [Prerequirements](#Prerequirements)
-   - [References](#References) 
    - [Single-species model](#single)
-   - [Discrete multi-species model](#dis)
-   - [Concatenated multi-species model](#con)
-
+   -  [Single-species multi-antibiotics model](#multi-anti)
+   - [Discrete multi-species multi-antibioticsmodel](#dis)
+   - [Concatenated multi-species multi-antibiotics model](#con)
 - [Benchmarking software: Seq2Geno2Pheno](#s2g2p)
-    - [Installment](#install)
-    - [Prerequirements](#Prerequirements_s2g2p)
-    - [Seq2Geno](#s2g)
-    - [Geno2Pheno](#g2p)
 
 - [Benchmarking software: PhenotypeSeeker 0.7.3](#PhenotypeSeeker)
-    - [Installment](#install_pts)
-    - [Prerequirements](#Prerequirements_pts)
-    - [Commands example](#c_pts)
-
 - [Benchmarking software: Kover 2.0](#kover)
-    - [Installment](#install_kover)
-    - [Prerequirements](#Prerequirements_kover)
-    - [Commands example](#c_kover)
-
-- [Benchmarking software: AMRP](#amrp)
-
-- [The output structureP](#output)
+<- - [Benchmarking software: AMRP](#amrp) ->
+- [The output structure](#output)
 
 
 
