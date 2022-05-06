@@ -1,4 +1,7 @@
-# AMR tools Benchmarking
+# Benchmarking machine learning-based software for phenotypic antimicrobial resistance determination from genomic data
+
+
+
 
 - [Prerequirements](#pre)
 - [Data](#data)
