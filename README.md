@@ -52,22 +52,7 @@ To install pytorch compatible with your CUDA version, please fellow this instruc
 
 ## <a name="data"></a>Data
 ### <a name="patric"></a>**1. PATRIC dataset**
-A list of species and antibiotics involved in this benchmarking study:
-<sub>
-| Species  | Antibiotics | Number of antibiotics |
-| ------------- | ------------- |------------- |
-| *Mycobacterium tuberculosis* | amikacin , capreomycin, ethambutol, ethiomide, ethionamide, isoniazid, kanamycin, ofloxacin, pyrazinamide, rifampicin, rifampin, streptomycin  | 12  |
-| *Salmonella enterica*| amoxicillin/clavulanic acid, ampicillin, cefoxitin, ceftiofur, ceftriaxone, chloramphenicol, gentamicin, nalidixic acid, streptomycin, sulfisoxazole, tetracycline| 11 |
-|*Streptococcus pneumoniae*|chloramphenicol, erythromycin, penicillin, tetracycline, trimethoprim/sulfamethoxazole|5|
-|*Neisseria gonorrhoeae*|azithromycin, cefixime|2|
-|*Escherichia coli*|amoxicillin, amoxicillin/clavulanic acid, ampicillin, aztreonam, cefotaxime, ceftazidime, ceftriaxone, cefuroxime, ciprofloxacin, gentamicin, piperacillin/tazobactam, tetracycline, trimethoprim|13|
-|*Staphylococcus aureus*|cefoxitin, ciprofloxacin, clindamycin, erythromycin, fusidic acid, gentamicin, methicillin, penicillin, tetracycline|9|
-|*Klebsiella pneumoniae*|amikacin, aztreonam, cefepime, cefoxitin, ciprofloxacin, gentamicin, imipenem, levofloxacin, meropenem, piperacillin/tazobactam, tetracycline, tobramycin, trimethoprim/sulfamethoxazole|13|
-|*Enterococcus faecium*|vancomycin|1|
-|*Acinetobacter baumannii*|amikacin, ampicillin/sulbactam, imipenem, levofloxacin, meropenem, tobramycin, trimethoprim/sulfamethoxazole|7|
-|*Pseudomonas aeruginosa*|ceftazidime, ciprofloxacin, levofloxacin, meropenem, tobramycin|5|
-|*Campylobacter jejuni*|tetracycline|1|
-</sub>
+A list of species and antibiotics involved in this benchmarking study can be found at https://github.com/hzi-bifo/AMR_benchmarking_khu/wiki
 
 ### <a name="test"></a>**2. Test dataset**
 
