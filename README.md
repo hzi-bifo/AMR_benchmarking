@@ -1,10 +1,20 @@
 # Benchmarking machine learning-based software for phenotypic antimicrobial resistance determination from genomic data
-We compared the performance of four machine learning (ML)- based antimicrobial resistance (AMR) determination sofware: [neural networks model](https://bitbucket.org/deaytan/neural_networks/src/master/)[[1]](#1), Seq2Geno2Pheno([Seq2Geno](https://github.com/hzi-bifo/seq2geno.git)&[Geno2Pheno](https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno)), [PhenotypeSeeker 0.7.3](https://github.com/bioinfo-ut/PhenotypeSeeker), [Kover 2.0](https://github.com/aldro61/kover). [Point-/ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/), a direct association software based on AMR determinant database, was used as the baseline.
+We compared the performance of four machine learning (ML)- based antimicrobial resistance (AMR) determination sofware: [neural networks model](https://bitbucket.org/deaytan/neural_networks/src/master/) [[1]](#1), Seq2Geno2Pheno([Seq2Geno](https://github.com/hzi-bifo/seq2geno.git)&[Geno2Pheno](https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno)) [[2]](#2), [PhenotypeSeeker 0.7.3](https://github.com/bioinfo-ut/PhenotypeSeeker) [[3]](#3), [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4). [Point-/ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
 
 ### References
 <a id="1">[1]</a>  D Aytan-Aktug, Philip Thomas Lanken Conradsen Clausen, Valeria Bortolaia, Frank Møller Aarestrup, and Ole Lund. Prediction of acquired antimicrobial resistance for multiple bacterial species using neural networks.Msystems, 5(1), 2020.
-2. Valeria Bortolaia, Rolf S Kaas, Etienne Ruppe, Marilyn C Roberts, Stefan Schwarz, Vincent Cattoir, Alain Philippon, Rosa L Allesoe, Ana Rita Rebelo, Alfred Ferrer Florensa, et al. Resfinder 4.0 for predictions of phenotypes from genotypes. Journal of Antimicrobial Chemotherapy, 75(12): 3491–3500, 2020.
-3. 
+<a id="2">[2]</a>   Ariane Khaledi, Aaron Weimann, Monika Schniederjans, Ehsaneddin Asgari, Tzu-Hao Kuo, Antonio
+Oliver, Gabriel Cabot, Axel Kola, Petra Gastmeier, Michael Hogardt, et al. Predicting antimicrobial
+resistance in pseudomonas aeruginosa with machine learning-enabled molecular diagnostics. EMBO
+molecular medicine, 12(3):e10264, 2020.
+<a id="3">[3]</a>  Erki Aun, Age Brauer, Veljo Kisand, Tanel Tenson, and Maido Remm. A k-mer-based method for the
+identification of phenotype-associated genomic biomarkers and predicting phenotypes of sequenced
+bacteria. PLoS computational biology, 14(10):e1006434, 2018.
+<a id="4">[4]</a> Alexandre Drouin, Gaël Letarte, Frédéric Raymond, Mario Marchand, Jacques Corbeil, and François
+Laviolette. Interpretable genotype-to-phenotype classifiers with performance guarantees. Scientific
+reports, 9(1):1–13, 2019.
+<a id="5">[5]</a>    Valeria Bortolaia, Rolf S Kaas, Etienne Ruppe, Marilyn C Roberts, Stefan Schwarz, Vincent Cattoir, Alain Philippon, Rosa L Allesoe, Ana Rita Rebelo, Alfred Ferrer Florensa, et al. Resfinder 4.0 for predictions of phenotypes from genotypes. Journal of Antimicrobial Chemotherapy, 75(12): 3491–3500, 2020.
+
 
 
 TODO: add the workflow.
