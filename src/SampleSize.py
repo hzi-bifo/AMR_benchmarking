@@ -28,6 +28,7 @@ def extract_info(level,s, f_all ):
     if f_all == False:#should not use it.
         data = data.loc[s, :]
     species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa','Acinetobacter baumannii','Streptococcus pneumoniae', 'Campylobacter jejuni','Enterococcus faecium','Neisseria gonorrhoeae']
+    # species_list=['Escherichia coli','Staphylococcus aureus']
 
     #rearrange the list
     species_list=rearrange(species_list)
@@ -35,6 +36,7 @@ def extract_info(level,s, f_all ):
     # data=data.loc[['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa','Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis'],:]
     data_main=data.loc[species_list,:]
     antibiotics_main = data_main['modelling antibiotics'].tolist()
+    # print(data_main)
     mt=['Mycobacterium tuberculosis']
     data_mt=data.loc[species_list,:]
     antibiotics_mt = data_mt['modelling antibiotics'].tolist()
@@ -43,7 +45,7 @@ def extract_info(level,s, f_all ):
 
     fig, axs = plt.subplots(2,1,figsize=(20, 30), gridspec_kw={"height_ratios":[5.5, 1]})
     plt.tight_layout(pad=4)
-    fig.subplots_adjust(left=0.25,  right=0.96,wspace=0.25, hspace=0.1, top=0.98, bottom=0.02)
+    fig.subplots_adjust(left=0.3,  right=0.96,wspace=0.25, hspace=0.1, top=0.98, bottom=0.02)
     for species, antibiotics_selected in zip(species_list, antibiotics_main):
         df=pd.read_csv('metadata/balance/'+str(level)+'/log_' + str(species.replace(" ", "_")) + '_pheno_summary' + '.txt', sep="\t" )
 
@@ -52,12 +54,20 @@ def extract_info(level,s, f_all ):
         df_plot=df_plot.append(df, sort=False)
 
     df_plot=df_plot.reset_index(drop=True)
-    print(df_plot)
+    # print(df_plot)
+
+
+    #add acronym
+    with open('./src/AntiAcronym_dict.pkl', 'rb') as f:
+        map_acr = pickle.load(f)
+    df_plot['anti_new']=df_plot['anti'].apply(lambda x:x+'('+ map_acr[x]+')')
+    # print(df_plot)
+
 
     # fig = plt.figure(figsize=(40, 10))
 
     ax=df_plot.plot(
-    x = 'anti',
+    x = 'anti_new',
     kind = 'barh',
     stacked = True,
     mark_right = True,ax=axs[0])
@@ -72,8 +82,10 @@ def extract_info(level,s, f_all ):
     df=pd.read_csv('metadata/balance/'+str(level)+'/log_' + str(mt[0].replace(" ", "_")) + '_pheno_summary' + '.txt', sep="\t" )
     df=df.rename(columns={"Unnamed: 0": "anti"})
     df=df[['anti','Resistant','Susceptible']]
+    df['anti_new']=df['anti'].apply(lambda x:x+'('+ map_acr[x]+')')
+
     ax=df.plot(
-    x = 'anti',
+    x = 'anti_new',
     kind = 'barh',
     stacked = True,
     mark_right = True,ax=axs[1])
@@ -85,5 +97,6 @@ def extract_info(level,s, f_all ):
     ax.set(xlim=(0, 14000))
     # plt.annotate(r"$\{$",fontsize=500,
     #         xy=(0.2, 0.9), xycoords='figure fraction',xytext =(0.01, 0.77))
+    # fig.savefig('log/results/samplesize.eps', format='eps',dpi=1200)
     fig.savefig('log/results/samplesize.png')
 

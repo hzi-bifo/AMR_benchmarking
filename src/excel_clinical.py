@@ -1,8 +1,5 @@
 import amr_utility.name_utility
 import amr_utility.load_data
-import analysis_results.extract_score
-import analysis_results.make_table
-import analysis_results.math_utility
 import amr_utility.file_utility
 import pickle
 import pandas as pd
@@ -102,7 +99,7 @@ def combine_data(species_list,fscore,tool_list):
                                 results_file='./PhenotypeSeeker_random/'+results_file
 
                             results=pd.read_csv(results_file + '_SummeryBenchmarking.txt', header=0, index_col=0,sep="\t")
-
+                            # print(results.loc[anti,out_score].to_list())
                             score=results.loc[anti,out_score].to_list()
                             # else:
                             #     score=np.nan
@@ -160,7 +157,7 @@ def extract_info(level,s, fscore, f_all):
     for species, antibiotics_selected in zip(df_species, antibiotics):
         # summary= pd.DataFrame(columns=['species', 'antibiotics', 'folds', 'f1_macro', 'f1_positive', 'f1_negative', 'accuracy'])
         antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
-
+        print(species)
         species_sub=[species]
         # df_macro=combine_data(species_sub,'f1_macro',tool_list)
         # if species=='Klebsiella pneumoniae':

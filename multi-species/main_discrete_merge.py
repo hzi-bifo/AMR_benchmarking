@@ -1,9 +1,9 @@
 import os
-os.environ["OMP_NUM_THREADS"] = "1" # export OMP_NUM_THREADS=4
-os.environ["OPENBLAS_NUM_THREADS"] = "1" # export OPENBLAS_NUM_THREADS=4
-os.environ["MKL_NUM_THREADS"] = "1" # export MKL_NUM_THREADS=6
-os.environ["VECLIB_MAXIMUM_THREADS"] = "1" # export VECLIB_MAXIMUM_THREADS=4
-os.environ["NUMEXPR_NUM_THREADS"] = "1" # export NUMEXPR_NUM_THREADS=6
+# os.environ["OMP_NUM_THREADS"] = "1" # export OMP_NUM_THREADS=4
+# os.environ["OPENBLAS_NUM_THREADS"] = "1" # export OPENBLAS_NUM_THREADS=4
+# os.environ["MKL_NUM_THREADS"] = "1" # export MKL_NUM_THREADS=6
+# os.environ["VECLIB_MAXIMUM_THREADS"] = "1" # export VECLIB_MAXIMUM_THREADS=4
+# os.environ["NUMEXPR_NUM_THREADS"] = "1" # export NUMEXPR_NUM_THREADS=6
 import numpy as np
 from pathlib import Path
 import ast
@@ -223,7 +223,7 @@ def make_dir(name):
 
 def run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,level,f_all,f_pre_meta,f_phylo_prokka,f_phylo_roary,
         f_pre_cluster,f_cluster,f_cluster_folders,f_res,f_merge_mution_gene,f_matching_io,f_nn,cv, random,
-                 hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,f_nn_base,f_optimize_score):
+                 hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score):
     if f_pre_meta==True:
         prepare_meta(path_large_temp,list_species,[],level,f_all)#[] means all possible will anti.
 
@@ -445,7 +445,7 @@ def run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,le
     # =================================
     if f_nn == True:
         name_weights_folder = amr_utility.name_utility.GETname_multi_bench_folder_multi(merge_name,level, learning, epochs,
-                                                                                   f_fixed_threshold,f_nn_base,f_optimize_score)
+                                                                                   f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
 
 
         make_dir(name_weights_folder)#for storage of weights.
@@ -473,7 +473,7 @@ def run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,le
                                                                                        f_nn_base,
                                                                                        f_optimize_score)
 
-        nn_module_hyper.eval(merge_name,'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv, random,
+        nn_module_hyper.multi_eval(merge_name,'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv, random,
                              re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score, None,
                              None, None)  # hyperparmeter selection in inner loop of nested CV
 
@@ -509,7 +509,7 @@ def run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,le
 
 def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta,f_phylo_prokka,f_phylo_roary,
                  f_pre_cluster,f_cluster,f_cluster_folders,f_res,f_merge_mution_gene,f_matching_io,f_nn,cv, random,
-                 hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,f_nn_base,f_optimize_score):
+                 hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score):
     merge_name = []
 
     data = pd.read_csv('metadata/' + str(level) + '_multi-species_summary.csv', index_col=0,
@@ -544,7 +544,7 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
         path_large_temp = os.path.join(fileDir, 'large_temp')
 
     run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,level,f_all,f_pre_meta,f_phylo_prokka,f_phylo_roary,f_pre_cluster,f_cluster,f_cluster_folders,f_res,f_merge_mution_gene,f_matching_io,f_nn,cv, random,
-             hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,f_nn_base,f_optimize_score)
+             hidden, epochs, re_epochs, learning,f_scaler,f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
 
 
 
@@ -576,7 +576,13 @@ if __name__== '__main__':
                         help='Kma cluster')
     parser.add_argument('-f_cluster', '--f_cluster', dest='f_cluster', action='store_true',
                         help='Kma cluster')  # c program
+    parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
+                        help=' phylo-tree based cv folders.')
+    # parser.add_argument('-f_kma', '--f_kma', dest='f_kma', action='store_true',
+    #                     help='kma based cv folders.')
 
+    parser.add_argument('-f_random', '--f_random', dest='f_random', action='store_true',
+                        help='random cv folders.')
 
     parser.add_argument('-f_cluster_folders', '--f_cluster_folders', dest='f_cluster_folders', action='store_true',
                         help='Compare new split method with old(original) method.')  # c program
@@ -632,4 +638,4 @@ if __name__== '__main__':
                  parsedArgs.f_merge_mution_gene, parsedArgs.f_matching_io,
                  parsedArgs.f_nn, parsedArgs.cv_number, parsedArgs.random, parsedArgs.hidden, parsedArgs.epochs,
                  parsedArgs.re_epochs,
-                 parsedArgs.learning, parsedArgs.f_scaler, parsedArgs.f_fixed_threshold, parsedArgs.f_nn_base,parsedArgs.f_optimize_score)
+                 parsedArgs.learning, parsedArgs.f_scaler, parsedArgs.f_fixed_threshold, parsedArgs.f_nn_base,parsedArgs.f_phylotree,parsedArgs.f_random,parsedArgs.f_optimize_score)

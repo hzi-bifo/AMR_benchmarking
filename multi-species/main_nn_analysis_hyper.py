@@ -26,8 +26,48 @@ import collections
 
 
 
-def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test_hyper_opt,T_dis_con,f_match_single,list_species,level,cv,
+def extract_info(out_score,fscore,f_multiAnti,f_multi,f_concat,f_concat2,f_all,T_test,T_test_hyper_opt,T_dis_con,f_match_single,list_species,level,cv,
                  epochs, learning,f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score,threshold_point,min_cov_point):
+    if f_multiAnti:
+         if T_test == False and f_match_single==False:
+            data = pd.read_csv('metadata/'+str(level)+'_Species_antibiotic_FineQuality.csv', index_col=0, dtype={'genome_id': object},\
+                               sep="\t")
+            data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
+            if f_all:
+                list_species = data.index.tolist()
+                data = data.loc[list_species, :]
+            else:
+                data = data.loc[list_species, :]
+            df_species = data.index.tolist()
+            # antibiotics = data['modelling antibiotics'].tolist()
+            print(data)
+            # Ignore_dict = collections.defaultdict(list)#for a summary of the species and antibiotic KMA_based CV folders that are with one phenotype.
+            # # these folders' results will not be counted for mean and sdt.
+            for species in df_species:
+                amr_utility.file_utility.make_dir('log/results/'+str(level)+'/multi_anti/'+ str(species.replace(" ", "_")))
+                antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
+                summary_all=[]
+
+
+                save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(species, antibiotics,
+                                                                                       level,
+                                                                                      0.0,0,
+                                                                                       f_fixed_threshold,
+                                                                                       f_nn_base,
+                                                                                       f_optimize_score)
+                save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,species,
+                                                                                                     antibiotics, level,
+                                                                                                     learning,
+                                                                                                     epochs, f_fixed_threshold,
+                                                                                                     f_nn_base,
+                                                                                                     f_optimize_score)
+                score = pickle.load(open(save_name_score + '_all_score.pickle', "rb"))
+                amr_utility.file_utility.make_dir(amr_utility.file_utility.get_directory(save_name_score_final))
+
+                analysis_results.make_table.multi_make_visualization_normalCV(fscore,out_score,species,antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score,
+                                             f_nn_base,cv,score,save_name_score,save_name_score_final)
+
+
     if f_multi==True:
         if T_test == False and f_match_single==False:
             merge_name = []
@@ -73,20 +113,22 @@ def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test
             #June 23rd, seems finished.
         elif T_test == True and T_dis_con == True: #A paired T test between discrete vs concatenated m-s model.
             pass
+
         elif f_match_single==True:#match the single-species model results to the multi-s model table for a comparison.
             merge_name = []
             data = pd.read_csv('metadata/' + str(level) + '_multi-species_summary.csv', index_col=0,
                                dtype={'genome_id': object}, sep="\t")
+
             if f_all:
                 list_species = data.index.tolist()[:-1]
                 data = data.loc[list_species, :]
             else:
                 data = data.loc[list_species, :]
                 data = data.loc[:, (data.sum() > 1)]
-                print(data)
+            print(data)
             # drop columns(antibotics) all zero
-            data = data.loc[:, (data != 0).any(axis=0)]
-            All_antibiotics = data.columns.tolist()  # all envolved antibiotics # todo
+            # data = data.loc[:, (data != 0).any(axis=0)]
+            # All_antibiotics = data.columns.tolist()  # all envolved antibiotics # todo
             for n in list_species:
                 merge_name.append(n[0] + n.split(' ')[1][0])
             merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
@@ -101,13 +143,11 @@ def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test
                                                                                                  f_nn_base,
                                                                                                  f_optimize_score)
             save_name_score_final=os.path.dirname(save_name_score_final)
-            data = pd.read_csv('metadata/' + str(level) + '_multi-species_summary.csv', index_col=0,
-                               dtype={'genome_id': object}, sep="\t")
-            print(data)
-            list_species = data.index.tolist()[:-1]
-            data = data.loc[list_species, :]
-            # All_antibiotics = data.columns.tolist()
+
+
             df_anti = data.dot(data.columns + ';').str.rstrip(';')#get anti names  marked with 1
+            print(df_anti)
+
             final_init=pd.DataFrame(index=list_species,columns=data.columns.tolist())
             for species in list_species:
 
@@ -124,21 +164,21 @@ def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test
                 print(data_score)
 
                 # f1_macro, f1-positive, f1-negative, accuracy(f1_micro)
-                if out_score == 'f':
-                    score= ['weighted-f1_macro', 'weighted-f1_positive', 'weighted-f1_negative', 'weighted-accuracy']
-                elif out_score == 'f_p_r':
+                # if out_score == 'f':
+                #     score= ['weighted-f1_macro', 'weighted-f1_positive', 'weighted-f1_negative', 'weighted-accuracy']
+                # elif out_score == 'f_p_r':
+                #     score= ['weighted-f1_macro', 'weighted-precision_macro', 'weighted-recall_macro', 'weighted-accuracy']
+                # else:  # all scores
+                #     print('Please choose either f or f_p_r.')
+                #     exit()
+                #
+                # for each_score in score:
 
-                    score= ['weighted-f1_macro', 'weighted-precision_macro', 'weighted-recall_macro', 'weighted-accuracy']
-                else:  # all scores
-                    print('Please choose either f or f_p_r.')
-                    exit()
-                for each_score in score:
-                    for each_anti in anti:
-                        final_init.loc[species,each_anti]=data_score.loc[each_anti,each_score]
-
-                    # final_init = final_init.replace(np.nan, '-', regex=True)
-                    final_init.to_csv(save_name_score_final+'/single_species_'+each_score+'.txt', sep="\t")
-                    print(final_init)
+                for each_anti in anti:
+                    final_init.loc[species,each_anti]=data_score.loc[each_anti,'weighted-'+fscore]
+                # final_init = final_init.replace(np.nan, '-', regex=True)
+            final_init.to_csv(save_name_score_final+'/single_species_'+fscore+'.txt', sep="\t")
+            print(final_init)
 
 
 
@@ -323,6 +363,7 @@ def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test
                 # mcc_test = score[2]
                 # thresholds_selected_test = score[0]
                 print('&&&&&&&&&&&&')
+                print(save_name_score_final)
                 # similar as f_nn_all
                 analysis_results.make_table.concat_make_visualization2(fscore,out_score,merge_name_train, All_antibiotics, level, f_fixed_threshold, epochs,
                                              learning,
@@ -341,7 +382,8 @@ def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test
         # June 22nd. for hyper-para selection version
         #June 22nd, So far the s-m output's auc score is not correct calculated, although in the codees it is right.
         # July 2nd. should be finished all.
-        if T_test==False:
+
+        if T_test==False and T_test_hyper_opt==False:
             data = pd.read_csv('metadata/'+str(level)+'_Species_antibiotic_FineQuality.csv', index_col=0, dtype={'genome_id': object},
                                sep="\t")
             data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
@@ -393,7 +435,7 @@ def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test
                         hy_para_fre.append(None)
                     summary = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
                                            columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
-                                                    'mcc', 'f1_positive','f1_negative', 'precision_positive', 'recall_positive', 'auc',
+                                                    'mcc', 'f1_positive','f1_negative', 'precision_neg', 'recall_neg', 'auc',
                                                     'threshold', 'support', 'support_positive'])
                     if f_phylotree or f_random:
                         summary = analysis_results.extract_score.score_summary_Tree(fscore,None, summary, cv, score_report_test, aucs_test, mcc_test,
@@ -415,7 +457,7 @@ def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test
                                                                                                          f_optimize_score)
 
                 if f_phylotree :
-                    final, final_plot = analysis_results.make_table.make_visualization_Tree(out_score,summary_all, antibiotics, level,
+                    final, final_plot,final_std = analysis_results.make_table.make_visualization_Tree(out_score,summary_all, antibiotics, level,
                                                                     f_fixed_threshold, epochs,
                                                                     learning,
                                                                     f_optimize_score,
@@ -426,9 +468,9 @@ def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test
                     final['selected hyperparameter'] = hy_para_all
                     final.to_csv(save_name_score_final + '_score_final_Tree.txt', sep="\t")
                     final_plot.to_csv(save_name_score_final + '_score_final_Tree_PLOT.txt', sep="\t")
-
+                    final_std.to_csv(save_name_score_final + '_score_final_Tree_std.txt', sep="\t")
                 elif f_random:
-                    final, final_plot = analysis_results.make_table.make_visualization_Tree(out_score,summary_all, antibiotics, level,
+                    final, final_plot,final_std = analysis_results.make_table.make_visualization_Tree(out_score,summary_all, antibiotics, level,
                                                                     f_fixed_threshold, epochs,
                                                                     learning,
                                                                     f_optimize_score,
@@ -437,14 +479,16 @@ def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test
                     final['selected hyperparameter'] = hy_para_all
                     final.to_csv(save_name_score_final + '_score_final_Random.txt', sep="\t")
                     final_plot.to_csv(save_name_score_final + '_score_final_Random_PLOT.txt', sep="\t")
+                    final_std.to_csv(save_name_score_final + '_score_final_Random_std.txt', sep="\t")
                 else:#f_kma
-                    final,final_plot=analysis_results.make_table.make_visualization(out_score,summary_all,  antibiotics, level, f_fixed_threshold, epochs, learning,
+                    final,final_plot,final_std=analysis_results.make_table.make_visualization(out_score,summary_all,  antibiotics, level, f_fixed_threshold, epochs, learning,
                                            f_optimize_score, f_nn_base)  # with scores only for positive class
                     final['the most frequent hyperparameter'] = hy_para_fre
                     final['selected hyperparameter'] = hy_para_all  # add hyperparameter information. Each antibiotic has 10 hyper-para, each for one outer loop.
 
                     final.to_csv(save_name_score_final + '_score_final.txt', sep="\t")
                     final_plot.to_csv(save_name_score_final + '_score_final_PLOT.txt', sep="\t")
+                    final_std.to_csv(save_name_score_final + '_score_final_std.txt', sep="\t")
                     print(final)
 
 
@@ -478,7 +522,7 @@ def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test
                 summary_plot = pd.DataFrame(columns=[fscore, 'antibiotic', 'selection Method'])
                 for anti in antibiotics:
 
-                    save_name_score_f1_default = amr_utility.name_utility.GETname_multi_bench_save_name_score(species,
+                    save_name_score_f1_opt = amr_utility.name_utility.GETname_multi_bench_save_name_score(species,
                                                                                                    anti, level,
                                                                                                    0.0,
                                                                                                    0,
@@ -486,7 +530,7 @@ def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test
                                                                                                    False,
                                                                                                    'f1_macro')
 
-                    save_name_score_f1_opt = amr_utility.name_utility.GETname_multi_bench_save_name_score(
+                    save_name_score_f1_default= amr_utility.name_utility.GETname_multi_bench_save_name_score(
                         species,
                         anti, level,
                         0.001,
@@ -521,7 +565,7 @@ def extract_info(out_score,fscore,f_multi,f_concat,f_concat2,f_all,T_test,T_test
 
 
                 #plotting
-                amr_utility.graph_utility.box_plot_multi(fscore,summary_plot,save_name_score_final+'_default_opt')
+                amr_utility.graph_utility.box_plot_multi(fscore,summary_plot,save_name_score_final+'_default_opt',species)
 
         # 3 paired T tests of f1_macro between fixed-threshold and threshold selection and auc based inner loop best estimator selection
         else:
@@ -667,7 +711,8 @@ if __name__== '__main__':
                         help=' Minimum (breadth-of) coverage of Pointfinder. ')
     parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
                         help='all the possible species, regarding multi-model.')
-
+    parser.add_argument("-f_multiAnti", "--f_multiAnti",  dest='f_multiAnti', action='store_true',
+                            help='flag for multi-anti model')
     parser.add_argument("-f_multi", "--f_multi",  dest='f_multi', action='store_true',
                         help='flag for multi-species model')
     parser.add_argument("-f_concat", "--f_concat", dest='f_concat', action='store_true',
@@ -719,7 +764,7 @@ if __name__== '__main__':
     parsedArgs = parser.parse_args()
     # parser.print_help()
     # print(parsedArgs)
-    extract_info(parsedArgs.out_score,parsedArgs.fscore,parsedArgs.f_multi,parsedArgs.f_concat,parsedArgs.f_concat2,parsedArgs.f_all,
+    extract_info(parsedArgs.out_score,parsedArgs.fscore,parsedArgs.f_multiAnti,parsedArgs.f_multi,parsedArgs.f_concat,parsedArgs.f_concat2,parsedArgs.f_all,
                  parsedArgs.T_test,parsedArgs.T_test_hyper_opt,parsedArgs.T_dis_con,parsedArgs.f_match_single,parsedArgs.species,parsedArgs.level,
                  parsedArgs.cv_number,parsedArgs.epochs,parsedArgs.learning,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base,
                  parsedArgs.f_phylotree,parsedArgs.f_random,parsedArgs.f_optimize_score,parsedArgs.threshold_point,parsedArgs.min_cov_point)

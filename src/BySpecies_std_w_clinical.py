@@ -27,6 +27,10 @@ import pandas as pd
 import seaborn as sns
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
+
+'''Only for clinical slides purpose.'''
+
+
 def prepare_data(df,fscore):
     # This function changes data to the dafaframe that can be used directly by seaborn for plotting.
     df_plot = pd.DataFrame(columns=[fscore, 'antibiotics', 'software'])
@@ -50,9 +54,10 @@ def combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
     data = []
     for tool in tool_list:
         if tool=='Point-/ResFinder':
-            results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
+            results_file='./benchmarking2_kma/resfinder/Results/blast_version/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
             results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
             score=results.loc[:,fscore].to_list()
+
         if tool=='Neural networks':
             results_file = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,species, None,
                                                                                                          'loose',
@@ -550,6 +555,7 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
     #
     # else:
     tool_list=['Point-/ResFinder', 'Neural networks', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Baseline (Majority)']
+    tool_list=['Point-/ResFinder', 'Neural networks', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
     data = pd.read_csv('metadata/' + str(level) + '_Species_antibiotic_FineQuality.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
     data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
@@ -558,6 +564,7 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
 
     s_radar=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
                 'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis']
+    # s_radar=['Escherichia coli','Staphylococcus aureus']
     s_bar=['Campylobacter jejuni','Enterococcus faecium','Neisseria gonorrhoeae']
 
     data_radar=data.loc[s_radar, :]
@@ -596,7 +603,8 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
     red='#ef3b2c'
     brown=(0.5490196078431373, 0.33725490196078434, 0.29411764705882354)
     # if fscore=='f1_macro' or fscore=='accuracy':
-    colors = [blue,"orange",  purp , green , red, '#653700']# #ffd343brown
+    # colors = [blue,"orange",  purp , green , red, '#653700']# #ffd343brown
+    colors = [blue,"orange",  purp , green , red]# #ffd343brown
         # colors_std=[ brown,  purp , green , red, "black"]
     # else:
     #     colors = [blue,brown, purp , green , red]
@@ -637,7 +645,6 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
         spoke_labels= [map_acr[x] for x in spoke_labels]
         # print(df_plot)
 
-
         species_title=(species[0] +". "+ species.split(' ')[1] )
         axs_std.set_title(species_title, weight='bold',style='italic', size=30, position=(0.5, 1.1),
                      horizontalalignment='center', verticalalignment='center',pad=60)
@@ -654,17 +661,17 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
             # ax.fill(theta, d, facecolor=color, alpha=0.25)
         # Circle((0.5, 0.5), 0.5)
         if species=='Klebsiella pneumoniae' and f_kma==True and fscore=='f1_negative':
-            axs_std.set_rgrids([-1,-0.5,0, 0.2,  0.4])
-            axs_std.set(ylim=(-1, 0.41))
-            plt.yticks([-1,-0.5,0, 0.2,  0.4],size=16)
+            axs_std.set_rgrids([-0.5,0, 0.1])
+            axs_std.set(ylim=(-0.25, 0.12))
+            plt.yticks([-0.5,0, 0.1],size=16)
         elif f_kma==True or f_phylotree==True:
-            axs_std.set_rgrids([-1,-0.5,0, 0.2, 0.4])
-            axs_std.set(ylim=(-1,  0.41))
-            plt.yticks([-1,-0.5,0, 0.2,  0.4],size=16)
+            axs_std.set_rgrids([-1,-0.5,0, 0.1])
+            axs_std.set(ylim=(-0.25,  0.12))
+            plt.yticks([ -0.2,0, 0.1],size=16)
         else:
-            axs_std.set_rgrids([-1,-0.5,0, 0.2,  0.4])
-            axs_std.set(ylim=(-1,  0.41))
-            plt.yticks([-1,-0.5,0, 0.2, 0.4],size=16)
+            axs_std.set_rgrids([-1,-0.5,0, 0.1])
+            axs_std.set(ylim=(-0.3,  0.12))
+            plt.yticks([ -0.25,0, 0.1],size=16)
         plt.grid(color='white', linestyle='-', linewidth=0.7)
 
         axs_std._gen_axes_spines()
@@ -723,8 +730,12 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
             temp_zorder+=1
         # Circle((0.5, 0.5), 0.5)
         # axs_.set(ylim=(0.4, 1.0))
-        axs_.set_ylim(ymin=-0.05)
-        axs_.set_rgrids([0, 0.5, 1 ],size=18)
+        if species=='Escherichia coli' :
+            axs_.set_ylim(ymin=0.58)
+            axs_.set_rgrids([0.6, 1 ],size=18)
+        else:
+            axs_.set_ylim(ymin=0.895)
+            axs_.set_rgrids([0.9, 1 ],size=18)
         axs_.tick_params(axis='y', which='major', pad=15)
         # plt.yticks([ 0,0.2,0.4, 0.6, 0.8,0.1],size=18)
         axs_.yaxis.grid(False)
@@ -838,7 +849,7 @@ def draw(level,s, fscore, cv_number, f_all):
     [axi.set_axis_off() for axi in axs.ravel()[0:27]]
     plt.tight_layout(pad=lim_pad)
 
-    fig.text(0.001, 0.972, 'A', fontsize=42,weight='bold')
+    # fig.text(0.001, 0.972, 'A', fontsize=42,weight='bold')
     fig.text(0.001, 0.65, 'B', fontsize=42,weight='bold')
     fig.text(0.001, 0.32, 'C', fontsize=42,weight='bold')
     fig.text(0.7, 0.09, 'D', fontsize=42,weight='bold')
@@ -848,16 +859,16 @@ def draw(level,s, fscore, cv_number, f_all):
     f_phylotree=False
     f_kma=False
     ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
-    i=10
-    f_phylotree=False
-    f_kma=True
-    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
-
-
-    i=19
-    f_phylotree=True
-    f_kma=False
-    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
+    # i=10
+    # f_phylotree=False
+    # f_kma=True
+    # ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
+    #
+    #
+    # i=19
+    # f_phylotree=True
+    # f_kma=False
+    # ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
 
 
 
@@ -865,4 +876,4 @@ def draw(level,s, fscore, cv_number, f_all):
     newax = fig.add_axes([0.69,-0.17,0.25,0.25], anchor='NE', zorder=-1)
     newax.imshow(im)
     newax.axis('off')
-    fig.savefig('log/results/result_STD.pdf')
+    fig.savefig('log/results/'+fscore+'result_STD.pdf')

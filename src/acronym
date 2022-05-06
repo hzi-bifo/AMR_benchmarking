@@ -1,0 +1,86 @@
+Abbreviations	Antibiotic	Family	Disc load (µg)
+AM/AMP	Ampicillin	Aminopenicillin	10
+AMC/'A/C'/AUG/XL/AML*	Amoxicillin/clavulanic acid	Aminopenicillin	25/10
+AMX/AMOX/AC/AML*	Amoxicillin	Aminopenicillin	25
+AN/AK/AMI/AMK	Amikacin	Aminoglycosides	30
+ATM/AZT/AT/AZM*	Aztreonam	Monobactam	30
+AZI/AZ	Azithromycin	Macrolides	30
+B/BAC	Bacitracin	Polypeptides	130
+C/CHL/CL*	Chloramphenicol	Phenicols	30
+CAZ/ TAZ*/ TZ	Ceftazidime	3rd generation cephalosporin	30
+CB	Carbenicillin	Carboxypenicillin	100
+CEC/CCL/Cfr/FAC/CF	Cefaclor	1st generation cephalosporin	10
+CED	Cefradine	1st generation cephalosporin	30
+CEF/ Cpe / PM / CPM	Cefepime	4th generation cephalosporin	30
+CF/CEF	Cefalotin	1st generation cephalosporin	30
+FIX /Cfe / IX	Cefixime	3rd generation cephalosporin	10
+CFP / Cfp/ CPZ/ PER/ FOP/ CP	Cefoperazone	3rd generation cephalosporin	30
+CFR / FAD*	Cefadroxil	1st generation cephalosporin	30
+CFS	Cefatrizine	3rd generation cephalosporin	10
+CIP / Cp/ CI	Ciprofloxacin	Fluoroquinolone	5
+CL / CS/ COL	Colistin	polymixin	50
+CM / CC/ CLN/ CLI/ CD/ DA	Clindamycin	Lincosamides	2
+LEX	Cefalexin	1st generation cephalosporin	30
+CPD / Cpd/ POD/ PX	Cefpodoxime-proxetil	3rd generation cephalosporin	10
+CPO /CPR/ CR	Cefpiroma	4th generation cephalosporin	30
+CRO / CTR/ FRX/ Cax/ AXO/ TX	Ceftriaxone	3rd generation cephalosporin	30
+CTF	Cefotiam	3rd generation cephalosporin	30
+CTT / CTN/ Ctn/ CTE/ TANS/ CN*	Cefotetan	2nd generation cephalosporin	30
+CTX / TAX/ Cft/ FOT/ CT	Cefotaxime	3rd generation cephalosporin	30
+CXM / CFX/ ROX/ Crm	Cefuroxime	2nd generation cephalosporin	30
+CZ/ CZO/ CZN/ CFZ/ Cfz/ FAZ/ KZ	Cefazolin	Céphalosporine 1ème génération	30
+D / DO/ DOX/ DC/ DOXY/ DX	Doxycycline	Tetracyclines	30
+E/ ERY/ EM	Erythromycin	Macrolides	30
+ENX	Enoxacin	Fluoroquinolone	5
+ETP/ERT	Ertapenem	Carbapenem	10
+FA/ FUS/ FC/ FD	Fusidic acid	Others	10
+FAM	Ampicillin/sulbactam	Aminopenicillin	10-Oct
+FOS/ FF/ FO/ FM	Fosfomycin	Others	10
+FOX/ CX/ Cfx/ FX	Cefoxitin	2nd generation cephalosporin	10
+GM500/ GH/ GEH/ GMS	High level gentamicin	Aminoglycosides	500
+GM/GEN	Gentamicin	Aminoglycosides	10
+IPM/ IMI/ IP	Imipenem	Carbapenem	10
+ISP	Isepamicin	Aminoglycosides	30
+K/ KAN// HLK/ KM	Kanamycin	Aminoglycosides	30
+L	Lincomycin	Lincosamides	15
+LOM / Lmf	Lomefloxacin	Fluoroquinolone	5
+LVX/ LEV/ LEVO/ LE	Levofloxacin	Fluoroquinolone	5
+MA/ M/ Cfm*/ FAM	Cefamandole	2nd generation cephalosporin	30
+MEC	Mecillinam	Amidinopenicillin	10
+MEM/ MER/ MERO/ MRP/ MP	Meropenem	Carbapenem	10
+MNO/ MC/ MH/ MI/ MIN/ MN	Minocycline	Tetracyclines	30 UI
+MTR/ MET/ MTZ/ MZ/ MRD	Metronidazole	Others	16
+MZ	Mezlocillin	Acylureidopenicillin	75
+N/NEO	Neomycin	Aminoglycosides	30
+NA/NAL	Nalidixic acid	1st generation quinolones	30
+NET / NC / NT	Netilmicin	Aminoglycosides	30
+NI	Nitroxoline	Others	20
+NOR	Norfloxacine	Fluoroquinolone	5
+OA	Oxolinic acid	1st generation quinolones	10
+OFX/ OFL/ OF	Ofloxacin	Fluoroquinolone	5
+OT	Oxytetracycline	Tetracyclines	30 UI
+OX/ OXA/ OXS	Oxacillin	Penicillins	1 ou 5
+P/ PEN/ PV/ PG	Penicillin G	Penicillins	6
+PEF/ PF /PE	Pefloxacin	Fluoroquinolone	5
+PI	Pipemidic acid	1st generation quinolones	20
+PIP/ PI / PP/ PRL*	Piperacillin	Penicillins	75
+PR/ PT/ PRI	Pristinamycin	Streptogramins	15
+RA/ RIM/ RAM/ RIF/ RI/ RI	Rifampicin	Others	30
+S/ STR*/ STS*	Streptomycin	Aminoglycosides	10
+SP	Spiramycin	Macrolides	100
+SPT/ SPE/ SC/ SP	Spectinomycin	Aminoglycosides	100
+SPX / SPA/ SO/ Sfx	Sparfloxacin	Fluoroquinolone	5
+SSS / S3 / SF*	Sulfonamides	Sulfonamides-Trimethoprim	200
+STH / ST2000	High Level Streptomycin	Aminoglycosides	500
+SXT/ 'T/S'/ TS/ COT	Trimethoprim/sulfamethoxazole	Sulfonamides-Trimethoprim	"1,25/23,75"
+TCC / TIM/ Tim/ 'T/C'	Ticarcilline/clavulanic acid	Carboxypenicillins	75/10
+TE/ TET/ TC/ TCY	Tetracycline	Tetracycline	30
+TEC/ TPN/ TEI/ TP/ TPL	Teicoplanin	Glycopeptides	30
+TIC /TI /TC	Ticarcillin	Carboxypenicillins	75
+TIL	Tilmicosin	Aminoglycosides	15
+TIO	Ceftiofur	3rd generation cephalosporin	30
+TM/ TOB/ M/ NN	Tobramycin	Aminoglycosides	10
+TMP/ T/ TR/ W	Trimethoprim	Sulfonamides-Trimethoprim	5
+TZP/TAZ	Piperacillin/tazobactam	Penicillins	75/10
+UB	Flumequine	1st generation quinolones	30
+VA/VAN	Vancomycin	Glycopeptides	30

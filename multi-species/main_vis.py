@@ -28,29 +28,49 @@ def extract_info(final_score,level,f_all,threshold_point,min_cov_point,learning,
                        dtype={'genome_id': object}, sep="\t")
     # --------------------------------------------------------
     print(data)
+    # print(data.index)
     merge_name = []
     if f_all:
         list_species = data.index.tolist()[:-1]
         data = data.loc[list_species, :]
+
     else:
         pass
-    df_anti = data.dot(data.columns + ';').str.rstrip(';')
     for n in list_species:
         merge_name.append(n[0] + n.split(' ')[1][0])
     merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
-    fig, axs = plt.subplots(3, 3,figsize=(20,20))
+    # rearrange species order:
+    list_species=['Mycobacterium tuberculosis','Campylobacter jejuni','Salmonella enterica','Escherichia coli','Streptococcus pneumoniae',\
+                  'Klebsiella pneumoniae','Staphylococcus aureus','Acinetobacter baumannii','Pseudomonas aeruginosa']
+    # list_species=['Mycobacterium tuberculosis','Campylobacter jejuni','Salmonella enterica','Streptococcus pneumoniae','Escherichia coli','Staphylococcus aureus','Klebsiella pneumoniae','Acinetobacter baumannii',]
+    data=data.reindex(list_species)
+    # data=data.loc[list_species, :]
+    print(data)
+
+    df_anti = data.dot(data.columns + ';').str.rstrip(';')
+    print(df_anti)
+
+    fig, axs = plt.subplots(2, 5,figsize=(30,20), gridspec_kw={'width_ratios': [1.2,1, 2,2,1.5]})#
+    plt.tight_layout()
+    fig.subplots_adjust(left=0.04,  right=0.98,wspace=0.1, hspace=0.3, top=0.90, bottom=0.08)
+    gs = axs[1, 0].get_gridspec()
+    # remove the underlying axes
+    for ax in axs[1, :2]:
+        ax.remove()
+    axbig = fig.add_subplot(gs[1, :2])
+
     # handles, labels = axs.get_legend_handles_labels()
     # fig.legend(handles, labels, loc='upper center')
     # fig.tight_layout()
-    plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.5)
-    fig.suptitle('Single-species VS Multi-species model', fontsize=32)
+    # plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.5)
+    # fig.suptitle('Single-species VS Multi-species model', fontsize=32)
 
 
     n = 0
     for species in list_species:
 
         print('------------------------------',species)
-        #1.
+        #1. single-s model
         # single_s_score = amr_utility.name_utility.GETname_multi_bench_save_name_final(species, None,
         #                                                                               level,learning,
         #                                                                                      epochs,
@@ -91,7 +111,7 @@ def extract_info(final_score,level,f_all,threshold_point,min_cov_point,learning,
 
 
 
-        #2.-------------------
+        #2.-------------------multi-s model
 
         merge_name_test = species.replace(" ", "_")
         concat_s_score=amr_utility.name_utility.GETname_multi_bench_save_name_concat_final(merge_name,
@@ -110,6 +130,9 @@ def extract_info(final_score,level,f_all,threshold_point,min_cov_point,learning,
         #-------------------------------
         #Prepare dataframe for plotting.
         #-------------------------------
+
+
+
         antibiotics = df_anti[species].split(';')
 
         summary_plot = pd.DataFrame(columns=[final_score, 'antibiotic', 'model'])
@@ -117,7 +140,7 @@ def extract_info(final_score,level,f_all,threshold_point,min_cov_point,learning,
         for each_anti in antibiotics:
             # summary_plot_sub.loc[species, each_anti] = data_score.loc[each_anti, each_score]
             summary_plot_multi = pd.DataFrame(columns=[final_score, 'antibiotic', 'model'])
-            summary_plot_multi.loc['e'] = [concat_results.loc[each_anti,final_score], each_anti, 'multi-species model']
+            summary_plot_multi.loc['e'] = [concat_results.loc[each_anti,final_score], each_anti, 'Concatenated-database multi-species model']
             summary_plot = summary_plot.append(summary_plot_multi, ignore_index=True)
             #--------------------------------------
             # print(single_results)
@@ -127,6 +150,12 @@ def extract_info(final_score,level,f_all,threshold_point,min_cov_point,learning,
             summary_plot = summary_plot.append(summary_plot_single, ignore_index=True)
 
 
+
+        with open('../src/AntiAcronym_dict.pkl', 'rb') as f:
+            map_acr = pickle.load(f)
+        # spoke_labels= [map_acr[x] for x in spoke_labels]
+        summary_plot['antibiotic_acr']=summary_plot['antibiotic'].apply(lambda x: map_acr[x])
+        # print(summary_plot)
         # print(summary_plot)
         # ax =sns.barplot(x="antibiotic", y=final_score, hue='model',
         #             data=summary_plot, dodge=True).set_title(species)
@@ -135,32 +164,93 @@ def extract_info(final_score,level,f_all,threshold_point,min_cov_point,learning,
         # exit()
         # plot(species,n,axs,summary_plot_sub,final_score)
 
-        row = (n // 3)
-        col = n % 3
-        g = sns.barplot(x="antibiotic", y=final_score, hue='model',
-                        data=summary_plot, dodge=True, ax=axs[row, col])
-        g.set(ylim=(0.2, 1.0))
-        g.set_title(species,fontsize=20)
+        row = (n //5)
+        col = n % 5+1
+        # print(df_anti[species])
+        # print([row, col])
+        species_title=(species[0] +". "+ species.split(' ')[1] )
+        if species in ['Mycobacterium tuberculosis']:
+
+            ax_ = plt.subplot(251)
+            g = sns.barplot(x="antibiotic_acr", y=final_score, hue='model',
+                        data=summary_plot, dodge=True, ax=ax_)
+            n+=1
+            g.set_ylabel(final_score, fontsize=25)
+
+            g.set_title(species_title,fontsize=31,style='italic', weight='bold',pad=10)
+            g.tick_params(axis='y', which='major', labelsize=25)
+        elif species in ['Campylobacter jejuni']:
+
+            ax_ = plt.subplot(252)
+            g = sns.barplot(x="antibiotic_acr", y=final_score, hue='model',
+                        data=summary_plot, dodge=True, ax=ax_)
+
+            g.set_yticklabels([])
+            g.set_yticks([])
+            g.set_title(species_title,fontsize=31,style='italic', weight='bold',pad=10 )
+            g.set(ylabel=None)
+            n+=1
+        elif species in ['Salmonella enterica','Streptococcus pneumoniae','Escherichia coli']:
+            n+=1
+            num=250+n
+            ax_= plt.subplot(num)
+            g = sns.barplot(x="antibiotic_acr", y=final_score, hue='model',
+                        data=summary_plot, dodge=True, ax=ax_)#ax=axs[row, col]
+            g.set_yticklabels([])
+            g.set_yticks([])
+            g.set_title(species_title,fontsize=31,style='italic', weight='bold',pad=10 )
+            g.set(ylabel=None)
+        elif species =='Klebsiella pneumoniae':
+            g = sns.barplot(x="antibiotic_acr", y=final_score, hue='model',
+                        data=summary_plot, dodge=True, ax=axbig)#ax=axs[row, col]
+            n+=1
+            g.set_ylabel(final_score, fontsize=25)
+            g.set_title(species_title,fontsize=31,style='italic', weight='bold' ,pad=10)
+            g.tick_params(axis='y', which='major', labelsize=25)
+        else:
+
+            # num=240+n
+            # ax_= plt.subplot(num)
+            print(n)
+            print([row, col])
+            g = sns.barplot(x="antibiotic_acr", y=final_score, hue='model',
+                    data=summary_plot, dodge=True, ax=axs[row, col])#ax=axs[row, col]
+            n+=1
+            g.set_yticklabels([])
+            g.set_yticks([])
+            g.set_title(species_title,fontsize=29,style='italic', weight='bold',pad=10 )
+            g.set(ylabel=None)
+        g.set(ylim=(0, 1.0))
+
+        # g.set_ylabel(final_score,size = 16)
         # for item in g.get_xticklabels():
         #     item.set_rotation(45)
-        g.set_xticklabels(g.get_xticklabels(), rotation=45, horizontalalignment='right')
+
+        labels_p = [item.get_text() for item in g.get_xticklabels()]
+        for i_anti in labels_p:
+            if '/' in i_anti:
+                posi=i_anti.find('/')
+                _i_anti=i_anti[:(posi+1)] + '\n' + i_anti[(posi+1):]
+                labels_p=[_i_anti if x==i_anti else x for x in labels_p]
+
+        g.set_xticklabels(labels_p, size=32, rotation=40, horizontalalignment='right')
         # g.set_ylabel('')
         g.set_xlabel('')
-        if n!=0:
+        if n!=1:
             # handles, labels = g.get_legend_handles_labels()
             # g.legend('', '')
             g.get_legend().remove()
 
         else:
             handles, labels = g.get_legend_handles_labels()
-            g.legend(bbox_to_anchor=(1.05,1.4), fontsize=16)
+            g.legend(bbox_to_anchor=(7,1.29), fontsize=35, ncol=2,frameon=False)
 
             #
             # plt.legend( handles[0:2], labels[0:2], bbox_to_anchor=(2.05, 0.1), loc=10, borderaxespad=0.,fontsize=20)
-        n+=1
+
     # plt.xticks(rotation=45)
 
-    fig.savefig('log/results/' + str(level) + '/Compare_single_concat.png')
+    fig.savefig('log/results/' + str(level) + '/Compare_single_concat.pdf')
 
 
 

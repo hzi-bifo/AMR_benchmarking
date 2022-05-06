@@ -1,8 +1,5 @@
 import amr_utility.name_utility
 import amr_utility.load_data
-import analysis_results.extract_score
-import analysis_results.make_table
-import analysis_results.math_utility
 import amr_utility.file_utility
 import pickle
 import pandas as pd

@@ -457,7 +457,7 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
                     tem.append(len(elements))
                 totals_sub.append(sum(tem))
             totals.append(totals_sub)# in the order of species , the order comes from list: p_cluster.
-
+    print(totals)
     return folders_sample,totals,folders_sampleName
 
 def prepare_folders_tree(cv,species,anti,p_names,f_multi):
@@ -484,9 +484,7 @@ def prepare_folders_tree(cv,species,anti,p_names,f_multi):
                 # decode the md5 name to iso names
                 mapping_dic = np.load(mapping_file, allow_pickle='TRUE').item()
                 decoder_name = mapping_dic[each]
-
                 iso_name=decoder_name[0]
-
                 #------------------------------------
                 tree_names_sub.append(iso_name.replace("iso_", "").replace("\n", ""))
                 # print(tree_names_sub)
@@ -513,11 +511,131 @@ def prepare_folders_tree(cv,species,anti,p_names,f_multi):
     # print(folders_sample)
     return folders_sample
 
+
 def prepare_folders_random(cv,species,anti,p_names,f_multi):
     '''
     Based on phylo-trees.
     :return:  index of sampels w.r.t. data_x, data_y, according to p_names
     '''
+    fileDir = os.path.dirname(os.path.realpath('__file__'))
+    if species != "Mycobacterium tuberculosis":
+
+        # main_path='/net/sgi/metagenomics/nobackup/prot/ecoli_res/'+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+\
+        #           '/res-all/classification/cv/ecoli_'+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+\
+        #           '_tree/tree/6mers-std-tree_resistant_phenotype/cv_folds.txt'
+        main_path='cv_folders/'+'loose'+'/'+str(species.replace(" ", "_"))+'/cv_random_'+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'.txt'
+        mapping_file='cv_folders/'+'loose'+'/'+str(species.replace(" ", "_"))+'/mapping_2.npy'
+        Random_names=[]
+        with open(main_path) as f:
+            lines = f.readlines()
+            for i in lines:
+                # print(i.split('\t'))
+                Random_names_sub=[]
+                for each in i.split('\t'):
+                    each=each.replace("\n", "")
+                    # decode the md5 name to iso names
+                    mapping_dic = np.load(mapping_file, allow_pickle='TRUE').item()
+                    decoder_name = mapping_dic[each]
+                    iso_name=decoder_name[0]
+                    #------------------------------------
+                    Random_names_sub.append(iso_name.replace("iso_", "").replace("\n", ""))
+                    # print(tree_names_sub)
+                Random_names.append(Random_names_sub)
+        # print(tree_names)
+        names = prepare_sample_name(fileDir, p_names)
+
+    else:#only for the case of "Mycobacterium tuberculosis"
+        main_path='cv_folders/'+'loose'+'/'+str(species.replace(" ", "_"))+"/"+ \
+              str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_random_cv.pickle"
+
+        Random_names = pickle.load(open(main_path, "rb"))
+        names = prepare_sample_name(fileDir, p_names)
+    if f_multi:
+        pass
+        #todo
+    else:#single-species model
+        folders_sample = []  # collection of samples for each split
+
+        for out_cv in range(cv):
+            folders_sample_sub = []
+            tree_names_split = Random_names[out_cv]  # list: names included in that split
+            for cl_ID in tree_names_split:
+
+                folders_sample_sub.append(
+                    names.index(cl_ID))  # extract cluster ID from the rest folders. 4*(cluster_N)
+
+            folders_sample.append(folders_sample_sub)
+    # print(folders_sample)
+    return folders_sample
+
+
+def prepare_folders_multiAnti(cv,species,antibiotics,p_names,f_random,f_tree,level):
+    #todo
+    # Based on pickle files
+    # :return:  index of sampels w.r.t. data_x, data_y, according to p_names
+
+    fileDir = os.path.dirname(os.path.realpath('__file__'))
+    #
+    # main_path='cv_folders/'+'loose'+'/'+str(species.replace(" ", "_"))+"/"+ \
+    #           str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_random_cv.pickle"
+    multi_log='./log/temp/' + str(level) + '/multi_anti/' + str(species.replace(" ", "_")) + '/'
+    
+    if f_random:
+        # main_path=multi_log+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_random_raw.pickle"
+        main_path2=multi_log+ "kma.pickle"
+    elif f_tree:
+        # main_path=multi_log+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_tree_raw.pickle"
+        main_path2=multi_log+ "kma.pickle"
+    else:#f_kma
+        # main_path=multi_log+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_kma_raw.pickle"
+        main_path2=multi_log+ "kma.pickle"
+        print('kma folds!')
+
+
+    Random_names = pickle.load(open(main_path2, "rb"))
+    names = prepare_sample_name(fileDir, p_names)
+    # print(names)
+    folders_sample = []  # collection of samples for each split
+    for out_cv in range(cv):
+        folders_sample_sub = []
+        tree_names_split = Random_names[out_cv]  # list: names included in that split
+        for cl_ID in tree_names_split:
+            folders_sample_sub.append(
+                names.index(cl_ID))  # extract cluster ID from the rest folders. 4*(cluster_N)
+        folders_sample.append(folders_sample_sub)
+    # # print(folders_sample)
+    # # --------------------
+    # # --------------------
+    # folders_sample_test = []  # collection of samples for each split
+    # for out_cv in range(cv):
+    #     for anti in antibiotics:
+    #         if f_random:
+    #             main_path=multi_log+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_random_raw.pickle"
+    #             # main_path2=multi_log+ "kma.pickle"
+    #         elif f_tree:
+    #             main_path=multi_log+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_tree_raw.pickle"
+    #             # main_path2=multi_log+ "kma.pickle"
+    #         else:#f_kma
+    #             main_path=multi_log+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_kma_raw.pickle"
+    #             # main_path2=multi_log+ "kma.pickle"
+    #         Random_names = pickle.load(open(main_path, "rb"))
+    #         names = prepare_sample_name(fileDir, p_names)
+    #         # print(names)
+    #
+    #         folders_sample_sub = []
+    #         tree_names_split = Random_names[out_cv]  # list: names included in that split
+    #         for cl_ID in tree_names_split:
+    #             folders_sample_sub.append(
+    #                 names.index(cl_ID))  # extract cluster ID from the rest folders. 4*(cluster_N)
+    #         folders_sample_test.append(folders_sample_sub)
+
+    return folders_sample
+'''
+def prepare_folders_random_mt(cv,species,anti,p_names,f_multi):
+    
+    # Based on phylo-trees.
+    # :return:  index of sampels w.r.t. data_x, data_y, according to p_names
+    
     fileDir = os.path.dirname(os.path.realpath('__file__'))
 
     main_path='cv_folders/'+'loose'+'/'+str(species.replace(" ", "_"))+"/"+ \
@@ -556,3 +674,4 @@ def prepare_folders_random(cv,species,anti,p_names,f_multi):
             folders_sample.append(folders_sample_sub)
     # print(folders_sample)
     return folders_sample
+'''
