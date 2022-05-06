@@ -8,8 +8,9 @@
     - [PATRIC](#patric)
     - [Test](#test)
 - [Cross-validation folders preparing](#cv)
-    - [KMA](#kma)
-    - [Phylogenetic tree based split](#tree)
+    - [Homology-aware folds](#kma)
+    - [phylogeny-aware folds split](#tree)
+    - [Random folds split](#tree)
 - [Experiment environment](#env)
 - [Benchmarking software: ResFinder(4.0)](#p)
 
