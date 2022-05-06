@@ -57,8 +57,7 @@ A list of species and antibiotics involved in this benchmarking study:
 | Species  | Antibiotics | Number of antibiotics |
 | ------------- | ------------- |------------- |
 | *Mycobacterium tuberculosis* | amikacin , capreomycin, ethambutol, ethiomide, ethionamide, isoniazid, kanamycin, ofloxacin, pyrazinamide, rifampicin, rifampin, streptomycin  | 12  |
-| *Salmonella enterica*| amoxicillin/clavulanic acid, ampicillin, cefoxitin, ceftiofur, ceftriaxone, chloramphenicol, gentamicin, nalidixic acid, 
-streptomycin, sulfisoxazole, tetracycline  | 11 |
+| *Salmonella enterica*| amoxicillin/clavulanic acid, ampicillin, cefoxitin, ceftiofur, ceftriaxone, chloramphenicol, gentamicin, nalidixic acid, streptomycin, sulfisoxazole, tetracycline| 11 |
 |*Streptococcus pneumoniae*|chloramphenicol, erythromycin, penicillin, tetracycline, trimethoprim/sulfamethoxazole|5|
 |*Neisseria gonorrhoeae*|azithromycin, cefixime|2|
 |*Escherichia coli*|amoxicillin, amoxicillin/clavulanic acid, ampicillin, aztreonam, cefotaxime, ceftazidime, ceftriaxone, cefuroxime, ciprofloxacin, gentamicin, piperacillin/tazobactam, tetracycline, trimethoprim|13|
