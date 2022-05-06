@@ -3,7 +3,7 @@
 - [Prerequirements](#pre)
 - [data](#data)
     - [PATRIC](#patric)
-    - [Test](#patric)
+    - [Test](#test)
 - [Cross-validation folders preparing](#cv)
     - [KMA](#kma)
     - [Phylogenetic tree based split](#tree)
@@ -51,22 +51,11 @@ To install pytorch compatible with your CUDA version, please fellow this instruc
 
 
 ## <a name="data"></a>Patric data set
-### <a name="pro"></a>**1. PATRIC dataset**
+### <a name="patric"></a>**1. PATRIC dataset**
 A list of species and antibiotics involved in this benchmarking study:
 
 ![plot](./images/species_loose.png)
 
-
-
-### <a name="u"></a> 4. Getting IDs for each species and antibiotic combination
-
-**<a name="files"></a>(a). Get the ID list directly from txt files.**
-
-(1). Strict Quality Control: 
-
-The Sequence ID for each species and antibiotic combination are in /Patric_data_set/metadata/model/strict/Data_${species_name}${antibiotic_name}.txt, e.g. Data_Escherichia_coli_amoxicillin.txt
-
-With the column named 'resistant_phenotype': 'Resistant': 1, 'Susceptible': 0.
 
 (2). Loose Quality Control:
 
@@ -126,6 +115,10 @@ for i in np.arange(len(ID)):
 antibiotics_selected=load_data.summary('Pseudomonas aeruginosa','loose')
 
 ```
+
+### <a name="test"></a>**2. Test dataset**
+
+
 
 ## <a name="cv"></a> Cross-validation folders preparing
 ### 1. <a name="kma"></a>KMA
