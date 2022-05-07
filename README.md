@@ -60,12 +60,17 @@ TODO: add the workflow.
 
 ## <a name="pre"></a>Prerequirements
 **1. Create conda env**
+
 ```
 bash install/install.sh
 ```
 **2. Install pytorch in the multi_torch_env env if GPU is available.**
 
 To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
+
+
+
+
 
 
 ## <a name="data"></a>Data
