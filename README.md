@@ -79,7 +79,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |dataset_location:| To where the PATRIC dataset will be downloaded| /vol/projects/BIFO/patric_genome|
 
 
-**<Usually you don't need to change parameters below.>**
+**<Usually you don't need to change parameters below.>**\
 **B. Env: Adanced/optional parameters setting**
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
