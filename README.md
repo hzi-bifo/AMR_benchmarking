@@ -6,6 +6,10 @@ We compared the performance of 4 machine learning (ML)- based and 1 direct assoc
 4. [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4). \
 5. [Point-/ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
 
+### Workflow.
+TODO: add the workflow.
+
+
 ### References
 <a id="1">[1]</a>  D Aytan-Aktug, Philip Thomas Lanken Conradsen Clausen, Valeria Bortolaia, Frank Møller Aarestrup, and Ole Lund. Prediction of acquired antimicrobial resistance for multiple bacterial species using neural networks.Msystems, 5(1), 2020.
 
@@ -19,7 +23,6 @@ We compared the performance of 4 machine learning (ML)- based and 1 direct assoc
 
 
 
-TODO: add the workflow.
 
 ## Contents
 
