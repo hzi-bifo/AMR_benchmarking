@@ -22,8 +22,8 @@ TODO: add the workflow.
 
 - [Prerequirements](#pre)
 - [Data](#data)
-    - [PATRIC](#patric)
-    - [Test](#test)
+ <!--   - [PATRIC](#patric)
+    - [Test](#test) -->
 - [Usage](#usage)
 - [Input](#input)
 - [Output](#output)
@@ -48,7 +48,6 @@ TODO: add the workflow.
 
 - [Benchmarking software: PhenotypeSeeker 0.7.3](#PhenotypeSeeker)
 - [Benchmarking software: Kover 2.0](#kover)
-<!-- - [Benchmarking software: AMRP](#amrp) -->
 - [The output structure](#output)
 -->
 
