@@ -1,14 +1,9 @@
 # Benchmarking machine learning-based software for phenotypic antimicrobial resistance determination from genomic data
-We compared the performance of 4 machine learning (ML)- based and 1 direct association antimicrobial resistance (AMR) determination sofware:
-
-1.[neural networks model](https://bitbucket.org/deaytan/neural_networks/src/master/) [[1]](#1), 
-
-2. Seq2Geno2Pheno([Seq2Geno](https://github.com/hzi-bifo/seq2geno.git)&[Geno2Pheno](https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno)) [[2]](#2), 
-
-3. [PhenotypeSeeker 0.7.3](https://github.com/bioinfo-ut/PhenotypeSeeker) [[3]](#3), 
-
-4. [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4). 
-
+We compared the performance of 4 machine learning (ML)- based and 1 direct association antimicrobial resistance (AMR) determination sofware:\
+1.[neural networks model](https://bitbucket.org/deaytan/neural_networks/src/master/) [[1]](#1), \
+2. Seq2Geno2Pheno([Seq2Geno](https://github.com/hzi-bifo/seq2geno.git)&[Geno2Pheno](https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno)) [[2]](#2), \
+3. [PhenotypeSeeker 0.7.3](https://github.com/bioinfo-ut/PhenotypeSeeker) [[3]](#3), \
+4. [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4). \
 5. [Point-/ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
 
 ### References
