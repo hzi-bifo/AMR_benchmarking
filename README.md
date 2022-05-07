@@ -72,15 +72,15 @@ To install pytorch compatible with your CUDA version, please fellow this instruc
 ## <a name="input"></a>Input file
 The input file is an yaml file `Config.yaml` at the root folder where all options are described:
 
-#A. Basic/required parameters setting
+**A. Basic/required parameters setting**
 
 | option | action | values ([default])|
 | ------------- | ------------- |------------- |
 |dataset_location:| To where the PATRIC dataset will be downloaded| /vol/projects/BIFO/patric_genome|
 
 
-#<Usually you don't need to change parameters below.>
-#B. Env: Adanced/optional parameters setting
+**<Usually you don't need to change parameters below.>**
+**B. Env: Adanced/optional parameters setting**
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
 |amr_env_name|conda env for general use |amr_env|
@@ -90,7 +90,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |kover_env_name|conda env for NN model|kover_env|
 |se2ge_env_name|conda env for Seg2Geno|snakemake_env|
 
-#c. Model: Adanced/optional parameters setting
+**C. Model: Adanced/optional parameters setting**
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
 |QC_criteria|Sample qaulity control level| loose|
