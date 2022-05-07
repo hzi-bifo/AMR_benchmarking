@@ -59,11 +59,11 @@ TODO: add the workflow.
 
 
 ## <a name="pre"></a>Prerequirements
-**To reproduce the output, you need to use `conda` , Miniconda 4.8.3 was used by us.**\
+**To reproduce the output, you need to use `conda` , Miniconda 4.8.3 was used by us.**
 -  Create conda env, and install packages.
 
 ```
-bash install/install.sh
+bash ./install/install.sh
 ```
 -  Install pytorch in the multi_torch_env env if GPU is available.
 
