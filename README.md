@@ -69,9 +69,24 @@ bash install/install.sh
 To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
 
 
+## <a name="input"></a>Input
+
+options.yaml
+
+## <a name="usage"></a>Usage
+The script main.sh will go through the whole benchmarking process from data reprocessing to running software, to basic benchmarking results visualization. 
+```
+bash main.sh
+```
+But as the ML model learning process is very time consuming, taking at least 2 months with 20+ CPUs accompanied by 10+ GPUs, we will show you in 6 steps:
+1.
+
+2.
 
 
 
+
+## <a name="input"></a>Input
 
 ## <a name="data"></a>Data
 ### <a name="patric"></a>**1. PATRIC dataset**
