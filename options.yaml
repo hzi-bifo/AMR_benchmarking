@@ -1,0 +1,32 @@
+#Please change everything after the ":" to your own.
+
+#A. Basic/required parameters setting
+#1. the location to download the PATRIC dataset to. (Please change to your local address.)
+dataset_location: /vol/projects/BIFO/patric_genome
+
+
+
+
+
+
+
+
+#<Usually you don't need to change parameters below.>
+#----------------------------------------------------------------------------------------------------------------------
+#B. Env: Adanced/optional parameters setting
+amr_env_name: amr_env
+PhenotypeSeeker_env_name: PhenotypeSeeker_env
+multi_env_name: multi_env
+multi_torch_env_name: multi_torch_env
+kover_env_name: kover_env
+se2ge_env_name: snakemake_env
+
+
+#----------------------------------------------------------------------------------------------------------------------
+#c. Model: Adanced/optional parameters setting
+#1. sample selection criteria: loose/trict. By default, we only benchmarked on the loosely selected dataset.
+QC_criteria: loose
+#2. By default, we benchmarked using 11 species. You may not need to change this.
+species_list: ['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa','Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni','Enterococcus faecium','Neisseria gonorrhoeae']
+#3. Env
+
