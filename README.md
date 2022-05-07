@@ -118,11 +118,16 @@ But as the ML model learning process is very time consuming, taking at least 2 m
 
 
 ### C. Visualization
-The optional.sh generates some supplemental visualization graphs and excel tables.
+- The optional.sh generates all visualization graphs and excel tables.
 
 ```
 bash optional.sh
 ```
+- We stored 10-folds nested Cross-validation performance results as stated in our article in `./log/results`, so you can also run `python scripts` to see the visualization results.
+```
+python 
+```
+
 
 
 ## <a name="data"></a>Data
@@ -130,7 +135,7 @@ bash optional.sh
 A list of species and antibiotics involved in this benchmarking study can be found at https://github.com/hzi-bifo/AMR_benchmarking_khu/wiki
 
 ### <a name="test"></a>**2. Test dataset**
-
+TODO
 
 
 ## <a name="cv"></a> Cross-validation folders preparing
