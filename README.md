@@ -123,7 +123,7 @@ But as the ML model learning process is very time consuming, taking at least 2 m
 ```
 bash optional.sh
 ```
-- We stored 10-folds nested Cross-validation performance results as stated in our article in `./log/results`, so you can also run `python scripts` to see the visualization results.
+- As we stored 10-folds nested Cross-validation performance results as stated in our article in `./log/results`, so you can also run `python scripts` to selectively generate some of the visualization results.
 ```
 python 
 ```
