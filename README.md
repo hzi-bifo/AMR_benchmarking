@@ -118,7 +118,7 @@ But as the ML model learning process is very time consuming, taking at least 2 m
     ```
     bash ./src/data_preprocess/qc.sh
     ```
-2.   PATRIC dataset downloading.
+2.  PATRIC dataset downloading.
 
     ```
     bash ./scripts/data_preprocess/retrive_PATRIC_data.sh ${dataset_location}
