@@ -113,7 +113,7 @@ bash main.sh
 ### B. Workflow in steps
 But as the ML model learning process is very time consuming, taking at least 2 months with 20+ CPUs accompanied by 10+ GPUs, we will show you in 6 steps:
 
-1.  Dataset quality control. (You can skip this step, as we provided the sample list after QC: ./data/PATRIC)
+1.  Sample quality control. (You can skip this step, as we provided the sample list after QC: ./data/PATRIC)
 
     ```
     bash ./scripts/data_preprocess/qc.sh
