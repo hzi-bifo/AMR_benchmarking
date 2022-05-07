@@ -102,20 +102,20 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 
 ## <a name="usage"></a>Usage
-- The script main.sh will go through the whole benchmarking process from data reprocessing to running software, to basic benchmarking results visualization. 
+### The script main.sh will go through the whole benchmarking process from data reprocessing to running software, to basic benchmarking results visualization. 
 ```
 bash main.sh
 ```
 
 
-- But as the ML model learning process is very time consuming, taking at least 2 months with 20+ CPUs accompanied by 10+ GPUs, we will show you in 6 steps:\
+### But as the ML model learning process is very time consuming, taking at least 2 months with 20+ CPUs accompanied by 10+ GPUs, we will show you in 6 steps:\
 1.
 
 2.
 
 
 
-- The optional.sh generates some supplemental visualization graphs and excel tables.
+### The optional.sh generates some supplemental visualization graphs and excel tables.
 
 ```
 bash optional.sh
