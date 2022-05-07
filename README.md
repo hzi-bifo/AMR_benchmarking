@@ -69,9 +69,32 @@ bash install/install.sh
 To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
 
 
-## <a name="input"></a>Input
+## <a name="input"></a>Input file
+The input file is an yaml file Config.yaml at the root folder where all options are described:
 
-options.yaml
+#A. Basic/required parameters setting
+
+|option|	action	|values ([default])|
+|dataset_location:| To where the PATRIC dataset will be downloaded| /vol/projects/BIFO/patric_genome|
+
+
+#<Usually you don't need to change parameters below.>
+#B. Env: Adanced/optional parameters setting
+|option|	action	|values ([default])|
+|amr_env_name|conda env for general use |amr_env|
+|PhenotypeSeeker_env_name|conda env for PhenotypeSeeker |PhenotypeSeeker_env|
+|multi_env_name|conda env for |multi_env|
+|multi_torch_env_name|conda env for NN model|multi_torch_env|
+|kover_env_name|conda env for NN model|kover_env|
+|se2ge_env_name|conda env for Seg2Geno|snakemake_env|
+
+#c. Model: Adanced/optional parameters setting
+|option|	action	|values ([default])|
+|QC_criteria|Sample qaulity control level| loose|
+|species_list|species to be included in |['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa','Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni','Enterococcus faecium','Neisseria gonorrhoeae']|
+|||
+
+
 
 ## <a name="usage"></a>Usage
 The script main.sh will go through the whole benchmarking process from data reprocessing to running software, to basic benchmarking results visualization. 
