@@ -59,7 +59,7 @@ TODO: add the workflow.
 
 
 ## <a name="pre"></a>Prerequirements
-To reproduce the output, you need to use `conda` , Miniconda 4.8.3 was used by us.
+To reproduce the output, you need to use `conda` , Miniconda 4.8.3 was used by us.\
 **1. Create conda env**
 
 ```
