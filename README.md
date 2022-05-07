@@ -24,6 +24,14 @@ TODO: add the workflow.
 - [Data](#data)
     - [PATRIC](#patric)
     - [Test](#test)
+- [Usage](#usage)
+- [Input](#input)
+- [Output](#output)
+- [License](#license)
+- [Citation](#citation)
+- [Contact](#contact)
+
+<!--
 - [Cross-validation folders preparing](#cv)
     - [Homology-aware folds](#kma)
     - [phylogeny-aware folds split](#tree)
@@ -42,7 +50,7 @@ TODO: add the workflow.
 - [Benchmarking software: Kover 2.0](#kover)
 <!-- - [Benchmarking software: AMRP](#amrp) -->
 - [The output structure](#output)
-
+-->
 
 
 ## <a name="pre"></a>Prerequirements
