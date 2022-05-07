@@ -121,7 +121,7 @@ But as the ML model learning process is very time consuming, taking at least 2 m
 2.   PATRIC dataset downloading.
 
     ```
-     bash ./scripts/data_preprocess/retrive_PATRIC_data.sh ${dataset_location}
+    bash ./scripts/data_preprocess/retrive_PATRIC_data.sh ${dataset_location}
     ```
 3.   
 
