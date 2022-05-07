@@ -59,6 +59,7 @@ TODO: add the workflow.
 
 
 ## <a name="pre"></a>Prerequirements
+To reproduce the output, you need to use `conda` , Miniconda 4.8.3 was used by us.
 **1. Create conda env**
 
 ```
@@ -168,7 +169,7 @@ https://github.com/microgenomics/tutorials/blob/master/pangenome.md
 
 ## <a name="env"></a> Experiment environment
 
-conda 4.8.3
+
 
 
 ## <a name="p"></a> ResFinder
