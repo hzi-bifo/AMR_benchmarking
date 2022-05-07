@@ -33,6 +33,7 @@ TODO: add the workflow.
 - [Usage](#usage)
 - [Input](#input)
 - [Output](#output)
+- [References and modification of existing software](#modi)
 - [License](#license)
 - [Citation](#citation)
 - [Contact](#contact)
