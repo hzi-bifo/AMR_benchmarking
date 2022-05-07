@@ -70,7 +70,7 @@ To install pytorch compatible with your CUDA version, please fellow this instruc
 
 
 ## <a name="input"></a>Input file
-The input file is an yaml file Config.yaml at the root folder where all options are described:
+The input file is an yaml file `Config.yaml` at the root folder where all options are described:
 
 #A. Basic/required parameters setting
 
