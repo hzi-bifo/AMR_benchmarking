@@ -27,9 +27,6 @@ TODO: add the workflow.
 ## Contents
 
 - [Prerequirements](#pre)
-- [Data](#data)
- <!--   - [PATRIC](#patric)
-    - [Test](#test) -->
 - [Usage](#usage)
 - [Input](#input)
 - [Output](#output)
@@ -39,6 +36,9 @@ TODO: add the workflow.
 - [Contact](#contact)
 
 <!--
+- [Data](#data)
+  - [PATRIC](#patric)
+    - [Test](#test)
 - [Cross-validation folders preparing](#cv)
     - [Homology-aware folds](#kma)
     - [phylogeny-aware folds split](#tree)
