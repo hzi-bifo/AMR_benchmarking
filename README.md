@@ -75,12 +75,14 @@ The input file is an yaml file Config.yaml at the root folder where all options 
 #A. Basic/required parameters setting
 
 |option|	action	|values ([default])|
+| ------------- | ------------- |------------- |
 |dataset_location:| To where the PATRIC dataset will be downloaded| /vol/projects/BIFO/patric_genome|
 
 
 #<Usually you don't need to change parameters below.>
 #B. Env: Adanced/optional parameters setting
 |option|	action	|values ([default])|
+| ------------- | ------------- |------------- |
 |amr_env_name|conda env for general use |amr_env|
 |PhenotypeSeeker_env_name|conda env for PhenotypeSeeker |PhenotypeSeeker_env|
 |multi_env_name|conda env for |multi_env|
@@ -90,6 +92,7 @@ The input file is an yaml file Config.yaml at the root folder where all options 
 
 #c. Model: Adanced/optional parameters setting
 |option|	action	|values ([default])|
+| ------------- | ------------- |------------- |
 |QC_criteria|Sample qaulity control level| loose|
 |species_list|species to be included in |['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa','Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni','Enterococcus faecium','Neisseria gonorrhoeae']|
 |||
