@@ -104,7 +104,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 ```
 bash main.sh
 ```
-- The optional.sh generates some supplemental visualiztion graphs and excel tables.
+- The optional.sh generates some supplemental visualization graphs and excel tables.
 
 ```
 bash optional.sh
