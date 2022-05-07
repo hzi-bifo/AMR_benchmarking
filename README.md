@@ -65,7 +65,7 @@ TODO: add the workflow.
 ```
 bash ./install/install.sh
 ```
--  Install pytorch in the multi_torch_env env if GPU is available.
+-  Install pytorch in the `multi_torch_env` env if GPU is available.
 
 To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
 
