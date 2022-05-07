@@ -104,11 +104,8 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 ```
 bash main.sh
 ```
-- The optional.sh generates some supplemental visualization graphs and excel tables.
 
-```
-bash optional.sh
-```
+
 - But as the ML model learning process is very time consuming, taking at least 2 months with 20+ CPUs accompanied by 10+ GPUs, we will show you in 6 steps:\
 1.
 
@@ -116,7 +113,11 @@ bash optional.sh
 
 
 
+- The optional.sh generates some supplemental visualization graphs and excel tables.
 
+```
+bash optional.sh
+```
 
 
 ## <a name="data"></a>Data
