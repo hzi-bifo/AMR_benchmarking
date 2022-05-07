@@ -111,7 +111,8 @@ bash main.sh
 
 
 ### B. Workflow in steps
-But as the ML model learning process is very time consuming, taking at least 2 months with 20+ CPUs accompanied by 10+ GPUs, we will show you in 6 steps:\
+But as the ML model learning process is very time consuming, taking at least 2 months with 20+ CPUs accompanied by 10+ GPUs, we will show you in 6 steps:
+
 1. Dataset quality control.
 ```
 bash ./src/data_preprocess/qc.sh
