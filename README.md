@@ -80,7 +80,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 
 **<Usually you don't need to change parameters below.>**\
-**B. Env: Adanced/optional parameters setting**
+**B. Adanced/optional parameters setting**
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
 |amr_env_name|conda env for general use |amr_env|
@@ -90,7 +90,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |kover_env_name|conda env for NN model|kover_env|
 |se2ge_env_name|conda env for Seg2Geno|snakemake_env|
 
-**C. Model: Adanced/optional parameters setting**
+**C. Adanced/optional parameters setting (Model)**
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
 |QC_criteria|Sample qaulity control level| loose|
