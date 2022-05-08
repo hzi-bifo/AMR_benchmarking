@@ -116,7 +116,7 @@ But as the ML model learning process is very time consuming, taking at least 2 m
 1.  Sample quality control. (You can skip this step, as we provided the sample list after QC: ./data/PATRIC)
 
     ```
-    bash ./scripts/data_preprocess/qc.sh
+    bash ./scripts/data_preprocess/preprocess.sh
     ```
 2.  PATRIC dataset downloading.
 
