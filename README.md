@@ -139,8 +139,11 @@ export PYTHONPATH=$PWD
     bash ./scripts/resfinder.sh
     ```
 4.   Seq2Geno2Pheno 
-    - Please refer to the original source.
-
+- Please refer to the original source. 
+- The original Seq2Geno software, which deals with the original sequence, can be found here: https://github.com/hzi-bifo/seq2geno.git
+Please then replace the main folder, denovo/denovo.in_one.smk file, all the yml files under denovo folder in seq2geno-precomputed_assemblies this repository.
+- Install Seq2Geno according to the instruction from: https://github.com/hzi-bifo/seq2geno.git. Through this step, an conda envioronment named snakemake_env will be created.
+- Phylogeny-aware folds and random folds were generated through Seq2Geno2Pheno.
 
 
 
