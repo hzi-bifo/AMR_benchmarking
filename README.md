@@ -121,12 +121,14 @@ export PYTHONPATH=$PWD
     ```
     bash ./scripts/data/preprocess.sh
     ```
+
 **B2.  PATRIC dataset downloading.**
 
     ```
     bash ./scripts/data_preprocess/retrive_PATRIC_data.sh
     ```
-**B3.   Point-/Resfinder **
+
+**B3.  Point-/Resfinder **
 - No need to refer to the original Point-/Resfinder source.\
   We provided the modified version of KMA-based Point-/Resfinder that can use genomic data. Origianl KMA-based version can only process read               data(FASTQ files). This is done because NN multi-species model (Aytan-Aktug et al.) can only be used accompanied with KMA-based Point-/Resfinder.\
 - Optional: you can install Blastn-based version from https://bitbucket.org/genomicepidemiology/resfinder/src/master\
@@ -138,7 +140,7 @@ export PYTHONPATH=$PWD
     cd kma && make
     bash ./scripts/resfinder.sh
     ```
-**B4.   Seq2Geno2Pheno **
+**B4.  Seq2Geno2Pheno **
 - Please refer to the original source. 
 - The original Seq2Geno software, which deals with the original sequence, can be found here: https://github.com/hzi-bifo/seq2geno.git
 Please then replace the main folder, denovo/denovo.in_one.smk file, all the yml files under denovo folder in seq2geno-precomputed_assemblies this repository.
