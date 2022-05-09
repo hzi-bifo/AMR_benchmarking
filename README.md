@@ -118,15 +118,15 @@ export PYTHONPATH=$PWD
 
 **B1.  Sample quality control. (You can skip this step, as we provided the sample list after QC: ./data/PATRIC)**
 
-    ```
-    bash ./scripts/data/preprocess.sh
-    ```
+```
+bash ./scripts/data/preprocess.sh
+```
 
 **B2.  PATRIC dataset downloading.**
 
-    ```
-    bash ./scripts/data_preprocess/retrive_PATRIC_data.sh
-    ```
+```
+bash ./scripts/data_preprocess/retrive_PATRIC_data.sh
+```
 
 **B3.  Point-/Resfinder**
 
@@ -135,12 +135,12 @@ export PYTHONPATH=$PWD
 - Optional: you can install Blastn-based version from https://bitbucket.org/genomicepidemiology/resfinder/src/master\
 - Reference database version 2021-05-06
 
-    ```
-    cd ./AMR_software/resfinder/cge
-    git clone https://bitbucket.org/genomicepidemiology/kma.git
-    cd kma && make
-    bash ./scripts/resfinder.sh
-    ```
+```
+cd ./AMR_software/resfinder/cge
+git clone https://bitbucket.org/genomicepidemiology/kma.git
+cd kma && make
+bash ./scripts/resfinder.sh
+```
 
 **B4.  Seq2Geno2Pheno**
 
