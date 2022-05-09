@@ -110,7 +110,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 
 ### B. Workflow in steps
-Add root folder to your PATH (for every step):
+Add root address to your PATH (for every step):
 ```
 git clone https://github.com/hzi-bifo/AMR_benchmarking_khu.git
 cd AMR_benchmarking_khu
