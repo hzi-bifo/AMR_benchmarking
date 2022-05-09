@@ -116,7 +116,7 @@ export PATH="$PWD"/src:$PATH
 export PYTHONPATH=$PWD
 ```
 
-1.  Sample quality control. (You can skip this step, as we provided the sample list after QC: ./data/PATRIC)
+**1.  Sample quality control. (You can skip this step, as we provided the sample list after QC: ./data/PATRIC)**
 
     ```
     bash ./scripts/data/preprocess.sh
