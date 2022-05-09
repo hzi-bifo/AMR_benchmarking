@@ -104,7 +104,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 ## <a name="usage"></a>Usage
 ### A. Workflow
-- The script main.sh, which is a combination of codes and pseudocodes, goes through the whole benchmarking process from data reprocessing to running software, to basic benchmarking results visualization. 
+- The script `main.sh`, which is a combination of codes and pseudocodes, goes through the whole benchmarking process from data reprocessing to running software, to basic benchmarking results visualization. 
 - The pseudocodes resulted from the reason that you have to manually install some ML software yourself or access it with their website. What's more, the ML model learning process is very time consuming, taking at least 2 months with 20+ CPUs accompanied by 10+ GPUs, so it's not realistic to warp all in a pipeline.
 - We will guide you through the Workflow in steps:
 
