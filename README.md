@@ -127,17 +127,17 @@ export PYTHONPATH=$PWD
     bash ./scripts/data_preprocess/retrive_PATRIC_data.sh
     ```
 3.   Point-/Resfinder 
-    - No need to refer to the original Point-/Resfinder source.
-      We provided the modified version of KMA-based Point-/Resfinder that can use genomic data. Origianl KMA-based version can only process read               data(FASTQ files). This is done because NN multi-species model (Aytan-Aktug et al.) can only be used accompanied with KMA-based Point-/Resfinder.
-    - Optional: you can install Blastn-based version from https://bitbucket.org/genomicepidemiology/resfinder/src/master
+    - No need to refer to the original Point-/Resfinder source.\
+      We provided the modified version of KMA-based Point-/Resfinder that can use genomic data. Origianl KMA-based version can only process read               data(FASTQ files). This is done because NN multi-species model (Aytan-Aktug et al.) can only be used accompanied with KMA-based Point-/Resfinder.\
+    - Optional: you can install Blastn-based version from https://bitbucket.org/genomicepidemiology/resfinder/src/master\
     - Reference database version 2021-05-06
 
-    ```
-    cd ./AMR_software/resfinder/cge
-    git clone https://bitbucket.org/genomicepidemiology/kma.git
-    cd kma && make
-    bash ./scripts/resfinder.sh
-    ```
+      ```
+      cd ./AMR_software/resfinder/cge
+      git clone https://bitbucket.org/genomicepidemiology/kma.git
+      cd kma && make
+      bash ./scripts/resfinder.sh
+      ```
 4.   Seq2Geno2Pheno 
     - Please refer to the original source.
 
