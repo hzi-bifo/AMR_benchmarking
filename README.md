@@ -110,15 +110,15 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 
 ### B. Workflow in steps
-:
+Add root folder to your PATH (for every step):
+```
+export PATH="$PWD"/src:$PATH
+export PYTHONPATH=$PWD
 ```
 
-```
 1.  Sample quality control. (You can skip this step, as we provided the sample list after QC: ./data/PATRIC)
 
     ```
-    export PATH="$PWD"/src:$PATH
-    export PYTHONPATH=$PWD
     bash ./scripts/data/preprocess.sh
     ```
 2.  PATRIC dataset downloading.
@@ -126,7 +126,11 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
     ```
     bash ./scripts/data_preprocess/retrive_PATRIC_data.sh
     ```
-3.   
+3.   Point-/Resfinder
+
+    ```
+    bash ./scripts/resfinder.sh
+    ```
 
 
 ### C. Visualization
