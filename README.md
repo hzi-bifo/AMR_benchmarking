@@ -132,7 +132,7 @@ bash ./scripts/data_preprocess/retrive_PATRIC_data.sh
 
 **B3.  Point-/Resfinder**
 
-- No need to refer to the original Point-/Resfinder source.\
+- No need to install from the original Point-/Resfinder source.\
   We provided the modified version of KMA-based Point-/Resfinder that can use genomic data. Origianl KMA-based version can only process read               data(FASTQ files). This is done because NN multi-species model (Aytan-Aktug et al.) can only be used accompanied with KMA-based Point-/Resfinder.\
 - Optional: you can install Blastn-based version from https://bitbucket.org/genomicepidemiology/resfinder/src/master\
 - Reference database version 2021-05-06
@@ -144,9 +144,18 @@ cd kma && make
 bash ./scripts/resfinder.sh
 ```
 
+**B3.  NN model(Aytan-Aktug et al)**
+- Please use our version. We adapted their codes for our benchmarking work.
+- Homology-aware(KMA-based) folds were generated through NN model.
+```
+bash ./scripts/nn.sh
+```
+
+
+
 **B4.  Seq2Geno2Pheno**
 
-- Please refer to the original source. 
+- Please install/use from the original source. 
 - The original Seq2Geno software, which deals with the original sequence, can be found here: https://github.com/hzi-bifo/seq2geno.git
 Please then replace the main folder, denovo/denovo.in_one.smk file, all the yml files under denovo folder in seq2geno-precomputed_assemblies this repository.
 - Install Seq2Geno according to the instruction from: https://github.com/hzi-bifo/seq2geno.git. Through this step, an conda envioronment named snakemake_env will be created.
