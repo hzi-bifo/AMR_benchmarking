@@ -165,7 +165,11 @@ cd ./AMR_software/
 git clone --recurse-submodules https://github.com/hzi-bifo/seq2geno.git
 cd seq2geno
 git submodule update --init --recursive
+#----------------------------------------------------------------------------
 # Now, install Seq2Geno accroding to https://github.com/augustkx/seq2geno
+# Afterwards, update the seq2geno root folds with files from this(our) repo
+#----------------------------------------------------------------------------
+
 cp ../seq2gen_assemble/* .
 bash ./scripts/model/Seg2Geno.sh
 ```
