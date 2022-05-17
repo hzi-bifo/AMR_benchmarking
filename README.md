@@ -160,7 +160,15 @@ bash ./scripts/nn.sh
 Please then replace the main folder, denovo/denovo.in_one.smk file, all the yml files under denovo folder in seq2geno-precomputed_assemblies this repository.
 - Install Seq2Geno according to the instruction from: https://github.com/hzi-bifo/seq2geno.git. Through this step, an conda envioronment named snakemake_env will be created.
 - Phylogeny-aware folds and random folds were generated through Seq2Geno2Pheno.
-
+```
+cd ./AMR_software/
+git clone --recurse-submodules https://github.com/hzi-bifo/seq2geno.git
+cd seq2geno
+git submodule update --init --recursive
+# Now, install Seq2Geno accroding to https://github.com/augustkx/seq2geno
+cp ../seq2gen_assemble/* .
+bash ./scripts/model/Seg2Geno.sh
+```
 
 
 ### C. Visualization
