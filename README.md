@@ -80,7 +80,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 | ------------- | ------------- |------------- |
 |dataset_location:| To where the PATRIC dataset will be downloaded. ~246G| /vol/projects/BIFO/patric_genome|
 |output_path:| To where to generate the `results` folder for the direct results of each software and further visualization. | ./|
-|log_path:| To where to generate the `log` folder for the tempary files (note:some software will generate large amount of temp files to 60G, if you run all species in parallel.)| ./|
+|log_path:| To where to generate the `log` folder for the tempary files, which you can delete by hand afterwards. (note:some software will generate large amount of temp files to 60G, if you run all species in parallel.)| ./|
 
 **<Usually you don't need to change parameters below.>**\
 **B. Adanced/optional parameters setting**
