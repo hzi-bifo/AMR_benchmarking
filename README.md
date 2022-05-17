@@ -166,7 +166,7 @@ git clone --recurse-submodules https://github.com/hzi-bifo/seq2geno.git
 cd seq2geno
 git submodule update --init --recursive
 #----------------------------------------------------------------------------
-# Now, install Seq2Geno accroding to https://github.com/augustkx/seq2geno
+# Now, install Seq2Geno according to https://github.com/augustkx/seq2geno
 #----------------------------------------------------------------------------
 
 cp ../seq2gen_assemble/* .  # Afterwards, update the seq2geno root folds with files from this(our) repo
