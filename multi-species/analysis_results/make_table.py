@@ -11,10 +11,14 @@ def make_visualization(out_score,summary_all,antibiotics,level,f_fixed_threshold
     # # antibiotics_selected = ast.literal_eval(antibiotics)
     # print('====> Select_antibiotic:', len(antibiotics), antibiotics)
     final=pd.DataFrame(index=antibiotics, columns=['weighted-f1_macro', 'weighted-precision_macro', 'weighted-recall_macro', 'weighted-accuracy',
-                                                   'weighted-mcc','weighted-f1_positive', 'weighted-f1_negative','weighted-precision_positive','weighted-recall_positive','weighted-auc','weighted-threshold','support','support_positive'] )
+                                                   'weighted-mcc','weighted-f1_positive', 'weighted-f1_negative','weighted-precision_neg','weighted-recall_neg','weighted-auc','weighted-threshold','support','support_positive'] )
 
     final_plot=pd.DataFrame(index=antibiotics, columns=['weighted-f1_macro', 'weighted-precision_macro', 'weighted-recall_macro', 'weighted-accuracy',
-                                                   'weighted-mcc','weighted-f1_positive', 'weighted-f1_negative','weighted-precision_positive','weighted-recall_positive','weighted-auc','weighted-threshold','support','support_positive'] )
+                                                   'weighted-mcc','weighted-f1_positive', 'weighted-f1_negative','weighted-precision_neg','weighted-recall_neg','weighted-auc','weighted-threshold','support','support_positive'] )
+    final_std=pd.DataFrame(index=antibiotics, columns=['weighted-f1_macro', 'weighted-precision_macro', 'weighted-recall_macro', 'weighted-accuracy',
+                                                   'weighted-mcc','weighted-f1_positive', 'weighted-f1_negative','weighted-precision_neg','weighted-recall_neg','weighted-auc','weighted-threshold','support','support_positive'] )
+
+
     count = 0
     for anti in antibiotics:
         # save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(species, anti,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score)
@@ -30,17 +34,19 @@ def make_visualization(out_score,summary_all,antibiotics,level,f_fixed_threshold
         n=data.loc['weighted-std',:].apply(lambda x: "{:.2f}".format(x))
 
         final.loc[anti,:]=m.str.cat(n, sep='±').values
-
+        final_std.loc[anti,:]=data.loc['weighted-std',:].to_list()
         final_plot.loc[anti,:]=data.loc['weighted-mean',:].to_list()
     if out_score=='f':
         final=final[['weighted-f1_macro','weighted-f1_positive', 'weighted-f1_negative','weighted-accuracy']]
         final_plot=final_plot[['weighted-f1_macro','weighted-f1_positive', 'weighted-f1_negative','weighted-accuracy']]
-    elif out_score=='f_p_r':
-        final = final[['weighted-f1_macro', 'weighted-precision_macro', 'weighted-recall_macro', 'weighted-accuracy']]
-        final_plot = final_plot[['weighted-f1_macro', 'weighted-precision_macro', 'weighted-recall_macro', 'weighted-accuracy']]
+        final_std=final_std[['weighted-f1_macro','weighted-f1_positive', 'weighted-f1_negative','weighted-accuracy']]
+    elif out_score=='neg':
+        final = final[['weighted-f1_macro', 'weighted-f1_positive','weighted-f1_negative','weighted-precision_neg', 'weighted-recall_neg', 'weighted-accuracy']]
+        final_plot = final_plot[['weighted-f1_macro', 'weighted-f1_positive','weighted-f1_negative','weighted-precision_neg', 'weighted-recall_neg', 'weighted-accuracy']]
+        final_std=final_std[['weighted-f1_macro','weighted-f1_positive', 'weighted-f1_negative','weighted-precision_neg', 'weighted-recall_neg', 'weighted-accuracy']]
     else:#all scores
         pass
-    return final,final_plot
+    return final,final_plot,final_std
 
 def make_visualization_Tree(out_score,summary_all,antibiotics,level,f_fixed_threshold,epochs,learning,f_optimize_score,f_nn_base):
 
@@ -48,9 +54,14 @@ def make_visualization_Tree(out_score,summary_all,antibiotics,level,f_fixed_thre
     # # antibiotics_selected = ast.literal_eval(antibiotics)
     # print('====> Select_antibiotic:', len(antibiotics), antibiotics)
     final=pd.DataFrame(index=antibiotics, columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
-                                                   'mcc','f1_positive', 'f1_negative','precision_positive','recall_positive','auc','threshold','support','support_positive'] )
+                                                   'mcc','f1_positive', 'f1_negative','precision_neg','recall_neg','auc','threshold','support','support_positive'] )
     final_plot=pd.DataFrame(index=antibiotics, columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
-                                                   'mcc','f1_positive', 'f1_negative','precision_positive','recall_positive','auc','threshold','support','support_positive'] )
+                                                   'mcc','f1_positive', 'f1_negative','precision_neg','recall_neg','auc','threshold','support','support_positive'] )
+    final_std=pd.DataFrame(index=antibiotics, columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
+                                                   'mcc','f1_positive', 'f1_negative','precision_neg','recall_neg','auc','threshold','support','support_positive'] )
+
+
+
 
     count=0
     for anti in antibiotics:
@@ -62,6 +73,7 @@ def make_visualization_Tree(out_score,summary_all,antibiotics,level,f_fixed_thre
         count+=1
         data=data.loc[['mean','std'],:]
         final_plot.loc[anti, :] = data.loc['mean', :].to_list()
+        final_std.loc[anti, :] = data.loc['std', :].to_list()
         data = data.astype(float).round(2)
 
         m= data.loc['mean',:].apply(lambda x: "{:.2f}".format(x))
@@ -74,12 +86,14 @@ def make_visualization_Tree(out_score,summary_all,antibiotics,level,f_fixed_thre
     if out_score=='f':
         final=final[['f1_macro','f1_positive', 'f1_negative','accuracy']]
         final_plot=final_plot[['f1_macro','f1_positive', 'f1_negative','accuracy']]
-    elif out_score=='f_p_r':
-        final = final[['f1_macro', 'precision_macro', 'recall_macro', 'accuracy']]
-        final_plot = final_plot[['f1_macro', 'precision_macro', 'recall_macro', 'accuracy']]
+        final_std=final_std[['f1_macro','f1_positive', 'f1_negative','accuracy']]
+    elif out_score=='neg':
+        final = final[['f1_macro', 'f1_positive','f1_negative','precision_neg', 'recall_neg', 'accuracy']]
+        final_plot = final_plot[['f1_macro','f1_positive',  'f1_negative','precision_neg', 'recall_neg', 'accuracy']]
+        final_std = final_std[['f1_macro', 'f1_positive', 'f1_negative','precision_neg', 'recall_neg', 'accuracy']]
     else:#all scores
         pass
-    return final,final_plot
+    return final,final_plot,final_std
 
 def multi_make_visualization(fscore,out_score,merge_name,All_antibiotics,level,f_fixed_threshold, epochs,learning,f_optimize_score,
                              f_nn_base,cv,score,save_name_score,save_name_score_final):
