@@ -29,6 +29,25 @@ def extract_info(path_sequence, s,kmer,f_all, f_prepare_meta,cv, level, n_jobs, 
         amr_utility.file_utility.make_dir('log/temp/' + str(level) + '/'+str(species.replace(" ", "_")))
         amr_utility.file_utility.make_dir('log/results/' + str(level) +'/'+ str(species.replace(" ", "_")))
 
+    if f_qsub:#prepare bash scripts for each species for ML
+        for species, antibiotics in zip(df_species, antibiotics):
+            amr_utility.file_utility.make_dir('log/qsub')
+            run_file_name='log/qsub/'+str(species.replace(" ", "_"))+'.sh'
+            amr_utility.file_utility.make_dir('log/qsub')
+            run_file = open(run_file_name, "w")
+            run_file.write("#!/bin/bash")
+            run_file.write("\n")
+            # if path_sequence == '/vol/projects/BIFO/patric_genome':
+            if Path(fileDir).parts[1] == 'vol':
+                run_file = amr_utility.file_utility.hzi_cpu_header4(run_file,
+                                                                    str(species.replace(" ", "_"))+'kover',
+                                                                    1, 'base','all.q')
+            # run_file = amr_utility.file_utility.header_THREADS(run_file,
+            #                                                    n_jobs)
+            cmd = 'bash run_cv_2.sh \"%s\"' % (str(species.replace(" ", "_")))
+            run_file.write(cmd)
+            run_file.write("\n")
+
     if f_prepare_meta:
         # prepare the anti list and id list for each species, antibiotic, and CV folders.
         for species, antibiotics in zip(df_species, antibiotics):

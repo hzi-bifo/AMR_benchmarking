@@ -3,10 +3,12 @@ import amr_utility.name_utility
 import amr_utility.graph_utility
 import amr_utility.file_utility
 import amr_utility.load_data
+import amr_utility.file_utility
 import cv_folders.cluster_folders
 import argparse,itertools,os,json,ast
 from pathlib import Path
 import numpy as np
+from sklearn.metrics import  classification_report,confusion_matrix,f1_score
 import statistics,math
 import pandas as pd
 
@@ -29,9 +31,12 @@ def extract_info_species( level,species,fscore,antibiotics,cv,f_phylotree,f_kma)
         if f_kma:
             final_table = pd.DataFrame(index=antibiotics,columns=['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative'])
             final_plot = pd.DataFrame(index=antibiotics,columns=['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative'])
+            final_std = pd.DataFrame(index=antibiotics,columns=['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative'])
+
         else:#if f_phylotree or f_random
             final_table = pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative'])
             final_plot = pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative'])
+            final_std = pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative'])
         # final_best=pd.DataFrame(index=antibiotics,columns=['f1_macro','classifier'])# the results from the better classifier of scm and tree.
         antibiotics_=[]
         for anti in antibiotics:
@@ -43,49 +48,66 @@ def extract_info_species( level,species,fscore,antibiotics,cv,f_phylotree,f_kma)
             support_neg=[]
 
             name, meta_txt, _ = amr_utility.name_utility.Pts_GETname(level, species, anti,'')
+            name_list = pd.read_csv(name, index_col=0, dtype={'genome_id': object}, sep="\t")
+            name_list.loc[:,'ID'] = 'iso_' + name_list['genome_id'].astype(str)
+            name_list2 = name_list.loc[:, ['ID', 'resistant_phenotype']]
             for outer_cv in range(cv):
                 index_checking =str(species.replace(" ", "_"))+'/'+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
 
-                #check if in the ignore list
-                ignore_dictionary = np.load('cv_folders/'+str(level)+'/igore_list'+'_kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'_'+fscore+'.npy',allow_pickle='TRUE').item()
-                # print(ignore_dictionary[index_checking])
-                checking_list=ignore_dictionary[index_checking]
-
+                if fscore!='accuracy':
+                    #check if in the ignore list
+                    ignore_dictionary = np.load('cv_folders/'+str(level)+'/igore_list'+'_kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'_'+fscore+'.npy',allow_pickle='TRUE').item()
+                    # print(ignore_dictionary[index_checking])
+                    checking_list=ignore_dictionary[index_checking]
+                else:
+                    checking_list=[]
 
                 if outer_cv not in checking_list:
                     with open(meta_txt+'_temp/'+str(chosen_cl)+'_b_'+str(outer_cv)+'/results.json') as f:
                         data = json.load(f)
 
-                        tn, fp, fn, tp=data["metrics"]['test']['tn'][0],data["metrics"]['test']['fp'][0],\
-                                       data["metrics"]['test']['fn'][0],data["metrics"]['test']['tp'][0]
+                        test_errors_list=data["classifications"]['test_errors']
+                        test_corrects_list=data["classifications"]['test_correct']
 
-                        if tp!=0 :
-                            f1=data["metrics"]['test']['f1_score'][0]
-                            f1_list.append(f1)
-                        else:
-                            f1_list.append(0)
 
-                        if tp!=0:
-                            Recall_pos=tp/(tp+fn)
-                            Precision_pos= tp/(tp+fp)
-                            f1_pos=2*(Recall_pos * Precision_pos) / (Recall_pos + Precision_pos)
-                            f1_positive_list.append(f1_pos)
-                        else:
-                            f1_positive_list.append(0)
+                        y_true=[]
+                        y_pre=[]
+                        for each in test_corrects_list:
+                            p=name_list2[name_list2['ID']==each].iat[0,1]
+                            # print(p)
+                            y_true.append(p)
+                            y_pre.append(p)
+                        for each in test_errors_list:
+                            p=name_list2[name_list2['ID']==each].iat[0,1]
+                            if p==1:
+                                y_true.append(0)
+                                y_pre.append(1)
+                            else:
+                                y_true.append(1)
+                                y_pre.append(0)
 
-                        if tn!=0:
-                            Recall_neg=tn/(tn+fp)
-                            Precision_neg= tn/(tn+fn)
-                            f1_neg=2*(Recall_neg * Precision_neg) / (Recall_neg + Precision_neg)
-                            f1_negative_list.append(f1_neg)
-                        else:
-                            f1_negative_list.append(0)
+                        df=classification_report(y_true, y_pre, labels=[0, 1], output_dict=True)
+                        report = pd.DataFrame(df).transpose()
+                        accuracy_list.append(report.iat[2,2])#no use of this score
+                        f1_list.append(report.loc['macro avg','f1-score'])
+                        # precision.append(report.loc['macro avg','precision'])
+                        # recall.append(report.loc['macro avg','recall'])
+                        support.append(report.loc['macro avg','support'])
+                        f1_positive_list.append(report.loc['1', 'f1-score'])
+                        f1_negative_list.append(report.loc['0', 'f1-score'])
+                        # precision_pos.append(report.loc['1', 'precision'])
+                        # recall_pos.append(report.loc['1', 'recall'])
+                        support_pos.append(report.loc['1', 'support'])
+                        support_neg.append(report.loc['0', 'support'])
+                        # print(f1_list)
+                        # if anti=='piperacillin/tazobactam':
+                            # print(y_true)
+                        # print(confusion_matrix(y_true,y_pre))
+                        # print(report)
+                        # print( data["metrics"]['test']['f1_score'][0])
 
-                        accu= (tp+tn)/(tp+fp+fn+tn)
-                        accuracy_list.append(accu)
-                        support_pos.append(tp+fn)
-                        support_neg.append(tn+fp)
-                        support.append(tp+fp+tn+fn)
+
+
             if f_kma:
                 final_table_sub=pd.DataFrame(index=['weighted-mean', 'weighted-std'],columns=['f1_macro', 'accuracy', 'f1_positive', 'f1_negative'])
                 # print(f1_list)
@@ -103,6 +125,7 @@ def extract_info_species( level,species,fscore,antibiotics,cv,f_phylotree,f_kma)
                 n = final_table_sub.loc['weighted-std',:].apply(lambda x: "{:.2f}".format(x))
                 final_table.loc[anti,:]=m.str.cat(n, sep='±').values
                 final_plot.loc[anti,:]=final_table_sub.loc['weighted-mean',:].to_list()
+                final_std.loc[anti,:]=final_table_sub.loc['weighted-std',:].to_list()
             else:
                 final_table_sub=pd.DataFrame(index=[' mean', ' std'],columns=['f1_macro', 'accuracy', 'f1_positive', 'f1_negative'])
                 # print(f1_list)
@@ -120,10 +143,13 @@ def extract_info_species( level,species,fscore,antibiotics,cv,f_phylotree,f_kma)
                 n = final_table_sub.loc['std',:].apply(lambda x: "{:.2f}".format(x))
                 final_table.loc[anti,:]=m.str.cat(n, sep='±').values
                 final_plot.loc[anti,:]=final_table_sub.loc['mean',:].to_list()
+                final_std.loc[anti,:]=final_table_sub.loc['std',:].to_list()
+
 
         save_name_score_final,_ = amr_utility.name_utility.GETsave_name_final(fscore,species,f_kma,f_phylotree,chosen_cl)
         final_table.to_csv(save_name_score_final + '.txt', sep="\t")
         final_plot.to_csv(save_name_score_final + '_PLOT.txt', sep="\t")
+        final_std.to_csv(save_name_score_final + '_std.txt', sep="\t")
         print(final_table)
 
 
@@ -166,6 +192,7 @@ def extract_best_estimator(level,species,fscore,antibiotics,cv,f_phylotree,f_kma
 
     summary_benchmarking_plot=pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative',
                                                                  'classifier'])
+    summary_benchmarking_std=pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative','classifier'])
     for anti in antibiotics:
         for chosen_cl in cl_list:
             score_ ,_= amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree,chosen_cl)
@@ -192,26 +219,33 @@ def extract_best_estimator(level,species,fscore,antibiotics,cv,f_phylotree,f_kma
         chosen_cl=summary_benchmarking.loc[anti,'classifier']
         score_, _ = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, chosen_cl)
         score_sub = pd.read_csv(score_ + '.txt', header=0, index_col=0, sep="\t")
+        score_sub_std = pd.read_csv(score_ + '_std.txt', header=0, index_col=0, sep="\t")
         score_sub_plot = pd.read_csv(score_ + '_PLOT.txt', header=0, index_col=0, sep="\t")
+
         # summary_benchmarking.loc[anti,'selected hyperparameter']=score_sub.loc[anti,'selected hyperparameter']
         # summary_benchmarking.loc[anti, 'frequency(out of 10)'] = score_sub.loc[anti, 'frequency']
+
         if f_kma:
 
             summary_benchmarking.loc[anti, ['f1_macro','accuracy', 'f1_positive','f1_negative']] = score_sub.loc[
                 anti, ['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative']].to_list()
             summary_benchmarking_plot.loc[[anti], ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']] = score_sub_plot.loc[
                 anti, ['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative']].to_list()
+            summary_benchmarking_std.loc[[anti], ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']] = score_sub_std.loc[
+                anti, ['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative']].to_list()
         else:
             summary_benchmarking.loc[[anti], ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']] = score_sub.loc[
                 anti, ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']].to_list()
             summary_benchmarking_plot.loc[[anti], ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']] = score_sub_plot.loc[
                 anti, ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']].to_list()
+            summary_benchmarking_std.loc[[anti], ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']] = score_sub_std.loc[
+                anti, ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']].to_list()
     print(summary_benchmarking)
     summary_benchmarking.to_csv(save_name_final + '_SummeryBenchmarking.txt', sep="\t")
     summary_benchmarking_plot.to_csv(save_name_final + '_SummeryBenchmarking_PLOT.txt', sep="\t")
+    summary_benchmarking_std.to_csv(save_name_final + '_SummeryBenchmarking_std.txt', sep="\t")
 
-
-def extract_info(l,s,score,cv,f_phylotree,f_kma,f_benchmarking,f_plot):
+def extract_info(l,s,fscore,cv,f_phylotree,f_kma,f_benchmarking,f_plot):
     data = pd.read_csv('metadata/' + str(l) + '_Species_antibiotic_FineQuality.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
     # data = pd.read_csv('metadata/Species_antibiotic_FineQuality.csv', index_col=0, dtype={'genome_id': object}, sep="\t")
@@ -224,15 +258,19 @@ def extract_info(l,s,score,cv,f_phylotree,f_kma,f_benchmarking,f_plot):
     df_species = data.index.tolist()
     antibiotics = data['modelling antibiotics'].tolist()
     # print(data)
-    if not f_benchmarking and not f_plot:#basic. extract scores for each species, antibiotic, and estimator.
-        for df_species, antibiotics in zip(df_species, antibiotics):
-            extract_info_species(l, df_species, score, antibiotics, cv,f_phylotree,f_kma)
-    # elif f_plot:
+    amr_utility.file_utility.make_dir('log/results/'+fscore)
+    for df_species, antibiotics in zip(df_species, antibiotics):
+        extract_info_species(l, df_species, fscore, antibiotics, cv,f_phylotree,f_kma)
+        extract_best_estimator(l, df_species, fscore, antibiotics, cv,f_phylotree,f_kma)
+    # if not f_benchmarking and not f_plot:#basic. extract scores for each species, antibiotic, and estimator.
     #     for df_species, antibiotics in zip(df_species, antibiotics):
-    #         plot(l, df_species, score, antibiotics, cv, f_phylotree, f_kma)
-    else:# extract the best estimator for kmer based banchmarking comparison.
-        for df_species, antibiotics in zip(df_species, antibiotics):
-            extract_best_estimator(l, df_species, score, antibiotics, cv,f_phylotree,f_kma)
+    #         extract_info_species(l, df_species, fscore, antibiotics, cv,f_phylotree,f_kma)
+    # # elif f_plot:
+    # #     for df_species, antibiotics in zip(df_species, antibiotics):
+    # #         plot(l, df_species, score, antibiotics, cv, f_phylotree, f_kma)
+    # else:# extract the best estimator for kmer based banchmarking comparison.
+    #     for df_species, antibiotics in zip(df_species, antibiotics):
+    #         extract_best_estimator(l, df_species, fscore, antibiotics, cv,f_phylotree,f_kma)
 
 
 
