@@ -152,57 +152,35 @@ def make_visualization(species,antibiotics,level,f_no_zip,temp_path,output_path)
 
 
 def com_blast_kma(df_species,antibiotics,level,tool,fscore,f_no_zip,output_path):
-    combination_list = []
-    Pvalue_list=[]
+    kma_results = []
+    blast_results=[]
 
     for species,antibiotics in zip(df_species, antibiotics):
-        print(species)
-        print('*******************')
-        antibiotics_selected = ast.literal_eval(antibiotics)
-        # print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
 
-        save_name_score,save_name_score_blastn=name_utility.GETname_ResfinderResults(level,species)
-        output_pathK=output_path+save_name_score
-        output_pathB=output_path+save_name_score_blastn
+        if species != 'Neisseria gonorrhoeae':
+            print(species)
+            print('*******************')
+            save_name_score,save_name_score_blastn=name_utility.GETname_ResfinderResults(level,species)
+            output_pathK=output_path+save_name_score
+            output_pathB=output_path+save_name_score_blastn
 
-        # for anti in antibiotics_selected:
+            # for anti in antibiotics_selected:
 
-        df_kma = pd.read_csv(output_pathK + '.csv',index_col=0,header=0 ,sep="\t")
-        df_blast = pd.read_csv(output_pathB + '.csv',index_col=0 ,header=0,sep="\t")
-        print(df_kma)
-        data_kma=df_kma[fscore].dropna().to_list()
-        data_blast=df_blast[fscore].dropna().to_list()
-        print(data_kma)
-        print(data_blast)
-        # paired T-test
-        try:
-            result = ttest_rel(data_kma, data_blast)
-            pvalue = result[1]
-            print(result)
-            Pvalue_list.append(pvalue)
-            combination_list.append(species )
-        except:
-            Pvalue_list.append('-')
+            df_kma = pd.read_csv(output_pathK + '.csv',index_col=0,header=0 ,sep="\t")
+            df_blast = pd.read_csv(output_pathB + '.csv',index_col=0 ,header=0,sep="\t")
+            data_kma=df_kma[fscore].dropna().to_list()
+            data_blast=df_blast[fscore].dropna().to_list()
+            print(data_kma)
+            print(data_blast)
+            kma_results=kma_results+data_kma
+            blast_results=blast_results+data_blast
+            print(len(kma_results))
 
-    # print(combination)
-    # print(Pvalue)
+    result = ttest_rel(kma_results, blast_results)# paired T-test
+    pvalue = result[1]
+    print('P value=',pvalue)
 
-    re_com= pd.DataFrame(data=Pvalue_list, columns=['P value'],index=combination_list)
-    re_com.index.name = 'species'
-    re_com=re_com.round(2)
-    re_com.fillna('-', inplace=True)
-    print(re_com)
-    save_name_com=name_utility.GETname_all()
-    file_utility.make_dir(save_name_com)
-    re_com.to_csv(save_name_com+'com_KMA_BLAST.csv')
 
-    # #plot bars
-    # plt.bar(combination, Pvalue)
-    # plt.axhline(y=0.05)
-    # plt.xlabel('Each species and antibiotic combinations')
-    # plt.ylabel('P-Value')
-    # plt.title('Blast-based results compared with KMA-based results')
-    # plt.savefig('Results/' + str(level) + '_kma_blast.png')
 
 
 
