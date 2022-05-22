@@ -115,75 +115,8 @@ def extract_info(out_score,fscore,f_multiAnti,f_multi,f_concat,f_concat2,f_all,T
             pass
 
         elif f_match_single==True:#match the single-species model results to the multi-s model table for a comparison.
-            merge_name = []
-            data = pd.read_csv('metadata/' + str(level) + '_multi-species_summary.csv', index_col=0,
-                               dtype={'genome_id': object}, sep="\t")
-
-            if f_all:
-                list_species = data.index.tolist()[:-1]
-                data = data.loc[list_species, :]
-            else:
-                data = data.loc[list_species, :]
-                data = data.loc[:, (data.sum() > 1)]
-            print(data)
-            # drop columns(antibotics) all zero
-            # data = data.loc[:, (data != 0).any(axis=0)]
-            # All_antibiotics = data.columns.tolist()  # all envolved antibiotics # todo
-            for n in list_species:
-                merge_name.append(n[0] + n.split(' ')[1][0])
-            merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
-            # --------------------------------------------------------
-            # --------------------------------------------------------
-            save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,merge_name,
-                                                                                                 'all_possible_anti',
-                                                                                                 level,
-                                                                                                 learning,
-                                                                                                 epochs,
-                                                                                                 f_fixed_threshold,
-                                                                                                 f_nn_base,
-                                                                                                 f_optimize_score)
-            save_name_score_final=os.path.dirname(save_name_score_final)
-
-
-            df_anti = data.dot(data.columns + ';').str.rstrip(';')#get anti names  marked with 1
-            print(df_anti)
-
-            final_init=pd.DataFrame(index=list_species,columns=data.columns.tolist())
-            for species in list_species:
-
-                anti=df_anti[species].split(';')
-
-                #read in resutls
-                single_s_score = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,species, None,
-                                                                                                     level, learning,
-                                                                                                     epochs,
-                                                                                                     f_fixed_threshold,
-                                                                                                     f_nn_base,
-                                                                                                     f_optimize_score)
-                data_score=pd.read_csv(single_s_score + '_score_final_PLOT.txt', sep="\t", header=0, index_col=0)
-                print(data_score)
-
-                # f1_macro, f1-positive, f1-negative, accuracy(f1_micro)
-                # if out_score == 'f':
-                #     score= ['weighted-f1_macro', 'weighted-f1_positive', 'weighted-f1_negative', 'weighted-accuracy']
-                # elif out_score == 'f_p_r':
-                #     score= ['weighted-f1_macro', 'weighted-precision_macro', 'weighted-recall_macro', 'weighted-accuracy']
-                # else:  # all scores
-                #     print('Please choose either f or f_p_r.')
-                #     exit()
-                #
-                # for each_score in score:
-
-                for each_anti in anti:
-                    final_init.loc[species,each_anti]=data_score.loc[each_anti,'weighted-'+fscore]
-                # final_init = final_init.replace(np.nan, '-', regex=True)
-            final_init.to_csv(save_name_score_final+'/single_species_'+fscore+'.txt', sep="\t")
-            print(final_init)
-
-
-
-
-                # todo Aug 13.
+            pass
+            #use main_vis_dis.py
         else:#A paired T test between threshold selected and fixed theshold.
 
             pass
@@ -242,12 +175,7 @@ def extract_info(out_score,fscore,f_multiAnti,f_multi,f_concat,f_concat2,f_all,T
 
             score = pickle.load(open(save_name_score_concat + '_all_score.pickle', "rb"))
             amr_utility.file_utility.make_dir(amr_utility.file_utility.get_directory(save_name_score_final))
-            # analysis_results.make_table.multi_make_visualization_normalCV(out_score,merge_name, All_antibiotics, level, f_fixed_threshold, epochs, learning,
-            #                              f_optimize_score,
-            #                              f_nn_base, cv, score, save_name_score_concat, save_name_score_final)
-            #todo need checking
-            print('--------------===============')
-            analysis_results.make_table.concat_make_visualization2(fscore,out_score, merge_name, All_antibiotics, level,
+            analysis_results.make_table.multi_make_visualization_normalCV(fscore,out_score, merge_name, All_antibiotics, level,
                                                                           f_fixed_threshold, epochs, learning,
                                                                           f_optimize_score,
                                                                           f_nn_base, cv, score, save_name_score_concat,
@@ -257,8 +185,6 @@ def extract_info(out_score,fscore,f_multiAnti,f_multi,f_concat,f_concat2,f_all,T
 
         elif T_test == True and T_dis_con == True: #A paired T test between 2 sets of para: -t_p 0.6 -l_p 0.4 and  -t_p 0.8 -l_p 0.6
             pass
-
-
         else:# A paired T test between threshold selected and fixed theshold.
             pass
 
@@ -335,40 +261,40 @@ def extract_info(out_score,fscore,f_multiAnti,f_multi,f_concat,f_concat2,f_all,T
                                                     learning,f_optimize_score, f_nn_base, 1, score, save_name_score,save_name_score_final)#this function only for concat2
 
 
-                # 2. CV scores on the training species
-                # save_name_score_concat = amr_utility.name_utility.GETname_multi_bench_save_name_score_concat(merge_name,
-                #                                                                                              merge_name_train,
-                #                                                                                              level,
-                #                                                                                              learning,
-                #                                                                                              epochs,
-                #                                                                                              f_fixed_threshold,
-                #                                                                                              f_nn_base,
-                #                                                                                              f_optimize_score,
-                #                                                                                              threshold_point,
-                #                                                                                              min_cov_point)
-                save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_concat_final(merge_name,
-                                                                                                            merge_name_test,
-                                                                                                            level,
-                                                                                                            learning,
-                                                                                                            epochs,
-                                                                                                            f_fixed_threshold,
-                                                                                                            f_nn_base,
-                                                                                                            f_optimize_score,
-                                                                                                            threshold_point,
-                                                                                                            min_cov_point)
-
-                # score = pickle.load(open(save_name_score_concat + '_all_score.pickle', "rb"))
-                # aucs_test = score[4]
-                # score_report_test = score[3]
-                # mcc_test = score[2]
-                # thresholds_selected_test = score[0]
-                print('&&&&&&&&&&&&')
-                print(save_name_score_final)
-                # similar as f_nn_all
-                analysis_results.make_table.concat_make_visualization2(fscore,out_score,merge_name_train, All_antibiotics, level, f_fixed_threshold, epochs,
-                                             learning,
-                                             f_optimize_score,
-                                             f_nn_base, cv, score, save_name_score, save_name_score_final)
+                # # 2. CV scores on the training species. no use so far.
+                # # save_name_score_concat = amr_utility.name_utility.GETname_multi_bench_save_name_score_concat(merge_name,
+                # #                                                                                              merge_name_train,
+                # #                                                                                              level,
+                # #                                                                                              learning,
+                # #                                                                                              epochs,
+                # #                                                                                              f_fixed_threshold,
+                # #                                                                                              f_nn_base,
+                # #                                                                                              f_optimize_score,
+                # #                                                                                              threshold_point,
+                # #                                                                                              min_cov_point)
+                # save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_concat_final(merge_name,
+                #                                                                                             merge_name_test,
+                #                                                                                             level,
+                #                                                                                             learning,
+                #                                                                                             epochs,
+                #                                                                                             f_fixed_threshold,
+                #                                                                                             f_nn_base,
+                #                                                                                             f_optimize_score,
+                #                                                                                             threshold_point,
+                #                                                                                             min_cov_point)
+                #
+                # # score = pickle.load(open(save_name_score_concat + '_all_score.pickle', "rb"))
+                # # aucs_test = score[4]
+                # # score_report_test = score[3]
+                # # mcc_test = score[2]
+                # # thresholds_selected_test = score[0]
+                # print('&&&&&&&&&&&&')
+                # print(save_name_score_final)
+                # # similar as f_nn_all
+                # analysis_results.make_table.concat_make_visualization2(fscore,out_score,merge_name_train, All_antibiotics, level, f_fixed_threshold, epochs,
+                #                              learning,
+                #                              f_optimize_score,
+                #                              f_nn_base, cv, score, save_name_score, save_name_score_final)
 
 
 
@@ -439,8 +365,7 @@ def extract_info(out_score,fscore,f_multiAnti,f_multi,f_concat,f_concat2,f_all,T
                                                     'threshold', 'support', 'support_positive'])
                     if f_phylotree or f_random:
                         summary = analysis_results.extract_score.score_summary_Tree(fscore,None, summary, cv, score_report_test, aucs_test, mcc_test,
-                                                         save_name_score,
-                                                         thresholds_selected_test)
+                                                         save_name_score,thresholds_selected_test)
                     else:
                         summary = analysis_results.extract_score.score_summary(fscore,None, summary, cv, score_report_test, aucs_test, mcc_test, save_name_score,
                                                 thresholds_selected_test)
