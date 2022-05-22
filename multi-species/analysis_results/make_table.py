@@ -175,20 +175,6 @@ def multi_make_visualization_normalCV(fscore,out_score,merge_name,All_antibiotic
 
         count_anti += 1
 
-        '''
-        #only for nested CV version.
-        data = summary.loc[['weighted-mean', 'weighted-std'], :]
-        # print(data)
-        data = data.astype(float).round(2)
-        # print(data)
-        m = data.loc['weighted-mean', :].apply(lambda x: "{:.2f}".format(x))
-        # print(m)
-        n = data.loc['weighted-std', :].apply(lambda x: "{:.2f}".format(x))
-        # print(data.dtypes)
-        final.loc[anti, :] = m.str.cat(n, sep='±').values
-        # hy_para_all.append([hyper_para[count_anti],hyper_para2[count_anti],hyper_para3[count_anti]])
-        '''
-
         final.loc[anti, :] = summary.loc['score', :].to_list()
 
     if out_score == 'f':
@@ -294,7 +280,8 @@ def concat_make_visualization2(fscore,out_score, merge_name, All_antibiotics, le
                                       learning, f_optimize_score,
                                       f_nn_base, cv, score, save_name_score, save_name_score_final):
     # only for multi-species,multi-output models. normal CV. training scores
-    # Only one table as output. i.e. all species share the same one score. June 23, finished.
+    # Only one table as output. i.e. all species share the same one score. June 23, finished
+    #so far , no use, as the codes in NN wrong, although corrected, too long to run again.
     score_val=score[9]
     aucs_test = score_val[1]
     score_report_test = score_val[0]
@@ -365,5 +352,5 @@ def concat_make_visualization2(fscore,out_score, merge_name, All_antibiotics, le
         pass
     # final['selected hyperparameter'] = [hy_para_all] * count_anti
     final.to_csv(save_name_score_final + '_score_final.txt', sep="\t")
-    print('concat2,training scores:==============')
+    print('concat,training scores:==============')
     print(final)
