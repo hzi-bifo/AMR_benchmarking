@@ -34,11 +34,19 @@ def combine_data(species_list,fscore,tool_list):
                 for anti in antibiotics:
 
                     for tool in tool_list:
-                        # if tool=='Point-/ResFinder':
-                        #     results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
-                        #     results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-                        #     score=results.loc[anti,fscore]
-                        if tool=='Neural networks':
+                        if tool=='Point-/ResFinder':
+                            results_file,_ = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, 'resfinder')
+                            if f_kma:
+                                results_file='./resfinder_folds/'+results_file
+                            elif f_phylotree:
+                                results_file='./resfinder_folds/'+results_file
+                            else:
+                                results_file='./resfinder_folds/'+results_file
+
+                            results=pd.read_csv(results_file + '_PLOT.txt', header=0, index_col=0,sep="\t")
+
+                            score=results.loc[anti,fscore]
+                        if tool=='Aytan-Aktug':
                             results_file = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,species, None,
                                                                                                                          'loose',
                                                                                                                          0.0,
@@ -107,7 +115,7 @@ def combine_data(species_list,fscore,tool_list):
                             results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
                             score=results.loc[anti,fscore]
 
-                        if tool=='Baseline (Majority)':
+                        if tool=='ML Baseline (Majority)':
 
                             results_file,_ = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, 'majority')
                             if f_kma:
@@ -201,15 +209,15 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
     # data=data.loc[['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa','Acinetobacter baumannii','Streptococcus pneumoniae', 'Campylobacter jejuni','Enterococcus faecium','Neisseria gonorrhoeae'],:]
     df_species = data.index.tolist()
     antibiotics = data['modelling antibiotics'].tolist()
-    # tool_list=['Point-/ResFinder', 'Neural networks', 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
-    # tool_list=[ 'Neural networks', 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']#step 1 and 3
-    # tool_list=[ 'Neural networks', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Baseline (Majority)']#only for step 2.
+    # tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+    # tool_list=[ 'Aytan-Aktug', 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']#step 1 and 3
+    # tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']#only for step 2.
     # tool_list=['KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
     # --------------
     #1. Is it different for species?
     # --------------
     if f_step=='1':
-        tool_list=[ 'Neural networks', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+        tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
         fig, axs = plt.subplots(4,4,figsize=(25, 25))
         plt.tight_layout(pad=4)
         fig.subplots_adjust(wspace=0.1, hspace=0.25, top=0.93, bottom=0.02,left=0.05)
@@ -284,9 +292,9 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
                     if i_color%3==0:
                         ax.plot(df_x_jitter[col_t], df[col_t], 'o',c='tab:blue', alpha=0.6, zorder=1, ms=8, mew=1, label="Random folds")
                     elif i_color%3==1:
-                        ax.plot(df_x_jitter[col_t], df[col_t], 'o',c='orange', alpha=0.6, zorder=1, ms=8, mew=1, label="Phylo-tree-based folds")
+                        ax.plot(df_x_jitter[col_t], df[col_t], 'o',c='orange', alpha=0.6, zorder=1, ms=8, mew=1, label="Phylogeny-aware folds")
                     else:
-                        ax.plot(df_x_jitter[col_t], df[col_t], 'go', alpha=0.6, zorder=1, ms=8, mew=1, label="KMA-based folds")
+                        ax.plot(df_x_jitter[col_t], df[col_t], 'go', alpha=0.6, zorder=1, ms=8, mew=1, label="Homology-aware folds")
                     # i_color+=1
                     # ax.set_title(species,style='italic', weight='bold')
                     # ax.set(ylim=(0, 1.0))
@@ -309,8 +317,10 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
                     ax.tick_params(axis='y',bottom=False)
                 if species=='Escherichia coli' and ( i_color in [1,2,3]):
                     leg=ax.legend(bbox_to_anchor=(0.8, 1.11),ncol=3,fontsize=30,frameon=False, markerscale=2)
+
                     for lh in leg.legendHandles:
                         lh._legmarker.set_alpha(1)
+
 
             # ax.set_xticks(range(len(df.columns)))
             # ax.set_xticklabels(df.columns)
@@ -343,7 +353,8 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
 
         # axs[1,2].axis('off')
         # i=0
-        tool_list=[ 'Neural networks', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Baseline (Majority)']
+        # tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
+        tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Point-/ResFinder']
         for tool in tool_list:
 
             # plt.rcParams['savefig.facecolor'] = "0.8"
@@ -426,7 +437,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
 
 
         # fig.savefig('log/results/FoldsChangeByTool_'+fscore+'.png')
-        fig.savefig('log/results/FoldsChange_'+fscore+'.png')
+        fig.savefig('log/results/FoldsChange_'+fscore+'.pdf')
     #2. Is it different for antis within species?
     if f_step=='3':
         # fig, axs = plt.subplots(11,1,figsize=(20, 30))
@@ -436,7 +447,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
         plt.tight_layout()
         fig.subplots_adjust(left=0.04,  right=0.98,wspace=0.1, hspace=0.6, top=0.96, bottom=0.03)
         title='Performance change w.r.t. different folds ('+fscore+')'
-        tool_list=[ 'Neural networks', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+        tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
         # fig.suptitle(title,size=17, weight='bold')
         i=0
         j=0
@@ -514,7 +525,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
                 ax.set(ylim=(0, 1.0))
                 ax.set_ylabel(fscore,size=22)
                 if species=='Escherichia coli' and ( i_color in [1,2,3]):
-                    ax.legend(bbox_to_anchor=(1, 1.65),ncol=3,fontsize=26,frameon=False,markerscale=2)
+                    ax.legend(bbox_to_anchor=(1, 1.65),ncol=3,fontsize=26,frameon=False,markerscale=2,labels=['Random folds', 'Phylogeny-aware folds','Homology-aware folds'])
 
 
             ax.set_xticks(range(len(df.columns)))
@@ -549,7 +560,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
                         if i_label%2==0:
                             ax.plot(df_x_jitter.loc[idx,labels[i_label:i_label+2]], df.loc[idx,labels[i_label:i_label+2]], color = 'grey', linewidth = 0.5, linestyle = '--', zorder=-1)
 
-        fig.savefig('log/results/FoldsChangeWithinSpecies_'+fscore+'.png')
+        fig.savefig('log/results/FoldsChangeWithinSpecies_'+fscore+'.pdf')
 
 
 

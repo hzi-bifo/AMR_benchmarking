@@ -24,6 +24,7 @@ import data_preparation.merge_input_output_files_khuModified
 import data_preparation.merge_resfinder_khuModified
 import resfinder.ResFinder_PointFinder_concat_khuModified
 import neural_networks.Neural_networks_khuModified_hyperpara as nn_module_hyper
+import neural_networks.nn_multiS as nn_discrete
 import neural_networks.Neural_networks_khuModified_earlys as nn_module
 # import data_preparation.discrete_merge
 # import neural_networks.Neural_networks_khuModified as nn_module_original
@@ -305,7 +306,7 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
             print('the species to test: ', species_testing)
             list_species_training=list_species[:count] + list_species[count+1 :]
             count += 1
-            if count==4:
+            if count <11:#all
                 # do a nested CV on list_species, select the best estimator for testing on the standing out species
                 merge_name_train=[]
                 path_cluster_results=[]
@@ -361,7 +362,12 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
                 #                               seed, re_epochs, f_scaler, f_fixed_threshold, f_nn_base,
                 #                               f_optimize_score, save_name_score_concat, merge_name, threshold_point,
                 #                               min_cov_point) #cv=11, one as a testing set. the rest is for a normal CV
-
+                #only for debug# Oct 21.2021
+                score_val = score[9]
+                aucs_test = score_val[1]
+                score_report_test = score_val[0]
+                mcc_test = score_val[2]
+                print(score_report_test)
 
 
                 # score.append(merge_name_val)#add valuation set name/information.
@@ -461,6 +467,8 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
                                                                             min_cov_point)
             path_cluster_results.append(path_cluster_results_concat)
 
+
+
         #todo create relevant files. Seems finished. June 8th.June 19th refined.
         _, path_metadata_all, _, _, _, \
         path_mutation_gene_results_all, path_x_y_all, path_x_all, path_y_all, path_name_all,_= \
@@ -480,6 +488,8 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
             data_preparation.merge_input_output_files_khuModified.extract_info(path_id_all,
                                                                                path_mutation_gene_results_all,
                                                                              path_metadata_all, path_x_y_all)
+
+
         else:
             print('Start training..')
             name_weights_folder = amr_utility.name_utility.GETname_multi_bench_folder_concat(merge_name,
@@ -503,12 +513,55 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
                                                                                                          f_optimize_score,
                                                                                                          threshold_point,
                                                                                                          min_cov_point)
-
+            #log: May 27, 2022. change from 11 folds to 6 folds. recording f_pre for more detailed analysis.
+            # previous 11 folds(with 1 for test) was store Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj_11folds.zip
+            # Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj_thrcovpoint_0.6_0.4 only 11 folds, no much difference, so 6 not re-run.
             nn_module_hyper.multi_eval(merge_name, 'all_possible_anti_concat', level, path_x_all, path_y_all,
-                                          path_name_all, path_cluster_results, 11,
+                                          path_name_all, path_cluster_results, 6,
                                           seed, re_epochs, f_scaler, f_fixed_threshold, f_nn_base,
                                           f_optimize_score, save_name_score_concat, merge_name, threshold_point,
                                           min_cov_point) #cv=11, one as a testing set. the rest is for a normal CV
+
+            #May27.2022. each folds could run saparately for speeding up.
+            nn_discrete.multi_eval(merge_name,'all_possible_anti', level, path_x_all, path_y_all, path_name_all, path_cluster_results, cv,[1], seed,
+                                 re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score_concat, None,
+                                 None, None)  # hyperparmeter selection in inner loop of nested CV #[2,3,4]
+            #above qsub.May 28. 2022.
+            #to do
+            # after above finished for each of 5 folds.
+            # nn_discrete.multi_test(merge_name,'all_possible_anti', level, path_x_all, path_y_all, path_name_all, path_cluster_results, cv,[0,1,2,3,4], seed,
+            #                      re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score_concat, None,
+            #                      None, None)  # hyperparmeter selection in inner loop of nested CV
+
+    # if f_cluster_folders == True:
+    #     #analysis the number of each species' samples in each folder.
+    #     #May28.2022. checked that the folds are exactly the same as discrete multi-s model.
+    #     path_cluster_results = []
+    #     for s in list_species:
+    #
+    #         _, _, path_cluster_results_concat, _, _, \
+    #         _, _, _, _, _, _ = \
+    #             amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,
+    #                                                                         str(s.replace(" ", "_")), threshold_point,
+    #                                                                         min_cov_point)
+    #         path_cluster_results.append(path_cluster_results_concat)
+    #     _, _, _, _, _, \
+    #     _, _, _, _, path_name_all,_= \
+    #         amr_utility.name_utility.GETname_multi_bench_concat_species(level, path_large_temp, merge_name,
+    #                                                                     merge_name, threshold_point,
+    #                                                                     min_cov_point)
+    #     # folders_sample,split_original = neural_networks.cluster_folders.prepare_folders(cv, random,path_ID_multi, path_cluster_results,'original')
+    #     folders_sampleIndex,_,folders_sampleName= neural_networks.cluster_folders.prepare_folders(6, 42, path_name_all, path_cluster_results,'new')
+    #
+    #
+    #
+    #     folds_txt='./cv_folders/' + str(level) + '/multi_concat/mixedS.json'
+    #     import json,pickle
+    #     with open(folds_txt, 'w') as f:
+    #             json.dump(folders_sampleName, f) #only for supplemental 4
+    #     folds_p='./cv_folders/' + str(level) + '/multi_concat/mixedS.pickle'
+    #     with open(folds_p, 'wb') as f:
+    #         pickle.dump(folders_sampleIndex, f)
 
 
 if __name__== '__main__':

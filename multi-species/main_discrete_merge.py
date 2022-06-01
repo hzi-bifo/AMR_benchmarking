@@ -22,7 +22,7 @@ import data_preparation.merge_input_output_files_khuModified
 import data_preparation.merge_resfinder_khuModified
 # import data_preparation.merge_species_khuModified
 import neural_networks.Neural_networks_khuModified_hyperpara as nn_module_hyper
-import neural_networks.Neural_networks_khuModified_earlys as nn_module
+import neural_networks.nn_multiS as nn_discrete
 # import data_preparation.discrete_merge
 # import neural_networks.Neural_networks_khuModified as nn_module_original
 import csv
@@ -445,7 +445,7 @@ def run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,le
     # =================================
     if f_nn == True:
         name_weights_folder = amr_utility.name_utility.GETname_multi_bench_folder_multi(merge_name,level, learning, epochs,
-                                                                                   f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
+                                                                                   f_fixed_threshold,f_nn_base,f_optimize_score)
 
 
         make_dir(name_weights_folder)#for storage of weights.
@@ -456,7 +456,7 @@ def run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,le
             path_res_repre_results_multi, path_mutation_gene_results_multi, path_feature_multi = \
                 amr_utility.name_utility.GETname_multi_bench_multi_species(level, path_large_temp, merge_name, s)
             path_cluster_results.append(path_cluster_results_multi)
-
+        # print('checking 1')
         # in the eval fundtion, 2nd parameter is only used in names.
         # save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(merge_name,'all_possible_anti', level,
         #                                                                                learning, epochs,
@@ -465,7 +465,7 @@ def run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,le
         #                                                                                f_optimize_score)
         # nn_module.eval(merge_name, 'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv, random, hidden,
         #                epochs,re_epochs, learning, f_scaler, f_fixed_threshold, f_nn_base,f_optimize_score,save_name_score,None,None,None) # the last 3 Nones mean not concat multi-s model.
-        #todo save_name_score
+        #save_name_score
         save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(merge_name, 'all_possible_anti',
                                                                                        level,
                                                                                       0.0,0,
@@ -473,9 +473,21 @@ def run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,le
                                                                                        f_nn_base,
                                                                                        f_optimize_score)
 
-        nn_module_hyper.multi_eval(merge_name,'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv, random,
+        # OLD: CV all at once.
+        # nn_module_hyper.multi_eval(merge_name,'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv, random,
+        #                      re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score, None,
+        #                      None, None)  # hyperparmeter selection in inner loop of nested CV
+
+        #May27.2022. each folds could run saparately for speeding up.
+        nn_discrete.multi_eval(merge_name,'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv,[1], random,
                              re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score, None,
-                             None, None)  # hyperparmeter selection in inner loop of nested CV
+                             None, None)  # hyperparmeter selection in inner loop of nested CV #[2,3,4]
+        #above finished qsub.May27.2022.
+        # after above finished for each of 5 folds.
+        # nn_discrete.multi_test(merge_name,'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv,[0,1,2,3,4], random,
+        #                      re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score, None,
+        #                      None, None)  # hyperparmeter selection in inner loop of nested CV
+
 
     if f_cluster_folders == True:
         #analysis the number of each species' samples in each folder.
@@ -488,23 +500,34 @@ def run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,le
             path_res_repre_results_multi, path_mutation_gene_results_multi, path_feature_multi = \
                 amr_utility.name_utility.GETname_multi_bench_multi_species(level, path_large_temp, merge_name, s)
             path_cluster_results.append(path_cluster_results_multi)
-        folders_sample,split_original = neural_networks.cluster_folders.prepare_folders(cv, random,path_ID_multi, path_cluster_results,'original')
-        folders_sample_new,split_new_k = neural_networks.cluster_folders.prepare_folders(cv, random, path_ID_multi, path_cluster_results,'new')
+        # folders_sample,split_original = neural_networks.cluster_folders.prepare_folders(cv, random,path_ID_multi, path_cluster_results,'original')
+        folders_sampleIndex,_,folders_sampleName= neural_networks.cluster_folders.prepare_folders(cv, random, path_ID_multi, path_cluster_results,'new')
         ### split_original_all.append(split_original)
         ### split_new_k_all.append(split_new_k)
 
-        print(split_original)
-        split_original=np.array(split_original)#the number of samples of each species in each folder
-        split_new_k=np.array(split_new_k)
-        std_o = np.std(split_original, axis=0, ddof=1)
-        std_n = np.std(split_new_k, axis=0, ddof=1)
+        # print(split_original)
+        # split_original=np.array(split_original)#the number of samples of each species in each folder
+        # split_new_k=np.array(split_new_k)
+        # std_o = np.std(split_original, axis=0, ddof=1)
+        # std_n = np.std(split_new_k, axis=0, ddof=1)
+        #
+        # ### split_original_all.append(std_o)
+        # ### split_new_k_all.append(std_n)
+        #
+        # print(split_original)
+        # #todo check: make a bar plot for the number of samples of each species, the x-axis is the folder 1-10
+        # amr_utility.file_utility.plot_kma_split(split_original, split_new_k, level, list_species, merge_name)
 
-        ### split_original_all.append(std_o)
-        ### split_new_k_all.append(std_n)
 
-        print(split_original)
-        #todo check: make a bar plot for the number of samples of each species, the x-axis is the folder 1-10
-        amr_utility.file_utility.plot_kma_split(split_original, split_new_k, level, list_species, merge_name)
+        folds_txt='./cv_folders/' + str(level) + '/multi_species/DiscreteMultiSpecies.json'
+        import json,pickle
+        # with open(folds_txt, 'w') as f:
+        #         json.dump(folders_sampleName, f) #only for supplemental 4
+        folds_p='./cv_folders/' + str(level) + '/multi_species/DiscreteMultiSpecies.pickle'
+
+        with open(folds_p, 'wb') as f:
+            pickle.dump(folders_sampleIndex, f)
+
 
 
 def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta,f_phylo_prokka,f_phylo_roary,
@@ -596,7 +619,7 @@ if __name__== '__main__':
     # para for nn nestedCV
     parser.add_argument('-f_nn', '--f_nn', dest='f_nn', action='store_true',
                         help='Run the NN model')
-    parser.add_argument("-cv", "--cv_number", default=10, type=int,
+    parser.add_argument("-cv", "--cv_number", default=6, type=int,
                         help='CV splits number')
     parser.add_argument("-r", "--random", default=42, type=int,
                         help='random state related to shuffle cluster order')
