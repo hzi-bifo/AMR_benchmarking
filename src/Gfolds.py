@@ -6,7 +6,7 @@ import cv_folders.cluster_folders
 import argparse,itertools,os
 from pathlib import Path
 import numpy as np
-import pickle
+import pickle,json
 import pandas as pd
 
 def extract_info(level, f_phylotree, f_kma ):
@@ -61,13 +61,52 @@ def extract_info(level, f_phylotree, f_kma ):
             amr_utility.file_utility.make_dir("./cv_folders/supplement/"+str(species.replace(" ", "_")))
             if f_phylotree:
                 folds_txt = "./cv_folders/supplement/"+str(species.replace(" ", "_"))+"/"+\
-                                       str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_plyotree_cv.pickle"
+                                       str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_plyotree_cv.json"
             elif f_kma:
                 folds_txt = "./cv_folders/supplement/"+str(species.replace(" ", "_"))+"/"+\
-                                       str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_KMA_cv.pickle"
+                                       str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_KMA_cv.json"
             else:
                 folds_txt = "./cv_folders/supplement/"+str(species.replace(" ", "_"))+"/"+\
-                                       str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_random_cv.pickle"
-            with open(folds_txt, 'wb') as f:  # overwrite
-                pickle.dump(idname, f)
+                                       str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_random_cv.json"
 
+
+            # with open(folds_txt, 'wb') as f:  # overwrite
+            #     pickle.dump(idname, f)
+            with open(folds_txt, 'w') as f:
+                json.dump(idname, f)
+
+
+
+# def extract_multi(level):
+#     cv=11
+#     learning=0.0
+#     epochs=0
+#     merge_name = []
+#     f_fixed_threshold=True
+#     f_nn_base=False
+#     f_optimize_score='f1_macro'
+#     random=42
+#     data = pd.read_csv('metadata/' + str(level) + '_multi-species_summary.csv', index_col=0,
+#                        dtype={'genome_id': object}, sep="\t")
+#     list_species = data.index.tolist()[:-1]
+#     data = data.loc[list_species, :]
+#     # drop columns(antibotics) all zero
+#     data = data.loc[:, (data != 0).any(axis=0)]
+#     All_antibiotics = data.columns.tolist()  # all envolved antibiotics # todo
+#     for n in list_species:
+#         merge_name.append(n[0] + n.split(' ')[1][0])
+#
+#
+#     name_weights_folder = amr_utility.name_utility.GETname_multi_bench_folder_multi(merge_name,level, learning, epochs,
+#                                                                                    f_fixed_threshold,f_nn_base,f_optimize_score)
+#
+#
+#
+#     path_cluster_results=[]
+#     for s in list_species:
+#         path_large_temp_kma_multi, path_cluster_temp_multi, path_cluster_results_multi, path_large_temp_roary_multi, \
+#         path_roary_results_multi, path_metadata_s_multi, path_metadata_pheno_s_multi, path_large_temp_prokka, path_res_result, path_point_repre_results_multi, \
+#         path_res_repre_results_multi, path_mutation_gene_results_multi, path_feature_multi = \
+#             amr_utility.name_utility.GETname_multi_bench_multi_species(level, path_large_temp, merge_name, s)
+#         path_cluster_results.append(path_cluster_results_multi)
+#     folders_sample_new,split_new_k = cv_folders.cluster_folders.prepare_folders(cv, random, path_ID_multi, path_cluster_results,'new')

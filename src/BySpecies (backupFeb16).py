@@ -7,7 +7,6 @@ import amr_utility.file_utility
 import src.BySpecies
 import src.ByAnti
 import ast
-import math
 import numpy as np
 import argparse
 import matplotlib.pyplot as plt
@@ -17,10 +16,7 @@ from matplotlib.projections.polar import PolarAxes
 from matplotlib.projections import register_projection
 from matplotlib.spines import Spine
 from matplotlib.transforms import Affine2D
-from ast import literal_eval
-from mycolorpy import colorlist as mcp
 from matplotlib.patches import Patch
-from pylab import *
 import pickle
 import pandas as pd
 import seaborn as sns
@@ -76,12 +72,12 @@ def combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
                 score=results.loc[:,fscore].to_list()
 
         if tool=='KmerC':
-            if species !='Mycobacterium tuberculosis':#no MT information.
+            if species !='Mycobacterium tuberculosis'  :#no MT information.
                 _, results_file = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, '')
                 results_file='./patric_2022/'+results_file
                 results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
                 score=results.loc[:,fscore].to_list()
-            else:#'Mycobacterium tuberculosis'
+            else:
                 score=np.empty((len(antibiotics)))
                 score[:] = np.NaN
                 score=score.tolist()
@@ -98,21 +94,21 @@ def combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
                 score[:] = np.NaN
                 score=score.tolist()
         if tool=='PhenotypeSeeker':
-            # if species !='Mycobacterium tuberculosis':
-            _, results_file = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, '')
-            if f_kma:
-                results_file='./PhenotypeSeeker_Nov08/'+results_file
-            elif f_phylotree:
-                results_file='./PhenotypeSeeker_tree/'+results_file
+            if species !='Mycobacterium tuberculosis':
+                _, results_file = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, '')
+                if f_kma:
+                    results_file='./PhenotypeSeeker_Nov08/'+results_file
+                elif f_phylotree:
+                    results_file='./PhenotypeSeeker_tree/'+results_file
+                else:
+                    results_file='./PhenotypeSeeker_random/'+results_file
+
+                results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
+                score=results.loc[:,fscore].to_list()
             else:
-                results_file='./PhenotypeSeeker_random/'+results_file
-            results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
-            score=results.loc[:,fscore].to_list()
-            # else:
-            #
-            #     score=np.empty((len(antibiotics)))
-            #     score[:] = np.NaN
-            #     score=score.tolist()
+                score=np.empty((len(antibiotics)))
+                score[:] = np.NaN
+                score=score.tolist()
 
         if tool=='Kover':
 
@@ -144,104 +140,13 @@ def combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
 
         data.append(score)
     return data
-def extract_multi_model_summary():
-    '''Get antibiotic list that is shared by mutiple species.'''
-    data = pd.read_csv('metadata/loose_Species_antibiotic_FineQuality.csv', index_col=0,
-                       dtype={'genome_id': object}, sep="\t")
-    #gather all the possible anti
-    data_sub=data['modelling antibiotics'].apply(literal_eval)
-    All_anti=np.concatenate(data_sub)
-    All_anti=list(set(All_anti))
-    All_anti.sort()
-    summary=pd.DataFrame(index=data.index, columns=All_anti)  # initialize for visualization
-    # print(summary)
-    for i in All_anti:
-        summary[i] =data_sub.apply(lambda x: 1 if i in x else 0)
-    # print(summary.columns,summary.columns.size)
-    summary = summary.loc[:, (summary.sum() >1)]
-    summary = summary[(summary.T != 0).any()]#drops rows(bacteria) where all zero
-    return summary
-
-def adjust_lable(axs_,antibiotics,anti_share,colors):
-        XTICKS = axs_.xaxis.get_major_ticks()
-        # X_VERTICAL_TICK_PADDING = 40
-        # X_HORIZONTAL_TICK_PADDING = 25
-        n_lable=len(antibiotics)
-        # for tick in XTICKS[math.floor(3*n_lable/4):-1]:
-        #     tick.set_pad(X_HORIZONTAL_TICK_PADDING)
-        angles = np.linspace(0,2*np.pi,len(axs_.get_xticklabels())+1)
-        # angles[np.cos(angles) < 0] = angles[np.cos(angles) < 0] + np.pi
-        angles = np.rad2deg(angles)
-        # if n_lable>7:
-        #     for tick in XTICKS[0::2]:
-        #         tick.set_pad(10)
-        #     for tick in XTICKS[1::2]:
-        #         tick.set_pad(40)
-        labels = []
-        i=0
-
-        for label, angle in zip(axs_.get_xticklabels(), angles):
-            # label.set_rotation(90-angle*(365/n_lable))
-            # label.set_rotation_mode("anchor")
-            if i>n_lable/2:
-                angle=angle-70
-            else:
-                angle=angle-70
-            x,y = label.get_position()
-            # print(label.get_text())
-            # print('---')
-            lab = axs_.text(x,y, label.get_text(), transform=label.get_transform(),
-                          ha=label.get_ha(), va=label.get_va(),size=18)
-
-            # if i>n_lable/2:
-            #     lab.set_rotation( 90+i*(365/n_lable))
-            # elif i==0:
-            #     pass
-            # else:
-            #     lab.set_rotation(-90+i*(365/n_lable))
-            #
-
-            # colors = iter([plt.cm.pastel1(i) for i in range(len(anti_share))])
-
-
-            # colors=mcp.gen_color(cmap="Set3",n=len(anti_share))
-
-            # colors=['#77dd77','#836953','#89cff0','#99c5c4','#9adedb','#aa9499','#aaf0d1','#b2fba5','#b39eb5','#bdb0d0','']
-            # lab.set_bbox(dict(facecolor=chose_color, alpha=0.5, edgecolor=chose_color))
-            if label.get_text() in anti_share:
-                index_color=anti_share.index(label.get_text())
-                lab.set_bbox(dict(facecolor=colors[index_color], alpha=0.5, edgecolor='white'))
-            else:
-                lab.set_bbox(dict(facecolor='silver', alpha=0.5, edgecolor='white'))
-            lab.set_rotation(angle)
-            i+=1
-            lab.set_rotation_mode("anchor")
-            labels.append(lab)
-        axs_.set_xticklabels([])
-        # plt.setp(axs_.get_xticklabels(), backgroundcolor="limegreen")
-def adjust_lable_bar(axs_,antibiotics,anti_share,colors):
-    labels = []
-    i=0
-    for label in  (axs_.get_xticklabels()):
-        x,y = label.get_position()
-        lab = axs_.text(x,y, label.get_text(), transform=label.get_transform(),
-                      ha=label.get_ha(), va=label.get_va(),size=20)
-        if label.get_text() in anti_share:
-            index_color=anti_share.index(label.get_text())
-            lab.set_bbox(dict(facecolor=colors[index_color], alpha=0.5, edgecolor='white'))
-        else:
-            lab.set_bbox(dict(facecolor='silver', alpha=0.5, edgecolor='white'))
-        i+=1
-        lab.set_rotation_mode("anchor")
-        labels.append(lab)
-    axs_.set_xticklabels([])
 
 
 def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
     if fscore=='f1_macro' or fscore=='accuracy':
-        tool_list=['Point-/ResFinder', 'Neural networks', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Baseline (Majority)']
+        tool_list=['Point-/ResFinder', 'Neural networks', 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Baseline (Majority)']
     else:
-        tool_list=['Point-/ResFinder', 'Neural networks', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+        tool_list=['Point-/ResFinder', 'Neural networks', 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
     data = pd.read_csv('metadata/' + str(level) + '_Species_antibiotic_FineQuality.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
     data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
@@ -271,7 +176,7 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
     fig, axs = plt.subplots(4,3,figsize=(20, 25))
     # fig.subplots_adjust(top=0.88)
     plt.tight_layout(pad=4.5)
-    fig.subplots_adjust(wspace=0.25, hspace=0.5, top=0.95, bottom=0.03)
+    fig.subplots_adjust(wspace=0.25, hspace=0.4, top=0.96, bottom=0.03)
     if f_phylotree:
         title='Performance w.r.t. phylo-tree-based folds ('+fscore+')'
     elif f_kma:
@@ -291,17 +196,14 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
     red='#ef3b2c'
     brown=(0.5490196078431373, 0.33725490196078434, 0.29411764705882354)
     if fscore=='f1_macro' or fscore=='accuracy':
-        colors = [blue,brown,  purp , green , red, "black"]# #ffd343
+        colors = [blue,brown, orange,purp , green , red, "black"]# #ffd343
     else:
-        colors = [blue,brown, purp , green , red]
-    colors_anti=['#8dd3c7','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#bc80bd','#ccebc5',\
-                    '#ffed6f','#836953','#ff9899','#ff694f','#1f78b4','#33a02c','#ff7f00','#a6cee3','#77dd77','#b39eb5']
+        colors = [blue,brown, orange,purp , green , red]
     # colors=sns.color_palette(None,7)
     # for ax in axs[0, :]:
     #     ax.remove()
-    # summerize antibiotis of all species
-    anti_summary=extract_multi_model_summary()
-    anti_share=anti_summary.columns.to_list()
+
+
 
 
     # -----------------------------------------------------------------------------------------------
@@ -315,7 +217,6 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
         # theta = radar_factory(N, frame='circle')
         # fig_, axs_=axs[i//3,i%3].plot(subplot_kw=dict(projection='radar'))
         # plt.style.use('ggplot')
-
         axs_ = fig.add_subplot(4,3,i,polar= 'spine')#
         data = combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list)
         # print(data)
@@ -331,21 +232,20 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
         # Plot the four cases from the example data on separate axes
         # for ax, (title, case_data) in zip(axs.flat, data):
         axs_.set_rgrids([0, 0.2, 0.4, 0.6, 0.8,1])
-        axs_.set_title(species, weight='bold',style='italic', size=22, position=(0.5, 1.1),
-                     horizontalalignment='center', verticalalignment='center',pad=60)
+        axs_.set_title(species, weight='bold',style='italic', size=20, position=(0.5, 1.1),
+                     horizontalalignment='center', verticalalignment='center')
         p_radar=[]
         for d, color in zip(data, colors):
             # axs_.plot(theta, d, marker='o', markersize=4,color=color,dashes=[6, 2])
             d=np.concatenate((d,[d[0]]))
             theta_=np.concatenate((theta,[theta[0]]))
-            p_,=axs_.plot(theta_, d,  'o-', markersize=4,color=color,dashes=[6, 2],linewidth=2)
-            # p_,=axs_.plot(theta_, d,  'o-', markersize=4,color=color)
+            p_,=axs_.plot(theta_, d,  'o-', markersize=4,color=color,dashes=[6, 2])
             p_radar.append(p_)
             # ax.fill(theta, d, facecolor=color, alpha=0.25)
         # Circle((0.5, 0.5), 0.5)
         axs_.set(ylim=(0.2, 1.0))
         plt.yticks([0, 0.2, 0.4, 0.6, 0.8,0.1])
-        plt.grid(color='grey', linestyle='--', linewidth=0.7)
+
         axs_._gen_axes_spines()
         axs_.set_thetagrids(np.degrees(theta), spoke_labels)
         # axs_.set_yticks([])
@@ -355,16 +255,15 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
         #     axs_.tick_params(axis='both', which='major', pad=20,labelrotation=15)
         # else:
         #     axs_.tick_params(axis='both', which='major', pad=20,labelrotation=15)
-        if species=='Streptococcus pneumoniae':
-            axs_.tick_params(axis='x', which='major', color='grey',grid_linestyle='dashed', pad=10,labelsize=18,zorder=3)
-        else:
-            axs_.tick_params(axis='x', which='major', color='grey',grid_linestyle='dashed', pad=15,labelsize=18,zorder=3)
-        # axs_.tick_params(axis='x', which='major', color='grey',grid_linestyle='dashed',labelsize=18,zorder=3)
-        axs_.spines["start"].set_color("grey")
-        axs_.spines["polar"].set_color("grey")
+
+        axs_.tick_params(axis='x', which='major', pad=25,labelsize=12)
+        axs_.spines["start"].set_color("gray")
+        axs_.spines["polar"].set_color("gray")
         i+=1
-        # Adjust tick label positions ------------------------------------
-        adjust_lable(axs_,antibiotics,anti_share,colors_anti)
+
+
+
+
 
     # fig.text(0.5, 0.965, title,
     #          horizontalalignment='center', color='black', weight='bold',
@@ -377,16 +276,16 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
         legend_elements = p_radar+[
                            Patch(facecolor=colors[0],edgecolor= colors[0]),Patch(facecolor=colors[1],edgecolor= colors[1]),
                            Patch(facecolor=colors[2],edgecolor= colors[2]),Patch(facecolor=colors[3],edgecolor= colors[3]),
-                           Patch(facecolor=colors[4],edgecolor= colors[4]),Patch(facecolor=colors[5],edgecolor= colors[5])
-                           ]
-        axs_.legend(handles=legend_elements,  labels=['', '','', '', '','']+labels,ncol=2, handlelength=3, edgecolor='grey',
+                           Patch(facecolor=colors[4],edgecolor= colors[4]),Patch(facecolor=colors[5],edgecolor= colors[5]),
+                           Patch(facecolor=colors[6],edgecolor= colors[6])]
+        axs_.legend(handles=legend_elements,  labels=['', '','', '', '','', '']+labels,ncol=2, handlelength=3, edgecolor='grey',
           borderpad=0.7, handletextpad=1.5, columnspacing=0,labelspacing=1,loc='lower right',title='Software',fontsize=16,title_fontsize=16)
     else:
         legend_elements = p_radar+[
                                Patch(facecolor=colors[0],edgecolor= colors[0]),Patch(facecolor=colors[1],edgecolor= colors[1]),
                                Patch(facecolor=colors[2],edgecolor= colors[2]),Patch(facecolor=colors[3],edgecolor= colors[3]),
-                               Patch(facecolor=colors[4],edgecolor= colors[4])]
-        axs_.legend(handles=legend_elements,  labels=['', '','', '', '']+labels,ncol=2, handlelength=3, edgecolor='grey',
+                               Patch(facecolor=colors[4],edgecolor= colors[4]),Patch(facecolor=colors[5],edgecolor= colors[5])]
+        axs_.legend(handles=legend_elements,  labels=['', '','', '', '','']+labels,ncol=2, handlelength=3, edgecolor='grey',
           borderpad=0.7, handletextpad=1.5, columnspacing=0,labelspacing=1,loc='lower right',title='Software',fontsize=16,title_fontsize=16)
     # fig, ax = plt.subplots()
 
@@ -417,24 +316,14 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
         # g = df.plot(ax=axs[row, col],kind="bar",color=colors, x='software',y=antibiotics)
         g = sns.barplot(x="antibiotics", y=fscore, hue='software',
                         data=df, dodge=True, ax=axs[row, col],palette=colors)
-        g.set_title(species,style='italic', weight='bold',size=22)
+        g.set_title(species,style='italic', weight='bold',size=20)
 
         g.set(ylim=(0.2, 1.0))
-        g.set_ylabel(fscore,size = 20)
+        g.set_ylabel(fscore,size = 16)
         g.set_xlabel('')
         # g.set_xticklabels(g.get_xticks(), size=16)
         # g.set_xticklabels([str(i) for i in g.get_xticks()], fontsize = 16)
-        g.set_xticklabels(g.get_xticklabels(),fontsize = 20 )
-        # for tl in g.get_xticklabels():
-        #     txt = tl.get_text()
-        #     if txt in anti_share:
-        #         index_color=anti_share.index(txt)
-        #         tl.set_backgroundcolor(colors_anti[index_color],alpha=0.5, edgecolor='white')
-        #     else:
-        #         tl.set_backgroundcolor('silver',alpha=0.5, edgecolor='white')
-        #     tl.set_text(txt)
-        adjust_lable_bar(g,antibiotics,anti_share,colors_anti)
-        # plt.setp(g.get_xticklabels(), backgroundcolor="limegreen")
+        g.set_xticklabels(g.get_xticklabels(),fontsize = 16 )
 
         # if species =='Neisseria gonorrhoeae':
         #     # plt.legend(loc='upper left',bbox_to_anchor=(1,0.5))

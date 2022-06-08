@@ -619,22 +619,22 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
     data = pd.read_csv('metadata/' + str(level) + '_Species_antibiotic_FineQuality.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
     data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
-    if f_all == False:#should not use it.
+    if f_all == False:
         data = data.loc[s, :]
 
-    s_radar=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
-                'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis']
-    s_bar=['Campylobacter jejuni','Enterococcus faecium','Neisseria gonorrhoeae']
+    # s_radar=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
+    #             'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis']
+    # s_bar=['Campylobacter jejuni','Enterococcus faecium','Neisseria gonorrhoeae']
 
-    data_radar=data.loc[s_radar, :]
-    data_bar=data.loc[s_bar, :]
-    if f_phylotree:
-        data_radar=data_radar.loc[['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa','Acinetobacter baumannii','Streptococcus pneumoniae'],:]
+    data_radar=data.loc[s, :]
+    # data_bar=data.loc[s_bar, :]
+    # if f_phylotree:
+    #     data_radar=data_radar.loc[['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa','Acinetobacter baumannii','Streptococcus pneumoniae'],:]
 
 
     df_species_radar = data_radar.index.tolist()
     antibiotics_radar = data_radar['modelling antibiotics'].tolist()
-    df_species_bar = data_bar.index.tolist()
+    # df_species_bar = data_bar.index.tolist()
     antibiotics_bar = data_radar['modelling antibiotics'].tolist()
 
     amr_utility.file_utility.make_dir('log/results/')
@@ -676,8 +676,8 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
     anti_summary=extract_multi_model_summary() #antis shared by multiple species
     anti_share=anti_summary.columns.to_list()
     # print(anti_share)
-    font_size=30
-    line_width=5
+    font_size=60
+    line_width=12
 
     # -----------------------------------------------------------------------------------------------
     # 1. ploting radar graphs
@@ -692,7 +692,7 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
         # -------------------Std of scores--------------
         # axs_std = fig.add_subplot(3,3,i,polar= 'spine')#, frame_on=False
         theta = radar_factory(len(antibiotics),'radar'+species, frame='polygon')
-        axs_std = plt.subplot(9,3,i, projection='radar'+species)
+        axs_std = plt.subplot(1,1,i, projection='radar'+species)
 
         data = combine_data_std(species,antibiotics,fscore, f_phylotree, f_kma,tool_list)
 
@@ -705,8 +705,8 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
 
 
         species_title=(species[0] +". "+ species.split(' ')[1] )
-        axs_std.set_title(species_title, weight='bold',style='italic', size=30, position=(0.5, 1.1),
-                     horizontalalignment='center', verticalalignment='center',pad=30)
+        axs_std.set_title(species_title, weight='bold',style='italic', size=60, position=(0.5, 1.1),
+                     horizontalalignment='center', verticalalignment='center',pad=80)
         p_radar=[]
 
         for d, color in zip(data, colors):
@@ -715,23 +715,23 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
             #     p_ =axs_std.plot(theta, d,  'o-', markersize=4,color=color,dashes=[2,2],linewidth=2,alpha=.3)
             # else:
 
-            p_ =axs_std.plot(theta, d,  'o-', markersize=6,color=color,dashes=[5,2],linewidth=line_width )
+            p_ =axs_std.plot(theta, d,  'o-', markersize=25,color=color,dashes=[5,2],linewidth=line_width )
             p_radar.append(p_)
             # ax.fill(theta, d, facecolor=color, alpha=0.25)
         # Circle((0.5, 0.5), 0.5)
         if species=='Klebsiella pneumoniae' and f_kma==True and fscore=='f1_negative':
             axs_std.set_rgrids([-1,-0.5,0, 0.2,  0.4])
             axs_std.set(ylim=(-1, 0.41))
-            plt.yticks([-1,-0.5,0, 0.2,  0.4],size=16)
+            plt.yticks([-1,-0.5,0, 0.2,  0.4],size=40)
         elif f_kma==True or f_phylotree==True:
             axs_std.set_rgrids([-1,-0.5,0, 0.2, 0.4])
             axs_std.set(ylim=(-1,  0.41))
-            plt.yticks([-1,-0.5,0, 0.2,  0.4],size=16)
+            plt.yticks([-1,-0.5,0, 0.2,  0.4],size=40)
         else:
             axs_std.set_rgrids([-1,-0.5,0, 0.2,  0.4])
             axs_std.set(ylim=(-1,  0.41))
-            plt.yticks([-1,-0.5,0, 0.2, 0.4],size=16)
-        plt.grid(color='white', linestyle='-', linewidth=1)
+            plt.yticks([-1,-0.5,0, 0.2, 0.4],size=40)
+        plt.grid(color='white', linestyle='-', linewidth=3)
 
         axs_std._gen_axes_spines()
         axs_std.set_thetagrids(np.degrees(theta), spoke_labels)
@@ -744,15 +744,15 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
         # -----legend---------
         # ------------------
         if i==1:
-            leg=axs_std.legend(antibiotics,  labels= labels, ncol=3, loc=(0.4,1.24),fontsize=28, markerscale=4)
+            leg=axs_std.legend(antibiotics,  labels= labels, ncol=2, loc=(-0.1,1.2),fontsize=50, markerscale=1,frameon=False)
             for line in leg.get_lines():
-                line.set_linewidth(5.0)
+                line.set_linewidth(10)
         # axs_std.spines["start"].set_color("white")
         # axs_std.spines["polar"].set_color("white")
         i+=1
         # Adjust tick label positions ------------------------------------
         # adjust_lable(axs_std,antibiotics,anti_share,colors_anti,species,font_size)
-        axs_std.tick_params(axis='x', which='major', pad=18,labelsize=font_size)
+        axs_std.tick_params(axis='x', which='major', pad=50,labelsize=font_size)
 
         pos1=axs_std.get_position()
         if species=='Klebsiella pneumoniae' and f_kma==False and f_phylotree==False:
@@ -761,7 +761,7 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
             axs_ = fig.add_axes([pos1.x0+0.03575,pos1.y0+0.0128,pos1.width / 1.44,pos1.height / 1.44], projection= 'radar'+species)
             # axs_ = fig.add_axes([pos1.x0+0.032,pos1.y0+0.027,pos1.width / 1.34,pos1.height / 1.34], projection= 'radar'+species)
         else:
-            axs_ = fig.add_axes([pos1.x0+0.03575,pos1.y0+0.0128,pos1.width / 1.44,pos1.height / 1.44], projection= 'radar'+species)
+            axs_ = fig.add_axes([pos1.x0+0.121,pos1.y0+0.107,pos1.width / 1.44,pos1.height / 1.44], projection= 'radar'+species)
             # axs_ = fig.add_axes([pos1.x0+0.029,pos1.y0+0.024,pos1.width / 1.29,pos1.height / 1.29], projection= 'radar'+species)
         #---------------------------------------------------
         # -------------------Mean of scores--------------
@@ -783,20 +783,20 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
         temp_zorder=0
         for d, color in zip(data, colors):
             if temp_zorder==0:
-                p_ =axs_.plot(theta, d,  'o-', markersize=9,color=color,linewidth=line_width,zorder=3)#,dashes=[6, 2],
+                p_ =axs_.plot(theta, d,  'o-', markersize=25,color=color,linewidth=line_width,zorder=3)#,dashes=[6, 2],
             else:
-                p_ =axs_.plot(theta, d,  'o-', markersize=9,color=color,linewidth=line_width)#,dashes=[6, 2],
+                p_ =axs_.plot(theta, d,  'o-', markersize=25,color=color,linewidth=line_width)#,dashes=[6, 2],
             temp_zorder+=1
         # Circle((0.5, 0.5), 0.5)
         # axs_.set(ylim=(0.4, 1.0))
         axs_.set_ylim(ymin=-0.05)
-        axs_.set_rgrids([0, 0.5, 1 ],size=18)
+        axs_.set_rgrids([0, 0.5, 1 ],size=40)
         axs_.tick_params(axis='y', which='major', pad=15)
         # plt.yticks([ 0,0.2,0.4, 0.6, 0.8,0.1],size=18)
         axs_.yaxis.grid(False)
         axs_.xaxis.grid(False)
         # plt.grid(axis='x',color='gray', dashes=[1,3], linewidth=0.7)
-        plt.grid(axis='y',color='gray', dashes=[3,3], linewidth=2)
+        plt.grid(axis='y',color='gray', dashes=[3,3], linewidth=10)
 
         axs_.set(xticklabels=[])
         axs_.set(xlabel=None)
@@ -804,132 +804,42 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
         # fig.savefig('log/results/'+'kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'_'+fscore+'_STD.png')
 
 
-    # ----------------------------------------
-    # =======================================
-    #a combination of the rest 3 species
-    # data_combine=[]
-    # Data=[ ]
-    data_com=pd.DataFrame(np.zeros(len(tool_list)))
-    for species, antibiotics_selected in zip(df_species_bar, antibiotics_bar):
-        antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
-        # plt.style.use('ggplot')
-        # axs_ = fig.add_subplot(4,3,i)#Campylobacter jejuni
-        data=combine_data_std(species,antibiotics,fscore, f_phylotree, f_kma,tool_list)
-        data_df=pd.DataFrame(data)
-        data_com=pd.concat([data_com, data_df], axis=1, ignore_index=True)
 
-    data_com=data_com.drop(columns=[0])
-    # print(data_com)
-    data_com=data_com.values
-    # print(data_com)
-    # antibiotics_com=['Campylobacter jejuni\ntetracycline','Enterococcus faecium\nvancomycin','Neisseria gonorrhoeae\nazithromycin',	'Neisseria gonorrhoeae\ncefixime']
-    # antibiotics_com=['C. jejuni\ntetracycline','E. faecium\nvancomycin','N. gonorrhoeae\nazithromycin','N. gonorrhoeae\ncefixime']
-    # antibiotics_com=[colorStyle.BOLD + 'C. jejuni' + colorStyle.END +' TE','E. faecium VA ','N. gonorrhoeae AZI','N. gonorrhoeae FIX']
-    # antibiotics_com=['$\\bf{\it{C. jejuni}}$ TE','E. faecium VA ','N. gonorrhoeae AZI','N. gonorrhoeae FIX'] $\mathrm{ABC123}^{123}$'
-    import matplotlib.font_manager
-
-    rcParams['mathtext.fontset'] = 'custom'
-    rcParams['mathtext.it'] = 'stixsans:italic'
-    rcParams['mathtext.bf'] = 'stixsans:italic:bold'
-    antibiotics_com=['$\mathbf{C. jejuni}$ TE','$\mathbf{E. faecium}$\nVA ','$\mathbf{N. gonorrhoeae}$ AZI','$\mathbf{N. gonorrhoeae}$\nFIX']
-    theta = radar_factory(4,'radar_com', frame='polygon')
-    axs_std = plt.subplot(9,3,i, projection='radar_com')
-    for d, color in zip(data_com, colors):
-        # print(d)
-        p_ =axs_std.plot(theta, d,  'o-', markersize=6,color=color,dashes=[5,2],linewidth=line_width)
-        # p_radar.append(p_)
-    axs_std.set_rgrids([-1,-0.5,0, 0.2, 0.4])
-    axs_std.set(ylim=(-1, 0.41))
-    plt.yticks([-1,-0.5,0, 0.2, 0.4],size=16)
-    plt.grid(color='white', linestyle='-', linewidth=2)
-    axs_std._gen_axes_spines()
-    axs_std.set_thetagrids(np.degrees(theta), antibiotics_com)
-    axs_std.set_facecolor('#d9d9d9')
-    axs_std.tick_params(axis='x', which='major', color='grey',grid_linestyle='dashed', pad=5,zorder=3)#labelsize=16,
-    # Adjust tick label positions ------------------------------------
-    adjust_lable_bar(axs_std,antibiotics_com,anti_share,colors_anti,font_size)
-    # axs_std.tick_params(axis='x', which='major', pad=20,labelsize=font_size)
-
-    pos1=axs_std.get_position()
-    axs_ = fig.add_axes([pos1.x0+0.03575,pos1.y0+0.0128,pos1.width / 1.44,pos1.height / 1.44], projection= 'radar_com')
-
-    #---------------------------------------------------
-    # -------------------Mean of scores--------------
-    # axs_ = fig.add_subplot(4,3,i,polar= 'spine')#
-    data_com=pd.DataFrame(np.zeros(len(tool_list)))
-    for species, antibiotics_selected in zip(df_species_bar, antibiotics_bar):
-        antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
-        # plt.style.use('ggplot')
-        # axs_ = fig.add_subplot(4,3,i)#Campylobacter jejuni
-        data=combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list)
-        data_df=pd.DataFrame(data)
-        data_com=pd.concat([data_com, data_df], axis=1, ignore_index=True)
-
-    data_com=data_com.drop(columns=[0])
-    data_com=data_com.values
-
-    axs_.set_rgrids([0,0.5,1],size=18)
-    # axs_.set_title(species, weight='bold',style='italic', size=22, position=(0.5, 1.1),
-    #              horizontalalignment='center', verticalalignment='center',pad=60)
-    # p_radar=[]
-    for d, color in zip(data_com, colors):
-        if temp_zorder==0:
-            p_ =axs_.plot(theta, d,  'o-', markersize=9,color=color,linewidth=line_width,zorder=3)#,dashes=[6, 2],
-        else:
-            p_ =axs_.plot(theta, d,  'o-', markersize=9,color=color,linewidth=line_width)#,dashes=[6, 2],
-        # p_ =axs_.plot(theta, d,  'o-', markersize=8,color=color,linewidth=2)
-
-
-    # plt.grid(color='grey', linestyle='--', linewidth=0.7)
-    axs_.set(xticklabels=[])
-    axs_.set(xlabel=None)
-    axs_.tick_params(axis='x',bottom=False)
-    # axs_std.set_title('C. jejuni\nE. faecium\nN. gonorrhoeae', weight='bold',style='italic', size=22, position=(0.5, 1.1),
-    #                  horizontalalignment='center', verticalalignment='center',pad=75)
-
-
-    axs_.set_ylim(ymin=-0.05)
-    axs_.yaxis.grid(False)
-    axs_.xaxis.grid(False)
-    # plt.grid(axis='x',color='gray', dashes=[1,3], linewidth=0.7)
-    plt.grid(axis='y',color='gray', dashes=[3,3], linewidth=2)
-
-
-
-def draw(level,s, fscore, cv_number, f_all):
-    fig, axs = plt.subplots(9,3,figsize=(25, 25*2.8))
+def draw(level,s, fscore, cv_number, f_phylotree, f_kma, f_all):
+    fig, axs = plt.subplots(1,1,figsize=(20, 23))
     # fig.subplots_adjust(top=0.88)
-    lim_pad=4.5
-    lim_w,lim_h,lim_t,lim_b=0.4,0.3,0.9608,0.01
-    [axi.set_axis_off() for axi in axs.ravel()[0:27]]
+    lim_pad=15
+    lim_w,lim_h,lim_t,lim_b=0.4,0.3,0.92,-0.15
+    axs.set_axis_off()
+    # [axi.set_axis_off() for axi in axs.ravel()[0:27]]
     plt.tight_layout(pad=lim_pad)
 
-    fig.text(0.001, 0.972, 'A', fontsize=42,weight='bold')
-    fig.text(0.001, 0.65, 'B', fontsize=42,weight='bold')
-    fig.text(0.001, 0.32, 'C', fontsize=42,weight='bold')
-    fig.text(0.7, 0.42, 'D', fontsize=42,weight='bold')
+    # fig.text(0.001, 0.972, 'A', fontsize=42,weight='bold')
+    # fig.text(0.001, 0.65, 'B', fontsize=42,weight='bold')
+    # fig.text(0.001, 0.32, 'C', fontsize=42,weight='bold')
+    # fig.text(0.7, 0.42, 'D', fontsize=42,weight='bold')
 
     fig.subplots_adjust(wspace=lim_w, hspace=lim_h, top=lim_t, bottom=lim_b)
-    i=1
-    f_phylotree=False
-    f_kma=False
-    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
-    i=10
-    f_phylotree=True
-    f_kma=False
-    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
+    # i=1
+    # f_phylotree=False
+    # f_kma=False
+    # ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
+    # i=10
+    # f_phylotree=True
+    # f_kma=False
+    # ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
+    #
+    #
+    #
+    # i=19
+    # f_phylotree=False
+    # f_kma=True
+    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,1)
 
 
 
-    i=19
-    f_phylotree=False
-    f_kma=True
-    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
-
-
-
-    im = plt.imread('src/legend.png')
-    newax = fig.add_axes([0.69,0.155,0.25,0.25], anchor='NE', zorder=-1)
-    newax.imshow(im)
-    newax.axis('off')
-    fig.savefig('log/results/result_STD.pdf')
+    # im = plt.imread('src/legend.png')
+    # newax = fig.add_axes([0.69,0.155,0.25,0.25], anchor='NE', zorder=-1)
+    # newax.imshow(im)
+    # newax.axis('off')
+    fig.savefig('log/results/result_'+str(s[0].replace(" ", "_")) +'.pdf')

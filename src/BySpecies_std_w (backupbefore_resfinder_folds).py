@@ -50,23 +50,9 @@ def combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
     data = []
     for tool in tool_list:
         if tool=='Point-/ResFinder':
-            # results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
-            # results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-            # score=results.loc[:,fscore].to_list()
-            results_file,_ = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, 'resfinder')
-            if f_kma:
-                results_file='./resfinder_folds/'+results_file
-            elif f_phylotree:
-                results_file='./resfinder_folds/'+results_file
-            else:
-                results_file='./resfinder_folds/'+results_file
-
-            results=pd.read_csv(results_file + '_PLOT.txt', header=0, index_col=0,sep="\t")
-
+            results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
+            results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
             score=results.loc[:,fscore].to_list()
-
-
-
         if tool=='Aytan-Aktug':
             results_file = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,species, None,
                                                                                                          'loose',
@@ -184,20 +170,10 @@ def combine_data_std(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
             # results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
             # results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
             # score=results.loc[:,fscore].to_list()
-            # score=np.empty((len(antibiotics)))
-            # score[:] = np.NaN
-            # score=score.tolist()
-            results_file,_ = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, 'resfinder')
-            if f_kma:
-                results_file='./resfinder_folds/'+results_file
-            elif f_phylotree:
-                results_file='./resfinder_folds/'+results_file
-            else:
-                results_file='./resfinder_folds/'+results_file
+            score=np.empty((len(antibiotics)))
+            score[:] = np.NaN
+            score=score.tolist()
 
-            results=pd.read_csv(results_file + '_std.txt', header=0, index_col=0,sep="\t")
-
-            score=results.loc[:,fscore].to_list()
 
 
         if tool=='Aytan-Aktug':
@@ -907,7 +883,7 @@ def draw(level,s, fscore, cv_number, f_all):
     fig.text(0.001, 0.972, 'A', fontsize=42,weight='bold')
     fig.text(0.001, 0.65, 'B', fontsize=42,weight='bold')
     fig.text(0.001, 0.32, 'C', fontsize=42,weight='bold')
-    fig.text(0.7, 0.42, 'D', fontsize=42,weight='bold')
+    fig.text(0.7, 0.09, 'D', fontsize=42,weight='bold')
 
     fig.subplots_adjust(wspace=lim_w, hspace=lim_h, top=lim_t, bottom=lim_b)
     i=1
@@ -915,21 +891,20 @@ def draw(level,s, fscore, cv_number, f_all):
     f_kma=False
     ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
     i=10
+    f_phylotree=False
+    f_kma=True
+    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
+
+
+    i=19
     f_phylotree=True
     f_kma=False
     ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
 
 
 
-    i=19
-    f_phylotree=False
-    f_kma=True
-    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
-
-
-
     im = plt.imread('src/legend.png')
-    newax = fig.add_axes([0.69,0.155,0.25,0.25], anchor='NE', zorder=-1)
+    newax = fig.add_axes([0.69,-0.17,0.25,0.25], anchor='NE', zorder=-1)
     newax.imshow(im)
     newax.axis('off')
     fig.savefig('log/results/result_STD.pdf')

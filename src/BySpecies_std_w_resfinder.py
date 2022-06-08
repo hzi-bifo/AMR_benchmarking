@@ -50,9 +50,12 @@ def combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
     data = []
     for tool in tool_list:
         if tool=='Point-/ResFinder':
-            # results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
-            # results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-            # score=results.loc[:,fscore].to_list()
+            results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
+            results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
+            score=results.loc[:,fscore].to_list()
+
+
+        if tool=='Point-/ResFinder folds':
             results_file,_ = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, 'resfinder')
             if f_kma:
                 results_file='./resfinder_folds/'+results_file
@@ -64,7 +67,6 @@ def combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
             results=pd.read_csv(results_file + '_PLOT.txt', header=0, index_col=0,sep="\t")
 
             score=results.loc[:,fscore].to_list()
-
 
 
         if tool=='Aytan-Aktug':
@@ -184,9 +186,10 @@ def combine_data_std(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
             # results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
             # results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
             # score=results.loc[:,fscore].to_list()
-            # score=np.empty((len(antibiotics)))
-            # score[:] = np.NaN
-            # score=score.tolist()
+            score=np.empty((len(antibiotics)))
+            score[:] = np.NaN
+            score=score.tolist()
+        if tool=='Point-/ResFinder folds':
             results_file,_ = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, 'resfinder')
             if f_kma:
                 results_file='./resfinder_folds/'+results_file
@@ -616,6 +619,7 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
     #
     # else:
     tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
+    tool_list=['Point-/ResFinder','Point-/ResFinder folds' ]
     data = pd.read_csv('metadata/' + str(level) + '_Species_antibiotic_FineQuality.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
     data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
@@ -783,9 +787,9 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
         temp_zorder=0
         for d, color in zip(data, colors):
             if temp_zorder==0:
-                p_ =axs_.plot(theta, d,  'o-', markersize=9,color=color,linewidth=line_width,zorder=3)#,dashes=[6, 2],
+                p_ =axs_.plot(theta, d,  'o-', markersize=9,color=color,linewidth=line_width, alpha=0.7)#,dashes=[6, 2],
             else:
-                p_ =axs_.plot(theta, d,  'o-', markersize=9,color=color,linewidth=line_width)#,dashes=[6, 2],
+                p_ =axs_.plot(theta, d,  'o-', markersize=9,color=color,linewidth=line_width, alpha=0.7)#,dashes=[6, 2],
             temp_zorder+=1
         # Circle((0.5, 0.5), 0.5)
         # axs_.set(ylim=(0.4, 1.0))
@@ -836,7 +840,7 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
     axs_std = plt.subplot(9,3,i, projection='radar_com')
     for d, color in zip(data_com, colors):
         # print(d)
-        p_ =axs_std.plot(theta, d,  'o-', markersize=6,color=color,dashes=[5,2],linewidth=line_width)
+        p_ =axs_std.plot(theta, d,  'o-', markersize=6,color=color,dashes=[5,2],linewidth=line_width, alpha=0.7)
         # p_radar.append(p_)
     axs_std.set_rgrids([-1,-0.5,0, 0.2, 0.4])
     axs_std.set(ylim=(-1, 0.41))
@@ -932,4 +936,4 @@ def draw(level,s, fscore, cv_number, f_all):
     newax = fig.add_axes([0.69,0.155,0.25,0.25], anchor='NE', zorder=-1)
     newax.imshow(im)
     newax.axis('off')
-    fig.savefig('log/results/result_STD.pdf')
+    fig.savefig('log/results/result_STD_resfinder.pdf')

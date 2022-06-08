@@ -354,7 +354,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
         # axs[1,2].axis('off')
         # i=0
         # tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
-        tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Point-/ResFinder']
+        tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Point-/ResFinder','ML Baseline (Majority)']
         for tool in tool_list:
 
             # plt.rcParams['savefig.facecolor'] = "0.8"

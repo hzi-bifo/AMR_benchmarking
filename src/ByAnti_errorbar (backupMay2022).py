@@ -11,15 +11,10 @@ import pickle,json
 import pandas as pd
 import seaborn as sns
 from sklearn.metrics import  classification_report
-from sklearn.exceptions import UndefinedMetricWarning
 
-def warn(*args, **kwargs):
-    pass
-import warnings
-warnings.warn = warn
 ''' Compare performance on Antibitoics shared by multiple species.'''
 
-def FromReport(f1_test,score_report_test,fscore):
+def FromReport(score_report_test,fscore):
     '''
     extract scores from saved report.
     '''
@@ -32,11 +27,39 @@ def FromReport(f1_test,score_report_test,fscore):
     for i in np.arange(10):
         report = score_report_test[i]
         report=pd.DataFrame(report).transpose()
-        accuracy.append(report.iat[2,2])#no use of this score
-        # f1.append(report.loc['macro avg','f1-score'])
+        # print(report)
+        if fscore== 'f1_macro':
+            if report.loc['1', 'support']==0 or report.loc['0', 'support']==0:  #  only one pheno in test folder, we don't include them for final results.
+                f_no.append(i)
+                print('Only one phenotype in the testing folder! This folder\'s score will not be counted w.r.t. average. ' )
+            else:
+                accuracy.append(report.loc['accuracy', 'f1-score'])
+        elif fscore=='f1_negative':
+            if report.loc['0', 'support']==0:
+                f_no.append(i)
+                print('Only R phenotype in the testing folder! This folder\'s score will not be counted w.r.t. average. ' )
+            else:
+                accuracy.append(report.iat[2,2])#no use of this score
+        elif fscore=='f1_positive':
+            if report.loc['1', 'support']==0:
+                f_no.append(i)
+                print('Only S phenotype in the testing folder! This folder\'s score will not be counted w.r.t. average. ' )
+            else:
+                accuracy.append(report.iat[2,2])#no use of this score
+        elif fscore=='accuracy':
+            accuracy.append(report.iat[2,2])#no use of this score
+
+
+        f1.append(report.loc['macro avg','f1-score'])
         f1_pos.append(report.loc['1', 'f1-score'])
         f1_neg.append(report.loc['0', 'f1-score'])
-        f1.append(f1_test[i])
+
+    if f_no != []:
+        #rm the iteration's results, where no resistance phenotype in the test folder.
+        f1 = [i for j, i in enumerate(f1) if j not in f_no]
+        accuracy = [i for j, i in enumerate(accuracy) if j not in f_no]
+        f1_pos = [i for j, i in enumerate(f1_pos) if j not in f_no]
+        f1_neg = [i for j, i in enumerate(f1_neg) if j not in f_no]
     if fscore=='f1_macro':
         score_list=f1
     elif fscore=='f1_negative':
@@ -60,30 +83,14 @@ def combine_data(species_list,anti,fscore, f_phylotree, f_kma,tool_list,merge_na
     for species in species_list:
         for tool in tool_list:
             if tool=='Point-/ResFinder':
-                # results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
-                # results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-                # if anti in results.index.to_list():
-                #     score=results.loc[anti,fscore]
-                # else:
-                #     score=np.nan
-                # df_plot_sub.loc['s'] = [score,species,tool]
-                # df_plot = df_plot.append(df_plot_sub, sort=False)
-                _, _, save_name_score = amr_utility.name_utility.Pts_GETname('loose', species, anti,'resfinder')
-                save_name_score='./resfinder_folds/'+save_name_score
-                score = pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '.pickle',"rb"))  # todo,check
-                score_report_test = score[1]
-                f1_test= score[0]
-                if f1_test[0]!= None:
-                    score_list= FromReport(f1_test,score_report_test,fscore)
-                    df_plot_sub = pd.DataFrame(index=range(len(score_list)),columns=columns_name)
-                    df_plot_sub[fscore]=score_list
-                    df_plot_sub['species']=[species]*len(score_list)
-                    df_plot_sub['software']=[tool]*len(score_list)
-                    df_plot = df_plot.append(df_plot_sub, sort=False)
+                results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
+                results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
+                if anti in results.index.to_list():
+                    score=results.loc[anti,fscore]
                 else:
-                    score_list=np.nan
-                    # df_plot_sub = pd.DataFrame(index=[0],columns=columns_name)
-
+                    score=np.nan
+                df_plot_sub.loc['s'] = [score,species,tool]
+                df_plot = df_plot.append(df_plot_sub, sort=False)
 
             if tool=='Neural networks':
                 save_name_score = amr_utility.name_utility.GETname_multi_bench_save_name_score(species, anti, 'loose',
@@ -99,8 +106,7 @@ def combine_data(species_list,anti,fscore, f_phylotree, f_kma,tool_list,merge_na
                 else:
                     score = pickle.load(open(save_name_score + '_all_score_Random.pickle', "rb"))
                 score_report_test = score[3]
-                f1_test=score[1]
-                score_list= FromReport(f1_test,score_report_test,fscore)
+                score_list= FromReport(score_report_test,fscore)
                 df_plot_sub = pd.DataFrame(index=range(len(score_list)),columns=columns_name)
                 df_plot_sub[fscore]=score_list
                 df_plot_sub['species']=[species]*len(score_list)
@@ -117,8 +123,7 @@ def combine_data(species_list,anti,fscore, f_phylotree, f_kma,tool_list,merge_na
                     save_name_score='./seq2geno/'+save_name_score
                     score = pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '.pickle',"rb"))  # todo,check
                     score_report_test = score[1]
-                    f1_test= score[0]
-                    score_list= FromReport(f1_test,score_report_test,fscore)
+                    score_list= FromReport(score_report_test,fscore)
                     df_plot_sub = pd.DataFrame(index=range(len(score_list)),columns=columns_name)
                     df_plot_sub[fscore]=score_list
                     df_plot_sub['species']=[species]*len(score_list)
@@ -146,8 +151,7 @@ def combine_data(species_list,anti,fscore, f_phylotree, f_kma,tool_list,merge_na
                     save_name_score='./PhenotypeSeeker_random/'+save_name_score
                 score = pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '.pickle',"rb"))  # todo,check
                 score_report_test = score[1]
-                f1_test= score[0]
-                score_list= FromReport(f1_test,score_report_test,fscore)
+                score_list= FromReport(score_report_test,fscore)
                 df_plot_sub = pd.DataFrame(index=range(len(score_list)),columns=columns_name)
                 df_plot_sub[fscore]=score_list
                 df_plot_sub['species']=[species]*len(score_list)
@@ -247,8 +251,7 @@ def combine_data(species_list,anti,fscore, f_phylotree, f_kma,tool_list,merge_na
                 save_name_score='./majority/'+save_name_score
                 score = pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '.pickle',"rb"))  # todo,check
                 score_report_test = score[1]
-                f1_test= score[0]
-                score_list= FromReport(f1_test,score_report_test,fscore)
+                score_list= FromReport(score_report_test,fscore)
 
                 df_plot_sub = pd.DataFrame(index=range(len(score_list)),columns=columns_name)
                 df_plot_sub[fscore]=score_list
@@ -348,9 +351,9 @@ def ComByAnti(level,s, fscore, cv_number, f_phylotree, f_kma,f_all):
         else:
             handles, labels = g.get_legend_handles_labels()
             if f_kma:
-                g.legend(bbox_to_anchor=(-0.4,1.3), ncol=8,fontsize=18,frameon=False)
+                g.legend(bbox_to_anchor=(0.4,1.3), ncol=8,fontsize=18,frameon=False)
             if f_phylotree:
                 g.legend(bbox_to_anchor=(4.5,1.3), ncol=8,fontsize=18,frameon=False)
             else:
-                g.legend(bbox_to_anchor=(0.4,1.3), ncol=8,fontsize=18,frameon=False)
+                g.legend(bbox_to_anchor=(4.5,1.3), ncol=8,fontsize=18,frameon=False)
     fig.savefig('log/results/ByAnti_'+'kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'_'+fscore+'.pdf')

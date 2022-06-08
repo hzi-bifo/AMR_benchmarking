@@ -87,8 +87,12 @@ def summarize(level):
     #add acronym
     with open('./src/AntiAcronym_dict.pkl', 'rb') as f:
         map_acr = pickle.load(f)
-    antibiotics_list= [map_acr[x] for x in antibiotics_list]
+    acr_list= [map_acr[x] for x in antibiotics_list]
     print(antibiotics_list)
+
+    table=pd.DataFrame(data=acr_list, columns=['Acronym'],index=antibiotics_list)
+    table.to_csv('log/results/acronym.csv')
+
 
 
 

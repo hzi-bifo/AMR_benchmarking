@@ -1,0 +1,46 @@
+Antibiotic,Acronym,Mechanism classification by target site
+amikacin,AN,30S ribosomal 
+amoxicillin,AMX,Cell wall
+amoxicillin/clavulanic acid,AMC,Cell wall
+ampicillin,AM,Cell wall
+ampicillin/sulbactam,FAM,Cell wall
+azithromycin,AZI,50S ribosome
+aztreonam,ATM,Cell wall
+capreomycin,CAP,70S ribosome
+cefepime,CEF,Cell wall
+cefixime,FIX,Cell wall
+cefotaxime,CTX,Cell wall
+cefoxitin,FOX,Cell wall
+ceftazidime,CAZ,Cell wall
+ceftiofur,TIO,Cell wall
+ceftriaxone,CRO,Cell wall
+cefuroxime,CXM,Cell wall
+chloramphenicol,C,50S ribosome
+ciprofloxacin,CIP, DNA-gyrase
+clindamycin,CM,50S ribosome
+erythromycin,E,50S ribosome
+ethambutol,EMB,Cell wall
+ethiomide,ETH,Cell wall
+ethionamide,ETO,Cell wall
+fusidic acid,FA,50S ribosome
+gentamicin,GM,30S ribosome
+imipenem,IPM,Cell wall
+isoniazid,INH,Cell wall
+kanamycin,K,30S ribosome
+levofloxacin,LVX,DNA-gyrase
+meropenem,MEM,Cell wall
+methicillin,MET,Cell wall
+nalidixic acid,NA,DNA-gyrase
+ofloxacin,OFX,DNA-gyrase
+penicillin,PCN,Cell wall
+piperacillin/tazobactam,TZP,Cell wall
+pyrazinamide,PZA,Cell membrane
+rifampicin,RA,mRNA transcription
+rifampin,RMP,mRNA transcription
+streptomycin,S,30S ribosomal 
+sulfisoxazole,SIX,Nucleic acid synthesis
+tetracycline,TE,30S ribosome
+tobramycin,TM,50S/30S ribosome
+trimethoprim,TMP,Nucleic acid synthesis
+trimethoprim/sulfamethoxazole,SXT,Dihydrofolic acid synthesis
+vancomycin,VA,Cell wall

@@ -45,29 +45,15 @@ def prepare_data(df,fscore):
 
 def combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
     # This function makes a matrix of all tools' results.
-    # 'Point-/ResFinder', 'Aytan-Aktug', 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover'
+    # 'Point-/ResFinder', 'Neural networks', 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover'
     # todo need to change names before final release.
     data = []
     for tool in tool_list:
         if tool=='Point-/ResFinder':
-            # results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
-            # results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-            # score=results.loc[:,fscore].to_list()
-            results_file,_ = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, 'resfinder')
-            if f_kma:
-                results_file='./resfinder_folds/'+results_file
-            elif f_phylotree:
-                results_file='./resfinder_folds/'+results_file
-            else:
-                results_file='./resfinder_folds/'+results_file
-
-            results=pd.read_csv(results_file + '_PLOT.txt', header=0, index_col=0,sep="\t")
-
+            results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
+            results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
             score=results.loc[:,fscore].to_list()
-
-
-
-        if tool=='Aytan-Aktug':
+        if tool=='Neural networks':
             results_file = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,species, None,
                                                                                                          'loose',
                                                                                                          0.0,
@@ -90,16 +76,16 @@ def combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
                 results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
                 score=results.loc[:,fscore].to_list()
 
-        # if tool=='KmerC':
-        #     if species !='Mycobacterium tuberculosis':#no MT information.
-        #         _, results_file = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, '')
-        #         results_file='./patric_2022/'+results_file
-        #         results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
-        #         score=results.loc[:,fscore].to_list()
-        #     else:#'Mycobacterium tuberculosis'
-        #         score=np.empty((len(antibiotics)))
-        #         score[:] = np.NaN
-        #         score=score.tolist()
+        if tool=='KmerC':
+            if species !='Mycobacterium tuberculosis':#no MT information.
+                _, results_file = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, '')
+                results_file='./patric_2022/'+results_file
+                results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
+                score=results.loc[:,fscore].to_list()
+            else:#'Mycobacterium tuberculosis'
+                score=np.empty((len(antibiotics)))
+                score[:] = np.NaN
+                score=score.tolist()
 
 
         if tool=='Seq2Geno2Pheno':
@@ -122,9 +108,7 @@ def combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
             else:
                 results_file='./PhenotypeSeeker_random/'+results_file
             results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
-
             score=results.loc[:,fscore].to_list()
-
             # else:
             #
             #     score=np.empty((len(antibiotics)))
@@ -143,7 +127,7 @@ def combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
             results=pd.read_csv(results_file + '_SummeryBenchmarking_PLOT.txt', header=0, index_col=0,sep="\t")
             score=results.loc[:,fscore].to_list()
 
-        if tool=='ML Baseline (Majority)':
+        if tool=='Baseline (Majority)':
 
             results_file,_ = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, 'majority')
             if f_kma:
@@ -161,22 +145,10 @@ def combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
 
         data.append(score)
     return data
-class colorStyle:
-    I='\x1B[3m'
-    PURPLE = '\033[95m'
-    CYAN = '\033[96m'
-    DARKCYAN = '\033[36m'
-    BLUE = '\033[94m'
-    GREEN = '\033[92m'
-    YELLOW = '\033[93m'
-    RED = '\033[91m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-    END = '\033[0m'
 
 def combine_data_std(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
     # This function makes a matrix of all tools' results.
-    # 'Point-/ResFinder', 'Aytan-Aktug', 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover'
+    # 'Point-/ResFinder', 'Neural networks', 'KmerC', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover'
     # todo need to change names before final release.
     data = []
     for tool in tool_list:
@@ -184,23 +156,10 @@ def combine_data_std(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
             # results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
             # results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
             # score=results.loc[:,fscore].to_list()
-            # score=np.empty((len(antibiotics)))
-            # score[:] = np.NaN
-            # score=score.tolist()
-            results_file,_ = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, 'resfinder')
-            if f_kma:
-                results_file='./resfinder_folds/'+results_file
-            elif f_phylotree:
-                results_file='./resfinder_folds/'+results_file
-            else:
-                results_file='./resfinder_folds/'+results_file
-
-            results=pd.read_csv(results_file + '_std.txt', header=0, index_col=0,sep="\t")
-
-            score=results.loc[:,fscore].to_list()
-
-
-        if tool=='Aytan-Aktug':
+            score=np.empty((len(antibiotics)))
+            score[:] = np.NaN
+            score=score.tolist()
+        if tool=='Neural networks':
             results_file = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,species, None,
                                                                                                          'loose',
                                                                                                          0.0,
@@ -255,9 +214,7 @@ def combine_data_std(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
             else:
                 results_file='./PhenotypeSeeker_random/'+results_file
             results=pd.read_csv(results_file + '_SummeryBenchmarking_std.txt', header=0, index_col=0,sep="\t")
-
             score=results.loc[:,fscore].to_list()
-
             # else:
             #
             #     score=np.empty((len(antibiotics)))
@@ -276,8 +233,7 @@ def combine_data_std(species,antibiotics,fscore, f_phylotree, f_kma,tool_list):
             results=pd.read_csv(results_file + '_SummeryBenchmarking_std.txt', header=0, index_col=0,sep="\t")
             score=results.loc[:,fscore].to_list()
 
-
-        if tool=='ML Baseline (Majority)':
+        if tool=='Baseline (Majority)':
 
             results_file,_ = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, 'majority')
             if f_kma:
@@ -314,174 +270,117 @@ def extract_multi_model_summary():
     summary = summary[(summary.T != 0).any()]#drops rows(bacteria) where all zero
     return summary
 
-# def adjust_lable(axs_,antibiotics,anti_share,colors,species,font_size):
-#         XTICKS = axs_.xaxis.get_major_ticks()
-#         # X_VERTICAL_TICK_PADDING = 40
-#         # X_HORIZONTAL_TICK_PADDING = 25
-#         n_lable=len(antibiotics)
-#         # for tick in XTICKS[math.floor(3*n_lable/4):-1]:
-#         #     tick.set_pad(X_HORIZONTAL_TICK_PADDING)
-#         angles = np.linspace(0,2*np.pi,len(axs_.get_xticklabels())+1)
-#         # angles[np.cos(angles) < 0] = angles[np.cos(angles) < 0] + np.pi
-#         angles = np.rad2deg(angles)
-#         # if n_lable>7:
-#         #     for tick in XTICKS[0::2]:
-#         #         tick.set_pad(10)
-#         #     for tick in XTICKS[1::2]:
-#         #         tick.set_pad(40)
-#         labels = []
-#         i=0
-#         if species not in ['Klebsiella pneumoniae']:
-#             for label, angle in zip(axs_.get_xticklabels(), angles):
-#                 # label.set_rotation(90-angle*(365/n_lable))
-#                 # label.set_rotation_mode("anchor")
-#                 if species in ['Klebsiella pneumoniae']:
-#                     angle=angle
-#                 elif species in ['Escherichia coli','Salmonella enterica' ]:
-#                     angle=angle
-#                 else:
-#                     angle=angle
-#                 # if i>n_lable/2:
-#                 #     angle=angle-10
-#                 # else:
-#                 #     angle=angle-10
-#                 x,y = label.get_position()
-#                 # print(label.get_text())
-#                 # print('---')
-#                 lab = axs_.text(x,y, label.get_text(), transform=label.get_transform(),
-#                               ha=label.get_ha(), va=label.get_va(),size=font_size)
-#
-#                 # if i>n_lable/2:
-#                 #     lab.set_rotation( 90+i*(365/n_lable))
-#                 # elif i==0:
-#                 #     pass
-#                 # else:
-#                 #     lab.set_rotation(-90+i*(365/n_lable))
-#                 #
-#
-#                 # colors = iter([plt.cm.pastel1(i) for i in range(len(anti_share))])
-#
-#
-#                 # colors=mcp.gen_color(cmap="Set3",n=len(anti_share))
-#
-#                 # colors=['#77dd77','#836953','#89cff0','#99c5c4','#9adedb','#aa9499','#aaf0d1','#b2fba5','#b39eb5','#bdb0d0','']
-#                 # lab.set_bbox(dict(facecolor=chose_color, alpha=0.5, edgecolor=chose_color))
-#                 # print( label.get_text())
-#                 # print('---')
-#                 # if label.get_text() in anti_share:
-#                 #     index_color=anti_share.index(label.get_text())
-#                 #     # if label.get_text() in ['trimethoprim/\nsulfamethoxazole']:
-#                 #     #     lab.set_bbox(dict(facecolor=colors[index_color], alpha=0.6, edgecolor='white',zorder=1))
-#                 #     # # elif ['amoxicillin/\nclavulanic acid']:
-#                 #     # #     lab.set_bbox(dict(facecolor=colors[index_color], alpha=1, edgecolor='white'))
-#                 #     # else:
-#                 #     lab.set_bbox(dict(facecolor=colors[index_color], alpha=0.6, edgecolor='white'))
-#                 # else:
-#                 #
-#                 #     lab.set_bbox(dict(facecolor='silver', alpha=0.6, edgecolor='white'))
-#                 lab.set_rotation(angle)
-#                 i+=1
-#                 lab.set_rotation_mode("anchor")
-#                 labels.append(lab)
-#             axs_.set_xticklabels([])
-#         else:
-#             target=axs_.get_xticklabels()
-#             target.append(target.pop(0))
-#             angles=angles.tolist()
-#             angles.append(angles.pop(0))
-#             for label, angle in zip(target, angles):
-#
-#                 if species in ['Klebsiella pneumoniae']:
-#                     angle=angle+10
-#                 elif species in ['Escherichia coli','Salmonella enterica' ]:
-#                     angle=angle+10
-#                 else:
-#                     angle=angle+10
-#                 # if i>n_lable/2:
-#                 #     angle=angle-10
-#                 # else:
-#                 #     angle=angle-10
-#                 x,y = label.get_position()
-#                 # print(label.get_text())
-#                 # print('---')
-#                 lab = axs_.text(x,y, label.get_text(), transform=label.get_transform(),
-#                               ha=label.get_ha(), va=label.get_va(),size=font_size)
-#
-#                 # if label.get_text() in anti_share:
-#                 #     index_color=anti_share.index(label.get_text())
-#                 #     # if label.get_text() in ['trimethoprim/\nsulfamethoxazole']:
-#                 #     #     lab.set_bbox(dict(facecolor=colors[index_color], alpha=0.6, edgecolor='white',zorder=1))
-#                 #     # # elif ['amoxicillin/\nclavulanic acid']:
-#                 #     # #     lab.set_bbox(dict(facecolor=colors[index_color], alpha=1, edgecolor='white'))
-#                 #     # else:
-#                 #     lab.set_bbox(dict(facecolor=colors[index_color], alpha=0.6, edgecolor='white'))
-#                 # else:
-#                 #
-#                 #     lab.set_bbox(dict(facecolor='silver', alpha=0.6, edgecolor='white'))
-#                 lab.set_rotation(angle)
-#                 i+=1
-#                 lab.set_rotation_mode("anchor")
-#                 labels.append(lab)
-#             axs_.set_xticklabels([])
-#         # plt.setp(axs_.get_xticklabels(), backgroundcolor="limegreen")
-# def adjust_lable_bar(axs_,antibiotics,anti_share,colors,font_size):
-#     XTICKS = axs_.xaxis.get_major_ticks()
-#     # X_VERTICAL_TICK_PADDING = 40
-#     # X_HORIZONTAL_TICK_PADDING = 25
-#     n_lable=len(antibiotics)
-#     # for tick in XTICKS[math.floor(3*n_lable/4):-1]:
-#     #     tick.set_pad(X_HORIZONTAL_TICK_PADDING)
-#     angles = np.linspace(0,2*np.pi,len(axs_.get_xticklabels())+1)
-#     # angles[np.cos(angles) < 0] = angles[np.cos(angles) < 0] + np.pi
-#     angles = np.rad2deg(angles)
-#     # if n_lable>7:
-#     #     for tick in XTICKS[0::2]:
-#     #         tick.set_pad(10)
-#     #     for tick in XTICKS[1::2]:
-#     #         tick.set_pad(40)
-#     labels = []
-#     i=0
-#
-#     for label, angle in zip(axs_.get_xticklabels(), angles):
-#         # label.set_rotation(90-angle*(365/n_lable))
-#         # label.set_rotation_mode("anchor")
-#         if i>n_lable/2:
-#             angle=angle
-#         else:
-#             angle=angle
-#         x,y = label.get_position()
-#         # print(label.get_text())
-#         # print('---')
-#         lab = axs_.text(x,y, label.get_text(), transform=label.get_transform(),
-#                       ha=label.get_ha(), va=label.get_va(),size=font_size)
-#
-#         # if i>n_lable/2:
-#         #     lab.set_rotation( 90+i*(365/n_lable))
-#         # elif i==0:
-#         #     pass
-#         # else:
-#         #     lab.set_rotation(-90+i*(365/n_lable))
-#         #
-#
-#         # colors = iter([plt.cm.pastel1(i) for i in range(len(anti_share))])
-#
-#
-#         # colors=mcp.gen_color(cmap="Set3",n=len(anti_share))
-#
-#         # colors=['#77dd77','#836953','#89cff0','#99c5c4','#9adedb','#aa9499','#aaf0d1','#b2fba5','#b39eb5','#bdb0d0','']
-#         # lab.set_bbox(dict(facecolor=chose_color, alpha=0.5, edgecolor=chose_color))
-#         # if label.get_text().split('\n')[1] in anti_share:
-#         #
-#         #     index_color=anti_share.index(label.get_text().split('\n')[1])
-#         #     lab.set_bbox(dict(facecolor=colors[index_color], alpha=0.6, edgecolor='white'))
-#         # else:
-#         #     lab.set_bbox(dict(facecolor='silver', alpha=0.6, edgecolor='white'))
-#         lab.set_rotation(angle)
-#         i+=1
-#         lab.set_rotation_mode("anchor")
-#         labels.append(lab)
-#     axs_.set_xticklabels([])
-def adjust_lable_bar(axs_,antibiotics,anti_share,colors,font_size):
+def adjust_lable(axs_,antibiotics,anti_share,colors,species):
+        XTICKS = axs_.xaxis.get_major_ticks()
+        # X_VERTICAL_TICK_PADDING = 40
+        # X_HORIZONTAL_TICK_PADDING = 25
+        n_lable=len(antibiotics)
+        # for tick in XTICKS[math.floor(3*n_lable/4):-1]:
+        #     tick.set_pad(X_HORIZONTAL_TICK_PADDING)
+        angles = np.linspace(0,2*np.pi,len(axs_.get_xticklabels())+1)
+        # angles[np.cos(angles) < 0] = angles[np.cos(angles) < 0] + np.pi
+        angles = np.rad2deg(angles)
+        # if n_lable>7:
+        #     for tick in XTICKS[0::2]:
+        #         tick.set_pad(10)
+        #     for tick in XTICKS[1::2]:
+        #         tick.set_pad(40)
+        labels = []
+        i=0
+        if species not in ['Klebsiella pneumoniae']:
+            for label, angle in zip(axs_.get_xticklabels(), angles):
+                # label.set_rotation(90-angle*(365/n_lable))
+                # label.set_rotation_mode("anchor")
+                if species in ['Klebsiella pneumoniae']:
+                    angle=angle+22
+                elif species in ['Escherichia coli','Salmonella enterica' ]:
+                    angle=angle+20
+                else:
+                    angle=angle+10
+                # if i>n_lable/2:
+                #     angle=angle-10
+                # else:
+                #     angle=angle-10
+                x,y = label.get_position()
+                # print(label.get_text())
+                # print('---')
+                lab = axs_.text(x,y, label.get_text(), transform=label.get_transform(),
+                              ha=label.get_ha(), va=label.get_va(),size=20)
+
+                # if i>n_lable/2:
+                #     lab.set_rotation( 90+i*(365/n_lable))
+                # elif i==0:
+                #     pass
+                # else:
+                #     lab.set_rotation(-90+i*(365/n_lable))
+                #
+
+                # colors = iter([plt.cm.pastel1(i) for i in range(len(anti_share))])
+
+
+                # colors=mcp.gen_color(cmap="Set3",n=len(anti_share))
+
+                # colors=['#77dd77','#836953','#89cff0','#99c5c4','#9adedb','#aa9499','#aaf0d1','#b2fba5','#b39eb5','#bdb0d0','']
+                # lab.set_bbox(dict(facecolor=chose_color, alpha=0.5, edgecolor=chose_color))
+                # print( label.get_text())
+                # print('---')
+                if label.get_text() in anti_share:
+                    index_color=anti_share.index(label.get_text())
+                    # if label.get_text() in ['trimethoprim/\nsulfamethoxazole']:
+                    #     lab.set_bbox(dict(facecolor=colors[index_color], alpha=0.6, edgecolor='white',zorder=1))
+                    # # elif ['amoxicillin/\nclavulanic acid']:
+                    # #     lab.set_bbox(dict(facecolor=colors[index_color], alpha=1, edgecolor='white'))
+                    # else:
+                    lab.set_bbox(dict(facecolor=colors[index_color], alpha=0.6, edgecolor='white'))
+                else:
+
+                    lab.set_bbox(dict(facecolor='silver', alpha=0.6, edgecolor='white'))
+                lab.set_rotation(angle)
+                i+=1
+                lab.set_rotation_mode("anchor")
+                labels.append(lab)
+            axs_.set_xticklabels([])
+        else:
+            target=axs_.get_xticklabels()
+            target.append(target.pop(0))
+            angles=angles.tolist()
+            angles.append(angles.pop(0))
+            for label, angle in zip(target, angles):
+
+                if species in ['Klebsiella pneumoniae']:
+                    angle=angle+22
+                elif species in ['Escherichia coli','Salmonella enterica' ]:
+                    angle=angle+20
+                else:
+                    angle=angle+10
+                # if i>n_lable/2:
+                #     angle=angle-10
+                # else:
+                #     angle=angle-10
+                x,y = label.get_position()
+                # print(label.get_text())
+                # print('---')
+                lab = axs_.text(x,y, label.get_text(), transform=label.get_transform(),
+                              ha=label.get_ha(), va=label.get_va(),size=20)
+
+                if label.get_text() in anti_share:
+                    index_color=anti_share.index(label.get_text())
+                    # if label.get_text() in ['trimethoprim/\nsulfamethoxazole']:
+                    #     lab.set_bbox(dict(facecolor=colors[index_color], alpha=0.6, edgecolor='white',zorder=1))
+                    # # elif ['amoxicillin/\nclavulanic acid']:
+                    # #     lab.set_bbox(dict(facecolor=colors[index_color], alpha=1, edgecolor='white'))
+                    # else:
+                    lab.set_bbox(dict(facecolor=colors[index_color], alpha=0.6, edgecolor='white'))
+                else:
+
+                    lab.set_bbox(dict(facecolor='silver', alpha=0.6, edgecolor='white'))
+                lab.set_rotation(angle)
+                i+=1
+                lab.set_rotation_mode("anchor")
+                labels.append(lab)
+            axs_.set_xticklabels([])
+        # plt.setp(axs_.get_xticklabels(), backgroundcolor="limegreen")
+def adjust_lable_bar(axs_,antibiotics,anti_share,colors):
     XTICKS = axs_.xaxis.get_major_ticks()
     # X_VERTICAL_TICK_PADDING = 40
     # X_HORIZONTAL_TICK_PADDING = 25
@@ -492,34 +391,53 @@ def adjust_lable_bar(axs_,antibiotics,anti_share,colors,font_size):
     # angles[np.cos(angles) < 0] = angles[np.cos(angles) < 0] + np.pi
     angles = np.rad2deg(angles)
     # if n_lable>7:
-    # for tick in XTICKS[1::2]:
-    #     tick.set_pad(25)
-    # for tick in XTICKS[2::2]:
-    #     tick.set_pad(-10)
-    XTICKS[1].set_pad(25)
-    XTICKS[3].set_pad(20)
-    XTICKS[2].set_pad(-10)
+    #     for tick in XTICKS[0::2]:
+    #         tick.set_pad(10)
+    #     for tick in XTICKS[1::2]:
+    #         tick.set_pad(40)
     labels = []
     i=0
 
     for label, angle in zip(axs_.get_xticklabels(), angles):
         # label.set_rotation(90-angle*(365/n_lable))
         # label.set_rotation_mode("anchor")
-
         if i>n_lable/2:
-            angle=angle
+            angle=angle-10
         else:
-            angle=angle
+            angle=angle-10
         x,y = label.get_position()
-
+        # print(label.get_text())
+        # print('---')
         lab = axs_.text(x,y, label.get_text(), transform=label.get_transform(),
-                      ha=label.get_ha(), va=label.get_va(),size=font_size)
-        if i==3:
-            lab.set_rotation(angle)
+                      ha=label.get_ha(), va=label.get_va(),size=20)
+
+        # if i>n_lable/2:
+        #     lab.set_rotation( 90+i*(365/n_lable))
+        # elif i==0:
+        #     pass
+        # else:
+        #     lab.set_rotation(-90+i*(365/n_lable))
+        #
+
+        # colors = iter([plt.cm.pastel1(i) for i in range(len(anti_share))])
+
+
+        # colors=mcp.gen_color(cmap="Set3",n=len(anti_share))
+
+        # colors=['#77dd77','#836953','#89cff0','#99c5c4','#9adedb','#aa9499','#aaf0d1','#b2fba5','#b39eb5','#bdb0d0','']
+        # lab.set_bbox(dict(facecolor=chose_color, alpha=0.5, edgecolor=chose_color))
+        if label.get_text().split('\n')[1] in anti_share:
+
+            index_color=anti_share.index(label.get_text().split('\n')[1])
+            lab.set_bbox(dict(facecolor=colors[index_color], alpha=0.6, edgecolor='white'))
+        else:
+            lab.set_bbox(dict(facecolor='silver', alpha=0.6, edgecolor='white'))
+        lab.set_rotation(angle)
         i+=1
         lab.set_rotation_mode("anchor")
         labels.append(lab)
     axs_.set_xticklabels([])
+
 def radar_factory(num_vars,name_sub, frame='circle'):
     """Create a radar chart with `num_vars` axes.
 
@@ -609,13 +527,45 @@ def radar_factory(num_vars,name_sub, frame='circle'):
     return theta
 
 
+def draw(level,s, fscore, cv_number, f_all):
+    fig, axs = plt.subplots(9,3,figsize=(25, 25*2.8))
+    # fig.subplots_adjust(top=0.88)
+    lim_pad=4.5
+    lim_w,lim_h,lim_t,lim_b=0.4,0.41,0.9608,0.01
+    [axi.set_axis_off() for axi in axs.ravel()[0:26]]
+    plt.tight_layout(pad=lim_pad)
+
+    fig.text(0.001, 0.972, 'A', fontsize=42,weight='bold')
+    fig.text(0.001, 0.65, 'B', fontsize=42,weight='bold')
+    fig.text(0.001, 0.32, 'C', fontsize=42,weight='bold')
+
+    fig.subplots_adjust(wspace=lim_w, hspace=lim_h, top=lim_t, bottom=lim_b)
+    i=1
+    f_phylotree=False
+    f_kma=False
+    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
+    i=10
+    f_phylotree=True
+    f_kma=False
+    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
+    i=19
+    f_phylotree=False
+    f_kma=True
+    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
+
+
+    im = plt.imread('src/legend.png')
+    newax = fig.add_axes([0.84,0.84,0.16,0.16], anchor='NE', zorder=-1)
+    newax.imshow(im)
+    newax.axis('off')
+    fig.savefig('log/results/result_STD.png')
 
 def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i):
     # if fscore=='f1_macro' or fscore=='accuracy':
-    #     tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
+    #     tool_list=['Point-/ResFinder', 'Neural networks', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Baseline (Majority)']
     #
     # else:
-    tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
+    tool_list=['Point-/ResFinder', 'Neural networks', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Baseline (Majority)']
     data = pd.read_csv('metadata/' + str(level) + '_Species_antibiotic_FineQuality.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
     data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
@@ -676,8 +626,12 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
     anti_summary=extract_multi_model_summary() #antis shared by multiple species
     anti_share=anti_summary.columns.to_list()
     # print(anti_share)
-    font_size=30
-    line_width=5
+
+    for i_anti in anti_share: #for the sake of better visualization.
+        if '/' in i_anti:
+            posi=i_anti.find('/')
+            _i_anti=i_anti[:(posi+1)] + '\n' + i_anti[(posi+1):]
+            anti_share=[_i_anti if x==i_anti else x for x in anti_share]
 
     # -----------------------------------------------------------------------------------------------
     # 1. ploting radar graphs
@@ -685,7 +639,7 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
     # i=0
     # i=1
     for species, antibiotics_selected in zip(df_species_radar, antibiotics_radar):
-        print(species)
+
         antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
 
         #---------------------------------------------------
@@ -695,18 +649,18 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
         axs_std = plt.subplot(9,3,i, projection='radar'+species)
 
         data = combine_data_std(species,antibiotics,fscore, f_phylotree, f_kma,tool_list)
-
+        # print(data)
         spoke_labels = antibiotics#antibiotics
-        #Add acronym
-        with open('./src/AntiAcronym_dict.pkl', 'rb') as f:
-            map_acr = pickle.load(f)
-        spoke_labels= [map_acr[x] for x in spoke_labels]
-        # print(df_plot)
-
+        #if too long label, make it 2 lines.
+        for i_anti in spoke_labels:
+            if '/' in i_anti:
+                posi=i_anti.find('/')
+                _i_anti=i_anti[:(posi+1)] + '\n' + i_anti[(posi+1):]
+                spoke_labels=[_i_anti if x==i_anti else x for x in spoke_labels]
 
         species_title=(species[0] +". "+ species.split(' ')[1] )
-        axs_std.set_title(species_title, weight='bold',style='italic', size=30, position=(0.5, 1.1),
-                     horizontalalignment='center', verticalalignment='center',pad=30)
+        axs_std.set_title(species_title, weight='bold',style='italic', size=28, position=(0.5, 1.1),
+                     horizontalalignment='center', verticalalignment='center',pad=60)
         p_radar=[]
 
         for d, color in zip(data, colors):
@@ -714,25 +668,23 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
             #     print('??')
             #     p_ =axs_std.plot(theta, d,  'o-', markersize=4,color=color,dashes=[2,2],linewidth=2,alpha=.3)
             # else:
-
-            p_ =axs_std.plot(theta, d,  'o-', markersize=6,color=color,dashes=[5,2],linewidth=line_width )
+            p_ =axs_std.plot(theta, d,  'o-', markersize=4,color=color,dashes=[2,2],linewidth=2 )
             p_radar.append(p_)
             # ax.fill(theta, d, facecolor=color, alpha=0.25)
         # Circle((0.5, 0.5), 0.5)
         if species=='Klebsiella pneumoniae' and f_kma==True and fscore=='f1_negative':
             axs_std.set_rgrids([-1,-0.5,0, 0.2,  0.4])
-            axs_std.set(ylim=(-1, 0.41))
+            axs_std.set(ylim=(-1, 0.4))
             plt.yticks([-1,-0.5,0, 0.2,  0.4],size=16)
         elif f_kma==True or f_phylotree==True:
             axs_std.set_rgrids([-1,-0.5,0, 0.2, 0.4])
-            axs_std.set(ylim=(-1,  0.41))
+            axs_std.set(ylim=(-1,  0.4))
             plt.yticks([-1,-0.5,0, 0.2,  0.4],size=16)
         else:
             axs_std.set_rgrids([-1,-0.5,0, 0.2,  0.4])
-            axs_std.set(ylim=(-1,  0.41))
+            axs_std.set(ylim=(-1,  0.4))
             plt.yticks([-1,-0.5,0, 0.2, 0.4],size=16)
-        plt.grid(color='white', linestyle='-', linewidth=1)
-
+        plt.grid(color='white', linestyle='-', linewidth=0.7)
         axs_std._gen_axes_spines()
         axs_std.set_thetagrids(np.degrees(theta), spoke_labels)
         axs_std.set_facecolor('#d9d9d9')
@@ -744,59 +696,54 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
         # -----legend---------
         # ------------------
         if i==1:
-            leg=axs_std.legend(antibiotics,  labels= labels, ncol=3, loc=(0.4,1.24),fontsize=28, markerscale=4)
+            leg=axs_std.legend(antibiotics,  labels= labels, ncol=3, loc=(0.2,1.27),fontsize=28, markerscale=4)
             for line in leg.get_lines():
                 line.set_linewidth(5.0)
         # axs_std.spines["start"].set_color("white")
         # axs_std.spines["polar"].set_color("white")
         i+=1
         # Adjust tick label positions ------------------------------------
-        # adjust_lable(axs_std,antibiotics,anti_share,colors_anti,species,font_size)
-        axs_std.tick_params(axis='x', which='major', pad=18,labelsize=font_size)
+        adjust_lable(axs_std,antibiotics,anti_share,colors_anti,species)
+
 
         pos1=axs_std.get_position()
         if species=='Klebsiella pneumoniae' and f_kma==False and f_phylotree==False:
-            axs_ = fig.add_axes([pos1.x0+0.03575,pos1.y0+0.0128,pos1.width / 1.44,pos1.height / 1.44], projection= 'radar'+species)
+            axs_ = fig.add_axes([pos1.x0+0.0315,pos1.y0+0.0111,pos1.width / 1.41,pos1.height / 1.41], projection= 'radar'+species)
         elif f_kma:
-            axs_ = fig.add_axes([pos1.x0+0.03575,pos1.y0+0.0128,pos1.width / 1.44,pos1.height / 1.44], projection= 'radar'+species)
+            axs_ = fig.add_axes([pos1.x0+0.0315,pos1.y0+0.0111,pos1.width / 1.41,pos1.height / 1.41], projection= 'radar'+species)
             # axs_ = fig.add_axes([pos1.x0+0.032,pos1.y0+0.027,pos1.width / 1.34,pos1.height / 1.34], projection= 'radar'+species)
         else:
-            axs_ = fig.add_axes([pos1.x0+0.03575,pos1.y0+0.0128,pos1.width / 1.44,pos1.height / 1.44], projection= 'radar'+species)
+            axs_ = fig.add_axes([pos1.x0+0.0315,pos1.y0+0.0111,pos1.width / 1.41,pos1.height / 1.41], projection= 'radar'+species)
             # axs_ = fig.add_axes([pos1.x0+0.029,pos1.y0+0.024,pos1.width / 1.29,pos1.height / 1.29], projection= 'radar'+species)
         #---------------------------------------------------
         # -------------------Mean of scores--------------
         # axs_ = fig.add_subplot(4,3,i,polar= 'spine')#
         data = combine_data(species,antibiotics,fscore, f_phylotree, f_kma,tool_list)
         # print(data)
-
-
-
+        spoke_labels = antibiotics#antibiotics
+        #if too long label, make it 2 lines.
+        for i_anti in spoke_labels:
+            if '/' in i_anti:
+                posi=i_anti.find('/')
+                _i_anti=i_anti[:(posi+1)] + '\n' + i_anti[(posi+1):]
+                spoke_labels=[_i_anti if x==i_anti else x for x in spoke_labels]
 
         # theta = np.linspace(0, 2*np.pi, len(antibiotics), endpoint=False)
 
         # Plot the four cases from the example data on separate axes
         # for ax, (title, case_data) in zip(axs.flat, data):
-
+        axs_.set_rgrids([0,0.2,  0.4, 0.6, 0.8],size=18)
         # axs_.set_title(species, weight='bold',style='italic', size=22, position=(0.5, 1.1),
         #              horizontalalignment='center', verticalalignment='center',pad=60)
         # p_radar=[]
-        temp_zorder=0
         for d, color in zip(data, colors):
-            if temp_zorder==0:
-                p_ =axs_.plot(theta, d,  'o-', markersize=9,color=color,linewidth=line_width,zorder=3)#,dashes=[6, 2],
-            else:
-                p_ =axs_.plot(theta, d,  'o-', markersize=9,color=color,linewidth=line_width)#,dashes=[6, 2],
-            temp_zorder+=1
+            p_ =axs_.plot(theta, d,  'o-', markersize=4,color=color,dashes=[6, 2],linewidth=2)
+
         # Circle((0.5, 0.5), 0.5)
         # axs_.set(ylim=(0.4, 1.0))
-        axs_.set_ylim(ymin=-0.05)
-        axs_.set_rgrids([0, 0.5, 1 ],size=18)
-        axs_.tick_params(axis='y', which='major', pad=15)
+        axs_.set_ylim(ymin=0)
         # plt.yticks([ 0,0.2,0.4, 0.6, 0.8,0.1],size=18)
-        axs_.yaxis.grid(False)
-        axs_.xaxis.grid(False)
-        # plt.grid(axis='x',color='gray', dashes=[1,3], linewidth=0.7)
-        plt.grid(axis='y',color='gray', dashes=[3,3], linewidth=2)
+        plt.grid(color='grey', linestyle='--', linewidth=0.7)
 
         axs_.set(xticklabels=[])
         axs_.set(xlabel=None)
@@ -823,35 +770,28 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
     data_com=data_com.values
     # print(data_com)
     # antibiotics_com=['Campylobacter jejuni\ntetracycline','Enterococcus faecium\nvancomycin','Neisseria gonorrhoeae\nazithromycin',	'Neisseria gonorrhoeae\ncefixime']
-    # antibiotics_com=['C. jejuni\ntetracycline','E. faecium\nvancomycin','N. gonorrhoeae\nazithromycin','N. gonorrhoeae\ncefixime']
-    # antibiotics_com=[colorStyle.BOLD + 'C. jejuni' + colorStyle.END +' TE','E. faecium VA ','N. gonorrhoeae AZI','N. gonorrhoeae FIX']
-    # antibiotics_com=['$\\bf{\it{C. jejuni}}$ TE','E. faecium VA ','N. gonorrhoeae AZI','N. gonorrhoeae FIX'] $\mathrm{ABC123}^{123}$'
-    import matplotlib.font_manager
+    antibiotics_com=['C. jejuni\ntetracycline','E. faecium\nvancomycin','N. gonorrhoeae\nazithromycin','N. gonorrhoeae\ncefixime']
 
-    rcParams['mathtext.fontset'] = 'custom'
-    rcParams['mathtext.it'] = 'stixsans:italic'
-    rcParams['mathtext.bf'] = 'stixsans:italic:bold'
-    antibiotics_com=['$\mathbf{C. jejuni}$ TE','$\mathbf{E. faecium}$\nVA ','$\mathbf{N. gonorrhoeae}$ AZI','$\mathbf{N. gonorrhoeae}$\nFIX']
     theta = radar_factory(4,'radar_com', frame='polygon')
     axs_std = plt.subplot(9,3,i, projection='radar_com')
     for d, color in zip(data_com, colors):
         # print(d)
-        p_ =axs_std.plot(theta, d,  'o-', markersize=6,color=color,dashes=[5,2],linewidth=line_width)
+        p_ =axs_std.plot(theta, d,  'o-', markersize=4,color=color,dashes=[2,2],linewidth=2)
         # p_radar.append(p_)
     axs_std.set_rgrids([-1,-0.5,0, 0.2, 0.4])
-    axs_std.set(ylim=(-1, 0.41))
+    axs_std.set(ylim=(-1, 0.4))
     plt.yticks([-1,-0.5,0, 0.2, 0.4],size=16)
-    plt.grid(color='white', linestyle='-', linewidth=2)
+    plt.grid(color='white', linestyle='-', linewidth=0.7)
     axs_std._gen_axes_spines()
     axs_std.set_thetagrids(np.degrees(theta), antibiotics_com)
     axs_std.set_facecolor('#d9d9d9')
-    axs_std.tick_params(axis='x', which='major', color='grey',grid_linestyle='dashed', pad=5,zorder=3)#labelsize=16,
+    axs_std.tick_params(axis='x', which='major', color='grey',grid_linestyle='dashed', pad=0,zorder=3)#labelsize=16,
     # Adjust tick label positions ------------------------------------
-    adjust_lable_bar(axs_std,antibiotics_com,anti_share,colors_anti,font_size)
-    # axs_std.tick_params(axis='x', which='major', pad=20,labelsize=font_size)
+    adjust_lable_bar(axs_std,antibiotics_com,anti_share,colors_anti)
+
 
     pos1=axs_std.get_position()
-    axs_ = fig.add_axes([pos1.x0+0.03575,pos1.y0+0.0128,pos1.width / 1.44,pos1.height / 1.44], projection= 'radar_com')
+    axs_ = fig.add_axes([pos1.x0+0.0315,pos1.y0+0.0111,pos1.width / 1.41,pos1.height / 1.41], projection= 'radar_com')
 
     #---------------------------------------------------
     # -------------------Mean of scores--------------
@@ -868,68 +808,25 @@ def ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
     data_com=data_com.drop(columns=[0])
     data_com=data_com.values
 
-    axs_.set_rgrids([0,0.5,1],size=18)
+    axs_.set_rgrids([0,0.2,  0.4, 0.6, 0.8],size=18)
     # axs_.set_title(species, weight='bold',style='italic', size=22, position=(0.5, 1.1),
     #              horizontalalignment='center', verticalalignment='center',pad=60)
     # p_radar=[]
     for d, color in zip(data_com, colors):
-        if temp_zorder==0:
-            p_ =axs_.plot(theta, d,  'o-', markersize=9,color=color,linewidth=line_width,zorder=3)#,dashes=[6, 2],
-        else:
-            p_ =axs_.plot(theta, d,  'o-', markersize=9,color=color,linewidth=line_width)#,dashes=[6, 2],
-        # p_ =axs_.plot(theta, d,  'o-', markersize=8,color=color,linewidth=2)
+        p_ =axs_.plot(theta, d,  'o-', markersize=4,color=color,dashes=[6, 2],linewidth=2)
 
-
-    # plt.grid(color='grey', linestyle='--', linewidth=0.7)
+    axs_.set_ylim(ymin=0)
+    plt.grid(color='grey', linestyle='--', linewidth=0.7)
     axs_.set(xticklabels=[])
     axs_.set(xlabel=None)
     axs_.tick_params(axis='x',bottom=False)
-    # axs_std.set_title('C. jejuni\nE. faecium\nN. gonorrhoeae', weight='bold',style='italic', size=22, position=(0.5, 1.1),
-    #                  horizontalalignment='center', verticalalignment='center',pad=75)
+    axs_std.set_title('C. jejuni\nE. faecium\nN. gonorrhoeae', weight='bold',style='italic', size=22, position=(0.5, 1.1),
+                     horizontalalignment='center', verticalalignment='center',pad=75)
 
 
-    axs_.set_ylim(ymin=-0.05)
-    axs_.yaxis.grid(False)
-    axs_.xaxis.grid(False)
-    # plt.grid(axis='x',color='gray', dashes=[1,3], linewidth=0.7)
-    plt.grid(axis='y',color='gray', dashes=[3,3], linewidth=2)
+    # im = plt.imread('src/legend.png')
+    # newax = fig.add_axes([0.84,0.84,0.16,0.16], anchor='NE', zorder=-1)
+    # newax.imshow(im)
+    # newax.axis('off')
 
-
-
-def draw(level,s, fscore, cv_number, f_all):
-    fig, axs = plt.subplots(9,3,figsize=(25, 25*2.8))
-    # fig.subplots_adjust(top=0.88)
-    lim_pad=4.5
-    lim_w,lim_h,lim_t,lim_b=0.4,0.3,0.9608,0.01
-    [axi.set_axis_off() for axi in axs.ravel()[0:27]]
-    plt.tight_layout(pad=lim_pad)
-
-    fig.text(0.001, 0.972, 'A', fontsize=42,weight='bold')
-    fig.text(0.001, 0.65, 'B', fontsize=42,weight='bold')
-    fig.text(0.001, 0.32, 'C', fontsize=42,weight='bold')
-    fig.text(0.7, 0.42, 'D', fontsize=42,weight='bold')
-
-    fig.subplots_adjust(wspace=lim_w, hspace=lim_h, top=lim_t, bottom=lim_b)
-    i=1
-    f_phylotree=False
-    f_kma=False
-    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
-    i=10
-    f_phylotree=True
-    f_kma=False
-    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
-
-
-
-    i=19
-    f_phylotree=False
-    f_kma=True
-    ComBySpecies(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,axs,fig,i)
-
-
-
-    im = plt.imread('src/legend.png')
-    newax = fig.add_axes([0.69,0.155,0.25,0.25], anchor='NE', zorder=-1)
-    newax.imshow(im)
-    newax.axis('off')
-    fig.savefig('log/results/result_STD.pdf')
+    # fig.savefig('log/results/'+'kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'_'+fscore+'_STD.png')

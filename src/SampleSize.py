@@ -45,7 +45,7 @@ def extract_info(level,s, f_all ):
 
     fig, axs = plt.subplots(2,1,figsize=(20, 30), gridspec_kw={"height_ratios":[5.5, 1]})
     plt.tight_layout(pad=4)
-    fig.subplots_adjust(left=0.3,  right=0.96,wspace=0.25, hspace=0.1, top=0.98, bottom=0.02)
+    fig.subplots_adjust(left=0.48,  right=0.96,wspace=0.25, hspace=0.1, top=0.98, bottom=0.02)
     for species, antibiotics_selected in zip(species_list, antibiotics_main):
         df=pd.read_csv('metadata/balance/'+str(level)+'/log_' + str(species.replace(" ", "_")) + '_pheno_summary' + '.txt', sep="\t" )
 
@@ -60,7 +60,12 @@ def extract_info(level,s, f_all ):
     #add acronym
     with open('./src/AntiAcronym_dict.pkl', 'rb') as f:
         map_acr = pickle.load(f)
-    df_plot['anti_new']=df_plot['anti'].apply(lambda x:x+'('+ map_acr[x]+')')
+    pd_mech=pd.read_csv('./src/acronym_mech.csv')
+
+    map_mech= dict(zip(pd_mech['Antibiotic'], pd_mech['Mechanism classification by target site']))
+        # pd_mech[['Antibiotic','Mechanism classification by target site']].to_dict()
+    # print(map_mech)
+    df_plot['anti_new']=df_plot['anti'].apply(lambda x:x+'('+ map_acr[x]+')'+'['+map_mech[x]+']')
     # print(df_plot)
 
 
@@ -82,7 +87,7 @@ def extract_info(level,s, f_all ):
     df=pd.read_csv('metadata/balance/'+str(level)+'/log_' + str(mt[0].replace(" ", "_")) + '_pheno_summary' + '.txt', sep="\t" )
     df=df.rename(columns={"Unnamed: 0": "anti"})
     df=df[['anti','Resistant','Susceptible']]
-    df['anti_new']=df['anti'].apply(lambda x:x+'('+ map_acr[x]+')')
+    df['anti_new']=df['anti'].apply(lambda x:x+'('+ map_acr[x]+')'+'['+map_mech[x]+']')
 
     ax=df.plot(
     x = 'anti_new',

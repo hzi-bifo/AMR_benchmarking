@@ -34,10 +34,18 @@ def combine_data(species_list,fscore,tool_list):
                 for anti in antibiotics:
 
                     for tool in tool_list:
-                        # if tool=='Point-/ResFinder':
-                        #     results_file='./benchmarking2_kma/resfinder/Results/summary/loose/'+str(species.replace(" ", "_"))+'.csv'
-                        #     results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-                        #     score=results.loc[anti,fscore]
+                        if tool=='Point-/ResFinder':
+                            results_file,_ = amr_utility.name_utility.GETsave_name_final(fscore,species, f_kma, f_phylotree, 'resfinder')
+                            if f_kma:
+                                results_file='./resfinder_folds/'+results_file
+                            elif f_phylotree:
+                                results_file='./resfinder_folds/'+results_file
+                            else:
+                                results_file='./resfinder_folds/'+results_file
+
+                            results=pd.read_csv(results_file + '_PLOT.txt', header=0, index_col=0,sep="\t")
+
+                            score=results.loc[anti,fscore]
                         if tool=='Aytan-Aktug':
                             results_file = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,species, None,
                                                                                                                          'loose',
@@ -210,129 +218,14 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
     # --------------
     if f_step=='1':
         tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
-        fig, axs = plt.subplots(4,4,figsize=(25, 25))
-        plt.tight_layout(pad=4)
-        fig.subplots_adjust(wspace=0.1, hspace=0.25, top=0.93, bottom=0.02,left=0.05)
+        fig, axs = plt.subplots(1,1,figsize=(10, 10))
+        plt.tight_layout(pad=7)
+        # fig.subplots_adjust(wspace=0.1, hspace=0.25, top=0.93, bottom=0.02,left=0.05)
         title='Performance change w.r.t. different folds ('+fscore+')'
         labels = tool_list
         # fig.suptitle(title,size=19, weight='bold')
-        fig.suptitle('A', weight='bold',size=35,x=0.02,y=0.97 )
+        # fig.suptitle('A', weight='bold',size=35,x=0.02,y=0.97 )
 
-        # axs[2,3].axis('off')
-        i=0
-        for species, antibiotics_selected in zip(df_species, antibiotics):
-            print(species)
-
-            row = (i //4)
-            col = i % 4
-            i+=1
-            species_p=[species]
-            data_plot=combine_data(species_p,fscore,tool_list)
-            #[fscore, 'species', 'software','anti','folds']
-            # print(data_plot)
-            data_plot= data_plot.astype({fscore:float})
-            ax = sns.violinplot(x="folds", y=fscore, ax=axs[row, col],data=data_plot,
-                        inner=None, color="0.95")
-            ax.set(ylim=(0, 1.0))
-            if col==0:
-                ax.set_ylabel(fscore,size = 25)
-                ax.tick_params(axis='y', which='major', labelsize=20)
-            else:
-                # ax.set_ylabel('')
-                ax.set_yticks([])
-                ax.set(ylabel=None)
-                ax.tick_params(axis='y',bottom=False)
-
-            # ax.set_xticklabels(ax.get_xticks(), size =25,rotation=10)
-            # ax = sns.stripplot(x="folds", y=fscore,ax=axs[row, col],  data=data_plot)
-            # trans = ax.get_xaxis_transform()
-            # ax.set_xlabel('')
-            species_title= (species[0] +". "+ species.split(' ')[1] )
-            ax.set_title(species_title,style='italic', weight='bold',size=31,pad=10)
-            ax.set(xticklabels=[])
-            ax.set(xlabel=None)
-            ax.tick_params(axis='x',bottom=False)
-            #--
-            #connect dots representing the same tool+anti combination
-            df=change_layout(data_plot,fscore,species)
-
-
-            jitter = 0.05
-            df_x_jitter = pd.DataFrame(np.random.normal(loc=0, scale=jitter, size=df.values.shape), columns=df.columns)
-            df_x_jitter += np.arange(len(df.columns))
-            df=df.set_index(df_x_jitter.index)
-            # print(df)
-            # print(df_x_jitter)
-
-            # j=0
-            # # colors=['b','g']
-            # for col in df:
-            #     if species !='Mycobacterium tuberculosis':
-            #         ax.plot(df_x_jitter[col], df[col], 'o', alpha=.40, zorder=1, ms=8, mew=1)
-            #     else:
-            #
-            #         if j==1:
-            #             ax.plot(df_x_jitter[col], df[col], 'go', alpha=.40, zorder=1, ms=8, mew=1 )
-            #         else:
-            #             ax.plot(df_x_jitter[col], df[col], 'o', alpha=.40, zorder=1, ms=8, mew=1)
-            #         j+=1
-            #         if species=='Escherichia coli' and ( j in [1,2,3]):
-            #             ax.legend(bbox_to_anchor=(0.5, 1.09),ncol=3,fontsize=17,frameon=False)
-            i_color=0
-            for col_t in df:
-                if species !='Mycobacterium tuberculosis':
-                    if i_color%3==0:
-                        ax.plot(df_x_jitter[col_t], df[col_t], 'o',c='tab:blue', alpha=0.6, zorder=1, ms=8, mew=1, label="Random folds")
-                    elif i_color%3==1:
-                        ax.plot(df_x_jitter[col_t], df[col_t], 'o',c='orange', alpha=0.6, zorder=1, ms=8, mew=1, label="Phylogeny-aware folds")
-                    else:
-                        ax.plot(df_x_jitter[col_t], df[col_t], 'go', alpha=0.6, zorder=1, ms=8, mew=1, label="Homology-aware folds")
-                    # i_color+=1
-                    # ax.set_title(species,style='italic', weight='bold')
-                    # ax.set(ylim=(0, 1.0))
-                else:
-                    if i_color%2==0:
-                        ax.plot(df_x_jitter[col_t], df[col_t], 'o',c='tab:blue', alpha=0.6, zorder=1, ms=8, mew=1)
-                    elif i_color%2==1:
-                        ax.plot(df_x_jitter[col_t], df[col_t], 'go', alpha=0.6, zorder=1, ms=8, mew=1)
-                    # else:
-                    #     ax.plot(df_x_jitter[col], df[col], 'go', alpha=.40, zorder=1, ms=8, mew=1)
-                i_color+=1
-                # ax.set_title(species,style='italic', weight='bold',size=25)
-                ax.set(ylim=(0, 1.0))
-                if col==0:
-                    ax.set_ylabel(fscore,size = 25)
-                    ax.tick_params(axis='y', which='major', labelsize=25)
-                else:
-                    ax.set_yticks([])
-                    ax.set(ylabel=None)
-                    ax.tick_params(axis='y',bottom=False)
-                if species=='Escherichia coli' and ( i_color in [1,2,3]):
-                    leg=ax.legend(bbox_to_anchor=(0.8, 1.11),ncol=3,fontsize=30,frameon=False, markerscale=2)
-
-                    for lh in leg.legendHandles:
-                        lh._legmarker.set_alpha(1)
-
-
-            # ax.set_xticks(range(len(df.columns)))
-            # ax.set_xticklabels(df.columns)
-            # ax.set_xlim(-0.5,len(df.columns)-0.5)
-            ax.set(xticklabels=[])
-            ax.set(xlabel=None)
-            ax.tick_params(axis='x',bottom=False)
-
-            if species !='Mycobacterium tuberculosis':
-                for idx in df.index:
-                    ax.plot(df_x_jitter.loc[idx,['Random folds','Phylo-tree-based folds']], df.loc[idx,['Random folds','Phylo-tree-based folds']], color = 'grey', linewidth = 0.5, linestyle = '--', zorder=-1)
-                    ax.plot(df_x_jitter.loc[idx,['Phylo-tree-based folds','KMA-based folds']], df.loc[idx,['Phylo-tree-based folds','KMA-based folds']], color = 'grey', linewidth = 0.5, linestyle = '--', zorder=-1)
-            else:
-                for idx in df.index:
-                    ax.plot(df_x_jitter.loc[idx,['Random folds','KMA-based folds']], df.loc[idx,['Random folds','KMA-based folds']], color = 'grey', linewidth = 0.5, linestyle = '--', zorder=-1)
-
-            ax.set(xlabel=None)
-            ax.tick_params(axis='x',bottom=False)
-
-        # fig.savefig('log/results/FoldsChange_'+fscore+'.png')
 
     # #2. Is it different for tools?
     # if f_step=='2':
@@ -345,39 +238,40 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
 
         # axs[1,2].axis('off')
         # i=0
-        tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
+        # tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
+        tool_list=['ML Baseline (Majority)']
+
         for tool in tool_list:
 
             # plt.rcParams['savefig.facecolor'] = "0.8"
-            row = (i //4)
-            col = i % 4
-            i+=1
+
+
             tool_p=[tool]
             data_plot=combine_data(df_species,fscore,tool_p)
             #[fscore, 'species', 'software','anti','folds']
             # print(data_plot)
             data_plot= data_plot.astype({fscore:float})
 
-            ax = sns.violinplot(x="folds", y=fscore, ax=axs[row, col],data=data_plot,
+            ax = sns.violinplot(x="folds", y=fscore,data=data_plot,
                         inner=None, color="0.95")
             # ax = sns.stripplot(x="folds", y=fscore,ax=axs[row, col],  data=data_plot)
             ax.set(ylim=(0, 1.0))
             # ax.set_xticklabels(ax.get_xticks(), size = 17,rotation=10)
-            if col==0:
-                ax.set_ylabel(fscore,size = 25)
-                ax.tick_params(axis='y', which='major', labelsize=25)
-            else:
-                ax.set_yticks([])
-                ax.set(ylabel=None)
-                ax.tick_params(axis='y',bottom=False)
+            # if col==0:
+            ax.set_ylabel(fscore,size = 25)
+            ax.tick_params(axis='y', which='major', labelsize=25)
+            # else:
+            #     ax.set_yticks([])
+            #     ax.set(ylabel=None)
+            #     ax.tick_params(axis='y',bottom=False)
             # trans = ax.get_xaxis_transform()
             # ax.set_xlabel('')
-            ax.set_title(tool, weight='bold',size=31)
+            ax.set_title(tool+'\n mean', weight='bold',size=31)
             ax.set(xticklabels=[])
             ax.set(xlabel=None)
             ax.tick_params(axis='x',bottom=False)
-            if i==12:
-                ax.text(-0.7, 1.08, 'B', fontsize=35,weight='bold')
+            # if i==12:
+            #     ax.text(-0.7, 1.08, 'B', fontsize=35,weight='bold')
             # fig.suptitle('B', weight='bold',size=35,x=0.01)
             #--
             #connect dots representing the same tool+anti combination
@@ -414,12 +308,12 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
 
 
         #set background color for B part
-        fig.patches.extend([plt.Rectangle((0, 0),1,0.245,
-                                  fill=True, color='grey', alpha=0.5, zorder=-1,
-                                  transform=fig.transFigure, figure=fig)])
-        fig.patches.extend([plt.Rectangle((0.743,0.245),0.26,0.24,
-                                  fill=True, color='grey', alpha=0.5, zorder=-1,
-                                  transform=fig.transFigure, figure=fig)])
+        # fig.patches.extend([plt.Rectangle((0, 0),1,0.245,
+        #                           fill=True, color='grey', alpha=0.5, zorder=-1,
+        #                           transform=fig.transFigure, figure=fig)])
+        # fig.patches.extend([plt.Rectangle((0.743,0.245),0.26,0.24,
+        #                           fill=True, color='grey', alpha=0.5, zorder=-1,
+        #                           transform=fig.transFigure, figure=fig)])
 
 
 
@@ -428,7 +322,7 @@ def extract_info(level,s, fscore, cv_number, f_phylotree, f_kma,f_all,f_step):
 
 
         # fig.savefig('log/results/FoldsChangeByTool_'+fscore+'.png')
-        fig.savefig('log/results/FoldsChange_'+fscore+'.pdf')
+        fig.savefig('log/results/FoldsChange_'+fscore+'_majority.pdf')
     #2. Is it different for antis within species?
     if f_step=='3':
         # fig, axs = plt.subplots(11,1,figsize=(20, 30))
