@@ -525,13 +525,12 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
             end = time.time()
             print('Time used: ', end - start)
             # ==================================================
-
-            name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name, species, antibiotics, level,
-                                                                       out_cv, innerCV, 0.0, 0, f_fixed_threshold,
-                                                                       f_no_early_stop, False, False,f_optimize_score,
-                                                                       threshold_point, min_cov_point)
-
-            torch.save(classifier.state_dict(), name_weights)
+            # name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name, species, antibiotics, level,
+            #                                                            out_cv, innerCV, 0.0, 0, f_fixed_threshold,
+            #                                                            f_no_early_stop, False, False,f_optimize_score,
+            #                                                            threshold_point, min_cov_point)
+            #
+            # torch.save(classifier.state_dict(), name_weights)
             ######################
             # 2. validate the model #
             ######################
@@ -641,13 +640,16 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
         # aucs_val.append(aucs_val_split)
         # mcc_val.append(mcc_val_split)
 
-
-        weight_folder = amr_utility.name_utility.GETname_multi_bench_folder_multi(species, level, 0.0, 0, f_fixed_threshold, f_no_early_stop,
-                                            f_optimize_score)
+        name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name, species, antibiotics, level,
+                                                                       out_cv, innerCV, 0.0, 0, f_fixed_threshold,
+                                                                       f_no_early_stop, False, False,f_optimize_score,
+                                                                       threshold_point, min_cov_point)
+        # weight_folder = amr_utility.name_utility.GETname_multi_bench_folder_multi(species, level, 0.0, 0, f_fixed_threshold, f_no_early_stop,
+        #                                     f_optimize_score)
 
 
         score_val = [Validation_f1_thresholds_split,Validation_actul_epoc_split, score_report_val_split, aucs_val_split,mcc_val_split]
-        with open(weight_folder +'/' +str(out_cv)+str(innerCV)+'_val_score.pickle', 'wb') as f:  # overwrite
+        with open(name_weights +'_val_score.pickle', 'wb') as f:  # overwrite
             pickle.dump(score_val, f)
     torch.cuda.empty_cache()
 
@@ -727,11 +729,20 @@ def multi_test(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
     for innerCV in N_cv:
     # for innerCV in range(cv - 1):  # e.g. cv=6. cv-1=5. [0,1,2,3,4]
         print('Starting outer: ', str(out_cv), '; inner: ', str(innerCV), ' inner loop...out of ',N_cv )
-        #todo load
+
         #load val F1 score
-        weight_folder = amr_utility.name_utility.GETname_multi_bench_folder_multi(species, level, 0.0, 0, f_fixed_threshold, f_no_early_stop,
+        if antibiotics=='all_possible_anti': #can be deleted if prepare for final publication. above names also modified accordingly.
+            weight_folder = amr_utility.name_utility.GETname_multi_bench_folder_multi(species, level, 0.0, 0, f_fixed_threshold, f_no_early_stop,
                                                 f_optimize_score)
-        [Validation_f1_thresholds_split,Validation_actul_epoc_split, score_report_val_split, aucs_val_split,mcc_val_split] = pickle.load(open(weight_folder +'/' +str(out_cv)+str(innerCV)+'_val_score.pickle', "rb"))
+            [Validation_f1_thresholds_split,Validation_actul_epoc_split, score_report_val_split, aucs_val_split,mcc_val_split] = pickle.load(open(weight_folder +'/' +str(out_cv)+str(innerCV)+'_val_score.pickle', "rb"))
+
+        elif antibiotics=='all_possible_anti_concat':
+            weight_folder = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name, species, antibiotics, level,\
+                                                                       out_cv, innerCV, 0.0, 0, f_fixed_threshold,\
+                                                                       f_no_early_stop, False, False,f_optimize_score,\
+                                                                       threshold_point, min_cov_point)
+            [Validation_f1_thresholds_split,Validation_actul_epoc_split, score_report_val_split, aucs_val_split,mcc_val_split] = pickle.load(open(weight_folder+'_val_score.pickle', "rb"))
+
 
         # Validation_mcc_thresholds.append(Validation_mcc_thresholds_split)  # inner CV * hyperpara_combination
         Validation_f1_thresholds.append(Validation_f1_thresholds_split)  # inner CV * hyperpara_combination
@@ -941,9 +952,9 @@ def multi_test(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
         pickle.dump(score, f)
 
     #save y_test
-    y_test=y_test.tolist()
+    pred_test_sub=pred_test_sub.tolist()
     with open(save_name_score + '_all_score.json', 'w') as f:
-                json.dump(y_test, f)
+        json.dump(pred_test_sub, f)
 
     torch.cuda.empty_cache()
     return score

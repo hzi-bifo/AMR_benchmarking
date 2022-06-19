@@ -516,22 +516,24 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_all,f_pre_meta
             #log: May 27, 2022. change from 11 folds to 6 folds. recording f_pre for more detailed analysis.
             # previous 11 folds(with 1 for test) was store Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj_11folds.zip
             # Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj_thrcovpoint_0.6_0.4 only 11 folds, no much difference, so 6 not re-run.
-            nn_module_hyper.multi_eval(merge_name, 'all_possible_anti_concat', level, path_x_all, path_y_all,
-                                          path_name_all, path_cluster_results, 6,
-                                          seed, re_epochs, f_scaler, f_fixed_threshold, f_nn_base,
-                                          f_optimize_score, save_name_score_concat, merge_name, threshold_point,
-                                          min_cov_point) #cv=11, one as a testing set. the rest is for a normal CV
+            # nn_module_hyper.multi_eval(merge_name, 'all_possible_anti_concat', level, path_x_all, path_y_all,
+            #                               path_name_all, path_cluster_results, 6,
+            #                               seed, re_epochs, f_scaler, f_fixed_threshold, f_nn_base,
+            #                               f_optimize_score, save_name_score_concat, merge_name, threshold_point,
+            #                               min_cov_point) #cv=11, one as a testing set. the rest is for a normal CV
 
             #May27.2022. each folds could run saparately for speeding up.
-            nn_discrete.multi_eval(merge_name,'all_possible_anti', level, path_x_all, path_y_all, path_name_all, path_cluster_results, cv,[1], seed,
-                                 re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score_concat, None,
-                                 None, None)  # hyperparmeter selection in inner loop of nested CV #[2,3,4]
-            #above qsub.May 28. 2022.
+            # nn_discrete.multi_eval(merge_name,'all_possible_anti_concat', level, path_x_all, path_y_all, path_name_all, path_cluster_results, cv,[4], seed,
+            #                      re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score_concat, merge_name,
+            #                      threshold_point, min_cov_point)  # hyperparmeter selection in inner loop of nested CV #[2,3,4]
+            #above qsub.Jun 4. 2022.
+            #[3]@23 [0,1,2,4]
+            # todo
             #to do
             # after above finished for each of 5 folds.
-            # nn_discrete.multi_test(merge_name,'all_possible_anti', level, path_x_all, path_y_all, path_name_all, path_cluster_results, cv,[0,1,2,3,4], seed,
-            #                      re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score_concat, None,
-            #                      None, None)  # hyperparmeter selection in inner loop of nested CV
+            nn_discrete.multi_test(merge_name,'all_possible_anti_concat', level, path_x_all, path_y_all, path_name_all, path_cluster_results, cv,[0,1,2,3,4], seed,
+                                 re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score_concat, merge_name,
+                                             threshold_point, min_cov_point)  # hyperparmeter selection in inner loop of nested CV
 
     # if f_cluster_folders == True:
     #     #analysis the number of each species' samples in each folder.

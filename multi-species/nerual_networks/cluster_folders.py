@@ -274,7 +274,6 @@ def prepare_cluster(fileDir, p_clusters):
             # # count+=1
 
 
-
     else:
         filename = os.path.join(fileDir, p_clusters)
         filename = os.path.abspath(os.path.realpath(filename))
@@ -398,9 +397,9 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
 
     if type(dict_cluster)==collections.defaultdict:
         if f_version=='original':
-            all_data_splits = cluster_split_old(dict_cluster, Random_State,cv)  # split cluster into cv Folds. len(all_data_splits)=5
+            all_data_splits = cluster_split_old(dict_cluster, Random_State,cv)  # split cluster into cv Folds. len(all_data_splits)=10
         else:
-            all_data_splits = cluster_split(dict_cluster, Random_State,cv)  # split cluster into cv Folds. len(all_data_splits)=5
+            all_data_splits = cluster_split(dict_cluster, Random_State,cv)  # split cluster into cv Folds. len(all_data_splits)=10
 
 
         folders_sample = []  # collection of samples for each split
@@ -440,6 +439,8 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
                 all_data_splits = cluster_split(dict_cluster_sub, Random_State,
                                                 cv)  # split cluster into cv Folds. len(all_data_splits)=5
             # folders_sample_single_species=[]
+            # print(all_data_splits)
+            # print('---')
             for out_cv in range(cv):
                 # folders_sample_sub = []
                 iter_clusters = all_data_splits[out_cv]  # clusters included in that split
@@ -458,6 +459,8 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
                 totals_sub.append(sum(tem))
             totals.append(totals_sub)# in the order of species , the order comes from list: p_cluster.
     print(totals)
+    # print('folders_sample',folders_sample)
+
     return folders_sample,totals,folders_sampleName
 
 def prepare_folders_tree(cv,species,anti,p_names,f_multi):
@@ -569,67 +572,7 @@ def prepare_folders_random(cv,species,anti,p_names,f_multi):
     return folders_sample
 
 
-def prepare_folders_multiAnti(cv,species,antibiotics,p_names,f_random,f_tree,level):
-    #todo
-    # Based on pickle files
-    # :return:  index of sampels w.r.t. data_x, data_y, according to p_names
 
-    fileDir = os.path.dirname(os.path.realpath('__file__'))
-    #
-    # main_path='cv_folders/'+'loose'+'/'+str(species.replace(" ", "_"))+"/"+ \
-    #           str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_random_cv.pickle"
-    multi_log='./log/temp/' + str(level) + '/multi_anti/' + str(species.replace(" ", "_")) + '/'
-    
-    if f_random:
-        # main_path=multi_log+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_random_raw.pickle"
-        main_path2=multi_log+ "kma.pickle"
-    elif f_tree:
-        # main_path=multi_log+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_tree_raw.pickle"
-        main_path2=multi_log+ "kma.pickle"
-    else:#f_kma
-        # main_path=multi_log+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_kma_raw.pickle"
-        main_path2=multi_log+ "kma.pickle"
-        print('kma folds!')
-
-
-    Random_names = pickle.load(open(main_path2, "rb"))
-    names = prepare_sample_name(fileDir, p_names)
-    # print(names)
-    folders_sample = []  # collection of samples for each split
-    for out_cv in range(cv):
-        folders_sample_sub = []
-        tree_names_split = Random_names[out_cv]  # list: names included in that split
-        for cl_ID in tree_names_split:
-            folders_sample_sub.append(
-                names.index(cl_ID))  # extract cluster ID from the rest folders. 4*(cluster_N)
-        folders_sample.append(folders_sample_sub)
-    # # print(folders_sample)
-    # # --------------------
-    # # --------------------
-    # folders_sample_test = []  # collection of samples for each split
-    # for out_cv in range(cv):
-    #     for anti in antibiotics:
-    #         if f_random:
-    #             main_path=multi_log+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_random_raw.pickle"
-    #             # main_path2=multi_log+ "kma.pickle"
-    #         elif f_tree:
-    #             main_path=multi_log+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_tree_raw.pickle"
-    #             # main_path2=multi_log+ "kma.pickle"
-    #         else:#f_kma
-    #             main_path=multi_log+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_kma_raw.pickle"
-    #             # main_path2=multi_log+ "kma.pickle"
-    #         Random_names = pickle.load(open(main_path, "rb"))
-    #         names = prepare_sample_name(fileDir, p_names)
-    #         # print(names)
-    #
-    #         folders_sample_sub = []
-    #         tree_names_split = Random_names[out_cv]  # list: names included in that split
-    #         for cl_ID in tree_names_split:
-    #             folders_sample_sub.append(
-    #                 names.index(cl_ID))  # extract cluster ID from the rest folders. 4*(cluster_N)
-    #         folders_sample_test.append(folders_sample_sub)
-
-    return folders_sample
 '''
 def prepare_folders_random_mt(cv,species,anti,p_names,f_multi):
     

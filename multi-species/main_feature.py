@@ -128,7 +128,7 @@ def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_
 
     if f_pre_cluster==True:
 
-        data_preparation.merge_scaffolds_khuModified.extract_info(path_sequence,path_metadata,path_large_temp_kma ,16)
+        data_preparation.merge_scaffolds_khuModified.extract_info(path_sequence,path_metadata,path_large_temp_kma,16)
 
         print(species,anti,': finished merge_scaffold!')
     if f_cluster==True:
@@ -160,13 +160,13 @@ def run(path_sequence,path_large_temp,species,anti,level,f_phylo_prokka,f_phylo_
         run_file.write("\n")
 
     if f_cluster_folders == True:
-        try:
-            folders_sample,split_original,_ = pre_cluster_folders.prepare_folders(cv, random,path_metadata, path_cluster_results,'original')
-        except:
-            folders_sample, split_original=[],[]
+        # try:
+        #     folders_sample,split_original,_ = pre_cluster_folders.prepare_folders(cv, random,path_metadata, path_cluster_results,'original')
+        # except:
+        #     folders_sample, split_original=[],[]
         folders_sample_new,split_new_k,folder_sampleName_new = pre_cluster_folders.prepare_folders(cv, random, path_metadata, path_cluster_results,'new')
-        return split_original,split_new_k,folder_sampleName_new#for Ehsan
-
+        # return split_original,split_new_k,folder_sampleName_new#for Ehsan
+        return split_new_k,folder_sampleName_new
 
     if f_res==True:
         #2. Analysing PointFinder results
@@ -269,53 +269,6 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
         make_dir('log/temp/' + str(level) + '/' + str(species.replace(" ", "_")))
         make_dir('log/results/' + str(level) + '/' + str(species.replace(" ", "_")))
         make_dir('log/qsub/' + str(level) + '/' )
-    if f_qsub:
-        for species, antibiotics in zip(df_species, antibiotics):
-            amr_utility.file_utility.make_dir('log/qsub')
-            run_file_name='log/qsub/'+str(species.replace(" ", "_"))+'.sh'
-            amr_utility.file_utility.make_dir('log/qsub')
-            run_file = open(run_file_name, "w")
-            run_file.write("#!/bin/bash")
-            run_file.write("\n")
-            # if path_sequence == '/vol/projects/BIFO/patric_genome':
-            if Path(fileDir).parts[1] == 'vol':
-                run_file = amr_utility.file_utility.hzi_cpu_header5(run_file,
-                                                                    str(species.replace(" ", "_")),
-                                                                    'multi_bench_torch','gpu.q')
-
-            cmd = 'python main_feature.py -f_nn -f_phylotree -f_fixed_threshold -f_optimize_score \'f1_macro\' -learning 0.0 -e 0 -s "%s"' % (species)
-            run_file.write(cmd)
-            run_file.write("\n")
-            # ==========================================================================
-            run_file_name='log/qsub/'+str(species.replace(" ", "_"))+'_kma.sh'
-            amr_utility.file_utility.make_dir('log/qsub')
-            run_file = open(run_file_name, "w")
-            run_file.write("#!/bin/bash")
-            run_file.write("\n")
-            # if path_sequence == '/vol/projects/BIFO/patric_genome':
-            if Path(fileDir).parts[1] == 'vol':
-                run_file = amr_utility.file_utility.hzi_cpu_header5(run_file,
-                                                                    str(species.replace(" ", "_")),
-                                                                    'multi_bench_torch','gpu.q')
-
-            cmd = 'python main_feature.py -f_nn -f_kma -f_fixed_threshold -f_optimize_score \'f1_macro\' -learning 0.0 -e 0 -s "%s"' % (species)
-            run_file.write(cmd)
-            run_file.write("\n")
-            #==================================================================================
-            run_file_name='log/qsub/'+str(species.replace(" ", "_"))+'_random.sh'
-            amr_utility.file_utility.make_dir('log/qsub')
-            run_file = open(run_file_name, "w")
-            run_file.write("#!/bin/bash")
-            run_file.write("\n")
-            # if path_sequence == '/vol/projects/BIFO/patric_genome':
-            if Path(fileDir).parts[1] == 'vol':
-                run_file = amr_utility.file_utility.hzi_cpu_header5(run_file,
-                                                                    str(species.replace(" ", "_")),
-                                                                    'multi_bench_torch','gpu.q')
-
-            cmd = 'python main_feature.py -f_nn -f_random -f_fixed_threshold -f_optimize_score \'f1_macro\' -learning 0.0 -e 0 -s "%s"' % (species)
-            run_file.write(cmd)
-            run_file.write("\n")
 
 
     if debug==True:#no n_job
@@ -356,10 +309,11 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
                         f_matching_io,
                         f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
                         f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
+
                 run_file.write("echo \" running... \"")
                 run_file.close()
 
-        elif f_cluster_folders == True:#check if clusters are reasonably split into folders
+        elif f_cluster_folders == True:#  for check if clusters are reasonably split into folders. and save out folds.
             split_original_all, split_new_k_all = [], []
             combination=[]
             for species, antibiotics in zip(df_species, antibiotics):
@@ -368,18 +322,22 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
                 antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
 
                 for anti in antibiotics:
-                    split_original,split_new_k, splits_new_name=run(path_sequence, path_large_temp, species, anti, level, f_phylo_prokka, f_phylo_roary,
+                    # split_original,split_new_k, splits_new_name=run(path_sequence, path_large_temp, species, anti, level, f_phylo_prokka, f_phylo_roary,
+                    #     f_pre_cluster, f_cluster, f_cluster_folders,run_file, f_res, f_merge_mution_gene,
+                    #     f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
+                    #     f_fixed_threshold, f_nn_base,f_phylotree,f_random,f_optimize_score)
+                    split_new_k, splits_new_name=run(path_sequence, path_large_temp, species, anti, level, f_phylo_prokka, f_phylo_roary,
                         f_pre_cluster, f_cluster, f_cluster_folders,run_file, f_res, f_merge_mution_gene,
                         f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
                         f_fixed_threshold, f_nn_base,f_phylotree,f_random,f_optimize_score)
-                    combination.append(species+' '+anti)
-                    try:
-                        std_o= statistics.stdev(split_original)
-                    except:
-                        pass
-                    std_n = statistics.stdev(split_new_k)
-                    split_original_all.append(std_o)
-                    split_new_k_all.append(std_n)
+                    # combination.append(species+' '+anti)
+                    # try:
+                    #     std_o= statistics.stdev(split_original)
+                    # except:
+                    #     pass
+                    # std_n = statistics.stdev(split_new_k)
+                    # split_original_all.append(std_o)
+                    # split_new_k_all.append(std_n)
 
                     #for Ehsan. Have generated, so comment in order to avoid unnecessary modification.
                     '''
@@ -391,7 +349,7 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
 
                     '''
             #plot difference of std
-            amr_utility.file_utility.plot_kma_split_dif(split_original_all,split_new_k_all,level,combination)
+            # amr_utility.file_utility.plot_kma_split_dif(split_original_all,split_new_k_all,level,combination)
 
             #todo plot phenotype distributions in each folder
             # print('folders with only one phenotype:')
@@ -447,65 +405,6 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
 
 
             cv_folders.create_phylotree.pre_bash_roary(df_species,antibiotics,path_large_temp,level,path_sequence)
-            # for species, antibiotics in zip(df_species, antibiotics):
-            #     # for storage large prokka and roary temp files
-            #
-            #     amr_utility.file_utility.make_dir(path_large_temp + '/results_roary/' + str(level))
-            #
-            #     # # ----------------by each anti, may no need any more. Aug 10th.
-            #     #
-            #
-            #     #1.
-            #     run_file = open('./cv_folders/' + str(level) + '/' + str(species.replace(" ", "_")) + "_roary1.sh", "w")
-            #     run_file.write("#!/bin/bash")
-            #     run_file.write("\n")
-            #     if path_sequence == '/vol/projects/BIFO/patric_genome':
-            #         run_file = amr_utility.file_utility.hzi_cpu_header(run_file, str(species.replace(" ", "_")) +'run_roary1', 2)
-            #     antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
-            #     for anti in antibiotics:
-            #
-            #         run(path_sequence,path_large_temp,species, anti, level, f_phylo_prokka, f_phylo_roary, f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res,
-            #             f_merge_mution_gene,
-            #             f_matching_io, f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
-            #             f_fixed_threshold, f_nn_base,f_phylotree,f_optimize_score)
-            #     run_file.write("echo \" one species finished. \"")
-            #     run_file.close()
-            #     print('------------------------------')
-            #     #2.
-            #     f_phylo_roary = 'step2'
-            #     run_file = open('./cv_folders/' + str(level) + '/' + str(species.replace(" ", "_")) + "_roary2.sh", "w")
-            #     run_file.write("#!/bin/bash")
-            #     run_file.write("\n")
-            #     if path_sequence == '/vol/projects/BIFO/patric_genome':
-            #         run_file = amr_utility.file_utility.hzi_cpu_header(run_file,str(species.replace(" ", "_")) + 'run_roary2', 20)
-            #     # antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
-            #     for anti in antibiotics:
-            #
-            #         run(path_sequence,path_large_temp,species, anti, level, f_phylo_prokka, f_phylo_roary, f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res,
-            #             f_merge_mution_gene,
-            #             f_matching_io, f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
-            #             f_fixed_threshold, f_nn_base,f_phylotree,f_optimize_score)
-            #     run_file.write("echo \" All finished. \"")
-            #     run_file.close()# ----------------by each anti, may no need any more. Aug 10th.
-            #     #4.
-            #     f_phylo_roary = 'step4'  # R package phylo-trees
-            #     run_file = open('./cv_folders/' + str(level) + '/' + str(species.replace(" ", "_")) + "_roary4.sh", "w")
-            #     run_file.write("#!/bin/bash")
-            #     run_file.write("\n")
-            #     if path_sequence == '/vol/projects/BIFO/patric_genome':
-            #         run_file = amr_utility.file_utility.hzi_cpu_header2(run_file,
-            #                                                             str(species.replace(" ", "_")) + 'run_roary4',
-            #                                                             1)
-            #         run_file.write("\n")
-            #     # run_file.write("export OMP_NUM_THREADS=20")
-            #     run_file.write("\n")
-            #     # antibiotics, ID, Y = amr_utility.load_data.extract_info(species, False, level)
-            #     for anti in antibiotics:
-            #         run(path_sequence, path_large_temp, species, anti, level, f_phylo_prokka, f_phylo_roary,
-            #             f_pre_cluster, f_cluster, f_cluster_folders, run_file, f_res,
-            #             f_merge_mution_gene,
-            #             f_matching_io, f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
-            #             f_fixed_threshold, f_nn_base, f_phylotree,f_optimize_score)
 
         elif f_merge_species == True:
             print('Please use main_discrete_merge.')
@@ -532,38 +431,40 @@ def extract_info(path_sequence,s,level,f_phylo_prokka,f_phylo_roary,f_pre_cluste
                 # for anti in antibiotics:
                 if species=='Mycobacterium tuberculosis':
                     # for anti in ['pyrazinamide','rifampicin','rifampin','streptomycin']:
-                    for anti in ['streptomycin']:
+                    antibiotics=antibiotics[11:]
+                    for anti in antibiotics:
                         run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
                             f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
                             f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
                 elif species=='Escherichia coli':
-                    antibiotics=antibiotics[5:]
+                    antibiotics=antibiotics[0:5]
                     for anti in antibiotics:
 
                         run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
                             f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
                             f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
                 elif species=='Acinetobacter baumannii':
-                    antibiotics=antibiotics[2:]
+                    # antibiotics=antibiotics[0:2]
                     for anti in antibiotics:
                         run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
                             f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
                             f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
                 elif species=='Staphylococcus aureus':
-                    antibiotics=[antibiotics[0]]
+                    # antibiotics=antibiotics[4:]
                     for anti in antibiotics:
                         run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
                             f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
                             f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
                 elif species=='Klebsiella pneumoniae':
-                    antibiotics=antibiotics[3:]
+                    # antibiotics=antibiotics[0:3]
                     for anti in antibiotics:
                     # for anti in ['trimethoprim/sulfamethoxazole']:
                         run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
                             f_matching_io,f_merge_species, f_nn, cv, random, hidden, epochs, re_epochs, learning, f_scaler,
                             f_fixed_threshold,f_nn_base,f_phylotree,f_random,f_optimize_score)
                 elif species=='Salmonella enterica':
-                    antibiotics=antibiotics[1:]
+                    # antibiotics=antibiotics[5:]
+                    antibiotics=[antibiotics[5]]
                     for anti in antibiotics:
                     # for anti in ['trimethoprim/sulfamethoxazole']:
                         run(path_sequence,path_large_temp,species, anti, level,f_phylo_prokka, f_phylo_roary,f_pre_cluster, f_cluster,f_cluster_folders, run_file, f_res, f_merge_mution_gene,
@@ -721,7 +622,7 @@ if __name__== '__main__':
     parser.add_argument("-cv", "--cv_number", default=10, type=int,
                         help='CV splits number')
     parser.add_argument("-r", "--random", default=42, type=int,
-                        help='random state related to shuffle cluster order')
+                        help='random state related to shuffle cluster order. ')
     parser.add_argument("-d", "--hidden", default=200, type=int,
                         help='dimension of hidden layer')
     parser.add_argument("-e", "--epochs", default=1000, type=int,
@@ -742,8 +643,7 @@ if __name__== '__main__':
                         help=' phylo-tree based cv folders.')
     parser.add_argument('-f_kma', '--f_kma', dest='f_kma', action='store_true',
                         help='kma based cv folders.')
-    parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
-                        help=' phylo-tree based cv folders.')
+
     parser.add_argument('-f_random', '--f_random', dest='f_random', action='store_true',
                         help='random cv folders.')
     parser.add_argument('-f_optimize_score', '--f_optimize_score', default='f1_macro', type=str,

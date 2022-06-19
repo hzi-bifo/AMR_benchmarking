@@ -408,9 +408,12 @@ def hyper_range(anti_number,f_no_early_stop,antibiotics):
         elif type(antibiotics)==list:# multi-anti model.
 
             # hyper_space = {'n_hidden': [200], 'epochs': [50000], 'lr': [0.0005,0.001],
-            #                'classifier': [1], 'dropout': [0, 0.2], 'patience': [2]} # 'Neisseria gonorrhoeae'
+            #                'classifier': [1], 'dropout': [0, 0.2], 'patience': [2]} # 'Neisseria gonorrhoeae'. no use now. Jun 17.2022
             hyper_space = {'n_hidden': [200], 'epochs': [50000], 'lr': [0.001],
                            'classifier': [1], 'dropout': [0, 0.2], 'patience': [2]} #other multi-anti species, note: 2 species no multi-anti.
+            # hyper_space = {'n_hidden': [200], 'epochs': [20], 'lr': [0.1,0.001],
+            #                'classifier': [1], 'dropout': [0], 'patience': [2]} #dedbug version.
+
         else: #discrete multi-model and concat model for comparison.
             hyper_space = {'n_hidden': [200,400], 'epochs': [30000], 'lr': [0.0005,0.0001],
                            'classifier': [1,2],'dropout':[0,0.2],'patience':[2]}#June.12th. New. July 16. delete patience 600
@@ -480,8 +483,13 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv
     # =====================================
     # dimension: cv*(sample_n in each split(it varies))
     # element: index of sampels w.r.t. data_x, data_y
-    folders_sample=neural_networks.cluster_folders.prepare_folders_multiAnti(cv,species,antibiotics,p_names,f_random,f_phylotree,level)
-
+    # folders_sample=neural_networks.cluster_folders.prepare_folders_multiAnti(cv,species,antibiotics,p_names,f_random,f_phylotree,level)
+    if f_random==False and f_phylotree==False:
+        folds_txt='./cv_folders/' + str(level) + '/multi_anti/'+str(species.replace(" ", "_"))+'_kma.pickle'
+    else:
+        print('Only KMA folds possible.')
+        exit()
+    folders_sample = pickle.load(open(folds_txt, "rb"))
 
 
     hyper_space = hyper_range(anti_number, f_no_early_stop, antibiotics)
@@ -504,7 +512,7 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv
         y_test = data_y[test_samples]
         print('x_test shape',x_test.shape)
         for innerCV in range(cv - 1):  # e.g. 1,2,3,4
-            print('Starting outer: ', str(out_cv), '; inner: ', str(innerCV), ' inner loop...')
+            print('Starting outer: ', str(out_cv), 'out of ', N_cv, '; inner: ', str(innerCV), ' inner loop...')
 
             val_samples=train_val_samples[innerCV]
             train_samples=train_val_samples[:innerCV] + train_val_samples[innerCV+1 :]#only works for list, not np
@@ -690,10 +698,18 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv
                                         comp.append(t)
                                 y_val_multi_sub = y_val[comp]
                                 y_val_pred_multi_sub = y_val_pred[comp]
-                                mcc = matthews_corrcoef(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i])
-                                f1 = f1_score(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i], average='macro')
-                                mcc_sub_anti.append(mcc)
-                                f1_sub_anti.append(f1)
+
+                                if  comp==[]:#exceptions: for MT multi-anti model
+                                    pass
+                                else:
+                                    mcc = matthews_corrcoef(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i])
+                                    f1 = f1_score(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i], average='macro')
+
+                                    # print(f1)
+                                    # print(y_val_pred_multi_sub[:, i])
+                                    # print('&&&&&&&&&&&&&&&&')
+                                    mcc_sub_anti.append(mcc)
+                                    f1_sub_anti.append(f1)
                         if anti_number > 1:  # multi-out, scores based on mean of all the involved antibotics
                             mcc_sub.append(statistics.mean(mcc_sub_anti))  # mcc_sub_anti dimension: n_anti
                             f1_sub.append(statistics.mean(f1_sub_anti))
@@ -713,6 +729,8 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv
         if f_fixed_threshold==True and f_optimize_score=='f1_macro':#finished.May 30. 7am
             thresholds_selected=0.5
             Validation_f1_thresholds = np.array(Validation_f1_thresholds)
+            print(Validation_f1_thresholds)
+            #exceptions: for MT multi-anti model
             Validation_f1_thresholds = Validation_f1_thresholds.mean(axis=0)
             Validation_actul_epoc = np.array(Validation_actul_epoc)
             Validation_actul_epoc_std = Validation_actul_epoc.std(axis=0)
@@ -724,6 +742,8 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv
             aim_f1=Validation_f1_thresholds[:,aim_column]
             weights_selected=np.argmax(aim_f1)
             ind=np.unravel_index(np.argmax(aim_f1, axis=None), aim_f1.shape)
+            print(Validation_f1_thresholds)
+            print(aim_f1)
             print('ind',ind)
             hyperparameters_test.append(list(ParameterGrid(hyper_space))[ind[0]])
             actual_epoc_test.append(Validation_actul_epoc[ind[0]])
@@ -800,10 +820,10 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv
 
         #-
         # epochs_testing = hyperparameters_test[out_cv]['epochs']
-        n_hidden = hyperparameters_test[out_cv]['n_hidden']
-        learning = hyperparameters_test[out_cv]['lr']
-        n_cl = hyperparameters_test[out_cv]['classifier']
-        dropout=hyperparameters_test[out_cv]['dropout']
+        n_hidden = hyperparameters_test[-1]['n_hidden']
+        learning = hyperparameters_test[-1]['lr']
+        n_cl = hyperparameters_test[-1]['classifier']
+        dropout=hyperparameters_test[-1]['dropout']
         # generate a NN model
         if n_cl == 1:
             classifier = _classifier(nlabel, D_input, n_hidden,dropout)  # reload, after testing(there is fine tune traning!)
@@ -811,7 +831,7 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv
             classifier = _classifier2(nlabel, D_input, n_hidden,dropout)
         elif n_cl == 3:
             classifier = _classifier3(nlabel, D_input, n_hidden,dropout)
-        print( 'testing hyper-parameter: ',hyperparameters_test[out_cv])
+        print( 'testing hyper-parameter: ',hyperparameters_test[-1])
         # print('Hyper_parameters:',n_cl)
         # print(epochs,n_hidden,learning)
         classifier.to(device)
@@ -821,8 +841,8 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv
         classifier.train()
         # optimizer = optim.SGD(classifier.parameters(), lr=0.0001)
         # classifier = fine_tune_training(classifier, re_epochs, optimizer, x_train_val, y_train_val, anti_number)
-        print('actual_epoc_test[out_cv]',actual_epoc_test[out_cv])
-        classifier = fine_tune_training(classifier, int(actual_epoc_test[out_cv]), optimizer, x_train_val, y_train_val, anti_number)
+        print('actual_epoc_test[out_cv]',actual_epoc_test[-1])
+        classifier = fine_tune_training(classifier, int(actual_epoc_test[-1]), optimizer, x_train_val, y_train_val, anti_number)
         if feature =='res':#todo 1) need to change names for resfeature.
             name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name,species, antibiotics,level,
                                                                            out_cv,'',f_learning,f_epochs,f_fixed_threshold,
@@ -910,15 +930,22 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv
                 y_test_anti=y_test[comp]
                 pred_test_binary_sub_anti=pred_test_binary_sub[comp]
                 pred_test_sub_anti=pred_test_sub[comp]#June 21st, auc bugs
+                if comp==[]:#MT exception.
+                    f1=np.nan
+                    report=np.nan
+                    roc_auc=np.nan
+                    mcc=np.nan
+                    tprs.append(np.nan)
+                else:
+                    mcc = matthews_corrcoef(y_test_anti[:, i], pred_test_binary_sub_anti[:, i])
+                    f1 = f1_score(y_test_anti[:, i], pred_test_binary_sub_anti[:, i], average='macro')
 
-                mcc = matthews_corrcoef(y_test_anti[:, i], pred_test_binary_sub_anti[:, i])
-                f1 = f1_score(y_test_anti[:, i], pred_test_binary_sub_anti[:, i], average='macro')
-                fpr, tpr, _ = roc_curve(y_test_anti[:, i], pred_test_sub_anti[:, i], pos_label=1)#June 21st, auc bugs
-                roc_auc = auc(fpr, tpr)
-                tprs.append(interp(mean_fpr, fpr, tpr))
-                tprs[-1][0] = 0.0
-                # aucs.append(roc_auc)
-                report = classification_report(y_test_anti[:, i], pred_test_binary_sub_anti[:, i], labels=[0, 1], output_dict=True)
+                    fpr, tpr, _ = roc_curve(y_test_anti[:, i], pred_test_sub_anti[:, i], pos_label=1)#June 21st, auc bugs
+                    roc_auc = auc(fpr, tpr)
+                    tprs.append(interp(mean_fpr, fpr, tpr))
+                    tprs[-1][0] = 0.0
+                    # aucs.append(roc_auc)
+                    report = classification_report(y_test_anti[:, i], pred_test_binary_sub_anti[:, i], labels=[0, 1], output_dict=True)
 
                 f1_test_anti.append(f1)
                 score_report_test_anti.append(report)
@@ -980,7 +1007,7 @@ def multiAnti_score(species, antibiotics, level, xdata, ydata, p_names, p_cluste
     hyperparameters_test=[]
     actual_epoc_test=[]
     actual_epoc_test_std=[]
-    for out_cv in cv:
+    for out_cv in range(cv):
         if f_phylotree:
             score = pickle.load(open(save_name_score + '_all_score_Tree'+str(out_cv)+'.pickle', "rb"))
 
@@ -991,15 +1018,15 @@ def multiAnti_score(species, antibiotics, level, xdata, ydata, p_names, p_cluste
             score = pickle.load(open(save_name_score + '_all_score'+str(out_cv)+ '.pickle', "rb"))
 
         [thresholds_selected, f1, mcc, score_report, aucs, tprs,hyperparameters,actual_epoc,actual_epoc_std]=score
-        thresholds_selected_test.append(thresholds_selected)
-        f1_test.append(f1)
-        mcc_test.append(mcc)
-        score_report_test.append(score_report)
-        aucs_test.append(aucs)
-        tprs_test.append(tprs)
-        hyperparameters_test.append(hyperparameters)
-        actual_epoc_test.append(actual_epoc)
-        actual_epoc_test_std.append(actual_epoc_std)
+        thresholds_selected_test.append(thresholds_selected[-1])
+        f1_test.append(f1[-1])
+        mcc_test.append(mcc[-1])
+        score_report_test.append(score_report[-1])
+        aucs_test.append(aucs[-1])
+        tprs_test.append(tprs[-1])
+        hyperparameters_test.append(hyperparameters[-1])
+        actual_epoc_test.append(actual_epoc[-1])
+        actual_epoc_test_std.append(actual_epoc_std[-1])
 
     score = [thresholds_selected_test, f1_test, mcc_test, score_report_test, aucs_test, tprs_test,hyperparameters_test,actual_epoc_test,actual_epoc_test_std]
     if f_phylotree:

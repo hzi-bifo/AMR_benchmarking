@@ -20,36 +20,18 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from mycolorpy import colorlist as mcp
 
-#plot a comparative graph of single-s model and discrete multiple-s model.
+#old. 11 folds versions
+#plot a comparative graph of single-s model and discrete & concatenated multiple-s model.
+# python main_nn_analysis_hyper.py -f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -f_multi -f_all
+# python main_nn_analysis_hyper.py -f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -f_concat -f_all
+
+
+
 
 def combine_data(list_species,anti_list,fscore,level,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,merge_name):
 
-    # for species in list_species:
-    #     anti_list_s=anti_list[i]
-    #     i+=1
-    #
-    #     # 1. single-s resutls
-    #     save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,species, None,
-    #                                                                                                  level,
-    #                                                                                                  learning,
-    #                                                                                                  epochs,
-    #                                                                                                  f_fixed_threshold,
-    #                                                                                                  f_nn_base,
-    #                                                                                                  f_optimize_score)
-    #
-    #     pd_score=pd.read_csv(save_name_score_final + '_score_final_PLOT.txt', index_col=0,sep="\t")
-    #
-    #     # print(pd_score)
-    #
-    #
-    #     for anti in anti_list_s:
-    #         # print(anti)
-    #         if anti in pd_score.index.to_list():
-    #             data.append(pd_score.loc[anti,'weighted-'+fscore])
-    #         else:
-    #             data.append(np.nan)
 
-    # 2. Multi-species discrete-databases model
+
     save_name_score_final = amr_utility.name_utility.GETname_multi_bench_save_name_final(fscore,merge_name,
                                                                                                  'all_possible_anti', level,
                                                                                                  learning,
@@ -60,13 +42,28 @@ def combine_data(list_species,anti_list,fscore,level,learning,epochs,f_fixed_thr
 
 
 
+    save_name_score_final_concat=amr_utility.name_utility.GETname_multi_bench_save_name_concatM_final(merge_name,merge_name,
+                                                                                                        level,learning,epochs,
+                                                                                                        f_fixed_threshold,
+                                                                                                        f_nn_base,
+                                                                                                        f_optimize_score,
+                                                                                                        0.8,
+                                                                                                        0.6)
+    print('check!',save_name_score_final_concat)
+    # 1. single-s model
     pd_score_s=pd.read_csv(os.path.dirname(save_name_score_final)+ '/single_species_f1_macro.txt', index_col=0,sep="\t")
+    # 2. Multi-species discrete-databases model
     pd_score_m=pd.read_csv(save_name_score_final + '_score_final.txt', index_col=0,sep="\t")
+    # 3. concated multi-s mixed species model
+    pd_score_c=pd.read_csv(save_name_score_final_concat + '_score_final.txt', index_col=0,sep="\t")
+
     # print(pd_score_s)
     # print(pd_score_m)
     pd_score_s=pd_score_s.T
     pd_score_m=pd_score_m[fscore]
-    result = pd.concat([pd_score_s, pd_score_m], axis=1, join="inner")
+    pd_score_c=pd_score_c[fscore]
+    result_temp = pd.concat([pd_score_s, pd_score_m], axis=1, join="inner")
+    result = pd.concat([result_temp, pd_score_c], axis=1, join="inner")
     result=result.T
     data=result.to_numpy()
     # print(data)
@@ -127,21 +124,17 @@ def extract_info(fscore,level,f_all,threshold_point,min_cov_point,learning,epoch
     for n in list_species:
         merge_name.append(n[0] + n.split(' ')[1][0])
     merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
-    # rearrange species order:
-    list_species=['Mycobacterium tuberculosis','Campylobacter jejuni','Salmonella enterica','Escherichia coli','Streptococcus pneumoniae',\
-                  'Klebsiella pneumoniae','Staphylococcus aureus','Acinetobacter baumannii','Pseudomonas aeruginosa']
-    # list_species=['Mycobacterium tuberculosis','Campylobacter jejuni','Salmonella enterica','Streptococcus pneumoniae','Escherichia coli','Staphylococcus aureus','Klebsiella pneumoniae','Acinetobacter baumannii',]
-    data=data.reindex(list_species)
+
     # data=data.loc[list_species, :]
     df_anti = data.dot(data.columns + ';').str.rstrip(';')
 
 
-    fig, axs = plt.subplots(1,1,figsize=(27, 20))
+    fig, axs = plt.subplots(1,1,figsize=(35, 20))
     axs.set_axis_off()
     axs_ = fig.add_subplot(1,1,1,polar= 'spine')
     # plt.tight_layout(pad=5)
     # fig.subplots_adjust(wspace=0, hspace=0.2, top=0, bottom=0)
-    plt.subplots_adjust(left=0.03, right=0.68, top=1.02, bottom=-0.02)
+    plt.subplots_adjust(left=0.08, right=0.6, top=1.02, bottom=-0.05)
     anti_list=[]
     for species in list_species:
         anti = df_anti[species].split(';')
@@ -157,20 +150,20 @@ def extract_info(fscore,level,f_all,threshold_point,min_cov_point,learning,epoch
             map_acr = pickle.load(f)
     spoke_labels= [map_acr[x] for x in anti_list]
     list_species=[x[0] +". "+ x.split(' ')[1] for x in list_species]
-
-
-    labels = list_species+['Discrete-database multi-species model']
+    labels = list_species+['Discrete databases\nmulti-species model'] +['Concatenated databases\nmulti-species model']
     #if too long label, make it 2 lines.
     for i_anti in spoke_labels:
         if '/' in i_anti:
             posi=i_anti.find('/')
             _i_anti=i_anti[:(posi+1)] + '\n' + i_anti[(posi+1):]
             spoke_labels=[_i_anti if x==i_anti else x for x in spoke_labels]
-    colors=mcp.gen_color(cmap="tab10",n=len(labels))
+    colors=mcp.gen_color(cmap="tab10",n=len(labels)-1)
 
     color_multi=colors[0]
     colors.pop(0)
     colors.append(color_multi)
+    colors.append('#004529')
+
 
 
     theta = np.linspace(0, 2*np.pi, len(spoke_labels), endpoint=False)
@@ -185,8 +178,8 @@ def extract_info(fscore,level,f_all,threshold_point,min_cov_point,learning,epoch
         # axs_.plot(theta, d, marker='o', markersize=4,color=color,dashes=[6, 2])
         d=np.concatenate((d,[d[0]]))
         theta_=np.concatenate((theta,[theta[0]]))
-        if i==9:
-            p_,=axs_.plot(theta_, d,  's-', markersize=20,color=color,dashes=[6, 2],linewidth=10,zorder=1)
+        if i in [9,10]:
+            p_,=axs_.plot(theta_, d,  's-', markersize=20,color=color,dashes=[6, 2],linewidth=10,zorder=1, alpha=0.8)
         else:
             p_,=axs_.plot(theta_, d,  'o', markersize=20,color=color,zorder=3)
         # p_,=axs_.plot(theta_, d,  'o-', markersize=4,color=color)
@@ -202,8 +195,9 @@ def extract_info(fscore,level,f_all,threshold_point,min_cov_point,learning,epoch
     axs_.set_thetagrids(np.degrees(theta), spoke_labels)
 
     print(labels)
-    labels=[x.replace(' ','\n') if x == 'Discrete-database multi-species model' else x for x in labels]
-    leg=axs_.legend(spoke_labels,labels= labels, ncol=1, fontsize=38, loc=(1.055,0.1),markerscale=1,labelspacing=1)#
+    # labels=[x.replace(' ','\n') if x == 'Discrete databases multi-species model' else x for x in labels]
+
+    leg=axs_.legend(spoke_labels,labels= labels, ncol=1, fontsize=38, loc=(1.2,0.1),markerscale=1,labelspacing=1)#
     # for line in leg.get_lines():
     #     line.set_linewidth(5.0)
     axs_.set_xticklabels(axs_.get_xticklabels(),fontsize = 40)
@@ -218,7 +212,9 @@ def extract_info(fscore,level,f_all,threshold_point,min_cov_point,learning,epoch
     axs_.set_ylabel(fscore+'\n\n',size =40)
     plt.grid(axis='y',color='silver', dashes=[3,9], linewidth=3)
     plt.grid(axis='x',color='silver', dashes=[3,9], linewidth=3)
-    adjust_lable(axs_,spoke_labels,60)
+    axs_.tick_params(axis='x', which='major', pad=60,labelsize=60)
+    axs_.set(ylabel=None)
+    # adjust_lable(axs_,spoke_labels,60)
     fig.savefig('log/results/' + str(level) + '/Compare_single_discrete.pdf')
 
 

@@ -419,9 +419,9 @@ def hyper_range(anti_number,f_no_early_stop,antibiotics):
         elif type(antibiotics)==list:# multi-anti model.
 
             # hyper_space = {'n_hidden': [200], 'epochs': [50000], 'lr': [0.0005,0.001],
-            #                'classifier': [1], 'dropout': [0, 0.2], 'patience': [2]} # 'Neisseria gonorrhoeae'
+            #                'classifier': [1], 'dropout': [0, 0.2], 'patience': [2]} # 'Neisseria gonorrhoeae' old
             hyper_space = {'n_hidden': [200], 'epochs': [50000], 'lr': [0.001],
-                           'classifier': [1], 'dropout': [0, 0.2], 'patience': [2]} #other multi-anti species, note: 2 species no multi-anti.
+                           'classifier': [1], 'dropout': [0, 0.2], 'patience': [2]} # 9 multi-anti species, note: 2 species no multi-anti.
         else: #discrete multi-model and concat model for comparison.
             hyper_space = {'n_hidden': [200,400], 'epochs': [30000], 'lr': [0.0005,0.0001],
                            'classifier': [1,2],'dropout':[0,0.2],'patience':[2]}#June.12th. New. July 16. delete patience 600
@@ -1643,9 +1643,15 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, p_clusters, cv
     # =====================================
     # dimension: cv*(sample_n in each split(it varies))
     # element: index of sampels w.r.t. data_x, data_y
-    folders_sample=neural_networks.cluster_folders.prepare_folders_multiAnti(cv,species,antibiotics,p_names,f_random,f_phylotree,level)
-
-
+    # folders_sample=neural_networks.cluster_folders.prepare_folders_multiAnti(cv,species,antibiotics,p_names,f_random,f_phylotree,level)
+    if f_random==False and f_phylotree==False:
+        folds_txt='./cv_folders/' + str(level) + '/multi_anti/'+str(species.replace(" ", "_"))+'_kma.pickle'
+        print('kma folds')
+    else:
+        print('Only KMA folds possible.')
+        exit()
+    folders_sample = pickle.load(open(folds_txt, "rb"))
+    print('CV:',len(folders_sample))
 
     hyper_space = hyper_range(anti_number, f_no_early_stop, antibiotics)
     for out_cv in range(cv):
@@ -2130,6 +2136,8 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
          re_epochs, f_scaler,f_fixed_threshold,f_no_early_stop, f_optimize_score, save_name_score,concat_merge_name,threshold_point,min_cov_point):
     '''Normal CV'''
 
+
+    folders_sample, _, _ = neural_networks.cluster_folders.prepare_folders(cv, Random_State, p_names, p_clusters, 'new')
     # data
     data_x = np.loadtxt(xdata, dtype="float")
     data_y = np.loadtxt(ydata)
@@ -2175,7 +2183,7 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
     # =====================================
     # dimension: cv*(sample_n in each split(it varies))
     # element: index of sampels w.r.t. data_x, data_y
-    folders_sample, _, _ = neural_networks.cluster_folders.prepare_folders(cv, Random_State, p_names, p_clusters, 'new')
+
 
     hyper_space = hyper_range(anti_number, f_no_early_stop, antibiotics)
 
@@ -2208,7 +2216,7 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
 
 
 
-    for innerCV in range(cv - 1):  # e.g. 1,2,3,4
+    for innerCV in range(cv - 1):  # e.g. cv=10. cv-1=9. [0,1,2,3,4,5,6,7,8]
         print('Starting outer: ', str(out_cv), '; inner: ', str(innerCV), ' inner loop...')
 
         val_samples = train_val_samples[innerCV]
@@ -2608,7 +2616,7 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
                                     anti_number)
     name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name, species, antibiotics, level,
                                                                        out_cv, '', 0.0, 0, f_fixed_threshold,
-                                                                       f_no_early_stop, False,f_optimize_score,
+                                                                       f_no_early_stop, False, False,f_optimize_score,
                                                                        threshold_point, min_cov_point)#todo , if tree-based need change.
 
     torch.save(classifier.state_dict(), name_weights)
@@ -2732,7 +2740,7 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters, c
 def concat_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters,path_x_test, path_y_test, cv, Random_State,
          re_epochs, f_scaler,f_fixed_threshold,f_no_early_stop, f_optimize_score, save_name_score,concat_merge_name,threshold_point,min_cov_point):
     '''Normal CV'''
-
+    #note: if validation scores will also be used, remember add f1_macro.
     # data
     data_x = np.loadtxt(xdata, dtype="float")
     data_y = np.loadtxt(ydata)
@@ -2932,7 +2940,7 @@ def concat_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters,p
             # for validation scores output
             score_report_val_sub_anti = []
             mcc_val_sub_anti = []
-            aucs_val_sub_anti = []
+            aucs_val_sub_anti = []#todo wrong. May 2022.
 
 
             if f_optimize_score == 'auc':
@@ -3133,7 +3141,7 @@ def concat_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters,p
         hyperparameters_test.append(list(ParameterGrid(hyper_space))[ind[0]])
         actual_epoc_test.append(Validation_actul_epoc[ind[0]])  # actually it's mean epoch for that hyperpara.
         actual_epoc_test_std.append(Validation_actul_epoc_std[ind[0]])
-        # only for validation score saving
+        # only for validation score saving #todo add f1 macro
         score_report_val,aucs_val,mcc_val =np.array(score_report_val),np.array(aucs_val),np.array(mcc_val)
         score_report_val = score_report_val[ind[0]]
         aucs_val = aucs_val[ind[0]]
@@ -3196,7 +3204,7 @@ def concat_eval(species, antibiotics, level, xdata, ydata, p_names, p_clusters,p
                                     anti_number)
     name_weights = amr_utility.name_utility.GETname_multi_bench_weight(concat_merge_name, species, antibiotics, level,
                                                                        out_cv, '', 0.0, 0, f_fixed_threshold,
-                                                                       f_no_early_stop, False,f_optimize_score,
+                                                                       f_no_early_stop, False, False,f_optimize_score,
                                                                        threshold_point, min_cov_point)#todo, if tree based need change.
 
     torch.save(classifier.state_dict(), name_weights)

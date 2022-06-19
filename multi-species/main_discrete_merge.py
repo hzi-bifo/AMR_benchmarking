@@ -479,14 +479,14 @@ def run(merge_name,path_sequence,path_large_temp,list_species,All_antibiotics,le
         #                      None, None)  # hyperparmeter selection in inner loop of nested CV
 
         #May27.2022. each folds could run saparately for speeding up.
-        nn_discrete.multi_eval(merge_name,'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv,[1], random,
-                             re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score, None,
-                             None, None)  # hyperparmeter selection in inner loop of nested CV #[2,3,4]
+        # nn_discrete.multi_eval(merge_name,'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv,[3], random,
+        #                      re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score, None,
+        #                      None, None)  # hyperparmeter selection in inner loop of nested CV #[2,3,4]
         #above finished qsub.May27.2022.
         # after above finished for each of 5 folds.
-        # nn_discrete.multi_test(merge_name,'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv,[0,1,2,3,4], random,
-        #                      re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score, None,
-        #                      None, None)  # hyperparmeter selection in inner loop of nested CV
+        nn_discrete.multi_test(merge_name,'all_possible_anti', level, path_x, path_y, path_name, path_cluster_results, cv,[0,1,2,3,4], random,
+                             re_epochs, f_scaler, f_fixed_threshold, f_nn_base, f_optimize_score, save_name_score, None,
+                             None, None)  # hyperparmeter selection in inner loop of nested CV
 
 
     if f_cluster_folders == True:
