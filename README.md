@@ -7,7 +7,7 @@ We compared the performance of 4 machine learning (ML)- based and 1 direct assoc
 5. [Point-/ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
 
 ### Workflow.
-TODO: add the workflow.
+![alt text](images/workflow.pdf)
 
 
 ### References
