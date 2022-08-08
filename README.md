@@ -8,7 +8,11 @@ We compared the performance of 4 machine learning (ML)- based and 1 direct assoc
 
 ### Workflow.
 xfun::embed_file("images/workflow.pdf")
-
+<object data="https://github.com/hzi-bifo/AMR_benchmarking_khu/blob/main/images/workflow.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="https://github.com/hzi-bifo/AMR_benchmarking_khu/blob/main/images/workflow.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://github.com/hzi-bifo/AMR_benchmarking_khu/blob/main/images/workflow.pdf">Download PDF</a>.</p>
+    </embed>
+</object>
 ### References
 <a id="1">[1]</a>  D Aytan-Aktug, Philip Thomas Lanken Conradsen Clausen, Valeria Bortolaia, Frank Møller Aarestrup, and Ole Lund. Prediction of acquired antimicrobial resistance for multiple bacterial species using neural networks.Msystems, 5(1), 2020.
 
