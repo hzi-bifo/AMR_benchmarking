@@ -10,8 +10,8 @@ We compare the binary phenotype prediction performance of four machine learning 
 
 ### Data sets
 
-<a href="https://github.com/hzi-bifo/AMR_benchmarking_khu/wiki/Species-and-antibiotics">Data sets overview</a>
-
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking_khu/wiki/Species-and-antibiotics">Data sets overview</a>
+- Sample list of each data set in the form of `Data_<species>_<antibiotic>` and sample phenotype metadata of each data set `Data_<species>_<antibiotic>_pheno.txt` under the folder <a href="[https://github.com/hzi-bifo/AMR_benchmarking_khu/wiki/Species-and-antibiotics](https://github.com/hzi-bifo/AMR_benchmarking_khu/main/data/PATRIC/meta/loose_by_specie)">data/PATRIC/meta/loose_by_species</a>
 
 ### Framework
 
