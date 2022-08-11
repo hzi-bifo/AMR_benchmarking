@@ -551,6 +551,6 @@ python kover_analyse.py -s 'Campylobacter jejuni' -f_kma -f_benchmarking
 
 
 
-
-
+## <a name="citation"></a> Citation
+1. Early stopping for PyTorch https://github.com/Bjarten/early-stopping-pytorch
 
