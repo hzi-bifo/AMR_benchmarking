@@ -42,6 +42,7 @@ We compared the performance of 4 machine learning (ML)- based and 1 direct assoc
 - [Usage](#usage)
     - [Workflow](#workflow)
     - [Workflow in steps](#workflows)
+    - [Compare and visualize the results](#Visualization)
 - [License](#license)
 - [Citation](#citation)
 - [Contact](#contact)
@@ -118,7 +119,7 @@ TODO
 ## <a name="usage"></a>Usage
 ### A.  <a name="workflow"></a>Workflow
 - The script `main.sh`, which is a combination of codes and pseudocodes, goes through the whole benchmarking process from data reprocessing to running software, to basic benchmarking results visualization. 
-- The pseudocodes resulted from the reason that you have to manually install some ML software yourself or access it with their website. What's more, the ML model learning process is very time consuming, taking at least 2 months with 20+ CPUs accompanied by 10+ GPUs, so it's not realistic to warp all in a pipeline.
+- The pseudocodes resulted from the reason that you have to manually install  Seq2Geno yourself and then access Geno2Pheno website. What's more, the ML model learning process is very time consuming, taking at least 2 months with 20+ CPUs accompanied by 10+ GPUs, so it's not realistic to warp all benchmarking scripts in a pipeline.
 - We will guide you through the Workflow in steps:
 
 
@@ -157,7 +158,7 @@ cd kma && make
 bash ./scripts/resfinder.sh
 ```
 
-**B3.  NN model(Aytan-Aktug et al)**
+**B4.  NN model(Aytan-Aktug et al)**
 - Please use our version. We adapted their codes for our benchmarking work.
 - Homology-aware(KMA-based) folds were generated through NN model.
 ```
@@ -166,7 +167,7 @@ bash ./scripts/nn.sh
 
 
 
-**B4.  Seq2Geno2Pheno**
+**B5.  Seq2Geno2Pheno**
 
 - Please install/use from the original source. 
 - The original Seq2Geno software, which deals with the original sequence, can be found here: https://github.com/hzi-bifo/seq2geno.git
@@ -197,6 +198,9 @@ bash optional.sh
 ```
 python 
 ```
+
+
+
 
 
 
