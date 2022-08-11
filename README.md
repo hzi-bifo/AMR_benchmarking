@@ -159,12 +159,13 @@ cd kma && make
 bash ./scripts/resfinder.sh
 ```
 
-**B4.  NN model(Aytan-Aktug et al)**
+**B4. Aytan-Aktug software**
 - Please use our version. We adapted their codes for our benchmarking work.
 - Homology-aware(KMA-based) folds were generated through NN model.
 ```
 bash ./scripts/nn.sh
 ```
+  Early stopping for PyTorch https://github.com/Bjarten/early-stopping-pytorch
 
 
 
@@ -190,7 +191,7 @@ bash ./scripts/model/Seg2Geno.sh #Run.
 
 
 ### C. Visualization
-- Compare results
+- Compare results. TODO: list the things to compare
 ```
 bash ./scripts/visualization/compare.sh
 ```
@@ -564,5 +565,4 @@ python kover_analyse.py -s 'Campylobacter jejuni' -f_kma -f_benchmarking
 
 
 ## <a name="citation"></a> Citation
-1. Early stopping for PyTorch https://github.com/Bjarten/early-stopping-pytorch
 
