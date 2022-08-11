@@ -37,9 +37,9 @@ We compared the performance of 4 machine learning (ML)- based and 1 direct assoc
 ## Contents
 
 - [Prerequirements](#pre)
-- [Usage](#usage)
 - [Input](#input)
 - [Output](#output)
+- [Usage](#usage)
 - [References and modification of existing software](#modi)
 - [License](#license)
 - [Citation](#citation)
