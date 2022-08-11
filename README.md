@@ -114,7 +114,8 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 ## <a name="output"></a>Output
 
-TODO
+ Cross-validation results of each ML software and evaluation results of Point-/Resfinder are generated under output_path/Results/<name of the software>.
+ Visualization tables and graphs are generated under output_path/Results/whole
 
 ## <a name="usage"></a>Usage
 ### A.  <a name="workflow"></a>Workflow
@@ -189,11 +190,15 @@ bash ./scripts/model/Seg2Geno.sh #Run.
 
 
 ### C. Visualization
-- The optional.sh generates all visualization graphs and excel tables.
+- Compare results
+```
+bash ./scripts/visualization/compare.sh
+```
 
-```
-bash optional.sh
-```
+- Generates all visualization graphs and excel tables.
+
+
+
 - As we stored 10-folds nested Cross-validation performance results as stated in our article in `./log/results`, so you can also run `python scripts` to selectively generate some of the visualization results.
 ```
 python 
