@@ -114,8 +114,8 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 ## <a name="output"></a>Output
 
--  Cross-validation results of each ML software and evaluation results of Point-/Resfinder are generated under output_path/Results/<name of the software>.
-- Visualization tables and graphs are generated under output_path/Results/whole
+-  Cross-validation results of each ML software and evaluation results of Point-/Resfinder are generated under `output_path/Results/<name of the software>`.
+- Visualization tables and graphs are generated under `output_path/Results/whole`.
 
 ## <a name="usage"></a>Usage
 ### A.  <a name="workflow"></a>Workflow
