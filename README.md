@@ -8,7 +8,7 @@ We compared the performance of 4 machine learning (ML)- based and 1 direct assoc
 4. [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4). 
 5. [Point-/ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
 
-###Data sets
+### Data sets
 
 <a href="https://github.com/hzi-bifo/AMR_benchmarking_khu/wiki/Species-and-antibiotics">Data sets overview</a>
 
