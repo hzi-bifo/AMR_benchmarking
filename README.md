@@ -1,4 +1,6 @@
 # Benchmarking machine learning-based software for phenotypic antimicrobial resistance determination from genomic data
+
+### Introduction
 We compared the performance of 4 machine learning (ML)- based and 1 direct association antimicrobial resistance (AMR) determination sofware:
 1. [Aytan-Aktug](https://bitbucket.org/deaytan/neural_networks/src/master/) [[1]](#1), 
 2. Seq2Geno2Pheno([Seq2Geno](https://github.com/hzi-bifo/seq2geno.git)&[Geno2Pheno](https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno)) [[2]](#2), 
@@ -6,9 +8,14 @@ We compared the performance of 4 machine learning (ML)- based and 1 direct assoc
 4. [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4). 
 5. [Point-/ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
 
-### Workflow.
+###Data sets
+<a href="[url](https://github.com/hzi-bifo/AMR_benchmarking_khu/wiki/Species-and-antibiotics)">Data sets overview</a>
+
+
+### Workflow
 
 ![alt text](./doc/workflow.png)
+
 
 
 
