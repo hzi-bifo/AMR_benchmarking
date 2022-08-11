@@ -131,7 +131,7 @@ export PATH="$PWD"/src:$PATH
 export PYTHONPATH=$PWD
 ```
 
-**B1.  Sample quality control. (You can skip this step, as we provided the sample list after QC: ./data/PATRIC)**
+**B1.  Sample phenotype availability and quality control (PQC). You can skip this step, as we provided the sample list after PQC: ./data/PATRIC/meta
 
 ```
 bash ./scripts/data/preprocess.sh
