@@ -1,5 +1,5 @@
-#the sample names in each folds can be loaded by following commands
-
+The sample names in each folds can be loaded by following commands
+```
 import pickle
 
 species='Escherichia coli'
@@ -13,3 +13,4 @@ path=str(species.replace(" ", "_"))+"/"+ \
               str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+"_random_cv.pickle"
 names = pickle.load(open(path, "rb"))
 print(names)
+```
