@@ -40,7 +40,8 @@ We compared the performance of 4 machine learning (ML)- based and 1 direct assoc
 - [Input](#input)
 - [Output](#output)
 - [Usage](#usage)
-- [References and modification of existing software](#modi)
+    - [Workflow](#workflow)
+    - [Workflow in steps](#workflows)
 - [License](#license)
 - [Citation](#citation)
 - [Contact](#contact)
@@ -110,16 +111,18 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |species_list|species to be included in |['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa','Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni','Enterococcus faecium','Neisseria gonorrhoeae']|
 |||
 
+## <a name="output"></a>Output
 
+TODO
 
 ## <a name="usage"></a>Usage
-### A. Workflow
+### A.  <a name="workflow">Workflow
 - The script `main.sh`, which is a combination of codes and pseudocodes, goes through the whole benchmarking process from data reprocessing to running software, to basic benchmarking results visualization. 
 - The pseudocodes resulted from the reason that you have to manually install some ML software yourself or access it with their website. What's more, the ML model learning process is very time consuming, taking at least 2 months with 20+ CPUs accompanied by 10+ GPUs, so it's not realistic to warp all in a pipeline.
 - We will guide you through the Workflow in steps:
 
 
-### B. Workflow in steps
+### B.  <a name="workflows">Workflow in steps
 Add root address to your PATH (for every step):
 ```
 git clone https://github.com/hzi-bifo/AMR_benchmarking_khu.git
