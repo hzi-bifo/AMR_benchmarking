@@ -1,7 +1,7 @@
 # Benchmarking machine learning-based software for phenotypic antimicrobial resistance determination from genomic data
 
 ### Introduction
-We compared the performance of 4 machine learning (ML)- based and 1 direct association antimicrobial resistance (AMR) determination sofware:
+We compare the binary phenotype prediction performance of four machine learning (ML)- based and one direct association antimicrobial resistance (AMR) determination sofware:
 1. [Aytan-Aktug](https://bitbucket.org/deaytan/neural_networks/src/master/) [[1]](#1), 
 2. Seq2Geno2Pheno([Seq2Geno](https://github.com/hzi-bifo/seq2geno.git)&[Geno2Pheno](https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno)) [[2]](#2), 
 3. [PhenotypeSeeker 0.7.3](https://github.com/bioinfo-ut/PhenotypeSeeker) [[3]](#3), 
@@ -10,10 +10,11 @@ We compared the performance of 4 machine learning (ML)- based and 1 direct assoc
 
 ### Data sets
 
-<a href="https://github.com/hzi-bifo/AMR_benchmarking_khu/wiki/Species-and-antibiotics">Data sets overview</a>
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking_khu/wiki/Species-and-antibiotics">Data sets overview</a>
+- Sample list of each data set in the form of `Data_<species>_<antibiotic>` and sample phenotype metadata of each data set `Data_<species>_<antibiotic>_pheno.txt` under the folder <a href="https://github.com/hzi-bifo/AMR_benchmarking_khu/main/data/PATRIC/meta/loose_by_specie">data/PATRIC/meta/loose_by_species</a>
+- Corss-validation folds: TODO
 
-
-### Workflow
+### Framework
 
 ![alt text](./doc/workflow.png)
 
@@ -37,10 +38,12 @@ We compared the performance of 4 machine learning (ML)- based and 1 direct assoc
 ## Contents
 
 - [Prerequirements](#pre)
-- [Usage](#usage)
 - [Input](#input)
 - [Output](#output)
-- [References and modification of existing software](#modi)
+- [Usage](#usage)
+    - [Workflow](#workflow)
+    - [Workflow in steps](#workflows)
+    - [Compare and visualize the results](#Visualization)
 - [License](#license)
 - [Citation](#citation)
 - [Contact](#contact)
@@ -92,7 +95,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |output_path:| To where to generate the `results` folder for the direct results of each software and further visualization. | ./|
 |log_path:| To where to generate the `log` folder for the tempary files, which you can delete by hand afterwards. (note:some software will generate large amount of temp files to 60G, if you run all species in parallel.)| ./|
 
-**<Usually you don't need to change parameters below.>**\
+
 **B. Adanced/optional parameters setting**
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
@@ -110,16 +113,19 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |species_list|species to be included in |['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa','Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni','Enterococcus faecium','Neisseria gonorrhoeae']|
 |||
 
+## <a name="output"></a>Output
 
+-  Cross-validation results of each ML software and evaluation results of Point-/Resfinder are generated under `output_path/Results/<name of the software>`.
+- Visualization tables and graphs are generated under `output_path/Results/whole`.
 
 ## <a name="usage"></a>Usage
-### A. Workflow
+### A.  <a name="workflow"></a>Workflow
 - The script `main.sh`, which is a combination of codes and pseudocodes, goes through the whole benchmarking process from data reprocessing to running software, to basic benchmarking results visualization. 
-- The pseudocodes resulted from the reason that you have to manually install some ML software yourself or access it with their website. What's more, the ML model learning process is very time consuming, taking at least 2 months with 20+ CPUs accompanied by 10+ GPUs, so it's not realistic to warp all in a pipeline.
+- The pseudocodes resulted from the reason that you have to manually install  Seq2Geno yourself and then access Geno2Pheno website. What's more, the ML model learning process is very time consuming, taking at least 2 months with 20+ CPUs accompanied by 10+ GPUs, so it's not realistic to warp all benchmarking scripts in a pipeline.
 - We will guide you through the Workflow in steps:
 
 
-### B. Workflow in steps
+### B.  <a name="workflows"></a>Workflow in steps
 Add root address to your PATH (for every step):
 ```
 git clone https://github.com/hzi-bifo/AMR_benchmarking_khu.git
@@ -128,7 +134,7 @@ export PATH="$PWD"/src:$PATH
 export PYTHONPATH=$PWD
 ```
 
-**B1.  Sample quality control. (You can skip this step, as we provided the sample list after QC: ./data/PATRIC)**
+**B1.  Sample phenotype availability and quality control (PQC). You can skip this step, as we provided the sample list after PQC: ./data/PATRIC/meta
 
 ```
 bash ./scripts/data/preprocess.sh
@@ -154,16 +160,17 @@ cd kma && make
 bash ./scripts/resfinder.sh
 ```
 
-**B3.  NN model(Aytan-Aktug et al)**
+**B4. Aytan-Aktug software**
 - Please use our version. We adapted their codes for our benchmarking work.
 - Homology-aware(KMA-based) folds were generated through NN model.
 ```
 bash ./scripts/nn.sh
 ```
+  Early stopping for PyTorch https://github.com/Bjarten/early-stopping-pytorch
 
 
 
-**B4.  Seq2Geno2Pheno**
+**B5.  Seq2Geno2Pheno**
 
 - Please install/use from the original source. 
 - The original Seq2Geno software, which deals with the original sequence, can be found here: https://github.com/hzi-bifo/seq2geno.git
@@ -185,15 +192,22 @@ bash ./scripts/model/Seg2Geno.sh #Run.
 
 
 ### C. Visualization
-- The optional.sh generates all visualization graphs and excel tables.
+- Compare results. TODO: list the things to compare
+```
+bash ./scripts/visualization/compare.sh
+```
 
-```
-bash optional.sh
-```
+- Generates all visualization graphs and excel tables.
+
+
+
 - As we stored 10-folds nested Cross-validation performance results as stated in our article in `./log/results`, so you can also run `python scripts` to selectively generate some of the visualization results.
 ```
 python 
 ```
+
+
+
 
 
 
@@ -551,6 +565,5 @@ python kover_analyse.py -s 'Campylobacter jejuni' -f_kma -f_benchmarking
 
 
 
-
-
+## <a name="citation"></a> Citation
 
