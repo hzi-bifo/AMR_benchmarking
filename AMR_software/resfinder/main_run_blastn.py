@@ -13,12 +13,12 @@ from subprocess import PIPE, run
 import pandas as pd
 import numpy as np
 import multiprocessing as mp
-import argparse,tqdm
+import argparse, tqdm
 from itertools import repeat
 from src.amr_utility import name_utility, file_utility
 
-def cmd(path, path_results, point_database_path,res_database_path, kma_path,strain_ID, species,threshold_point,min_cov_point):
-    cmd_acquired = ("python3 ./AMR_software/resfinder/run_resfinder_kma.py"
+def cmd(path, path_results, point_database_path,res_database_path,strain_ID, species,threshold_point,min_cov_point):
+    cmd_acquired = ("python3 ./AMR_software/resfinder/run_resfinder_blastn.py"
                     + " -ifa " + path + '/' +str(strain_ID) + ".fna"
                     + " -o  " + path_results+  str(species.replace(" ", "_"))+ '/' +str(strain_ID)
                     + " -s \'" + str(species) + "\'"
@@ -30,14 +30,14 @@ def cmd(path, path_results, point_database_path,res_database_path, kma_path,stra
                     + " --db_path_point " + point_database_path
                     + " --acquired"
                     + " --db_path_res " + res_database_path
-                    + " --kmaPath " + kma_path
+                    # + " --kmaPath " + kma_path
                     + " -u")
 
     return cmd_acquired
 
 
-def cmd_res(path, path_results, point_database_path,res_database_path, kma_path,strain_ID, species,threshold_point,min_cov_point):
-    cmd_acquired = ("python3 ./AMR_software/resfinder/run_resfinder_kma.py"
+def cmd_res(path, path_results, point_database_path,res_database_path,strain_ID, species,threshold_point,min_cov_point):
+    cmd_acquired = ("python3 ./AMR_software/resfinder/run_resfinder_blastn.py"
                     + " -ifa " + path + '/' +str(strain_ID) + ".fna"
                     + " -o  " + path_results+ str(species.replace(" ", "_"))+ '/' +str(strain_ID)
                     + " -s \'" + str(species) + "\'"
@@ -49,7 +49,7 @@ def cmd_res(path, path_results, point_database_path,res_database_path, kma_path,
                     # + " --db_path_point " + point_database_path
                     + " --acquired"
                     + " --db_path_res " + res_database_path
-                    + " --kmaPath " + kma_path
+                    # + " --kmaPath " + kma_path
                     + " -u")
 
     return cmd_acquired
@@ -62,19 +62,19 @@ def run_Res(path,path_results,strain_ID,species,threshold_point,min_cov_point):
     point_database_path = os.path.abspath(os.path.realpath(point_database_path))
     res_database_path = os.path.join(fileDir, 'AMR_software/resfinder/db_resfinder')
     res_database_path = os.path.abspath(os.path.realpath(res_database_path))
-    kma_path = os.path.join(fileDir, 'AMR_software/resfinder/cge/kma/kma')
-    kma_path = os.path.abspath(os.path.realpath(kma_path))
-    path_results=path_results+'resfinder_k_output/'#todo check
+    # kma_path = os.path.join(fileDir, 'AMR_software/resfinder/cge/kma/kma')
+    # kma_path = os.path.abspath(os.path.realpath(kma_path))
+    path_results=path_results+'resfinder_b_output/'#todo check
     try:
         if species in ['Klebsiella pneumoniae','Escherichia coli','Staphylococcus aureus','Mycobacterium tuberculosis','Salmonella enterica',
                        'Neisseria gonorrhoeae','Enterococcus faecium','Campylobacter jejuni']:
 
-            cmd_acquired =cmd(path, path_results, point_database_path,res_database_path,kma_path,strain_ID, species,threshold_point,min_cov_point)
+            cmd_acquired =cmd(path, path_results, point_database_path,res_database_path,strain_ID, species,threshold_point,min_cov_point)
             procs = run(cmd_acquired, shell=True, stdout=PIPE, stderr=PIPE,
                         check=True)
 
         else:# PointFinder not possible for other species.
-            cmd_acquired = cmd_res(path, path_results, point_database_path, res_database_path, kma_path, strain_ID, species,
+            cmd_acquired = cmd_res(path, path_results, point_database_path, res_database_path, strain_ID, species,
                                threshold_point, min_cov_point)
 
 
@@ -102,14 +102,16 @@ def determination(species,path_data,n_jobs,temp_path,threshold_point,min_cov_poi
     pool.close()
     pool.join()
 
+
 def extract_info(s,f_all,path_sequence,n_jobs,level,temp_path,threshold_point,min_cov_point):
-    temp_path=temp_path+'log/software/resfinder_k/'
+    temp_path=temp_path+'log/software/resfinder_b/'
     file_utility.make_dir(temp_path)
     main_meta,_=name_utility.GETname_main_meta(level)
     data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
-    # print(data)
+
     if f_all==False:
         data = data.loc[s, :]
+    print(data)
     df_species = data.index.tolist()
     for species in df_species:
         determination(species,path_sequence,n_jobs,temp_path,threshold_point,min_cov_point)
