@@ -91,10 +91,11 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 | option | action | values ([default])|
 | ------------- | ------------- |------------- |
-|dataset_location:| To where the PATRIC dataset will be downloaded. ~246G| /vol/projects/BIFO/patric_genome|
-|output_path:| To where to generate the `results` folder for the direct results of each software and further visualization. | ./|
-|log_path:| To where to generate the `log` folder for the tempary files, which you can delete by hand afterwards. (note:some software will generate large amount of temp files to 60G, if you run all species in parallel.)| ./|
-
+|dataset_location| To where the PATRIC dataset will be downloaded. ~246G| /vol/projects/BIFO/patric_genome|
+|output_path| To where to generate the `results` folder for the direct results of each software and further visualization. | ./|
+|log_path| To where to generate the `log` folder for the tempary files, which you can delete by hand afterwards. (note:some software will generate large amount of temp files to 60G, if you run all species in parallel.)| ./|
+|n_jobs| CPU cores to use.  | 10 |
+|gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
 
 **B. Adanced/optional parameters setting**
 |option|	action	|values ([default])|
@@ -107,11 +108,22 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |se2ge_env_name|conda env for Seg2Geno|snakemake_env|
 
 **C. Adanced/optional parameters setting (Model)**
+ Users, who would like to reproduce this AMR benchmarking results, are not advised to change settings in this category. Settings in this category are listed for developers further work purpose.
+
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
 |QC_criteria|Sample qaulity control level| loose|
-|species_list|species to be included in |['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa','Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni','Enterococcus faecium','Neisseria gonorrhoeae']|
-|||
+|species_list|species to be included in for random and homology-aware folds for the five software tools (Aytan-Aktug single-species-antibiotic model)|'Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa','Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni','Enterococcus faecium','Neisseria gonorrhoeae']|
+|species_list_phylotree|species to be included in for phylogeny-aware folds for the five software tools (Aytan-Aktug single-species-antibiotic model)|Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae|
+|species_list_multi_antibiotics|species to be included in for Aytan-Aktug single-species multi-antibiotic model|Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Neisseria_gonorrhoeae
+|
+|species_list_multi_species|species to be included in for three variants of Aytan-Aktug multi-species multi-antibiotic models|Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Campylobacter_jejuni
+|
+|merge_name| used to notate the folders for saving the results of three Aytan-Aktug multi-species multi-antibiotic models|Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj|
+|cv_number|the k of k-fold nested cross-validation for the five software tools (Aytan-Aktug single-species-antibiotic model) and Aytan-Aktug single-species multi-antibiotic model|10|
+|cv_number_multiS|the k of k-fold cross-validation for three variants of Aytan-Aktug multi-species multi-antibiotics models)|6|
+
+
 
 ## <a name="output"></a>Output
 
