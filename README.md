@@ -99,7 +99,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 **B. Adanced/optional parameters setting**
 
-Please change the conda environment names if conflicting occurs.
+Please change the conda environment names if you already have the same names in your PC.
 
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
