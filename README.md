@@ -98,6 +98,9 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
 
 **B. Adanced/optional parameters setting**
+
+Please change the conda environment names if conflicting occurs.
+
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
 |amr_env_name|conda env for general use |amr_env|
@@ -108,6 +111,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |se2ge_env_name|conda env for Seg2Geno|snakemake_env|
 
 **C. Adanced/optional parameters setting (Model)**
+ 
  Users, who would like to reproduce this AMR benchmarking results, are not advised to change settings in this category. Settings in this category are listed for developers further work purpose.
 
 |option|	action	|values ([default])|
