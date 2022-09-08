@@ -113,14 +113,16 @@ Please change the conda environment names if the same names already exist in you
 **C. Adanced/optional parameters setting (Model)**
  
  Users, who would like to reproduce this AMR benchmarking results, are not advised to change settings in this category. 
-
+ 
+ You can change them accordingly when you want to make use of this benchamrking software to explore more. For species related settings, we have listed the possible maxium (in terms of data sets this study provides) for each setting, so you can explore by reducing the species, but not by adding others on.
+ 
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
-|QC_criteria|Sample qaulity control level| loose|
+|QC_criteria|Sample qaulity control level. Can be loose or strict.| loose|
 |species_list|species to be included in for random and homology-aware folds for the five software tools (Aytan-Aktug single-species-antibiotic model)|'Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa','Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni','Enterococcus faecium','Neisseria gonorrhoeae']|
 |species_list_phylotree|species to be included in for phylogeny-aware folds for the five software tools (Aytan-Aktug single-species-antibiotic model)|Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae|
-|species_list_multi_antibiotics|species to be included in for Aytan-Aktug single-species multi-antibiotic model|Mycobacterium_tuberculosis, Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Neisseria_gonorrhoeae|
-|species_list_multi_species|species to be included in for three variants of Aytan-Aktug multi-species multi-antibiotic models|Mycobacterium_tuberculosis, Salmonella_enterica, Streptococcus_pneumoniae, Escherichia_coli, Staphylococcus_aureus, Klebsiella_pneumoniae, Acinetobacter_baumannii, Pseudomonas_aeruginosa, Campylobacter_jejuni|
+|species_list_multi_antibiotics|species to be included in for Aytan-Aktug single-species multi-antibiotic model. |Mycobacterium_tuberculosis, Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Neisseria_gonorrhoeae|
+|species_list_multi_species|species to be included in for three variants of Aytan-Aktug multi-species multi-antibiotic models. For user defining species combinations for MSMA, please change species names here and replace -f_all with -s "${species[@]}" in ./scripts/model/AytanAktug_MSMA_concat.sh and ./scripts/model/AytanAktug_MSMA_discrete.sh|Mycobacterium_tuberculosis, Salmonella_enterica, Streptococcus_pneumoniae, Escherichia_coli, Staphylococcus_aureus, Klebsiella_pneumoniae, Acinetobacter_baumannii, Pseudomonas_aeruginosa, Campylobacter_jejuni|
 |merge_name| used to notate the folders for saving the results of three Aytan-Aktug multi-species multi-antibiotic models. Always takes such form of a concatenation of species names in order. E.g. only two species of Mycobacterium_tuberculosis and Salmonella_enterica will result in Mt_Se.|Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj|
 |cv_number|the k of k-fold nested cross-validation for the five software tools (Aytan-Aktug single-species-antibiotic model) and Aytan-Aktug single-species multi-antibiotic model|10|
 |cv_number_multiS|the k of k-fold cross-validation for three variants of Aytan-Aktug multi-species multi-antibiotics models)|6|
