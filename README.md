@@ -43,7 +43,7 @@ We compare the binary phenotype prediction performance of four machine learning 
 - [Usage](#usage)
     - [Workflow](#workflow)
     - [Workflow in steps](#workflows)
-        - [Compare and visualize the results](#Visualization)
+      
 - [License](#license)
 - [Citation](#citation)
 - [Contact](#contact)
