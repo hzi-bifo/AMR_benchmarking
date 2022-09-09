@@ -89,7 +89,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 **A. Basic/required parameters setting**
 
-### Please do change everything in A after the ":" to your own.
+-Please do change everything in A after the ":" to your own.
 
 | option | action | values ([default])|
 | ------------- | ------------- |------------- |
@@ -101,7 +101,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 **B. Adanced/optional parameters setting**
 
-### Please change the conda environment names if the same names already exist in your working PC.
+- Please change the conda environment names if the same names already exist in your working PC.
 
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
@@ -114,9 +114,9 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 **C. Adanced/optional parameters setting (Model)**
  
-### Users, who would like to reproduce this AMR benchmarking results, are not advised to change settings in this category. 
+- Users, who would like to reproduce this AMR benchmarking results, are not advised to change settings in this category. 
  
-## You can change them accordingly when you want to make use of this benchamrking software to explore more. For species related settings, we have listed the possible maxium (in terms of data sets this study provides) for each setting, so you can explore by reducing the species, but not by adding others on.
+- You can change them accordingly when you want to make use of this benchamrking software to explore more. For species related settings, we have listed the possible maxium (in terms of data sets this study provides) for each setting, so you can explore by reducing the species, but not by adding others on.
  
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
