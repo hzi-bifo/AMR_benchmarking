@@ -462,7 +462,7 @@ git fetch --prune
 git reset --hard HEAD
 git pull origin precomputed_assemblies
 ```
--->
+
 
 
 ### <a name="s2g"></a>Seq2Geno
