@@ -89,7 +89,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 **A. Basic/required parameters setting**
 
--Please do change everything in A after the ":" to your own.
+- Please do change everything in A after the ":" to your own.
 
 | option | action | values ([default])|
 | ------------- | ------------- |------------- |
