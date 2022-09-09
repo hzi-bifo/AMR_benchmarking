@@ -253,7 +253,7 @@ conda install pandas
 - Reference:
 
 https://github.com/microgenomics/tutorials/blob/master/pangenome.md
--->
+
 
 
 
@@ -580,7 +580,7 @@ python kover_analyse.py -s 'Campylobacter jejuni' -f_kma
 python kover_analyse.py -s 'Campylobacter jejuni' -f_kma -f_benchmarking
  ```
 
-
+-->
 
 
 ## <a name="citation"></a> Citation
