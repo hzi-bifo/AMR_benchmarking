@@ -43,7 +43,7 @@ We compare the binary phenotype prediction performance of four machine learning 
 - [Usage](#usage)
     - [Workflow](#workflow)
     - [Workflow in steps](#workflows)
-    - [Compare and visualize the results](#Visualization)
+        - [Compare and visualize the results](#Visualization)
 - [License](#license)
 - [Citation](#citation)
 - [Contact](#contact)
@@ -583,5 +583,8 @@ python kover_analyse.py -s 'Campylobacter jejuni' -f_kma -f_benchmarking
 -->
 
 
+## <a name="license"></a> License
+
 ## <a name="citation"></a> Citation
 
+## <a name="contact"></a> Contact
