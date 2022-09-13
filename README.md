@@ -96,7 +96,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 | ------------- | ------------- |------------- |
 |dataset_location| To where the PATRIC dataset will be downloaded. ~246G| /vol/projects/BIFO/patric_genome|
 |output_path| To where to generate the `Results` folder for the direct results of each software and further visualization. | ./|
-|log_path| To where to generate the `log` folder for the tempary files, which you can delete by hand afterwards. Large temp files are stored under `<log_path>/log/software/<software_name>/software_output`. Some software will generate large amount of temp files to 60G (TODO check!), if you run all species in parallel. And this benchmarking study will generate temp files up to terabytes, which means you can delete temp files in this directory as soon as one software finishes evaluation successfully. | ./|
+|log_path| To where to generate the `log` folder for the tempary files, which you can delete by hand afterwards. Large temp files are stored under `<log_path>/log/software/<software_name>/software_output`. Running benchmarking study scripts from beginning to the end will generate temp files up to the order of 10 terabytes, which means you are suggested to delete temp files in `<log_path>/log/software/<software_name>/software_output` as soon as one software finishes evaluation successfully, except Point-/ResFinder. | ./|
 |n_jobs| CPU cores to use.  | 10 |
 |gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
 
@@ -208,6 +208,11 @@ git submodule update --init --recursive
 cp ../seq2gen_assemble/* .  # Afterwards, update the seq2geno root folds with files from this(our) repo
 bash ./scripts/model/Seg2Geno.sh #Run.
 ```
+
+
+Clean intermediate files: we provide a script to clean large and un-important intermeidate files. It will skan several predined locations for the targets, and delete them forever. You can run it any time when there is corresponding software running. Make sure you don't need those intermediate files for debugging before use it.
+
+#TODO
 
 
 ### C. Visualization
