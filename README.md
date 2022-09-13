@@ -96,7 +96,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 | ------------- | ------------- |------------- |
 |dataset_location| To where the PATRIC dataset will be downloaded. ~246G| /vol/projects/BIFO/patric_genome|
 |output_path| To where to generate the `Results` folder for the direct results of each software and further visualization. | ./|
-|log_path| To where to generate the `log` folder for the tempary files, which you can delete by hand afterwards. Large temp files are stored under `<log_path>/log/software/<software_name>/software_output`. note:some software will generate large amount of temp files to 60G (TODO check!), if you run all species in parallel. And this benchmarking study will generate temp files to terabytes, which means you can delete temp files in this directory as soon as one software finishes evaluation successfully. | ./|
+|log_path| To where to generate the `log` folder for the tempary files, which you can delete by hand afterwards. Large temp files are stored under `<log_path>/log/software/<software_name>/software_output`. Some software will generate large amount of temp files to 60G (TODO check!), if you run all species in parallel. And this benchmarking study will generate temp files up to terabytes, which means you can delete temp files in this directory as soon as one software finishes evaluation successfully. | ./|
 |n_jobs| CPU cores to use.  | 10 |
 |gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
 
