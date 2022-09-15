@@ -80,11 +80,11 @@ We compare the binary phenotype prediction performance of four machine learning 
 ```
 bash ./install/install.sh
 ```
--  Install pytorch in the `multi_torch_env` env if GPU is available.
+-  Install pytorch in the `multi_torch_env` manually if GPU is available.
 
 To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
 
-Memory requirment:  Aytan-Aktug multi-species model will need up to 370G memory. Some other procedures requiring large memory are KMA clustering in  Aytan-Aktug SSSA.
+- Memory requirment:  Aytan-Aktug multi-species model will need up to 370G memory. Some other procedures requiring large memory are KMA clustering in  Aytan-Aktug SSSA.
 
 ## <a name="input"></a>Input file
 The input file is an yaml file `Config.yaml` at the root folder where all options are described:
