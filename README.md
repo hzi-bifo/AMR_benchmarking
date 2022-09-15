@@ -153,7 +153,9 @@ git clone https://github.com/hzi-bifo/AMR_benchmarking.git
 cd AMR_benchmarking
 ```
 
-**B1.  Sample phenotype availability and quality control (PQC). You can skip this step, as we provided the sample list after PQC: ./data/PATRIC/meta
+**B1.  Sample phenotype availability and quality control (PQC). **
+
+You can skip this step, as we provided the sample list after PQC: ./data/PATRIC/meta
 
 ```
 bash ./scripts/data/preprocess.sh
