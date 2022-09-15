@@ -147,10 +147,8 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 ### B.  <a name="workflows"></a>Workflow in steps
 Add root address to your PATH (for every step):
 ```
-git clone https://github.com/hzi-bifo/AMR_benchmarking_khu.git
-cd AMR_benchmarking_khu
-export PATH="$PWD"/src:$PATH
-export PYTHONPATH=$PWD
+git clone https://github.com/hzi-bifo/AMR_benchmarking.git
+cd AMR_benchmarking
 ```
 
 **B1.  Sample phenotype availability and quality control (PQC). You can skip this step, as we provided the sample list after PQC: ./data/PATRIC/meta
