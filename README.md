@@ -129,7 +129,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |species_list_multi_species|species to be included in for three variants of Aytan-Aktug multi-species multi-antibiotic models. For user defining species combinations for MSMA, please change species names here and replace -f_all with -s "${species[@]}" in ./scripts/model/AytanAktug_MSMA_concat.sh and ./scripts/model/AytanAktug_MSMA_discrete.sh|Mycobacterium_tuberculosis, Salmonella_enterica, Streptococcus_pneumoniae, Escherichia_coli, Staphylococcus_aureus, Klebsiella_pneumoniae, Acinetobacter_baumannii, Pseudomonas_aeruginosa, Campylobacter_jejuni|
 |merge_name| used to notate the folders for saving the results of three Aytan-Aktug multi-species multi-antibiotic models. Always takes such form of a concatenation of species names in order. E.g. only two species of Mycobacterium_tuberculosis and Salmonella_enterica will result in Mt_Se.|Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj|
 |cv_number|the k of k-fold nested cross-validation for the five software tools (Aytan-Aktug single-species-antibiotic model) and Aytan-Aktug single-species multi-antibiotic model|10|
-|cv_number_multiS|the k of k-fold cross-validation for three variants of Aytan-Aktug multi-species multi-antibiotics models)|6|
+|cv_number_multiS|k+1, where the k corresponds to k-fold cross-validation and 1 correspons to the hold out test set, for three variants of Aytan-Aktug multi-species multi-antibiotics models)|6|
 
 
 
