@@ -243,7 +243,7 @@ conda activate snakemake_env
 ##If error occurs for Seq2Geno installation steps until now, please manually Install Seq2Geno according to the instruction from: https://github.com/hzi-bifo/seq2geno/tree/dev_v13/install
 ### Then please update Seq2Geno to the version that can deal with genome data
 cd SCRIPTPATH
-cp  seq2gen_assemble/* seq2geno/  # Afterwards, update the seq2geno root folds with files from this(our) repo
+cp  seq2geno_assemble/* seq2geno/  # Afterwards, update the seq2geno root folds with files from this(our) repo
 bash ./scripts/model/Seq2Geno.sh #Run.
 ```
 After features are prepared, please then proceed to https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno to run Geno2Pheno"
