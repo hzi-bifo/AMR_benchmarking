@@ -251,6 +251,13 @@ After features are prepared, please then proceed to https://galaxy.bifo.helmholt
 
 
 
+**B7.  Kover**
+- Please install Kover 2.0 according to https://aldro61.github.io/kover/doc_installation.html or https://github.com/aldro61/kover 
+- We used the command line version in Linux.
+- 
+
+
+
 Clean intermediate files: we provide a script to clean large and un-important intermeidate files. It will skan several predined locations for the targets, and delete them forever. You can run it any time when there is corresponding software running. Make sure you don't need those intermediate files for debugging before use it.
 
 
