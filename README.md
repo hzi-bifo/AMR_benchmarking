@@ -98,7 +98,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |dataset_location| To where the PATRIC dataset will be downloaded. ~246G| /vol/projects/BIFO/patric_genome|
 |output_path| To where to generate the `Results` folder for the direct results of each software and further visualization. | ./|
 |log_path| To where to generate the `log` folder for the tempary files, which you can delete by hand afterwards. Large temp files are stored under `<log_path>/log/software/<software_name>/software_output`. Running benchmarking study scripts from beginning to the end will generate temp files up to the order of 10 terabytes, which means you are suggested to delete temp files via `./src/software_utility/clean.py` as soon as one software finishes evaluation successfully, except Point-/ResFinder. | ./|
-|n_jobs| CPU cores to use.  | 10 |
+|n_jobs| CPU cores to use. We advised users to use a PC equipped with at least 10 cores, as e.g. a procedure for evaluating Kover is set to use 10 cores.  | 10 |
 |gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
 
 **B. Adanced/optional parameters setting**
