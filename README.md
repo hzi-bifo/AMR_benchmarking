@@ -100,6 +100,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |log_path| To where to generate the `log` folder for the tempary files, which you can delete by hand afterwards. Large temp files are stored under `<log_path>/log/software/<software_name>/software_output`. Running benchmarking study scripts from beginning to the end will generate temp files up to the order of 10 terabytes, which means you are suggested to delete temp files via `./src/software_utility/clean.py` as soon as one software finishes evaluation successfully, except Point-/ResFinder. | ./|
 |n_jobs| CPU cores to use. | 10 |
 |gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
+|kover_location| Kover install path  | /vol/projects/khu/amr/kover/bin/ |
 
 **B. Adanced/optional parameters setting**
 
