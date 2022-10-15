@@ -138,21 +138,22 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 
 ## <a name="output"></a>Output
-./Results/.
-├── final_figures_tables
-├── other_figures_tables
-├── software
-|    ├── AytanAktug
-|    ├── kover
-|    ├── majority
-|    ├── phenotypeseeker
-|    ├── resfinder_b
-|    ├── resfinder_folds
-|    ├── resfinder_k
-|    └── seq2geno
-|
-└── supplement_figures_tables
-
+```
+└── results
+    ├── final_figures_tables
+    ├── other_figures_tables
+    ├── software
+    |    ├── AytanAktug
+    |    ├── kover
+    |    ├── majority
+    |    ├── phenotypeseeker
+    |    ├── resfinder_b
+    |    ├── resfinder_folds
+    |    ├── resfinder_k
+    |    └── seq2geno
+    |
+    └── supplement_figures_tables
+```
 
 -  Cross-validation results of each ML software and evaluation results of Point-/Resfinder are generated under `output_path/Results/<name of the software>`.
 - Visualization tables and graphs are generated under `output_path/Results/final_figures_tables` and `output_path/Results/supplement_figures_tables`.
