@@ -157,7 +157,8 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 
 -  Cross-validation results of each ML software and evaluation results of Point-/Resfinder are generated under `output_path/Results/<name of the software>`.
 - Visualization tables and graphs are generated under `output_path/Results/final_figures_tables` and `output_path/Results/supplement_figures_tables`.
-- Numbers and statistic results mentioned in our benchmarking article are generated under `output_path/Results/other_figures_tables`
+- Numbers and statistic results mentioned in our benchmarking article are generated under `output_path/Results/other_figures_tables`.
+- Stochastic factors in generating results:  [KMA](https://bitbucket.org/genomicepidemiology/kma/src/master/) version, which should be installed manualy by ursers (installation commands attached), and Neural networks dropout mechanism.
 
 ## <a name="usage"></a>Usage
 ### A.  <a name="workflow"></a>Workflow
