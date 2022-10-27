@@ -1,3 +1,0 @@
-resistant_phenotype	genome_id
-0	1180
-1	202

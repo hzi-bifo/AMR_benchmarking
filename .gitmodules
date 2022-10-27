@@ -1,6 +1,0 @@
-[submodule "AMR_khu"]
-	path = AMR_khu
-	url = https://github.com/hzi-bifo/AMR_khu
-[submodule "Roary"]
-	path = Roary
-	url = https://github.com/sanger-pathogens/Roary.git
