@@ -31,7 +31,7 @@ dependencies:
   - mock=4.0.3=pyhd3eb1b0_0
   - ncurses=6.2=he6710b0_1
   - numexpr=2.7.2=py37hb2eb853_0
-  - numpy-base=1.19.2=py37hfa32c7d_0
+  - numpy-base=1.19.2
   - openssl=1.1.1n=h7f8727e_0
   - pip=20.3.3=py37h06a4308_0
   - pytables=3.6.1=py37h71ec239_0

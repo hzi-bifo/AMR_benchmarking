@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import sys,os
 # sys.path.append('../../')
 sys.path.insert(0, os.getcwd())
@@ -6,8 +8,7 @@ import ast
 from sklearn.metrics import matthews_corrcoef
 from sklearn.metrics import classification_report
 import argparse
-import zipfile
-import numpy as np
+import zipfile,json
 from scipy.stats import ttest_rel
 import pickle,random,os,shutil
 from src.amr_utility import name_utility, file_utility
@@ -117,7 +118,7 @@ def determination(species,antibiotics,level,f_no_zip,temp_path):
 
     return mcc_all
 
-def make_visualization(species,antibiotics,level,f_no_zip,temp_path,output_path):
+def make_visualization(species,antibiotics,level,f_no_zip,version,temp_path,output_path):
 
     '''
     make final summary(no folds version)
@@ -125,13 +126,16 @@ def make_visualization(species,antibiotics,level,f_no_zip,temp_path,output_path)
 
     antibiotics_selected = ast.literal_eval(antibiotics)
     # print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
-    _,save_name_score,_=name_utility.GETname_ResfinderResults(species)
+    save_name_score =name_utility.GETname_ResfinderResults(species,version,output_path)
+
+
+    temp_path=temp_path+'log/software/'+version+'/'
     path_temp2=temp_path+"analysis"
-    output_path=output_path+save_name_score #'Results/software/resfinder_k/'+ str(species.replace(" ", "_"))
-    file_utility.make_dir(os.path.dirname(output_path))
+
+
     mcc_all=determination(species,antibiotics,level,f_no_zip,temp_path)
-    final=pd.DataFrame(index=antibiotics_selected, columns=['f1_macro','precision', 'recall','accuracy','mcc','f1_positive',
-                                                            'precision_neg','recall_neg','support','support_positive','f1_negative'] )
+    final=pd.DataFrame(index=antibiotics_selected, columns=['f1_macro','f1_negative','f1_positive','accuracy','precision','recall','mcc',
+                                                            'precision_neg','recall_neg','support'] )
     # print(final)
     # print(mcc_all)
 
@@ -152,17 +156,19 @@ def make_visualization(species,antibiotics,level,f_no_zip,temp_path,output_path)
             final.loc[str(anti), 'f1_negative'] = data.loc['0', 'f1-score']
             final.loc[str(anti), 'precision_neg'] = data.loc['0', 'precision']
             final.loc[str(anti), 'recall_neg'] = data.loc['0', 'recall']
-            final.loc[str(anti), 'support_positive'] = data.loc['1', 'support']
+            # final.loc[str(anti), 'support_positive'] = data.loc['1', 'support']
             final.loc[str(anti), 'mcc'] = mcc_all[i]
         except:
             pass
         i+=1
     final=final.astype(float).round(2)
     print(final)
-    final.to_csv(output_path + '.csv', sep="\t")
+
+    file_utility.make_dir(os.path.dirname(save_name_score)) #'Results/software/<version_name>/'+ str(species.replace(" ", "_"))
+    final.to_csv(save_name_score + '.csv', sep="\t")
 
 
-def com_blast_kma(df_species,antibiotics,level,tool,fscore,f_no_zip,output_path):
+def com_blast_kma(df_species,antibiotics, fscore,output_path):
     #compare performance results of KMA and BLAST version Point-/ResFinder
 
     kma_results = []
@@ -173,9 +179,9 @@ def com_blast_kma(df_species,antibiotics,level,tool,fscore,f_no_zip,output_path)
         if species != 'Neisseria gonorrhoeae':
             print(species)
             print('*******************')
-            _,save_name_score,save_name_score_blastn=name_utility.GETname_ResfinderResults(level,species)
-            output_pathK=output_path+save_name_score
-            output_pathB=output_path+save_name_score_blastn
+
+            output_pathK=name_utility.GETname_ResfinderResults(species,'resfinder_k',output_path)
+            output_pathB=name_utility.GETname_ResfinderResults(species,'resfinder_b',output_path)
 
             # for anti in antibiotics_selected:
 
@@ -187,9 +193,15 @@ def com_blast_kma(df_species,antibiotics,level,tool,fscore,f_no_zip,output_path)
             print(data_blast)
             kma_results=kma_results+data_kma
             blast_results=blast_results+data_blast
-            print(len(kma_results))
+
+    print(kma_results)
+    print(blast_results)
 
     result = ttest_rel(kma_results, blast_results)# paired T-test
+
+    with open(output_path + 'Results/supplement_figures_tables/Pvalue_resfinder_kma_blast.json', 'w') as f:
+        json.dump({'statistic':result[0],'pvalue':result[1]}, f)
+    # result.to_csv(output_path + '.csv', sep="\t")
     pvalue = result[1]
     print('P value=',pvalue)
 
@@ -199,7 +211,7 @@ def com_blast_kma(df_species,antibiotics,level,tool,fscore,f_no_zip,output_path)
 
 
 
-def extract_info(s,level,tool,fscore,f_no_zip,f_com,f_all,temp_path,output_path):
+def extract_info(s,level,fscore,f_no_zip,f_com,f_all,temp_path,output_path):
 
     main_meta,_=name_utility.GETname_main_meta(level)
     data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
@@ -209,13 +221,12 @@ def extract_info(s,level,tool,fscore,f_no_zip,f_com,f_all,temp_path,output_path)
     antibiotics = data['modelling antibiotics'].tolist()
     # print(df_species)
     if f_com: #Compare KMA Blastn version results.
-       com_blast_kma(df_species,antibiotics,level,tool,fscore,f_no_zip,output_path)
+       com_blast_kma(df_species,antibiotics, fscore,output_path)
     else:
         for df_species,antibiotics in zip(df_species, antibiotics):
-            temp_path_k=temp_path+'log/software/resfinder_k/'
-            make_visualization(df_species,antibiotics,level,f_no_zip,temp_path_k,output_path)
-            temp_path_b=temp_path+'log/software/resfinder_b/'
-            make_visualization(df_species,antibiotics,level,f_no_zip,temp_path_b,output_path)
+            if df_species != 'Neisseria gonorrhoeae':
+                make_visualization(df_species,antibiotics,level,f_no_zip,'resfinder_k',temp_path,output_path)
+            make_visualization(df_species,antibiotics,level,f_no_zip,'resfinder_b',temp_path,output_path)
 
 
 
@@ -224,8 +235,8 @@ if __name__== '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-l','--level',default='loose', type=str,
                         help='Quality control: strict or loose')
-    parser.add_argument('-t', '--tool', default='Both', type=str,
-                        help='res, point, both')
+    # parser.add_argument('-t', '--tool', default='Both', type=str,
+    #                     help='res, point, both')
     parser.add_argument('-f_com', '--f_com', dest='f_com', action='store_true',
                         help='Compare the results of balst based resfinder and kma based resfinder')
     parser.add_argument('-f_no_zip', '--f_no_zip', dest='f_no_zip', action='store_true',
@@ -240,10 +251,10 @@ if __name__== '__main__':
     parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
                         help='all the possible species, regarding multi-model.')
     parser.add_argument('-temp', '--temp_path', default='./', type=str, required=False,
-                    help='The log file')
+                    help='Directory to store temporary files.')
     parser.add_argument('-o', '--output_path', default='./', type=str, required=False,
                     help='Results folder.')
     parsedArgs=parser.parse_args()
     # parser.print_help()
-    extract_info(parsedArgs.species, parsedArgs.level,parsedArgs.tool,parsedArgs.fscore,parsedArgs.f_no_zip,parsedArgs.f_com,parsedArgs.f_all,parsedArgs.temp_path,parsedArgs.output_path)
+    extract_info(parsedArgs.species, parsedArgs.level, parsedArgs.fscore,parsedArgs.f_no_zip,parsedArgs.f_com,parsedArgs.f_all,parsedArgs.temp_path,parsedArgs.output_path)
 

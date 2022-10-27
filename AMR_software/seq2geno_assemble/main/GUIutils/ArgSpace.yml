@@ -1,0 +1,87 @@
+# SPDX-FileCopyrightText: 2021 Tzu-Hao Kuo
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+features:
+# possible choices for every function
+  dryrun: 
+    options:
+            - Y
+            - N
+    help: 'Display the workflows and exit; information stored in the log file if set'
+  denovo: 
+    options:
+            - N
+            - Y
+    help: 'Compute the de novo assemblies and the gene presence/absence matrix (binary)' 
+  ar: 
+    options:
+            - N
+            - Y
+    help: 'Ancestral reconstruction for expression levels'
+  de:
+    options:
+            - N
+            - Y
+    help: 'Differential expression analysis with the expression levels against the phenotypic classes'
+  expr: 
+    options:
+            - N
+            - Y
+    help: 'Compute the features matrix of expression levels (numeric)'
+  phylo: 
+    options:
+            - N
+            - Y
+    help: 'Phylogenetic analysis'
+  snps: 
+    options:
+            - N
+            - Y
+    help: 'Compute the features matrix of SNPs (binary)'
+general:
+# the regular expression patterns also controls whether an argument is mandatory or optional
+  cores:
+      class: 'int'
+      pattern: '^[0-9]+$'
+      help: 'number of cpus'
+  mem_mb:
+      class: 'int'
+      pattern: '^[0-9]+$'
+      help: 'memory size (mb)'
+  old_config: 
+      class: 'bool'
+      help: 're-use the procedure-specific config files previously generated in the project folder (wd)'
+  dna_reads:  
+      class: 'file'
+      pattern: '\\w+'
+      help: 'The list of DNA-seq data (paired-end reads)'
+  wd:  
+      class: 'dir'
+      pattern: '\\w+'
+      help: 'Working directory'
+  phe_table: 
+      class: 'file'
+      pattern: ''
+      help: 'The list of phenotypes'
+  ref_fa: 
+      class: 'file'
+      pattern: '\\w+'
+      help: 'The fasta file of reference genome; only ONE sequence should be contained'
+  ref_gbk: 
+      class: 'file'
+      pattern: '\\w+'
+      help: 'The genbank file of reference genome; only ONE chromosome should be contained'
+  ref_gff: 
+      class: 'file'
+      pattern: '\\w+'
+      help: 'The gff file of reference genome; only ONE chromosome should be contained'
+  rna_reads: 
+      class: 'file'
+      pattern: ''
+      help: 'The list of RNA-seq data (short reads)'
+  adaptor: 
+      class: 'file'
+      pattern: ''
+      help: 'The fasta file of adaptor sequences for trimming reads'
+

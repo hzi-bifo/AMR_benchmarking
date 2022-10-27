@@ -1,12 +1,7 @@
 
 import os
-os.environ["OMP_NUM_THREADS"] = "1" # export OMP_NUM_THREADS=4
-os.environ["OPENBLAS_NUM_THREADS"] = "1" # export OPENBLAS_NUM_THREADS=4
-os.environ["MKL_NUM_THREADS"] = "1" # export MKL_NUM_THREADS=6
-os.environ["VECLIB_MAXIMUM_THREADS"] = "1" # export VECLIB_MAXIMUM_THREADS=4
-os.environ["NUMEXPR_NUM_THREADS"] = "1" # export NUMEXPR_NUM_THREADS=6
-import numpy as np
 import subprocess
+import pandas as pd
 
 def make_dir(name):
     logDir = os.path.join(name)
@@ -40,41 +35,72 @@ def main():
     resistens_file_summary = os.path.abspath(os.path.realpath(resistens_file_summary))
 
 
-    print(database_path)
-    out_lst = []
-    for entry in os.scandir(database_path):
-        if not entry.name.startswith('.') and entry.is_dir():
-            out_lst.append(entry.name)
-    out_lst.remove('merge_species')
-    # print(out_lst)
+    out_lst = [ 'escherichia_coli','salmonella', 'neisseria_gonorrhoeae',
+                'enterococcus_faecium', 'klebsiella', 'mycobacterium_tuberculosis', 'staphylococcus_aureus','enterococcus_faecalis']
+
+
+
 
     open(path_gene_summary, "w")
     open(path_RNAgene_summary, "w")
-    open(resistens_file_summary, "w")
+    # open(resistens_file_summary, "w")
     #copy a resistens-overview.txt from a random species
     cmd0 = 'cp ./db_pointfinder/escherichia_coli/resistens-overview.txt %s' % (path_merge)
     subprocess.run(cmd0, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+
+    # # prepare resistens-overview.txt
+    pd.set_option('display.max_rows', 2000)
+    pd.set_option('display.max_columns', 500)
+    pd.set_option('display.width', 1000)
+    data_temp=pd.read_csv('./db_pointfinder/escherichia_coli/resistens-overview.txt', sep="\t", header=0, index_col=None)
+    data_final=pd.DataFrame(columns=data_temp.columns)
+    print(data_final)
+
+    #remove rows, that are not the first row(header) and starting with #
+    for species in out_lst:
+        make_dir(path_merge+'/temp')
+        cmd1 = 'cp ./db_pointfinder/'+str(species.replace(" ", "_"))+'/resistens-overview.txt %s' % (path_merge+'/temp/'+str(species.replace(" ", "_"))+'.txt')
+        subprocess.run(cmd1, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+
+
+    for species in out_lst:
+        df=pd.read_csv(path_merge+'/temp/'+str(species.replace(" ", "_"))+'.txt', sep="\t", header=0, index_col=None)
+        df = df.loc[df['#Gene_ID'].apply(lambda x: "#" not in x)]
+
+        df.to_csv(path_merge+'/temp/'+str(species.replace(" ", "_"))+'.txt',sep="\t", index=False, header=True)
+
+
+    for species in out_lst:
+        print(species)
+        data_each=pd.read_csv(path_merge+'/temp/'+str(species.replace(" ", "_"))+'.txt', sep="\t", header=0, index_col=None,dtype={'Codon_pos':  int})
+        data_each['#Gene_ID']=data_each['#Gene_ID']+'_'+str(species.replace(" ", "_"))
+        data_final= pd.concat([data_final, data_each],  ignore_index=True, sort=False)
+
+
+
+
+
+
+    data_final.to_csv(resistens_file_summary,sep="\t", index=False, header=True)
+    with open(resistens_file_summary, 'a') as outfile:
+        outfile.write("# Indels")
+        outfile.write("\n")
+        outfile.write("#Stop codons")
+
 
     for species in out_lst:
         #get al the genes in the species file, plus one or two summary txt files.
         path_gene_summary_sub=os.path.join(database_path, species,'genes.txt')
         path_RNAgene_summary_sub=os.path.join(database_path, species,'RNA_genes.txt')
-        print('path_gene_summary_sub',path_gene_summary_sub)
         path_gene= os.path.join(database_path, species)
         file_names = os.listdir(os.path.abspath(os.path.realpath(path_gene)))
 
         list_genes=[]
-        print(path_gene)
-        print(file_names)
         for item in file_names:
            if ".fsa" in item:
                 list_genes.append(item)
 
-        print(species,'**',list_genes)
-
         for gene_file in list_genes:
-
-            print(gene_file)
             gene_name = gene_file.split('.')[0]
             cmd='cp %s/%s %s/%s_%s.fsa'%(path_gene,gene_file,path_merge,gene_name,species)
             subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,check=True)
@@ -106,7 +132,6 @@ def main():
                         line_new=line.split('\n')[0]
                         outfile.write(line_new+"_"+species)
                         outfile.write("\n")
-
 
 
 

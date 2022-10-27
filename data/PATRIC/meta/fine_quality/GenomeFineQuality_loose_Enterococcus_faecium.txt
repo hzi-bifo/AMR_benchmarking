@@ -1,0 +1,759 @@
+	genome.genome_id	genome.genome_name	genome.genome_status	genome.genome_length	genome.genome_quality	genome.plasmids	genome.contigs	genome.fine_consistency	genome.coarse_consistency	genome.checkm_completeness	genome.checkm_contamination
+0	1352.3633	Enterococcus faecium strain E64	WGS	2987629.0	Good		169	97.2	99.0	100.0	0.9
+1	1352.2719	Enterococcus faecium strain Hp_5-10	WGS	2840193.0	Good		77	97.2	98.5	100.0	0.0
+2	1134810.3	Enterococcus faecium 511	WGS	2952175.0	Good	0.0	315	97.0	98.7	100.0	0.0
+3	1134813.3	Enterococcus faecium 515	WGS	2879535.0	Good	0.0	267	97.1	98.4	100.0	0.0
+4	1134816.3	Enterococcus faecium C621	WGS	2913084.0	Good	0.0	267	97.1	98.7	100.0	0.0
+5	1134821.3	Enterococcus faecium ERV161	WGS	2798511.0	Good	0.0	232	97.1	98.4	100.0	0.0
+6	1134823.3	Enterococcus faecium ERV168	WGS	2988218.0	Good	0.0	245	97.3	98.8	100.0	0.0
+7	1134827.3	Enterococcus faecium ERV99	WGS	2751553.0	Good	0.0	245	97.2	98.7	100.0	0.0
+8	1134829.3	Enterococcus faecium P1137	WGS	2754598.0	Good	0.0	216	97.1	98.5	100.0	0.0
+9	1134831.3	Enterococcus faecium P1140	WGS	2914111.0	Good	0.0	249	97.2	98.7	100.0	0.0
+10	1134833.3	Enterococcus faecium P1986	WGS	2989933.0	Good	0.0	333	97.0	98.4	100.0	0.0
+11	1134838.3	Enterococcus faecium R499	WGS	2851576.0	Good	0.0	234	97.0	98.3	100.0	0.0
+12	1138906.3	Enterococcus faecium E1623	WGS	2796571.0	Good	0.0	35	97.2	98.4	100.0	1.5
+13	1138914.3	Enterococcus faecium E1861	WGS	2774929.0	Good	0.0	25	97.0	98.4	100.0	0.0
+14	1138917.3	Enterococcus faecium E2039	WGS	2908349.0	Good	0.0	34	97.0	98.5	100.0	0.0
+15	1138934.3	Enterococcus faecium E4389	WGS	2896636.0	Good	0.0	61	97.3	98.7	100.0	0.0
+16	1157445.3	Enterococcus faecium H17494	WGS	2768469.0	Good	0.0	30	97.1	98.5	100.0	0.9
+17	1157453.3	Enterococcus faecium UAA714	WGS	2796467.0	Good	0.0	51	97.2	98.4	100.0	0.0
+18	1157458.3	Enterococcus faecium UAA720	WGS	2865803.0	Good	0.0	62	97.1	98.5	100.0	0.0
+19	1157461.3	Enterococcus faecium UAA723	WGS	2889135.0	Good	0.0	53	97.3	98.5	100.0	0.0
+20	1157463.3	Enterococcus faecium UAA725	WGS	2862135.0	Good	0.0	65	97.2	98.5	100.0	0.9
+21	1157465.3	Enterococcus faecium UAA944	WGS	2881603.0	Good	0.0	73	97.0	98.5	99.1	0.0
+22	1157469.3	Enterococcus faecium VAN 335	WGS	2792687.0	Good	0.0	42	97.1	98.4	100.0	0.9
+23	1157486.3	Enterococcus faecium HM1073	WGS	2967523.0	Good	0.0	32	97.3	98.6	100.0	0.9
+24	1158543.3	Enterococcus faecium UAA951	WGS	2786381.0	Good	0.0	66	97.0	98.4	100.0	0.0
+25	1158545.3	Enterococcus faecium UAA1007	WGS	2893408.0	Good	0.0	52	97.3	98.4	100.0	0.0
+26	1158554.3	Enterococcus faecium UAA1433	WGS	2896650.0	Good	0.0	52	97.0	98.3	100.0	0.0
+27	1158600.4	Enterococcus faecium ATCC 8459 [PRJNA206348]	WGS	2820063.0	Good	0.0	10	97.0	98.4	100.0	0.0
+28	1169278.3	Enterococcus faecium VAN 476	WGS	2822334.0	Good	0.0	30	97.0	98.4	100.0	0.0
+29	1352.1054	Enterococcus faecium strain Isolate 18	WGS	2880136.0	Good		157	97.3	98.7	100.0	0.0
+30	1352.1441	Enterococcus faecium strain Hp_21-21	WGS	2827151.0	Good		221	97.0	98.4	99.1	0.0
+31	1352.1612	Enterococcus faecium strain E2	WGS	2948701.0	Good		196	97.1	98.7	100.0	0.0
+32	1352.1626	Enterococcus faecium strain SSM5539	WGS	2876378.0	Good		191	97.3	98.8	100.0	0.0
+33	1352.2709	Enterococcus faecium strain 32	WGS	2876417.0	Good		203	97.0	98.4	100.0	0.0
+34	1352.2716	Enterococcus faecium strain 76	WGS	2746197.0	Good		283	97.5	98.7	100.0	0.0
+35	1352.2723	Enterococcus faecium strain 2_Efcm_HA-NL	WGS	2990066.0	Good		174	97.2	98.6	100.0	0.0
+36	1352.2726	Enterococcus faecium strain 8_Efcm_HA-DE	WGS	2981805.0	Good		178	97.0	98.7	100.0	0.0
+37	1352.3522	Enterococcus faecium strain 14-312-1	WGS	2762438.0	Good	6.0	7	97.3	98.7	99.1	0.0
+38	1352.3523	Enterococcus faecium strain 15-162	WGS	2777669.0	Good	7.0	8	97.2	98.4	100.0	1.8
+39	1352.3600	Enterococcus faecium strain 13-022	Complete	2912037.0	Good	1.0	2	97.0	98.4	100.0	0.0
+40	1352.386	Enterococcus faecium VRE3	WGS	2820231.0	Good		142	97.0	98.6	100.0	0.9
+41	1352.4047	Enterococcus faecium strain KRESVSE0002	WGS	2824901.0	Good		251	97.1	98.8	100.0	0.0
+42	1352.4084	Enterococcus faecium strain JE1 strain Enterococcus faecium JE1	Complete	2803306.0	Good	1.0	2	97.8	99.0		
+43	1352.4281	Enterococcus faecium strain E8172	Complete	2986036.0	Good	11.0	12	97.2	99.0		
+44	1352.512	Enterococcus faecium strain 607_EFCM	WGS	2790986.0	Good		276	97.1	98.5	100.0	0.0
+45	1352.528	Enterococcus faecium strain 990_EFCM	WGS	2986521.0	Good		334	97.0	98.6	100.0	0.9
+46	1352.531	Enterococcus faecium strain 999_EFCM	WGS	2905399.0	Good		347	97.0	98.7	100.0	0.0
+47	1352.656	Enterococcus faecium strain 58M	WGS	2754403.0	Good		60	97.2	98.4	100.0	0.0
+48	1352.691	Enterococcus faecium strain D344RRF x C68	WGS	2971286.0	Good		201	97.6	98.7	100.0	0.0
+49	1352.697	Enterococcus faecium strain D344RRF x C68	WGS	2972912.0	Good		201	97.6	98.7	100.0	0.0
+50	1352.699	Enterococcus faecium strain C68	WGS	2952500.0	Good		180	97.2	98.7	100.0	0.0
+51	1352.725	Enterococcus faecium strain E13931	WGS	2893152.0	Good		167	97.2	98.7	100.0	0.0
+52	1352.746	Enterococcus faecium strain VRE-1407988	WGS	2752466.0	Good		151	97.0	98.5	100.0	0.0
+53	1352.754	Enterococcus faecium strain VRE-1502939	WGS	2909394.0	Good		145	97.3	98.8	100.0	0.0
+54	1352.757	Enterococcus faecium strain VRE-1503262	WGS	2979335.0	Good		143	97.2	98.7	100.0	0.0
+55	1352.763	Enterococcus faecium strain 805447/07	WGS	2949813.0	Good		232	97.1	98.7	100.0	0.0
+56	1352.769	Enterococcus faecium strain D344RRF	WGS	2982307.0	Good		207	97.6	98.7	100.0	0.9
+57	1352.803	Enterococcus faecium strain VRE16	WGS	2897665.0	Good		160	97.1	98.7	100.0	0.0
+58	1391466.3	Enterococcus faecium NEF1	WGS	2986518.0	Good	0.0	47	97.2	98.5	100.0	0.0
+59	1400824.3	Enterococcus faecium UC8733	WGS	2723595.0	Good	0.0	164	97.0	98.5	99.1	0.6
+60	1409946.3	Enterococcus faecium MRSN 11639	WGS	2951462.0	Good		142	97.0	98.7	100.0	0.0
+61	1352.485	Enterococcus faecium strain KACC 15689	WGS	2824234.0	Good		128	97.0	98.4	100.0	0.9
+62	1352.3978	Enterococcus faecium strain 300BEA1	WGS	2715473.0	Good		18	97.4	99.0	100.0	0.0
+63	1352.3991	Enterococcus faecium strain 78EA1	WGS	2849599.0	Good		9	97.3	98.8	100.0	0.9
+64	1352.3960	Enterococcus faecium strain 163EA1	WGS	2880397.0	Good		9	97.6	99.0	100.0	0.9
+65	1352.3962	Enterococcus faecium strain 177EA1	WGS	2728495.0	Good		4	97.8	99.0	99.1	0.5
+66	1352.3990	Enterococcus faecium strain 74EA1	WGS	2783793.0	Good		7	97.5	99.1	99.1	0.9
+67	1352.3993	Enterococcus faecium strain 86EA1	WGS	2976268.0	Good		15	97.3	98.8	100.0	0.9
+68	1352.3422	Enterococcus faecium strain CVM N60336F	WGS	2810033.0	Good		171	97.5	98.8	100.0	0.0
+69	1352.3424	Enterococcus faecium strain CVM N59653F	WGS	2830254.0	Good		109	97.3	98.6	99.1	0.0
+70	1352.3425	Enterococcus faecium strain CVM N60324F	WGS	2714410.0	Good		330	97.3	98.6	100.0	1.4
+71	1352.3433	Enterococcus faecium strain CVM N59951F	WGS	2801631.0	Good		148	97.1	98.4	100.0	0.0
+72	1352.3437	Enterococcus faecium strain CVM N60001F	WGS	2904971.0	Good		101	97.2	98.4	99.1	0.0
+73	1352.3445	Enterococcus faecium strain CVM N59711F	WGS	2870574.0	Good		100	97.6	99.1	99.1	1.8
+74	1352.3454	Enterococcus faecium strain CVM N60425F	WGS	2740218.0	Good		134	97.2	98.4	100.0	0.0
+75	1352.3456	Enterococcus faecium strain CVM N60365F	WGS	2790839.0	Good		147	97.2	98.5	100.0	0.0
+76	1352.3466	Enterococcus faecium strain CVM N59589F	WGS	2706436.0	Good		78	97.7	99.0	99.1	1.8
+77	1352.3481	Enterococcus faecium strain CVM N55299	WGS	2726040.0	Good		138	97.5	99.0	100.0	0.0
+78	1352.3483	Enterococcus faecium strain CVM N55279	WGS	2872204.0	Good		113	97.8	99.1	99.1	1.8
+79	1352.3486	Enterococcus faecium strain CVM N55229	WGS	2827109.0	Good		161	97.3	98.5	100.0	0.0
+80	1352.3489	Enterococcus faecium strain CVM N54599	WGS	2801535.0	Good		109	97.2	98.4	100.0	0.9
+81	1352.3506	Enterococcus faecium strain CVM N52777	WGS	2924325.0	Good		203	97.2	98.7	100.0	0.0
+82	1352.3510	Enterococcus faecium strain CVM N55072	WGS	2820141.0	Good		147	97.3	98.4	100.0	0.5
+83	525279.14	Enterococcus faecium TX1330	WGS	2780471.0	Good		4	97.9	99.1	100.0	1.8
+84	525279.3	Enterococcus faecium TX1330	WGS	2777972.0	Good	0.0	38	97.3	98.5	98.2	0.0
+85	546340.3	Enterococcus faecium E1679	WGS	2928184.0	Good	0.0	340	97.0	98.7	99.1	0.9
+86	749525.3	Enterococcus faecium TX0133C	WGS	2907861.0	Good	0.0	193	97.0	98.7	99.1	0.0
+87	933356.3	Enterococcus faecium E4452	WGS	2769032.0	Good	0.0	268	97.2	98.5	100.0	0.0
+88	1352.1730	Enterococcus faecium strain 11B10_MSG5005	WGS	2754527.0	Good		16	97.0	98.5	100.0	1.8
+89	1352.1732	Enterococcus faecium strain 11C6_DIV0699	WGS	2790863.0	Good		2	97.3	98.6	100.0	0.0
+90	1352.1738	Enterococcus faecium strain 1B3_DIV609	WGS	2741506.0	Good		14	97.3	98.5	100.0	0.0
+91	1352.1740	Enterococcus faecium strain 2B3_DIV0609	WGS	2933808.0	Good		10	97.0	98.5	99.1	0.9
+92	1352.1744	Enterococcus faecium strain 7C8_DIV0219	WGS	2904368.0	Good		4	97.1	98.4	100.0	1.4
+93	1352.1753	Enterococcus faecium strain 1D8_DIV0466	WGS	2737852.0	Good		5	97.2	98.4	100.0	0.9
+94	1352.4123	Enterococcus faecium strain P10 CL A14	WGS	2712423.0	Good		41	97.4	99.0		
+95	1352.2181	Enterococcus faecium strain AT1E22	WGS	2798919.0	Good		83	97.0	98.5	99.1	0.9
+96	1352.1810	Enterococcus faecium strain VREN3640	WGS	2932667.0	Good		143	97.0	98.7	100.0	0.0
+97	1352.1849	Enterococcus faecium strain VREN3645	WGS	2943752.0	Good		148	97.0	98.7	100.0	0.0
+98	1352.1883	Enterococcus faecium strain VREN3646	WGS	2939985.0	Good		160	97.0	98.7	100.0	0.0
+99	1352.1887	Enterococcus faecium strain VREN3647	WGS	2937357.0	Good		146	97.0	98.7	100.0	0.0
+100	1352.1895	Enterococcus faecium strain VREN3654	WGS	2941529.0	Good		148	97.0	98.7	100.0	0.0
+101	1352.1914	Enterococcus faecium strain VREN3657	WGS	2941848.0	Good		152	97.0	98.7	100.0	0.0
+102	1352.1916	Enterococcus faecium strain VREN3684	WGS	2935341.0	Good		146	97.0	98.7	100.0	0.0
+103	1352.1917	Enterococcus faecium strain VREN3685	WGS	2935567.0	Good		145	97.0	98.7	100.0	0.0
+104	1352.1928	Enterococcus faecium strain VREN3650	WGS	2937568.0	Good		151	97.0	98.7	100.0	0.0
+105	1352.1935	Enterococcus faecium strain VREN3651	WGS	2942056.0	Good		169	97.0	98.7	100.0	0.0
+106	1352.1937	Enterococcus faecium strain VREN3735	WGS	2942322.0	Good		150	97.0	98.7	100.0	0.0
+107	1352.8225	Enterococcus faecium strain QU 50	WGS	2749658.0	Good	2.0	3	97.6	98.7		
+108	1352.7799	Enterococcus faecium strain L5-A	WGS	2770961.0	Good		101	97.4	98.9		
+109	1352.7911	Enterococcus faecium strain UAMSEF_24	WGS	2770238.0	Good		40	97.6	99.0		
+110	1352.7949	Enterococcus faecium strain 13-014	WGS	2728004.0	Good	8.0	10	97.6	98.9		
+111	1352.7961	Enterococcus faecium strain ARL08-339	WGS	2908355.0	Good		180	97.0	98.7		
+112	1352.7952	Enterococcus faecium strain NM213	Complete	2857122.0	Good	5.0	6	97.0	98.7		
+113	1352.7962	Enterococcus faecium strain ARL08-32	WGS	2907035.0	Good		188	97.0	98.7		
+114	1352.7932	Enterococcus faecium strain UAMSEF_05	WGS	2911291.0	Good		203	97.1	99.0		
+115	1352.7934	Enterococcus faecium strain UAMSEF_04	WGS	2909821.0	Good		204	97.1	99.0		
+116	1352.7987	Enterococcus faecium strain ARL08-43	WGS	2905599.0	Good		176	97.0	98.7		
+117	1352.7989	Enterococcus faecium strain ARL08-394	WGS	2917288.0	Good		186	97.0	98.7		
+118	1352.7975	Enterococcus faecium strain ARL09-409	WGS	2758389.0	Good		109	97.5	99.1		
+119	1352.7978	Enterococcus faecium strain ARL09-1074a	WGS	2925628.0	Good		236	97.0	98.7		
+120	1352.7907	Enterococcus faecium strain UAMSEF_34	WGS	2918402.0	Good		193	97.1	99.0		
+121	1352.7913	Enterococcus faecium strain UAMSEF_23	WGS	2758039.0	Good		123	97.3	99.0		
+122	1352.7917	Enterococcus faecium strain UAMSEF_28	WGS	2739636.0	Good		172	97.1	98.8		
+123	1352.3572	Enterococcus faecium strain V1711	WGS	2917968.0	Good		205	97.0	98.7	100.0	0.0
+124	1352.3581	Enterococcus faecium strain V1511	WGS	2970160.0	Good		221	97.1	98.8	100.0	0.0
+125	1352.8309	Enterococcus faecium strain 4928STDY7071572	WGS	2816839.0	Good		53	97.1	98.9		
+126	1352.8302	Enterococcus faecium strain 4928STDY7071454	WGS	2773778.0	Good		73	97.7	99.0		
+127	1352.8226	Enterococcus faecium strain ICIS 18	WGS	2733101.0	Good		279	97.0	98.6		
+128	1352.8318	Enterococcus faecium strain 4928STDY7071456	WGS	2836305.0	Good		71	97.8	99.0		
+129	1352.8178	Enterococcus faecium strain FB-1	Complete	2782065.0	Good	1.0	2	97.3	98.9		
+130	1352.8323	Enterococcus faecium strain 4928STDY7071510	WGS	2903481.0	Good		44	97.9	99.0		
+131	1352.8182	Enterococcus faecium strain CCT11 strain not applicable	WGS	2944573.0	Good		222	97.0	99.2		
+132	1352.8193	Enterococcus faecium strain HPH9 strain not applicable	WGS	2937201.0	Good		200	97.0	99.2		
+133	1352.8344	Enterococcus faecium strain 4928STDY7387731	WGS	2759624.0	Good		87	97.2	99.0		
+134	1352.8350	Enterococcus faecium strain 4928STDY7387840	WGS	2814824.0	Good		77	97.6	99.0		
+135	1352.8356	Enterococcus faecium strain 4928STDY7071283	Complete	2775175.0	Good		1	97.6	98.8		
+136	1352.8358	Enterococcus faecium strain 4928STDY7071735	Complete	2776457.0	Good		1	97.7	99.0		
+137	1352.8351	Enterococcus faecium strain 4928STDY7387877	WGS	2806896.0	Good		74	97.3	99.0		
+138	1352.8355	Enterococcus faecium strain 4928STDY7387890	WGS	2919152.0	Good		57	97.9	99.0		
+139	1352.8266	Enterococcus faecium strain R.A73	WGS	2935283.0	Good		28	97.6	99.0		
+140	1352.1459	Enterococcus faecium strain Efm0189	WGS	2795686.0	Good		154	97.3	98.6	100.0	0.0
+141	1352.1460	Enterococcus faecium strain Efm0104	WGS	2884999.0	Good		138	97.0	98.7	100.0	0.0
+142	1352.1472	Enterococcus faecium strain Efm0177	WGS	2815491.0	Good		169	97.2	98.7	100.0	0.0
+143	1352.1478	Enterococcus faecium strain Efm0117	WGS	2954249.0	Good		146	97.3	98.8	100.0	0.0
+144	1352.1497	Enterococcus faecium strain Efm0197	WGS	2900456.0	Good		177	97.0	98.6	100.0	0.0
+145	1352.1513	Enterococcus faecium strain Efm0168	WGS	2947600.0	Good		160	97.3	98.8	100.0	0.0
+146	1352.1543	Enterococcus faecium strain Efm0182	WGS	2854212.0	Good		147	97.1	98.7	100.0	0.0
+147	1352.1555	Enterococcus faecium strain Efm0136	WGS	2984053.0	Good		164	97.2	98.7	100.0	0.0
+148	1352.1557	Enterococcus faecium strain Efm0160	WGS	2907024.0	Good		161	97.0	98.5	100.0	0.0
+149	1352.1574	Enterococcus faecium strain Efm0186	WGS	2952897.0	Good		159	97.3	98.8	100.0	0.0
+150	1352.1582	Enterococcus faecium strain Efm0187	WGS	2746544.0	Good		128	97.6	98.7	100.0	0.0
+151	1352.1589	Enterococcus faecium strain Efm0188	WGS	2949960.0	Good		163	97.3	98.8	100.0	0.0
+152	1352.7803	Enterococcus faecium strain SRCM103341	Complete	2796641.0	Good	2.0	3	97.7	99.0		
+153	1352.7941	Enterococcus faecium strain J27	WGS	2777949.0	Good		157	97.3	98.7		
+154	1352.7942	Enterococcus faecium strain J25	WGS	2768459.0	Good		175	97.3	98.7		
+155	1352.7944	Enterococcus faecium strain J14	WGS	2780105.0	Good		85	97.3	98.7		
+156	1352.7945	Enterococcus faecium strain J16	WGS	2776699.0	Good		110	97.3	98.7		
+157	1352.8082	Enterococcus faecium strain 3012STDY6046005	WGS	2743415.0	Good		2	97.2	99.0		
+158	1352.8602	Enterococcus faecium strain FML01805	WGS	2855121.0	Good		164	97.3	98.7		
+159	1352.8186	Enterococcus faecium strain F782 strain not applicable	WGS	2870211.0	Good		253	97.5	99.0		
+160	1352.8191	Enterococcus faecium strain SN592 strain not applicable	WGS	2815427.0	Good		116	97.9	99.1		
+161	1352.8213	Enterococcus faecium strain TR10-27 strain not applicable	WGS	2757434.0	Good		140	97.3	99.0		
+162	1352.8214	Enterococcus faecium strain SN71 strain not applicable	WGS	2769370.0	Good		190	97.6	99.0		
+163	1352.2166	Enterococcus faecium strain IHC2	WGS	2929754.0	Good		326	97.0	98.7	100.0	0.9
+164	1352.4220	Enterococcus faecium strain EF_166	WGS	2906773.0	Good		172	97.3	99.1		
+165	1352.4215	Enterococcus faecium strain EF_042	WGS	2903715.0	Good		167	97.3	99.1		
+166	1352.4210	Enterococcus faecium strain EF_171	WGS	2844860.0	Good		191	97.1	99.0		
+167	1352.7865	Enterococcus faecium strain EF_518	WGS	2886170.0	Good		174	97.0	99.0		
+168	1352.7864	Enterococcus faecium strain EF_521	WGS	2846241.0	Good		185	97.0	98.7		
+169	1352.7855	Enterococcus faecium strain EF_530	WGS	2926385.0	Good		214	97.0	98.8		
+170	1352.7878	Enterococcus faecium strain EF_541	WGS	2754722.0	Good		126	97.0	99.0		
+171	1352.11265	Enterococcus faecium strain BSAC_ec1031	WGS	2899612.0	Good	0.0	169	97.1	98.7		
+172	1352.11279	Enterococcus faecium strain BSAC_ec1103	WGS	2873385.0	Good	0.0	193	97.0	98.6		
+173	1352.11284	Enterococcus faecium strain BSAC_ec1119	WGS	2776967.0	Good	0.0	162	97.0	98.6		
+174	1352.11287	Enterococcus faecium strain BSAC_ec1146	WGS	2960942.0	Good	0.0	241	97.1	98.7		
+175	1352.11316	Enterococcus faecium strain BSAC_ec1245	WGS	2944739.0	Good	0.0	235	97.1	98.7		
+176	1352.11323	Enterococcus faecium strain BSAC_ec1313	WGS	2923013.0	Good	0.0	259	97.0	98.7		
+177	1352.11364	Enterococcus faecium strain BSAC_ec1455	WGS	2830013.0	Good	0.0	185	97.2	98.7		
+178	1352.11368	Enterococcus faecium strain BSAC_ec1483	WGS	2926540.0	Good	0.0	227	97.1	98.9		
+179	1352.11410	Enterococcus faecium strain BSAC_ec1717	WGS	2892230.0	Good	0.0	261	97.1	98.6		
+180	1352.11417	Enterococcus faecium strain BSAC_ec1746	WGS	2915695.0	Good	0.0	201	97.1	98.7		
+181	1352.11449	Enterococcus faecium strain BSAC_ec2004	WGS	2899599.0	Good	0.0	178	97.0	98.8		
+182	1352.11471	Enterococcus faecium strain BSAC_ec2087	WGS	2931346.0	Good	0.0	282	97.0	98.5		
+183	1352.11473	Enterococcus faecium strain BSAC_ec2125	WGS	2891966.0	Good	0.0	198	97.0	98.7		
+184	1352.11491	Enterococcus faecium strain BSAC_ec2284	WGS	2873229.0	Good	0.0	192	97.1	98.8		
+185	1352.11516	Enterococcus faecium strain BSAC_ec2334	WGS	2909298.0	Good	0.0	246	97.0	98.8		
+186	1352.11511	Enterococcus faecium strain BSAC_ec2341	WGS	2878856.0	Good	0.0	192	97.1	98.8		
+187	1352.11512	Enterococcus faecium strain BSAC_ec2356	WGS	2858257.0	Good	0.0	176	97.0	98.8		
+188	1352.11529	Enterococcus faecium strain BSAC_ec2357	WGS	2985243.0	Good	0.0	164	97.1	98.9		
+189	1352.11543	Enterococcus faecium strain BSAC_ec2511	WGS	2793690.0	Good	0.0	180	97.0	98.8		
+190	1352.11546	Enterococcus faecium strain BSAC_ec2513	WGS	2926603.0	Good	0.0	201	97.0	98.7		
+191	1352.11559	Enterococcus faecium strain BSAC_ec256	WGS	2809662.0	Good	0.0	168	97.0	98.5		
+192	1352.11553	Enterococcus faecium strain BSAC_ec2562	WGS	2930558.0	Good	0.0	238	97.1	98.9		
+193	1352.11571	Enterococcus faecium strain BSAC_ec2594	WGS	2882640.0	Good	0.0	209	97.0	98.6		
+194	1352.11567	Enterococcus faecium strain BSAC_ec2614	WGS	2884505.0	Good	0.0	246	97.0	98.7		
+195	1352.11574	Enterococcus faecium strain BSAC_ec2633	WGS	2914988.0	Good	0.0	168	97.0	98.7		
+196	1352.11595	Enterococcus faecium strain BSAC_ec2731	WGS	2829978.0	Good	0.0	226	97.1	98.9		
+197	1352.11604	Enterococcus faecium strain BSAC_ec2755	WGS	2822997.0	Good	0.0	155	97.0	98.9		
+198	1352.11603	Enterococcus faecium strain BSAC_ec2761	WGS	2823003.0	Good	0.0	154	97.0	98.9		
+199	1352.11613	Enterococcus faecium strain BSAC_ec296	WGS	2836769.0	Good	0.0	162	97.0	98.8		
+200	1352.11623	Enterococcus faecium strain BSAC_ec34	WGS	2846484.0	Good	0.0	187	97.1	98.7		
+201	1352.11633	Enterococcus faecium strain BSAC_ec494	WGS	2814910.0	Good	0.0	189	97.0	98.7		
+202	1352.11642	Enterococcus faecium strain BSAC_ec578	WGS	2851311.0	Good	0.0	211	97.1	98.8		
+203	1352.11660	Enterococcus faecium strain BSAC_ec603	WGS	2797930.0	Good	0.0	202	97.3	98.7		
+204	1352.11653	Enterococcus faecium strain BSAC_ec604	WGS	2800444.0	Good	0.0	202	97.3	98.7		
+205	1352.11678	Enterococcus faecium strain BSAC_ec748	WGS	2772471.0	Good	0.0	186	97.2	98.8		
+206	1352.11683	Enterococcus faecium strain BSAC_ec814	WGS	2742627.0	Good	0.0	185	97.1	98.5		
+207	1352.11706	Enterococcus faecium strain BSAC_ec994	WGS	2855918.0	Good	0.0	219	97.1	98.5		
+208	1352.11718	Enterococcus faecium strain EC0018	WGS	2745812.0	Good	0.0	202	97.0	98.7		
+209	1352.11756	Enterococcus faecium strain EC0069	WGS	2723959.0	Good	0.0	175	97.2	98.7		
+210	1352.11793	Enterococcus faecium strain EC0104	WGS	2886693.0	Good	0.0	235	97.1	98.8		
+211	1352.11810	Enterococcus faecium strain EC0136	WGS	2983377.0	Good	0.0	157	97.1	98.9		
+212	1352.11813	Enterococcus faecium strain EC0141	WGS	2981639.0	Good	0.0	166	97.1	98.9		
+213	1352.11820	Enterococcus faecium strain EC0154	WGS	2867630.0	Good	0.0	202	97.2	98.7		
+214	1352.11840	Enterococcus faecium strain EC0170	WGS	2985060.0	Good	0.0	166	97.1	98.9		
+215	1352.11845	Enterococcus faecium strain EC0173	WGS	2980228.0	Good	0.0	189	97.1	98.9		
+216	1352.11858	Enterococcus faecium strain EC0185	WGS	2803245.0	Good	0.0	177	97.3	98.7		
+217	1352.11864	Enterococcus faecium strain EC0198	WGS	2986259.0	Good	0.0	172	97.1	98.9		
+218	1352.11870	Enterococcus faecium strain EC0201	WGS	2971219.0	Good	0.0	165	97.1	98.9		
+219	1352.11867	Enterococcus faecium strain EC0203	WGS	2937798.0	Good	0.0	232	97.1	98.8		
+220	1352.11860	Enterococcus faecium strain EC0208	WGS	2976076.0	Good	0.0	166	97.1	98.9		
+221	1352.11877	Enterococcus faecium strain EC0217	WGS	2933389.0	Good	0.0	201	97.1	98.9		
+222	1352.11883	Enterococcus faecium strain EC0235	WGS	2980259.0	Good	0.0	162	97.1	98.9		
+223	1352.11896	Enterococcus faecium strain EC0319	WGS	2915469.0	Good	0.0	239	97.0	98.7		
+224	1352.11895	Enterococcus faecium strain EC0320	WGS	2753020.0	Good	0.0	84	97.6	99.0		
+225	1352.11913	Enterococcus faecium strain EC0327	WGS	2845557.0	Good	0.0	168	97.1	98.6		
+226	1352.11914	Enterococcus faecium strain EC0328	WGS	2967307.0	Good	0.0	164	97.1	98.8		
+227	1352.11916	Enterococcus faecium strain EC0343	WGS	2808191.0	Good	0.0	184	97.1	98.5		
+228	1352.11927	Enterococcus faecium strain EC0364	WGS	2869574.0	Good	0.0	238	97.1	98.8		
+229	1352.11938	Enterococcus faecium strain EC0373	WGS	2776069.0	Good	0.0	196	97.1	98.7		
+230	1352.11943	Enterococcus faecium strain EC0378	WGS	2839656.0	Good	0.0	214	97.2	98.7		
+231	1352.11946	Enterococcus faecium strain EC0383	WGS	2745714.0	Good	0.0	137	97.1	98.6		
+232	1352.11951	Enterococcus faecium strain EC0399	WGS	2751183.0	Good	0.0	171	97.3	98.9		
+233	1352.11948	Enterococcus faecium strain EC0400	WGS	2882067.0	Good	0.0	181	97.2	98.7		
+234	1352.11987	Enterococcus faecium strain EC0493	WGS	2950314.0	Good	0.0	213	97.3	98.8		
+235	1352.11983	Enterococcus faecium strain EC0497	WGS	2967659.0	Good	0.0	156	97.1	98.9		
+236	1352.11993	Enterococcus faecium strain EC0509	WGS	2951990.0	Good	0.0	171	97.0	98.9		
+237	1352.12012	Enterococcus faecium strain EC0524	WGS	2713566.0	Good	0.0	175	97.1	98.7		
+238	1352.12202	Enterococcus faecium strain 1001283B150225_161107_B9	WGS	2706529.0	Good	0.0	70	97.3	98.9		
+239	1352.12098	Enterococcus faecium strain VRE 3	WGS	2975731.0	Good	0.0	296	97.1	98.9		
+240	1352.12099	Enterococcus faecium strain VRE 1	WGS	2972392.0	Good	0.0	324	97.1	98.9		
+241	1352.12151	Enterococcus faecium strain 11L2-121	WGS	2761163.0	Good	0.0	57	97.3	98.8		
+242	1352.12154	Enterococcus faecium strain 9RL2-57	WGS	2832623.0	Good	0.0	68	97.1	98.7		
+243	1352.12177	Enterococcus faecium strain CL9762	WGS	2860669.0	Good	0.0	252	97.0	98.8		
+244	1352.12178	Enterococcus faecium strain CL9725	WGS	2842046.0	Good	0.0	191	97.0	98.8		
+245	1352.12052	Enterococcus faecium strain VRE 51	WGS	2966678.0	Good	0.0	243	97.3	98.5		
+246	1352.12110	Enterococcus faecium strain VET-279	WGS	2906017.0	Good	0.0	67	97.3	98.8		
+247	1352.12113	Enterococcus faecium strain VET-272	WGS	2910194.0	Good	0.0	80	97.4	98.7		
+248	1352.12119	Enterococcus faecium strain VET-265	WGS	2876620.0	Good	0.0	179	97.2	98.8		
+249	1352.12121	Enterococcus faecium strain VET-263	WGS	2775928.0	Good	0.0	215	97.3	98.8		
+250	1352.12277	Enterococcus faecium strain VRE34345	WGS	2882189.0	Good	0.0	223	97.2	98.8		
+251	1352.12254	Enterococcus faecium strain VRE33564	WGS	2935831.0	Good	0.0	224	97.1	98.6		
+252	1352.12259	Enterococcus faecium strain VRE35126	WGS	2882623.0	Good	0.0	183	97.0	98.7		
+253	1352.12261	Enterococcus faecium strain VRE35155	WGS	2866189.0	Good	0.0	195	97.0	98.7		
+254	1352.12278	Enterococcus faecium strain VRE34475	WGS	2865115.0	Good	0.0	207	97.2	98.8		
+255	1352.12308	Enterococcus faecium strain VRE33669	WGS	2912578.0	Good	0.0	173	97.0	98.7		
+256	1352.12301	Enterococcus faecium strain VRE33773	WGS	2915757.0	Good	0.0	206	97.0	98.8		
+257	1352.12246	Enterococcus faecium strain 1001287H_170206_E11	WGS	2711124.0	Good	0.0	24	97.9	98.9		
+258	1104325.3	Enterococcus faecium NRRL B-2354	Complete	2849891.0	Good	1.0	2	97.0	98.4	100.0	0.0
+259	1134814.3	Enterococcus faecium C1904	WGS	2860164.0	Good	0.0	247	97.2	98.9	100.0	0.0
+260	1134815.3	Enterococcus faecium C497	WGS	2732008.0	Good	0.0	215	97.2	98.7	100.0	0.0
+261	1134819.3	Enterococcus faecium ERV1	WGS	2867032.0	Good	0.0	210	97.3	98.8	100.0	0.9
+262	1134826.3	Enterococcus faecium ERV69	WGS	2981597.0	Good	0.0	213	97.2	98.7	100.0	0.9
+263	1134840.3	Enterococcus faecium S447	WGS	2983728.0	Good	0.0	304	97.0	98.6	100.0	0.0
+264	1138881.3	Enterococcus faecium E0120	WGS	2855496.0	Good	0.0	42	97.0	98.5	100.0	1.8
+265	1138891.3	Enterococcus faecium E1185	WGS	2774942.0	Good	0.0	48	97.4	98.6	100.0	1.8
+266	1138893.3	Enterococcus faecium E1293	WGS	2836532.0	Good	0.0	46	97.4	98.7	100.0	0.0
+267	1138896.3	Enterococcus faecium E1573	WGS	2811059.0	Good	0.0	41	97.0	98.3	100.0	0.0
+268	1138897.3	Enterococcus faecium E1574	WGS	2777687.0	Good	0.0	46	97.2	98.7	100.0	1.8
+269	1138902.3	Enterococcus faecium E1604	WGS	2834422.0	Good	0.0	35	97.3	98.4	100.0	0.0
+270	1138903.3	Enterococcus faecium E1613	WGS	2874670.0	Good	0.0	47	97.1	98.4	100.0	0.0
+271	1138907.3	Enterococcus faecium E1626	WGS	2876634.0	Good	0.0	71	97.0	98.4	99.1	0.0
+272	1138919.3	Enterococcus faecium E2134	WGS	2708822.0	Good	0.0	89	97.3	98.5	100.0	0.9
+273	1138922.3	Enterococcus faecium E2883	WGS	2713962.0	Good	0.0	33	97.5	98.7	100.0	0.0
+274	1138923.3	Enterococcus faecium E2966	WGS	2768007.0	Good	0.0	53	97.3	98.6	100.0	0.0
+275	1157444.3	Enterococcus faecium H17243	WGS	2761950.0	Good	0.0	28	97.0	98.4	100.0	0.9
+276	1157448.3	Enterococcus faecium HM1074	WGS	2789730.0	Good	0.0	64	97.5	98.7	100.0	0.0
+277	1157467.3	Enterococcus faecium VAN 222	WGS	2746042.0	Good	0.0	31	97.4	98.6	100.0	0.0
+278	1157468.3	Enterococcus faecium VAN 332	WGS	2826804.0	Good	0.0	26	97.0	98.3	100.0	0.0
+279	1157470.3	Enterococcus faecium VAN 342	WGS	2830006.0	Good	0.0	54	97.1	98.4	100.0	0.0
+280	1158636.3	Enterococcus faecium UAA407	WGS	2897788.0	Good	0.0	48	97.3	98.7	100.0	0.0
+281	1158644.3	Enterococcus faecium UAA949	WGS	2831804.0	Good	0.0	55	97.0	98.4	100.0	0.0
+282	1169279.3	Enterococcus faecium VAN 327	WGS	2787623.0	Good	0.0	34	97.2	98.5	100.0	0.9
+283	1245478.3	Enterococcus faecium LCT-EF258	WGS	2717416.0	Good	0.0	114	97.1	98.4	100.0	0.0
+284	1352.1047	Enterococcus faecium strain 17OM39	WGS	2840201.0	Good		106	97.1	98.6	100.0	0.0
+285	1352.1059	Enterococcus faecium strain Isolate 12	WGS	2972836.0	Good		189	97.2	98.8	100.0	0.0
+286	1352.1418	Enterococcus faecium strain Hp_21-21	WGS	2827151.0	Good		221	97.0	98.4	99.1	0.0
+287	1352.1614	Enterococcus faecium strain E4	WGS	2944186.0	Good		191	97.1	98.7	100.0	0.0
+288	1352.1619	Enterococcus faecium strain VRE2	WGS	2862609.0	Good		152	97.2	98.8	100.0	0.9
+289	1352.1620	Enterococcus faecium strain VREr5	WGS	2898367.0	Good		174	97.2	98.8	100.0	1.8
+290	1352.1640	Enterococcus faecium strain D	WGS	2772228.0	Good		81	97.1	98.4	100.0	1.8
+291	1352.2707	Enterococcus faecium strain 18434	WGS	2948537.0	Good		185	97.3	98.8	100.0	0.0
+292	1352.2711	Enterococcus faecium strain 56	WGS	2928570.0	Good		301	97.0	98.3	100.0	0.9
+293	1352.2727	Enterococcus faecium strain 6_Efcm_HA-NL	WGS	2971354.0	Good		189	97.1	98.6	100.0	1.8
+294	1352.3417	Enterococcus faecium strain SAU27	WGS	2913087.0	Good		234	97.2	99.0	100.0	0.9
+295	1352.3524	Enterococcus faecium strain 15-307-1	WGS	2895511.0	Good	7.0	11	97.2	98.7	100.0	0.0
+296	1352.384	Enterococcus faecium 70-36-8	WGS	2716714.0	Good		69	97.3	98.5	100.0	0.0
+297	1352.4049	Enterococcus faecium strain KRESVRE0005	WGS	2849694.0	Good		189	97.1	98.8	100.0	0.0
+298	1352.4258	Enterococcus faecium strain E4413	Complete	2751761.0	Good	5.0	6	97.3	99.0		
+299	1352.4259	Enterococcus faecium strain E4402	Complete	2907269.0	Good	4.0	5	97.0	99.0		
+300	1352.4261	Enterococcus faecium strain E4438	Complete	2970399.0	Good	5.0	6	97.2	99.0		
+301	1352.4289	Enterococcus faecium strain E8927	Complete	2837008.0	Good	6.0	7	97.6	99.0		
+302	1352.493	Enterococcus faecium strain M3K31	WGS	2722520.0	Good		70	97.0	98.5	100.0	0.0
+303	1352.530	Enterococcus faecium strain 969_EFCM	WGS	2977159.0	Good		280	97.0	98.4	100.0	0.0
+304	1352.770	Enterococcus faecium strain UW8175	Complete	2878192.0	Good	3.0	4	97.3	98.7	100.0	0.0
+305	1352.2693	Enterococcus faecium strain 7527	WGS	2775928.0	Good		220	97.4	98.5	100.0	0.0
+306	1352.2697	Enterococcus faecium strain 5209	WGS	2960238.0	Good		82	97.2	98.4	100.0	0.0
+307	1352.3526	Enterococcus faecium strain FDAARGOS_323	Complete	2710422.0	Good	1.0	2	97.6	98.7	100.0	0.0
+308	565658.4	Enterococcus faecium 1,231,501	WGS	2871230.0	Good	0.0	25	97.3	98.5	99.1	0.0
+309	565663.4	Enterococcus faecium Com15	WGS	2801855.0	Good	0.0	20	97.0	98.4	98.2	0.0
+310	749521.3	Enterococcus faecium TX0133A	WGS	2930324.0	Good	0.0	201	97.0	98.7	100.0	0.0
+311	1352.3974	Enterococcus faecium strain 284EA1	WGS	2839346.0	Good		16	97.6	99.0	100.0	0.0
+312	1352.3970	Enterococcus faecium strain 268EA1	WGS	2869389.0	Good		14	97.3	98.9	100.0	0.0
+313	1352.3955	Enterococcus faecium strain 114EA1	WGS	2865619.0	Good		8	97.5	98.9	100.0	0.9
+314	1352.3957	Enterococcus faecium strain 147EA1	WGS	2984434.0	Good		13	97.6	99.0	100.0	0.0
+315	1352.3963	Enterococcus faecium strain 176EA1	WGS	2707592.0	Good		13	97.2	98.9	100.0	0.9
+316	1352.3975	Enterococcus faecium strain 283EA1	WGS	2826435.0	Good		12	97.6	99.1	100.0	0.9
+317	1352.3979	Enterococcus faecium strain 306EA1	WGS	2761782.0	Good		17	97.6	99.0	100.0	1.8
+318	1352.3984	Enterococcus faecium strain 55EA1	WGS	2852137.0	Good		8	97.5	99.2	100.0	0.5
+319	1352.3992	Enterococcus faecium strain 7EA1	WGS	2830160.0	Good		5	97.3	98.8	100.0	0.9
+320	1352.3997	Enterococcus faecium strain 92EA1	WGS	2864143.0	Good		7	97.4	99.0	100.0	0.9
+321	1157480.3	Enterococcus faecium HF50104	WGS	2792167.0	Good	0.0	39	97.3	98.6	100.0	0.9
+322	1157485.3	Enterococcus faecium HF50215	WGS	2801179.0	Good	0.0	44	97.3	98.6	100.0	0.9
+323	1352.3421	Enterococcus faecium strain CVM N60260F	WGS	2740647.0	Good		124	97.3	99.0	100.0	0.9
+324	1352.3434	Enterococcus faecium strain CVM N60061F	WGS	2754807.0	Good		185	97.2	98.4	100.0	0.0
+325	1352.3435	Enterococcus faecium strain CVM N60045F	WGS	2800313.0	Good		125	97.1	98.4	100.0	0.0
+326	1352.3446	Enterococcus faecium strain CVM N59947F	WGS	2798811.0	Good		91	97.5	98.6	99.1	0.0
+327	1352.3453	Enterococcus faecium strain CVM N59891F	WGS	2817770.0	Good		130	97.2	98.5	100.0	0.0
+328	1352.3459	Enterococcus faecium strain CVM N59559F	WGS	2726298.0	Good		107	97.3	98.5	100.0	0.9
+329	1352.3465	Enterococcus faecium strain CVM N59469F	WGS	2736850.0	Good		174	97.4	98.9	100.0	0.0
+330	1352.3470	Enterococcus faecium strain CVM N59513F	WGS	2871811.0	Good		145	97.3	98.5	99.1	0.9
+331	1352.3471	Enterococcus faecium strain CVM N52690	WGS	2744045.0	Good		175	97.3	98.4	100.0	0.0
+332	1352.3474	Enterococcus faecium strain CVM N52649	WGS	2855583.0	Good		234	97.2	98.4	100.0	0.9
+333	1352.3482	Enterococcus faecium strain CVM N55290	WGS	2948228.0	Good		267	97.1	98.7	100.0	1.4
+334	1352.3499	Enterococcus faecium strain CVM N53804	WGS	2802094.0	Good		199	97.3	99.0	100.0	0.9
+335	1352.3519	Enterococcus faecium strain CVM N53533	WGS	2739855.0	Good		101	97.3	98.6	100.0	0.0
+336	1352.1731	Enterococcus faecium strain 11B6_DIV0698	WGS	2780847.0	Good		3	97.3	98.6	100.0	0.0
+337	1352.1737	Enterococcus faecium strain 1A3_DIV0608	WGS	2771681.0	Good		8	97.3	98.5	100.0	0.0
+338	1352.1750	Enterococcus faecium strain 10G4_DIV0391	WGS	2834619.0	Good		9	97.0	98.5	100.0	1.8
+339	1352.1759	Enterococcus faecium strain 9B2_DIV04862	WGS	2834699.0	Good		53	97.4	98.6	100.0	0.0
+340	1352.4104	Enterococcus faecium strain P5 C A 35	WGS	2786086.0	Good		49	97.3	98.7		
+341	1352.4125	Enterococcus faecium strain LIT17 A36	WGS	2758344.0	Good		21	97.5	98.7		
+342	1352.4134	Enterococcus faecium strain P3 C A35	WGS	2900716.0	Good		37	97.3	99.0		
+343	1352.4148	Enterococcus faecium strain P10 C A14	WGS	2706812.0	Good		38	97.4	99.0		
+344	1352.4193	Enterococcus faecium strain 8S3	WGS	2808281.0	Good		91	97.3	99.0		
+345	1352.1775	Enterococcus faecium strain VREN2833	WGS	2970016.0	Good		152	97.5	98.7	100.0	0.0
+346	1352.1787	Enterococcus faecium strain VREN2832	WGS	2974770.0	Good		148	97.5	98.7	100.0	0.0
+347	1352.1807	Enterococcus faecium strain VREN3652	WGS	2937070.0	Good		152	97.0	98.7	100.0	0.0
+348	1352.1827	Enterococcus faecium strain VREN3639	WGS	2935432.0	Good		145	97.0	98.7	100.0	0.0
+349	1352.1834	Enterococcus faecium strain VREN3644	WGS	2935368.0	Good		146	97.0	98.7	100.0	0.0
+350	1352.1842	Enterococcus faecium strain VREN3642	WGS	2934477.0	Good		148	97.0	98.7	100.0	0.0
+351	1352.1854	Enterococcus faecium strain VREN3347	WGS	2960902.0	Good		131	97.1	98.8	100.0	0.9
+352	1352.1904	Enterococcus faecium strain VREN3649	WGS	2942527.0	Good		144	97.0	98.7	100.0	0.0
+353	1352.1913	Enterococcus faecium strain VREN3656	WGS	2935491.0	Good		148	97.0	98.7	100.0	0.0
+354	1352.1915	Enterococcus faecium strain VREN3682	WGS	2940874.0	Good		154	97.0	98.7	100.0	0.0
+355	1352.1929	Enterococcus faecium strain VREN3683	WGS	2936864.0	Good		143	97.0	98.7	100.0	0.0
+356	1352.1932	Enterococcus faecium strain VREN3653	WGS	2942006.0	Good		145	97.0	98.7	100.0	0.0
+357	1352.1933	Enterococcus faecium strain VREN3641	WGS	2943704.0	Good		161	97.0	98.7	100.0	0.0
+358	1352.1936	Enterococcus faecium strain VREN3638	WGS	2843312.0	Good		153	97.0	98.7	100.0	0.0
+359	1352.11855	Enterococcus faecium strain EC0181	WGS	2948903.0	Good	0.0	236	97.0	98.9		
+360	1352.12017	Enterococcus faecium strain EC0041	WGS	2958127.0	Good	0.0	185	97.3	98.8		
+361	1352.12022	Enterococcus faecium strain EC0518	WGS	2871732.0	Good	0.0	175	97.0	98.7		
+362	1352.12101	Enterococcus faecium strain VRE 6	WGS	2904148.0	Good	0.0	244	97.0	98.7		
+363	1352.12061	Enterococcus faecium strain VRE 41	WGS	2912941.0	Good	0.0	212	97.0	98.8		
+364	1352.4229	Enterococcus faecium strain EF_048	WGS	2904390.0	Good		168	97.3	99.1		
+365	1352.4236	Enterococcus faecium strain EF_176	WGS	2826124.0	Good		183	97.1	99.0		
+366	1352.4218	Enterococcus faecium strain EF_238	WGS	2910264.0	Good		186	97.4	99.1		
+367	1352.4225	Enterococcus faecium strain EF_231	WGS	2923510.0	Good		191	97.4	99.1		
+368	1352.4204	Enterococcus faecium strain EF_380	WGS	2894500.0	Good		176	97.0	98.9		
+369	1352.4237	Enterococcus faecium strain EF_169	WGS	2837629.0	Good		183	97.1	99.0		
+370	1352.7845	Enterococcus faecium strain EF_543	WGS	2846148.0	Good		167	97.3	99.0		
+371	1352.7879	Enterococcus faecium strain EF_544	WGS	2959870.0	Good		183	97.1	99.0		
+372	1352.11262	Enterococcus faecium strain BSAC_ec1034	WGS	2851493.0	Good	0.0	176	97.1	98.7		
+373	1352.11266	Enterococcus faecium strain BSAC_ec1075	WGS	2958199.0	Good	0.0	180	97.2	98.8		
+374	1352.11327	Enterococcus faecium strain BSAC_ec1281	WGS	2814952.0	Good	0.0	180	97.1	98.7		
+375	1352.11331	Enterococcus faecium strain BSAC_ec1301	WGS	2844018.0	Good	0.0	180	97.2	98.6		
+376	1352.11324	Enterococcus faecium strain BSAC_ec1322	WGS	2881059.0	Good	0.0	212	97.3	98.8		
+377	1352.11336	Enterococcus faecium strain BSAC_ec1340	WGS	2791362.0	Good	0.0	211	97.0	98.7		
+378	1352.11337	Enterococcus faecium strain BSAC_ec1353	WGS	2902954.0	Good	0.0	182	97.1	98.7		
+379	1352.11351	Enterococcus faecium strain BSAC_ec1357	WGS	2902058.0	Good	0.0	179	97.1	98.7		
+380	1352.11347	Enterococcus faecium strain BSAC_ec1358	WGS	2925929.0	Good	0.0	240	97.1	98.7		
+381	1352.11385	Enterococcus faecium strain BSAC_ec1514	WGS	2825188.0	Good	0.0	224	97.0	98.7		
+382	1352.11396	Enterococcus faecium strain BSAC_ec1609	WGS	2891436.0	Good	0.0	189	97.1	98.7		
+383	1352.11387	Enterococcus faecium strain BSAC_ec1628	WGS	2779854.0	Good	0.0	174	97.1	98.5		
+384	1352.11411	Enterococcus faecium strain BSAC_ec1725	WGS	2868575.0	Good	0.0	213	97.2	98.6		
+385	1352.11450	Enterococcus faecium strain BSAC_ec2036	WGS	2886675.0	Good	0.0	186	97.1	98.8		
+386	1352.11463	Enterococcus faecium strain BSAC_ec2037	WGS	2876685.0	Good	0.0	199	97.2	98.8		
+387	1352.11459	Enterococcus faecium strain BSAC_ec2050	WGS	2898428.0	Good	0.0	195	97.1	98.8		
+388	1352.11495	Enterococcus faecium strain BSAC_ec2268	WGS	2990002.0	Good	0.0	218	97.0	98.9		
+389	1352.11517	Enterococcus faecium strain BSAC_ec2338	WGS	2880128.0	Good	0.0	198	97.1	98.8		
+390	1352.11527	Enterococcus faecium strain BSAC_ec2409	WGS	2940803.0	Good	0.0	251	97.1	98.7		
+391	1352.11525	Enterococcus faecium strain BSAC_ec242	WGS	2942522.0	Good	0.0	195	97.0	98.7		
+392	1352.11535	Enterococcus faecium strain BSAC_ec246	WGS	2903278.0	Good	0.0	209	97.0	98.7		
+393	1352.11548	Enterococcus faecium strain BSAC_ec2503	WGS	2932171.0	Good	0.0	197	97.1	98.8		
+394	1352.11545	Enterococcus faecium strain BSAC_ec2515	WGS	2977321.0	Good	0.0	296	97.0	98.8		
+395	1352.11551	Enterococcus faecium strain BSAC_ec2516	WGS	2849076.0	Good	0.0	180	97.1	98.9		
+396	1352.11560	Enterococcus faecium strain BSAC_ec2529	WGS	2924794.0	Good	0.0	218	97.0	98.8		
+397	1352.11582	Enterococcus faecium strain BSAC_ec263	WGS	2915772.0	Good	0.0	235	97.0	98.4		
+398	1352.11575	Enterococcus faecium strain BSAC_ec2641	WGS	2890863.0	Good	0.0	180	97.2	98.7		
+399	1352.11589	Enterococcus faecium strain BSAC_ec2742	WGS	2755216.0	Good	0.0	174	97.2	98.8		
+400	1352.11606	Enterococcus faecium strain BSAC_ec2750	WGS	2873486.0	Good	0.0	168	97.1	98.8		
+401	1352.11627	Enterococcus faecium strain BSAC_ec361	WGS	2903956.0	Good	0.0	174	97.0	98.9		
+402	1352.11618	Enterococcus faecium strain BSAC_ec383a	WGS	2888834.0	Good	0.0	165	97.2	98.7		
+403	1352.11622	Enterococcus faecium strain BSAC_ec384	WGS	2858597.0	Good	0.0	243	97.1	98.7		
+404	1352.11669	Enterococcus faecium strain BSAC_ec680	WGS	2921456.0	Good	0.0	245	97.1	98.8		
+405	1352.11670	Enterococcus faecium strain BSAC_ec698	WGS	2981961.0	Good	0.0	220	97.1	98.8		
+406	1352.11673	Enterococcus faecium strain BSAC_ec754	WGS	2781660.0	Good	0.0	159	97.1	98.8		
+407	1352.11688	Enterococcus faecium strain BSAC_ec827	WGS	2909253.0	Good	0.0	263	97.1	98.5		
+408	1352.11730	Enterococcus faecium strain EC0041	WGS	2958127.0	Good	0.0	185	97.3	98.8		
+409	1352.11728	Enterococcus faecium strain EC0045	WGS	2897748.0	Good	0.0	240	97.0	98.7		
+410	1352.11787	Enterococcus faecium strain EC0113	WGS	2905042.0	Good	0.0	231	97.0	98.7		
+411	1352.11809	Enterococcus faecium strain EC0139	WGS	2931935.0	Good	0.0	197	97.0	98.7		
+412	1352.11832	Enterococcus faecium strain EC0158	WGS	2979742.0	Good	0.0	248	97.0	98.7		
+413	1352.11829	Enterococcus faecium strain EC0165	WGS	2970658.0	Good	0.0	197	97.3	98.8		
+414	1352.11871	Enterococcus faecium strain EC0223	WGS	2976023.0	Good	0.0	171	97.1	98.9		
+415	1352.11889	Enterococcus faecium strain EC0239	WGS	2839854.0	Good	0.0	186	97.0	98.7		
+416	1352.11910	Enterococcus faecium strain EC0325	WGS	2875488.0	Good	0.0	148	97.1	98.9		
+417	1352.11912	Enterococcus faecium strain EC0330	WGS	2918255.0	Good	0.0	162	97.1	98.8		
+418	1352.11907	Enterococcus faecium strain EC0335	WGS	2806529.0	Good	0.0	191	97.1	98.7		
+419	1352.11906	Enterococcus faecium strain EC0336	WGS	2764757.0	Good	0.0	172	97.3	98.7		
+420	1352.11918	Enterococcus faecium strain EC0351	WGS	2800125.0	Good	0.0	188	97.1	98.7		
+421	1352.11944	Enterococcus faecium strain EC0380	WGS	2966403.0	Good	0.0	277	97.1	98.9		
+422	1352.11969	Enterococcus faecium strain EC0415	WGS	2896234.0	Good	0.0	173	97.1	98.8		
+423	1352.11960	Enterococcus faecium strain EC0422	WGS	2949771.0	Good	0.0	151	97.1	98.9		
+424	1352.11975	Enterococcus faecium strain EC0434	WGS	2954549.0	Good	0.0	193	97.1	98.8		
+425	1352.11991	Enterococcus faecium strain EC0436	WGS	2705991.0	Good	0.0	140	97.4	98.8		
+426	1352.11988	Enterococcus faecium strain EC0492	WGS	2893486.0	Good	0.0	219	97.1	98.8		
+427	1352.11996	Enterococcus faecium strain EC0506	WGS	2829289.0	Good	0.0	170	97.1	98.9		
+428	1352.12007	Enterococcus faecium strain EC0539	WGS	2841490.0	Good	0.0	195	97.0	98.7		
+429	1352.673	Enterococcus faecium strain MRSN33034	WGS	2946202.0	Good		287	97.0	98.6	100.0	0.0
+430	1352.8559	Enterococcus faecium strain CDC AR Bank #0579	WGS	2784546.0	Good		224	97.3	99.0		
+431	1352.2168	Enterococcus faecium strain IHC5	WGS	2941040.0	Good		279	97.0	98.7	100.0	0.0
+432	1352.4006	Enterococcus faecium strain IHC130	WGS	2875631.0	Good		276	97.0	99.0	99.1	1.8
+433	1352.12126	Enterococcus faecium strain VET-234	WGS	2852104.0	Good	0.0	69	97.4	98.7		
+434	1352.12134	Enterococcus faecium strain VET-233	WGS	2837365.0	Good	0.0	75	97.4	98.7		
+435	1352.12203	Enterococcus faecium strain BSD2780061687b_171204_D8	WGS	2730778.0	Good	0.0	63	97.3	98.8		
+436	1352.12169	Enterococcus faecium strain CL10189	WGS	2830478.0	Good	0.0	240	97.0	98.8		
+437	1352.12185	Enterococcus faecium strain CL9263b	WGS	2957060.0	Good	0.0	229	97.0	98.7		
+438	1352.12192	Enterococcus faecium strain 1001136B_160425_C7	WGS	2722386.0	Good	0.0	161	97.9	99.0		
+439	1352.12210	Enterococcus faecium strain 1001254J_160919_A11	WGS	2715603.0	Good	0.0	45	97.6	98.8		
+440	1352.10148	Enterococcus faecium strain 17651_2#14	WGS	2802972.0	Good	0.0	188	97.0	98.0		
+441	1352.10474	Enterococcus faecium strain 16404_2#88	WGS	2798817.0	Good	0.0	217	97.0	98.1		
+442	1352.1470	Enterococcus faecium strain Efm0165	WGS	2985560.0	Good		184	97.3	98.7	100.0	0.0
+443	1352.1482	Enterococcus faecium strain Efm0211	WGS	2821620.0	Good		128	97.3	98.8	100.0	0.9
+444	1352.1492	Enterococcus faecium strain Efm0215	WGS	2820413.0	Good		155	97.3	98.7	100.0	0.0
+445	1352.1499	Enterococcus faecium strain Efm0209	WGS	2922300.0	Good		169	97.0	98.7	100.0	0.0
+446	1352.1506	Enterococcus faecium strain Efm0216	WGS	2721321.0	Good		115	97.3	98.7	100.0	0.9
+447	1352.1521	Enterococcus faecium strain Efm0217	WGS	2830586.0	Good		138	97.3	98.6	100.0	0.0
+448	1352.1526	Enterococcus faecium strain Efm0157	WGS	2935460.0	Good		176	97.0	98.6	100.0	0.9
+449	1352.1537	Enterococcus faecium strain Efm0218	WGS	2834462.0	Good		150	97.3	98.6	100.0	0.0
+450	1352.1541	Enterococcus faecium strain Efm0158	WGS	2843652.0	Good		146	97.3	98.6	100.0	0.0
+451	1352.1542	Enterococcus faecium strain Efm0170	WGS	2797006.0	Good		144	97.1	98.6	100.0	0.0
+452	1352.1551	Enterococcus faecium strain Efm0183	WGS	2968695.0	Good		155	97.3	98.8	100.0	0.0
+453	1352.1575	Enterococcus faecium strain Efm0102	WGS	2938837.0	Good		153	97.1	98.7	100.0	0.0
+454	1352.4087	Enterococcus faecium strain E1298	WGS	2897065.0	Good		111	97.3	99.0		
+455	1352.4030	Enterococcus faecium strain KMB_624	WGS	2891813.0	Good		116	97.8	99.0	100.0	0.0
+456	1352.1720	Enterococcus faecium strain F1129F 09	WGS	2783595.0	Good		111	97.3	98.4	100.0	0.0
+457	1352.1722	Enterococcus faecium strain F1213D 01	WGS	2772515.0	Good		28	97.0	98.3	100.0	0.0
+458	1352.7807	Enterococcus faecium strain SRCM103470	Complete	2939796.0	Good	2.0	3	97.3	99.0		
+459	1352.7808	Enterococcus faecium strain EN883	WGS	2772155.0	Good		230	97.5	99.0		
+460	1352.7810	Enterococcus faecium strain EN697	WGS	2843548.0	Good		232	97.5	99.0		
+461	1352.7818	Enterococcus faecium strain EN633	WGS	2748572.0	Good		190	97.4	98.8		
+462	1352.7812	Enterococcus faecium strain EN886	WGS	2782967.0	Good		180	97.3	98.9		
+463	1352.8265	Enterococcus faecium strain DMEA02	Complete	2742551.0	Good	1.0	2	97.5	99.0		
+464	1352.8187	Enterococcus faecium strain SN504 strain not applicable	WGS	2758892.0	Good		150	97.1	99.0		
+465	1352.8297	Enterococcus faecium strain NCTC12204	WGS	2914442.0	Good		3	97.9	99.0		
+466	1352.7801	Enterococcus faecium strain L20-B	WGS	2781374.0	Good		98	97.3	98.7		
+467	1352.8069	Enterococcus faecium strain Fm4	WGS	2833596.0	Good		142	97.1	98.9		
+468	1352.7966	Enterococcus faecium strain ARL08-105	WGS	2907105.0	Good		180	97.0	98.7		
+469	1352.7988	Enterococcus faecium strain ARL08-428	WGS	2919182.0	Good		190	97.1	98.9		
+470	1352.7937	Enterococcus faecium strain UAMSEF_02	WGS	2910878.0	Good		193	97.1	99.0		
+471	1352.7959	Enterococcus faecium strain ARL08-39	WGS	2906283.0	Good		179	97.0	98.9		
+472	1352.7806	Enterococcus faecium strain EM2369	WGS	2787885.0	Good		171	97.2	99.0		
+473	1352.7805	Enterococcus faecium strain EM429	WGS	2882620.0	Good		152	97.1	98.7		
+474	1352.7912	Enterococcus faecium strain UAMSEF_22	WGS	2749498.0	Good		159	97.2	99.0		
+475	1352.7922	Enterococcus faecium strain UAMSEF_46	WGS	2739355.0	Good		175	97.3	99.0		
+476	1352.7899	Enterococcus faecium strain UAMSEF_39	WGS	2943498.0	Good		217	97.1	99.0		
+477	1352.7895	Enterococcus faecium strain UAMSEF_45	WGS	2845170.0	Good		185	97.0	98.9		
+478	1352.7939	Enterococcus faecium strain UAMSEF_06	WGS	2915048.0	Good		199	97.1	99.0		
+479	1352.7926	Enterococcus faecium strain UAMSEF_41	WGS	2855455.0	Good		204	97.3	99.0		
+480	1352.4398	Enterococcus faecium strain 270	WGS	2831009.0	Good		89	97.1	98.7		
+481	1352.8175	Enterococcus faecium strain F17E0263	Complete	2930394.0	Good	2.0	3	97.3	98.9		
+482	1352.8348	Enterococcus faecium strain 4928STDY7387821	WGS	2888862.0	Good		46	97.3	98.9		
+483	1352.8203	Enterococcus faecium strain Efm11s strain not applicable	WGS	2838815.0	Good		120	97.3	98.7		
+484	1352.8341	Enterococcus faecium strain 4928STDY7071758	WGS	2721046.0	Good		75	97.7	99.0		
+485	1352.8340	Enterococcus faecium strain 4928STDY7071689	WGS	2757419.0	Good		83	97.5	99.1		
+486	1352.8589	Enterococcus faecium strain VRECG25	WGS	2889842.0	Good		7	97.6	99.1		
+487	1352.8328	Enterococcus faecium strain 4928STDY7071568	WGS	2903851.0	Good		44	97.9	99.0		
+488	1352.8331	Enterococcus faecium strain 4928STDY7071588	WGS	2889846.0	Good		47	97.3	98.9		
+489	1352.8329	Enterococcus faecium strain 4928STDY7071569	WGS	2904245.0	Good		43	97.9	99.0		
+490	1352.8330	Enterococcus faecium strain 4928STDY7071585	WGS	2905639.0	Good		44	97.9	99.0		
+491	1352.8325	Enterococcus faecium strain 4928STDY7071509	WGS	2903395.0	Good		45	97.9	99.0		
+492	1352.8333	Enterococcus faecium strain 4928STDY7071620	WGS	2762958.0	Good		103	97.9	99.2		
+493	1352.8342	Enterococcus faecium strain 4928STDY7387679	WGS	2921845.0	Good		54	97.9	99.0		
+494	1352.8312	Enterococcus faecium strain 4928STDY7071305	WGS	2758275.0	Good		48	97.3	99.1		
+495	1352.8306	Enterococcus faecium strain 4928STDY7071538	WGS	2856701.0	Good		67	97.0	99.0		
+496	1352.8308	Enterococcus faecium strain 4928STDY7071571	WGS	2823994.0	Good		51	97.2	98.9		
+497	565665.3	Enterococcus faecium D344SRF	WGS	2745337.0	Good	0.0	215	97.0	98.7	98.2	1.8
+498	1352.12165	Enterococcus faecium strain TK-P5D	Complete	2802870.0	Good	1.0	2	97.6	98.8		
+499	1352.12250	Enterococcus faecium strain 1001713B170214_170313_A5	WGS	2816517.0	Good	0.0	102	97.2	98.9		
+500	1352.12286	Enterococcus faecium strain VRE34257	WGS	2939189.0	Good	0.0	266	97.0	98.7		
+501	1352.12283	Enterococcus faecium strain VRE34302	WGS	2787599.0	Good	0.0	197	97.5	98.9		
+502	1352.12262	Enterococcus faecium strain VRE35014	WGS	2854528.0	Good	0.0	165	97.1	98.7		
+503	1352.12289	Enterococcus faecium strain VRE34208	WGS	2876666.0	Good	0.0	161	97.0	98.6		
+504	1352.12293	Enterococcus faecium strain VRE33954	WGS	2908280.0	Good	0.0	180	97.0	98.7		
+505	1352.12302	Enterococcus faecium strain VRE33776	WGS	2930992.0	Good	0.0	166	97.0	98.7		
+506	1352.12303	Enterococcus faecium strain VRE33715	WGS	2872980.0	Good	0.0	151	97.2	98.9		
+507	1352.12310	Enterococcus faecium strain VRE33668	WGS	2842646.0	Good	0.0	197	97.1	98.8		
+508	1352.12314	Enterococcus faecium strain VRE33662	WGS	2906420.0	Good	0.0	185	97.3	98.8		
+509	1352.486	Enterococcus faecium strain KACC15962	WGS	2719581.0	Good		102	97.0	98.3	98.2	1.8
+510	1352.487	Enterococcus faecium strain KACC16076	WGS	2719289.0	Good		73	97.1	98.3	100.0	0.0
+511	1400822.3	Enterococcus faecium UC8668	WGS	2905062.0	Good	0.0	105	97.0	98.5	100.0	0.0
+512	1352.484	Enterococcus faecium strain KACC15700	WGS	2852054.0	Good		123	97.0	98.4	100.0	0.0
+513	1352.492	Enterococcus faecium strain KACC15711	WGS	2781429.0	Good		147	97.0	98.3	99.1	0.0
+514	1158641.3	Enterococcus faecium EnGen0305	WGS	2765394.0	Good	0.0	54	97.4	98.7	100.0	0.0
+515	1157462.3	Enterococcus faecium UAA724	WGS	2951791.0	Good	0.0	88	97.3	98.5	100.0	0.0
+516	1134818.3	Enterococcus faecium E422	WGS	2903773.0	Good	0.0	301	97.3	98.7	100.0	0.9
+517	1134820.3	Enterococcus faecium ERV102	WGS	2910117.0	Good	0.0	263	97.2	98.7	100.0	0.0
+518	1134822.3	Enterococcus faecium ERV165	WGS	2905053.0	Good	0.0	246	97.3	98.7	100.0	0.9
+519	1134834.3	Enterococcus faecium R446	WGS	2982468.0	Good	0.0	323	97.2	98.7	100.0	0.0
+520	1138888.3	Enterococcus faecium E1007	WGS	2754524.0	Good	0.0	22	97.0	98.4	100.0	0.0
+521	1138889.3	Enterococcus faecium E1050	WGS	2800540.0	Good	0.0	24	97.0	98.2	100.0	0.0
+522	1138892.3	Enterococcus faecium E1258	WGS	2793037.0	Good	0.0	20	97.0	98.4	100.0	0.0
+523	1138913.3	Enterococcus faecium E1731	WGS	2963844.0	Good	0.0	58	97.0	98.5	100.0	0.0
+524	1138924.3	Enterococcus faecium E3083	WGS	2712262.0	Good	0.0	11	97.3	98.4	99.1	0.9
+525	1138930.3	Enterococcus faecium E1321	WGS	2766366.0	Good	0.0	52	97.3	98.7	100.0	0.0
+526	1138936.3	Enterococcus faecium E6045	WGS	2982276.0	Good	0.0	79	97.2	98.4	100.0	0.0
+527	1157447.3	Enterococcus faecium HM1071	WGS	2971838.0	Good	0.0	95	97.2	98.5	100.0	0.0
+528	1157454.3	Enterococcus faecium UAA715	WGS	2798809.0	Good	0.0	58	97.1	98.4	100.0	0.0
+529	1157456.3	Enterococcus faecium UAA718	WGS	2840442.0	Good	0.0	48	97.2	98.4	100.0	0.0
+530	1157457.3	Enterococcus faecium UAA719	WGS	2784501.0	Good	0.0	55	97.2	98.4	100.0	0.0
+531	1157466.3	Enterococcus faecium VAN 219	WGS	2729242.0	Good	0.0	32	97.3	98.4	100.0	0.0
+532	1157471.3	Enterococcus faecium VAN 345	WGS	2780589.0	Good	0.0	31	97.0	98.3	100.0	0.0
+533	1157477.3	Enterococcus faecium UAA910	WGS	2743807.0	Good	0.0	48	97.4	98.4	100.0	0.9
+534	1158541.3	Enterococcus faecium UAA947	WGS	2981823.0	Good	0.0	75	97.2	98.6	100.0	0.0
+535	1158549.3	Enterococcus faecium UAA1023	WGS	2941875.0	Good	0.0	62	97.4	98.7	100.0	0.0
+536	1158550.3	Enterococcus faecium UAA1024	WGS	2977622.0	Good	0.0	68	97.4	98.6	100.0	0.0
+537	1158639.3	Enterococcus faecium UAA431	WGS	2766299.0	Good	0.0	47	97.3	98.5	100.0	0.0
+538	1167697.3	Enterococcus faecium LCT-EF90	WGS	2715222.0	Good	0.0	118	97.0	98.3	100.0	0.0
+539	1244155.4	Enterococcus faecium SD3B-2	WGS	2735945.0	Good	0.0	104	97.1	98.4	100.0	0.0
+540	1245477.3	Enterococcus faecium LCT-EF20	WGS	2718930.0	Good	0.0	111	97.0	98.3	100.0	0.0
+541	1344042.3	Enterococcus faecium T110	Complete	2737963.0	Good	1.0	2	97.0	98.3	99.1	0.0
+542	1352.1118	Enterococcus faecium strain UCN73	WGS	2804346.0	Good		41	97.4	98.6	99.1	1.8
+543	1352.1615	Enterococcus faecium strain E6	WGS	2970733.0	Good		236	97.2	98.8	100.0	0.0
+544	1352.1623	Enterococcus faecium strain 97-19_S17	WGS	2718740.0	Good		140	97.3	98.7	100.0	0.0
+545	1352.2586	Enterococcus faecium strain UW1551	WGS	2974194.0	Good		3	97.1	98.7	100.0	0.9
+546	1352.2700	Enterococcus faecium strain 7_Efcm_HA-NL	WGS	2884089.0	Good		142	97.1	98.7	100.0	0.0
+547	1352.2701	Enterococcus faecium strain 9_Efcm_HA-DE	WGS	2955402.0	Good		167	97.0	98.6	100.0	0.9
+548	1352.2703	Enterococcus faecium strain 4_Efcm_HA-NL	WGS	2941833.0	Good		178	97.2	98.7	100.0	0.0
+549	1352.2710	Enterococcus faecium strain 93	WGS	2945754.0	Good		244	97.0	98.4	100.0	0.0
+550	1352.2724	Enterococcus faecium strain 5_Efcm_HA-NL	WGS	2941296.0	Good		190	97.1	98.7	100.0	0.0
+551	1352.3416	Enterococcus faecium strain SAU16	WGS	2763632.0	Good		258	97.0	98.9	100.0	0.9
+552	1352.3419	Enterococcus faecium strain 10-131	WGS	2934706.0	Good	2.0	6	97.0	99.0	100.0	0.9
+553	1352.3525	Enterococcus faecium strain 13-165	WGS	2854695.0	Good	1.0	3	97.0	98.5	100.0	0.0
+554	1352.387	Enterococcus faecium ATCC 51559	WGS	2953574.0	Good		151	97.3	98.9	100.0	0.0
+555	1352.4070	Enterococcus faecium strain NCTC13169	WGS	2799596.0	Good		2	97.3	98.8	100.0	0.0
+556	1352.4250	Enterococcus faecium strain CBA7134	Complete	2837042.0	Good	2.0	3	97.6	99.2		
+557	1352.4290	Enterococcus faecium strain E8691	Complete	2828288.0	Good	7.0	8	97.2	99.0		
+558	1352.658	Enterococcus faecium strain WCF-TC1	Complete	2753355.0	Good	1.0	2	97.0	98.7	100.0	0.0
+559	1352.669	Enterococcus faecium strain GM75	WGS	2888181.0	Good		180	97.0	98.6	100.0	0.9
+560	1352.670	Enterococcus faecium strain IQ110	WGS	2800389.0	Good		44	97.3	98.5	100.0	0.0
+561	1352.685	Enterococcus faecium strain 87056200	WGS	2866232.0	Good		116	97.1	98.6	100.0	0.0
+562	1352.694	Enterococcus faecium strain D344RRF x C68	WGS	2978827.0	Good		203	97.5	98.7	100.0	0.0
+563	1352.749	Enterococcus faecium strain VRE-1408033	WGS	2845852.0	Good		174	97.0	98.7	100.0	0.0
+564	1352.750	Enterococcus faecium strain VRE-1408429	WGS	2761578.0	Good		143	97.0	98.5	100.0	0.0
+565	1352.756	Enterococcus faecium strain VRE-1502856	WGS	2926661.0	Good		174	97.0	98.7	100.0	0.0
+566	1352.762	Enterococcus faecium strain VRE-1502913	WGS	2811761.0	Good		150	97.2	98.7	100.0	0.0
+567	1352.2891	Enterococcus faecium strain J19	WGS	2777899.0	Good		95	97.2	98.5	100.0	1.8
+568	1352.2695	Enterococcus faecium strain 6605	WGS	2925634.0	Good		65	97.2	98.4	100.0	0.0
+569	1352.3967	Enterococcus faecium strain 205EA1	WGS	2837168.0	Good		9	97.3	98.8	100.0	0.9
+570	1352.3973	Enterococcus faecium strain 26EA1	WGS	2849093.0	Good		20	97.6	98.8	100.0	0.0
+571	1352.3959	Enterococcus faecium strain 160AEA1	WGS	2816216.0	Good		15	97.4	98.7	100.0	0.5
+572	1352.3964	Enterococcus faecium strain 197EA1	WGS	2835729.0	Good		6	97.8	99.1	100.0	0.9
+573	1352.3977	Enterococcus faecium strain 29EA1	WGS	2775435.0	Good		2	97.0	98.8	100.0	0.0
+574	1352.3983	Enterococcus faecium strain 46EA1	WGS	2786599.0	Good		7	97.3	98.7	100.0	0.0
+575	1352.3987	Enterococcus faecium strain 62EA1	WGS	2740793.0	Good		19	97.6	98.8	100.0	0.5
+576	1352.3994	Enterococcus faecium strain 79EA1	WGS	2823882.0	Good		9	97.4	98.7	100.0	0.0
+577	1352.3427	Enterococcus faecium strain CVM N60299F	WGS	2714347.0	Good		306	97.3	98.6	100.0	0.5
+578	1352.3441	Enterococcus faecium strain CVM N59613F	WGS	2708084.0	Good		81	97.7	99.1	100.0	0.9
+579	1352.3442	Enterococcus faecium strain CVM N59779F	WGS	2784372.0	Good		143	97.1	98.7	100.0	0.0
+580	1352.3447	Enterococcus faecium strain CVM N59907F	WGS	2781849.0	Good		232	97.2	98.4	100.0	0.9
+581	1352.3452	Enterococcus faecium strain CVM N60449F	WGS	2775718.0	Good		143	97.4	98.6	100.0	0.0
+582	1352.3472	Enterococcus faecium strain CVM N52702	WGS	2709117.0	Good		297	97.6	98.7	100.0	0.0
+583	1352.3509	Enterococcus faecium strain CVM N52732	WGS	2758705.0	Good		218	97.0	98.6	100.0	0.5
+584	1352.2169	Enterococcus faecium strain IHC8	WGS	2959310.0	Good		339	97.0	98.7	100.0	1.8
+585	1352.2173	Enterococcus faecium strain IHC10	WGS	2965830.0	Good		328	97.2	98.7	100.0	0.0
+586	1352.10167	Enterococcus faecium strain 17651_2#39	WGS	2781919.0	Good	0.0	158	97.0	98.0		
+587	535206.4	Enterococcus faecium E1162	WGS	2711396.0	Good	0.0	139	97.3	98.7	99.1	0.0
+588	544875.4	Enterococcus faecium E1636	WGS	2838335.0	Good	0.0	223	97.1	98.6	99.1	0.9
+589	749523.3	Enterococcus faecium TX0133a04	WGS	2922651.0	Good	0.0	190	97.3	98.7	100.0	0.0
+590	749524.3	Enterococcus faecium TX0133B	WGS	2927587.0	Good	0.0	199	97.0	98.7	100.0	0.0
+591	1352.1728	Enterococcus faecium strain 10B2_DIV0370	WGS	2766817.0	Good		6	97.4	98.7	100.0	0.0
+592	1352.1733	Enterococcus faecium strain 11F10_MSG5009	WGS	2737010.0	Good		8	97.2	98.4	100.0	0.0
+593	1352.1739	Enterococcus faecium strain 1C8_DIV0465	WGS	2760005.0	Good		6	97.2	98.4	100.0	0.0
+594	1352.1746	Enterococcus faecium strain 8E4_DIV03290	WGS	2838892.0	Good		7	97.3	98.4	100.0	0.0
+595	1352.1758	Enterococcus faecium strain 6H2_DIV0141	WGS	2873194.0	Good		8	97.3	98.6	100.0	0.0
+596	1352.2175	Enterococcus faecium strain 6E3_DIV0147	WGS	2833539.0	Good		5	97.0	98.3	100.0	0.0
+597	1352.4099	Enterococcus faecium strain P18 C A35	WGS	2771836.0	Good		20	97.6	98.9		
+598	1352.4121	Enterococcus faecium strain P7 C A14	WGS	2953581.0	Good		61	97.2	99.0		
+599	1352.4129	Enterococcus faecium strain P12 C A35	WGS	2821426.0	Good		49	97.7	99.1		
+600	1352.4142	Enterococcus faecium strain P5 C A 21	WGS	2810389.0	Good		29	97.5	98.9		
+601	1352.4144	Enterococcus faecium strain P16 C A14	WGS	2952373.0	Good		60	97.2	99.0		
+602	1352.1894	Enterococcus faecium strain VREN3648	WGS	2941466.0	Good		147	97.0	98.7	100.0	0.0
+603	1352.1907	Enterococcus faecium strain VREN3686	WGS	2935266.0	Good		144	97.0	98.7	100.0	0.0
+604	1352.1934	Enterococcus faecium strain VREN2849	WGS	2960610.0	Good		154	97.5	98.7	100.0	0.0
+605	1352.1938	Enterococcus faecium strain VREN3643	WGS	2938249.0	Good		146	97.0	98.7	100.0	0.0
+606	1352.8188	Enterococcus faecium strain SN446 strain not applicable	WGS	2842806.0	Good		170	97.0	99.0		
+607	1352.8575	Enterococcus faecium strain LAC7.2	Complete	2912936.0	Good	2.0	3	97.3	99.0		
+608	1352.7951	Enterococcus faecium strain UBEF-41	WGS	2717521.0	Good		77	97.7	99.0		
+609	1352.7948	Enterococcus faecium strain J7	WGS	2758882.0	Good		190	97.4	98.9		
+610	1352.7802	Enterococcus faecium strain SP15	WGS	2783033.0	Good		121	97.3	99.1		
+611	1352.7947	Enterococcus faecium strain J43	WGS	2784299.0	Good		140	97.3	98.7		
+612	1352.7943	Enterococcus faecium strain J34	WGS	2794692.0	Good		139	97.3	98.7		
+613	1352.7958	Enterococcus faecium strain ARL08-46	WGS	2911026.0	Good		184	97.0	98.7		
+614	1352.7933	Enterococcus faecium strain UAMSEF_07	WGS	2921117.0	Good		200	97.1	99.0		
+615	1352.7936	Enterococcus faecium strain UAMSEF_03	WGS	2911646.0	Good		198	97.1	99.0		
+616	1352.7921	Enterococcus faecium strain UAMSEF_37	WGS	2975344.0	Good		221	97.1	99.0		
+617	1352.8011	Enterococcus faecium strain ARL05-425	WGS	2853911.0	Good		156	97.4	99.1		
+618	1352.7957	Enterococcus faecium strain ARL08-552	WGS	2905704.0	Good		183	97.0	98.7		
+619	1352.7969	Enterococcus faecium strain ARL07-1163	WGS	2924344.0	Good		187	97.0	98.9		
+620	1352.7979	Enterococcus faecium strain ARL08-983	WGS	2823897.0	Good		183	97.4	99.0		
+621	1352.7986	Enterococcus faecium strain ARL08-477	WGS	2717124.0	Good		131	97.4	99.0		
+622	1352.8304	Enterococcus faecium strain 4928STDY7071419	WGS	2764633.0	Good		56	97.4	99.0		
+623	1352.8303	Enterococcus faecium strain 4928STDY7071453	WGS	2835900.0	Good		75	97.8	99.0		
+624	1352.8305	Enterococcus faecium strain 4928STDY7071541	WGS	2856716.0	Good		66	97.0	99.0		
+625	1352.8310	Enterococcus faecium strain 4928STDY7071573	WGS	2823437.0	Good		51	97.2	98.9		
+626	1352.8195	Enterococcus faecium strain M410399 strain not applicable	WGS	2960016.0	Good		244	97.0	99.2		
+627	1352.8206	Enterococcus faecium strain C603 strain not applicable	WGS	2786654.0	Good		136	97.2	99.0		
+628	1352.8317	Enterococcus faecium strain 4928STDY7071455	WGS	2785832.0	Good		74	97.8	99.0		
+629	1352.8313	Enterococcus faecium strain 4928STDY7071361	WGS	2757393.0	Good		39	97.3	99.1		
+630	1352.8319	Enterococcus faecium strain 4928STDY7071457	WGS	2831444.0	Good		76	97.7	99.0		
+631	1352.1484	Enterococcus faecium strain Efm0154	WGS	2790587.0	Good		228	97.0	98.4	100.0	1.8
+632	1352.1502	Enterococcus faecium strain Efm0192	WGS	2907039.0	Good		159	97.1	98.8	100.0	1.8
+633	1352.1518	Enterococcus faecium strain Efm0193	WGS	2779313.0	Good		154	97.3	98.5	100.0	0.0
+634	1352.1533	Enterococcus faecium strain Efm0194	WGS	2847847.0	Good		204	97.1	98.7	100.0	0.9
+635	1352.1535	Enterococcus faecium strain Efm0206	WGS	2955240.0	Good		168	97.3	98.8	100.0	0.0
+636	1352.1559	Enterococcus faecium strain Efm0184	WGS	2949390.0	Good		162	97.3	98.8	100.0	0.0
+637	1352.1566	Enterococcus faecium strain Efm0173	WGS	2976746.0	Good		158	97.3	98.8	100.0	0.0
+638	1352.1576	Enterococcus faecium strain Efm0114	WGS	2940665.0	Good		170	97.0	98.7	100.0	0.0
+639	1352.1583	Enterococcus faecium strain Efm0115	WGS	2940597.0	Good		143	97.3	98.8	100.0	0.0
+640	1352.8334	Enterococcus faecium strain 4928STDY7071623	WGS	2770916.0	Good		66	97.3	99.0		
+641	1352.8335	Enterococcus faecium strain 4928STDY7071621	WGS	2794886.0	Good		109	97.8	99.1		
+642	1352.8353	Enterococcus faecium strain 4928STDY7387886	WGS	2808483.0	Good		76	97.3	99.0		
+643	1352.8345	Enterococcus faecium strain 4928STDY7387787	WGS	2754752.0	Good		97	97.4	99.1		
+644	1352.8177	Enterococcus faecium strain HB-1	Complete	2772853.0	Good	1.0	2	97.3	99.0		
+645	1352.8176	Enterococcus faecium strain DB-1	Complete	2845522.0	Good	3.0	4	97.0	98.9		
+646	1352.8343	Enterococcus faecium strain 4928STDY7387675	WGS	2837582.0	Good		60	97.0	99.0		
+647	1352.8357	Enterococcus faecium strain 4928STDY7071282	Complete	2774396.0	Good		1	97.8	98.9		
+648	1352.8359	Enterococcus faecium strain 4928STDY7387800	Complete	2789811.0	Good		1	97.7	99.0		
+649	1352.8326	Enterococcus faecium strain 4928STDY7071539	WGS	2856348.0	Good		66	97.0	99.0		
+650	1352.8321	Enterococcus faecium strain 4928STDY7071487	WGS	2743251.0	Good		46	97.4	99.1		
+651	1352.8229	Enterococcus faecium strain FA3	Complete	2869619.0	Good	2.0	3	97.1	99.0		
+652	1352.8338	Enterococcus faecium strain 4928STDY7071265	WGS	2905205.0	Good		43	97.9	99.0		
+653	1352.8339	Enterococcus faecium strain 4928STDY7071675	WGS	2900730.0	Good		47	97.9	99.0		
+654	1352.7851	Enterococcus faecium strain EF_534	WGS	2762955.0	Good		155	97.3	99.0		
+655	1352.7843	Enterococcus faecium strain EF_545	WGS	2977920.0	Good		163	97.3	99.2		
+656	1352.7877	Enterococcus faecium strain EF_547	WGS	2974616.0	Good		183	97.1	99.0		
+657	1352.7846	Enterococcus faecium strain EF_548	WGS	2897031.0	Good		158	97.0	98.9		
+658	1352.4208	Enterococcus faecium strain EF_248	WGS	2871876.0	Good		163	97.3	99.0		
+659	1352.4209	Enterococcus faecium strain EF_155	WGS	2839959.0	Good		172	97.3	98.9		
+660	1352.11273	Enterococcus faecium strain BSAC_ec1067	WGS	2826164.0	Good	0.0	189	97.4	98.8		
+661	1352.11303	Enterococcus faecium strain BSAC_ec1203	WGS	2711544.0	Good	0.0	176	97.3	98.5		
+662	1352.11318	Enterococcus faecium strain BSAC_ec1217	WGS	2960078.0	Good	0.0	270	97.0	98.7		
+663	1352.11329	Enterococcus faecium strain BSAC_ec1286	WGS	2810045.0	Good	0.0	177	97.0	98.8		
+664	1352.11330	Enterococcus faecium strain BSAC_ec1288	WGS	2889739.0	Good	0.0	181	97.1	98.6		
+665	1352.11332	Enterococcus faecium strain BSAC_ec1349	WGS	2771158.0	Good	0.0	163	97.1	98.7		
+666	1352.11348	Enterococcus faecium strain BSAC_ec1359	WGS	2929250.0	Good	0.0	247	97.1	98.7		
+667	1352.11375	Enterococcus faecium strain BSAC_ec1452	WGS	2885679.0	Good	0.0	219	97.1	98.5		
+668	1352.11369	Enterococcus faecium strain BSAC_ec1484	WGS	2887951.0	Good	0.0	266	97.1	98.7		
+669	1352.11371	Enterococcus faecium strain BSAC_ec1489	WGS	2823368.0	Good	0.0	200	97.0	98.7		
+670	1352.11374	Enterococcus faecium strain BSAC_ec1497	WGS	2832258.0	Good	0.0	188	97.0	98.5		
+671	1352.11379	Enterococcus faecium strain BSAC_ec1603	WGS	2967364.0	Good	0.0	200	97.1	98.8		
+672	1352.11380	Enterococcus faecium strain BSAC_ec1608	WGS	2892056.0	Good	0.0	196	97.0	98.8		
+673	1352.11389	Enterococcus faecium strain BSAC_ec163	WGS	2816083.0	Good	0.0	248	97.1	98.8		
+674	1352.11391	Enterococcus faecium strain BSAC_ec1658	WGS	2941227.0	Good	0.0	220	97.1	98.7		
+675	1352.11405	Enterococcus faecium strain BSAC_ec1694	WGS	2889419.0	Good	0.0	268	97.1	98.7		
+676	1352.11401	Enterococcus faecium strain BSAC_ec1699	WGS	2950948.0	Good	0.0	177	97.1	98.8		
+677	1352.11443	Enterococcus faecium strain BSAC_ec2009	WGS	2887447.0	Good	0.0	220	97.3	98.8		
+678	1352.11453	Enterococcus faecium strain BSAC_ec2085	WGS	2764907.0	Good	0.0	211	97.1	98.5		
+679	1352.11472	Enterococcus faecium strain BSAC_ec2124	WGS	2918522.0	Good	0.0	275	97.0	98.7		
+680	1352.11468	Enterococcus faecium strain BSAC_ec2127	WGS	2776634.0	Good	0.0	182	97.1	98.5		
+681	1352.11469	Enterococcus faecium strain BSAC_ec2129	WGS	2911601.0	Good	0.0	217	97.0	98.6		
+682	1352.11470	Enterococcus faecium strain BSAC_ec2133	WGS	2843189.0	Good	0.0	155	97.1	98.9		
+683	1352.11477	Enterococcus faecium strain BSAC_ec2201	WGS	2900611.0	Good	0.0	224	97.5	98.8		
+684	1352.11494	Enterococcus faecium strain BSAC_ec2259	WGS	2749783.0	Good	0.0	183	97.2	98.5		
+685	1352.11487	Enterococcus faecium strain BSAC_ec2288	WGS	2922572.0	Good	0.0	224	97.3	98.8		
+686	1352.11504	Enterococcus faecium strain BSAC_ec2290	WGS	2916589.0	Good	0.0	226	97.3	98.8		
+687	1352.11502	Enterococcus faecium strain BSAC_ec2298	WGS	2846909.0	Good	0.0	167	97.1	98.9		
+688	1352.11498	Enterococcus faecium strain BSAC_ec2329	WGS	2877264.0	Good	0.0	162	97.1	98.9		
+689	1352.11508	Enterococcus faecium strain BSAC_ec2340	WGS	2967152.0	Good	0.0	169	97.1	98.9		
+690	1352.11523	Enterococcus faecium strain BSAC_ec2396	WGS	2967493.0	Good	0.0	211	97.0	98.7		
+691	1352.11547	Enterococcus faecium strain BSAC_ec2500	WGS	2886358.0	Good	0.0	183	97.0	98.7		
+692	1352.11596	Enterococcus faecium strain BSAC_ec2744	WGS	2827288.0	Good	0.0	214	97.1	98.7		
+693	1352.11608	Enterococcus faecium strain BSAC_ec336	WGS	2910635.0	Good	0.0	247	97.1	98.7		
+694	1352.11630	Enterococcus faecium strain BSAC_ec493	WGS	2819734.0	Good	0.0	154	97.1	98.8		
+695	1352.11665	Enterococcus faecium strain BSAC_ec72	WGS	2870046.0	Good	0.0	181	97.1	98.6		
+696	1352.11666	Enterococcus faecium strain BSAC_ec73	WGS	2841918.0	Good	0.0	202	97.1	98.7		
+697	1352.11681	Enterococcus faecium strain BSAC_ec790	WGS	2814994.0	Good	0.0	159	97.1	98.7		
+698	1352.11705	Enterococcus faecium strain BSAC_ec823	WGS	2854459.0	Good	0.0	187	97.1	98.5		
+699	1352.11690	Enterococcus faecium strain BSAC_ec832	WGS	2788361.0	Good	0.0	202	97.2	98.7		
+700	1352.11704	Enterococcus faecium strain BSAC_ec852	WGS	2761074.0	Good	0.0	191	97.3	98.7		
+701	1352.11702	Enterococcus faecium strain BSAC_ec860	WGS	2908633.0	Good	0.0	180	97.0	98.9		
+702	1352.11715	Enterococcus faecium strain BSAC_ec960	WGS	2973136.0	Good	0.0	226	97.1	98.8		
+703	1352.11708	Enterococcus faecium strain EC0011	WGS	2883117.0	Good	0.0	206	97.1	98.7		
+704	1352.11707	Enterococcus faecium strain EC0012	WGS	2963812.0	Good	0.0	241	97.1	98.8		
+705	1352.11727	Enterococcus faecium strain EC0015	WGS	2926632.0	Good	0.0	257	97.0	98.8		
+706	1352.11720	Enterococcus faecium strain EC0020	WGS	2872220.0	Good	0.0	230	97.1	98.7		
+707	1352.11749	Enterococcus faecium strain EC0054	WGS	2907780.0	Good	0.0	243	97.0	98.7		
+708	1352.11765	Enterococcus faecium strain EC0079	WGS	2733646.0	Good	0.0	180	97.3	98.7		
+709	1352.11807	Enterococcus faecium strain EC0129	WGS	2981887.0	Good	0.0	168	97.1	98.9		
+710	1352.11808	Enterococcus faecium strain EC0135	WGS	2989993.0	Good	0.0	172	97.1	98.9		
+711	1352.11806	Enterococcus faecium strain EC0140	WGS	2964105.0	Good	0.0	236	97.1	98.9		
+712	1352.11826	Enterococcus faecium strain EC0142	WGS	2988520.0	Good	0.0	164	97.1	98.9		
+713	1352.11824	Enterococcus faecium strain EC0146	WGS	2989430.0	Good	0.0	210	97.1	98.9		
+714	1352.11830	Enterococcus faecium strain EC0167	WGS	2897631.0	Good	0.0	212	97.1	98.7		
+715	1352.12018	Enterococcus faecium strain EC0181	WGS	2948903.0	Good	0.0	236	97.0	98.9		
+716	1352.11851	Enterococcus faecium strain EC0188	WGS	2968097.0	Good	0.0	158	97.1	98.9		
+717	1352.11850	Enterococcus faecium strain EC0192	WGS	2981254.0	Good	0.0	163	97.0	98.9		
+718	1352.11886	Enterococcus faecium strain EC0238	WGS	2944752.0	Good	0.0	161	97.1	98.9		
+719	1352.11903	Enterococcus faecium strain EC0248	WGS	2936827.0	Good	0.0	254	97.2	98.7		
+720	1352.11920	Enterococcus faecium strain EC0356	WGS	2934447.0	Good	0.0	215	97.3	98.8		
+721	1352.11933	Enterococcus faecium strain EC0369	WGS	2865782.0	Good	0.0	151	97.1	98.9		
+722	1352.11941	Enterococcus faecium strain EC0387	WGS	2953632.0	Good	0.0	270	97.0	98.7		
+723	1352.11956	Enterococcus faecium strain EC0393	WGS	2903262.0	Good	0.0	245	97.1	98.7		
+724	1352.11957	Enterococcus faecium strain EC0396	WGS	2884493.0	Good	0.0	149	97.1	98.9		
+725	1352.11965	Enterococcus faecium strain EC0407	WGS	2733426.0	Good	0.0	84	97.2	98.8		
+726	1352.11961	Enterococcus faecium strain EC0416	WGS	2844268.0	Good	0.0	237	97.1	98.7		
+727	1352.11971	Enterococcus faecium strain EC0430	WGS	2962705.0	Good	0.0	190	97.1	98.8		
+728	1352.11976	Enterococcus faecium strain EC0433	WGS	2872529.0	Good	0.0	148	97.1	98.9		
+729	1352.11970	Enterococcus faecium strain EC0435	WGS	2950461.0	Good	0.0	188	97.1	98.8		
+730	1352.11992	Enterococcus faecium strain EC0518	WGS	2871732.0	Good	0.0	175	97.0	98.7		
+731	1352.12011	Enterococcus faecium strain EC0519	WGS	2975751.0	Good	0.0	205	97.0	98.9		
+732	1352.12115	Enterococcus faecium strain VET-271	WGS	2823554.0	Good	0.0	73	97.4	98.7		
+733	1352.12112	Enterococcus faecium strain VET-275	WGS	2828810.0	Good	0.0	71	97.5	98.7		
+734	1352.12122	Enterococcus faecium strain VET-262	WGS	2831152.0	Good	0.0	74	97.4	98.7		
+735	1352.12145	Enterococcus faecium strain U129_11	WGS	2794367.0	Good	0.0	59	97.2	98.9		
+736	1352.12055	Enterococcus faecium strain VRE 47	WGS	2927343.0	Good	0.0	269	97.1	98.7		
+737	1352.12062	Enterococcus faecium strain VRE 39	WGS	2967167.0	Good	0.0	254	97.1	98.5		
+738	1352.12097	Enterococcus faecium strain VRE 2	WGS	2964236.0	Good	0.0	282	97.1	98.8		
+739	1352.12083	Enterococcus faecium strain VRE 20	WGS	2825858.0	Good	0.0	242	97.1	98.8		
+740	1352.12182	Enterococcus faecium strain CL9386	WGS	2832616.0	Good	0.0	183	97.0	98.8		
+741	1352.12188	Enterococcus faecium strain CL8793	WGS	2881501.0	Good	0.0	227	97.0	98.7		
+742	1352.12199	Enterococcus faecium strain CL8134a	WGS	2857767.0	Good	0.0	173	97.0	98.7		
+743	1352.12200	Enterococcus faecium strain CL8183	WGS	2908868.0	Good	0.0	227	97.0	98.9		
+744	1352.12201	Enterococcus faecium strain BSD2780061688_150302_E8	WGS	2872070.0	Good	0.0	111	97.1	98.9		
+745	1352.12176	Enterococcus faecium strain CL9747	WGS	2899083.0	Good	0.0	199	97.0	98.8		
+746	1352.12205	Enterococcus faecium strain 1001271B_151109_G2	WGS	2728752.0	Good	0.0	72	97.7	99.0		
+747	1352.12208	Enterococcus faecium strain 1001713B170214_170313_C3	WGS	2843490.0	Good	0.0	86	97.3	98.7		
+748	1352.12248	Enterococcus faecium strain J1101437_171009_F7	WGS	2746311.0	Good	0.0	80	98.0	98.8		
+749	1352.12267	Enterococcus faecium strain VRE34883	WGS	2852511.0	Good	0.0	166	97.1	98.7		
+750	1352.12281	Enterococcus faecium strain VRE34340	WGS	2823089.0	Good	0.0	182	97.1	98.7		
+751	1352.12290	Enterococcus faecium strain VRE34014	WGS	2829992.0	Good	0.0	189	97.3	98.7		
+752	1352.12271	Enterococcus faecium strain VRE34781	WGS	2774488.0	Good	0.0	184	97.4	98.8		
+753	1352.12304	Enterococcus faecium strain VRE33739	WGS	2967176.0	Good	0.0	179	97.3	99.0		
+754	1352.12307	Enterococcus faecium strain VRE33681	WGS	2815997.0	Good	0.0	191	97.1	98.8		
+755	1352.12280	Enterococcus faecium strain VRE34341	WGS	2822698.0	Good	0.0	191	97.1	98.7		
+756	1352.12258	Enterococcus faecium strain VRE35193	WGS	2840131.0	Good	0.0	180	97.0	98.7		
+757	1352.12273	Enterococcus faecium strain VRE34391	WGS	2793496.0	Good	0.0	164	97.3	98.8		

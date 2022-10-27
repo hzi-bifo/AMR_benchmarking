@@ -1,0 +1,26 @@
+	genome.genome_id	genome.genome_name	genome.genome_status	genome.genome_length	genome.genome_quality	genome.plasmids	genome.contigs	genome.fine_consistency	genome.coarse_consistency	genome.checkm_completeness	genome.checkm_contamination
+0	766163.3	Shigella sonnei 3233-85	WGS	4997922.0	Good	0.0	72	98.2	99.7	99.7	1.6
+1	1212580.4	Shigella sonnei 08-7761	WGS	4893156.0	Good		95	98.2	99.5	99.7	0.0
+2	1212581.3	Shigella sonnei 08-7765	WGS	4885496.0	Good		57	97.9	99.5	99.7	0.3
+3	1212583.3	Shigella sonnei 09-2245	WGS	4862336.0	Good		92	98.0	99.4	99.7	0.0
+4	1212584.3	Shigella sonnei 09-4962	WGS	4883415.0	Good		86	98.4	99.7	99.7	0.0
+5	624.635	Shigella sonnei strain FORC_011	Complete	5132711.0	Good	3.0	4	98.0	99.5	100.0	0.0
+6	300269.12	Shigella sonnei Ss046	Complete	5055316.0	Good	4.0	5	98.2	99.7	99.7	0.0
+7	624.1272	Shigella sonnei strain 2015C-3566	Complete	4949228.0	Good	1.0	2	97.8	99.6	100.0	0.6
+8	624.1273	Shigella sonnei strain 2015C-3794	Complete	4906574.0	Good	1.0	2	97.7	99.5	100.0	0.6
+9	624.68	Shigella sonnei strain FDAARGOS_71	WGS	4854191.0	Good		3	97.9	99.8	100.0	1.3
+10	624.1345	Shigella sonnei strain ATCC 29930	Complete	4994001.0	Good	1.0	2	97.6	99.4	100.0	0.6
+11	624.1348	Shigella sonnei strain 866	Complete	4962707.0	Good	1.0	2	98.0	99.6	100.0	1.3
+12	624.1595	Shigella sonnei strain NCTC12984	WGS	5088243.0	Good		9	98.0	99.4	100.0	0.0
+13	624.1285	Shigella sonnei strain CFSAN030807	Complete	5062953.0	Good	8.0	9	98.2	99.8	100.0	0.0
+14	624.1221	Shigella sonnei strain ECCTRPRTH02	WGS	4929689.0	Good		98	98.7	99.9	100.0	0.0
+15	624.1233	Shigella sonnei strain ECSW+02	WGS	4855412.0	Good		94	99.3	100.0	99.7	0.0
+16	624.1237	Shigella sonnei strain ECSW+07	WGS	4980186.0	Good		93	98.2	100.0	100.0	0.0
+17	624.1243	Shigella sonnei strain ECH+19	WGS	4888136.0	Good		93	99.0	100.0	100.0	0.0
+18	624.1262	Shigella sonnei strain ECPUTH06	WGS	4861067.0	Good		95	99.0	99.9	100.0	0.6
+19	624.1264	Shigella sonnei strain ECPSTH06	WGS	5189371.0	Good		93	98.9	99.7	99.7	1.0
+20	624.1596	Shigella sonnei strain NCTC7924	WGS	5203610.0	Good		6	97.5	99.5	100.0	1.3
+21	624.1184	Shigella sonnei strain 2015AM-1099	Complete	4935567.0	Good		1	97.9	99.6	100.0	1.4
+22	624.1226	Shigella sonnei strain ECH+11	WGS	4981592.0	Good		87	99.1	99.9	100.0	0.3
+23	624.1252	Shigella sonnei strain ECH+14	WGS	4802040.0	Good		92	98.4	99.6	100.0	0.0
+24	624.1270	Shigella sonnei strain ECFood+09	WGS	4854649.0	Good		79	98.4	100.0	100.0	0.5

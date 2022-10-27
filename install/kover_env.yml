@@ -39,8 +39,8 @@ dependencies:
   - mkl_random=1.1.0=py27hd6b4f25_0
   - mock=3.0.5=py27_0
   - ncurses=6.1=he6710b0_1
-  - numexpr=2.7.0=py27h9e4a6bb_0
-  - numpy-base=1.16.6=py27hde5b4d6_0
+  - numexpr=2.7.0
+  - numpy-base=1.16.6
   - openssl=1.1.1i=h27cfd23_0
   - pip=19.3.1=py27_0
   - pycosat=0.6.3=py27h14c3975_0

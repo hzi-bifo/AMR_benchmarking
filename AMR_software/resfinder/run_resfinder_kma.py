@@ -18,8 +18,7 @@ from cge.standardize_results import ResFinderResultHandler, DatabaseHandler
 from cge.standardize_results import PointFinderResultHandler
 
 import json
-# TODO list:
-# TODO: Add input data check
+
 
 
 # ########################################################################### #

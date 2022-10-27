@@ -408,6 +408,11 @@ class PointFinder(CGEFinder):
                 continue
 
             mutation = [data.strip() for data in line.split("\t")]
+            # print('+++')
+            # print(mutation[6])
+            # print(mutation[6].replace("\t", " "))
+            # print('---')
+
 
             gene_ID = mutation[0]
 

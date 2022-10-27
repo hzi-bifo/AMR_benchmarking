@@ -1,20 +1,15 @@
+#!/usr/bin/env python3
+
 import sys,os
 # sys.path.append('../../')
 sys.path.insert(0, os.getcwd())
 from src.cv_folds import name2index
 from src.amr_utility import file_utility,name_utility,load_data
 from sklearn.metrics import auc,roc_curve,matthews_corrcoef,confusion_matrix,f1_score,precision_recall_fscore_support,classification_report
-# import classifier
-import time
-import pickle,zipfile,json
+import zipfile,json
 import argparse
-from itertools import repeat
-from sklearn.model_selection import GridSearchCV
-import copy
-import itertools
 import pandas as pd
 import numpy as np
-import ast
 import random
 import warnings,os,shutil
 warnings.filterwarnings('ignore')
@@ -26,6 +21,8 @@ def determine(Tsamples,species,anti,f_no_zip,temp_path):
     file_utility.make_dir(path_temp1)
     file_utility.make_dir(path_temp2)
 
+
+
     y_pre=[]
     temp_number=random.randint(1, 10000)
     file_utility.make_dir(path_temp2+'/'+str(temp_number))
@@ -34,12 +31,14 @@ def determine(Tsamples,species,anti,f_no_zip,temp_path):
         temp_file = open(temp_file_name, "w+")
         if f_no_zip==True:# ResFinder results are not in zip format
             file = open("%s/%s/%s/pheno_table.txt" % (path_temp1, str(species.replace(" ", "_")),strain_ID), "r")
+
             for position, line in enumerate(file):
                 if "# Antimicrobial	Class" in line:
                     start = position
                 if "# WARNING:" in line:
                     end = position
             file = open("%s/%s/%s/pheno_table.txt" % (path_temp1,str(species.replace(" ", "_")), strain_ID), "r")
+
             for position, line in enumerate(file):
                 try:
                     if (position > start) & (position < end):
@@ -96,12 +95,13 @@ def determine(Tsamples,species,anti,f_no_zip,temp_path):
     shutil.rmtree(os.path.dirname(temp_file_name))
     return y_pre
 
-def model(level,species, antibiotics,cv,f_phylotree,f_kma,f_no_zip,temp_path,temp_path_k,temp_path_b):
-    antibiotics_selected = ast.literal_eval(antibiotics)
+def model(level,species,cv,f_phylotree,f_kma,f_no_zip,temp_path,temp_path_k,temp_path_b):
 
-    print(species)
-    print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
+
     antibiotics, ID, Y = load_data.extract_info(species, False, level)
+    # antibiotics, ID, Y =[antibiotics[1]], [ID[1]], [Y[1]]# debugging
+    print(species)
+    print('====> Select_antibiotic:', len(antibiotics), antibiotics)
     i_anti=0
 
     for anti in antibiotics:
@@ -110,10 +110,10 @@ def model(level,species, antibiotics,cv,f_phylotree,f_kma,f_no_zip,temp_path,tem
         folds_txt=name_utility.GETname_folds(species,anti,level,f_kma,f_phylotree)
         folders_sample = json.load(open(folds_txt, "rb"))
         folders_index=name2index.Get_index(folders_sample,p_names) # CV folds
-        _, _,save_name_score=name_utility.GETname_model('resfinder_folds',level, species, anti,'resfinder')
-        # save_name_score,_,_=name_utility.GETname_ResfinderResults(species)
-        save_name_score=temp_path+save_name_score
+
+        _, _,save_name_score=name_utility.GETname_model('resfinder_folds',level, species, anti,'resfinder',temp_path)
         file_utility.make_dir(os.path.dirname(save_name_score))
+
         id_all = ID[i_anti]#sample name list
         y_all = Y[i_anti]
         i_anti+=1
@@ -124,6 +124,9 @@ def model(level,species, antibiotics,cv,f_phylotree,f_kma,f_no_zip,temp_path,tem
         f1_test = []
         score_report_test = []
         aucs_test = []
+        predictY_test=[]
+        true_Y=[]
+        sampleNames_test=[]
         for out_cv in range(cv):
             print('Starting outer CV: ', str(out_cv))
             test_samples_index = folders_index[out_cv]# a list of index
@@ -139,6 +142,7 @@ def model(level,species, antibiotics,cv,f_phylotree,f_kma,f_no_zip,temp_path,tem
             if len(y_pre)>0:
                 # print('y_pre',len(y_pre))
                 # y = y_test
+
                 mcc=matthews_corrcoef(y_test, y_pre)
                 f1macro=f1_score(y_test, y_pre, average='macro')
                 report=classification_report(y_test, y_pre, labels=[0, 1],output_dict=True)
@@ -150,15 +154,24 @@ def model(level,species, antibiotics,cv,f_phylotree,f_kma,f_no_zip,temp_path,tem
                 f1_test.append(f1macro)
                 score_report_test.append(report)
                 aucs_test.append(roc_auc)
+                predictY_test.append(y_pre)
+                true_Y.append(y_test.tolist())
+                sampleNames_test.append(folders_sample[out_cv])
             else:
                 mcc_test.append(None)
                 f1_test.append(None)
                 score_report_test.append(None)
                 aucs_test.append(None)
+
                 print("No information for antibiotic: ", anti)
 
-        score = [f1_test, score_report_test, aucs_test, mcc_test]
-        with open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '.json',
+
+
+        score ={'f1_test':f1_test,'score_report_test':score_report_test,'aucs_test':aucs_test,'mcc_test':mcc_test,
+             'predictY_test':predictY_test,'ture_Y':true_Y,'samples':sampleNames_test}
+            # [f1_test, score_report_test, aucs_test, mcc_test,predictY_test]
+
+        with open(save_name_score + '_KMA_' + str(f_kma) + '_Tree_' + str(f_phylotree) + '.json',
                   'w') as f:  # overwrite mode
             json.dump(score, f)
 
@@ -176,9 +189,9 @@ def extract_info(level,s, cv,f_phylotree,f_kma,f_all,f_no_zip,temp_path):
     if f_all == False:
         data = data.loc[s, :]
     df_species = data.index.tolist()
-    antibiotics = data['modelling antibiotics'].tolist()
-    for species,antibiotics in zip(df_species, antibiotics):
-        model(level, species,  antibiotics,cv,f_phylotree,f_kma,f_no_zip,temp_path,temp_path_k,temp_path_b)
+    # antibiotics = data['modelling antibiotics'].tolist()
+    for species in df_species :
+        model(level, species,cv,f_phylotree,f_kma,f_no_zip,temp_path,temp_path_k,temp_path_b)
 
 if __name__== '__main__':
     parser = argparse.ArgumentParser()
@@ -191,7 +204,7 @@ if __name__== '__main__':
     parser.add_argument("-cv", "--cv_number", default=10, type=int,
                         help='CV splits number. Default=10 ')
     parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
-                        help='all the possible species, regarding multi-model.')
+                        help='all the possible species.')
     parser.add_argument('-f_no_zip', '--f_no_zip', dest='f_no_zip', action='store_true',
                         help=' Point/ResFinder results are not stored in zip format.')
     # parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel. Default=1')
@@ -199,7 +212,7 @@ if __name__== '__main__':
      \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
      \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
     parser.add_argument('-temp', '--temp_path', default='./', type=str, required=False,
-                    help='The log file')
+                    help='Directory to store temporary files.')
     # parser.add_argument('-o', '--output_path', default='./', type=str, required=False,
     #                 help='Results folder.')
     parsedArgs=parser.parse_args()

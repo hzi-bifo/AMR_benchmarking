@@ -1,4 +1,4 @@
-
+#!/usr/bin/env python3
 
 import os
 import sys
@@ -116,21 +116,20 @@ def extract_info(s,f_all,path_sequence,n_jobs,level,temp_path,threshold_point,mi
 
 if __name__== '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-path_sequence', '--path_sequence', default='/net/projects/BIFO/patric_genome/', type=str,
-                        required=False,
-                        help='path of sequence,another option: \'/vol/projects/BIFO/patric_genome\'')
+    parser.add_argument('-path_sequence', '--path_sequence', type=str, required=True,
+                        help='Path of the directory with PATRIC sequences')
     parser.add_argument('-temp', '--temp_path', default='./', type=str, required=False,
-                        help='The log file')
+                        help='Directory to store temporary files.')
     parser.add_argument('-t_p', '--threshold_point', default=0.8, type=float,
                         help='Threshold for identity of Pointfinder. ')
     parser.add_argument('-l_p', '--min_cov_point', default=0.6, type=float,
-                        help=' Minimum (breadth-of) coverage of Pointfinder. ')
+                        help=' Minimum coverage of Pointfinder. ')
     parser.add_argument('-s','--species', default=[], type=str,nargs='+',help='species to run: e.g.\'seudomonas aeruginosa\' \
      \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
      \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
     parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel.')
     parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
-                        help='all the possible species, regarding multi-model.')
+                        help='All the possible species.')
     parser.add_argument('-l', '--level', default='loose', type=str, required=False,
                         help='Quality control: strict or loose')
     #parser.set_defaults(canonical=True)

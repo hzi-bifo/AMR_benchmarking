@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2021 Tzu-Hao Kuo
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Variables required by each workflow
+	TOOL_HOME	PATH	SNAKEFILE
+denovo	denovo	$TOOL_HOME/lib/Roary/bin/:$TOOL_HOME/lib:$PATH	$TOOL_HOME/denovo.in_one.smk
+expr	expr	$TOOL_HOME/lib:$PATH	$TOOL_HOME/expr.in_one.smk
+phylo	phylo	$TOOL_HOME/lib:$PATH	$TOOL_HOME/phylo.in_one.smk
+snps	snps	$TOOL_HOME/lib:$PATH	$TOOL_HOME/snps.in_one.smk
+cmpr	cmpr	$PATH	$TOOL_HOME/compress_feat_table.smk
+de	difexpr	$PATH	$TOOL_HOME/dif_xpr_analysis.smk
+ar	cont_anc_rcn	$PATH	$TOOL_HOME/cont_anc_reconstruction.smk

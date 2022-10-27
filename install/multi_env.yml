@@ -69,4 +69,4 @@ dependencies:
     - tabulate==0.8.9
     - threadpoolctl==2.1.0
     - xgboost==1.4.2
-#prefix: /home/khu/miniconda2/envs/multi_bench
+

@@ -1,0 +1,1417 @@
+	genome.genome_id	genome.genome_name	genome.genome_status	genome.genome_length	genome.genome_quality	genome.plasmids	genome.contigs	genome.fine_consistency	genome.coarse_consistency	genome.checkm_completeness	genome.checkm_contamination
+0	903907.3	Acinetobacter baumannii OIFC0162	WGS	4078399.0	Good	0.0	55	98.1	99.3	100.0	0.5
+1	470.5187	Acinetobacter baumannii strain Ab242	WGS	3890962.0	Good		31	98.1	99.0	100.0	0.5
+2	470.2423	Acinetobacter baumannii strain 3027STDY5784958	Complete	4050765.0	Good	1.0	2	98.6	99.2	100.0	0.0
+3	470.2965	Acinetobacter baumannii strain Ab36	WGS	4025375.0	Good		86	98.6	99.4	100.0	0.0
+4	1096995.4	Acinetobacter baumannii BJAB07104	Complete	4042229.0	Good	2.0	3	98.4	99.3	100.0	0.3
+5	1168588.3	Acinetobacter baumannii Ab11111	WGS	4062506.0	Good	0.0	26	98.5	99.4	100.0	0.0
+6	1221260.3	Acinetobacter baumannii AB_2008-15-71	WGS	3886101.0	Good	0.0	90	98.7	99.0	99.5	0.0
+7	1221270.3	Acinetobacter baumannii AB_909-02-7	WGS	3929639.0	Good	0.0	98	98.6	99.2	100.0	1.0
+8	1221273.3	Acinetobacter baumannii AB_TG19617	WGS	3890585.0	Good	0.0	59	98.6	99.3	100.0	0.0
+9	1223564.3	Acinetobacter baumannii ZWS1122	WGS	3937258.0	Good	0.0	60	99.0	99.3	100.0	0.0
+10	1224141.3	Acinetobacter baumannii ZWS1219	WGS	3964728.0	Good	0.0	70	98.9	99.3	100.0	0.0
+11	1315146.3	Acinetobacter baumannii TG15242	WGS	3886374.0	Good	0.0	88	98.8	99.3	100.0	0.0
+12	1315150.3	Acinetobacter baumannii TG20277	WGS	4110502.0	Good	0.0	62	98.7	99.3	100.0	0.5
+13	1315170.3	Acinetobacter baumannii TG22336	WGS	4160198.0	Good	0.0	45	98.0	99.3	100.0	1.0
+14	1315184.3	Acinetobacter baumannii TG27407	WGS	4163950.0	Good	0.0	94	98.5	99.4	100.0	0.0
+15	1343075.3	Acinetobacter baumannii CI77	WGS	4030011.0	Good	0.0	81	98.2	99.3	100.0	0.0
+16	1398949.4	Acinetobacter baumannii UH10707 [PRJNA227030]	WGS	4156196.0	Good	0.0	9	98.3	99.4	100.0	0.0
+17	1431338.3	Acinetobacter baumannii P630	WGS	3890656.0	Good		46	98.2	99.2	100.0	0.0
+18	1455315.5	Acinetobacter baumannii LAC-4	Complete	3968436.0	Good	2.0	3	98.2	98.8	98.4	1.0
+19	1458926.3	Acinetobacter baumannii LY9	WGS	4087028.0	Good		98	98.5	99.4	100.0	0.0
+20	1116235.3	Acinetobacter baumannii AB5256	WGS	4158015.0	Good	0.0	50	98.0	99.0	100.0	1.0
+21	1310839.3	Acinetobacter baumannii 24860_5	WGS	4128312.0	Good		92	98.3	99.3	100.0	0.0
+22	1310846.3	Acinetobacter baumannii 24812_2	WGS	4014757.0	Good		91	98.5	99.3	100.0	0.0
+23	1310858.3	Acinetobacter baumannii 24845_4	WGS	4083108.0	Good	0.0	95	98.4	99.3	100.0	0.0
+24	1310867.3	Acinetobacter baumannii 25307_3	WGS	3974705.0	Good	0.0	87	98.6	99.3	100.0	0.5
+25	1310898.3	Acinetobacter baumannii 45002_4	WGS	4004196.0	Good	0.0	83	98.4	99.3	100.0	0.0
+26	1310948.3	Acinetobacter baumannii 24975_4	WGS	4025024.0	Good	0.0	96	98.1	99.3	100.0	0.0
+27	1310953.3	Acinetobacter baumannii 24975_9	WGS	4043685.0	Good	0.0	97	98.4	99.3	100.0	0.0
+28	1311022.3	Acinetobacter baumannii 25493_8	WGS	4106507.0	Good		93	98.4	99.1	100.0	1.5
+29	1311093.3	Acinetobacter baumannii 45075_6	WGS	3942498.0	Good		57	98.6	99.1	100.0	0.5
+30	1311095.3	Acinetobacter baumannii 45075_8	WGS	3930804.0	Good		59	98.4	99.1	100.0	0.0
+31	1311098.3	Acinetobacter baumannii 16553_1	WGS	4099878.0	Good		88	98.4	99.3	100.0	0.0
+32	1311112.3	Acinetobacter baumannii 25569_5	WGS	3989196.0	Good		69	98.4	99.1	100.0	0.0
+33	1311116.3	Acinetobacter baumannii 25569_9	WGS	3966072.0	Good		68	98.7	99.1	100.0	0.5
+34	1311138.3	Acinetobacter baumannii 42057_6	WGS	4080445.0	Good		79	98.1	99.4	100.0	2.0
+35	1311143.3	Acinetobacter baumannii 45052_3	WGS	4000951.0	Good		69	98.3	99.1	100.0	0.5
+36	1311144.3	Acinetobacter baumannii 45052_4	WGS	3983869.0	Good		65	98.4	99.1	100.0	0.0
+37	470.766	Acinetobacter baumannii ABUH24314	WGS	4038180.0	Good		88	98.6	99.5	100.0	0.0
+38	470.4683	Acinetobacter baumannii strain ABNIH28	Complete	4078838.0	Good	4.0	5	97.3	98.4	99.2	1.0
+39	470.4746	Acinetobacter baumannii strain S4	WGS	3844189.0	Good		92	98.6	99.2	100.0	0.0
+40	470.1288	Acinetobacter baumannii strain AC29	Complete	3851648.0	Good		1	98.7	99.3	100.0	0.0
+41	470.1289	Acinetobacter baumannii strain BU310	WGS	3933524.0	Good		12	98.6	99.3	100.0	0.0
+42	470.1299	Acinetobacter baumannii strain GTC 03328	WGS	4059659.0	Good		92	98.2	99.1	100.0	1.5
+43	470.1303	Acinetobacter baumannii strain NBRC 110489	WGS	4059201.0	Good		95	98.1	99.1	100.0	1.5
+44	470.1317	Acinetobacter baumannii strain NBRC 110494	WGS	3814151.0	Good		45	98.4	99.3	100.0	0.0
+45	470.1345	Acinetobacter baumannii strain AB5075-UW	Complete	4066980.0	Good	3.0	4	98.7	99.3	100.0	0.0
+46	470.1347	Acinetobacter baumannii strain J65	WGS	3890367.0	Good		55	98.7	99.3	100.0	0.0
+47	470.1349	Acinetobacter baumannii strain J133	WGS	3886992.0	Good		83	98.8	99.4	100.0	0.0
+48	470.1351	Acinetobacter baumannii strain GTC 03324	WGS	3815339.0	Good		37	98.4	99.3	100.0	0.0
+49	470.1360	Acinetobacter baumannii strain MRSN16875	WGS	3916650.0	Good		85	97.9	98.8	100.0	0.0
+50	470.1366	Acinetobacter baumannii strain LUH_6220	WGS	3966581.0	Good		63	98.3	99.2	100.0	0.3
+51	470.1418	Acinetobacter baumannii strain ABBL062	WGS	3870667.0	Good		70	98.4	99.1	99.5	0.0
+52	470.1508	Acinetobacter baumannii strain ACMH-6201	WGS	3977832.0	Good		82	98.2	98.9	100.0	0.8
+53	470.1510	Acinetobacter baumannii strain ABBL006	WGS	4067745.0	Good		77	98.1	99.1	99.5	0.0
+54	470.1513	Acinetobacter baumannii strain ABBL011	WGS	4003629.0	Good		70	97.9	99.3	99.5	0.5
+55	470.1522	Acinetobacter baumannii strain ABBL004	WGS	3855049.0	Good		77	98.7	99.3	100.0	1.0
+56	470.1524	Acinetobacter baumannii strain ABBL008	WGS	4064187.0	Good		89	98.6	99.4	100.0	0.0
+57	470.1738	Acinetobacter baumannii strain CIP70.10	Complete	3936255.0	Good	1.0	2	98.2	99.2	100.0	0.0
+58	470.1822	Acinetobacter baumannii strain YU-R612	Complete	4155251.0	Good	2.0	3	98.5	99.3	100.0	0.0
+59	470.1864	Acinetobacter baumannii strain XH860	Complete	3846621.0	Good		1	98.9	99.3	99.0	0.0
+60	470.2002	Acinetobacter baumannii strain AB3927	WGS	4113781.0	Good		45	98.7	99.3	100.0	0.0
+61	470.2004	Acinetobacter baumannii strain AB4027	WGS	3903961.0	Good		72	98.9	99.4	100.0	0.0
+62	470.2007	Acinetobacter baumannii strain AB4052	WGS	3921338.0	Good		43	98.5	99.3	100.0	0.0
+63	470.2011	Acinetobacter baumannii strain AB4795	WGS	3882341.0	Good		78	98.4	99.4	100.0	0.0
+64	470.2012	Acinetobacter baumannii strain AB4878	WGS	3862567.0	Good		45	98.6	99.3	100.0	0.0
+65	470.2014	Acinetobacter baumannii strain AB4932	WGS	3865974.0	Good		39	98.6	99.3	100.0	0.0
+66	470.2018	Acinetobacter baumannii strain AB5197	WGS	3959484.0	Good		58	98.6	99.3	100.0	0.0
+67	470.2020	Acinetobacter baumannii strain 2015ZJAB3	WGS	3943968.0	Good		41	98.8	99.4	100.0	0.0
+68	470.2021	Acinetobacter baumannii strain 2015ZJAB2	WGS	3964372.0	Good		53	98.7	99.4	100.0	0.5
+69	470.2117	Acinetobacter baumannii strain AB967	WGS	3795032.0	Good		27	98.7	99.2	100.0	0.0
+70	470.2120	Acinetobacter baumannii strain AB3560	WGS	4012126.0	Good		58	98.7	99.3	100.0	0.0
+71	470.2352	Acinetobacter baumannii strain ABUH743	WGS	3877994.0	Good		89	98.5	99.2	100.0	0.0
+72	470.2422	Acinetobacter baumannii strain 28	WGS	3965910.0	Good		65	98.4	99.3	100.0	0.0
+73	470.2515	Acinetobacter baumannii strain HJ03	WGS	3953493.0	Good		78	98.8	99.3	100.0	0.0
+74	470.2520	Acinetobacter baumannii strain HJ11	WGS	3907271.0	Good		77	98.7	99.1	99.5	0.0
+75	470.2526	Acinetobacter baumannii strain HJ16	WGS	3927844.0	Good		67	98.7	99.3	100.0	0.0
+76	470.2562	Acinetobacter baumannii strain HJ04	WGS	3951616.0	Good		69	98.8	99.3	100.0	0.0
+77	470.2565	Acinetobacter baumannii strain HJ10	WGS	3953489.0	Good		93	98.7	99.3	100.0	0.0
+78	470.2568	Acinetobacter baumannii strain HJ12	WGS	3918756.0	Good		83	98.8	99.3	100.0	0.0
+79	470.2571	Acinetobacter baumannii strain HJ19	WGS	3941425.0	Good		69	98.7	99.3	100.0	0.0
+80	470.2573	Acinetobacter baumannii strain HJ20	WGS	3944994.0	Good		74	98.7	99.3	100.0	0.0
+81	470.2652	Acinetobacter baumannii strain XH193	WGS	3955993.0	Good		42	98.6	99.3	99.5	0.0
+82	470.2668	Acinetobacter baumannii strain KAB01	Complete	4034092.0	Good	1.0	2	98.4	99.3	100.0	1.5
+83	470.2672	Acinetobacter baumannii strain KAB05	Complete	4038601.0	Good	1.0	2	97.6	99.3	100.0	1.5
+84	470.2673	Acinetobacter baumannii strain KAB06	Complete	4038715.0	Good	1.0	2	98.3	99.2	100.0	0.0
+85	470.2674	Acinetobacter baumannii strain KAB07	Complete	4054434.0	Good		2	98.7	99.2	100.0	1.0
+86	470.2682	Acinetobacter baumannii strain XH742	WGS	3929240.0	Good		68	98.7	99.3	100.0	0.0
+87	470.2685	Acinetobacter baumannii strain XH744	WGS	3943328.0	Good		85	98.7	99.3	100.0	0.0
+88	470.2705	Acinetobacter baumannii strain XH704	WGS	3900268.0	Good		69	98.7	99.3	100.0	0.0
+89	470.2713	Acinetobacter baumannii strain XH713	WGS	3995344.0	Good		85	98.5	99.2	100.0	0.0
+90	470.2731	Acinetobacter baumannii strain XH745	WGS	3944450.0	Good		84	98.7	99.3	100.0	0.0
+91	470.2732	Acinetobacter baumannii strain XH741	WGS	3942213.0	Good		70	98.7	99.3	100.0	0.0
+92	470.2747	Acinetobacter baumannii strain XH778	WGS	3879234.0	Good		92	98.7	99.3	100.0	0.0
+93	470.2755	Acinetobacter baumannii strain XH798	WGS	4020420.0	Good		70	98.7	99.4	100.0	0.0
+94	470.2760	Acinetobacter baumannii strain XH805	WGS	3937773.0	Good		88	98.7	99.3	100.0	0.0
+95	470.2776	Acinetobacter baumannii strain XH514	WGS	3933212.0	Good		73	98.7	99.3	100.0	0.0
+96	470.2778	Acinetobacter baumannii strain XH515	WGS	3938384.0	Good		73	98.7	99.3	100.0	0.0
+97	470.2787	Acinetobacter baumannii strain XH552	WGS	3974618.0	Good		89	98.7	99.3	100.0	0.0
+98	470.2792	Acinetobacter baumannii strain XH645	WGS	3881900.0	Good		49	98.2	99.1	100.0	0.5
+99	470.2793	Acinetobacter baumannii strain XH643	WGS	3960735.0	Good		93	98.8	99.4	100.0	0.0
+100	470.2813	Acinetobacter baumannii strain XH650	WGS	3968057.0	Good		73	98.7	99.3	100.0	0.0
+101	470.2818	Acinetobacter baumannii strain XH666	WGS	3933260.0	Good		77	98.7	99.3	100.0	0.0
+102	470.2823	Acinetobacter baumannii strain XH673	WGS	3985058.0	Good		44	98.5	99.3	100.0	0.0
+103	470.2826	Acinetobacter baumannii strain XH851	WGS	3987249.0	Good		99	98.7	99.3	100.0	0.0
+104	470.2915	Acinetobacter baumannii strain CRO1	WGS	4018239.0	Good		89	98.3	99.3	100.0	0.5
+105	470.2916	Acinetobacter baumannii strain CRO3	WGS	3964436.0	Good		89	98.7	99.3	100.0	0.0
+106	470.2920	Acinetobacter baumannii strain AC_4820	WGS	3919012.0	Good		76	98.7	99.3	100.0	0.0
+107	470.2928	Acinetobacter baumannii strain CMC-CR-MDR-Ab4	Complete	4156005.0	Good	2.0	3	98.4	99.4	100.0	0.0
+108	470.2961	Acinetobacter baumannii strain Ab38	WGS	4027553.0	Good		90	98.6	99.4	100.0	0.0
+109	470.2967	Acinetobacter baumannii strain Ab30	WGS	3831255.0	Good		81	99.0	99.4	100.0	0.0
+110	470.2968	Acinetobacter baumannii strain Ab20	WGS	4012911.0	Good		65	98.5	99.4	100.0	0.0
+111	470.2979	Acinetobacter baumannii strain Ab15	WGS	3950432.0	Good		82	98.5	99.4	100.0	0.0
+112	470.2980	Acinetobacter baumannii strain Ab8	WGS	3977676.0	Good		74	98.6	99.4	100.0	0.0
+113	470.2983	Acinetobacter baumannii strain Ab22	WGS	3827197.0	Good		71	98.9	99.4	100.0	0.0
+114	470.2984	Acinetobacter baumannii strain Ab34	WGS	4026447.0	Good		90	98.5	99.4	100.0	0.0
+115	470.2986	Acinetobacter baumannii strain Ab18	WGS	3935952.0	Good		80	98.4	99.4	100.0	0.0
+116	470.2987	Acinetobacter baumannii strain Ab17	WGS	4003052.0	Good		99	98.4	99.4	100.0	0.0
+117	470.2988	Acinetobacter baumannii strain Ab33	WGS	3831914.0	Good		74	99.0	99.4	100.0	0.0
+118	470.2993	Acinetobacter baumannii strain Ab6	WGS	3978554.0	Good		73	98.6	99.4	100.0	0.0
+119	470.3001	Acinetobacter baumannii strain Ab3	WGS	3977681.0	Good		75	98.6	99.4	100.0	0.0
+120	470.3002	Acinetobacter baumannii strain Ab39	WGS	3874629.0	Good		68	98.9	99.4	100.0	0.0
+121	470.3005	Acinetobacter baumannii strain Ab9	WGS	3905658.0	Good		65	98.9	99.4	100.0	0.5
+122	470.3012	Acinetobacter baumannii strain Ab86	WGS	3977545.0	Good		82	98.6	99.4	100.0	0.5
+123	470.3014	Acinetobacter baumannii strain Ab101	WGS	3979256.0	Good		83	98.6	99.4	100.0	0.0
+124	470.3020	Acinetobacter baumannii strain Ab94	WGS	3977395.0	Good		85	98.6	99.4	100.0	0.0
+125	470.3022	Acinetobacter baumannii strain Ab96	WGS	3977621.0	Good		88	98.6	99.4	100.0	0.0
+126	470.3027	Acinetobacter baumannii strain ILBAbau5423457	WGS	4001907.0	Good		66	98.8	99.4	100.0	0.0
+127	470.3044	Acinetobacter baumannii strain AB042	Complete	4004719.0	Good		1	98.7	99.3	99.5	0.0
+128	470.3048	Acinetobacter baumannii strain DSM 30011	WGS	3953316.0	Good		16	98.7	99.3	100.0	0.0
+129	470.3105	Acinetobacter baumannii strain AB-B	WGS	4107205.0	Good		91	97.9	99.2	100.0	0.0
+130	470.3107	Acinetobacter baumannii strain ABUH393	WGS	4040615.0	Good		84	98.3	99.2	100.0	0.0
+131	470.3110	Acinetobacter baumannii strain ABUH432	WGS	4065050.0	Good		82	98.5	99.4	100.0	0.0
+132	470.3111	Acinetobacter baumannii strain ABUH435	WGS	4069958.0	Good		83	98.5	99.4	100.0	0.0
+133	470.3117	Acinetobacter baumannii strain ABUH414	WGS	3995861.0	Good		56	98.5	99.3	100.0	0.0
+134	470.3122	Acinetobacter baumannii strain ABUH645	WGS	3871445.0	Good		92	98.4	99.3	100.0	0.0
+135	470.3123	Acinetobacter baumannii strain ABUH441	WGS	4044958.0	Good		77	98.3	99.4	100.0	0.0
+136	470.3129	Acinetobacter baumannii strain ABUH672	WGS	3840609.0	Good		100	98.6	99.3	100.0	0.0
+137	470.3133	Acinetobacter baumannii strain ABUH522	WGS	4066291.0	Good		89	98.4	99.4	100.0	0.0
+138	470.3172	Acinetobacter baumannii strain ABUH453	WGS	3904550.0	Good		76	98.7	99.4	100.0	0.0
+139	470.4247	Acinetobacter baumannii strain 151	WGS	4031913.0	Good		99	98.1	99.2	100.0	0.5
+140	470.4253	Acinetobacter baumannii strain AC002	WGS	4026500.0	Good		77	98.4	99.3	99.5	0.0
+141	470.4260	Acinetobacter baumannii strain 29R1	WGS	3880071.0	Good		70	98.6	99.2	100.0	0.0
+142	470.4265	Acinetobacter baumannii strain GaenseEi-1	WGS	3929416.0	Good		70	98.5	99.4	100.0	0.5
+143	470.4287	Acinetobacter baumannii strain Ab4977	Complete	3966912.0	Good		1	98.8	99.3	100.0	0.0
+144	470.4684	Acinetobacter baumannii strain Ab804	WGS	4055382.0	Good		86	98.4	99.4	100.0	0.5
+145	470.4688	Acinetobacter baumannii strain IHSS3526	WGS	3782785.0	Good		51	98.7	99.1	100.0	1.0
+146	470.4747	Acinetobacter baumannii strain WCHAB005078	Complete	4141311.0	Good	3.0	4	98.6	99.3	100.0	0.0
+147	470.4750	Acinetobacter baumannii strain AB36	WGS	3909753.0	Good		86	98.8	99.3	100.0	0.0
+148	470.4752	Acinetobacter baumannii strain AB40	WGS	3852570.0	Good		69	98.7	99.3	100.0	0.0
+149	470.4755	Acinetobacter baumannii strain AB26	WGS	3896189.0	Good		59	98.8	99.3	100.0	0.0
+150	470.4756	Acinetobacter baumannii strain AB24	WGS	3921853.0	Good		94	98.9	99.3	100.0	0.0
+151	470.4760	Acinetobacter baumannii strain AB20	WGS	3922023.0	Good		94	98.7	99.2	100.0	0.0
+152	470.4761	Acinetobacter baumannii strain AB19	WGS	3864905.0	Good		85	98.7	99.3	100.0	0.0
+153	470.4764	Acinetobacter baumannii strain AB12	WGS	3962600.0	Good		97	98.8	99.4	100.0	0.0
+154	470.4774	Acinetobacter baumannii strain AB29	WGS	3868746.0	Good		71	98.9	99.3	100.0	0.0
+155	470.4776	Acinetobacter baumannii strain AB27	WGS	3924837.0	Good		80	98.8	99.3	100.0	0.0
+156	470.4778	Acinetobacter baumannii strain AB15	WGS	3932609.0	Good		65	98.8	99.3	100.0	0.0
+157	470.4783	Acinetobacter baumannii strain AB2	WGS	3857389.0	Good		64	98.8	99.3	100.0	0.0
+158	470.4784	Acinetobacter baumannii strain AB1	WGS	3900673.0	Good		88	98.4	99.2	99.5	0.0
+159	470.4823	Acinetobacter baumannii strain KCRI-49 strain RDK39_49	WGS	3873742.0	Good		47	98.5	99.4	100.0	0.0
+160	470.4898	Acinetobacter baumannii strain SGH1101	WGS	4004208.0	Good		100	98.6	99.3	100.0	0.0
+161	470.4904	Acinetobacter baumannii strain KUSSH32	WGS	3871995.0	Good		100	98.8	99.3	100.0	0.0
+162	470.4911	Acinetobacter baumannii strain KUFAR61	WGS	3941789.0	Good		96	98.6	99.3	100.0	0.0
+163	470.4913	Acinetobacter baumannii strain KUSSH01	WGS	3836849.0	Good		85	98.4	99.2	100.0	0.0
+164	470.4923	Acinetobacter baumannii strain KUSSH26	WGS	3874605.0	Good		94	98.6	99.3	100.0	0.0
+165	470.4925	Acinetobacter baumannii strain KUSSH37	WGS	3867389.0	Good		100	98.6	99.3	100.0	0.5
+166	470.4929	Acinetobacter baumannii strain KUFAR41	WGS	3939402.0	Good		93	98.4	99.3	100.0	0.0
+167	470.4932	Acinetobacter baumannii strain KUFAR53	WGS	3890327.0	Good		92	98.4	99.3	100.0	0.5
+168	470.5049	Acinetobacter baumannii strain XH731	Complete	3979135.0	Good	1.0	2	98.7	99.3	100.0	0.0
+169	470.5051	Acinetobacter baumannii strain XH731	Complete	3974327.0	Good	1.0	2	98.7	99.3	100.0	0.0
+170	470.5059	Acinetobacter baumannii strain Ab52 strain KT-A320	WGS	3857810.0	Good		42	98.7	99.4	100.0	0.0
+171	470.5067	Acinetobacter baumannii strain Ab82 strain D85	WGS	3942707.0	Good		70	98.8	99.4	100.0	1.0
+172	470.5068	Acinetobacter baumannii strain Ab72 strain D14	WGS	4046754.0	Good		90	98.7	99.3	100.0	0.0
+173	470.5069	Acinetobacter baumannii strain Ab76 strain D87	WGS	3942624.0	Good		70	98.9	99.4	100.0	0.5
+174	470.5073	Acinetobacter baumannii strain Ab121	WGS	3958527.0	Good		86	98.1	99.0	100.0	1.0
+175	470.5078	Acinetobacter baumannii strain Ab109 strain D18	WGS	4049564.0	Good		75	98.7	99.3	100.0	0.0
+176	470.5080	Acinetobacter baumannii strain Ab84 strain D84	WGS	3942838.0	Good		69	98.9	99.4	100.0	0.5
+177	470.5083	Acinetobacter baumannii strain Ab124	WGS	3914926.0	Good		65	98.9	99.4	100.0	0.0
+178	470.5085	Acinetobacter baumannii strain Ab125	WGS	4023416.0	Good		68	98.3	99.3	100.0	0.5
+179	470.5087	Acinetobacter baumannii strain Ab105 strain D3	WGS	3957498.0	Good		64	98.6	99.1	100.0	0.0
+180	470.5091	Acinetobacter baumannii strain Ab133	WGS	3839532.0	Good		81	99.0	99.4	100.0	0.5
+181	470.5095	Acinetobacter baumannii strain Ab129	WGS	3946147.0	Good		77	98.8	99.4	100.0	1.0
+182	470.5097	Acinetobacter baumannii strain Ab135	WGS	3871940.0	Good		87	99.0	99.4	100.0	0.0
+183	470.5098	Acinetobacter baumannii strain Ab141	WGS	3915333.0	Good		70	98.7	99.4	100.0	0.0
+184	470.5103	Acinetobacter baumannii strain Ab139	WGS	3915455.0	Good		69	98.9	99.4	100.0	0.0
+185	470.5106	Acinetobacter baumannii strain Ab152	WGS	3971055.0	Good		84	98.6	99.4	100.0	0.5
+186	470.5107	Acinetobacter baumannii strain Ab151	WGS	4051836.0	Good		99	98.4	99.4	100.0	0.0
+187	470.5109	Acinetobacter baumannii strain Ab150	WGS	3971709.0	Good		84	98.5	99.4	100.0	0.0
+188	470.5114	Acinetobacter baumannii strain Ab146	WGS	4012437.0	Good		93	98.4	99.4	100.0	0.0
+189	470.5128	Acinetobacter baumannii strain Ab171	WGS	3978224.0	Good		87	98.6	99.4	100.0	0.0
+190	470.5129	Acinetobacter baumannii strain Ab172	WGS	4012620.0	Good		94	98.3	99.4	100.0	0.0
+191	470.5133	Acinetobacter baumannii strain Ab169	WGS	3976112.0	Good		87	98.5	99.4	100.0	0.5
+192	470.5138	Acinetobacter baumannii strain Ab188	WGS	3788531.0	Good		71	98.6	99.3	100.0	0.0
+193	470.5148	Acinetobacter baumannii strain Ab201	WGS	3965134.0	Good		60	98.4	99.1	100.0	0.0
+194	470.5152	Acinetobacter baumannii strain Ab203	WGS	4073326.0	Good		70	97.9	99.0	100.0	0.0
+195	470.5153	Acinetobacter baumannii strain Ab190	WGS	3806550.0	Good		79	98.9	99.3	98.4	0.5
+196	470.5158	Acinetobacter baumannii strain Ab189	WGS	3976704.0	Good		89	98.6	99.4	100.0	0.0
+197	470.5160	Acinetobacter baumannii strain Ab191	WGS	3993818.0	Good		91	98.4	99.4	100.0	1.0
+198	470.5161	Acinetobacter baumannii strain Ab213	WGS	4060643.0	Good		79	98.4	99.3	100.0	0.5
+199	470.5162	Acinetobacter baumannii strain Ab211	WGS	4020100.0	Good		66	98.4	99.4	100.0	0.5
+200	470.5165	Acinetobacter baumannii strain Ab210	WGS	4024418.0	Good		84	98.4	99.4	100.0	0.0
+201	470.5166	Acinetobacter baumannii strain Ab225	WGS	3982896.0	Good		85	98.5	99.4	100.0	0.5
+202	470.5167	Acinetobacter baumannii strain Ab226	WGS	3913847.0	Good		77	98.7	99.5	98.4	0.0
+203	470.5168	Acinetobacter baumannii strain Ab209	WGS	4024843.0	Good		94	98.5	99.4	100.0	0.0
+204	470.5170	Acinetobacter baumannii strain Ab220	WGS	3988186.0	Good		82	98.6	99.4	100.0	0.0
+205	470.5173	Acinetobacter baumannii strain Ab219	WGS	3986853.0	Good		82	98.6	99.4	100.0	0.0
+206	470.5174	Acinetobacter baumannii strain Ab217	WGS	3845857.0	Good		62	98.6	99.3	100.0	0.0
+207	470.5188	Acinetobacter baumannii strain Ab243	WGS	3951215.0	Good		80	97.7	99.0	100.0	1.0
+208	470.5284	Acinetobacter baumannii strain MH7	WGS	3973977.0	Good		85	98.2	99.3	100.0	0.5
+209	470.537	Acinetobacter baumannii BJ4	WGS	3962297.0	Good		54	98.2	99.1	100.0	1.5
+210	470.5408	Acinetobacter baumannii strain 198	WGS	4024532.0	Good		86	98.0	99.1	100.0	1.0
+211	470.5415	Acinetobacter baumannii strain 9201	Complete	4128152.0	Good	1.0	2	98.4	99.2	100.0	0.0
+212	470.5418	Acinetobacter baumannii strain 9102	Complete	4066829.0	Good	1.0	2	98.7	99.3	100.0	0.0
+213	470.5451	Acinetobacter baumannii strain XH906	Complete	3891370.0	Good		1	98.6	99.2	99.0	0.5
+214	470.5458	Acinetobacter baumannii strain NCTC13420	WGS	4076606.0	Good		6	98.4	99.3	99.2	0.0
+215	470.552	Acinetobacter baumannii BJ8	WGS	3862420.0	Good		56	98.9	99.3	100.0	0.0
+216	470.566	Acinetobacter baumannii T271	WGS	3860407.0	Good		91	98.9	99.3	100.0	0.0
+217	470.570	Acinetobacter baumannii 6870155	WGS	3981400.0	Good		19	98.7	99.3	100.0	0.0
+218	470.771	Acinetobacter baumannii AbH12O-A2	Complete	3875775.0	Good		1	98.8	99.3	100.0	0.5
+219	575584.33	Acinetobacter baumannii ATCC 19606 = CIP 70.34 = JCM 6841	WGS	3980527.0	Good	3.0	13	98.5	99.3	100.0	0.0
+220	903890.3	Acinetobacter baumannii OIFC032	WGS	3902716.0	Good	0.0	30	98.1	99.0	100.0	0.0
+221	903911.3	Acinetobacter baumannii IS-143	WGS	4020019.0	Good	0.0	93	98.4	99.4	100.0	0.0
+222	903926.3	Acinetobacter baumannii OIFC035	WGS	3972611.0	Good	0.0	44	98.2	99.3	100.0	0.0
+223	903930.3	Acinetobacter baumannii OIFC099	WGS	3918177.0	Good	0.0	75	97.9	98.9	100.0	0.0
+224	903935.3	Acinetobacter baumannii OIFC111	WGS	3988061.0	Good	0.0	44	98.2	99.0	100.0	0.5
+225	903937.3	Acinetobacter baumannii AA-014	WGS	3857932.0	Good	0.0	61	98.4	99.3	100.0	0.0
+226	1116234.3	Acinetobacter baumannii AB5075	WGS	4050591.0	Good	0.0	36	97.0	99.2	99.5	0.5
+227	1217630.3	Acinetobacter baumannii NIPH 201	WGS	4110685.0	Good	0.0	23	98.7	99.3	100.0	0.0
+228	1217633.3	Acinetobacter baumannii NIPH 335	WGS	3923854.0	Good	0.0	29	98.1	98.6	100.0	0.0
+229	1217647.3	Acinetobacter baumannii NIPH 60	WGS	3946627.0	Good	0.0	65	98.4	99.0	100.0	1.0
+230	1310583.3	Acinetobacter baumannii 1051176	WGS	3859137.0	Good	0.0	71	98.6	99.3	100.0	1.0
+231	1310597.3	Acinetobacter baumannii 1247182	WGS	3991751.0	Good	0.0	89	98.6	99.3	100.0	0.5
+232	1310622.6	Acinetobacter baumannii 1035119	WGS	3928666.0	Good	0.0	55	97.8	99.2	100.0	0.5
+233	1310694.3	Acinetobacter baumannii 232184	WGS	3872123.0	Good	0.0	59	98.7	99.2	100.0	0.0
+234	1310701.3	Acinetobacter baumannii 268680	WGS	3863833.0	Good	0.0	43	98.8	99.2	100.0	0.0
+235	1310710.3	Acinetobacter baumannii 3390	WGS	3989571.0	Good	0.0	62	97.6	98.8	100.0	0.5
+236	1310717.3	Acinetobacter baumannii 1457504	WGS	3970062.0	Good	0.0	92	98.4	99.3	100.0	0.5
+237	1310721.3	Acinetobacter baumannii 1533268	WGS	3883759.0	Good	0.0	34	98.0	99.3	99.5	1.5
+238	1310731.3	Acinetobacter baumannii 1178044	WGS	4006000.0	Good	0.0	94	98.4	99.3	100.0	0.5
+239	1310732.3	Acinetobacter baumannii 1271651	WGS	3964820.0	Good	0.0	97	98.7	99.3	100.0	0.0
+240	1310743.3	Acinetobacter baumannii 1264936	WGS	3928172.0	Good	0.0	99	98.5	99.3	100.0	0.0
+241	1310747.3	Acinetobacter baumannii 1095464	WGS	3975969.0	Good	0.0	100	98.4	99.3	100.0	1.5
+242	1310748.3	Acinetobacter baumannii 846928	WGS	3905466.0	Good	0.0	58	98.0	99.3	100.0	0.0
+243	1310768.3	Acinetobacter baumannii 1397513	WGS	3993250.0	Good	0.0	98	98.5	99.3	100.0	0.5
+244	1310770.3	Acinetobacter baumannii 1295549	WGS	3916791.0	Good	0.0	30	98.3	99.3	100.0	0.0
+245	1310774.3	Acinetobacter baumannii 1232509	WGS	4015273.0	Good	0.0	95	98.8	99.3	100.0	0.0
+246	1310777.3	Acinetobacter baumannii 1262761-97	WGS	4002698.0	Good	0.0	96	98.5	99.3	100.0	0.5
+247	1310782.3	Acinetobacter baumannii 1170863	WGS	4085498.0	Good	0.0	59	97.6	99.0	100.0	2.0
+248	1310797.3	Acinetobacter baumannii 1428368	WGS	4071195.0	Good	0.0	95	98.6	99.3	100.0	0.0
+249	1310802.3	Acinetobacter baumannii 11126	WGS	4063086.0	Good	0.0	91	98.4	99.3	100.0	0.0
+250	1310803.3	Acinetobacter baumannii 730795	WGS	4054430.0	Good	0.0	89	98.2	99.3	100.0	0.0
+251	1310827.3	Acinetobacter baumannii 1262761-105	WGS	4139565.0	Good		65	97.0	98.8	100.0	1.0
+252	1398986.3	Acinetobacter baumannii UH8707	WGS	3917857.0	Good	0.0	88	98.9	99.4	100.0	0.5
+253	1409924.3	Acinetobacter baumannii MRSN 3942	WGS	3975719.0	Good	1.0	69	98.5	99.2	99.7	0.0
+254	1439316.7	Acinetobacter baumannii BIDMC 56	WGS	3929582.0	Good		23	98.9	99.4	100.0	0.0
+255	470.3365	Acinetobacter baumannii strain 428	WGS	3786617.0	Good		64	98.3	99.4	100.0	0.0
+256	470.3366	Acinetobacter baumannii strain 314	WGS	3782515.0	Good		55	98.6	99.4	100.0	0.0
+257	470.3374	Acinetobacter baumannii strain PR309	WGS	3873430.0	Good		70	98.5	99.2	100.0	0.0
+258	470.3377	Acinetobacter baumannii strain PR351	WGS	4047560.0	Good		73	98.4	99.4	100.0	0.0
+259	470.3380	Acinetobacter baumannii strain PR355	WGS	4006336.0	Good		32	98.4	99.2	100.0	0.0
+260	470.3385	Acinetobacter baumannii strain PR360	WGS	3964405.0	Good		75	98.1	99.1	100.0	1.5
+261	470.3386	Acinetobacter baumannii strain PR359	WGS	4067569.0	Good		75	98.5	99.4	100.0	0.0
+262	470.3387	Acinetobacter baumannii strain PR361	WGS	3874458.0	Good		68	98.2	99.2	100.0	0.0
+263	470.3397	Acinetobacter baumannii strain PR379	WGS	3997699.0	Good		87	98.6	99.3	100.0	0.0
+264	470.3408	Acinetobacter baumannii strain PR333	WGS	3783903.0	Good		46	98.7	99.0	100.0	0.5
+265	470.3427	Acinetobacter baumannii strain PR387	WGS	4082666.0	Good		74	98.4	99.4	100.0	0.0
+266	470.3428	Acinetobacter baumannii strain PR389	WGS	3890477.0	Good		50	98.1	99.0	100.0	0.5
+267	470.3442	Acinetobacter baumannii strain ARLG1842	WGS	3927206.0	Good		75	98.8	99.4	100.0	0.0
+268	470.3451	Acinetobacter baumannii strain ARLG1792	WGS	3920149.0	Good		91	98.6	99.3	100.0	0.0
+269	470.3452	Acinetobacter baumannii strain ARLG1847	WGS	4075528.0	Good		74	98.4	99.4	100.0	0.0
+270	470.3460	Acinetobacter baumannii strain ARLG1790	WGS	3808755.0	Good		55	98.7	99.2	100.0	0.0
+271	470.3464	Acinetobacter baumannii strain ARLG1810	WGS	3910509.0	Good		80	98.4	99.3	100.0	0.0
+272	470.3465	Acinetobacter baumannii strain ARLG1814	WGS	3924395.0	Good		82	98.2	99.3	100.0	0.0
+273	470.3468	Acinetobacter baumannii strain ARLG1819	WGS	4021813.0	Good		83	98.4	99.3	100.0	0.0
+274	470.3469	Acinetobacter baumannii strain ARLG1824	WGS	4045525.0	Good		74	98.4	99.3	100.0	0.0
+275	470.3472	Acinetobacter baumannii strain ARLG1833	WGS	3999134.0	Good		62	98.5	99.3	100.0	0.0
+276	470.3478	Acinetobacter baumannii strain ARLG1306	WGS	3947223.0	Good		76	98.2	99.0	100.0	0.0
+277	470.3480	Acinetobacter baumannii strain ARLG1294	WGS	3953778.0	Good		83	98.4	99.3	100.0	0.0
+278	470.3482	Acinetobacter baumannii strain ARLG1314	WGS	4036994.0	Good		73	98.5	99.3	100.0	0.5
+279	470.3490	Acinetobacter baumannii strain ARLG1936	WGS	3822427.0	Good		45	98.2	99.2	100.0	0.0
+280	470.3496	Acinetobacter baumannii strain ARLG1882	WGS	3778698.0	Good		99	99.0	99.3	100.0	0.5
+281	470.3500	Acinetobacter baumannii strain ARLG1886	WGS	4077454.0	Good		75	98.5	99.4	100.0	0.0
+282	470.3501	Acinetobacter baumannii strain ARLG1891	WGS	3786947.0	Good		66	98.2	98.9	100.0	0.0
+283	470.3507	Acinetobacter baumannii strain ARLG1940	WGS	3835037.0	Good		82	98.4	99.3	100.0	0.0
+284	470.3514	Acinetobacter baumannii strain ARLG1933	WGS	3781913.0	Good		44	98.7	99.3	100.0	0.0
+285	470.3679	Acinetobacter baumannii strain ABUH508	WGS	4121392.0	Good		83	98.4	99.4	100.0	0.0
+286	470.3681	Acinetobacter baumannii strain ABUH518	WGS	3883246.0	Good		49	98.1	98.8	100.0	0.0
+287	470.3682	Acinetobacter baumannii strain ABUH533	WGS	4003488.0	Good		76	98.7	99.4	100.0	0.0
+288	470.3701	Acinetobacter baumannii strain ABUH496	WGS	4154922.0	Good		81	98.5	99.4	100.0	0.0
+289	470.3718	Acinetobacter baumannii strain ABUH688	WGS	4054830.0	Good		99	98.4	99.4	100.0	0.0
+290	470.3720	Acinetobacter baumannii strain ABUH692	WGS	4108508.0	Good		98	98.3	99.4	100.0	0.0
+291	470.3722	Acinetobacter baumannii strain ABUH575	WGS	4031945.0	Good		78	98.6	99.4	100.0	0.0
+292	470.3726	Acinetobacter baumannii strain ABUH596	WGS	4027331.0	Good		78	98.4	99.4	100.0	0.0
+293	470.3736	Acinetobacter baumannii strain ABUH532	WGS	4086837.0	Good		88	98.5	99.4	100.0	0.0
+294	470.3737	Acinetobacter baumannii strain ABUH542	WGS	3975008.0	Good		87	98.7	99.4	100.0	0.0
+295	470.3747	Acinetobacter baumannii strain ABUH437	WGS	4043592.0	Good		66	98.4	99.4	100.0	0.0
+296	470.3749	Acinetobacter baumannii strain ABUH464	WGS	4102408.0	Good		69	98.4	99.4	100.0	0.0
+297	470.3761	Acinetobacter baumannii strain ABUH586	WGS	4028414.0	Good		80	98.3	99.4	100.0	0.0
+298	470.3763	Acinetobacter baumannii strain ABUH625	WGS	4057829.0	Good		91	98.6	99.4	100.0	0.5
+299	470.3767	Acinetobacter baumannii strain ARLG-1788	WGS	4063360.0	Good		64	98.4	99.3	100.0	0.0
+300	470.4926	Acinetobacter baumannii strain KUSSH36	WGS	3882939.0	Good		60	98.7	99.3	100.0	0.0
+301	470.4917	Acinetobacter baumannii strain KUSSH13	WGS	3887021.0	Good		80	98.4	99.2	100.0	0.0
+302	470.4249	Acinetobacter baumannii strain AC003-2-R1	WGS	3957659.0	Good		44	98.7	99.3	100.0	0.0
+303	470.4251	Acinetobacter baumannii strain AC002-1-R4-S1	WGS	4015430.0	Good		82	98.4	99.3	99.5	0.0
+304	470.5037	Acinetobacter baumannii strain GML-KP7-Col_R_AB-TR	WGS	4001958.0	Good		88	98.5	99.3	100.0	0.0
+305	470.5038	Acinetobacter baumannii strain GML-KP48-AB-TR	WGS	3920937.0	Good		65	98.4	99.1	100.0	1.0
+306	470.3348	Acinetobacter baumannii strain CBA7	Complete	4108454.0	Good	1.0	2	98.2	99.1	100.0	2.0
+307	470.3350	Acinetobacter baumannii strain 15A5	Complete	4049307.0	Good	2.0	3	98.4	99.3	100.0	0.0
+308	470.2931	Acinetobacter baumannii strain 11510	Complete	4155614.0	Good	1.0	2	98.5	99.3	100.0	0.5
+309	470.2935	Acinetobacter baumannii strain 11536	WGS	4115055.0	Good		66	98.6	99.3	100.0	0.5
+310	470.2937	Acinetobacter baumannii strain 11606	WGS	3981780.0	Good		70	98.6	99.3	100.0	0.0
+311	470.4273	Acinetobacter baumannii strain A388	Complete	4032048.0	Good	1.0	2	98.7	99.3	100.0	0.0
+312	470.1363	Acinetobacter baumannii strain LUH_7841	WGS	3801220.0	Good		16	98.5	99.3	100.0	0.0
+313	886888.3	Acinetobacter baumannii 3990	WGS	4015011.0	Good	0.0	96	98.6	99.3	100.0	0.5
+314	903896.3	Acinetobacter baumannii Naval-17	WGS	4009964.0	Good	0.0	21	99.0	99.4	100.0	0.0
+315	903904.3	Acinetobacter baumannii Naval-13	WGS	4107737.0	Good	0.0	64	98.5	99.3	100.0	0.0
+316	903906.3	Acinetobacter baumannii IS-251	WGS	4007286.0	Good	0.0	72	98.6	99.2	100.0	0.0
+317	903925.3	Acinetobacter baumannii WC-A-694	WGS	4008103.0	Good	0.0	82	98.5	99.3	100.0	0.0
+318	470.5337	Acinetobacter baumannii strain s271	WGS	4002439.0	Good		46	98.1	99.3	100.0	1.8
+319	470.5338	Acinetobacter baumannii strain s272	WGS	4004807.0	Good		50	98.3	99.4	100.0	0.5
+320	470.5340	Acinetobacter baumannii strain s269	WGS	3998889.0	Good		48	98.4	99.3	100.0	1.0
+321	470.5341	Acinetobacter baumannii strain s267	WGS	3817305.0	Good		54	98.6	99.3	100.0	0.5
+322	470.5342	Acinetobacter baumannii strain s266	WGS	3831493.0	Good		69	98.2	99.3	100.0	0.5
+323	470.5343	Acinetobacter baumannii strain s268	WGS	3845034.0	Good		52	98.6	99.3	100.0	0.0
+324	470.5345	Acinetobacter baumannii strain s264	WGS	3851768.0	Good		49	98.3	99.3	100.0	0.5
+325	470.5346	Acinetobacter baumannii strain s263	WGS	3847030.0	Good		53	98.2	99.3	100.0	1.5
+326	470.5348	Acinetobacter baumannii strain s261	WGS	3852631.0	Good		51	98.2	99.3	100.0	1.5
+327	470.5356	Acinetobacter baumannii strain s253	WGS	3851471.0	Good		56	98.2	99.3	100.0	1.0
+328	470.5358	Acinetobacter baumannii strain s251	WGS	3907934.0	Good		45	98.4	99.2	100.0	0.0
+329	470.5359	Acinetobacter baumannii strain s250	WGS	3907779.0	Good		54	98.4	99.3	100.0	0.0
+330	470.5360	Acinetobacter baumannii strain s249	WGS	3882727.0	Good		46	98.4	99.3	100.0	0.0
+331	470.5362	Acinetobacter baumannii strain s246	WGS	3911156.0	Good		46	98.5	99.3	100.0	0.5
+332	470.5365	Acinetobacter baumannii strain s244	WGS	3911782.0	Good		54	98.2	99.2	100.0	1.0
+333	470.5368	Acinetobacter baumannii strain s241	WGS	3905263.0	Good		53	98.4	99.3	100.0	0.0
+334	470.5371	Acinetobacter baumannii strain s238	WGS	3939428.0	Good		48	97.9	99.3	100.0	1.0
+335	470.5376	Acinetobacter baumannii strain s233	WGS	3933831.0	Good		53	98.4	99.3	100.0	1.5
+336	470.5378	Acinetobacter baumannii strain s231	WGS	3854332.0	Good		48	98.4	99.3	100.0	1.5
+337	470.5380	Acinetobacter baumannii strain s229	WGS	3942298.0	Good		51	98.4	99.3	100.0	0.5
+338	470.5382	Acinetobacter baumannii strain s226	WGS	3852105.0	Good		53	98.6	99.3	100.0	0.0
+339	470.5384	Acinetobacter baumannii strain s225	WGS	3852924.0	Good		45	98.5	99.3	100.0	2.0
+340	470.5385	Acinetobacter baumannii strain s224	WGS	3850813.0	Good		58	98.5	99.3	100.0	0.5
+341	470.5391	Acinetobacter baumannii strain s217	WGS	4070742.0	Good		44	98.1	99.4	100.0	0.5
+342	470.5394	Acinetobacter baumannii strain s215	WGS	4055494.0	Good		33	98.2	99.4	100.0	0.0
+343	470.5315	Acinetobacter baumannii strain ACM-38	WGS	3931418.0	Good		91	98.4	99.1	100.0	0.0
+344	470.5319	Acinetobacter baumannii strain ISAB51	WGS	4069057.0	Good		77	98.4	99.4	100.0	0.0
+345	470.3344	Acinetobacter baumannii strain ABUH343	WGS	3953913.0	Good		86	98.6	99.4	100.0	0.0
+346	470.3346	Acinetobacter baumannii strain TDAB1	WGS	3955365.0	Good		64	98.6	99.3	100.0	0.5
+347	575584.3	Acinetobacter baumannii ATCC 19606 = CIP 70.34	WGS	3971516.0	Good	0.0	22	98.3	99.3	100.0	1.0
+348	470.4895	Acinetobacter baumannii strain SGH0825	WGS	4008413.0	Good		56	98.8	99.4	100.0	0.0
+349	470.4897	Acinetobacter baumannii strain SGH1010	WGS	3830480.0	Good		55	98.8	99.3	100.0	0.0
+350	470.3536	Acinetobacter baumannii strain AC15M	WGS	4027193.0	Good		84	98.1	99.2	100.0	0.0
+351	470.5099	Acinetobacter baumannii strain Ab142	WGS	3913249.0	Good		67	98.7	99.4	100.0	0.0
+352	470.5111	Acinetobacter baumannii strain Ab160	WGS	4012079.0	Good		98	98.4	99.4	100.0	0.5
+353	470.5119	Acinetobacter baumannii strain Ab154	WGS	3996806.0	Good		91	98.4	99.4	100.0	0.0
+354	470.5146	Acinetobacter baumannii strain Ab180	WGS	3974893.0	Good		90	98.5	99.4	100.0	0.0
+355	470.5154	Acinetobacter baumannii strain Ab194	WGS	3813143.0	Good		73	99.0	99.4	100.0	0.0
+356	470.5179	Acinetobacter baumannii strain Ab233	WGS	3797080.0	Good		80	99.0	99.4	100.0	0.0
+357	470.5181	Acinetobacter baumannii strain Ab234	WGS	3798266.0	Good		80	98.9	99.4	100.0	0.0
+358	470.5189	Acinetobacter baumannii strain Ab239	WGS	4027747.0	Good		91	98.4	99.3	100.0	0.5
+359	470.5464	Acinetobacter baumannii strain 4300STDY7045684	WGS	3922396.0	Good		48	98.7	99.3	100.0	0.0
+360	470.5470	Acinetobacter baumannii strain 4300STDY7045683	WGS	3927692.0	Good		61	98.7	99.3	100.0	0.0
+361	470.5473	Acinetobacter baumannii strain 4300STDY7045688	WGS	3926861.0	Good		58	98.8	99.3	100.0	0.0
+362	470.5474	Acinetobacter baumannii strain 4300STDY7045694	WGS	3990539.0	Good		51	98.7	99.3	100.0	0.0
+363	470.5478	Acinetobacter baumannii strain 4300STDY7045687	WGS	3920686.0	Good		51	98.7	99.3	100.0	0.0
+364	470.5484	Acinetobacter baumannii strain 4300STDY7045695	WGS	3783788.0	Good		42	98.4	98.9	100.0	0.0
+365	470.5486	Acinetobacter baumannii strain 4300STDY7045701	WGS	3918296.0	Good		44	98.8	99.3	100.0	0.0
+366	470.5488	Acinetobacter baumannii strain 4300STDY7045703	WGS	3985291.0	Good		65	98.7	99.3	100.0	0.0
+367	470.5492	Acinetobacter baumannii strain 4300STDY7045718	WGS	3955137.0	Good		50	98.7	99.3	100.0	0.0
+368	470.5493	Acinetobacter baumannii strain 4300STDY7045713	WGS	3924344.0	Good		57	98.7	99.3	100.0	0.0
+369	470.5494	Acinetobacter baumannii strain 4300STDY7045698	WGS	3969034.0	Good		53	98.7	99.3	100.0	0.0
+370	470.5495	Acinetobacter baumannii strain 4300STDY7045710	WGS	3907758.0	Good		51	98.8	99.3	100.0	0.0
+371	470.5497	Acinetobacter baumannii strain 4300STDY7045706	WGS	3866994.0	Good		49	98.5	99.1	100.0	1.0
+372	470.5498	Acinetobacter baumannii strain 4300STDY7045712	WGS	4124692.0	Good		86	98.3	99.3	100.0	1.0
+373	470.5500	Acinetobacter baumannii strain 4300STDY7045711	WGS	3956933.0	Good		47	98.7	99.3	100.0	0.0
+374	470.5507	Acinetobacter baumannii strain 4300STDY7045720	WGS	3952209.0	Good		47	98.7	99.3	100.0	0.0
+375	470.5508	Acinetobacter baumannii strain 4300STDY7045724	WGS	3776056.0	Good		16	98.4	99.2	100.0	0.0
+376	470.5509	Acinetobacter baumannii strain 4300STDY7045721	WGS	3997464.0	Good		60	98.5	99.3	100.0	0.0
+377	470.5516	Acinetobacter baumannii strain 4300STDY7045726	WGS	3863391.0	Good		48	98.7	99.3	100.0	0.0
+378	470.5520	Acinetobacter baumannii strain 4300STDY7045740	WGS	3983285.0	Good		66	98.7	99.3	100.0	0.0
+379	470.5522	Acinetobacter baumannii strain 4300STDY7045732	WGS	3912326.0	Good		62	98.8	99.3	100.0	0.0
+380	470.5523	Acinetobacter baumannii strain 4300STDY7045730	WGS	3774582.0	Good		16	98.8	99.3	100.0	0.0
+381	470.5535	Acinetobacter baumannii strain 4300STDY7045744	WGS	3781348.0	Good		30	98.7	99.3	100.0	0.5
+382	470.5536	Acinetobacter baumannii strain 4300STDY7045748	WGS	3919090.0	Good		41	98.8	99.3	100.0	0.0
+383	470.5539	Acinetobacter baumannii strain 4300STDY7045771	WGS	3886554.0	Good		35	98.7	99.3	100.0	0.3
+384	470.5540	Acinetobacter baumannii strain 4300STDY7045764	WGS	3955907.0	Good		85	98.4	99.3	100.0	0.5
+385	470.5550	Acinetobacter baumannii strain 4300STDY7045767	WGS	3952926.0	Good		72	98.7	99.3	100.0	0.0
+386	470.5552	Acinetobacter baumannii strain 4300STDY7045768	WGS	3920184.0	Good		47	98.7	99.3	100.0	0.0
+387	470.5556	Acinetobacter baumannii strain 4300STDY7045760	WGS	3960953.0	Good		67	98.3	99.2	100.0	0.0
+388	470.5569	Acinetobacter baumannii strain 4300STDY7045793	WGS	3930529.0	Good		67	98.4	99.1	100.0	0.0
+389	470.5570	Acinetobacter baumannii strain 4300STDY7045781	WGS	3982403.0	Good		80	98.7	99.3	100.0	0.0
+390	470.5572	Acinetobacter baumannii strain 4300STDY7045782	WGS	3935859.0	Good		64	98.7	99.3	100.0	0.0
+391	470.5575	Acinetobacter baumannii strain 4300STDY7045785	WGS	3937131.0	Good		70	98.4	99.2	100.0	0.0
+392	470.5579	Acinetobacter baumannii strain 4300STDY7045796	WGS	3984600.0	Good		75	98.2	99.1	100.0	0.5
+393	470.5583	Acinetobacter baumannii strain 4300STDY7045798	WGS	3883410.0	Good		75	98.5	99.1	100.0	1.0
+394	470.5610	Acinetobacter baumannii strain 4300STDY7045799	WGS	3882558.0	Good		79	98.5	99.1	100.0	1.5
+395	470.5615	Acinetobacter baumannii strain 4300STDY7045808	WGS	3894171.0	Good		58	98.4	99.1	100.0	1.0
+396	470.5633	Acinetobacter baumannii strain 4300STDY7045805	WGS	3968248.0	Good		66	98.7	99.3	100.0	0.0
+397	470.5637	Acinetobacter baumannii strain 4300STDY7045828	WGS	3946822.0	Good		86	98.7	99.3	100.0	0.0
+398	470.5659	Acinetobacter baumannii strain 4300STDY7045833	WGS	4008172.0	Good		84	98.6	99.3	100.0	0.0
+399	470.5669	Acinetobacter baumannii strain 4300STDY7045860	WGS	3927590.0	Good		28	98.5	99.3	100.0	0.0
+400	470.5670	Acinetobacter baumannii strain 4300STDY7045863	WGS	3965112.0	Good		45	98.2	99.1	100.0	0.5
+401	470.5672	Acinetobacter baumannii strain 4300STDY7045862	WGS	3941557.0	Good		62	98.9	99.3	100.0	0.0
+402	470.5673	Acinetobacter baumannii strain 4300STDY7045861	WGS	3825836.0	Good		20	98.9	99.3	100.0	0.0
+403	470.5674	Acinetobacter baumannii strain 4300STDY7045865	WGS	3951864.0	Good		39	98.5	99.3	100.0	0.0
+404	470.5676	Acinetobacter baumannii strain 4300STDY7045886	WGS	4129675.0	Good		84	98.2	99.2	100.0	1.5
+405	470.5678	Acinetobacter baumannii strain 4300STDY7045866	WGS	3942170.0	Good		88	98.3	99.0	100.0	1.0
+406	470.5681	Acinetobacter baumannii strain 4300STDY7045879	WGS	3837941.0	Good		74	98.8	99.3	100.0	0.5
+407	470.5693	Acinetobacter baumannii strain 4300STDY7045867	WGS	3888498.0	Good		84	98.9	99.3	100.0	0.5
+408	470.5703	Acinetobacter baumannii strain 4300STDY7045895	WGS	3798644.0	Good		60	98.8	99.2	100.0	0.5
+409	470.5709	Acinetobacter baumannii strain 4300STDY7045906	WGS	3864954.0	Good		57	98.5	99.0	100.0	0.0
+410	470.5711	Acinetobacter baumannii strain 4300STDY7045904	WGS	3915341.0	Good		77	98.7	99.4	100.0	0.5
+411	470.5715	Acinetobacter baumannii strain 4300STDY7045907	WGS	3997788.0	Good		64	98.7	99.4	100.0	0.5
+412	470.1309	Acinetobacter baumannii strain 2011BJAB1	WGS	4109366.0	Good		81	98.7	99.3	100.0	0.0
+413	470.1554	Acinetobacter baumannii strain MRSN16882	WGS	3917955.0	Good		80	97.9	98.8	100.0	0.0
+414	470.1555	Acinetobacter baumannii strain MRSN15038	WGS	3826183.0	Good		74	98.2	98.8	100.0	0.5
+415	470.1557	Acinetobacter baumannii strain MRSN15084	WGS	3860874.0	Good		66	98.2	98.8	100.0	0.5
+416	470.1746	Acinetobacter baumannii strain D30	WGS	3880575.0	Good		65	98.7	99.3	100.0	0.0
+417	470.1748	Acinetobacter baumannii strain A92	WGS	3900058.0	Good		57	98.7	99.3	100.0	0.0
+418	470.1755	Acinetobacter baumannii strain J7	WGS	4069530.0	Good		65	98.2	99.2	100.0	0.5
+419	470.2241	Acinetobacter baumannii strain CCF1	WGS	3945844.0	Good		82	98.7	99.3	100.0	0.0
+420	470.2255	Acinetobacter baumannii strain CCF18	WGS	4011600.0	Good		83	98.4	99.4	100.0	0.0
+421	470.2267	Acinetobacter baumannii strain CCF11	WGS	3940501.0	Good		54	98.4	99.2	98.4	0.0
+422	470.2295	Acinetobacter baumannii strain CCF62	WGS	4049081.0	Good		77	98.5	99.4	100.0	0.0
+423	470.2433	Acinetobacter baumannii A080	WGS	3838670.0	Good		72	98.6	99.3	100.0	0.0
+424	470.2843	Acinetobacter baumannii strain AR_0036	WGS	4102278.0	Good		7	98.6	99.3	100.0	0.0
+425	470.2844	Acinetobacter baumannii strain AR_0037	WGS	4069789.0	Good		26	97.8	99.0	100.0	0.0
+426	470.2845	Acinetobacter baumannii strain AR_0033	WGS	4097538.0	Good		20	97.6	99.0	100.0	1.5
+427	470.3997	Acinetobacter baumannii strain ABCRPSTH04	WGS	3956311.0	Good		89	98.6	99.3	100.0	0.0
+428	470.3998	Acinetobacter baumannii strain ABCRPSTH07	WGS	3884131.0	Good		79	98.7	99.3	100.0	0.0
+429	470.4001	Acinetobacter baumannii strain ABCRPSTH06	WGS	3885822.0	Good		72	98.8	99.3	100.0	0.0
+430	470.4002	Acinetobacter baumannii strain ABCRPSTH10	WGS	3893616.0	Good		99	98.7	99.3	100.0	0.0
+431	470.4004	Acinetobacter baumannii strain ABCRPUTH04	WGS	3941122.0	Good		79	98.7	99.3	100.0	0.0
+432	470.4005	Acinetobacter baumannii strain ABCRPUTH05	WGS	3943734.0	Good		98	98.7	99.1	100.0	0.5
+433	470.4006	Acinetobacter baumannii strain ABCRPUTH07	WGS	3909056.0	Good		97	98.6	99.3	100.0	0.0
+434	470.4007	Acinetobacter baumannii strain ABCRPUTH09	WGS	3971754.0	Good		76	98.5	99.3	100.0	0.0
+435	470.4017	Acinetobacter baumannii strain ABCRPUTH06	WGS	3938920.0	Good		77	98.6	99.3	100.0	0.0
+436	470.4066	Acinetobacter baumannii strain SIPA14	WGS	3879348.0	Good		92	98.6	99.3	100.0	0.0
+437	470.4702	Acinetobacter baumannii strain AR_0063	Complete	4101751.0	Good	1.0	2	98.1	99.0	99.0	0.0
+438	470.4785	Acinetobacter baumannii strain AR_0102	Complete	4060325.0	Good	2.0	3	98.6	99.3	100.0	0.0
+439	470.4901	Acinetobacter baumannii strain AR_0083	Complete	4158175.0	Good	1.0	2	98.4	99.3	100.0	0.0
+440	470.5040	Acinetobacter baumannii strain CCUG 70743	WGS	3954761.0	Good	1.0	3	98.7	99.3	100.0	0.5
+441	470.573	Acinetobacter baumannii 2011BJAB4	WGS	3942170.0	Good		68	98.8	99.3	100.0	0.0
+442	470.576	Acinetobacter baumannii 2003BJAB12	WGS	3864810.0	Good		72	98.9	99.3	99.0	0.5
+443	470.579	Acinetobacter baumannii 2011GDAB3	WGS	3876088.0	Good		98	99.0	99.3	100.0	0.0
+444	470.594	Acinetobacter baumannii 2011GDAB1	WGS	3977633.0	Good		66	98.8	99.3	100.0	0.0
+445	470.601	Acinetobacter baumannii 2011ZJAB2	WGS	4003284.0	Good		98	98.7	99.2	100.0	0.0
+446	470.603	Acinetobacter baumannii 2011ZJAB4	WGS	3818318.0	Good		75	98.2	98.9	100.0	0.0
+447	470.618	Acinetobacter baumannii ABUH304350	WGS	4043022.0	Good		93	98.7	99.5	100.0	0.0
+448	470.639	Acinetobacter baumannii ABUH392536	WGS	3954119.0	Good		60	97.0	98.7	100.0	0.5
+449	470.673	Acinetobacter baumannii ABUH535419	WGS	3825204.0	Good		87	98.6	99.3	100.0	0.0
+450	470.676	Acinetobacter baumannii ABUH293412	WGS	4144942.0	Good		87	98.2	99.4	100.0	0.0
+451	470.677	Acinetobacter baumannii ABUH129409	WGS	4156017.0	Good		91	98.5	99.5	100.0	0.0
+452	470.704	Acinetobacter baumannii ABUH71278	WGS	4161065.0	Good		100	98.5	99.5	100.0	0.0
+453	470.735	Acinetobacter baumannii ABUH315100	WGS	4044514.0	Good		88	98.4	99.5	100.0	0.0
+454	470.741	Acinetobacter baumannii ABUH23687	WGS	3919134.0	Good		97	98.8	99.5	100.0	0.5
+455	470.745	Acinetobacter baumannii ABUH48778	WGS	4042789.0	Good		91	98.7	99.5	100.0	0.0
+456	470.749	Acinetobacter baumannii ABUH48764	WGS	4040323.0	Good		85	98.6	99.5	100.0	0.0
+457	470.752	Acinetobacter baumannii ABUH45561	WGS	4039620.0	Good		88	98.7	99.5	100.0	0.0
+458	470.757	Acinetobacter baumannii ABUH24354	WGS	4039692.0	Good		96	98.6	99.5	100.0	0.0
+459	470.762	Acinetobacter baumannii ABUH45538	WGS	3791675.0	Good		58	98.5	99.3	100.0	0.0
+460	470.765	Acinetobacter baumannii ABUH34825	WGS	3848456.0	Good		87	98.7	99.3	100.0	0.0
+461	480119.5	Acinetobacter baumannii AB0057	Complete	4059242.0	Good	1.0	2	98.2	99.3	100.0	1.0
+462	509173.8	Acinetobacter baumannii AYE	Complete	4048735.0	Good	4.0	5	98.7	99.1	100.0	1.0
+463	575584.18	Acinetobacter baumannii ATCC 19606 = CIP 70.34	WGS	4028903.0	Good		23	98.5	99.3	100.0	0.0
+464	470.1342	Acinetobacter baumannii strain WA2859	WGS	4128858.0	Good		22	97.9	99.3	100.0	1.5
+465	470.2130	Acinetobacter baumannii strain BAL 062	WGS	4028842.0	Good		86	98.4	99.2	100.0	1.5
+466	470.2839	Acinetobacter baumannii strain XH697	WGS	3855514.0	Good		79	98.2	98.6	99.5	0.0
+467	470.5414	Acinetobacter baumannii strain 7847	Complete	4080593.0	Good	2.0	3	98.7	99.4	100.0	0.0
+468	470.2962	Acinetobacter baumannii strain Ab43	WGS	3915731.0	Good		70	98.9	99.4	100.0	0.0
+469	470.2975	Acinetobacter baumannii strain Ab42	WGS	3914259.0	Good		72	98.9	99.4	100.0	0.0
+470	470.3003	Acinetobacter baumannii strain Ab44	WGS	3915755.0	Good		70	98.9	99.4	100.0	0.0
+471	1149135.4	Acinetobacter baumannii 107m	WGS	3880766.0	Good	0.0	45	98.2	98.9	98.7	0.0
+472	1168590.3	Acinetobacter baumannii Ab33333	WGS	3833321.0	Good	0.0	16	98.4	99.3	100.0	1.0
+473	1222031.3	Acinetobacter baumannii AB1H8	WGS	3993780.0	Good	0.0	69	98.8	99.4	100.0	0.0
+474	1315137.3	Acinetobacter baumannii TG07725	WGS	3961169.0	Good	0.0	89	98.7	99.2	100.0	0.0
+475	1315154.3	Acinetobacter baumannii TG22110	WGS	3980727.0	Good	0.0	62	98.6	99.3	100.0	0.0
+476	1315166.3	Acinetobacter baumannii TG22204	WGS	3843667.0	Good	0.0	41	98.6	99.3	100.0	0.0
+477	1315168.3	Acinetobacter baumannii TG22214	WGS	3902823.0	Good	0.0	85	98.8	99.3	100.0	0.5
+478	1315178.3	Acinetobacter baumannii TG27379	WGS	4161888.0	Good	0.0	84	98.4	99.4	100.0	0.0
+479	1343073.3	Acinetobacter baumannii CI78	WGS	3874762.0	Good	0.0	37	97.8	98.5	98.9	1.6
+480	1370126.3	Acinetobacter baumannii DU202	WGS	3843445.0	Good	0.0	9	98.7	99.3	100.0	0.0
+481	1388759.4	Acinetobacter baumannii A13	WGS	4137236.0	Good		66	98.3	99.4	100.0	0.0
+482	1116236.3	Acinetobacter baumannii AB5711	WGS	4000401.0	Good	0.0	45	98.4	99.0	100.0	0.0
+483	1310855.3	Acinetobacter baumannii 24845_1	WGS	4093423.0	Good	0.0	84	98.3	99.3	100.0	0.5
+484	1310857.3	Acinetobacter baumannii 24845_3	WGS	4077994.0	Good	0.0	90	98.3	99.3	100.0	0.5
+485	1310868.3	Acinetobacter baumannii 25307_4	WGS	4007799.0	Good	0.0	81	97.5	99.3	100.0	1.0
+486	1310870.3	Acinetobacter baumannii 25307_6	WGS	4021409.0	Good	0.0	98	98.2	99.3	100.0	1.0
+487	1310951.3	Acinetobacter baumannii 24975_7	WGS	3992267.0	Good	0.0	90	98.6	99.3	100.0	0.0
+488	1311017.3	Acinetobacter baumannii 25493_3	WGS	4073396.0	Good		75	98.4	99.2	100.0	0.5
+489	1311027.3	Acinetobacter baumannii 44437_3	WGS	4047075.0	Good		97	98.4	99.3	100.0	1.0
+490	1311087.3	Acinetobacter baumannii 44298_10	WGS	3967530.0	Good		95	98.4	99.3	100.0	1.0
+491	1311089.3	Acinetobacter baumannii 45075_2	WGS	3968413.0	Good		52	98.6	99.1	100.0	0.0
+492	1311090.3	Acinetobacter baumannii 45075_3	WGS	3953023.0	Good		51	98.4	99.1	100.0	0.5
+493	1311091.3	Acinetobacter baumannii 45075_4	WGS	4158269.0	Good		88	98.3	99.2	100.0	0.5
+494	1311096.3	Acinetobacter baumannii 45075_9	WGS	3960468.0	Good		69	98.3	99.1	100.0	0.0
+495	1311108.3	Acinetobacter baumannii 25569_1	WGS	4100685.0	Good		77	98.7	99.1	100.0	0.5
+496	1311115.3	Acinetobacter baumannii 25569_8	WGS	3933654.0	Good		66	98.7	99.1	100.0	0.5
+497	1311141.3	Acinetobacter baumannii 45052_1	WGS	3961849.0	Good		59	98.4	99.1	100.0	0.0
+498	470.606	Acinetobacter baumannii ABUH4837	WGS	3790937.0	Good		71	98.4	99.3	100.0	0.0
+499	470.611	Acinetobacter baumannii ABUH497144	WGS	3888080.0	Good		93	98.6	99.3	100.0	0.0
+500	470.726	Acinetobacter baumannii UH437_147	WGS	4005599.0	Good		96	98.4	99.3	100.0	0.0
+501	1116234.8	Acinetobacter baumannii AB5075	WGS	3999866.0	Good	1.0	16	98.7	99.3	100.0	0.0
+502	470.2917	Acinetobacter baumannii strain LAC4	Complete	3988690.0	Good	2.0	3	98.1	98.8	98.4	0.5
+503	470.3362	Acinetobacter baumannii strain ab736	Complete	3990425.0	Good	1.0	2	98.6	99.3	100.0	0.0
+504	470.4729	Acinetobacter baumannii strain R2	WGS	4160854.0	Good		99	98.4	99.4	100.0	0.0
+505	470.4745	Acinetobacter baumannii strain R4	WGS	3846533.0	Good		81	98.6	99.2	100.0	0.0
+506	1217634.3	Acinetobacter baumannii NIPH 410	WGS	4031919.0	Good	0.0	26	98.3	99.0	100.0	0.0
+507	1096996.4	Acinetobacter baumannii BJAB0715	Complete	4053889.0	Good	1.0	2	98.5	99.1	100.0	0.0
+508	1217628.3	Acinetobacter baumannii NIPH 70	WGS	3926921.0	Good	0.0	57	98.2	99.0	100.0	0.0
+509	1217629.3	Acinetobacter baumannii NIPH 80	WGS	3957396.0	Good	0.0	89	97.6	98.5	100.0	0.5
+510	1217631.3	Acinetobacter baumannii NIPH 290	WGS	4022026.0	Good	0.0	28	98.2	98.9	100.0	0.0
+511	1217632.3	Acinetobacter baumannii NIPH 329	WGS	3994296.0	Good	0.0	14	98.4	99.3	100.0	0.0
+512	1217640.3	Acinetobacter baumannii NIPH 190	WGS	3899398.0	Good	0.0	48	98.7	99.3	99.5	0.0
+513	1217641.3	Acinetobacter baumannii NIPH 615	WGS	3941555.0	Good	0.0	39	98.4	98.8	100.0	0.0
+514	1217642.3	Acinetobacter baumannii NIPH 1362	WGS	4086366.0	Good	0.0	32	98.7	99.4	100.0	0.0
+515	1217643.3	Acinetobacter baumannii NIPH 1669	WGS	3861243.0	Good	0.0	21	98.7	99.3	100.0	0.0
+516	1217644.3	Acinetobacter baumannii NIPH 1734	WGS	3914908.0	Good	0.0	28	98.9	99.4	100.0	0.0
+517	1217645.3	Acinetobacter baumannii NIPH 2061	WGS	3970958.0	Good	0.0	20	98.7	99.4	100.0	0.5
+518	1310564.3	Acinetobacter baumannii 1043794	WGS	4009660.0	Good	0.0	51	98.4	99.2	100.0	0.0
+519	1310580.3	Acinetobacter baumannii 1297	WGS	3842214.0	Good	0.0	36	98.6	99.3	100.0	0.0
+520	1310590.3	Acinetobacter baumannii 1040094	WGS	3975156.0	Good	0.0	67	98.6	99.1	100.0	0.5
+521	1310592.3	Acinetobacter baumannii 1039621	WGS	3979928.0	Good	0.0	75	98.3	99.2	100.0	0.5
+522	1310598.4	Acinetobacter baumannii 1121032	WGS	4151063.0	Good		81	97.9	99.3	100.0	0.5
+523	1310611.3	Acinetobacter baumannii 466760	WGS	3883610.0	Good	0.0	39	97.9	98.8	100.0	0.0
+524	1310648.4	Acinetobacter baumannii 110912	WGS	3953404.0	Good		5	98.3	99.2	99.5	0.0
+525	1310675.3	Acinetobacter baumannii 1526966	WGS	4025654.0	Good	0.0	86	98.4	99.3	100.0	0.0
+526	1310686.3	Acinetobacter baumannii 397971	WGS	3950797.0	Good	0.0	44	97.9	99.2	99.5	0.5
+527	1310688.3	Acinetobacter baumannii 144107	WGS	3921969.0	Good	0.0	80	98.1	99.2	100.0	0.5
+528	1310691.3	Acinetobacter baumannii 42887	WGS	3949700.0	Good	0.0	54	98.7	99.1	100.0	0.0
+529	1310706.3	Acinetobacter baumannii 1412924	WGS	3822103.0	Good	0.0	63	98.5	99.3	100.0	0.5
+530	1310707.3	Acinetobacter baumannii 318814	WGS	4125509.0	Good	0.0	41	98.2	99.2	100.0	0.5
+531	1310716.3	Acinetobacter baumannii 1482820	WGS	4010844.0	Good	0.0	96	98.2	99.3	100.0	0.0
+532	1310725.3	Acinetobacter baumannii 1062314	WGS	4043847.0	Good	0.0	45	98.0	99.2	100.0	0.0
+533	1310742.3	Acinetobacter baumannii 1188188	WGS	4136460.0	Good	0.0	89	98.1	99.2	100.0	0.5
+534	1310744.3	Acinetobacter baumannii 1237893	WGS	4019909.0	Good	0.0	79	98.3	99.2	100.0	0.5
+535	1310752.3	Acinetobacter baumannii 1293320	WGS	4001138.0	Good	0.0	51	97.6	99.0	100.0	1.0
+536	1310775.3	Acinetobacter baumannii 1392509	WGS	4022462.0	Good	0.0	100	98.3	99.3	100.0	0.5
+537	1310776.3	Acinetobacter baumannii 1413735	WGS	4101812.0	Good	0.0	59	97.7	98.9	100.0	2.0
+538	1310778.3	Acinetobacter baumannii 426863	WGS	3892384.0	Good	0.0	20	98.5	99.3	100.0	0.0
+539	1310787.3	Acinetobacter baumannii 70136	WGS	4067352.0	Good	0.0	70	98.4	99.3	100.0	0.5
+540	1310789.3	Acinetobacter baumannii 145660	WGS	4068673.0	Good	0.0	80	98.4	99.3	100.0	0.8
+541	1310798.3	Acinetobacter baumannii 14216	WGS	4100117.0	Good	0.0	64	97.5	98.9	100.0	2.0
+542	1310812.3	Acinetobacter baumannii 1552389	WGS	4028556.0	Good	0.0	80	98.7	99.3	100.0	0.5
+543	1398961.3	Acinetobacter baumannii UH18608	WGS	3915832.0	Good	0.0	86	98.4	99.2	100.0	0.0
+544	1409922.5	Acinetobacter baumannii MRSN 3405	WGS	4082715.0	Good	1.0	64	98.4	99.2	99.7	0.0
+545	1409928.3	Acinetobacter baumannii MRSN 7341	WGS	3911280.0	Good		52	98.8	99.5	100.0	0.0
+546	1439317.3	Acinetobacter baumannii BIDMC 57	WGS	4094790.0	Good		23	98.1	98.7	98.9	0.5
+547	470.1296	Acinetobacter baumannii strain GTC 03322	WGS	4060410.0	Good		83	98.2	99.1	100.0	1.5
+548	470.1300	Acinetobacter baumannii strain GTC 03329	WGS	3814965.0	Good		44	98.4	99.3	100.0	0.0
+549	470.1301	Acinetobacter baumannii strain NBRC 110495	WGS	3816539.0	Good		42	98.4	99.3	100.0	0.0
+550	470.1315	Acinetobacter baumannii strain NBRC 110491	WGS	4061080.0	Good		90	98.2	99.1	100.0	1.5
+551	470.1319	Acinetobacter baumannii strain NBRC 109757	WGS	3926017.0	Good		53	98.3	99.3	100.0	0.0
+552	470.1353	Acinetobacter baumannii strain M1	WGS	3871013.0	Good		94	98.7	99.3	100.0	0.0
+553	470.1356	Acinetobacter baumannii strain S36	WGS	4021843.0	Good		66	98.4	99.3	100.0	0.0
+554	470.1362	Acinetobacter baumannii strain CCBH5233	WGS	4102788.0	Good		76	98.4	99.4	100.0	0.5
+555	470.1365	Acinetobacter baumannii strain NM3	WGS	4100904.0	Good		54	98.1	99.1	100.0	0.0
+556	470.1567	Acinetobacter baumannii strain Ab Crete	WGS	4131016.0	Good		57	98.4	99.4	100.0	0.0
+557	470.1568	Acinetobacter baumannii strain A186	WGS	3845195.0	Good		63	98.9	99.3	100.0	0.0
+558	470.1766	Acinetobacter baumannii strain HUMC1	WGS	4150334.0	Good		7	98.6	99.3	100.0	0.0
+559	470.1865	Acinetobacter baumannii strain XH859	Complete	3977071.0	Good		1	98.7	99.3	98.4	1.0
+560	470.1867	Acinetobacter baumannii strain XH856	Complete	3908399.0	Good		1	99.0	99.4	100.0	0.0
+561	470.2003	Acinetobacter baumannii strain AB4026	WGS	3905198.0	Good		67	98.9	99.4	100.0	0.0
+562	470.2009	Acinetobacter baumannii strain AB4490	WGS	3947403.0	Good		98	98.6	99.2	100.0	0.0
+563	470.2016	Acinetobacter baumannii strain AB4991	WGS	3877107.0	Good		52	98.8	99.3	100.0	0.5
+564	470.2023	Acinetobacter baumannii strain 2015ZJAB7	WGS	4101209.0	Good		67	98.4	99.3	100.0	0.0
+565	470.2024	Acinetobacter baumannii strain 2015ZJAB8	WGS	4076260.0	Good		62	98.4	99.3	100.0	0.0
+566	470.2118	Acinetobacter baumannii strain AB3340	WGS	4010248.0	Good		76	98.5	99.3	100.0	0.0
+567	470.2119	Acinetobacter baumannii strain AB3785	WGS	3894584.0	Good		70	98.8	99.4	100.0	0.0
+568	470.2122	Acinetobacter baumannii strain 3207	Complete	4092036.0	Good	2.0	3	98.4	99.3	100.0	0.0
+569	470.2216	Acinetobacter baumannii strain AB210M	WGS	3981713.0	Good	1.0	72	98.6	99.2	100.0	0.0
+570	470.2237	Acinetobacter baumannii strain HJ01	WGS	4023230.0	Good		83	98.8	99.4	100.0	0.0
+571	470.2363	Acinetobacter baumannii strain 863	WGS	3812386.0	Good		65	98.8	99.3	100.0	0.0
+572	470.2409	Acinetobacter baumannii strain ABUH733	WGS	4141446.0	Good		94	98.2	99.4	100.0	0.0
+573	470.2566	Acinetobacter baumannii strain HJ05	WGS	3954760.0	Good		81	98.7	99.3	100.0	0.0
+574	470.2567	Acinetobacter baumannii strain HJ06	WGS	3954919.0	Good		87	98.7	99.3	100.0	0.0
+575	470.2569	Acinetobacter baumannii strain HJ16-2	WGS	3938237.0	Good		69	98.7	99.3	100.0	0.0
+576	470.2570	Acinetobacter baumannii strain HJ18-2	WGS	3943896.0	Good		69	98.7	99.3	100.0	0.0
+577	470.2574	Acinetobacter baumannii strain HJ18	WGS	3942236.0	Good		79	98.5	99.3	100.0	0.0
+578	470.2669	Acinetobacter baumannii strain KAB02	Complete	4086205.0	Good	1.0	2	98.8	99.2	100.0	0.0
+579	470.2670	Acinetobacter baumannii strain KAB03	Complete	4056960.0	Good	1.0	2	98.4	99.3	100.0	0.0
+580	470.2676	Acinetobacter baumannii strain WA2859	WGS	4142784.0	Good		34	97.9	99.3	100.0	1.5
+581	470.2683	Acinetobacter baumannii strain XH737	WGS	3943857.0	Good		81	98.7	99.3	100.0	0.0
+582	470.2688	Acinetobacter baumannii strain XH753	WGS	3936114.0	Good		83	98.7	99.3	100.0	0.0
+583	470.2694	Acinetobacter baumannii strain XH801	WGS	3878258.0	Good		96	98.7	99.3	99.0	0.5
+584	470.2702	Acinetobacter baumannii strain XH822	WGS	3938890.0	Good		87	98.7	99.3	100.0	0.0
+585	470.2716	Acinetobacter baumannii strain XH717	WGS	3952538.0	Good		93	98.7	99.3	100.0	0.0
+586	470.2718	Acinetobacter baumannii strain XH719	WGS	3975439.0	Good		72	98.7	99.4	100.0	0.5
+587	470.2721	Acinetobacter baumannii strain XH723	WGS	3891851.0	Good		96	98.7	99.3	100.0	0.0
+588	470.2729	Acinetobacter baumannii strain XH739	WGS	3950261.0	Good		89	98.7	99.3	100.0	0.0
+589	470.2737	Acinetobacter baumannii strain XH752	WGS	3942973.0	Good		94	98.7	99.3	100.0	0.0
+590	470.2749	Acinetobacter baumannii strain XH786	WGS	3899710.0	Good		82	98.7	99.3	100.0	0.0
+591	470.2763	Acinetobacter baumannii strain XH811	WGS	4048573.0	Good		98	98.7	99.4	100.0	0.0
+592	470.2782	Acinetobacter baumannii strain XH549	WGS	4040715.0	Good		96	98.8	99.4	100.0	0.0
+593	470.2785	Acinetobacter baumannii strain XH546	WGS	3996924.0	Good		98	98.7	99.4	100.0	0.0
+594	470.2791	Acinetobacter baumannii strain XH641	WGS	3985488.0	Good		43	98.5	99.3	100.0	0.0
+595	470.2794	Acinetobacter baumannii strain XH649	WGS	3974390.0	Good		54	98.7	99.4	100.0	0.0
+596	470.2796	Acinetobacter baumannii strain XH671	WGS	4053687.0	Good		78	98.4	99.4	100.0	0.5
+597	470.2800	Acinetobacter baumannii strain XH706	WGS	4119631.0	Good		92	98.2	99.3	100.0	0.0
+598	470.2805	Acinetobacter baumannii strain XH595	WGS	3862241.0	Good		79	98.7	99.3	100.0	0.0
+599	470.2806	Acinetobacter baumannii strain XH606	WGS	4034052.0	Good		92	98.7	99.4	100.0	0.0
+600	470.2807	Acinetobacter baumannii strain XH640	WGS	3973804.0	Good		52	98.6	99.4	100.0	0.0
+601	470.2808	Acinetobacter baumannii strain XH642	WGS	4002480.0	Good		70	98.6	99.3	100.0	0.5
+602	470.2812	Acinetobacter baumannii strain XH648	WGS	3984747.0	Good		42	98.5	99.3	100.0	0.0
+603	470.2814	Acinetobacter baumannii strain XH661	WGS	3984941.0	Good		44	98.5	99.3	100.0	0.0
+604	470.2817	Acinetobacter baumannii strain XH665	WGS	3902110.0	Good		75	98.7	99.3	100.0	0.0
+605	470.2822	Acinetobacter baumannii strain XH672	WGS	4057410.0	Good		70	98.5	99.4	100.0	0.0
+606	470.2840	Acinetobacter baumannii strain XH698	WGS	4041874.0	Good		81	98.2	99.3	100.0	0.0
+607	470.2908	Acinetobacter baumannii strain HRAB-85	Complete	4098585.0	Good	1.0	2	98.6	99.4	100.0	0.0
+608	470.2909	Acinetobacter baumannii strain RB-1399	WGS	4104098.0	Good		24	98.4	99.3	100.0	0.0
+609	470.2911	Acinetobacter baumannii strain AF-673	Complete	4093104.0	Good	1.0	2	98.1	99.4	100.0	0.5
+610	470.2929	Acinetobacter baumannii strain CMC-MDR-Ab59	Complete	4076357.0	Good	1.0	2	98.5	99.4	100.0	0.0
+611	470.2963	Acinetobacter baumannii strain Ab21	WGS	3818097.0	Good		71	98.7	99.4	100.0	0.0
+612	470.2964	Acinetobacter baumannii strain Ab1	WGS	3978508.0	Good		74	98.6	99.4	100.0	0.0
+613	470.2969	Acinetobacter baumannii strain Ab41	WGS	4038905.0	Good		79	98.4	99.4	100.0	0.0
+614	470.2970	Acinetobacter baumannii strain Ab37	WGS	3916988.0	Good		85	99.0	99.4	100.0	0.0
+615	470.2971	Acinetobacter baumannii strain Ab2	WGS	3978970.0	Good		74	98.6	99.4	100.0	0.0
+616	470.2974	Acinetobacter baumannii strain Ab14	WGS	3950131.0	Good		78	98.5	99.4	100.0	0.0
+617	470.2976	Acinetobacter baumannii strain Ab47	WGS	3977636.0	Good		84	98.6	99.4	100.0	0.5
+618	470.2978	Acinetobacter baumannii strain Ab12	WGS	3950663.0	Good		80	98.5	99.4	100.0	0.0
+619	470.2981	Acinetobacter baumannii strain Ab46	WGS	4075772.0	Good		97	98.5	99.4	100.0	0.0
+620	470.2985	Acinetobacter baumannii strain Ab40	WGS	4036245.0	Good		85	98.4	99.4	100.0	0.0
+621	470.2991	Acinetobacter baumannii strain Ab32	WGS	3855583.0	Good		73	99.0	99.4	99.5	0.0
+622	470.2992	Acinetobacter baumannii strain Ab13	WGS	3949608.0	Good		81	98.4	99.4	100.0	0.0
+623	470.2996	Acinetobacter baumannii strain Ab27	WGS	3826978.0	Good		70	99.0	99.4	100.0	0.0
+624	470.2999	Acinetobacter baumannii strain Ab19	WGS	3950020.0	Good		78	98.8	99.4	100.0	0.0
+625	470.3004	Acinetobacter baumannii strain Ab10	WGS	3904764.0	Good		63	98.8	99.4	100.0	0.0
+626	470.3009	Acinetobacter baumannii strain Ab85	WGS	3977290.0	Good		86	98.5	99.4	100.0	0.0
+627	470.3011	Acinetobacter baumannii strain Ab87	WGS	3902547.0	Good		94	98.9	99.4	100.0	0.0
+628	470.3016	Acinetobacter baumannii strain ILBAbau5423446	WGS	4061936.0	Good		64	98.6	99.4	100.0	0.0
+629	470.3017	Acinetobacter baumannii strain ILBAbau5423495	WGS	3969270.0	Good		90	98.8	99.3	100.0	0.0
+630	470.3018	Acinetobacter baumannii strain ILBAbau5423449	WGS	4001565.0	Good		66	98.9	99.4	100.0	0.0
+631	470.3023	Acinetobacter baumannii strain Ab116	WGS	3981477.0	Good		87	98.6	99.4	100.0	0.0
+632	470.3026	Acinetobacter baumannii strain Ab102	WGS	3956715.0	Good		78	98.4	99.3	100.0	0.0
+633	470.3046	Acinetobacter baumannii strain VB39358	WGS	3928332.0	Good		96	98.3	99.3	100.0	0.3
+634	470.3137	Acinetobacter baumannii strain ABUH564	WGS	3991293.0	Good		79	98.5	99.3	100.0	0.5
+635	470.3153	Acinetobacter baumannii strain ABUH516	WGS	4092826.0	Good		96	98.4	99.3	100.0	0.5
+636	470.3155	Acinetobacter baumannii strain ABUH657	WGS	3852826.0	Good		75	98.5	99.2	100.0	0.0
+637	470.3160	Acinetobacter baumannii strain ABUH525	WGS	4053933.0	Good		87	98.3	99.4	100.0	0.0
+638	470.3164	Acinetobacter baumannii strain ABUH555	WGS	4061565.0	Good		81	98.3	99.4	100.0	0.0
+639	470.3166	Acinetobacter baumannii strain ABUH567	WGS	3907325.0	Good		92	98.7	99.4	100.0	0.0
+640	470.3171	Acinetobacter baumannii strain ABUH627	WGS	4050020.0	Good		97	98.6	99.4	100.0	0.0
+641	470.3774	Acinetobacter baumannii strain A85	Complete	4144615.0	Good	5.0	6	98.7	99.3	100.0	0.0
+642	470.4021	Acinetobacter baumannii strain DR1	WGS	3942977.0	Good		37	98.4	99.0	100.0	0.0
+643	470.4264	Acinetobacter baumannii strain PLG9P835	WGS	3845611.0	Good		73	98.6	99.4	100.0	1.5
+644	470.4288	Acinetobacter baumannii strain Ab4568	Complete	4000452.0	Good		1	98.7	99.3	100.0	0.0
+645	470.4466	Acinetobacter baumannii strain SMGC-AB2	WGS	3872105.0	Good		41	99.0	99.3	100.0	0.0
+646	470.4476	Acinetobacter baumannii strain SMC_Paed_Ab_BL01	Complete	4058089.0	Good	1.0	2	98.7	99.3	100.0	0.0
+647	470.4692	Acinetobacter baumannii strain MCR10126	WGS	3847801.0	Good		60	97.8	98.8	100.0	0.0
+648	470.4709	Acinetobacter baumannii strain WCHAB005133	Complete	3941598.0	Good	2.0	3	99.0	99.3	100.0	0.0
+649	470.4749	Acinetobacter baumannii strain AB38	WGS	3843681.0	Good		70	98.6	99.3	100.0	1.0
+650	470.4751	Acinetobacter baumannii strain AB35	WGS	3910238.0	Good		77	98.8	99.3	100.0	0.0
+651	470.4753	Acinetobacter baumannii strain AB31	WGS	3770947.0	Good		37	98.8	99.3	100.0	0.0
+652	470.4762	Acinetobacter baumannii strain AB18	WGS	3927616.0	Good		90	98.6	99.3	100.0	0.0
+653	470.4765	Acinetobacter baumannii strain AB10	WGS	4113572.0	Good		55	98.5	99.4	100.0	0.0
+654	470.4767	Acinetobacter baumannii strain AB5	WGS	3932479.0	Good		50	98.4	99.3	100.0	0.0
+655	470.4768	Acinetobacter baumannii strain AB42	WGS	3892973.0	Good		62	98.4	98.9	100.0	0.0
+656	470.4770	Acinetobacter baumannii strain AB39	WGS	3846649.0	Good		68	98.7	99.3	100.0	0.0
+657	470.4771	Acinetobacter baumannii strain AB37	WGS	3912634.0	Good		84	98.8	99.3	100.0	0.0
+658	470.4772	Acinetobacter baumannii strain AB34	WGS	3882390.0	Good		73	98.8	99.3	100.0	0.0
+659	470.4775	Acinetobacter baumannii strain AB22	WGS	3902297.0	Good		78	98.7	99.2	100.0	0.0
+660	470.4779	Acinetobacter baumannii strain AB16	WGS	3969312.0	Good		80	98.7	99.2	100.0	0.0
+661	470.4782	Acinetobacter baumannii strain AB3	WGS	3924449.0	Good		81	98.8	99.3	100.0	0.0
+662	470.4889	Acinetobacter baumannii strain SGH0823	WGS	4055552.0	Good		62	98.9	99.4	100.0	0.0
+663	470.4893	Acinetobacter baumannii strain SGH0410	WGS	4054720.0	Good		73	98.6	99.3	100.0	0.0
+664	470.4894	Acinetobacter baumannii strain SGH0805	WGS	3921761.0	Good		66	98.7	99.3	100.0	0.0
+665	470.4900	Acinetobacter baumannii strain SGH0915	WGS	3917708.0	Good		81	98.4	99.3	100.0	0.0
+666	470.4903	Acinetobacter baumannii strain KUSSH25	WGS	3870670.0	Good		88	98.6	99.3	100.0	0.0
+667	470.4905	Acinetobacter baumannii strain KUSSH35	WGS	3881261.0	Good		60	98.7	99.3	100.0	0.0
+668	470.4909	Acinetobacter baumannii strain KUFAR60	WGS	4028024.0	Good		90	98.6	99.3	100.0	0.5
+669	470.4922	Acinetobacter baumannii strain KUSSH18	WGS	3859116.0	Good		91	98.7	99.3	100.0	0.0
+670	470.5052	Acinetobacter baumannii strain Aba	Complete	3920467.0	Good	1.0	2	98.7	99.3	100.0	0.0
+671	470.5058	Acinetobacter baumannii strain Ab50 strain KT-A24	WGS	3838423.0	Good		66	98.6	99.3	99.5	0.5
+672	470.5060	Acinetobacter baumannii strain Ab51 strain KT-A25	WGS	3867234.0	Good		91	98.8	99.4	100.0	0.5
+673	470.5075	Acinetobacter baumannii strain Ab92 strain D45	WGS	3969499.0	Good		70	98.7	99.3	100.0	0.0
+674	470.5077	Acinetobacter baumannii strain Ab71 strain D48	WGS	3968890.0	Good		69	98.7	99.3	100.0	0.0
+675	470.5079	Acinetobacter baumannii strain Ab88 strain D79	WGS	3941492.0	Good		69	98.8	99.4	100.0	0.5
+676	470.5089	Acinetobacter baumannii strain Ab132	WGS	3942889.0	Good		72	98.9	99.4	100.0	0.5
+677	470.5093	Acinetobacter baumannii strain Ab128	WGS	3941665.0	Good		73	98.9	99.4	100.0	0.5
+678	470.5094	Acinetobacter baumannii strain Ab115 strain D88	WGS	3956111.0	Good		94	98.7	99.4	100.0	1.0
+679	470.5100	Acinetobacter baumannii strain Ab140	WGS	3910468.0	Good		85	98.7	99.4	100.0	0.5
+680	470.5115	Acinetobacter baumannii strain Ab147	WGS	4013904.0	Good		91	98.5	99.4	100.0	0.5
+681	470.5117	Acinetobacter baumannii strain Ab157	WGS	3972712.0	Good		79	98.4	99.4	100.0	0.0
+682	470.5122	Acinetobacter baumannii strain Ab161	WGS	3977147.0	Good		88	98.5	99.4	100.0	0.0
+683	470.5131	Acinetobacter baumannii strain Ab173	WGS	3976498.0	Good		91	98.4	99.4	100.0	0.0
+684	470.5132	Acinetobacter baumannii strain Ab174	WGS	3978527.0	Good		90	98.6	99.4	100.0	0.0
+685	470.5134	Acinetobacter baumannii strain Ab177	WGS	3915887.0	Good		76	98.9	99.4	100.0	0.5
+686	470.5136	Acinetobacter baumannii strain Ab163	WGS	3976984.0	Good		83	98.5	99.4	100.0	0.0
+687	470.5145	Acinetobacter baumannii strain Ab199	WGS	3934825.0	Good		52	98.4	99.1	100.0	0.0
+688	470.5150	Acinetobacter baumannii strain Ab186	WGS	3918842.0	Good		88	98.4	99.2	100.0	0.0
+689	470.5156	Acinetobacter baumannii strain Ab195	WGS	3833119.0	Good		71	98.9	99.4	100.0	0.0
+690	470.5163	Acinetobacter baumannii strain Ab224	WGS	3988524.0	Good		83	98.6	99.4	100.0	0.0
+691	470.5180	Acinetobacter baumannii strain Ab221	WGS	3986172.0	Good		84	98.6	99.4	100.0	0.0
+692	470.5183	Acinetobacter baumannii strain Ab218	WGS	3989506.0	Good		83	98.6	99.4	100.0	0.0
+693	470.5191	Acinetobacter baumannii strain Ab237	WGS	4030262.0	Good		97	98.6	99.4	100.0	0.0
+694	470.5200	Acinetobacter baumannii strain Ab118	WGS	3947260.0	Good		61	98.6	99.1	100.0	0.0
+695	470.533	Acinetobacter baumannii T25	WGS	3855815.0	Good		67	98.8	99.3	100.0	0.0
+696	470.535	Acinetobacter baumannii BJ2	WGS	4015419.0	Good		52	98.9	99.4	100.0	0.0
+697	470.536	Acinetobacter baumannii BJ3	WGS	3951629.0	Good		35	98.9	99.4	100.0	0.0
+698	470.5416	Acinetobacter baumannii strain 10324	Complete	3862444.0	Good	3.0	4	97.8	98.6	100.0	0.0
+699	470.5453	Acinetobacter baumannii strain NCTC12156	WGS	3988653.0	Good		2	98.4	99.3	100.0	0.5
+700	470.5455	Acinetobacter baumannii strain NCTC13301	WGS	4021683.0	Good		3	98.5	99.4	100.0	0.0
+701	470.5459	Acinetobacter baumannii strain NCTC13424	WGS	4026770.0	Good		3	97.8	98.8	98.4	1.1
+702	470.560	Acinetobacter baumannii T87	WGS	3878071.0	Good		84	99.0	99.3	100.0	0.0
+703	470.773	Acinetobacter baumannii 6200	Complete	4073976.0	Good	3.0	4	98.4	99.2	99.5	0.0
+704	557601.3	Acinetobacter baumannii AB900	WGS	3910877.0	Good	0.0	68	97.8	99.0	100.0	1.0
+705	575584.19	Acinetobacter baumannii ATCC 19606 = CIP 70.34	WGS	3955221.0	Good		2	98.5	99.3	100.0	0.0
+706	903910.3	Acinetobacter baumannii OIFC110	WGS	3981666.0	Good	0.0	53	98.7	99.4	100.0	0.5
+707	903914.3	Acinetobacter baumannii IS-58	WGS	4063888.0	Good	0.0	61	98.4	99.2	100.0	0.0
+708	903924.3	Acinetobacter baumannii Canada BC1	WGS	3936404.0	Good	0.0	66	98.7	99.3	100.0	0.5
+709	903929.3	Acinetobacter baumannii OIFC087	WGS	4004682.0	Good	0.0	96	98.4	99.3	100.0	0.0
+710	903932.3	Acinetobacter baumannii OIFC065	WGS	4029646.0	Good	0.0	54	98.5	99.3	100.0	0.0
+711	470.2265	Acinetobacter baumannii strain CCF2	WGS	4032455.0	Good		91	98.4	99.4	100.0	0.0
+712	470.3361	Acinetobacter baumannii strain 2012046	WGS	3801223.0	Good	1.0	77	98.7	99.3	100.0	0.5
+713	470.3367	Acinetobacter baumannii strain 440	WGS	3957708.0	Good	4.0	54	98.7	99.3	100.0	0.0
+714	470.3368	Acinetobacter baumannii strain PR304	WGS	3847932.0	Good		90	98.2	99.0	100.0	0.0
+715	470.3371	Acinetobacter baumannii strain PR307	WGS	3969878.0	Good		58	97.9	99.1	100.0	0.5
+716	470.3375	Acinetobacter baumannii strain PR311	WGS	3790467.0	Good		30	98.8	99.3	100.0	0.0
+717	470.3376	Acinetobacter baumannii strain PR312	WGS	4052857.0	Good		92	98.6	99.4	100.0	0.0
+718	470.3383	Acinetobacter baumannii strain PR356	WGS	3789005.0	Good		37	98.7	99.2	100.0	0.0
+719	470.3384	Acinetobacter baumannii strain PR358	WGS	4088530.0	Good		88	98.4	99.4	100.0	0.0
+720	470.3389	Acinetobacter baumannii strain PR364	WGS	4084050.0	Good		80	98.4	99.4	100.0	0.0
+721	470.3390	Acinetobacter baumannii strain PR371	WGS	3875752.0	Good		86	98.7	99.3	100.0	0.5
+722	470.3401	Acinetobacter baumannii strain PR321	WGS	3876618.0	Good		85	98.5	99.2	100.0	0.5
+723	470.3405	Acinetobacter baumannii strain PR325	WGS	3977291.0	Good		85	98.7	99.4	100.0	0.0
+724	470.3415	Acinetobacter baumannii strain PR341	WGS	4161155.0	Good		94	98.1	99.3	100.0	0.0
+725	470.3417	Acinetobacter baumannii strain PR349	WGS	4087645.0	Good		90	98.4	99.4	100.0	0.0
+726	470.3420	Acinetobacter baumannii strain PR315	WGS	3914971.0	Good		58	98.2	99.1	100.0	0.5
+727	470.3422	Acinetobacter baumannii strain PR382	WGS	3861418.0	Good		70	98.7	99.2	100.0	0.0
+728	470.3425	Acinetobacter baumannii strain PR385	WGS	3881726.0	Good		79	98.7	99.3	100.0	0.5
+729	470.3431	Acinetobacter baumannii strain PR392	WGS	3880886.0	Good		68	98.7	99.2	100.0	0.0
+730	470.3457	Acinetobacter baumannii strain ARLG1787	WGS	4062763.0	Good		62	98.4	99.3	100.0	0.0
+731	470.3473	Acinetobacter baumannii strain ARLG1838	WGS	4089049.0	Good		83	98.4	99.4	100.0	0.0
+732	470.3488	Acinetobacter baumannii strain ARLG1906	WGS	3780820.0	Good		68	98.1	98.9	100.0	0.0
+733	470.3489	Acinetobacter baumannii strain ARLG1929	WGS	4127894.0	Good		73	97.9	99.2	100.0	2.0
+734	470.3495	Acinetobacter baumannii strain ARLG1871	WGS	3881938.0	Good		49	97.9	98.8	100.0	0.0
+735	470.3509	Acinetobacter baumannii strain ARLG1872	WGS	3993352.0	Good		56	97.7	98.8	100.0	0.0
+736	470.3680	Acinetobacter baumannii strain ABUH511	WGS	3950997.0	Good		92	98.2	99.3	100.0	0.0
+737	470.3684	Acinetobacter baumannii strain ABUH557	WGS	3897454.0	Good		38	98.4	99.1	100.0	0.0
+738	470.3688	Acinetobacter baumannii strain ABUH394	WGS	3804181.0	Good		72	98.5	99.2	100.0	0.0
+739	470.3689	Acinetobacter baumannii strain ABUH413	WGS	4104014.0	Good		78	98.4	99.4	100.0	0.0
+740	470.3691	Acinetobacter baumannii strain ABUH424	WGS	4164508.0	Good		80	98.4	99.4	100.0	0.0
+741	470.3696	Acinetobacter baumannii strain ABUH449	WGS	4155035.0	Good		86	98.4	99.4	100.0	0.0
+742	470.3708	Acinetobacter baumannii strain ABUH631	WGS	3788182.0	Good		74	98.2	98.9	100.0	0.0
+743	470.3717	Acinetobacter baumannii strain ABUH678	WGS	4105129.0	Good		90	98.4	99.4	100.0	0.0
+744	470.3725	Acinetobacter baumannii strain ABUH589	WGS	3883197.0	Good		93	98.3	99.3	99.5	0.0
+745	470.3727	Acinetobacter baumannii strain ABUH604	WGS	3950406.0	Good		77	98.7	99.4	100.0	0.0
+746	470.3732	Acinetobacter baumannii strain ABUH499	WGS	4088393.0	Good		73	98.6	99.4	100.0	0.0
+747	470.3734	Acinetobacter baumannii strain ABUH526	WGS	3871819.0	Good		62	98.4	99.3	100.0	0.0
+748	470.3735	Acinetobacter baumannii strain ABUH529	WGS	4086014.0	Good		88	98.5	99.4	100.0	0.0
+749	470.3740	Acinetobacter baumannii strain ABUH375	WGS	3803192.0	Good		72	98.6	99.2	100.0	0.0
+750	470.3752	Acinetobacter baumannii strain ABUH345	WGS	4163840.0	Good		87	98.5	99.4	100.0	0.0
+751	470.3754	Acinetobacter baumannii strain ABUH360	WGS	3820688.0	Good		45	97.9	98.8	100.0	0.0
+752	470.3755	Acinetobacter baumannii strain ABUH371	WGS	4054588.0	Good		71	98.6	99.4	100.0	0.0
+753	470.3760	Acinetobacter baumannii strain ABUH680	WGS	3850441.0	Good		100	98.7	99.3	100.0	0.0
+754	470.3762	Acinetobacter baumannii strain ABUH592	WGS	4142650.0	Good		99	98.4	99.4	100.0	0.0
+755	470.3764	Acinetobacter baumannii strain ARLG-1818	WGS	4161944.0	Good		94	98.4	99.4	100.0	0.0
+756	470.5071	Acinetobacter baumannii strain Ab120	WGS	3971278.0	Good		73	98.8	99.3	100.0	0.0
+757	470.5108	Acinetobacter baumannii strain Ab153	WGS	3860586.0	Good		75	98.9	99.4	100.0	0.0
+758	470.5123	Acinetobacter baumannii strain Ab143	WGS	3915596.0	Good		70	98.9	99.4	100.0	0.0
+759	470.5124	Acinetobacter baumannii strain Ab166	WGS	3978324.0	Good		88	98.6	99.4	100.0	0.0
+760	470.5135	Acinetobacter baumannii strain Ab170	WGS	3974256.0	Good		85	98.4	99.4	100.0	0.0
+761	470.5137	Acinetobacter baumannii strain Ab168	WGS	3978631.0	Good		87	98.5	99.4	100.0	0.0
+762	470.5143	Acinetobacter baumannii strain Ab198	WGS	3944190.0	Good		55	98.4	99.1	100.0	0.0
+763	470.5149	Acinetobacter baumannii strain Ab178	WGS	3914181.0	Good		74	98.8	99.4	100.0	0.0
+764	470.5175	Acinetobacter baumannii strain Ab222	WGS	3985257.0	Good		82	98.5	99.3	99.5	0.0
+765	470.5177	Acinetobacter baumannii strain Ab223	WGS	3988690.0	Good		83	98.6	99.4	100.0	0.0
+766	470.5184	Acinetobacter baumannii strain Ab214	WGS	3956397.0	Good		72	98.6	99.4	100.0	0.0
+767	470.5186	Acinetobacter baumannii strain Ab231	WGS	3934197.0	Good		90	98.7	99.4	99.5	0.0
+768	470.5196	Acinetobacter baumannii strain NCTC13421	Complete	4044162.0	Good		1	98.7	99.3	100.0	0.5
+769	470.5465	Acinetobacter baumannii strain 4300STDY7045679	WGS	3913212.0	Good		50	98.8	99.3	100.0	0.0
+770	470.5466	Acinetobacter baumannii strain 4300STDY7045685	WGS	4010874.0	Good		56	98.6	99.3	100.0	0.0
+771	470.5469	Acinetobacter baumannii strain 4300STDY7045682	WGS	3974986.0	Good		49	98.5	99.3	100.0	0.0
+772	470.5471	Acinetobacter baumannii strain 4300STDY7045680	WGS	3852813.0	Good		18	98.4	99.1	100.0	0.0
+773	470.5472	Acinetobacter baumannii strain 4300STDY7045693	WGS	3950163.0	Good		44	98.7	99.3	100.0	0.0
+774	470.5476	Acinetobacter baumannii strain 4300STDY7045692	WGS	3897792.0	Good		69	98.9	99.2	100.0	0.5
+775	470.5479	Acinetobacter baumannii strain 4300STDY7045686	WGS	3855393.0	Good		14	98.4	99.1	100.0	0.0
+776	470.5480	Acinetobacter baumannii strain 4300STDY7045690	WGS	3919509.0	Good		40	98.7	99.3	100.0	0.0
+777	470.5483	Acinetobacter baumannii strain 4300STDY7045699	WGS	3956854.0	Good		47	98.7	99.3	100.0	0.0
+778	470.5485	Acinetobacter baumannii strain 4300STDY7045702	WGS	4051249.0	Good		55	97.9	99.1	100.0	0.5
+779	470.5487	Acinetobacter baumannii strain 4300STDY7045715	WGS	3903762.0	Good		50	98.8	99.3	100.0	0.0
+780	470.5490	Acinetobacter baumannii strain 4300STDY7045716	WGS	3807794.0	Good		56	98.9	99.5	100.0	0.5
+781	470.5496	Acinetobacter baumannii strain 4300STDY7045705	WGS	3923515.0	Good		44	98.7	99.3	100.0	0.0
+782	470.5501	Acinetobacter baumannii strain 4300STDY7045700	WGS	4024474.0	Good		24	98.2	99.3	100.0	0.5
+783	470.5502	Acinetobacter baumannii strain 4300STDY7045709	WGS	3914244.0	Good		51	98.8	99.3	100.0	0.0
+784	470.5512	Acinetobacter baumannii strain 4300STDY7045738	WGS	3921312.0	Good		82	98.7	99.3	100.0	0.0
+785	470.5515	Acinetobacter baumannii strain 4300STDY7045734	WGS	3849824.0	Good		49	98.1	98.9	98.9	0.0
+786	470.5519	Acinetobacter baumannii strain 4300STDY7045731	WGS	4002093.0	Good		76	98.7	99.3	100.0	0.5
+787	470.5525	Acinetobacter baumannii strain 4300STDY7045742	WGS	3897511.0	Good		52	98.8	99.3	100.0	0.0
+788	470.5526	Acinetobacter baumannii strain 4300STDY7045736	WGS	3988043.0	Good		55	98.4	99.3	100.0	1.0
+789	470.5529	Acinetobacter baumannii strain 4300STDY7045728	WGS	3954004.0	Good		65	98.8	99.3	100.0	0.0
+790	470.5532	Acinetobacter baumannii strain 4300STDY7045745	WGS	3948061.0	Good		27	98.7	99.3	100.0	0.5
+791	470.5534	Acinetobacter baumannii strain 4300STDY7045747	WGS	3957362.0	Good		47	98.7	99.3	100.0	0.0
+792	470.5537	Acinetobacter baumannii strain 4300STDY7045766	WGS	3818391.0	Good		24	98.4	99.3	100.0	2.0
+793	470.5538	Acinetobacter baumannii strain 4300STDY7045758	WGS	3892626.0	Good		81	97.7	98.9	100.0	2.0
+794	470.5546	Acinetobacter baumannii strain 4300STDY7045755	WGS	3995009.0	Good		69	98.2	99.1	100.0	1.0
+795	470.5548	Acinetobacter baumannii strain 4300STDY7045753	WGS	4043373.0	Good		88	98.1	99.3	99.5	1.0
+796	470.5549	Acinetobacter baumannii strain 4300STDY7045761	WGS	3927802.0	Good		68	98.6	99.1	100.0	1.0
+797	470.5574	Acinetobacter baumannii strain 4300STDY7045790	WGS	3952489.0	Good		64	98.5	99.3	100.0	0.0
+798	470.5577	Acinetobacter baumannii strain 4300STDY7045783	WGS	4002782.0	Good		58	98.7	99.3	100.0	0.0
+799	470.5578	Acinetobacter baumannii strain 4300STDY7045784	WGS	4047068.0	Good		61	98.7	99.3	100.0	0.0
+800	470.5582	Acinetobacter baumannii strain 4300STDY7045791	WGS	3971710.0	Good		74	98.7	99.3	100.0	0.0
+801	470.5585	Acinetobacter baumannii strain 4300STDY7045803	WGS	3969424.0	Good		61	98.7	99.3	100.0	0.0
+802	470.5611	Acinetobacter baumannii strain 4300STDY7045803	WGS	3969424.0	Good		61	98.7	99.3	100.0	0.0
+803	470.5614	Acinetobacter baumannii strain 4300STDY7045816	WGS	4034960.0	Good		52	98.6	99.3	100.0	0.0
+804	470.5626	Acinetobacter baumannii strain 4300STDY7045818	WGS	3794316.0	Good		35	98.4	99.3	99.5	0.0
+805	470.5629	Acinetobacter baumannii strain 4300STDY7045811	WGS	3889000.0	Good		82	98.4	99.0	100.0	1.0
+806	470.5632	Acinetobacter baumannii strain 4300STDY7045827	WGS	3935669.0	Good		62	98.7	99.3	100.0	0.0
+807	470.5636	Acinetobacter baumannii strain 4300STDY7045826	WGS	3935115.0	Good		64	98.7	99.3	100.0	0.0
+808	470.5646	Acinetobacter baumannii strain 4300STDY7045849	WGS	3972284.0	Good		71	98.2	99.0	100.0	1.0
+809	470.5654	Acinetobacter baumannii strain 4300STDY7045832	WGS	4058296.0	Good		59	98.7	99.3	100.0	0.0
+810	470.5658	Acinetobacter baumannii strain 4300STDY7045843	WGS	3898413.0	Good		54	98.5	99.3	100.0	0.0
+811	470.5663	Acinetobacter baumannii strain 4300STDY7045858	WGS	3919408.0	Good		69	98.7	99.3	100.0	0.0
+812	470.5677	Acinetobacter baumannii strain 4300STDY7045870	WGS	3891827.0	Good		47	98.4	99.1	100.0	1.0
+813	470.5680	Acinetobacter baumannii strain 4300STDY7045872	WGS	4092308.0	Good		59	97.9	99.2	100.0	0.5
+814	470.5684	Acinetobacter baumannii strain 4300STDY7045869	WGS	3906663.0	Good		54	98.7	99.3	100.0	0.3
+815	470.5686	Acinetobacter baumannii strain 4300STDY7045884	WGS	3825058.0	Good		19	98.4	99.3	100.0	0.0
+816	470.5694	Acinetobacter baumannii strain 4300STDY7045883	WGS	3919840.0	Good		44	98.7	99.3	100.0	0.0
+817	470.5701	Acinetobacter baumannii strain 4300STDY7045892	WGS	3829599.0	Good		28	98.4	99.3	100.0	0.0
+818	470.5704	Acinetobacter baumannii strain 4300STDY7045891	WGS	3825054.0	Good		22	98.4	99.3	100.0	0.0
+819	470.5706	Acinetobacter baumannii strain 4300STDY7045900	WGS	3927233.0	Good		61	98.7	99.3	100.0	0.0
+820	470.5707	Acinetobacter baumannii strain 4300STDY7045901	WGS	3914366.0	Good		44	98.7	99.3	100.0	0.0
+821	470.5708	Acinetobacter baumannii strain 4300STDY7045905	WGS	3929511.0	Good		52	98.7	99.3	100.0	0.0
+822	470.5710	Acinetobacter baumannii strain 4300STDY7045899	WGS	3927221.0	Good		56	98.7	99.3	100.0	0.0
+823	470.5712	Acinetobacter baumannii strain 4300STDY7045902	WGS	3926452.0	Good		47	98.7	99.3	100.0	0.0
+824	470.5714	Acinetobacter baumannii strain 4300STDY7045903	WGS	3925427.0	Good		49	98.7	99.3	100.0	0.0
+825	470.5716	Acinetobacter baumannii strain 4300STDY7045909	WGS	4093565.0	Good		73	98.4	99.3	100.0	0.5
+826	470.1809	Acinetobacter baumannii strain ORAB21	WGS	3850862.0	Good		78	98.8	99.4	100.0	0.5
+827	470.1808	Acinetobacter baumannii strain ORAB6b	WGS	3851755.0	Good		83	98.9	99.4	100.0	0.5
+828	405416.6	Acinetobacter baumannii ACICU	Complete	3996761.0	Good	2.0	3	98.3	99.4	100.0	1.0
+829	470.1307	Acinetobacter baumannii strain 2004ZJAB5	WGS	4048068.0	Good		49	98.5	99.1	100.0	0.0
+830	470.1548	Acinetobacter baumannii strain MRSN17592	WGS	3857306.0	Good		80	97.9	98.9	100.0	0.0
+831	470.1549	Acinetobacter baumannii strain MRSN17593	WGS	3870522.0	Good		82	97.9	98.9	100.0	0.0
+832	470.1550	Acinetobacter baumannii strain MRSN16901	WGS	3917878.0	Good		78	97.9	98.8	100.0	0.0
+833	470.1553	Acinetobacter baumannii strain MRSN16881	WGS	3916682.0	Good		81	97.9	98.8	100.0	0.0
+834	470.1742	Acinetobacter baumannii strain J10	WGS	4079068.0	Good		70	97.9	99.0	100.0	0.0
+835	470.1751	Acinetobacter baumannii strain D2	WGS	3956778.0	Good		96	98.7	99.3	100.0	0.0
+836	470.1760	Acinetobacter baumannii strain A297	WGS	4109780.0	Good		92	98.2	99.1	100.0	0.5
+837	470.1761	Acinetobacter baumannii strain A83	WGS	3858636.0	Good		53	98.7	99.3	100.0	0.0
+838	470.1762	Acinetobacter baumannii strain D3208	WGS	3940429.0	Good		89	98.7	99.3	100.0	0.0
+839	470.2242	Acinetobacter baumannii strain CCF38	WGS	3879548.0	Good		76	98.7	99.2	100.0	0.0
+840	470.2249	Acinetobacter baumannii strain CCF8	WGS	3936754.0	Good		84	98.2	99.0	100.0	0.0
+841	470.2264	Acinetobacter baumannii strain CCF42	WGS	4032793.0	Good		82	98.2	99.4	100.0	0.0
+842	470.2437	Acinetobacter baumannii A105	WGS	4051339.0	Good		82	98.4	99.3	100.0	0.0
+843	470.2846	Acinetobacter baumannii strain AR_0035	WGS	4138746.0	Good		5	98.6	99.4	100.0	0.0
+844	470.2905	Acinetobacter baumannii strain 2011BJAB3	WGS	4068866.0	Good		68	98.4	99.4	100.0	0.5
+845	470.4000	Acinetobacter baumannii strain ABCRPSTH09	WGS	3950331.0	Good		89	98.6	99.3	100.0	0.0
+846	470.4010	Acinetobacter baumannii strain ABCRPUTH12	WGS	3940296.0	Good		73	98.6	99.3	100.0	0.0
+847	470.4012	Acinetobacter baumannii strain ABCRPUTH14	WGS	3941139.0	Good		78	98.6	99.3	100.0	0.0
+848	470.4013	Acinetobacter baumannii strain ABCRPUTH15	WGS	4022655.0	Good		88	98.5	99.3	100.0	0.0
+849	470.4063	Acinetobacter baumannii strain SIUA6	WGS	4019986.0	Good		47	98.1	99.2	100.0	0.0
+850	470.4704	Acinetobacter baumannii strain AR_0078	Complete	3871930.0	Good		1	98.5	99.0	100.0	0.0
+851	470.590	Acinetobacter baumannii 2011BJAB5	WGS	4146723.0	Good		70	98.4	99.4	100.0	0.0
+852	470.592	Acinetobacter baumannii 2011BJAB9	WGS	3796058.0	Good		49	98.2	99.1	100.0	0.0
+853	470.597	Acinetobacter baumannii 2011HNAB1	WGS	4104297.0	Good		83	98.4	99.3	99.5	0.0
+854	470.600	Acinetobacter baumannii 2011LNAB3	WGS	3944558.0	Good		90	98.9	99.4	100.0	0.0
+855	470.604	Acinetobacter baumannii 2011BJAB6	WGS	4000380.0	Good		67	98.8	99.4	100.0	0.0
+856	470.612	Acinetobacter baumannii ABUH504227	WGS	4156718.0	Good		89	98.4	99.4	100.0	0.0
+857	470.613	Acinetobacter baumannii ABUH504238	WGS	4155624.0	Good		93	98.5	99.5	100.0	0.0
+858	470.620	Acinetobacter baumannii ABUH304352	WGS	4032501.0	Good		88	98.2	99.3	100.0	0.0
+859	470.641	Acinetobacter baumannii ABUH225493	WGS	4054728.0	Good		86	98.7	99.5	100.0	0.0
+860	470.642	Acinetobacter baumannii ABUH225492	WGS	4057398.0	Good		91	98.4	99.5	100.0	0.0
+861	470.661	Acinetobacter baumannii ABUH384444	WGS	3890774.0	Good		95	98.9	99.3	98.4	0.0
+862	470.674	Acinetobacter baumannii ABUH535418	WGS	3822513.0	Good		70	98.6	99.3	100.0	0.0
+863	470.681	Acinetobacter baumannii ABUH81389	WGS	4051047.0	Good		95	98.5	99.5	100.0	0.0
+864	470.687	Acinetobacter baumannii ABUH81364	WGS	3977313.0	Good		95	98.3	99.4	100.0	0.0
+865	470.695	Acinetobacter baumannii ABUH184310	WGS	3922467.0	Good		85	98.7	99.3	100.0	0.0
+866	470.706	Acinetobacter baumannii ABUH66276	WGS	3849616.0	Good		76	98.6	99.3	100.0	0.0
+867	470.712	Acinetobacter baumannii ABUH66241	WGS	3875808.0	Good		71	98.7	99.3	100.0	0.0
+868	470.754	Acinetobacter baumannii ABUH24357	WGS	4040147.0	Good		85	98.5	99.4	100.0	0.0
+869	470.756	Acinetobacter baumannii ABUH24355	WGS	4040169.0	Good		89	98.7	99.5	100.0	0.0
+870	470.758	Acinetobacter baumannii ABUH1752	WGS	4007789.0	Good		54	98.4	99.2	100.0	0.0
+871	470.760	Acinetobacter baumannii ABUH48741	WGS	4040464.0	Good		90	98.7	99.5	100.0	0.0
+872	470.768	Acinetobacter baumannii ABUH4556	WGS	3801383.0	Good		81	98.5	99.3	100.0	0.0
+873	497978.4	Acinetobacter baumannii MDR-ZJ06	Complete	4011434.0	Good	1.0	2	98.5	99.3	100.0	0.0
+874	696749.3	Acinetobacter baumannii 1656-2	Complete	4023106.0	Good	2.0	3	98.6	99.3	100.0	0.0
+875	903895.3	Acinetobacter baumannii Canada BC-5	WGS	3998016.0	Good	0.0	3	98.6	99.2	100.0	0.5
+876	903898.3	Acinetobacter baumannii Naval-81	WGS	4100078.0	Good	0.0	58	97.6	99.3	100.0	1.0
+877	903902.3	Acinetobacter baumannii OIFC098	WGS	3812112.0	Good	0.0	72	98.2	98.9	100.0	0.5
+878	903905.3	Acinetobacter baumannii IS-235	WGS	4060387.0	Good	0.0	76	98.3	99.3	100.0	0.0
+879	470.5332	Acinetobacter baumannii strain s277	WGS	3988675.0	Good		76	98.3	99.3	100.0	0.8
+880	470.5334	Acinetobacter baumannii strain s275	WGS	4016588.0	Good		47	98.3	99.4	100.0	0.5
+881	470.5336	Acinetobacter baumannii strain s273	WGS	3996604.0	Good		53	98.1	99.4	100.0	1.5
+882	470.5344	Acinetobacter baumannii strain s265	WGS	3855828.0	Good		51	98.5	99.3	100.0	0.5
+883	470.5349	Acinetobacter baumannii strain s258	WGS	3852513.0	Good		52	98.3	99.3	100.0	0.5
+884	470.5352	Acinetobacter baumannii strain s259	WGS	3849459.0	Good		46	98.5	99.3	100.0	1.0
+885	470.5357	Acinetobacter baumannii strain s252	WGS	3855610.0	Good		49	98.1	99.3	100.0	1.0
+886	470.5361	Acinetobacter baumannii strain s248	WGS	3903121.0	Good		49	98.3	99.3	100.0	0.0
+887	470.5370	Acinetobacter baumannii strain s239	WGS	3925380.0	Good		54	98.3	99.3	100.0	0.0
+888	470.5377	Acinetobacter baumannii strain s232	WGS	3838827.0	Good		55	98.3	99.3	100.0	2.0
+889	470.5386	Acinetobacter baumannii strain s223	WGS	3855462.0	Good		52	98.7	99.3	100.0	0.0
+890	470.5389	Acinetobacter baumannii strain s220	WGS	4054591.0	Good		32	98.1	99.4	100.0	0.0
+891	470.5390	Acinetobacter baumannii strain s218	WGS	4054321.0	Good		40	98.1	99.4	100.0	0.0
+892	470.5393	Acinetobacter baumannii strain s216	WGS	4057182.0	Good		37	98.2	99.4	100.0	0.0
+893	470.5396	Acinetobacter baumannii strain s212	WGS	4053130.0	Good		35	98.1	99.3	100.0	0.0
+894	470.5398	Acinetobacter baumannii strain s211	WGS	4057865.0	Good		32	97.9	99.4	100.0	0.0
+895	470.5401	Acinetobacter baumannii strain s209	WGS	3852381.0	Good		51	98.4	99.3	100.0	0.5
+896	470.5402	Acinetobacter baumannii strain s207	WGS	3856284.0	Good		58	98.6	99.3	100.0	0.0
+897	470.5403	Acinetobacter baumannii strain s204	WGS	3858541.0	Good		52	98.6	99.3	100.0	1.0
+898	470.5291	Acinetobacter baumannii strain AB10	WGS	3873104.0	Good		45	98.4	99.3	100.0	0.0
+899	470.5297	Acinetobacter baumannii strain AB1	WGS	3782321.0	Good		66	98.4	99.4	100.0	0.5
+900	470.5318	Acinetobacter baumannii strain ACM-41	WGS	3910453.0	Good		99	98.8	99.3	100.0	0.0
+901	470.3342	Acinetobacter baumannii strain ABUH339	WGS	4089231.0	Good		69	98.5	99.4	100.0	0.0
+902	470.4896	Acinetobacter baumannii strain SGH0403	WGS	4003659.0	Good		68	98.8	99.4	100.0	0.0
+903	470.4885	Acinetobacter baumannii strain SGH0702	WGS	4125741.0	Good		76	98.8	99.4	100.0	0.0
+904	470.4887	Acinetobacter baumannii strain SGH0907	WGS	3923847.0	Good		62	98.7	99.3	100.0	0.5
+905	470.4888	Acinetobacter baumannii strain SGH1012	WGS	3895702.0	Good		73	98.8	99.3	100.0	0.0
+906	470.4892	Acinetobacter baumannii strain SGH1113	WGS	4014692.0	Good		76	98.7	99.3	100.0	0.0
+907	470.3347	Acinetobacter baumannii strain JBA13	Complete	4066982.0	Good	2.0	3	98.7	99.2	100.0	0.0
+908	470.3349	Acinetobacter baumannii strain 15A34	Complete	3938733.0	Good	1.0	2	98.7	99.3	99.5	1.0
+909	470.3351	Acinetobacter baumannii strain USA2	Complete	3987599.0	Good	1.0	2	98.6	99.3	100.0	0.0
+910	470.3352	Acinetobacter baumannii strain SSA6	Complete	3884414.0	Good		1	98.9	99.4	100.0	1.0
+911	470.3358	Acinetobacter baumannii strain SSMA17	Complete	4023177.0	Good	1.0	2	98.6	99.2	100.0	0.0
+912	470.2933	Acinetobacter baumannii strain 4113	WGS	4041855.0	Good		82	98.5	99.3	100.0	0.0
+913	470.2934	Acinetobacter baumannii strain 11547	WGS	4029173.0	Good		84	98.6	99.3	100.0	1.0
+914	470.2938	Acinetobacter baumannii strain 11598	WGS	4029500.0	Good		91	98.0	99.4	100.0	1.5
+915	470.1314	Acinetobacter baumannii strain A155	WGS	3933455.0	Good		53	98.6	99.2	100.0	0.0
+916	470.1579	Acinetobacter baumannii strain B8342	Complete	3947826.0	Good		1	98.5	98.9	99.0	1.0
+917	470.2126	Acinetobacter baumannii strain BAL 062	WGS	4028842.0	Good		86	98.4	99.2	100.0	1.5
+918	470.1574	Acinetobacter baumannii strain B8300	Complete	3850058.0	Good	1.0	2	98.3	99.2	100.0	1.5
+919	470.1312	Acinetobacter baumannii strain NBRC 110490	WGS	4059850.0	Good		87	98.2	99.2	100.0	1.5
+920	470.2712	Acinetobacter baumannii strain XH714	WGS	3903428.0	Good		92	97.7	98.2	98.9	0.0
+921	470.3007	Acinetobacter baumannii strain Ab73	WGS	3914793.0	Good		69	98.8	99.3	100.0	0.0
+922	470.2921	Acinetobacter baumannii strain AC_2355	WGS	4023755.0	Good		93	98.7	99.3	100.0	0.0
+923	470.2923	Acinetobacter baumannii strain AC_6066	WGS	3987460.0	Good		84	98.7	99.3	100.0	0.0
+924	470.5113	Acinetobacter baumannii strain Ab156	WGS	3914664.0	Good		70	98.7	99.4	100.0	0.0
+925	470.5139	Acinetobacter baumannii strain Ab185	WGS	3971523.0	Good		86	98.4	99.4	100.0	0.0
+926	470.5151	Acinetobacter baumannii strain Ab192	WGS	3915795.0	Good		74	98.9	99.4	100.0	0.0
+927	470.2989	Acinetobacter baumannii strain Ab29	WGS	3915812.0	Good		71	98.9	99.4	100.0	0.0
+928	470.3025	Acinetobacter baumannii strain Ab113	WGS	3917004.0	Good		72	98.9	99.4	100.0	0.0
+929	1198108.3	Acinetobacter baumannii AC12	WGS	3848312.0	Good	0.0	86	98.8	99.3	100.0	0.0
+930	1221253.3	Acinetobacter baumannii AB_2007-16-25-01-7	WGS	3961436.0	Good	0.0	81	98.0	98.7	100.0	0.5
+931	1221254.3	Acinetobacter baumannii AB_2007-16-27-01	WGS	3970109.0	Good	0.0	71	97.9	98.7	100.0	0.5
+932	1221258.3	Acinetobacter baumannii AB_2008-15-69	WGS	4136907.0	Good	0.0	75	98.0	99.2	100.0	0.0
+933	1221263.3	Acinetobacter baumannii AB_2009-04-01-7	WGS	3839270.0	Good	0.0	86	98.4	99.0	99.5	0.0
+934	1221287.3	Acinetobacter baumannii AB_TG27339	WGS	3971513.0	Good	0.0	46	98.1	98.8	100.0	0.5
+935	1224747.3	Acinetobacter baumannii AC30	WGS	3922859.0	Good	0.0	92	98.7	99.3	100.0	0.0
+936	1278070.3	Acinetobacter baumannii MSP4-16	WGS	3944542.0	Good	0.0	53	98.5	99.3	100.0	0.0
+937	1315134.3	Acinetobacter baumannii TG00314	WGS	4056831.0	Good	0.0	55	98.2	99.3	100.0	1.0
+938	1315142.3	Acinetobacter baumannii TG15238	WGS	3920841.0	Good	0.0	95	98.6	99.3	100.0	0.5
+939	1315162.3	Acinetobacter baumannii TG22194	WGS	4135361.0	Good	0.0	61	98.6	99.3	100.0	0.5
+940	1315169.3	Acinetobacter baumannii TG22332	WGS	4091283.0	Good	0.0	62	98.6	99.3	100.0	0.0
+941	1315175.3	Acinetobacter baumannii TG27315	WGS	4089498.0	Good	0.0	87	98.5	99.4	100.0	0.0
+942	1315176.3	Acinetobacter baumannii TG27319	WGS	4075702.0	Good	0.0	84	98.4	99.3	100.0	0.0
+943	1315180.3	Acinetobacter baumannii TG27387	WGS	3938118.0	Good	0.0	52	98.4	99.3	99.5	0.0
+944	1315185.3	Acinetobacter baumannii TG27411	WGS	4156077.0	Good	0.0	92	98.5	99.4	100.0	0.0
+945	1400867.3	Acinetobacter baumannii ZW85-1	Complete	3876878.0	Good	1.0	2	98.2	99.3	100.0	0.0
+946	1401639.4	Acinetobacter baumannii NCGM 237	Complete	4021920.0	Good		1	99.0	99.4	100.0	0.5
+947	1455315.3	Acinetobacter baumannii LAC-4	WGS	3944911.0	Good		35	98.2	98.8	98.4	0.5
+948	1458922.3	Acinetobacter baumannii LY5	WGS	3999987.0	Good		85	98.9	99.4	100.0	0.0
+949	1224165.3	Acinetobacter baumannii ABNIH25	WGS	3900156.0	Good	0.0	88	97.6	99.3	100.0	0.5
+950	1310859.3	Acinetobacter baumannii 24845_5	WGS	4106563.0	Good	0.0	93	98.4	99.3	100.0	0.0
+951	1310861.3	Acinetobacter baumannii 24845_7	WGS	4095023.0	Good	0.0	100	98.1	99.3	100.0	1.0
+952	1310865.3	Acinetobacter baumannii 25307_1	WGS	4008402.0	Good	0.0	97	98.3	99.3	100.0	0.0
+953	1310875.3	Acinetobacter baumannii 25253_1	WGS	4023294.0	Good	0.0	95	98.3	99.3	100.0	0.5
+954	1310877.3	Acinetobacter baumannii 25253_3	WGS	3989535.0	Good	0.0	87	98.7	99.3	100.0	0.5
+955	1310878.3	Acinetobacter baumannii 25253_4	WGS	4017540.0	Good	0.0	92	98.5	99.3	100.0	0.3
+956	1310880.3	Acinetobacter baumannii 25253_6	WGS	4012442.0	Good	0.0	96	98.4	99.3	100.0	0.0
+957	1310884.3	Acinetobacter baumannii 25253_10	WGS	4003751.0	Good	0.0	92	98.4	99.3	100.0	0.5
+958	1310897.3	Acinetobacter baumannii 45002_3	WGS	4000356.0	Good	0.0	87	98.7	99.3	100.0	0.0
+959	1310899.3	Acinetobacter baumannii 45002_5	WGS	3985525.0	Good	0.0	77	98.6	99.3	100.0	0.5
+960	1310901.3	Acinetobacter baumannii 45002_7	WGS	3988301.0	Good	0.0	82	98.6	99.3	100.0	0.0
+961	1311015.3	Acinetobacter baumannii 25493_1	WGS	4031496.0	Good		76	98.1	99.1	100.0	0.5
+962	1311016.3	Acinetobacter baumannii 25493_2	WGS	4010371.0	Good		68	98.3	99.3	100.0	0.5
+963	1311031.3	Acinetobacter baumannii 44437_7	WGS	4084628.0	Good		96	98.3	99.3	100.0	0.5
+964	1311081.3	Acinetobacter baumannii 44298_4	WGS	4007942.0	Good		100	98.5	99.3	100.0	1.0
+965	1311088.3	Acinetobacter baumannii 45075_1	WGS	3943922.0	Good		52	98.7	99.1	100.0	0.5
+966	1311092.3	Acinetobacter baumannii 45075_5	WGS	3919258.0	Good		54	98.5	99.1	100.0	0.0
+967	1311097.3	Acinetobacter baumannii 45075_10	WGS	3940414.0	Good		57	98.7	99.1	100.0	0.0
+968	1311109.3	Acinetobacter baumannii 25569_2	WGS	4005536.0	Good		73	98.6	99.1	100.0	0.0
+969	1311110.3	Acinetobacter baumannii 25569_3	WGS	3993470.0	Good		73	98.6	99.1	100.0	0.0
+970	1311111.3	Acinetobacter baumannii 25569_4	WGS	3970798.0	Good		69	98.4	99.1	100.0	0.0
+971	1311117.3	Acinetobacter baumannii 25569_10	WGS	3999693.0	Good		70	98.4	99.1	100.0	0.0
+972	1311136.3	Acinetobacter baumannii 42057_4	WGS	3979216.0	Good		73	98.7	99.3	100.0	0.5
+973	1096997.4	Acinetobacter baumannii BJAB0868	Complete	4005822.0	Good	3.0	4	98.5	99.3	100.0	0.0
+974	1217627.3	Acinetobacter baumannii NIPH 67	WGS	4047599.0	Good	0.0	11	98.4	99.3	100.0	0.0
+975	1217635.3	Acinetobacter baumannii NIPH 527	WGS	4152121.0	Good	0.0	31	98.2	99.1	100.0	0.5
+976	1217636.3	Acinetobacter baumannii NIPH 528	WGS	3869750.0	Good	0.0	12	99.0	99.4	100.0	0.0
+977	1217637.3	Acinetobacter baumannii NIPH 601	WGS	4021265.0	Good	0.0	19	98.4	99.1	100.0	1.5
+978	1217639.3	Acinetobacter baumannii NIPH 146	WGS	3933401.0	Good	0.0	27	98.4	99.3	100.0	0.0
+979	1217646.3	Acinetobacter baumannii NIPH 24	WGS	3889200.0	Good	0.0	22	99.0	99.3	100.0	0.5
+980	1310577.3	Acinetobacter baumannii 532413	WGS	4127682.0	Good	0.0	95	98.3	99.3	100.0	0.5
+981	1310588.3	Acinetobacter baumannii 562700	WGS	3967558.0	Good	0.0	64	98.4	99.1	100.0	0.0
+982	1310636.3	Acinetobacter baumannii 1429530	WGS	3985365.0	Good	0.0	31	97.6	99.0	100.0	0.0
+983	1310693.4	Acinetobacter baumannii 655378	WGS	3973357.0	Good		31	98.1	99.2	100.0	1.0
+984	1310700.3	Acinetobacter baumannii 1598530	WGS	3882318.0	Good		41	98.2	99.4	100.0	0.0
+985	1310737.3	Acinetobacter baumannii 1271213	WGS	4044084.0	Good	0.0	82	98.4	99.3	100.0	1.0
+986	1310745.3	Acinetobacter baumannii 480175	WGS	4056653.0	Good	0.0	82	98.4	99.2	100.0	0.5
+987	1310769.3	Acinetobacter baumannii 1276470-86	WGS	4062686.0	Good	0.0	95	98.3	99.3	100.0	0.5
+988	1310771.3	Acinetobacter baumannii 1058283	WGS	4138463.0	Good	0.0	94	98.4	99.2	100.0	1.0
+989	1310780.3	Acinetobacter baumannii 1117819	WGS	3934271.0	Good	0.0	91	98.8	99.3	100.0	0.5
+990	1310781.3	Acinetobacter baumannii 277047	WGS	3900242.0	Good	0.0	36	98.4	99.3	100.0	0.0
+991	1310783.3	Acinetobacter baumannii 214216	WGS	4049047.0	Good	0.0	58	97.9	98.9	100.0	1.5
+992	1310784.3	Acinetobacter baumannii 1007214	WGS	3950092.0	Good	0.0	46	97.6	98.8	100.0	0.0
+993	1310786.3	Acinetobacter baumannii 541915	WGS	3808645.0	Good	0.0	91	97.6	98.5	100.0	0.0
+994	1310794.3	Acinetobacter baumannii 303002	WGS	3887103.0	Good	0.0	98	98.8	99.3	100.0	0.5
+995	1310801.3	Acinetobacter baumannii 339786	WGS	4016575.0	Good	0.0	89	98.0	98.8	99.0	0.5
+996	1310807.3	Acinetobacter baumannii 1488685	WGS	4114528.0	Good	0.0	90	98.2	99.3	100.0	0.0
+997	1310813.3	Acinetobacter baumannii 722310	WGS	4043749.0	Good	0.0	72	97.5	99.0	100.0	1.5
+998	1310820.3	Acinetobacter baumannii 323408	WGS	4141374.0	Good	0.0	97	98.4	99.3	100.0	0.0
+999	1310828.3	Acinetobacter baumannii 472237-120	WGS	4050565.0	Good	0.0	91	98.4	99.3	100.0	1.5
+1000	1398943.3	Acinetobacter baumannii UH0207	WGS	3801252.0	Good	0.0	87	98.4	99.2	100.0	1.0
+1001	1398948.3	Acinetobacter baumannii UH10107	WGS	4006405.0	Good	0.0	84	98.8	99.4	100.0	0.0
+1002	1398950.3	Acinetobacter baumannii UH11608	WGS	3886470.0	Good	0.0	80	98.6	99.2	100.0	0.0
+1003	1398953.3	Acinetobacter baumannii UH12408	WGS	3856072.0	Good	0.0	94	99.0	99.4	100.0	0.0
+1004	1398955.3	Acinetobacter baumannii UH13908	WGS	3781356.0	Good	0.0	62	98.4	99.0	99.5	0.0
+1005	1398964.3	Acinetobacter baumannii UH20108	WGS	3880196.0	Good	0.0	92	98.7	99.3	100.0	0.0
+1006	1398972.3	Acinetobacter baumannii UH5207	WGS	4009458.0	Good	0.0	59	98.3	99.0	100.0	0.0
+1007	1398976.3	Acinetobacter baumannii UH6207	WGS	3865151.0	Good	0.0	100	98.4	99.0	100.0	0.0
+1008	1398985.3	Acinetobacter baumannii UH8407	WGS	3917690.0	Good	0.0	92	98.8	99.3	100.0	0.5
+1009	1409925.3	Acinetobacter baumannii MRSN 4106	WGS	3952684.0	Good	1.0	62	98.5	99.2	99.7	0.0
+1010	1409926.6	Acinetobacter baumannii MRSN 58	WGS	3974176.0	Good	2.0	40	98.7	99.3	100.0	0.3
+1011	1409927.3	Acinetobacter baumannii MRSN 7339	WGS	3955466.0	Good	2.0	34	98.7	99.3	100.0	0.5
+1012	470.4254	Acinetobacter baumannii strain AC001-8-R1	WGS	4078084.0	Good		75	98.4	99.2	100.0	0.0
+1013	470.3354	Acinetobacter baumannii strain WKA02	Complete	3870945.0	Good		1	98.2	98.8	100.0	0.0
+1014	470.3355	Acinetobacter baumannii strain USA15	Complete	4028479.0	Good	1.0	2	98.7	99.3	100.0	0.0
+1015	470.3356	Acinetobacter baumannii strain SAA14	Complete	3972565.0	Good		1	98.7	99.2	100.0	0.0
+1016	470.3357	Acinetobacter baumannii strain SSA12	Complete	4064716.0	Good	2.0	3	98.7	99.2	100.0	0.5
+1017	470.2932	Acinetobacter baumannii strain 11502	WGS	4044644.0	Good		85	98.4	99.3	100.0	0.5
+1018	470.2936	Acinetobacter baumannii strain 11551	WGS	4053690.0	Good		66	98.6	99.3	100.0	0.5
+1019	470.1291	Acinetobacter baumannii strain BM4587	WGS	3879582.0	Good		74	97.9	99.1	100.0	0.5
+1020	470.1368	Acinetobacter baumannii strain 741019	WGS	4054515.0	Good		63	97.9	99.1	100.0	0.0
+1021	470.1772	Acinetobacter baumannii strain ORAB23	WGS	3999480.0	Good		91	98.4	99.4	100.0	0.5
+1022	470.1290	Acinetobacter baumannii strain BR097	WGS	3944651.0	Good		12	98.5	99.3	100.0	0.0
+1023	470.1292	Acinetobacter baumannii strain TCM206	WGS	3944450.0	Good		89	98.7	99.4	100.0	0.0
+1024	470.1294	Acinetobacter baumannii strain AB31	Complete	3803317.0	Good		1	97.6	99.0	100.0	0.0
+1025	470.1297	Acinetobacter baumannii strain GTC 03323	WGS	4059778.0	Good		87	98.2	99.1	100.0	1.5
+1026	470.1302	Acinetobacter baumannii strain NBRC 110493	WGS	3813972.0	Good		47	98.4	99.3	100.0	0.0
+1027	470.1310	Acinetobacter baumannii strain CSO1	Complete	3916249.0	Good	3.0	4	98.3	99.3	100.0	1.0
+1028	470.1311	Acinetobacter baumannii strain CR17	Complete	3924910.0	Good	3.0	4	98.4	99.3	100.0	0.0
+1029	470.1313	Acinetobacter baumannii strain GTC 03325	WGS	3812752.0	Good		41	98.4	99.3	100.0	0.0
+1030	470.1355	Acinetobacter baumannii strain S19	WGS	4054926.0	Good		80	98.4	99.4	100.0	1.0
+1031	470.1364	Acinetobacter baumannii strain RUH1486	WGS	3888398.0	Good		62	98.4	99.3	100.0	0.0
+1032	470.1402	Acinetobacter baumannii strain TCM331	WGS	4058691.0	Good		79	98.7	99.4	100.0	0.0
+1033	470.1413	Acinetobacter baumannii strain ABBL067	WGS	4033938.0	Good		82	97.0	98.0	98.9	0.0
+1034	470.1509	Acinetobacter baumannii strain ABBL003	WGS	3954365.0	Good		70	98.6	99.3	99.2	0.0
+1035	470.1525	Acinetobacter baumannii strain ABBL012	WGS	3928030.0	Good		90	98.5	99.3	99.5	0.5
+1036	470.1547	Acinetobacter baumannii strain ABBL053	WGS	4081155.0	Good		90	97.4	99.0	99.5	0.0
+1037	470.1575	Acinetobacter baumannii strain ATCC 17978-mff	Complete	4006698.0	Good	1.0	2	98.7	99.3	99.5	0.0
+1038	470.1737	Acinetobacter baumannii strain R2090	Complete	3819158.0	Good		1	98.4	99.0	98.4	0.0
+1039	470.1740	Acinetobacter baumannii strain FDAARGOS_123	WGS	3990537.0	Good		3	98.5	99.2	100.0	0.0
+1040	470.1741	Acinetobacter baumannii strain Ab03	WGS	4027589.0	Good		89	98.1	99.4	100.0	2.0
+1041	470.1763	Acinetobacter baumannii strain KBN10P02143	Complete	4139396.0	Good	1.0	2	98.7	99.3	100.0	0.0
+1042	470.1765	Acinetobacter baumannii strain R2091	Complete	3947488.0	Good	1.0	2	98.2	99.2	100.0	0.0
+1043	470.1866	Acinetobacter baumannii strain XH857	Complete	3879636.0	Good		1	98.7	99.3	100.0	0.5
+1044	470.1999	Acinetobacter baumannii strain ATCC 17978	WGS	3987278.0	Good		31	98.7	99.3	99.5	0.0
+1045	470.2005	Acinetobacter baumannii strain AB4025	WGS	3902672.0	Good		69	98.9	99.4	100.0	0.0
+1046	470.2006	Acinetobacter baumannii strain AB4456	WGS	4001807.0	Good		58	98.6	99.3	100.0	0.0
+1047	470.2008	Acinetobacter baumannii strain AB4448	WGS	3992257.0	Good		43	98.5	99.3	100.0	0.0
+1048	470.2010	Acinetobacter baumannii strain AB4498	WGS	3905177.0	Good		76	98.8	99.4	100.0	0.0
+1049	470.2013	Acinetobacter baumannii strain AB4957	WGS	3882040.0	Good		50	98.7	99.3	100.0	0.0
+1050	470.2015	Acinetobacter baumannii strain AB5001	WGS	3789469.0	Good		33	98.7	99.3	100.0	0.0
+1051	470.2017	Acinetobacter baumannii strain AB5674	WGS	3869253.0	Good		34	98.6	99.3	100.0	0.0
+1052	470.2019	Acinetobacter baumannii strain 2015ZJAB1	WGS	3954957.0	Good		56	98.7	99.4	100.0	0.0
+1053	470.2022	Acinetobacter baumannii strain 2015ZJAB4	WGS	3942129.0	Good		53	98.7	99.3	100.0	0.0
+1054	470.2127	Acinetobacter baumannii strain BAL 255	WGS	3953868.0	Good		59	98.3	99.2	100.0	0.0
+1055	470.2217	Acinetobacter baumannii strain A457	WGS	3874808.0	Good		14	98.4	99.2	100.0	0.5
+1056	470.2354	Acinetobacter baumannii strain ABUH735	WGS	4129332.0	Good		93	98.2	99.4	100.0	0.0
+1057	470.2410	Acinetobacter baumannii strain ABUH734	WGS	3877391.0	Good		69	97.9	99.3	100.0	0.0
+1058	470.2524	Acinetobacter baumannii strain HJ13	WGS	4070471.0	Good		75	98.5	99.4	100.0	0.0
+1059	470.2547	Acinetobacter baumannii strain ST-2_clon_2005	WGS	3991758.0	Good		64	98.4	99.3	100.0	0.0
+1060	470.2563	Acinetobacter baumannii strain HJ07	WGS	4023741.0	Good		84	98.7	99.3	100.0	0.0
+1061	470.2564	Acinetobacter baumannii strain HJ08	WGS	4022149.0	Good		88	98.7	99.3	100.0	0.0
+1062	470.2572	Acinetobacter baumannii strain HJ19-2	WGS	3942503.0	Good		64	98.7	99.3	100.0	0.0
+1063	470.2586	Acinetobacter baumannii strain ST-2_clon_2010	WGS	4092613.0	Good		77	98.5	99.3	100.0	0.0
+1064	470.2656	Acinetobacter baumannii strain XH181	WGS	3993956.0	Good		91	98.7	99.3	99.5	0.0
+1065	470.2659	Acinetobacter baumannii strain XH184	WGS	4002523.0	Good		100	98.7	99.3	99.5	0.0
+1066	470.2671	Acinetobacter baumannii strain KAB04	Complete	4128124.0	Good	1.0	2	98.1	99.2	100.0	0.0
+1067	470.2675	Acinetobacter baumannii strain KAB08	Complete	4075169.0	Good	1.0	2	98.7	99.2	100.0	0.0
+1068	470.2686	Acinetobacter baumannii strain XH747	WGS	4008047.0	Good		99	98.4	99.3	100.0	0.0
+1069	470.2692	Acinetobacter baumannii strain XH793	WGS	3943421.0	Good		76	98.7	99.3	100.0	0.0
+1070	470.2693	Acinetobacter baumannii strain XH799	WGS	4012257.0	Good		55	98.7	99.4	100.0	0.0
+1071	470.2698	Acinetobacter baumannii strain XH834	WGS	3941572.0	Good		96	98.7	99.3	100.0	0.0
+1072	470.2700	Acinetobacter baumannii strain XH837	WGS	3930998.0	Good		91	98.7	99.3	100.0	0.0
+1073	470.2706	Acinetobacter baumannii strain XH839	WGS	3962832.0	Good		95	98.7	99.4	100.0	0.0
+1074	470.2722	Acinetobacter baumannii strain XH730	WGS	4128456.0	Good		61	98.3	99.3	100.0	0.0
+1075	470.2739	Acinetobacter baumannii strain XH754	WGS	3973272.0	Good		80	98.8	99.4	100.0	0.0
+1076	470.2748	Acinetobacter baumannii strain XH779	WGS	3937375.0	Good		77	98.7	99.3	100.0	0.0
+1077	470.2752	Acinetobacter baumannii strain XH795	WGS	3920036.0	Good		70	98.7	99.3	100.0	0.0
+1078	470.2754	Acinetobacter baumannii strain XH797	WGS	3778793.0	Good		85	98.3	98.8	98.9	0.0
+1079	470.2765	Acinetobacter baumannii strain XH833	WGS	3891000.0	Good		75	97.6	98.1	98.9	0.0
+1080	470.2768	Acinetobacter baumannii strain XH836	WGS	3937420.0	Good		86	98.7	99.3	99.5	0.0
+1081	470.2779	Acinetobacter baumannii strain XH510	WGS	3917013.0	Good		67	98.7	99.3	100.0	0.0
+1082	470.2780	Acinetobacter baumannii strain XH548	WGS	3976480.0	Good		88	98.7	99.3	100.0	0.0
+1083	470.2786	Acinetobacter baumannii strain XH547	WGS	3976278.0	Good		87	98.7	99.3	100.0	0.0
+1084	470.2795	Acinetobacter baumannii strain XH664	WGS	3985203.0	Good		48	98.5	99.3	100.0	0.0
+1085	470.2797	Acinetobacter baumannii strain XH667	WGS	3920164.0	Good		97	98.8	99.4	100.0	0.0
+1086	470.2801	Acinetobacter baumannii strain XH682	WGS	3943836.0	Good		66	98.7	99.3	100.0	0.0
+1087	470.2802	Acinetobacter baumannii strain XH707	WGS	3942112.0	Good		54	98.7	99.4	100.0	0.0
+1088	470.2804	Acinetobacter baumannii strain XH550	WGS	4055815.0	Good		94	98.8	99.4	100.0	0.0
+1089	470.2809	Acinetobacter baumannii strain XH646	WGS	3909078.0	Good		55	98.7	99.3	100.0	0.0
+1090	470.2811	Acinetobacter baumannii strain XH647	WGS	4121878.0	Good		69	98.3	99.3	100.0	0.0
+1091	470.2816	Acinetobacter baumannii strain XH663	WGS	3964344.0	Good		63	98.7	99.4	100.0	0.0
+1092	470.2819	Acinetobacter baumannii strain XH668	WGS	3984768.0	Good		42	98.5	99.3	100.0	0.0
+1093	470.2820	Acinetobacter baumannii strain XH670	WGS	3965026.0	Good		79	98.5	99.4	100.0	0.0
+1094	470.2821	Acinetobacter baumannii strain XH669	WGS	3963161.0	Good		64	98.7	99.4	100.0	0.0
+1095	470.2825	Acinetobacter baumannii strain XH674	WGS	3985307.0	Good		40	98.5	99.3	100.0	0.0
+1096	470.2832	Acinetobacter baumannii strain XH685	WGS	3960615.0	Good		83	98.7	99.4	100.0	0.0
+1097	470.2834	Acinetobacter baumannii strain XH688	WGS	3874305.0	Good		73	98.4	99.0	99.0	0.0
+1098	470.2836	Acinetobacter baumannii strain XH689	WGS	3940535.0	Good		53	98.8	99.4	100.0	0.0
+1099	470.2913	Acinetobacter baumannii strain XDR-BJ83	Complete	4080621.0	Good	1.0	2	97.9	99.3	100.0	0.0
+1100	470.2918	Acinetobacter baumannii strain AB067	WGS	3872679.0	Good		60	98.4	99.3	100.0	0.0
+1101	470.2960	Acinetobacter baumannii strain Ab5	WGS	3977613.0	Good		74	98.6	99.4	100.0	0.0
+1102	470.2966	Acinetobacter baumannii strain Ab31	WGS	3869787.0	Good		75	99.0	99.4	100.0	0.0
+1103	470.2972	Acinetobacter baumannii strain Ab25	WGS	3825220.0	Good		69	98.9	99.4	100.0	0.0
+1104	470.2973	Acinetobacter baumannii strain Ab24	WGS	3825953.0	Good		70	99.0	99.4	100.0	0.0
+1105	470.2977	Acinetobacter baumannii strain Ab4	WGS	3977419.0	Good		75	98.6	99.4	100.0	0.5
+1106	470.2982	Acinetobacter baumannii strain Ab28	WGS	3854878.0	Good		88	99.0	99.4	100.0	0.0
+1107	470.2990	Acinetobacter baumannii strain Ab23	WGS	3826507.0	Good		70	98.9	99.4	100.0	0.0
+1108	470.2994	Acinetobacter baumannii strain Ab48	WGS	3977497.0	Good		87	98.6	99.4	100.0	0.0
+1109	470.2995	Acinetobacter baumannii strain Ab11	WGS	3950804.0	Good		78	98.4	99.4	100.0	0.0
+1110	470.2997	Acinetobacter baumannii strain Ab35	WGS	4026926.0	Good		91	98.6	99.4	100.0	0.0
+1111	470.2998	Acinetobacter baumannii strain Ab16	WGS	3951120.0	Good		79	98.5	99.4	100.0	0.0
+1112	470.3000	Acinetobacter baumannii strain Ab26	WGS	3829480.0	Good		71	98.9	99.4	100.0	0.0
+1113	470.3006	Acinetobacter baumannii strain Ab77	WGS	4066883.0	Good		97	98.5	99.4	100.0	0.0
+1114	470.3008	Acinetobacter baumannii strain Ab80	WGS	4077629.0	Good		89	98.5	99.4	100.0	0.0
+1115	470.3010	Acinetobacter baumannii strain Ab90	WGS	3942149.0	Good		69	98.7	99.4	100.0	0.5
+1116	470.3013	Acinetobacter baumannii strain Ab114	WGS	3980098.0	Good		88	98.6	99.4	100.0	0.0
+1117	470.3015	Acinetobacter baumannii strain Ab89	WGS	3866109.0	Good		84	99.0	99.4	100.0	0.0
+1118	470.3104	Acinetobacter baumannii strain AB-C	WGS	4104384.0	Good		86	97.9	99.2	100.0	1.0
+1119	470.3121	Acinetobacter baumannii strain ABUH438	WGS	3998607.0	Good		78	98.5	99.4	100.0	0.0
+1120	470.3131	Acinetobacter baumannii strain ABUH693	WGS	3980738.0	Good		56	98.6	99.3	100.0	0.0
+1121	470.3138	Acinetobacter baumannii strain ABUH570	WGS	3906865.0	Good		95	98.5	99.4	100.0	0.0
+1122	470.3140	Acinetobacter baumannii strain ABUH582	WGS	4005364.0	Good		75	98.4	99.4	100.0	0.0
+1123	470.3145	Acinetobacter baumannii strain ABUH594	WGS	3994170.0	Good		75	98.4	99.4	100.0	0.0
+1124	470.3147	Acinetobacter baumannii strain ABUH618	WGS	4027656.0	Good		80	98.3	99.4	100.0	0.0
+1125	470.3158	Acinetobacter baumannii strain ABUH519	WGS	4063919.0	Good		83	98.4	99.4	100.0	0.0
+1126	470.3161	Acinetobacter baumannii strain ABUH537	WGS	3992220.0	Good		54	97.8	98.8	100.0	0.0
+1127	470.3162	Acinetobacter baumannii strain ABUH534	WGS	4046475.0	Good		78	98.5	99.4	100.0	0.0
+1128	470.3165	Acinetobacter baumannii strain ABUH576	WGS	3950507.0	Good		83	98.3	99.3	100.0	0.0
+1129	470.4022	Acinetobacter baumannii strain DR2	WGS	3890564.0	Good		92	98.8	99.3	100.0	0.0
+1130	470.4244	Acinetobacter baumannii strain IHIT32296	WGS	3824277.0	Good		90	97.6	99.0	100.0	1.0
+1131	470.4248	Acinetobacter baumannii strain AC003	WGS	3965148.0	Good		50	98.7	99.3	100.0	0.0
+1132	470.4255	Acinetobacter baumannii strain AC001	WGS	4075869.0	Good		70	98.4	99.2	100.0	0.0
+1133	470.4274	Acinetobacter baumannii strain AbPK1	Complete	4147337.0	Good	2.0	3	98.5	99.3	100.0	0.0
+1134	470.4289	Acinetobacter baumannii strain Ab4653	Complete	3913931.0	Good		1	98.7	99.3	99.5	0.0
+1135	470.4467	Acinetobacter baumannii strain SMGC-AB1	WGS	3872105.0	Good		41	99.0	99.3	100.0	0.0
+1136	470.4471	Acinetobacter baumannii strain ZQ5	WGS	4002057.0	Good	3.0	85	98.4	99.3	100.0	0.5
+1137	470.4472	Acinetobacter baumannii strain ZQ7	WGS	3944660.0	Good	2.0	92	98.6	99.1	100.0	0.0
+1138	470.4473	Acinetobacter baumannii strain ZQ6	WGS	4055014.0	Good	4.0	95	98.6	99.3	100.0	0.5
+1139	470.4685	Acinetobacter baumannii strain MCR9238	WGS	4033476.0	Good		74	97.9	98.9	100.0	1.0
+1140	470.4686	Acinetobacter baumannii strain MCR10172	WGS	3884817.0	Good		71	97.8	98.8	100.0	0.5
+1141	470.4690	Acinetobacter baumannii strain MCR10179	WGS	4090126.0	Good		96	98.4	99.1	100.0	0.0
+1142	470.4754	Acinetobacter baumannii strain AB28	WGS	3845540.0	Good		69	98.7	99.3	100.0	0.0
+1143	470.4757	Acinetobacter baumannii strain AB25	WGS	3850024.0	Good		100	98.9	99.3	100.0	0.0
+1144	470.4758	Acinetobacter baumannii strain AB23	WGS	3876548.0	Good		57	98.7	99.2	100.0	0.0
+1145	470.4759	Acinetobacter baumannii strain AB21	WGS	3912429.0	Good		93	98.8	99.3	100.0	0.0
+1146	470.4763	Acinetobacter baumannii strain AB13	WGS	3915255.0	Good		75	98.8	99.3	100.0	0.0
+1147	470.4773	Acinetobacter baumannii strain AB30	WGS	3953326.0	Good		66	98.4	99.4	100.0	0.5
+1148	470.4777	Acinetobacter baumannii strain AB17	WGS	3905040.0	Good		79	98.7	99.2	100.0	0.0
+1149	470.4781	Acinetobacter baumannii strain AB9	WGS	3926905.0	Good		86	98.8	99.3	100.0	0.0
+1150	470.4855	Acinetobacter baumannii strain pet_ACB108	WGS	3956858.0	Good		95	98.6	99.3	100.0	0.0
+1151	470.4884	Acinetobacter baumannii strain SGH0604	WGS	4090882.0	Good		79	98.6	99.4	100.0	0.0
+1152	470.4890	Acinetobacter baumannii strain SGH0411	WGS	3918123.0	Good		82	98.7	99.3	100.0	0.0
+1153	470.4907	Acinetobacter baumannii strain KUFAR56	WGS	3873001.0	Good		87	98.6	99.3	100.0	0.0
+1154	470.4910	Acinetobacter baumannii strain KUFAR63	WGS	3892401.0	Good		82	98.7	99.3	100.0	0.0
+1155	470.4918	Acinetobacter baumannii strain KUSSH10	WGS	3872767.0	Good		87	98.6	99.3	100.0	0.0
+1156	470.4924	Acinetobacter baumannii strain KUSSH33	WGS	3865384.0	Good		90	98.3	99.3	100.0	0.0
+1157	470.4928	Acinetobacter baumannii strain KUFAR40	WGS	3914902.0	Good		64	98.7	99.3	100.0	0.0
+1158	470.4930	Acinetobacter baumannii strain KUFAR42	WGS	3916090.0	Good		89	98.4	99.3	100.0	0.0
+1159	470.4931	Acinetobacter baumannii strain KUFAR44	WGS	3940599.0	Good		69	98.6	99.3	100.0	0.0
+1160	470.4935	Acinetobacter baumannii strain KUFAR64	WGS	3866106.0	Good		96	98.5	99.3	100.0	0.0
+1161	470.4937	Acinetobacter baumannii strain KUFAR65	WGS	3901175.0	Good		76	98.7	99.3	100.0	0.5
+1162	470.5041	Acinetobacter baumannii strain ZS3	Complete	4058041.0	Good		1	98.7	99.4	100.0	0.0
+1163	470.5053	Acinetobacter baumannii strain DA33382	Complete	4036816.0	Good	3.0	4	98.6	99.2	99.5	0.0
+1164	470.5086	Acinetobacter baumannii strain Ab81 strain D77	WGS	3940474.0	Good		71	98.7	99.4	100.0	0.5
+1165	470.5088	Acinetobacter baumannii strain Ab107 strain D7	WGS	3958363.0	Good		66	98.6	99.1	100.0	0.0
+1166	470.5090	Acinetobacter baumannii strain Ab131	WGS	3942339.0	Good		72	98.8	99.4	100.0	0.5
+1167	470.5092	Acinetobacter baumannii strain Ab134	WGS	3945163.0	Good		76	98.7	99.4	100.0	0.5
+1168	470.5096	Acinetobacter baumannii strain Ab127	WGS	4113525.0	Good		91	98.7	99.3	100.0	0.0
+1169	470.5102	Acinetobacter baumannii strain Ab130	WGS	3941471.0	Good		74	98.9	99.4	100.0	0.5
+1170	470.5105	Acinetobacter baumannii strain Ab136	WGS	3936779.0	Good		76	98.9	99.4	100.0	0.5
+1171	470.5116	Acinetobacter baumannii strain Ab145	WGS	4013563.0	Good		94	98.4	99.4	100.0	0.0
+1172	470.5118	Acinetobacter baumannii strain Ab144	WGS	4014010.0	Good		94	98.4	99.4	100.0	0.5
+1173	470.5121	Acinetobacter baumannii strain Ab158	WGS	4013942.0	Good		96	98.5	99.4	100.0	0.5
+1174	470.5127	Acinetobacter baumannii strain Ab148	WGS	3897660.0	Good		95	98.9	99.4	100.0	0.0
+1175	470.5140	Acinetobacter baumannii strain Ab182	WGS	3888763.0	Good		84	98.4	99.4	100.0	0.5
+1176	470.5144	Acinetobacter baumannii strain Ab197	WGS	3931534.0	Good		61	98.4	99.1	100.0	0.0
+1177	470.5147	Acinetobacter baumannii strain Ab184	WGS	3978363.0	Good		91	98.6	99.4	100.0	0.0
+1178	470.5155	Acinetobacter baumannii strain Ab187	WGS	4009070.0	Good		77	98.3	99.3	100.0	0.0
+1179	470.5157	Acinetobacter baumannii strain Ab193	WGS	3977498.0	Good		96	98.4	99.4	100.0	0.0
+1180	470.5159	Acinetobacter baumannii strain Ab183	WGS	3926220.0	Good		90	98.6	99.4	100.0	0.0
+1181	470.5164	Acinetobacter baumannii strain Ab227	WGS	3987112.0	Good		88	98.6	99.4	100.0	0.0
+1182	470.5171	Acinetobacter baumannii strain Ab212	WGS	4060216.0	Good		79	98.3	99.3	100.0	0.5
+1183	470.5172	Acinetobacter baumannii strain Ab215	WGS	3850892.0	Good		63	98.6	99.3	100.0	0.0
+1184	470.5176	Acinetobacter baumannii strain Ab236	WGS	4029052.0	Good		95	98.6	99.4	100.0	0.0
+1185	470.5178	Acinetobacter baumannii strain Ab228	WGS	3935046.0	Good		87	98.7	99.4	99.5	0.0
+1186	470.5182	Acinetobacter baumannii strain Ab229	WGS	3833131.0	Good		90	99.0	99.4	100.0	0.0
+1187	470.5185	Acinetobacter baumannii strain Ab216	WGS	3927994.0	Good		57	98.5	99.3	100.0	0.0
+1188	470.5192	Acinetobacter baumannii strain Ab232	WGS	3987733.0	Good		83	98.6	99.4	100.0	0.0
+1189	470.5195	Acinetobacter baumannii strain Ab240	WGS	4030547.0	Good		100	98.6	99.4	100.0	0.0
+1190	470.5197	Acinetobacter baumannii strain Ab45 strain MH50	WGS	4025239.0	Good		69	98.5	99.4	100.0	0.0
+1191	470.5199	Acinetobacter baumannii strain Ab159	WGS	4013854.0	Good		91	98.5	99.4	100.0	1.0
+1192	470.5298	Acinetobacter baumannii strain 810CP	Complete	4111057.0	Good	2.0	3	98.3	99.3	100.0	0.5
+1193	470.534	Acinetobacter baumannii BJ1	WGS	3977574.0	Good		44	98.8	99.3	100.0	0.0
+1194	470.538	Acinetobacter baumannii BJ5	WGS	4007238.0	Good		47	98.8	99.3	100.0	0.0
+1195	470.539	Acinetobacter baumannii BJ6	WGS	4031457.0	Good		56	98.9	99.4	100.0	0.0
+1196	470.540	Acinetobacter baumannii BJ7	WGS	4029679.0	Good		55	98.9	99.4	100.0	0.0
+1197	470.5419	Acinetobacter baumannii strain 5845	Complete	3989947.0	Good	1.0	2	98.7	99.4	100.0	0.0
+1198	470.5452	Acinetobacter baumannii strain NCTC13304	WGS	4140855.0	Good		6	98.4	99.4	100.0	0.5
+1199	470.5454	Acinetobacter baumannii strain NCTC13302	WGS	4050560.0	Good		7	98.0	99.0	100.0	1.5
+1200	470.5456	Acinetobacter baumannii strain NCTC13422	WGS	4065061.0	Good		3	98.7	99.4	100.0	0.5
+1201	470.561	Acinetobacter baumannii T7	WGS	3938556.0	Good		69	98.7	99.3	100.0	0.0
+1202	470.567	Acinetobacter baumannii T122	WGS	3938080.0	Good		74	98.7	99.3	100.0	0.0
+1203	470.568	Acinetobacter baumannii T173	WGS	3936842.0	Good		65	98.7	99.3	100.0	0.0
+1204	470.569	Acinetobacter baumannii T214	WGS	3793859.0	Good		34	98.1	98.8	99.5	0.5
+1205	903892.3	Acinetobacter baumannii OIFC109	WGS	4107121.0	Good	0.0	13	97.9	99.2	100.0	1.0
+1206	903912.3	Acinetobacter baumannii IS-116	WGS	3952511.0	Good	0.0	40	98.7	99.2	100.0	0.0
+1207	470.2257	Acinetobacter baumannii strain CCF21	WGS	4033290.0	Good		80	98.3	99.4	100.0	0.0
+1208	470.3363	Acinetobacter baumannii strain 071	WGS	3951833.0	Good	4.0	57	98.4	99.3	100.0	0.0
+1209	470.3364	Acinetobacter baumannii strain 080	WGS	3777248.0	Good		54	98.5	99.4	100.0	0.0
+1210	470.3369	Acinetobacter baumannii strain PR306	WGS	3983209.0	Good		64	98.5	99.3	100.0	0.5
+1211	470.3372	Acinetobacter baumannii strain PR308	WGS	3964285.0	Good		41	98.5	99.2	100.0	0.0
+1212	470.3391	Acinetobacter baumannii strain PR373	WGS	3870388.0	Good		48	98.2	99.0	100.0	0.5
+1213	470.3395	Acinetobacter baumannii strain PR376	WGS	4051149.0	Good		71	98.6	99.4	100.0	0.0
+1214	470.3398	Acinetobacter baumannii strain PR380	WGS	4028293.0	Good		79	98.5	99.4	100.0	0.0
+1215	470.3409	Acinetobacter baumannii strain PR332	WGS	4047052.0	Good		64	98.7	99.3	100.0	0.5
+1216	470.3413	Acinetobacter baumannii strain PR340	WGS	3821543.0	Good		49	97.8	98.8	100.0	0.0
+1217	470.3416	Acinetobacter baumannii strain PR345	WGS	4084620.0	Good		83	98.4	99.4	100.0	0.0
+1218	470.3438	Acinetobacter baumannii strain PR336	WGS	3791769.0	Good		24	98.8	99.3	100.0	0.0
+1219	470.3450	Acinetobacter baumannii strain ARLG1786	WGS	3884643.0	Good		65	98.7	99.2	100.0	0.0
+1220	470.3454	Acinetobacter baumannii strain ARLG1855	WGS	4063428.0	Good		82	98.4	99.4	100.0	0.0
+1221	470.3461	Acinetobacter baumannii strain ARLG1800	WGS	3924941.0	Good		71	98.0	99.1	100.0	0.5
+1222	470.3462	Acinetobacter baumannii strain ARLG1802	WGS	4165567.0	Good		83	98.5	99.4	100.0	0.0
+1223	470.3470	Acinetobacter baumannii strain ARLG1827	WGS	3987278.0	Good		85	98.2	99.2	100.0	0.0
+1224	470.3475	Acinetobacter baumannii strain ARLG1836	WGS	4122333.0	Good		78	98.4	99.4	100.0	0.0
+1225	470.3476	Acinetobacter baumannii strain ARLG1275	WGS	3932592.0	Good		94	98.7	99.4	100.0	0.0
+1226	470.3477	Acinetobacter baumannii strain ARLG1323	WGS	3911877.0	Good		97	98.4	98.8	100.0	0.0
+1227	470.3479	Acinetobacter baumannii strain ARLG1326	WGS	4058008.0	Good		48	97.9	99.3	99.5	1.5
+1228	470.3485	Acinetobacter baumannii strain ARLG1898	WGS	3781405.0	Good		74	98.2	98.9	100.0	0.0
+1229	470.3486	Acinetobacter baumannii strain ARLG1901	WGS	4058882.0	Good		94	98.6	99.4	100.0	0.5
+1230	470.3487	Acinetobacter baumannii strain ARLG1914	WGS	4105347.0	Good		80	98.4	99.4	100.0	0.0
+1231	470.3491	Acinetobacter baumannii strain ARLG1941	WGS	3921533.0	Good		46	98.1	99.0	100.0	0.5
+1232	470.3497	Acinetobacter baumannii strain ARLG1880	WGS	3896624.0	Good		45	98.2	99.1	100.0	0.0
+1233	470.3498	Acinetobacter baumannii strain ARLG1885	WGS	3842325.0	Good		96	98.5	99.3	100.0	0.0
+1234	470.3499	Acinetobacter baumannii strain ARLG1893	WGS	3969730.0	Good		84	98.7	99.4	100.0	0.0
+1235	470.3686	Acinetobacter baumannii strain ABUH379	WGS	3927988.0	Good		74	98.7	99.4	100.0	0.0
+1236	470.3687	Acinetobacter baumannii strain ABUH383	WGS	3999912.0	Good		70	98.0	99.2	100.0	0.0
+1237	470.3702	Acinetobacter baumannii strain ABUH353	WGS	4052081.0	Good		72	98.4	99.4	100.0	0.0
+1238	470.3703	Acinetobacter baumannii strain ABUH356	WGS	3966597.0	Good		73	98.4	99.4	100.0	0.0
+1239	470.3705	Acinetobacter baumannii strain ABUH367	WGS	3804676.0	Good		70	98.7	99.2	100.0	0.0
+1240	470.3709	Acinetobacter baumannii strain ABUH634	WGS	4086818.0	Good		93	98.4	99.4	100.0	0.5
+1241	470.3724	Acinetobacter baumannii strain ABUH580	WGS	4076841.0	Good		80	98.4	99.4	100.0	0.0
+1242	470.3729	Acinetobacter baumannii strain ABUH619	WGS	3782845.0	Good		71	98.2	98.9	100.0	0.0
+1243	470.3745	Acinetobacter baumannii strain ABUH425	WGS	4126025.0	Good		77	98.5	99.4	100.0	0.0
+1244	470.3746	Acinetobacter baumannii strain ABUH434	WGS	4086924.0	Good		74	98.4	99.4	100.0	0.0
+1245	470.3750	Acinetobacter baumannii strain ABUH475	WGS	4075041.0	Good		70	98.4	99.4	100.0	0.0
+1246	470.3757	Acinetobacter baumannii strain ABUH632	WGS	3805878.0	Good		64	98.6	99.2	100.0	0.0
+1247	470.3768	Acinetobacter baumannii strain ARLG-1777	WGS	3864181.0	Good		56	98.7	99.2	98.4	0.0
+1248	470.3517	Acinetobacter baumannii strain 68SM01	WGS	4015623.0	Good		91	98.5	99.1	100.0	0.5
+1249	470.5327	Acinetobacter baumannii strain SPU6	WGS	3938223.0	Good		91	98.6	99.3	100.0	0.5
+1250	1340175.3	Acinetobacter baumannii MRY10-0558	WGS	3782359.0	Good	0.0	76	98.4	99.3	99.5	0.0
+1251	470.3340	Acinetobacter baumannii strain M3AC9-7	WGS	4091847.0	Good	8.0	83	98.0	99.0	100.0	0.3
+1252	470.3345	Acinetobacter baumannii strain ABUH341	WGS	4054225.0	Good		71	98.4	99.4	100.0	0.0
+1253	470.4836	Acinetobacter baumannii strain K50	WGS	3799551.0	Good		4	98.6	99.3	100.0	0.0
+1254	470.5081	Acinetobacter baumannii strain Ab103	WGS	3953491.0	Good		69	98.6	99.1	100.0	0.0
+1255	470.5101	Acinetobacter baumannii strain Ab138	WGS	3912613.0	Good		71	98.7	99.4	100.0	0.0
+1256	470.5104	Acinetobacter baumannii strain Ab137	WGS	3903056.0	Good		91	98.9	99.4	100.0	0.0
+1257	470.5110	Acinetobacter baumannii strain Ab164	WGS	3976269.0	Good		90	98.5	99.4	100.0	0.0
+1258	470.5112	Acinetobacter baumannii strain Ab165	WGS	3972508.0	Good		80	98.5	99.4	100.0	0.5
+1259	470.5120	Acinetobacter baumannii strain Ab149	WGS	3976911.0	Good		86	98.6	99.4	100.0	0.0
+1260	470.5125	Acinetobacter baumannii strain Ab162	WGS	3977768.0	Good		86	98.6	99.4	100.0	0.0
+1261	470.5126	Acinetobacter baumannii strain Ab155	WGS	3915581.0	Good		72	98.9	99.4	100.0	0.0
+1262	470.5142	Acinetobacter baumannii strain Ab179	WGS	3920405.0	Good		94	97.9	99.4	100.0	1.0
+1263	470.5169	Acinetobacter baumannii strain Ab208	WGS	4007297.0	Good		72	98.5	99.4	100.0	0.0
+1264	470.5190	Acinetobacter baumannii strain Ab238	WGS	4026913.0	Good		95	98.4	99.4	100.0	0.0
+1265	470.5467	Acinetobacter baumannii strain 4300STDY7045677	WGS	3900455.0	Good		56	98.9	99.3	100.0	0.0
+1266	470.5468	Acinetobacter baumannii strain 4300STDY7045678	WGS	3862071.0	Good		17	98.4	99.1	100.0	0.0
+1267	470.5477	Acinetobacter baumannii strain 4300STDY7045691	WGS	3918267.0	Good		42	98.8	99.3	100.0	0.0
+1268	470.5482	Acinetobacter baumannii strain 4300STDY7045696	WGS	3884766.0	Good		62	97.7	98.9	100.0	2.0
+1269	470.5489	Acinetobacter baumannii strain 4300STDY7045717	WGS	3850685.0	Good		47	98.1	98.9	98.9	0.0
+1270	470.5503	Acinetobacter baumannii strain 4300STDY7045707	WGS	3902122.0	Good		46	98.8	99.3	100.0	0.0
+1271	470.5510	Acinetobacter baumannii strain 4300STDY7045725	WGS	3990208.0	Good		43	98.6	99.3	100.0	0.5
+1272	470.5511	Acinetobacter baumannii strain 4300STDY7045722	WGS	4002371.0	Good		66	98.5	99.3	100.0	0.0
+1273	470.5513	Acinetobacter baumannii strain 4300STDY7045737	WGS	3983215.0	Good		64	98.7	99.3	100.0	0.0
+1274	470.5514	Acinetobacter baumannii strain 4300STDY7045729	WGS	3953524.0	Good		73	98.6	99.3	100.0	0.0
+1275	470.5518	Acinetobacter baumannii strain 4300STDY7045727	WGS	3989476.0	Good		50	98.7	99.3	100.0	0.0
+1276	470.5521	Acinetobacter baumannii strain 4300STDY7045735	WGS	3904885.0	Good		43	98.7	99.3	100.0	0.0
+1277	470.5530	Acinetobacter baumannii strain 4300STDY7045749	WGS	3975090.0	Good		64	98.6	99.3	100.0	0.0
+1278	470.5542	Acinetobacter baumannii strain 4300STDY7045759	WGS	3845843.0	Good		47	97.6	98.4	100.0	0.0
+1279	470.5543	Acinetobacter baumannii strain 4300STDY7045769	WGS	3919041.0	Good		47	98.4	99.1	100.0	0.0
+1280	470.5553	Acinetobacter baumannii strain 4300STDY7045763	WGS	3877380.0	Good		89	98.2	99.0	100.0	1.0
+1281	470.5559	Acinetobacter baumannii strain 4300STDY7045777	WGS	4011508.0	Good		82	98.5	99.3	100.0	0.0
+1282	470.5562	Acinetobacter baumannii strain 4300STDY7045778	WGS	3961853.0	Good		47	98.7	99.3	100.0	0.0
+1283	470.5565	Acinetobacter baumannii strain 4300STDY7045794	WGS	4044976.0	Good		50	98.6	99.3	100.0	0.0
+1284	470.5573	Acinetobacter baumannii strain 4300STDY7045787	WGS	4043948.0	Good		57	98.7	99.3	100.0	0.0
+1285	470.5580	Acinetobacter baumannii strain 4300STDY7045789	WGS	3857000.0	Good		64	98.7	99.3	100.0	0.5
+1286	470.5608	Acinetobacter baumannii strain 4300STDY7045792	WGS	3927512.0	Good		52	98.5	99.2	100.0	0.0
+1287	470.5609	Acinetobacter baumannii strain 4300STDY7045801	WGS	3894689.0	Good		54	98.8	99.3	100.0	0.0
+1288	470.5612	Acinetobacter baumannii strain 4300STDY7045800	WGS	4035985.0	Good		64	98.7	99.3	100.0	0.0
+1289	470.5617	Acinetobacter baumannii strain 4300STDY7045815	WGS	4044494.0	Good		55	98.6	99.3	100.0	0.0
+1290	470.5618	Acinetobacter baumannii strain 4300STDY7045817	WGS	4049021.0	Good		59	98.7	99.3	100.0	0.0
+1291	470.5619	Acinetobacter baumannii strain 4300STDY7045810	WGS	3944022.0	Good		73	98.7	99.3	100.0	0.0
+1292	470.5620	Acinetobacter baumannii strain 4300STDY7045819	WGS	4017718.0	Good		74	98.7	99.3	100.0	0.0
+1293	470.5627	Acinetobacter baumannii strain 4300STDY7045806	WGS	3896857.0	Good		63	98.3	99.0	100.0	1.3
+1294	470.5640	Acinetobacter baumannii strain 4300STDY7045829	WGS	3878549.0	Good		69	98.4	99.1	100.0	1.0
+1295	470.5648	Acinetobacter baumannii strain 4300STDY7045844	WGS	3867880.0	Good		85	98.9	99.3	99.5	0.0
+1296	470.5650	Acinetobacter baumannii strain 4300STDY7045841	WGS	3928631.0	Good		55	98.7	99.3	100.0	0.0
+1297	470.5653	Acinetobacter baumannii strain 4300STDY7045837	WGS	3982326.0	Good		63	98.7	99.3	100.0	0.0
+1298	470.5656	Acinetobacter baumannii strain 4300STDY7045835	WGS	3921811.0	Good		59	98.8	99.3	100.0	0.0
+1299	470.5662	Acinetobacter baumannii strain 4300STDY7045839	WGS	4011246.0	Good		52	98.7	99.3	100.0	0.0
+1300	470.5665	Acinetobacter baumannii strain 4300STDY7045855	WGS	3903837.0	Good		71	98.8	99.3	100.0	0.0
+1301	470.5667	Acinetobacter baumannii strain 4300STDY7045856	WGS	3984727.0	Good		43	98.4	99.1	100.0	1.0
+1302	470.5668	Acinetobacter baumannii strain 4300STDY7045859	WGS	3898893.0	Good		52	98.4	99.1	100.0	1.0
+1303	470.5671	Acinetobacter baumannii strain 4300STDY7045864	WGS	3952127.0	Good		68	98.4	99.1	100.0	1.0
+1304	470.5682	Acinetobacter baumannii strain 4300STDY7045874	WGS	4099827.0	Good		71	97.9	99.1	100.0	0.5
+1305	470.5687	Acinetobacter baumannii strain 4300STDY7045875	WGS	3898697.0	Good		86	98.8	99.3	100.0	1.0
+1306	470.5689	Acinetobacter baumannii strain 4300STDY7045873	WGS	3934866.0	Good		39	98.5	99.3	100.0	0.0
+1307	470.5690	Acinetobacter baumannii strain 4300STDY7045878	WGS	3895127.0	Good		52	98.8	99.3	100.0	0.0
+1308	470.5692	Acinetobacter baumannii strain 4300STDY7045876	WGS	3872677.0	Good		78	98.9	99.3	100.0	0.5
+1309	470.5697	Acinetobacter baumannii strain 4300STDY7045894	WGS	3856145.0	Good		68	98.8	99.2	100.0	0.0
+1310	470.5698	Acinetobacter baumannii strain 4300STDY7045896	WGS	3945234.0	Good		60	98.7	99.4	100.0	0.5
+1311	470.5699	Acinetobacter baumannii strain 4300STDY7045897	WGS	3829903.0	Good		25	98.4	99.3	100.0	0.0
+1312	470.5700	Acinetobacter baumannii strain 4300STDY7045890	WGS	3876079.0	Good		69	97.8	98.7	98.9	0.5
+1313	470.5705	Acinetobacter baumannii strain 4300STDY7045898	WGS	3861238.0	Good		58	98.7	99.2	100.0	0.0
+1314	470.1305	Acinetobacter baumannii strain 2011SDAB2	WGS	4019813.0	Good		53	98.8	99.4	100.0	0.0
+1315	470.1306	Acinetobacter baumannii strain 2005LNAB4	WGS	3859792.0	Good		68	98.7	99.3	100.0	0.0
+1316	470.1308	Acinetobacter baumannii strain 2011LNAB2	WGS	4040620.0	Good		57	98.5	99.4	100.0	0.0
+1317	470.1333	Acinetobacter baumannii UH66_271	WGS	3882715.0	Good		65	98.5	99.2	100.0	0.0
+1318	470.1335	Acinetobacter baumannii UH66_253	WGS	3880996.0	Good		71	98.5	99.2	100.0	0.0
+1319	470.1359	Acinetobacter baumannii strain MRSN16897	WGS	3918537.0	Good		86	97.7	98.9	100.0	0.3
+1320	470.1551	Acinetobacter baumannii strain MRSN16896	WGS	3916735.0	Good		89	97.9	98.8	100.0	0.0
+1321	470.1552	Acinetobacter baumannii strain MRSN16898	WGS	3915804.0	Good		87	97.9	98.9	100.0	0.0
+1322	470.1556	Acinetobacter baumannii strain MRSN20315	WGS	3824942.0	Good		79	98.2	98.8	100.0	0.5
+1323	470.1558	Acinetobacter baumannii strain MRSN20755	WGS	3826045.0	Good		77	98.2	98.8	100.0	0.5
+1324	470.1559	Acinetobacter baumannii strain MRSN7081	WGS	3825388.0	Good		78	98.2	98.8	100.0	0.5
+1325	470.1743	Acinetobacter baumannii strain J1	WGS	3963997.0	Good		59	98.5	99.3	100.0	0.0
+1326	470.1744	Acinetobacter baumannii strain J5	WGS	3968014.0	Good		58	98.5	99.3	100.0	0.0
+1327	470.1750	Acinetobacter baumannii strain WM98	WGS	4069158.0	Good		81	98.1	99.2	100.0	0.0
+1328	470.2168	Acinetobacter baumannii A101	WGS	3929159.0	Good		71	98.7	99.3	100.0	0.0
+1329	470.2250	Acinetobacter baumannii strain CCF9	WGS	3799596.0	Good		71	98.6	99.2	100.0	0.0
+1330	470.2251	Acinetobacter baumannii strain CCF12	WGS	3784469.0	Good		84	98.3	98.9	100.0	0.0
+1331	470.2260	Acinetobacter baumannii strain CCF25	WGS	3847605.0	Good		74	98.9	99.4	100.0	0.0
+1332	470.2270	Acinetobacter baumannii strain CCF19	WGS	3847884.0	Good		94	98.7	99.3	100.0	0.0
+1333	470.2282	Acinetobacter baumannii strain CCF50	WGS	3785722.0	Good		64	98.2	98.9	100.0	0.0
+1334	470.2847	Acinetobacter baumannii strain AR_0045	WGS	4095264.0	Good		15	98.3	99.3	100.0	2.0
+1335	470.3996	Acinetobacter baumannii strain ABCRPSTH03	WGS	3983140.0	Good		78	98.7	99.3	100.0	0.0
+1336	470.3999	Acinetobacter baumannii strain ABCRPSTH05	WGS	3956664.0	Good		93	98.6	99.3	100.0	0.0
+1337	470.4003	Acinetobacter baumannii strain ABCRPSTH12	WGS	3877268.0	Good		92	98.6	99.3	100.0	0.0
+1338	470.4008	Acinetobacter baumannii strain ABCRPUTH08	WGS	3942869.0	Good		72	98.7	99.3	100.0	0.0
+1339	470.4014	Acinetobacter baumannii strain ABCRPSTH08	WGS	3898042.0	Good		91	98.8	99.3	100.0	0.0
+1340	470.4015	Acinetobacter baumannii strain ABCRPSTH11	WGS	3894028.0	Good		94	98.7	99.3	100.0	0.0
+1341	470.4064	Acinetobacter baumannii strain SIPA5	WGS	3970629.0	Good		80	98.4	99.3	100.0	0.0
+1342	470.4065	Acinetobacter baumannii strain SIUA14	WGS	3939944.0	Good		67	98.5	99.3	100.0	0.0
+1343	470.559	Acinetobacter baumannii 2011BJAB2	WGS	4028836.0	Good		93	98.8	99.4	100.0	0.0
+1344	470.574	Acinetobacter baumannii 2011BJAB7	WGS	4049091.0	Good		73	98.4	99.3	100.0	0.0
+1345	470.575	Acinetobacter baumannii 2004BJAB10	WGS	3910150.0	Good		97	98.6	99.3	99.0	0.5
+1346	470.577	Acinetobacter baumannii 2004BJAB13	WGS	3844023.0	Good		77	98.7	99.3	99.0	0.5
+1347	470.578	Acinetobacter baumannii 2004BJAB14	WGS	3814923.0	Good		59	98.9	99.3	98.4	0.5
+1348	470.580	Acinetobacter baumannii 2005JSAB1	WGS	4064212.0	Good		79	98.4	99.3	100.0	0.0
+1349	470.585	Acinetobacter baumannii 2011LNAB1	WGS	3922990.0	Good		80	98.8	99.2	100.0	0.0
+1350	470.589	Acinetobacter baumannii 2004ZJAB6	WGS	4045377.0	Good		80	98.7	99.2	100.0	0.5
+1351	470.591	Acinetobacter baumannii 2011BJAB8	WGS	4059243.0	Good		95	98.9	99.4	100.0	0.0
+1352	470.596	Acinetobacter baumannii 2011GDAB4	WGS	3933660.0	Good		79	98.7	99.3	99.5	0.0
+1353	470.634	Acinetobacter baumannii ABUH195560	WGS	3868662.0	Good		80	98.5	99.3	100.0	0.0
+1354	470.675	Acinetobacter baumannii ABUH129415	WGS	4153999.0	Good		90	98.4	99.4	100.0	0.0
+1355	470.684	Acinetobacter baumannii ABUH293377	WGS	4146081.0	Good		84	98.2	99.3	100.0	0.0
+1356	470.685	Acinetobacter baumannii ABUH293373	WGS	3847629.0	Good		99	98.8	99.5	100.0	0.0
+1357	470.686	Acinetobacter baumannii ABUH81366	WGS	4035765.0	Good		84	98.2	99.3	100.0	0.0
+1358	470.701	Acinetobacter baumannii ABUH514288	WGS	3873050.0	Good		73	98.7	99.3	100.0	0.0
+1359	470.702	Acinetobacter baumannii ABUH514287	WGS	3951134.0	Good		99	98.6	99.3	100.0	0.0
+1360	470.703	Acinetobacter baumannii ABUH71279	WGS	4145799.0	Good		98	98.3	99.4	100.0	0.0
+1361	470.709	Acinetobacter baumannii ABUH66268	WGS	3873867.0	Good		77	98.7	99.3	100.0	0.0
+1362	470.710	Acinetobacter baumannii ABUH507263	WGS	4156821.0	Good		97	98.4	99.4	100.0	0.0
+1363	470.711	Acinetobacter baumannii ABUH507247	WGS	4146901.0	Good		96	98.2	99.3	100.0	0.0
+1364	470.720	Acinetobacter baumannii ABUH17182	WGS	4032301.0	Good		97	98.3	99.4	100.0	0.0
+1365	470.722	Acinetobacter baumannii ABUH134167	WGS	4160576.0	Good		78	98.5	99.5	100.0	0.0
+1366	470.732	Acinetobacter baumannii ABUH410103	WGS	3830388.0	Good		89	98.7	99.5	100.0	0.5
+1367	470.742	Acinetobacter baumannii ABUH23685	WGS	3895562.0	Good		89	98.8	99.5	100.0	0.5
+1368	470.743	Acinetobacter baumannii ABUH23684	WGS	3907803.0	Good		83	98.8	99.5	100.0	0.5
+1369	470.746	Acinetobacter baumannii ABUH24373	WGS	4040243.0	Good		81	98.6	99.5	100.0	0.0
+1370	470.747	Acinetobacter baumannii ABUH24368	WGS	4043111.0	Good		86	98.5	99.4	100.0	0.0
+1371	470.748	Acinetobacter baumannii ABUH24366	WGS	4041412.0	Good		97	98.5	99.5	100.0	0.0
+1372	470.750	Acinetobacter baumannii ABUH48763	WGS	4039969.0	Good		88	98.4	99.4	100.0	0.0
+1373	470.751	Acinetobacter baumannii ABUH45562	WGS	3866492.0	Good		60	98.5	99.3	100.0	0.0
+1374	470.755	Acinetobacter baumannii ABUH24356	WGS	4041787.0	Good		88	98.7	99.5	100.0	0.0
+1375	470.759	Acinetobacter baumannii ABUH24343	WGS	4050930.0	Good		83	98.7	99.5	100.0	0.0
+1376	470.763	Acinetobacter baumannii ABUH24333	WGS	4036265.0	Good		96	98.6	99.5	100.0	0.0
+1377	470.775	Acinetobacter baumannii A1	Complete	3917739.0	Good	1.0	2	98.8	99.3	100.0	0.0
+1378	889738.3	Acinetobacter baumannii MDR-TJ	WGS	3943262.0	Good	0.0	4	98.6	99.4	100.0	0.0
+1379	903889.3	Acinetobacter baumannii OIFC137	WGS	4081420.0	Good	0.0	4	98.4	99.2	100.0	0.0
+1380	903894.3	Acinetobacter baumannii OIFC189	WGS	4043115.0	Good	0.0	10	98.5	99.3	100.0	0.0
+1381	903908.3	Acinetobacter baumannii Naval-72	WGS	3840453.0	Good	0.0	52	98.8	99.2	100.0	0.5
+1382	903919.3	Acinetobacter baumannii WC-348	WGS	4108488.0	Good	0.0	61	97.8	99.2	100.0	1.5
+1383	903923.3	Acinetobacter baumannii Naval-21	WGS	3923796.0	Good	0.0	75	98.6	99.1	100.0	0.5
+1384	470.5283	Acinetobacter baumannii strain s201	WGS	3854764.0	Good		55	98.4	99.3	100.0	0.3
+1385	470.5333	Acinetobacter baumannii strain s276	WGS	3968055.0	Good		48	98.3	99.3	100.0	0.5
+1386	470.5335	Acinetobacter baumannii strain s274	WGS	3996454.0	Good		53	98.4	99.3	100.0	0.5
+1387	470.5339	Acinetobacter baumannii strain s270	WGS	3997284.0	Good		43	98.1	99.4	100.0	0.5
+1388	470.5347	Acinetobacter baumannii strain s262	WGS	3857705.0	Good		49	98.5	99.3	100.0	1.0
+1389	470.5351	Acinetobacter baumannii strain s260	WGS	3846468.0	Good		48	98.2	99.3	100.0	0.5
+1390	470.5355	Acinetobacter baumannii strain s255	WGS	3845179.0	Good		53	98.2	99.3	100.0	1.5
+1391	470.5363	Acinetobacter baumannii strain s247	WGS	3904900.0	Good		58	98.4	99.3	100.0	0.0
+1392	470.5364	Acinetobacter baumannii strain s245	WGS	3906932.0	Good		46	98.2	99.3	100.0	0.5
+1393	470.5366	Acinetobacter baumannii strain s243	WGS	3908904.0	Good		50	98.1	99.3	100.0	2.0
+1394	470.5369	Acinetobacter baumannii strain s240	WGS	3924850.0	Good		49	98.4	99.2	100.0	0.5
+1395	470.5372	Acinetobacter baumannii strain s236	WGS	3940490.0	Good		47	98.4	99.3	100.0	0.5
+1396	470.5373	Acinetobacter baumannii strain s237	WGS	3938791.0	Good		51	98.2	99.3	100.0	2.0
+1397	470.5374	Acinetobacter baumannii strain s234	WGS	3943152.0	Good		49	98.2	99.2	99.5	0.5
+1398	470.5375	Acinetobacter baumannii strain s235	WGS	3941977.0	Good		53	98.2	99.3	100.0	1.5
+1399	470.5379	Acinetobacter baumannii strain s230	WGS	3853133.0	Good		57	98.4	99.3	100.0	0.5
+1400	470.5383	Acinetobacter baumannii strain s227	WGS	3853728.0	Good		52	98.6	99.3	100.0	1.0
+1401	470.5387	Acinetobacter baumannii strain s222	WGS	4046108.0	Good		30	98.1	99.4	100.0	0.5
+1402	470.5388	Acinetobacter baumannii strain s221	WGS	4038682.0	Good		35	97.9	99.3	100.0	0.0
+1403	470.5392	Acinetobacter baumannii strain s219	WGS	4056048.0	Good		37	97.9	99.3	100.0	0.5
+1404	470.5395	Acinetobacter baumannii strain s214	WGS	4058448.0	Good		38	98.1	99.4	100.0	0.5
+1405	470.5397	Acinetobacter baumannii strain s213	WGS	4054450.0	Good		34	98.0	99.3	100.0	0.5
+1406	470.5399	Acinetobacter baumannii strain s210	WGS	3840792.0	Good		48	98.2	99.3	100.0	0.3
+1407	470.5400	Acinetobacter baumannii strain s208	WGS	3852937.0	Good		43	98.6	99.3	100.0	0.5
+1408	470.5404	Acinetobacter baumannii strain s206	WGS	3857370.0	Good		53	98.7	99.3	100.0	0.0
+1409	470.5405	Acinetobacter baumannii strain s202	WGS	3856557.0	Good		47	98.5	99.3	100.0	0.0
+1410	470.5406	Acinetobacter baumannii strain s203	WGS	3854640.0	Good		52	98.4	99.3	100.0	2.0
+1411	470.4882	Acinetobacter baumannii strain SGH0402	WGS	4006455.0	Good		71	98.8	99.4	100.0	0.0
+1412	470.4883	Acinetobacter baumannii strain SGH0602	WGS	4077806.0	Good		66	98.7	99.4	100.0	0.0
+1413	470.4886	Acinetobacter baumannii strain SGH0905	WGS	3959824.0	Good		75	98.7	99.3	100.0	0.0
+1414	470.4792	Acinetobacter baumannii strain SGH1011	WGS	3949724.0	Good		58	98.7	99.3	100.0	0.0
+1415	470.5313	Acinetobacter baumannii strain ACM-36	WGS	3971958.0	Good		99	98.4	99.2	100.0	0.0
