@@ -3,7 +3,6 @@ import sys,os
 # sys.path.append('../')
 sys.path.insert(0, os.getcwd())
 from src.amr_utility import name_utility,file_utility
-from src.benchmark_utility.lib.MAINtable import combine_data
 import json
 import pandas as pd
 import numpy as np
@@ -11,7 +10,7 @@ import copy
 from openpyxl import load_workbook
 from src.benchmark_utility.lib.CombineResults import combine_data
 
-# from scipy.stats import ttest_rel
+
 '''
 This script organizes the performance for Supplementary materials, and further analysis on the results.
 '''
@@ -50,8 +49,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
         df1 = pd.DataFrame(index=species_list)
         file_utility.make_dir(os.path.dirname(path_table_results2))
         df1.to_excel(path_table_results2, sheet_name='introduction')
-        # foldset=['random folds','phylo-tree-based folds','KMA-based folds']
-        # tool_list=['Point-/ResFinder','Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+
         for com_tool in com_tool_list:
             #each time count the cases the com_tool outperforms others.
             for eachfold in foldset:
@@ -74,8 +72,6 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                     df_macro=df_macro.drop(columns=['index'])
                     df_macro = df_macro[['species', 'antibiotics', 'folds', 'software','f1_macro', 'f1_positive', 'f1_negative', 'accuracy']]
                     df_final= pd.concat([df_final,df_macro])
-                    # print(df_final)
-
 
                     # -----compare tool, based on fscore scores.
                     df_com_sub=combine_data(species_sub,level,fscore,[com_tool],[eachfold],output_path)
@@ -104,7 +100,6 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                 df_final[fscore+'_std'] = df_final[fscore+'_std'] .astype(float)
                 df_final['compare_'+fscore+'_mean'] = df_final['compare_'+fscore+'_mean'] .astype(float)
                 df_final['compare_'+fscore+'_std'] = df_final['compare_'+fscore+'_std'] .astype(float)
-                ### df_compare=df_compare.replace({10: np.nan})
 
                 wb = load_workbook(path_table_results2)
                 ew = pd.ExcelWriter(path_table_results2)
@@ -134,8 +129,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
         df1 = pd.DataFrame(index=species_list)
         file_utility.make_dir(os.path.dirname(path_table_results3_1))
         df1.to_excel(path_table_results3_1, sheet_name='introduction')
-        ### foldset=['random folds','phylo-tree-based folds','KMA-based folds']
-        ### tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+
         #### each time count the cases the com_tool outperforms others.
         for eachfold in foldset:
 

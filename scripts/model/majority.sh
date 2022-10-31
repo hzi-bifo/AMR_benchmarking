@@ -34,10 +34,10 @@ python ./AMR_software/majority/main_majority.py  -cv ${cv_number} -temp ${log_pa
 
 
 
-###CV socres to table
+### CV score generation.
 python ./src/analysis_utility/result_analysis.py -software 'majority' -f_phylotree -fscore 'f1_macro' -cl_list 'majority' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
 
 python ./src/analysis_utility/result_analysis.py -software 'majority' -f_kma -fscore 'f1_macro' -cl_list 'majority'  -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
 
 python ./src/analysis_utility/result_analysis.py -software 'majority'  -fscore 'f1_macro' -cl_list 'majority' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-#conda deactivate
+conda deactivate

@@ -1,4 +1,5 @@
 #!/bin/bash
+
 function parse_yaml {
    local prefix=$2
    local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
@@ -16,9 +17,9 @@ function parse_yaml {
    }'
 }
 eval $(parse_yaml Config.yaml)
-#export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
-#export PYTHONPATH=$PWD
-#source activate ${amr_env_name}
+export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
+export PYTHONPATH=$PWD
+source activate ${amr_env_name}
 
 IFS=', ' read -ra species_list_temp <<< "$species_list"
 species=( "${species_list_temp[@]//_/ }" )
@@ -26,7 +27,7 @@ species=( "${species_list_temp[@]//_/ }" )
 
 
 ###1. Fig.1 Data set overview. sample size. Further annotated through Drawio before the version in our article.
-#python ./src/benchmark_utility/benchmark.py -f_sample  -o ${output_path}
+python ./src/benchmark_utility/benchmark.py -f_sample  -o ${output_path}
 
 ###2. Fig. 2 Draw by Drawio.
 
@@ -47,7 +48,7 @@ python  ./src/benchmark_utility/benchmark.py -f_robust -fscore 'f1_macro' -f_all
 ###Fig. 7-8 generated through ./scripts/analysis_visualization/AytanAktug_analysis.sh
 
 
-#conda deactivate
+conda deactivate
 
 
 

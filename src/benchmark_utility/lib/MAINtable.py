@@ -30,8 +30,8 @@ def extract_info(level,s, f_all,output_path,tool_list,foldset,save_file_name):
     data=data.loc[species_list,:]
     df_species = data.index.tolist()
     antibiotics = data['modelling antibiotics'].tolist()
-    # tool_list=['Point-/ResFinder' ,'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
-
+    ### tool_list=['Point-/ResFinder' ,'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
+    ### folds=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
 
 
     # path_table_results=output_path+ 'Results/supplement_figures_tables/S1_cv_results.xlsx' # output.
@@ -41,7 +41,7 @@ def extract_info(level,s, f_all,output_path,tool_list,foldset,save_file_name):
     df1.to_excel(path_table_results, sheet_name='introduction')
 
 
-    # folds=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
+
 
     for species, antibiotics_selected in zip(df_species, antibiotics):
 

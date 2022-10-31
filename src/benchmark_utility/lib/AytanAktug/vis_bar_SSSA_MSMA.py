@@ -1,16 +1,15 @@
 
 import argparse
 import pandas as pd
-import pickle,json
-from src.amr_utility import name_utility,load_data,file_utility
-from src.analysis_utility.lib import extract_score,make_table,math_utility
+import json
+from src.amr_utility import name_utility,file_utility
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
 '''Bar plot of  SSSA,MSMA_discrete,MSMA_concat_mixedS , MSMA_concat_LOO'''
 
-def combinedata(species,level,df_anti,merge_name,fscore,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,temp_path,output_path):
+def combinedata(species,df_anti,merge_name,fscore,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,output_path):
     #1. SSSA
 
     f_kma=True
@@ -78,7 +77,7 @@ def combinedata(species,level,df_anti,merge_name,fscore,learning,epochs,f_fixed_
 
 
 def extract_info(fscore,level,f_all,learning,epochs,f_optimize_score,f_fixed_threshold,
-                 f_nn_base,temp_path,output_path):
+                 f_nn_base,output_path):
     data = pd.read_csv('./data/PATRIC/meta/'+str(level)+'_multi-species_summary.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
 
@@ -113,7 +112,7 @@ def extract_info(fscore,level,f_all,learning,epochs,f_optimize_score,f_fixed_thr
     n = 0
     for species in list_species:
 
-        summary_plot=combinedata(species,level,df_anti,merge_name,fscore, learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,temp_path,output_path)
+        summary_plot=combinedata(species,df_anti,merge_name,fscore, learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,output_path)
 
 
         with open('./data/AntiAcronym_dict.json') as f:
@@ -227,10 +226,6 @@ if __name__== '__main__':
                         help='Quality control: strict or loose')
     parser.add_argument('-fscore', '--fscore', default='f1_macro', type=str, required=False,
                         help='the score used to choose the best classifier for each antibiotic.')
-    # parser.add_argument('-t_p', '--threshold_point', default=0.8, type=float,
-    #                     help='Threshold for identity of Pointfinder. ')
-    # parser.add_argument('-l_p', '--min_cov_point', default=0.6, type=float,
-    #                     help=' Minimum (breadth-of) coverage of Pointfinder. ')
     parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
                         help='all the possible species, regarding multi-model.')
     parser.add_argument('-f_fixed_threshold', '--f_fixed_threshold', dest='f_fixed_threshold', action='store_true',
@@ -243,20 +238,12 @@ if __name__== '__main__':
                         help='learning rate')
     parser.add_argument('-f_nn_base', '--f_nn_base', dest='f_nn_base', action='store_true',
                         help='benchmarking baseline.')
-    # parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
-    #                     help=' phylo-tree based cv folders.')
-    # parser.add_argument("-cv", "--cv_number", default=10, type=int,
-    #                     help='CV splits number')
     parser.add_argument('-o', '--output_path', default='./', type=str, required=False,
                         help='Directory to store CV scores.')
 
-    parser.add_argument('-temp', '--temp_path', default='./', type=str, required=False,
-                        help='Directory to store temporary files.')
     parsedArgs = parser.parse_args()
-    # parser.print_help()
-    # print(parsedArgs)
-    extract_info(parsedArgs.fscore,parsedArgs.level,parsedArgs.f_all,
-                 parsedArgs.learning,parsedArgs.epochs,parsedArgs.f_optimize_score,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base,
-                 parsedArgs.temp_path,parsedArgs.output_path)
+
+    extract_info(parsedArgs.fscore,parsedArgs.level,parsedArgs.f_all,parsedArgs.learning,parsedArgs.epochs,
+                 parsedArgs.f_optimize_score,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base,parsedArgs.output_path)
 
 

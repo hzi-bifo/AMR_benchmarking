@@ -32,10 +32,10 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
     # BLAST-based Point-/ResFinder on each combination’s whole dataset.
     ###################################################################################################################
     if f_table:
-        # foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
-        # tool_list=['Point-/ResFinder' ,'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
-        # save_file_name=output_path+ 'Results/supplement_figures_tables/S1_cv_results.xlsx'
-        # src.benchmark_utility.lib.MAINtable.extract_info(level,s, f_all ,output_path,tool_list,foldset,save_file_name)
+        foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
+        tool_list=['Point-/ResFinder' ,'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
+        save_file_name=output_path+ 'Results/supplement_figures_tables/S1_cv_results.xlsx'
+        src.benchmark_utility.lib.MAINtable.extract_info(level,s, f_all ,output_path,tool_list,foldset,save_file_name)
 
         foldset=['no folds']
         tool_list=['KMA-based Point-/ResFinder','Blastn-based Point-/ResFinder']
@@ -78,15 +78,15 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
     ####################################################################################################################
     if f_anti:
         tool_list=['Point-/ResFinder','Aytan-Aktug',  'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
-        # f_phylotree=False
-        # f_kma=False
-        # src.benchmark_utility.lib.ByAnti_errorbar.ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path)
-        # f_phylotree=False
-        # f_kma=True
-        # # src.benchmark_utility.lib.ByAnti_errorbar.ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path)
-        # f_phylotree=True
-        # f_kma=False
-        # src.benchmark_utility.lib.ByAnti_errorbar.ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path)
+        f_phylotree=False
+        f_kma=False
+        src.benchmark_utility.lib.ByAnti_errorbar.ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path)
+        f_phylotree=False
+        f_kma=True
+        src.benchmark_utility.lib.ByAnti_errorbar.ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path)
+        f_phylotree=True
+        f_kma=False
+        src.benchmark_utility.lib.ByAnti_errorbar.ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path)
         f_phylotree=False
         f_kma=False
         src.benchmark_utility.lib.ByAnti_errorbar_each.ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path)
@@ -176,7 +176,6 @@ if __name__== '__main__':
     parser.add_argument('-o', '--output_path', default='./', type=str, required=False,
                         help='Directory to store CV scores.')
     parsedArgs = parser.parse_args()
-    # parser.print_help()
-    # print(parsedArgs)
+
     extract_info(parsedArgs.l,parsedArgs.species,parsedArgs.fscore,parsedArgs.f_all,parsedArgs.f_species,parsedArgs.f_anti,
                  parsedArgs.f_robust,parsedArgs.f_sample,parsedArgs.f_table,parsedArgs.f_table_analysis,parsedArgs.output_path)

@@ -98,11 +98,11 @@ def ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path):
 
 
         if i!=2:
-            # axs[row, col].get_legend().remove()
+
             pass
         else:
             axs[row, col].legend()
-            # handles, labels =axs[row, col].get_legend_handles_labels()
+
             if f_kma:
                 axs[row, col].legend(bbox_to_anchor=(3.5,1.3), ncol=8,fontsize=18,frameon=False)
             if f_phylotree:

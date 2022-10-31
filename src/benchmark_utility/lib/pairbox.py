@@ -21,10 +21,10 @@ def change_layout(data_plot,fscore,species):
     else:
         data=pd.DataFrame(columns=['Random folds', 'Homology-aware folds'])
         data1=data_plot[(data_plot['folds'] == 'Random folds')]
-        # data2=data_plot[(data_plot['folds'] == 'Phylogeny-aware folds')]
+        ### data2=data_plot[(data_plot['folds'] == 'Phylogeny-aware folds')]
         data3=data_plot[(data_plot['folds'] == 'Homology-aware folds')]
         data['Random folds']=data1[fscore]
-        # data['Phylogeny-aware folds']=data2[fscore]
+        ### data['Phylogeny-aware folds']=data2[fscore]
         data['Homology-aware folds']=data3[fscore]
     return data
 def change_layoutByTool(data_plot,fscore):
@@ -47,9 +47,6 @@ def change_layoutByTool(data_plot,fscore):
 
     data_mt=data[(data['species'] == 'Mycobacterium tuberculosis')]
     data_else=data[(data['species'] != 'Mycobacterium tuberculosis')]
-    # with pd.option_context('display.max_rows', None, 'display.max_columns', None):
-    #     print(data)
-    # exit()
     return data,data_else,data_mt
 def ranking(data_plot):
     df = data_plot.reset_index()
@@ -206,8 +203,7 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
             i+=1
             tool_p=[tool]
             data_plot=combine_data_meanstd(df_species,level,fscore,tool_p,foldset,output_path,flag)
-            #[fscore, 'species', 'software','anti','folds']
-            # print(data_plot)
+            ### [fscore, 'species', 'software','anti','folds']
             data_plot= data_plot.astype({fscore:float})
 
             ax = sns.violinplot(x="folds", y=fscore, ax=axs[row, col],data=data_plot,
@@ -298,15 +294,13 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
 
             species_p=[species]
             data_plot=combine_data_meanstd(species_p,level,fscore,tool_list,foldset,output_path,flag)
-            #[fscore, 'species', 'software','anti','folds']
-            # print(data_plot)
+            ### [fscore, 'species', 'software','anti','folds']
             data_plot= data_plot.astype({fscore:float})
             data_plot=ranking(data_plot)
 
             #--
             #connect dots representing the same tool+anti combination
             df=change_layoutWithinSpecies(data_plot,fscore)
-            # print(df)
             labels = df.columns.to_list()
             jitter = 0.05
             df_x_jitter = pd.DataFrame(np.random.normal(loc=0, scale=jitter, size=df.values.shape), columns=df.columns)

@@ -17,8 +17,8 @@ def GETname_main_meta(level):
 def GETname_meta(species,anti,level):
     ID='./data/PATRIC/meta/'+str(level)+'_by_species/Data_' + str(species.replace(" ", "_")) + '_' + str(\
         anti.translate(str.maketrans({'/': '_', ' ': '_'})))
-    # pheno='./data/PATRIC/meta/'+str(level)+'_by_species/Data_' + str(species.replace(" ", "_")) + '_' + str(\
-    #     anti.translate(str.maketrans({'/': '_', ' ': '_'}))) +'_pheno.txt'
+    ## pheno='./data/PATRIC/meta/'+str(level)+'_by_species/Data_' + str(species.replace(" ", "_")) + '_' + str(\
+    ##     anti.translate(str.maketrans({'/': '_', ' ': '_'}))) +'_pheno.txt'
     return ID
 
 def GETname_folds(species,anti,level,f_kma,f_phylotree):
@@ -42,8 +42,8 @@ def GETname_model(software, level,species, anti,cl,temp_path):
 
     save_name_score_temp=str(temp_path)+'log/software/'+str(software) +'/analysis/'+ str(species.replace(" ", "_"))  + '/' + \
     str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl)
-    # save_name_score='Results/' + str(software) + '/' + str(species.replace(" ", "_"))  + '/' + \
-    # str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl)
+    ## save_name_score='Results/' + str(software) + '/' + str(species.replace(" ", "_"))  + '/' + \
+    ## str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl)
 
     return meta, meta_temp,save_name_score_temp
 

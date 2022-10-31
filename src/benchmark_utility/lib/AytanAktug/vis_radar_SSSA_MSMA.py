@@ -2,8 +2,7 @@
 import sys,os
 # sys.path.append('../')
 sys.path.insert(0, os.getcwd())
-from src.amr_utility import name_utility,load_data,file_utility
-import os
+from src.amr_utility import name_utility,file_utility
 import numpy as np
 import argparse
 import pandas as pd
@@ -19,7 +18,7 @@ def combine_data(fscore,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_s
     f_phylotree=False
 
 
-    save_name_score_final=name_utility.GETname_AAresult('AytanAktug',merge_name,0.0, 0,f_fixed_threshold,f_nn_base
+    save_name_score_final=name_utility.GETname_AAresult('AytanAktug',merge_name,learning, epochs,f_fixed_threshold,f_nn_base
                                                         ,'f1_macro',f_kma,f_phylotree,'MSMA_discrete',output_path)
 
 
@@ -187,8 +186,7 @@ if __name__== '__main__':
                         help='benchmarking baseline.')
 
     parsedArgs = parser.parse_args()
-    # parser.print_help()
-    # print(parsedArgs)
+
     extract_info(parsedArgs.fscore,parsedArgs.level,parsedArgs.f_all, parsedArgs.learning,parsedArgs.epochs,
                  parsedArgs.f_optimize_score,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base,parsedArgs.output_path)
 

@@ -3,7 +3,7 @@ import sys,os
 sys.path.insert(0, os.getcwd())
 import argparse
 import pandas as pd
-import pickle,json
+import json
 from mycolorpy import colorlist as mcp
 from pylab import *
 
@@ -115,16 +115,11 @@ def extract_info(fscore,output_path):
 
 if __name__== '__main__':
     parser = argparse.ArgumentParser()
-    # parser.add_argument('-l', '--level', default='loose', type=str, required=False,
-    #                     help='Quality control: strict or loose')
     parser.add_argument('-fscore', '--fscore', default='f1_macro', type=str, required=False,
                         help='the score used to choose the best classifier for each antibiotic. Can be f1_pos'
                              'f1_neg, accuracy.')
-    # parser.add_argument('-temp', '--temp_path', default='./', type=str, required=False,
-    #                 help='Directory to store temporary files.')
     parser.add_argument('-o', '--output_path', default='./', type=str, required=False,
                     help='Results folder.')
-
     parsedArgs = parser.parse_args()
     extract_info(parsedArgs.fscore,parsedArgs.output_path)
 

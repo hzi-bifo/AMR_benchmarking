@@ -20,40 +20,39 @@ function parse_yaml {
 }
 eval $(parse_yaml Config.yaml)
 
-#export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
-#export PYTHONPATH=$PWD
-#source activate ${multi_env_name}
+export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
+export PYTHONPATH=$PWD
+source activate ${amr_env_name}
 
 wait
 echo $CONDA_DEFAULT_ENV
 IFS=', ' read -ra species_list_temp <<< "$species_list"
 species=( "${species_list_temp[@]//_/ }" )
 
-#IFS=', ' read -ra species_list_temp_tree <<< "$species_list_phylotree"
-#species_tree=( "${species_list_temp_tree[@]//_/ }" )
 
 
 
-## 0) Generate intermediate files for plotting and winner analysis.
-# Paired T test of F1-macro between default hyperparameters and hyperparameter optimization.
-# Paired T test of F1-macro between any 2 of SSSA,MSMA_discrete,MSMA_concat_mixedS , MSMA_concat_LOO
-# note: Species list hard coded.
-#python ./src/benchmark_utility/lib/AytanAktug/excel_multi_analysis.py  -f_compare -f_Ttest -fscore 'f1_macro'
+
+### 0) Generate intermediate files for plotting and winner analysis.
+### Paired T test of F1-macro between default hyperparameters and hyperparameter optimization.
+### Paired T test of F1-macro between any 2 of SSSA,MSMA_discrete,MSMA_concat_mixedS , MSMA_concat_LOO
+### note: Species list hard coded.
+python ./src/benchmark_utility/lib/AytanAktug/excel_multi_analysis.py  -f_compare -f_Ttest -fscore 'f1_macro'
 
 ### 1) Generate tables of all AytanAktug-related results (F1-macro,F1-pos,F1-neg,accuracy). Sup F7 & Sup F8
 python ./src/benchmark_utility/lib/AytanAktug/excel_multi.py  -f_compare -s "${species[@]}"
-#
-#
-### 2) Fig. 7 Radar visualization of SSSA and SSMA
-#python ./src/benchmark_utility/lib/AytanAktug/vis_radar_SSSA_SSMA.py  -o ${output_path} -fscore 'f1_macro'
-#
 
-#
+
+### 2) Fig. 7 Radar visualization of SSSA and SSMA
+python ./src/benchmark_utility/lib/AytanAktug/vis_radar_SSSA_SSMA.py  -o ${output_path} -fscore 'f1_macro'
+
+
 ### 3) Radar plot of SSSA, MSMA_discrete, MSMA_concat_mixedS (supplement File 2. S12)
 ### scores were based on samples from multiple species. Aytan-Aktug article version analysis
-#python ./src/benchmark_utility/lib/AytanAktug/vis_radar_SSSA_MSMA.py -f_all -f_fixed_threshold -o ${output_path}
-#
-#
+python ./src/benchmark_utility/lib/AytanAktug/vis_radar_SSSA_MSMA.py -f_all -f_fixed_threshold -o ${output_path}
+
+
 ### 4)Fig. 8 Bar plot of  SSSA,MSMA_discrete,MSMA_concat_mixedS , MSMA_concat_LOO
-#python ./src/benchmark_utility/lib/AytanAktug/vis_bar_SSSA_MSMA.py -f_all -f_fixed_threshold -temp ${log_path} -o ${output_path}
-#
+python ./src/benchmark_utility/lib/AytanAktug/vis_bar_SSSA_MSMA.py -f_all -f_fixed_threshold  -o ${output_path}
+
+conda deactivate

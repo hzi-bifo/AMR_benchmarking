@@ -2,7 +2,7 @@
 import sys,os
 # sys.path.append('../')
 sys.path.insert(0, os.getcwd())
-from src.amr_utility import name_utility,load_data,file_utility
+from src.amr_utility import file_utility
 import argparse,json
 import pandas as pd
 import numpy as np
@@ -14,114 +14,6 @@ from src.benchmark_utility.lib.CombineResults import combine_data
 """This script organizes the performance 4 scores(F1-macro,F1-pos,F1-neg,accuracy) for Aytan-Aktug SSSA, SSMA, MSMA models."""
 
 
-# def combine_data(species_list,level,fscore,tool_list,folds,output_path):
-#
-#     # This function makes a matrix of all tools' results.
-#     df_plot = pd.DataFrame(columns=[fscore, 'species', 'software','antibiotics','folds'])
-#     columns_name=df_plot.columns.tolist()
-#     df_plot_sub = pd.DataFrame(columns=columns_name)
-#
-#     for fold in folds:
-#         if fold=='Phylogeny-aware folds':
-#             f_phylotree=True
-#             f_kma=False
-#             fscore_format= fscore
-#         elif fold=='Homology-aware folds':
-#             f_phylotree=False
-#             f_kma=True
-#             fscore_format="weighted-"+fscore
-#         else:#'Random folds'
-#             f_phylotree=False
-#             f_kma=False
-#             fscore_format= fscore
-#         for species in species_list:
-#             if species !='Mycobacterium tuberculosis' or f_phylotree==False:
-#
-#                 antibiotics, _, _ =  load_data.extract_info(species, False, level)
-#                 for anti in antibiotics:
-#                     for tool in tool_list:
-#
-#                         if tool=='Single-species-antibiotic Aytan-Aktug':
-#                             learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
-#                             results_file =  name_utility.GETname_AAresult('AytanAktug',species,learning, epochs,\
-#                                           f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'SSSA',output_path)
-#                             results_file=results_file+'_SummaryBenchmarking.txt'
-#                             results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-#                             score=results.loc[anti,fscore_format]
-#
-#                         if tool=='Single-species multi-antibiotics Aytan-Aktug':
-#                             learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
-#                             results_file =  name_utility.GETname_AAresult('AytanAktug',species, learning, epochs,\
-#                                           f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'SSMA',output_path)
-#                             results_file=results_file+'_SummaryBenchmarking.txt'
-#
-#                             if species in ['Campylobacter jejuni','Enterococcus faecium']:
-#                                 score=np.nan
-#                             else:
-#                                 results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-#                                 score=results.loc[anti,fscore]
-#
-#                         if tool=='Single-species-antibiotics default':
-#                             learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.001, 1000,True,True,'f1_macro'
-#                             results_file =  name_utility.GETname_AAresult('AytanAktug',species,learning, epochs,\
-#                                               f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'SSSA',output_path)
-#                             results_file=results_file+'_SummaryBenchmarking.txt'
-#                             results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-#                             score=results.loc[anti,fscore_format]
-#
-#                         if tool=='Discrete databases multi-species model':
-#                             learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
-#                             results_file =  name_utility.GETname_AAresult('AytanAktug','Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj',learning,\
-#                                   epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'MSMA_discrete',output_path)
-#
-#                             results_file=results_file+'_split_discrete_model_'+str(fscore)+'.txt'
-#                             results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-#                             if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
-#                                 score=np.nan
-#
-#                             else:
-#                                 if anti in results.columns:
-#                                     score=results.loc[species,anti]
-#                                 else:
-#                                     score=np.nan
-#
-#                         if tool=='Concatenated databases mixed multi-species model':
-#                             learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
-#
-#                             results_file = name_utility.GETname_AAresult('AytanAktug','Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj',learning,\
-#                                      epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'MSMA_concat_mixedS',output_path)
-#                             results_file=results_file+'_split_discrete_model_'+str(fscore)+'.txt'
-#                             results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-#                             if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
-#                                 score=np.nan
-#
-#                             else:
-#
-#                                 if anti in results.columns:
-#                                     score=results.loc[species,anti]
-#                                 else:
-#                                     score=np.nan
-#
-#                         if tool=='Concatenated databases leave-one-out multi-species model':
-#                             learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
-#                             results_file = name_utility.GETname_AAresult('AytanAktug','Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj',learning,\
-#                                          epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'MSMA_concatLOO',output_path)
-#                             results_file=results_file+ '_'+str(species.replace(" ", "_"))+'_SummaryBenchmarking.txt'
-#
-#                             if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
-#                                 score=np.nan
-#
-#                             else:
-#                                 results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-#                                 if anti in results.index:
-#                                     score=results.loc[anti, fscore]
-#                                 else:
-#                                     score=np.nan
-#
-#                         #[fscore, 'species', 'software','anti','folds']
-#                         df_plot_sub.loc['s'] = [score,species,tool,anti,fold]
-#                         df_plot = df_plot.append(df_plot_sub, sort=False)
-#     return df_plot
 
 def run(species_list,level,fscore,foldset, tool_list, f_compare,f_Ttest,path_table_results,temp_results,output_path):
 
@@ -137,7 +29,6 @@ def run(species_list,level,fscore,foldset, tool_list, f_compare,f_Ttest,path_tab
 
             i=0
             for each_tool in tool_list:
-                # print(each_tool,eachfold,'-----')
                 df_final=pd.DataFrame(columns=['species', 'antibiotics', each_tool])
 
                 for species in species_list :
@@ -148,7 +39,7 @@ def run(species_list,level,fscore,foldset, tool_list, f_compare,f_Ttest,path_tab
 
                     df_score[fscore] = df_score[fscore].astype(str)
                     df_score[each_tool]=df_score[fscore].apply(lambda x:x.split('±')[0] ) #df_final['f1_macro']
-                    # df_score[each_tool+'_std']=df_score[fscore].apply(lambda x: x.split('±')[1] if (len(x.split('±'))==2) else np.nan)
+                    #### df_score[each_tool+'_std']=df_score[fscore].apply(lambda x: x.split('±')[1] if (len(x.split('±'))==2) else np.nan)
                     df_score[each_tool+'_std']=df_score['f1_macro'].apply(lambda x: x.split('±')[1] if (len(x.split('±'))==2) else 10)
                     df_score[each_tool] = df_score[each_tool] .astype(float)
                     df_score[each_tool+'_std'] = df_score[each_tool+'_std'] .astype(float)
@@ -208,19 +99,14 @@ def run(species_list,level,fscore,foldset, tool_list, f_compare,f_Ttest,path_tab
 
                 df_final=pd.DataFrame(columns=['species', 'antibiotics', each_tool])
                 for species in species_list:
-                    # summary= pd.DataFrame(columns=['species', 'antibiotics', 'folds', 'f1_macro', 'f1_positive', 'f1_negative', 'accuracy'])
 
-
-                    # _, ID, Y = amr_utility.load_data.extract_info(species, False, level)
                     species_sub=[species]
                     df_score=combine_data(species_sub,level,fscore,[each_tool],[eachfold],output_path)
                     df_score=df_score.reset_index()
                     df_score=df_score.drop(columns=['index'])
                     df_score[each_tool]=df_score[fscore]
                     df_score=df_score[['species', 'antibiotics',each_tool]]
-                    # df_score= df_score.rename(columns={"f1_macro":each_tool+"_f1_macro"})
                     df_final= pd.concat([df_final,df_score])
-                    # print(df_final)
                 if i==0:
                     df_compare=df_final
                 else:
@@ -257,7 +143,7 @@ def run(species_list,level,fscore,foldset, tool_list, f_compare,f_Ttest,path_tab
                     df_score[each_tool] = df_score[each_tool] .astype(float)
                     df_score=df_score[['species', 'antibiotics',each_tool]]
                     df_final= pd.concat([df_final,df_score])
-                    # print(df_final)
+
                 if i==0:
                     df_compare=df_final
                 else:

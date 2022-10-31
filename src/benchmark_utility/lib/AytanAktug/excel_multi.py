@@ -3,7 +3,7 @@ import sys,os
 # sys.path.append('../')
 sys.path.insert(0, os.getcwd())
 from src.amr_utility import name_utility
-import argparse,json
+import argparse
 import pandas as pd
 from openpyxl import load_workbook
 from src.benchmark_utility.lib.CombineResults import combine_data
@@ -32,19 +32,14 @@ def run(species_list,level,foldset, tool_list, f_compare,path_table_results,outp
                     print(each_tool,eachfold,'-----')
                     df_final=pd.DataFrame(columns=['species', 'antibiotics', each_tool])
                     for species in species_list:
-                        # summary= pd.DataFrame(columns=['species', 'antibiotics', 'folds', 'f1_macro', 'f1_positive', 'f1_negative', 'accuracy'])
-                        print(species)
 
-                        # _, ID, Y = amr_utility.load_data.extract_info(species, False, level)
                         species_sub=[species]
                         df_score=combine_data(species_sub,level,fscore,[each_tool],[eachfold],output_path)
                         df_score=df_score.reset_index()
                         df_score=df_score.drop(columns=['index'])
                         df_score[each_tool]=df_score[fscore]
                         df_score=df_score[['species', 'antibiotics',each_tool]]
-                        # df_score= df_score.rename(columns={"f1_macro":each_tool+"_f1_macro"})
                         df_final= pd.concat([df_final,df_score])
-                        # print(df_final)
                     if i==0:
                         df_compare=df_final
                     else:

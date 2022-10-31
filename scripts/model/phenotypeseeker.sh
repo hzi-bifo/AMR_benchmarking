@@ -1,18 +1,4 @@
 #!/bin/bash
-#SBATCH --job-name=pts # Name of job
-#SBATCH --output=/vol/cluster-data/khu/sge_stdout_logs/%x_%j.out  # stdout
-#SBATCH --error=/vol/cluster-data/khu/sge_stdout_logs/%x_%j.err  # stderr
-#SBATCH --partition=cpu  # partition to use (check with sinfo)
-#SBATCH --nodes=1  # Number of nodes
-#SBATCH --ntasks=1 # Number of tasks | Alternative: --ntasks-per-node
-#SBATCH --threads-per-core=1 # Ensure we only get one logical CPU per core
-#SBATCH --cpus-per-task=1 # Number of cores per task
-#SBATCH --mem=70G # Memory per node | Alternative: --mem-per-cpu
-#SBATCH --time=240:00:00 # wall time limit (HH:MM:SS)
-#SBATCH --qos long
-#SBATCH --clusters=bioinf
-
-
 
 function parse_yaml {
    local prefix=$2
@@ -39,67 +25,61 @@ IFS=', ' read -ra species_list_temp_tree <<< "$species_list_phylotree"
 species_tree=( "${species_list_temp_tree[@]//_/ }" )
 
 
-
-#export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
-#export PYTHONPATH=$PWD
-#source activate ${PhenotypeSeeker_env_name}
-#python ./AMR_software/PhenotypeSeeker/main_pts.py -f_phylotree -f_prepare_meta -temp ${log_path} -s "${species_tree[@]}" -l ${QC_criteria}
-#python ./AMR_software/PhenotypeSeeker/main_pts.py -f_kma -f_prepare_meta -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
-#python ./AMR_software/PhenotypeSeeker/main_pts.py -f_prepare_meta -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
-##
-
-
-#python ./AMR_software/PhenotypeSeeker/main_pts.py -f_kma -f_author -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
+### Initialization
+export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
+export PYTHONPATH=$PWD
+source activate ${PhenotypeSeeker_env_name}
+python ./AMR_software/PhenotypeSeeker/main_pts.py -f_phylotree -f_prepare_meta -temp ${log_path} -s "${species_tree[@]}" -l ${QC_criteria}
+python ./AMR_software/PhenotypeSeeker/main_pts.py -f_kma -f_prepare_meta -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
+python ./AMR_software/PhenotypeSeeker/main_pts.py -f_prepare_meta -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
 
 
-###prepare features
+#### Prepare features
+bash ./AMR_software/PhenotypeSeeker/kmer.sh ${dataset_location} ${log_path}
 
-##bash ./AMR_software/PhenotypeSeeker/kmer.sh ${dataset_location} ${log_path}
-###
-#for s in "${species_list_temp_tree[@]}"; \
-#do bash ./AMR_software/PhenotypeSeeker/map.sh ${s} ${log_path}log/software/phenotypeseeker/software_output \
-#${log_path}log/software/phenotypeseeker/software_output/phylotree ${dataset_location} ${log_path} -f_phylotree;done
-##
-#for s in "${species_list_temp[@]}"; \
-#do bash ./AMR_software/PhenotypeSeeker/map.sh ${s} ${log_path}log/software/phenotypeseeker/software_output  \
-#${log_path}log/software/phenotypeseeker/software_output/kma ${dataset_location} ${log_path} -f_kma;done
 
-#for s in "${species_list_temp[@]}"; \
-#do bash ./AMR_software/PhenotypeSeeker/map.sh ${s} ${log_path}log/software/phenotypeseeker/software_output  \
-#${log_path}log/software/phenotypeseeker/software_output/random ${dataset_location} ${log_path};done
-###
+for s in "${species_list_temp_tree[@]}"; \
+do bash ./AMR_software/PhenotypeSeeker/map.sh ${s} ${log_path}log/software/phenotypeseeker/software_output \
+${log_path}log/software/phenotypeseeker/software_output/phylotree ${dataset_location} ${log_path} -f_phylotree;done
 #
+for s in "${species_list_temp[@]}"; \
+do bash ./AMR_software/PhenotypeSeeker/map.sh ${s} ${log_path}log/software/phenotypeseeker/software_output  \
+${log_path}log/software/phenotypeseeker/software_output/kma ${dataset_location} ${log_path} -f_kma;done
+
+for s in "${species_list_temp[@]}"; \
+do bash ./AMR_software/PhenotypeSeeker/map.sh ${s} ${log_path}log/software/phenotypeseeker/software_output  \
+${log_path}log/software/phenotypeseeker/software_output/random ${dataset_location} ${log_path};done
+
+conda deactivate
+
+#### ML CV
+export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
+export PYTHONPATH=$PWD
+source activate ${amr_env_name}
+python ./AMR_software/PhenotypeSeeker/main_pts.py -f_phylotree -cv ${cv_number} -n_jobs ${n_jobs} -f_ml -temp ${log_path} -s "${species_tree[@]}" -l ${QC_criteria}
+python ./AMR_software/PhenotypeSeeker/main_pts.py -f_kma -cv ${cv_number} -n_jobs ${n_jobs} -f_ml -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
+python ./AMR_software/PhenotypeSeeker/main_pts.py -cv ${cv_number} -n_jobs ${n_jobs} -f_ml -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
 
 
-##conda deactivate
+### CV score generation.
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'f1_macro' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'f1_negative' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'f1_positive' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'accuracy' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
 
-#####ML CV
-#export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
-#export PYTHONPATH=$PWD
-#source activate ${multi_env_name}
-#python ./AMR_software/PhenotypeSeeker/main_pts.py -f_phylotree -cv ${cv_number} -n_jobs ${n_jobs} -f_ml -temp ${log_path} -s "${species_tree[@]}" -l ${QC_criteria}
-#python ./AMR_software/PhenotypeSeeker/main_pts.py -f_kma -cv ${cv_number} -n_jobs ${n_jobs} -f_ml -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
-#python ./AMR_software/PhenotypeSeeker/main_pts.py -cv ${cv_number} -n_jobs ${n_jobs} -f_ml -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
 
-#
-####CV socres to table
-#python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'f1_macro' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-#python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'f1_negative' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-#python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'f1_positive' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-#python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'accuracy' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-#
-#
-#python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'f1_macro' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-#python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'f1_negative' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-#python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'f1_positive' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-#python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'accuracy' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-#
-#python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'f1_macro' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-#python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'f1_negative' -cl_list 'svm' 'lr' 'rf'  -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-#python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'f1_positive' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-#python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'accuracy' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-##conda deactivate
-#
-#
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'f1_macro' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'f1_negative' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'f1_positive' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'accuracy' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
+
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'f1_macro' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'f1_negative' -cl_list 'svm' 'lr' 'rf'  -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'f1_positive' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'accuracy' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
+
+conda deactivate
+
+
 
 

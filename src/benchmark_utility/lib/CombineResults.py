@@ -10,11 +10,15 @@ import numpy as np
 
 
 '''[Codes maintaining Note]: 
-combine_data function in this file is used by 
+functions in this file is used by 
 ./src/benchmark_utility/lib/MAINtable.py
 ./src/benchmark_utility/lib/AytanAktug/excel_multi_analysis.py 
 ./src/benchmark_utility/lib/AytanAktug/excel_multi.py
 ./src/benchmark_utility/lib/table_analysis.py
+./src/benchmark_utility/lib/pairbox.py
+./src/benchmark_utility/lib/pairbox_majority.py
+./src/benchmark_utility/lib/ByAnti_errorbar.py
+./src/benchmark_utility/lib/ByAnti_errorbar_each.py
 '''
 
 
@@ -343,162 +347,9 @@ def combine_data_meanstd(species_list,level,fscore,tool_list,folds,output_path,f
     return df_plot
 
 
-
-
-
-# def combine_data_get_score_meanstd2(species,tool,anti,f_phylotree,f_kma,fscore,fscore_format,output_path,flag):
-#     '''For extracting results related to a specific antibiotic. '''
-#
-#
-#     if tool=='Point-/ResFinder':#folds version.
-#         _, results_file= name_utility.GETname_result('resfinder_folds', species, '',f_kma,f_phylotree,'',output_path)
-#         results=pd.read_csv(results_file + '_SummaryBenchmarking_std'+flag+'.txt', header=0, index_col=0,sep="\t")
-#         if anti in results.index.to_list():
-#             score=results.loc[anti,fscore]
-#         else:
-#             score=None
-#
-#
-#
-#     if tool=='Aytan-Aktug':
-#         learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
-#         results_file =  name_utility.GETname_AAresult('AytanAktug',species,learning, epochs,\
-#                       f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'SSSA',output_path)
-#         results_file=results_file+'_SummaryBenchmarking'+flag+'.txt'
-#         results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-#         if anti in results.index.to_list():
-#             score=results.loc[anti,fscore_format]
-#         else:
-#             score=None
-#     if tool=='Seq2Geno2Pheno':
-#         if species !='Mycobacterium tuberculosis':#no MT information.
-#             _, results_file= name_utility.GETname_result('seq2geno', species, fscore,f_kma,f_phylotree,'',output_path)
-#             results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
-#             if anti in results.index.to_list():
-#                 score=results.loc[anti,fscore]
-#             else:
-#                 score=None
-#         else:
-#             score=np.nan
-#     if tool=='PhenotypeSeeker':
-#         # if species !='Mycobacterium tuberculosis':
-#         _, results_file= name_utility.GETname_result('phenotypeseeker', species, fscore,f_kma,f_phylotree,'',output_path)
-#         results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
-#         if anti in results.index.to_list():
-#             score=results.loc[anti,fscore]
-#         else:
-#             score=None
-#         # else:
-#         #     score=np.nan
-#     if tool=='Kover':
-#
-#         _, results_file= name_utility.GETname_result('kover', species,fscore,f_kma,f_phylotree,'',output_path)
-#         results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
-#         if anti in results.index.to_list():
-#             score=results.loc[anti,fscore]
-#
-#     if tool=='ML Baseline (Majority)':
-#         _, results_file= name_utility.GETname_result('majority', species, '',f_kma,f_phylotree,'',output_path)
-#         results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
-#         if anti in results.index.to_list():
-#             score=results.loc[anti,fscore]
-#         else:
-#             score=None
-#
-#     if tool=='Single-species-antibiotic Aytan-Aktug':
-#         learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
-#         results_file =  name_utility.GETname_AAresult('AytanAktug',species,learning, epochs,\
-#                       f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'SSSA',output_path)
-#         results_file=results_file+'_SummaryBenchmarking'+flag+'.txt'
-#         results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-#         if anti in results.index.to_list():
-#             score=results.loc[anti,fscore_format]
-#         else:
-#             score=None
-#
-#     if tool=='Single-species multi-antibiotics Aytan-Aktug':
-#         learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
-#         results_file =  name_utility.GETname_AAresult('AytanAktug',species, learning, epochs,\
-#                       f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'SSMA',output_path)
-#         results_file=results_file+'_SummaryBenchmarking'+flag+'.txt'
-#
-#         if species in ['Campylobacter jejuni','Enterococcus faecium']:
-#             score=np.nan
-#         else:
-#             results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-#             if anti in results.index.to_list():
-#                 score=results.loc[anti,fscore]
-#             else:
-#                 score=None
-#
-#     if tool=='Single-species-antibiotics default':
-#         learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.001, 1000,True,True,'f1_macro'
-#         results_file =  name_utility.GETname_AAresult('AytanAktug',species,learning, epochs,\
-#                           f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'SSSA',output_path)
-#         results_file=results_file+'_SummaryBenchmarking'+flag+'.txt'
-#         results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-#         if anti in results.index.to_list():
-#             score=results.loc[anti,fscore_format]
-#         else:
-#             score=None
-#
-#     # if tool=='Discrete databases multi-species model':
-#     #     learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
-#     #     results_file =  name_utility.GETname_AAresult('AytanAktug','Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj',learning,\
-#     #           epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'MSMA_discrete',output_path)
-#     #
-#     #     results_file=results_file+'_split_discrete_model_'+str(fscore)+'.txt'
-#     #     results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-#     #     if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
-#     #         score=np.nan
-#     #
-#     #     else:
-#     #         if anti in results.columns:
-#     #             score=results.loc[species,anti]
-#     #         else:
-#     #             score=np.nan
-#     #
-#     # if tool=='Concatenated databases mixed multi-species model':
-#     #     learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
-#     #
-#     #     results_file = name_utility.GETname_AAresult('AytanAktug','Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj',learning,\
-#     #              epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'MSMA_concat_mixedS',output_path)
-#     #     results_file=results_file+'_split_discrete_model_'+str(fscore)+'.txt'
-#     #     results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-#     #     if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
-#     #         score=np.nan
-#     #
-#     #     else:
-#     #
-#     #         if anti in results.columns:
-#     #             score=results.loc[species,anti]
-#     #         else:
-#     #             score=np.nan
-#     #
-#     # if tool=='Concatenated databases leave-one-out multi-species model':
-#     #     learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
-#     #     results_file = name_utility.GETname_AAresult('AytanAktug','Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj',learning,\
-#     #                  epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'MSMA_concatLOO',output_path)
-#     #     results_file=results_file+ '_'+str(species.replace(" ", "_"))+'_SummaryBenchmarking.txt'
-#     #
-#     #     if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
-#     #         score=np.nan
-#     #
-#     #     else:
-#     #         results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-#     #         if anti in results.index:
-#     #             score=results.loc[anti, fscore]
-#     #         else:
-#     #             score=np.nan
-#
-#     return score
-
 def combine_data_ByAnti(species_list,anti,fscore, f_phylotree, f_kma,tool,output_path):
     '''for a specific antibiotic, if there exists a relevant combination with a species, return mean, std, and species list'''
-    # df_mean = pd.DataFrame(columns=[fscore, 'species', 'software'])
-    # df_mean_sub = pd.DataFrame(columns=[fscore, 'species', 'software'])
-    # df_std = pd.DataFrame(columns=[fscore, 'species', 'software'])
-    # df_std_sub = pd.DataFrame(columns=[fscore, 'species', 'software'])
+
     data_mean=[]
     data_std=[]
     if (f_phylotree==False) and (f_kma==True):
