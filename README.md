@@ -1,4 +1,4 @@
-# Benchmarking machine learning-based software for phenotypic antimicrobial resistance determination from genomic data
+# Benchmarking machine learning-based software for antimicrobial resistance determination from genomic data
 
 ## Usage Contents
 - [Introduction](#intro)
