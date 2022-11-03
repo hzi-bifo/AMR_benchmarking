@@ -131,6 +131,8 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 - The script `main.sh` goes through the whole benchmarking process from data reprocessing to running software, to benchmarking results visualization. 
 
 ```
+git clone https://github.com/hzi-bifo/AMR_benchmarking.git
+bash ./install/install.sh
 bash main.sh
 ```
 
