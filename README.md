@@ -15,8 +15,8 @@
 - [Contact](#contact)
 
 
-### <a name="intro"></a>Introduction
-#### software list
+## <a name="intro"></a>Introduction
+### software list
 
 We compare the binary phenotype prediction performance of four machine learning (ML)- based and one direct association antimicrobial resistance (AMR) determination sofware:
 1. [Aytan-Aktug](https://bitbucket.org/deaytan/neural_networks/src/master/) [[1]](#1), 
