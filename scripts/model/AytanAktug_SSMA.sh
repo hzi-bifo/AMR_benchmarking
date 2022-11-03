@@ -56,9 +56,12 @@ echo "Finished: features."
 
 
 ### Nested CV
+### for i in {0..0};do
 for i in {0..9};do
 python ./AMR_software/AytanAktug/main_SSMA.py -cv ${cv_number} -i_CV ${i} -f_kma -f_nn  -s "${species[@]}" -f_fixed_threshold -f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -l ${QC_criteria} || { echo "Errors in Aytan-Aktug SSMA NN. Exit ."; exit; }
 done
+### To tear CV evaluation into smaller running jobs, you can set a smaller range for i (e.g. for i in {0..0};do ) each time when running above loop commands before proceeding to the rest.
+
 python ./AMR_software/AytanAktug/main_SSMA.py -cv ${cv_number} -f_kma -f_nn -f_nn_score  -s "${species[@]}" -f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -l ${QC_criteria} || { echo "Errors in Aytan-Aktug SSMA NN scores generating. Exit ."; exit; }
 
 ### CV score generation.
