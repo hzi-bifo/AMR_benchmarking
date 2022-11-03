@@ -128,7 +128,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 ```
 git clone https://github.com/hzi-bifo/AMR_benchmarking.git
 bash main.sh
-bash ./scripts/model/clean.sh # Optional. Clean intermediate files #TODO
+bash ./scripts/model/clean.sh # Optional. Clean intermediate files 
 ```
 
 - The script `main.sh` goes through the whole benchmarking process including: conda environment installation, data downloading/reprocessing, evaluating Point-/Resfinder, evaluating Aytan-Aktug, evaluating Seq2Geno2Pheno, evaluating Phenotyperseeker, evaluating Kover, evaluating ML baseline (majority), and benchmarking results visualization. 
