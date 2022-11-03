@@ -1,6 +1,6 @@
 # Benchmarking machine learning-based software for antimicrobial resistance determination from genomic data
 
-## Usage Contents
+## Contents
 - [Introduction](#intro)
     - [software list](#software)
     - [Data sets](#data)
