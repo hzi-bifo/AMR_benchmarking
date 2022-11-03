@@ -40,14 +40,12 @@ We compare the binary phenotype prediction performance of four machine learning 
 
 ## <a name="pre"></a>Prerequirements
 
-- To reproduce the output, you need to use `conda`, Miniconda 4.8.3 was used by us. Please follow the instruction .[here] (https://bioconda.github.io/)to install Bioconda
+- To reproduce the output, you need to use `conda`, Miniconda 4.8.3 was used by us. Please follow the instruction [here](https://bioconda.github.io/)to install Bioconda
 -  Create conda environments and install packages for different AMR methods and analysis procedures.
 ```
 bash ./install/install.sh
 ```
--  Install pytorch in the `multi_torch_env` manually if GPU is available.
-
-    To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested         with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
+-  Install pytorch in the `multi_torch_env` manually if GPU is available. To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
 
 - Memory requirment: Some procedures require extremely large memory. Aytan-Aktug multi-species model (adaption version) feature building needs ~370G memory. Other ML software needs up to 80G memory, depending on the number of CPU set and specis-antibiotic combination.
 
