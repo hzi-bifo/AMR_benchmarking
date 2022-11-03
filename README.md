@@ -47,7 +47,7 @@ bash ./install/install.sh
 ```
 -  Install pytorch in the `multi_torch_env` manually if GPU is available.
 
-To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
+    To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested         with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
 
 - Memory requirment: Some procedures require extremely large memory. Aytan-Aktug multi-species model (adaption version) feature building needs ~370G memory. Other ML software needs up to 80G memory, depending on the number of CPU set and specis-antibiotic combination.
 
