@@ -1,6 +1,23 @@
 # Benchmarking machine learning-based software for phenotypic antimicrobial resistance determination from genomic data
 
-### Introduction
+## Usage Contents
+- [Introduction](#intro)
+    - [software list](#software)
+    - [Data sets](#data)
+    - [Framework](#frame)
+- [Prerequirements](#pre)
+- [Input](#input)
+- [Output](#output)
+- [Usage](#usage)  
+- [References](#ref)   
+- [License](#license)
+- [Citation](#citation)
+- [Contact](#contact)
+
+
+### <a name="intro"></a>Introduction
+#### software list
+
 We compare the binary phenotype prediction performance of four machine learning (ML)- based and one direct association antimicrobial resistance (AMR) determination sofware:
 1. [Aytan-Aktug](https://bitbucket.org/deaytan/neural_networks/src/master/) [[1]](#1), 
 2. Seq2Geno2Pheno([Seq2Geno](https://github.com/hzi-bifo/seq2geno.git)&[Geno2Pheno](https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno)) [[2]](#2), 
@@ -8,43 +25,17 @@ We compare the binary phenotype prediction performance of four machine learning 
 4. [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4). 
 5. [Point-/ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
 
-### Data sets
+### <a name="data"></a>Data sets
 
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/wiki/Species-and-antibiotics">Data sets overview</a>
 - Sample list of each data set in the form of `Data_<species>_<antibiotic>` and sample phenotype metadata of each data set `Data_<species>_<antibiotic>_pheno.txt` under the folder <a href="https://github.com/hzi-bifo/AMR_benchmarking/main/data/PATRIC/meta/loose_by_specie">data/PATRIC/meta/loose_by_species</a>
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/data/PATRIC/cv_folds/loose/">Corss-validation folds</a> was generated through Aytan-Aktug (homology-aware folds), Seq2Geno2Pheno(phylogeny-aware and random folds, except for  *M. tuberculosis* folds)), and sklearn package model_selection.KFold
 (random folds for  *M. tuberculosis* folds).
 
-### Framework
+###  <a name="frame"></a>Framework
 
 ![alt text](./doc/workflow.png)
 
-
-
-
-### References
-<a id="1">[1]</a>  D Aytan-Aktug, Philip Thomas Lanken Conradsen Clausen, Valeria Bortolaia, Frank Møller Aarestrup, and Ole Lund. Prediction of acquired antimicrobial resistance for multiple bacterial species using neural networks.Msystems, 5(1), 2020.
-
-<a id="2">[2]</a>   Ariane Khaledi, Aaron Weimann, Monika Schniederjans, Ehsaneddin Asgari, Tzu-Hao Kuo, Antonio Oliver, Gabriel Cabot, Axel Kola, Petra Gastmeier, Michael Hogardt, et al. Predicting antimicrobial resistance in pseudomonas aeruginosa with machine learning-enabled molecular diagnostics. EMBO molecular medicine, 12(3):e10264, 2020.
-
-<a id="3">[3]</a>  Erki Aun, Age Brauer, Veljo Kisand, Tanel Tenson, and Maido Remm. A k-mer-based method for the identification of phenotype-associated genomic biomarkers and predicting phenotypes of sequenced bacteria. PLoS computational biology, 14(10):e1006434, 2018.
-
-<a id="4">[4]</a> Alexandre Drouin, Gaël Letarte, Frédéric Raymond, Mario Marchand, Jacques Corbeil, and François Laviolette. Interpretable genotype-to-phenotype classifiers with performance guarantees. Scientific reports, 9(1):1–13, 2019.
-
-<a id="5">[5]</a>    Valeria Bortolaia, Rolf S Kaas, Etienne Ruppe, Marilyn C Roberts, Stefan Schwarz, Vincent Cattoir, Alain Philippon, Rosa L Allesoe, Ana Rita Rebelo, Alfred Ferrer Florensa, et al. Resfinder 4.0 for predictions of phenotypes from genotypes. Journal of Antimicrobial Chemotherapy, 75(12): 3491–3500, 2020.
-
-
-
-
-## Usage Contents
-
-- [Prerequirements](#pre)
-- [Input](#input)
-- [Output](#output)
-- [Usage](#usage)   
-- [License](#license)
-- [Citation](#citation)
-- [Contact](#contact)
 
 
 
@@ -147,6 +138,16 @@ python ./src/software_utility/clean.py
 #TODO
 
 
+## <a name="ref"></a>References
+<a id="1">[1]</a>  D Aytan-Aktug, Philip Thomas Lanken Conradsen Clausen, Valeria Bortolaia, Frank Møller Aarestrup, and Ole Lund. Prediction of acquired antimicrobial resistance for multiple bacterial species using neural networks.Msystems, 5(1), 2020.
+
+<a id="2">[2]</a>   Ariane Khaledi, Aaron Weimann, Monika Schniederjans, Ehsaneddin Asgari, Tzu-Hao Kuo, Antonio Oliver, Gabriel Cabot, Axel Kola, Petra Gastmeier, Michael Hogardt, et al. Predicting antimicrobial resistance in pseudomonas aeruginosa with machine learning-enabled molecular diagnostics. EMBO molecular medicine, 12(3):e10264, 2020.
+
+<a id="3">[3]</a>  Erki Aun, Age Brauer, Veljo Kisand, Tanel Tenson, and Maido Remm. A k-mer-based method for the identification of phenotype-associated genomic biomarkers and predicting phenotypes of sequenced bacteria. PLoS computational biology, 14(10):e1006434, 2018.
+
+<a id="4">[4]</a> Alexandre Drouin, Gaël Letarte, Frédéric Raymond, Mario Marchand, Jacques Corbeil, and François Laviolette. Interpretable genotype-to-phenotype classifiers with performance guarantees. Scientific reports, 9(1):1–13, 2019.
+
+<a id="5">[5]</a>    Valeria Bortolaia, Rolf S Kaas, Etienne Ruppe, Marilyn C Roberts, Stefan Schwarz, Vincent Cattoir, Alain Philippon, Rosa L Allesoe, Ana Rita Rebelo, Alfred Ferrer Florensa, et al. Resfinder 4.0 for predictions of phenotypes from genotypes. Journal of Antimicrobial Chemotherapy, 75(12): 3491–3500, 2020.
 
 
 ## <a name="license"></a> License
