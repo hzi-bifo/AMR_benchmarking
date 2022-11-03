@@ -70,6 +70,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |n_jobs| CPU cores to use. | 10 |
 |gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
 |kover_location| Kover install path  | /vol/projects/khu/amr/kover/bin/ |
+|clean_software|Clean intermediate files of a software| - |
 
 **B. Adanced/optional parameters setting**
 
