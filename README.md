@@ -668,3 +668,5 @@ python kover_analyse.py -s 'Campylobacter jejuni' -f_kma -f_benchmarking
 ## <a name="citation"></a> Citation
 
 ## <a name="contact"></a> Contact
+- Open an issue in the repository.
+- Send an email to Kaixin Hu (Kaixin.Hu@helmhotz-hzi.de).
