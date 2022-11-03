@@ -41,7 +41,7 @@ We compare the binary phenotype prediction performance of four machine learning 
 ## <a name="pre"></a>Prerequirements
 
 - To reproduce the output, you need to use `conda`, Miniconda 4.8.3 was used by us. Please follow the instruction [here](https://bioconda.github.io/) to install Bioconda
--  Create conda environments and install packages for different AMR methods and analysis procedures.
+-  Create conda environments and install packages.
 ```
 bash ./install/install.sh
 ```
