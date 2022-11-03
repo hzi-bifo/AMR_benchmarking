@@ -14,20 +14,14 @@ def extract_info(list_path,res_path,output):
 	##this script aims to transfer resfinder data into a matrix
 
 
-	# snps = np.genfromtxt(point_path, dtype = "str")
-	# print(snps.shape)
-
 	list_sample = np.genfromtxt(list_path, dtype= "str")
 	genes = np.genfromtxt(res_path, dtype= "str")
-	print(genes.shape)
-
 
 	uniq_genes = []
 	for each in genes[:,1]:
 		uniq_genes.append(each)
 
 	uniq_genes = list(set(uniq_genes))
-	print(len(uniq_genes))
 	uniq_genes.sort()
 
 	file_w = open(output, "w")
@@ -36,18 +30,15 @@ def extract_info(list_path,res_path,output):
 		file_w.write(each)
 		file_w.write("\t")
 		if each in genes[:,0]:#a specific sample in Gene sample list(samples without AMR gene not listed)
-			# print(each[0])
 
 			gene_index = [i for i, x in enumerate(genes[:,0]) if x == each]#genes[:,0]: sample list
 			#curent sample related gene presence list, e.g. [1,2,4,45]
-			# print(gene_index)
+
 			acquired_genes = []
 			coverage = []
 			for g in gene_index:#for each present gene
 				tem = []
 				acquired_genes.append(uniq_genes.index(genes[g,1]))#genes[g,1]: the gene name
-				# print(genes[g,1])
-				# print(acquired_genes)
 				coverage.append(genes[g, 2])
 
 			#index w.r.t. uniq_genes.

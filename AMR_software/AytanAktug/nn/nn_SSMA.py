@@ -33,12 +33,9 @@ os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 '''
 use_cuda = torch.cuda.is_available()
-# # use_cuda=False
 device = torch.device("cuda" if use_cuda else "cpu")
 print(device)
-# print(torch.cuda.device_count(),torch.cuda.get_device_name(0))
-# print('torch.cuda.current_device()', torch.cuda.current_device())
-# print(device)
+
 
 
 def Num2l(list_of_array):
@@ -164,9 +161,6 @@ def training_original(classifier,epochs,optimizer,x_train,y_train,anti_number):
             losses.append(loss.item())
 
         if epoc % 100 == 0:
-            # print the loss per iteration
-            # print(losses)
-            # print(np.average(losses))
             print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs,  np.average(losses)))
     return classifier,epoc
 
@@ -223,10 +217,7 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
             optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
             inputv = sample_x[0]
             inputv=inputv.to(device)
-
-            # inputv = torch.FloatTensor(inputv)
             inputv = Variable(inputv).view(len(inputv), -1)
-            # print(inputv.size())
 
             if anti_number == 1:
                 labelsv = sample_y[0].view(len(sample_y[0]), -1)
@@ -247,8 +238,6 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
 
             criterion = nn.BCELoss(weight=weights, reduction="none")
             output = classifier(inputv)
-            # print('------------',output.is_cuda)
-            # print(labelsv.size())
             loss = criterion(output, labelsv)
             loss = loss.mean()  # compute loss
             loss.backward()  # backpropagation
@@ -274,10 +263,7 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
             for i, (sample_x, sample_y) in enumerate(data_loader):
                 inputv = sample_x[0]
                 inputv = inputv.to(device)
-
-                # inputv = torch.FloatTensor(inputv)
                 inputv = Variable(inputv).view(len(inputv), -1)
-                # print(inputv.size())
 
                 if anti_number == 1:
                     labelsv = sample_y[0].view(len(sample_y[0]), -1)
@@ -300,7 +286,6 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
                 loss = criterion(output, labelsv)
                 # record validation loss
                 loss = loss.mean()
-                # print(loss.size())
                 valid_losses.append(loss.item())
 
         # print training/validation statistics
@@ -310,8 +295,6 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
         avg_train_losses.append(train_loss)
         avg_valid_losses.append(valid_loss)
         if (epoc+1) % 100 == 0:
-            # print the loss per iteration
-            # print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, loss.item()))
             epoch_len = len(str(epochs))
             print_msg = (f'[{epoc:>{epoch_len}}/{epochs:>{epoch_len}}] ' +
                      f'train_loss: {train_loss:.5f} ' +
@@ -340,10 +323,7 @@ def OuterLoop_training(classifier,epochs,optimizer,x_train,y_train,anti_number):
             optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
             inputv = sample_x[0]
             inputv=inputv.to(device)
-
-            # inputv = torch.FloatTensor(inputv)
             inputv = Variable(inputv).view(len(inputv), -1)
-            # print(inputv.size())
 
             if anti_number == 1:
                 labelsv = sample_y[0].view(len(sample_y[0]), -1)
@@ -633,7 +613,6 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, cv, N_cv, f_sc
 
             #select the inner loop index with the highest f1 score in the column w.r.t. 0.5
             aim_column=np.where(np.arange(0, 1.1, 0.1) == 0.5)
-            # aim_column=aim_column[0][0]
             aim_f1=Validation_f1_thresholds[:,aim_column]
             weights_selected=np.argmax(aim_f1)
             ind=np.unravel_index(np.argmax(aim_f1, axis=None), aim_f1.shape)
@@ -692,7 +671,7 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, cv, N_cv, f_sc
             x_train_val = scaler.transform(x_train_val)
             # scale the val data based on the training data
             x_test = scaler.transform(x_test)
-            # x_test = torch.from_numpy(x_test).float()
+
 
         x_test = torch.from_numpy(x_test).float()
         y_test = torch.from_numpy(y_test).float()
@@ -729,7 +708,6 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, cv, N_cv, f_sc
         pred_test_sub = []
         for a, a_sample in enumerate(x_test):
             tested = Variable(a_sample).view(1, -1)
-            # tested = Variable(torch.FloatTensor(a_sample)).view(1, -1)
             output_test = classifier(tested)
             out = output_test
             temp = []
@@ -746,11 +724,8 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, cv, N_cv, f_sc
         pred_test_binary_sub = 1 * pred_test_binary_sub
 
         y_test = np.array(y_test)
-        # pred_test_binary_sub = np.array(pred_test_binary_sub)
-        # pred_test_binary.append(pred_test_binary_sub)
         f1_test_anti=[]# multi-out
         score_report_test_anti=[]# multi-out
-        # tprs = []# multi-out
         aucs_test_anti=[]# multi-out
         mcc_test_anti=[]# multi-out
 
@@ -758,12 +733,10 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, cv, N_cv, f_sc
             comp = []
             if anti_number == 1:
                 mcc = matthews_corrcoef(y_test, pred_test_binary_sub)
-                # report = classification_report(y_val, y_val_pred, labels=[0, 1], output_dict=True)
                 f1 = f1_score(y_test, pred_test_binary_sub, average='macro')
                 report = classification_report(y_test, pred_test_binary_sub, labels=[0, 1],output_dict=True)
                 fpr, tpr, _ = roc_curve(y_test, pred_test_binary_sub, pos_label=1)
                 roc_auc = auc(fpr, tpr)
-                # aucs.append(roc_auc)
 
             else:  # multi-out
 
@@ -778,7 +751,7 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, cv, N_cv, f_sc
                     report=np.nan
                     roc_auc=np.nan
                     mcc=np.nan
-                    # tprs.append(np.nan)
+
                 else:
                     mcc = matthews_corrcoef(y_test_anti[:, i], pred_test_binary_sub_anti[:, i])
                     f1 = f1_score(y_test_anti[:, i], pred_test_binary_sub_anti[:, i], average='macro')
@@ -805,8 +778,7 @@ def multiAnti(species, antibiotics, level, xdata, ydata, p_names, cv, N_cv, f_sc
             aucs_test.append(roc_auc)  # single-out
             mcc_test.append(mcc)
 
-        # aucs_test_all.append(aucs)  ## multi-out
-        # tprs_test.append(tprs)  ## multi-out
+
         predictY_test.append(pred_test_binary_sub.tolist())
         true_Y.append(y_test.tolist())
         sampleNames_test.append(folders_sample_name[out_cv])
@@ -847,7 +819,6 @@ def multiAnti_score( cv,save_name_score ):
         thresholds_selected=score['thresholds_selected_test']
         score_report=score['score_report_test']
         aucs=score['aucs_test']
-        # tprs=score['tprs']
         hyperparameters=score['hyperparameters_test']
         actual_epoc=score['actual_epoc_test']
         actual_epoc_std=score['actual_epoc_test_std']
@@ -860,7 +831,6 @@ def multiAnti_score( cv,save_name_score ):
         mcc_test.append(mcc[-1])
         score_report_test.append(score_report[-1])
         aucs_test.append(aucs[-1])
-        # tprs_test.append(tprs[-1])
         hyperparameters_test.append(hyperparameters[-1])
         actual_epoc_test.append(actual_epoc[-1])
         actual_epoc_test_std.append(actual_epoc_std[-1])

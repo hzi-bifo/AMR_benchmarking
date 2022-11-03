@@ -32,8 +32,7 @@ for anti in ${Anti_List[@]};do
 
 
     for j in {0..9};do
-#        rm -rf ./log/temp/loose/${species}/${anti}_temp/CV_tr${j}
-#        rm -rf ./log/temp/loose/${species}/${anti}_temp/CV_te${j}
+
         echo "CV ${j}"
         ${kover_location}kover dataset split --dataset ${feature_path}/${species}/${anti}_koverdataset_${j} \
         --id ${feature_path}/${species}/${anti}_id \

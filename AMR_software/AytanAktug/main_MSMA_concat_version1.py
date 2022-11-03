@@ -12,13 +12,13 @@ from AMR_software.AytanAktug.data_preparation import ResFinder_PointFinder_conca
 import argparse,json
 import pandas as pd
 import numpy as np
-from AMR_software.AytanAktug.nn import nn_MSMA_concat,nn_MSMA_concat_small
+from AMR_software.AytanAktug.nn import nn_MSMA_concat
 from AMR_software.AytanAktug.nn import nn_MSMA_discrete
 import subprocess
 from src.cv_folds import cluster2folds
 
 def extract_info(path_sequence,list_species,selected_anti,level,f_cluster_folds,f_all,f_pre_meta,f_run_res,f_res,threshold_point,
-                 min_cov_point,f_merge_mution_gene,f_matching_io,f_nn,f_nn_score,f_nn_all,f_nn_all_io,cv,i_CV,j_CV,
+                 min_cov_point,f_merge_mution_gene,f_matching_io,f_nn,f_nn_score,f_nn_all,f_nn_all_io,cv,i_CV,
                    epochs, learning,f_scaler,f_fixed_threshold,f_nn_base,f_optimize_score,f_phylotree,f_kma,n_jobs,temp_path):
 
     merge_name = []
@@ -66,9 +66,7 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_cluster_folds,
         cmd4 = 'cp %s %s' % (path_ID_multi, path_feature)
         subprocess.run(cmd4, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
 
-    if f_cluster_folds:
-        #prepare CV folds for leave-one-out concatenated MSMA model, based on clusters built from discrete databases MSMA model.
-        #cv=5, as the hold out set is all possibile samples from a species
+    if f_cluster_folds:#prepare CV folds for leave-one-out concatenated MSMA model, based on clusters built from discrete databases MSMA model.
         for n_species in list_species:
 
             _,path_ID_multi_eachS,_,_,_,_,path_cluster,path_cluster_results_eachS,_,_,_,_,_,_,_,_,_=\
@@ -154,15 +152,12 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_cluster_folds,
             for i in train_meta[1:]:
                 df_path_meta_train = pd.concat([df_path_meta_train, i], ignore_index=True, sort=False)
 
-            print('checking anti order \n',df_path_meta_train)
-            df_path_meta_train['id'].to_csv(path_ID_multi_train, sep="\t", index=False, header=False)# Note!!! cluster folders will index the name acoording to this ID list
 
+            df_path_meta_train['id'].to_csv(path_ID_multi_train, sep="\t", index=False, header=False)# Note!!! cluster folders will index the name acoording to this ID list
             df_path_meta_train=df_path_meta_train.loc[:, np.insert(np.array(All_antibiotics,dtype='object'), 0, 'id')]
             df_path_meta_train=df_path_meta_train.fillna(-1)
-            print('checking anti order \n', df_path_meta_train)
             df_path_meta_train.to_csv(path_metadata_multi_train,sep="\t", index=False, header=False)
-            # df_path_meta_train.loc[:,All_antibiotics].to_csv(path_y_train, sep="\t", index=False, header=False)
-            # df_path_meta_train['id'].to_csv(path_name_train, sep="\t", index=False, header=False)
+
 
             #########
             #2. test
@@ -171,16 +166,13 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_cluster_folds,
             df_path_meta_test=pd.DataFrame(index=np.arange(len(id_test)),columns=np.insert(np.array(All_antibiotics, dtype='object'), 0, 'id'))#initialize with the right order of anti.
             df_path_meta_test_all=pd.read_csv(path_feature+'/'+str(species_testing.replace(" ", "_"))+'_meta.txt', sep="\t", index_col=0, header=0,dtype={'id': object}) #
             #  add all the antibiotic completely for testing dataset. And delete the antibiotis that are not included in this set of species combination.
-            print('check anti order test')
-            print(df_path_meta_test_all)
+
             df_path_meta_test.loc[:,'id']=df_path_meta_test_all.loc[:,'id']
             for anti in All_antibiotics:
                 if anti in df_path_meta_test_all.columns:
                     df_path_meta_test.loc[:, anti] = df_path_meta_test_all.loc[:, anti]
 
             df_path_meta_test = df_path_meta_test.fillna(-1)
-            print('check anti order test')
-            print(df_path_meta_test)
             df_path_meta_test.to_csv(path_metadata_multi_test,sep="\t", index=False, header=False)# multi_log + merge_name_train + '_metaresfinder'
 
 
@@ -246,7 +238,7 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_cluster_folds,
                 merge_name_train = '_'.join(merge_name_train)  # e.g.Se_Kp_Pa
                 merge_name_test = species_testing.replace(" ", "_")
 
-                # prepare metadata for training, testing  no need(use the single species meta data)
+                ### prepare metadata for training, testing  no need(use the single species meta data)
 
                 _,_,_,_,_,_,_,_,_,_,_,_,_,_,path_x_train, path_y_train, path_name_train=\
                     name_utility.GETname_AAfeatureMSMA_concat('AytanAktug',level,merge_name_train, merge_name,temp_path,'MSMA_concat')
@@ -260,35 +252,21 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_cluster_folds,
                 file_utility.make_dir(os.path.dirname(save_name_weights))
                 file_utility.make_dir(os.path.dirname(save_name_loss))
 
-                ## sys.stdout = open(save_name_loss.rsplit('.', 1)[0]+'_TestingOn_'+str(merge_name_test)+'.txt', 'w')
-                ## score=nn_MSMA_concat.concat_eval(merge_name_train, 'MSMA', level, path_x_train, path_y_train, path_name_train,
-                ##                         folders_sample_name,path_x_test, path_y_test,
-                ##                                   cv, f_scaler, f_fixed_threshold, f_nn_base, f_phylotree,f_kma,
-                ##                                   f_optimize_score, save_name_weights)
-                ##
-                ## for parallelling to smaller tasks.
-                if f_nn_score:
-                    sys.stdout = open(save_name_loss, 'w')
-                    score=nn_MSMA_concat_small.concat_eval('MSMA', path_x_train, path_y_train, path_name_train,
+                sys.stdout = open(save_name_loss, 'w')
+                score=nn_MSMA_concat.concat_eval(merge_name_train, 'MSMA', level, path_x_train, path_y_train, path_name_train,
                                         folders_sample_name,path_x_test, path_y_test,
                                                   cv, f_scaler, f_fixed_threshold, f_nn_base, f_phylotree,f_kma,
-                                                  f_optimize_score, save_name_weights,save_name_score)
-
-                    #folders_sample_name
-                    score['samples'] =np.genfromtxt(path_name_test, dtype="str").tolist()
-
-                    with open(save_name_score+ '_TEST.json', 'w') as f:
-                        json.dump(score, f)
-
-                else:
-                    sys.stdout = open(save_name_loss.rsplit('.', 1)[0]+ str(j_CV)+'val.txt', 'w')
-
-                    nn_MSMA_concat_small.concat_eval_paral(merge_name,'MSMA', level, path_x_train, path_y_train, path_name_train,folders_sample_name,[j_CV],f_scaler,
-                                f_nn_base,  f_phylotree,f_kma,  f_optimize_score, save_name_weights,save_name_score)
+                                                  f_optimize_score, save_name_weights)
 
 
 
 
+
+                ###folders_sample_name
+                score['samples'] =np.genfromtxt(path_name_test, dtype="str").tolist()
+
+                with open(save_name_score+ '_TEST.json', 'w') as f:
+                    json.dump(score, f)
 
     if f_nn_all==True:
         '''Do a normal CV for all species, for a comparison with multi-discrete model.'''
@@ -321,12 +299,12 @@ def extract_info(path_sequence,list_species,selected_anti,level,f_cluster_folds,
             file_utility.make_dir(os.path.dirname(save_name_loss))
 
             if f_nn_score: #retrain and then test on the hold-out test set# after above finished for each of 5 folds.
-                sys.stdout = open(save_name_loss+"_test"+'.txt', 'w')
+                sys.stdout = open(save_name_loss+"_test", 'w')
                 nn_MSMA_discrete.multi_test(merge_name,'MSMA', level, path_x_all, path_y_all, path_name_all,cv, f_scaler, f_fixed_threshold,
                                f_nn_base, f_phylotree,f_kma,  f_optimize_score,save_name_weights, save_name_score)
 
             else:
-                sys.stdout = open(save_name_loss+ str(i_CV)+'.txt', 'w')
+                sys.stdout = open(save_name_loss+ str(i_CV), 'w')
                 nn_MSMA_discrete.multi_eval(merge_name,'MSMA', level, path_x_all, path_y_all, path_name_all,[i_CV], f_scaler,
                             f_nn_base,  f_phylotree,f_kma,  f_optimize_score, save_name_weights,save_name_score)
 
@@ -368,8 +346,6 @@ if __name__== '__main__':
                         help='CV splits number')
     parser.add_argument("-i_CV", "--i_CV", type=int,
                         help=' the number of CV iteration to run.')
-    parser.add_argument("-j_CV", "--j_CV", type=int,
-                        help=' the number of CV iteration to run.')
     parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
                         help=' phylo-tree based cv folders.')
     parser.add_argument('-f_kma', '--f_kma', dest='f_kma', action='store_true',
@@ -398,13 +374,12 @@ if __name__== '__main__':
     parser.add_argument('-temp', '--temp_path', default='./', type=str, required=False,
                 help='Directory to store temporary files.')
     parsedArgs = parser.parse_args()
-    # parser.print_help()
-    # print(parsedArgs)
+
     extract_info(parsedArgs.path_sequence,parsedArgs.species,parsedArgs.anti, parsedArgs.level, parsedArgs.f_cluster_folds,
                  parsedArgs.f_all,parsedArgs.f_pre_meta,parsedArgs.f_run_res,
                  parsedArgs.f_res,parsedArgs.threshold_point,parsedArgs.min_cov_point,
                  parsedArgs.f_merge_mution_gene, parsedArgs.f_matching_io,parsedArgs.f_nn,parsedArgs.f_nn_score,
-                 parsedArgs.f_nn_all,parsedArgs.f_nn_all_io,parsedArgs.cv_number, parsedArgs.i_CV,parsedArgs.j_CV,parsedArgs.epochs,
+                 parsedArgs.f_nn_all,parsedArgs.f_nn_all_io,parsedArgs.cv_number, parsedArgs.i_CV, parsedArgs.epochs,
                  parsedArgs.learning, parsedArgs.f_scaler, parsedArgs.f_fixed_threshold, parsedArgs.f_nn_base,
                  parsedArgs.f_optimize_score,parsedArgs.f_phylotree,parsedArgs.f_kma,parsedArgs.n_jobs,parsedArgs.temp_path)
 

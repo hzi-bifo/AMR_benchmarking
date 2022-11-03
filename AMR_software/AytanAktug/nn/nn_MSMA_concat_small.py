@@ -1,6 +1,8 @@
 #!/usr/bin/python
-#Python 3.6
-#nested CV, modified by khu based on Derya Aytan's work: https://bitbucket.org/deaytan/neural_networks/src/master/Neural_networks.py
+###Python 3.6
+###nested CV, modified by khu based on Derya Aytan's work: https://bitbucket.org/deaytan/neural_networks/src/master/Neural_networks.py
+### Difference comoared to  nn_MSMA_concat.py: more processes are paralleled in this script.
+
 
 import os
 os.environ["OMP_NUM_THREADS"] = "1" # export OMP_NUM_THREADS=4
@@ -32,7 +34,6 @@ os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 '''
 use_cuda = torch.cuda.is_available()
-# # use_cuda=False
 device = torch.device("cuda" if use_cuda else "cpu")
 print(device)
 
@@ -125,10 +126,7 @@ def training_original(classifier,epochs,optimizer,x_train,y_train,anti_number):
             optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
             inputv = sample_x[0]
             inputv=inputv.to(device)
-
-            # inputv = torch.FloatTensor(inputv)
             inputv = Variable(inputv).view(len(inputv), -1)
-            # print(inputv.size())
 
             if anti_number == 1:
                 labelsv = sample_y[0].view(len(sample_y[0]), -1)
@@ -149,19 +147,13 @@ def training_original(classifier,epochs,optimizer,x_train,y_train,anti_number):
 
             criterion = nn.BCELoss(weight=weights, reduction="none")
             output = classifier(inputv)
-            # print('------------',output.is_cuda)
-            # print(labelsv.size())
             loss = criterion(output, labelsv)
             loss = loss.mean()  # compute loss
-
             loss.backward()  # backpropagation
             optimizer.step()  # weights updated
             losses.append(loss.item())
 
         if epoc % 100 == 0:
-            # print the loss per iteration
-            # print(losses)
-            # print(np.average(losses))
             print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs,  np.average(losses)))
     return classifier,epoc
 def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_number,patience):
@@ -216,10 +208,7 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
             optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
             inputv = sample_x[0]
             inputv=inputv.to(device)
-
-            # inputv = torch.FloatTensor(inputv)
             inputv = Variable(inputv).view(len(inputv), -1)
-            # print(inputv.size())
 
             if anti_number == 1:
                 labelsv = sample_y[0].view(len(sample_y[0]), -1)
@@ -240,8 +229,6 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
 
             criterion = nn.BCELoss(weight=weights, reduction="none")
             output = classifier(inputv)
-            # print('------------',output.is_cuda)
-            # print(labelsv.size())
             loss = criterion(output, labelsv)
             loss = loss.mean()  # compute loss
             loss.backward()  # backpropagation
@@ -267,10 +254,7 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
             for i, (sample_x, sample_y) in enumerate(data_loader):
                 inputv = sample_x[0]
                 inputv = inputv.to(device)
-
-                # inputv = torch.FloatTensor(inputv)
                 inputv = Variable(inputv).view(len(inputv), -1)
-                # print(inputv.size())
 
                 if anti_number == 1:
                     labelsv = sample_y[0].view(len(sample_y[0]), -1)
@@ -303,8 +287,6 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_numbe
         avg_train_losses.append(train_loss)
         avg_valid_losses.append(valid_loss)
         if (epoc+1) % 100 == 0:
-            # print the loss per iteration
-            # print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, loss.item()))
             epoch_len = len(str(epochs))
             print_msg = (f'[{epoc:>{epoch_len}}/{epochs:>{epoch_len}}] ' +
                      f'train_loss: {train_loss:.5f} ' +
@@ -395,7 +377,7 @@ def hyper_range(anti_number,f_no_early_stop,antibiotics):
 
     return hyper_space
 
-def concat_eval(merge_name_train, antibiotics, level, xdata, ydata, p_names,folders_sample_name,path_x_test, path_y_test, cv,
+def concat_eval(antibiotics, xdata, ydata, p_names,folders_sample_name,path_x_test, path_y_test, cv,
                 f_scaler,f_fixed_threshold,f_no_early_stop, f_phylotree,f_kma, f_optimize_score,name_weights,save_name_score):
     '''Normal CV, i.e. one loop of outer CV of nested CV.'''
 
@@ -416,7 +398,6 @@ def concat_eval(merge_name_train, antibiotics, level, xdata, ydata, p_names,fold
     pred_test = []  # probabilities are for the validation set
     pred_test_binary = []  # binary based on selected
     thresholds_selected_test = []  # cv len, each is the selected threshold.
-    weight_test = []  # cv len, each is the index of the selected model in inner CV,
     mcc_test = []  # MCC results for the test data
     f1_test = []
     score_report_test = []
@@ -438,7 +419,6 @@ def concat_eval(merge_name_train, antibiotics, level, xdata, ydata, p_names,fold
     # CV folds
     folders_sample=name2index.Get_index(folders_sample_name,p_names)
     train_val_samples = folders_sample
-    print(len(folders_sample), 'should be 6')
 
 
     #For validation scores output
@@ -455,11 +435,7 @@ def concat_eval(merge_name_train, antibiotics, level, xdata, ydata, p_names,fold
         score_val=json.load(open(save_name_score+str(innerCV)+ '_val_score.json', "rb"))
         Validation_f1_thresholds_split=score_val['Validation_f1_thresholds_split']
         Validation_actul_epoc_split=score_val['Validation_actul_epoc_split']
-        # score_report_val_split=score_val['score_report_val_split']
-        # aucs_val_split=score_val['aucs_val_split']
-        # mcc_val_split=score_val['mcc_val_split']
 
-        # Validation_mcc_thresholds.append(Validation_mcc_thresholds_split)  # inner CV * hyperpara_combination
         Validation_f1_thresholds.append(Validation_f1_thresholds_split)  # inner CV * hyperpara_combination
         Validation_actul_epoc.append(Validation_actul_epoc_split)  # inner CV * hyperpara_combination
 
@@ -766,7 +742,6 @@ def concat_eval_paral(species, antibiotics, level, xdata, ydata, p_names,folders
                 y_val_pred = (pred_val_sub > threshold_matrix)
                 y_val_pred = 1 * y_val_pred
 
-                mcc_sub_anti = []
                 f1_sub_anti = []
 
                 # for validation scores output. Oct 21.2021
@@ -789,9 +764,8 @@ def concat_eval_paral(species, antibiotics, level, xdata, ydata, p_names,folders
                         y_val_pred_multi_sub = y_val_pred[comp]
                         mcc = matthews_corrcoef(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i])
                         f1 = f1_score(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i], average='macro')
-                        # mcc_sub_anti.append(mcc)
                         f1_sub_anti.append(f1)
-                        # June 16th
+
                         fpr, tpr, _ = roc_curve(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i], pos_label=1)
                         roc_auc = auc(fpr, tpr)
                         report = classification_report(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i],

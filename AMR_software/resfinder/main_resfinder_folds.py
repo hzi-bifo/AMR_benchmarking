@@ -42,13 +42,9 @@ def determine(Tsamples,species,anti,f_no_zip,temp_path):
             for position, line in enumerate(file):
                 try:
                     if (position > start) & (position < end):
-                        # print(position)
-                        # line=line.strip().split('\t')
                         temp_file.write(line)
                 except:
                     if (position > start):
-                        # print(position)
-                        # line=line.strip().split('\t')
                         temp_file.write(line)
         else:#zip format
             with zipfile.ZipFile("%s/%s/%s.zip" % (path_temp1, str(species.replace(" ", "_")),strain_ID)) as z:
@@ -65,13 +61,9 @@ def determine(Tsamples,species,anti,f_no_zip,temp_path):
                     line = line.decode('utf-8')
                     try:
                         if (position > start) & (position < end) :
-                            # print(position)
-                            # line=line.strip().split('\t')
                             temp_file.write(line)
                     except:
                         if (position > start):
-                            # print(position)
-                            # line=line.strip().split('\t')
                             temp_file.write(line)
 
         temp_file.close()
@@ -79,11 +71,11 @@ def determine(Tsamples,species,anti,f_no_zip,temp_path):
                                      names=['Antimicrobial', 'Class', 'WGS-predicted phenotype', 'Match', 'Genetic background'],
                                     sep="\t")
 
-        # print(pheno_table.size)
+
         pheno_table_sub = pheno_table.loc[pheno_table['Antimicrobial'] == str(anti.translate(str.maketrans({'/': '+'}))), 'WGS-predicted phenotype']
         if pheno_table_sub.size>0:
             pheno=pheno_table_sub.values[0]
-            # print(pheno)
+
             if pheno=='No resistance':
                 y_pre.append(0)
             elif pheno=='Resistant':
@@ -140,16 +132,12 @@ def model(level,species,cv,f_phylotree,f_kma,f_no_zip,temp_path,temp_path_k,temp
                 y_pre=determine(id_test,species,anti,f_no_zip,temp_path_k)#based on KMA version of resfinder
 
             if len(y_pre)>0:
-                # print('y_pre',len(y_pre))
-                # y = y_test
 
                 mcc=matthews_corrcoef(y_test, y_pre)
                 f1macro=f1_score(y_test, y_pre, average='macro')
                 report=classification_report(y_test, y_pre, labels=[0, 1],output_dict=True)
-                # df_report = pd.DataFrame(report).transpose()
                 fpr, tpr, _ = roc_curve(y_test, y_pre, pos_label=1)
                 roc_auc = auc(fpr, tpr)
-                # print(report)
                 mcc_test.append(mcc)
                 f1_test.append(f1macro)
                 score_report_test.append(report)
@@ -169,7 +157,6 @@ def model(level,species,cv,f_phylotree,f_kma,f_no_zip,temp_path,temp_path_k,temp
 
         score ={'f1_test':f1_test,'score_report_test':score_report_test,'aucs_test':aucs_test,'mcc_test':mcc_test,
              'predictY_test':predictY_test,'ture_Y':true_Y,'samples':sampleNames_test}
-            # [f1_test, score_report_test, aucs_test, mcc_test,predictY_test]
 
         with open(save_name_score + '_KMA_' + str(f_kma) + '_Tree_' + str(f_phylotree) + '.json',
                   'w') as f:  # overwrite mode
@@ -189,7 +176,6 @@ def extract_info(level,s, cv,f_phylotree,f_kma,f_all,f_no_zip,temp_path):
     if f_all == False:
         data = data.loc[s, :]
     df_species = data.index.tolist()
-    # antibiotics = data['modelling antibiotics'].tolist()
     for species in df_species :
         model(level, species,cv,f_phylotree,f_kma,f_no_zip,temp_path,temp_path_k,temp_path_b)
 
@@ -207,15 +193,12 @@ if __name__== '__main__':
                         help='all the possible species.')
     parser.add_argument('-f_no_zip', '--f_no_zip', dest='f_no_zip', action='store_true',
                         help=' Point/ResFinder results are not stored in zip format.')
-    # parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel. Default=1')
     parser.add_argument('-s','--species', default=[], type=str,nargs='+',help='species to run: e.g.\'seudomonas aeruginosa\' \
      \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
      \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
     parser.add_argument('-temp', '--temp_path', default='./', type=str, required=False,
                     help='Directory to store temporary files.')
-    # parser.add_argument('-o', '--output_path', default='./', type=str, required=False,
-    #                 help='Results folder.')
+
     parsedArgs=parser.parse_args()
-    print(parsedArgs)
     extract_info(parsedArgs.level,parsedArgs.species, parsedArgs.cv_number,parsedArgs.f_phylotree,parsedArgs.f_kma,
                  parsedArgs.f_all,parsedArgs.f_no_zip,parsedArgs.temp_path)

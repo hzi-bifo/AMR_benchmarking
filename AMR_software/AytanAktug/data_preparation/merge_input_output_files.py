@@ -1,5 +1,5 @@
 #!/usr/bin/env/python
-import getopt, sys
+import sys
 import warnings
 import numpy as np
 import argparse
@@ -14,11 +14,8 @@ def extract_info(id_list,feature,pheno,output):
 
 	id_list=np.genfromtxt(id_list, dtype="str")
 
-	# data_x = np.genfromtxt(feature, dtype="str")
 
 	data_y = np.genfromtxt(pheno, dtype="str")
-	print('data_y.shape',data_y.shape)
-	# print(data_y)
 	data_y_list = []
 
 
@@ -36,9 +33,7 @@ def extract_info(id_list,feature,pheno,output):
 							  columns=np.array(np.arange(n_feature), dtype='object'))
 	df_feature=df_feature.reindex(id_list)
 	df_feature=df_feature.reset_index()
-	# print(df_feature)
 	data_x=df_feature.to_numpy()
-	# print(data_x)
 
 	data_x_new = open(output+"data_x.txt", "w")
 	data_y_new = open(output+"data_y.txt", "w")
@@ -47,7 +42,7 @@ def extract_info(id_list,feature,pheno,output):
 
 
 	for each in data_x[0:]:
-		# print(each)
+
 		if each[0] in data_y_list:
 			ind = data_y_list.index(each[0])
 			sample_list.append(each[0])
@@ -55,7 +50,7 @@ def extract_info(id_list,feature,pheno,output):
 			all_names.write("\n")
 			for i in each[1:]:
 				data_x_new.write(i)
-				# print(i)
+
 				data_x_new.write("\t")
 			data_x_new.write("\n")
 			for i in range(1,columns):
@@ -82,9 +77,8 @@ def main():
 						help='Output file names')
 
 	parsedArgs = parser.parse_args()
-	# parser.print_help()
-	# print(parsedArgs)
+
 	extract_info(parsedArgs.id_list,parsedArgs.feature,parsedArgs.phenotype,parsedArgs.output)
 
 if __name__ == '__main__':
-    main()
+	main()

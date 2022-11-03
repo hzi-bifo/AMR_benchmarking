@@ -40,12 +40,9 @@ os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 '''
 use_cuda = torch.cuda.is_available()
-# # use_cuda=False
 device = torch.device("cuda" if use_cuda else "cpu")
 print(device)
-# print(torch.cuda.device_count(),torch.cuda.get_device_name(0))
-# print('torch.cuda.current_device()', torch.cuda.current_device())
-# print(device)
+
 
 
 def Num2l(list_of_array):
@@ -137,10 +134,7 @@ def training_original(classifier,epochs,optimizer,x_train,y_train,anti_number):
             optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
             inputv = sample_x[0]
             inputv=inputv.to(device)
-
-            # inputv = torch.FloatTensor(inputv)
             inputv = Variable(inputv).view(len(inputv), -1)
-            # print(inputv.size())
 
             if anti_number == 1:
                 labelsv = sample_y[0].view(len(sample_y[0]), -1)

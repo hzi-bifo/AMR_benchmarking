@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#1. Generating the k-mer lists for every samples for each species-------------------------------------------------------
+#Generating the k-mer lists for every samples for each species
 
 dataset_location="$1"
 log_path="$2"

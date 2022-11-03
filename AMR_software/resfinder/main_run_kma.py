@@ -107,7 +107,7 @@ def extract_info(s,f_all,path_sequence,n_jobs,level,temp_path,threshold_point,mi
     file_utility.make_dir(temp_path)
     main_meta,_=name_utility.GETname_main_meta(level)
     data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
-    # print(data)
+
     if f_all==False:
         data = data.loc[s, :]
     df_species = data.index.tolist()
@@ -132,10 +132,8 @@ if __name__== '__main__':
                         help='All the possible species.')
     parser.add_argument('-l', '--level', default='loose', type=str, required=False,
                         help='Quality control: strict or loose')
-    #parser.set_defaults(canonical=True)
+
     parsedArgs=parser.parse_args()
-    # parser.print_help()
-    # print(parsedArgs)
     extract_info(parsedArgs.species,parsedArgs.f_all,parsedArgs.path_sequence,parsedArgs.n_jobs,parsedArgs.level,parsedArgs.temp_path,parsedArgs.threshold_point,parsedArgs.min_cov_point)
 
 

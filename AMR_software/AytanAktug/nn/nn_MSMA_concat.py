@@ -32,7 +32,6 @@ os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 '''
 use_cuda = torch.cuda.is_available()
-# # use_cuda=False
 device = torch.device("cuda" if use_cuda else "cpu")
 print(device)
 
@@ -149,8 +148,6 @@ def training_original(classifier,epochs,optimizer,x_train,y_train,anti_number):
 
             criterion = nn.BCELoss(weight=weights, reduction="none")
             output = classifier(inputv)
-            # print('------------',output.is_cuda)
-            # print(labelsv.size())
             loss = criterion(output, labelsv)
             loss = loss.mean()  # compute loss
 
@@ -159,9 +156,6 @@ def training_original(classifier,epochs,optimizer,x_train,y_train,anti_number):
             losses.append(loss.item())
 
         if epoc % 100 == 0:
-            # print the loss per iteration
-            # print(losses)
-            # print(np.average(losses))
             print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs,  np.average(losses)))
     return classifier,epoc
 def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val, anti_number,patience):
@@ -333,10 +327,8 @@ def training_after_optimize(classifier,epochs,optimizer,x_train,y_train,anti_num
             optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
             inputv = sample_x[0]
             inputv=inputv.to(device)
-
-            # inputv = torch.FloatTensor(inputv)
             inputv = Variable(inputv).view(len(inputv), -1)
-            # print(inputv.size())
+
 
             if anti_number == 1:
                 labelsv = sample_y[0].view(len(sample_y[0]), -1)
@@ -390,8 +382,6 @@ def hyper_range(anti_number,f_no_early_stop,antibiotics):
         # else: #discrete multi-model and concat model for comparison.
             hyper_space = {'n_hidden': [200,400], 'epochs': [30000], 'lr': [0.0005,0.0001],
                            'classifier': [1,2],'dropout':[0,0.2],'patience':[2]}
-            # hyper_space = {'n_hidden': [200], 'epochs': [30000], 'lr': [0.0005],
-            #                'classifier': [1],'dropout':[0,0.2],'patience':[2]}
 
 
     return hyper_space
@@ -417,7 +407,6 @@ def concat_eval(merge_name_train, antibiotics, level, xdata, ydata, p_names,fold
     pred_test = []  # probabilities are for the validation set
     pred_test_binary = []  # binary based on selected
     thresholds_selected_test = []  # cv len, each is the selected threshold.
-    weight_test = []  # cv len, each is the index of the selected model in inner CV,
     mcc_test = []  # MCC results for the test data
     f1_test = []
     score_report_test = []
@@ -439,7 +428,6 @@ def concat_eval(merge_name_train, antibiotics, level, xdata, ydata, p_names,fold
     # CV folds
     folders_sample=name2index.Get_index(folders_sample_name,p_names)
     train_val_samples = folders_sample
-    print(len(folders_sample), 'should be 6')
 
 
     #For validation scores output
@@ -580,7 +568,7 @@ def concat_eval(merge_name_train, antibiotics, level, xdata, ydata, p_names,fold
                 if anti_number > 1:  # multi-out, scores based on mean of all the involved antibotics
                     aucs_val_sub_mean = statistics.mean(aucs_val_sub_anti)  # dimension: n_anti to 1
                     Validation_auc_split.append(aucs_val_sub_mean)  # D: n_innerCV
-                    # June 14th
+
                     score_report_val_sub.append(score_report_val_sub_anti)
                     aucs_val_sub.append(aucs_val_sub_anti)
                     mcc_val_sub.append(mcc_val_sub_anti)
@@ -606,12 +594,11 @@ def concat_eval(merge_name_train, antibiotics, level, xdata, ydata, p_names,fold
 
                         if anti_number == 1:
                             print('please check your antibiotic number')
-                            exit()
-                            mcc = matthews_corrcoef(y_val, y_val_pred)
-                            # report = classification_report(y_val, y_val_pred, labels=[0, 1], output_dict=True)
-                            f1 = f1_score(y_val, y_val_pred, average='macro')
-                            mcc_sub.append(mcc)
-                            f1_sub.append(f1)
+                            exit(1)
+                            # mcc = matthews_corrcoef(y_val, y_val_pred)
+                            # f1 = f1_score(y_val, y_val_pred, average='macro')
+                            # mcc_sub.append(mcc)
+                            # f1_sub.append(f1)
 
                         else:  # multi-out
                             for t in range(len(y_val)):
@@ -623,7 +610,7 @@ def concat_eval(merge_name_train, antibiotics, level, xdata, ydata, p_names,fold
                             f1 = f1_score(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i], average='macro')
                             mcc_sub_anti.append(mcc)
                             f1_sub_anti.append(f1)
-                            # June 16th
+
                             fpr, tpr, _ = roc_curve(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i], pos_label=1)
                             roc_auc = auc(fpr, tpr)
                             report = classification_report(y_val_multi_sub[:, i], y_val_pred_multi_sub[:, i],
@@ -664,9 +651,7 @@ def concat_eval(merge_name_train, antibiotics, level, xdata, ydata, p_names,fold
 
         # select the inner loop index with the highest f1 score in the column w.r.t. 0.5
         aim_column = np.where(np.arange(0, 1.1, 0.1) == 0.5)
-        # aim_column = aim_column[0][0]
         aim_f1 = Validation_f1_thresholds[:, aim_column]
-        # weights_selected = np.argmax(aim_f1)
         ind = np.unravel_index(np.argmax(aim_f1, axis=None), aim_f1.shape)
         hyperparameters_test.append(list(ParameterGrid(hyper_space))[ind[0]])
         actual_epoc_test.append(Validation_actul_epoc[ind[0]])
@@ -684,7 +669,6 @@ def concat_eval(merge_name_train, antibiotics, level, xdata, ydata, p_names,fold
         Validation_actul_epoc = Validation_actul_epoc.mean(axis=0)
         ind = np.unravel_index(np.argmax(Validation_f1_thresholds, axis=None), Validation_f1_thresholds.shape)
         thresholds_selected = np.arange(0, 1.1, 0.1)[ind[1]]
-        weights_selected = ind[0]  # the order of innerCV# bug ? seems no 13May.
         hyperparameters_test.append(list(ParameterGrid(hyper_space))[ind[0]])
         actual_epoc_test.append(Validation_actul_epoc[ind[0]])
         actual_epoc_test_std.append(Validation_actul_epoc_std[ind[0]])
@@ -698,8 +682,6 @@ def concat_eval(merge_name_train, antibiotics, level, xdata, ydata, p_names,fold
         Validation_actul_epoc = np.array(Validation_actul_epoc)#innerCV*hyper_number
         Validation_actul_epoc_std = Validation_actul_epoc.std(axis=0)
         Validation_actul_epoc = Validation_actul_epoc.mean(axis=0)#hyper_number
-
-        weights_selected = np.argmax(Validation_auc)
         ind = np.unravel_index(np.argmax(Validation_auc, axis=None), Validation_auc.shape)
         hyperparameters_test.append(list(ParameterGrid(hyper_space))[ind[0]])
         actual_epoc_test.append(Validation_actul_epoc[ind[0]])  # actually it's mean epoch for that hyperpara.

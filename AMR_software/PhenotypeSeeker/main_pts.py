@@ -12,7 +12,6 @@ from src.cv_folds import name2index
 from src.amr_utility import name_utility, file_utility, load_data
 import numpy as np
 import pandas as pd
-from pathlib import Path
 import itertools
 import math
 from sklearn.svm import SVC
@@ -113,7 +112,7 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
             for anti in antibiotics:
                 print(anti)
                 for chosen_cl in ['svm', 'lr','rf']:
-                # for chosen_cl in ['rf']:
+
                     hyper_space, cl = hyper_range(chosen_cl)
 
                     mcc_test = []  # MCC results for the test data
@@ -138,22 +137,19 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
                         
                         train_set=pd.read_csv(meta_txt+ "_" + str(out_cv) +"_Train_df.csv",dtype={'genome_id': object}, sep="\t")
                         test_set=pd.read_csv(meta_txt+ "_" + str(out_cv) + "_Test_df.csv",dtype={'genome_id': object}, sep=",")
-                        print(train_set)
-                        print(test_set)
                         train_set=train_set.set_index('genome_id')
                         test_set = test_set.set_index('genome_id')
                         pipe = Pipeline(steps=[('cl', cl)])
 
                         train_val_train_index = folders_index[:out_cv] + folders_index[out_cv + 1:]
                         main_meta = pd.read_csv(meta_original, index_col=0, dtype={'genome_id': object}, sep="\t")
-                        # main_meta['ID'] = 'iso_' + main_meta['genome_id'].astype(str)
-                        tain_val_test_set_order=main_meta.loc[:,['genome_id']]
+
                         main_meta = main_meta.set_index('genome_id')
                         train_set_new=train_set.reindex(main_meta.index) #[force] the data_x 's order in according with id_list
                         train_set_new = train_set_new.fillna(0)#the nan part will not be used, because cv folders setting. But sklearn requires numerical type.
-                        # Those na indicates samples bolong to the testing set.
+                        ### Those na indicates samples bolong to the testing set.
 
-                        #map test set to tain_val_test_set_order('ID') and train_set(columns)
+                        ###map test set to tain_val_test_set_order('ID') and train_set(columns)
                         test_set['phenotype'] = [main_meta.loc[sample, 'resistant_phenotype'] for sample in
                                                  test_set.index] # add pheno infor to test set.
 
@@ -178,10 +174,10 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
                         hyperparameters_test_sub=search.best_estimator_
                         current_pipe=hyperparameters_test_sub
                         # -------------------------------------------------------
-                        # retrain on train and val
+                        ### retrain on train and val
                         current_pipe.fit(X_train, y_train)
                         y_test_pred = current_pipe.predict(X_test)
-                        # scores
+                        ### scores
                         f1 = f1_score(y_test, y_test_pred, average='macro')
                         report = classification_report(y_test, y_test_pred, labels=[0, 1], output_dict=True)
                         mcc = matthews_corrcoef(y_test, y_test_pred)
@@ -209,7 +205,6 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
                         pickle.dump(score2, f)
 
 def create_generator(nFolds):
-
     for idx in range(len(nFolds)):
         test =nFolds[idx]
         train = list(itertools.chain(*[fold for idy, fold in enumerate(nFolds) if idy != idx]))
@@ -255,8 +250,6 @@ def _get_gammas(gammas, gamma_min, gamma_max, n_gammas):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    # parser.add_argument('-path_sequence', '--path_sequence', type=str, required=False,
-    #                     help='Path of the directory with PATRIC sequences')
     parser.add_argument('-temp', '--temp_path', default='./', type=str, required=False,
                         help='Directory to store temporary files.')
     parser.add_argument('-k', '--kmer', default=13, type=int,

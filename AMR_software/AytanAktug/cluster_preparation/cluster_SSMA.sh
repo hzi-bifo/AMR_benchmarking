@@ -1,5 +1,5 @@
 #!/bin/bash
-#BASEDIR=$(dirname "$0")
+
 
 species="$1"
 log_path="$2"

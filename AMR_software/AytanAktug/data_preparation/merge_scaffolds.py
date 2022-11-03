@@ -6,7 +6,7 @@ import sys
 sys.path.insert(0, os.getcwd())
 import numpy as np
 import argparse
-import getopt, sys
+import sys
 import warnings
 if not sys.warnoptions:
     warnings.simplefilter("ignore")
@@ -19,7 +19,7 @@ def extract_info(input_path,files,output,spacer):
 	files=np.genfromtxt(files, dtype='str')
 	new_file = open(output, "w")#'w' for only writing (an existing file with the same name will be erased)
 	for i in files:
-		# print(i)
+
 		open_scaf = open("%s/%s.fna" % (input_path, i), "r")
 		scaf = open_scaf.readlines()
 
@@ -50,9 +50,8 @@ def main():
 						help='Output file names')
 
 	parsedArgs = parser.parse_args()
-	# parser.print_help()
-	# print(parsedArgs)
+
 	extract_info(parsedArgs.input,parsedArgs.file_list,parsedArgs.output,parsedArgs.space)
 
 if __name__ == '__main__':
-    main()
+	main()

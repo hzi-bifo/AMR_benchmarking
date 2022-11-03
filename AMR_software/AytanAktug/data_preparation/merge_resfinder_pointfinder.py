@@ -1,5 +1,5 @@
 #!/usr/bin/env/python
-import getopt, sys
+import sys
 import warnings
 import numpy as np
 import argparse
@@ -16,11 +16,7 @@ def extract_info(point_path,res_path,output):
 
 
 	snps = np.genfromtxt(point_path, dtype = "str")
-	print(snps.shape)
-
 	genes = np.genfromtxt(res_path, dtype= "str")
-	print(genes.shape)
-
 
 	uniq_genes = []
 	for each in genes[:,1]:
@@ -35,18 +31,15 @@ def extract_info(point_path,res_path,output):
 			file_w.write(e)
 			file_w.write("\t")# SNPs finished loading
 		if each[0] in genes[:,0]:#a specific sample in Gene sample list(samples without AMR gene not listed)
-			# print(each[0])
 
 			gene_index = [i for i, x in enumerate(genes[:,0]) if x == each[0]]#genes[:,0]: sample list
 			#curent sample related gene presence list, e.g. [1,2,4,45]
-			# print(gene_index)
+
 			acquired_genes = []
 			coverage = []
 			for g in gene_index:#for each present gene
 				tem = []
 				acquired_genes.append(uniq_genes.index(genes[g,1]))#genes[g,1]: the gene name
-				# print(genes[g,1])
-				# print(acquired_genes)
 				coverage.append(genes[g, 2])
 			
 			#index w.r.t. uniq_genes.
@@ -85,9 +78,8 @@ def main():
 						help='Output file names')
 
 	parsedArgs = parser.parse_args()
-	# parser.print_help()
-	# print(parsedArgs)
+
 	extract_info(parsedArgs.pointfin,parsedArgs.resfin,parsedArgs.output)
 
 if __name__ == '__main__':
-    main()
+	main()

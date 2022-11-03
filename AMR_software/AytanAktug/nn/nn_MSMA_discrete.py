@@ -33,7 +33,6 @@ os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 '''
 use_cuda = torch.cuda.is_available()
-# # use_cuda=False
 device = torch.device("cuda" if use_cuda else "cpu")
 print(device)
 
@@ -125,10 +124,7 @@ def training_original(classifier,epochs,optimizer,x_train,y_train,anti_number):
             optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
             inputv = sample_x[0]
             inputv=inputv.to(device)
-
-            # inputv = torch.FloatTensor(inputv)
             inputv = Variable(inputv).view(len(inputv), -1)
-            # print(inputv.size())
 
             if anti_number == 1:
                 labelsv = sample_y[0].view(len(sample_y[0]), -1)
@@ -149,19 +145,13 @@ def training_original(classifier,epochs,optimizer,x_train,y_train,anti_number):
 
             criterion = nn.BCELoss(weight=weights, reduction="none")
             output = classifier(inputv)
-            # print('------------',output.is_cuda)
-            # print(labelsv.size())
             loss = criterion(output, labelsv)
             loss = loss.mean()  # compute loss
-
             loss.backward()  # backpropagation
             optimizer.step()  # weights updated
             losses.append(loss.item())
 
         if epoc % 100 == 0:
-            # print the loss per iteration
-            # print(losses)
-            # print(np.average(losses))
             print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs,  np.average(losses)))
     return classifier,epoc
 def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val,anti_number,patience):
@@ -217,10 +207,7 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val,anti_number
             optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
             inputv = sample_x[0]
             inputv=inputv.to(device)
-
-            # inputv = torch.FloatTensor(inputv)
             inputv = Variable(inputv).view(len(inputv), -1)
-            # print(inputv.size())
 
             if anti_number == 1:
                 labelsv = sample_y[0].view(len(sample_y[0]), -1)
@@ -241,8 +228,6 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val,anti_number
 
             criterion = nn.BCELoss(weight=weights, reduction="none")
             output = classifier(inputv)
-            # print('------------',output.is_cuda)
-            # print(labelsv.size())
             loss = criterion(output, labelsv)
             loss = loss.mean()  # compute loss
             loss.backward()  # backpropagation
@@ -268,10 +253,7 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val,anti_number
             for i, (sample_x, sample_y) in enumerate(data_loader):
                 inputv = sample_x[0]
                 inputv = inputv.to(device)
-
-                # inputv = torch.FloatTensor(inputv)
                 inputv = Variable(inputv).view(len(inputv), -1)
-                # print(inputv.size())
 
                 if anti_number == 1:
                     labelsv = sample_y[0].view(len(sample_y[0]), -1)
@@ -294,7 +276,6 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val,anti_number
                 loss = criterion(output, labelsv)
                 # record validation loss
                 loss = loss.mean()
-                # print(loss.size())
                 valid_losses.append(loss.item())
 
         # print training/validation statistics
@@ -304,8 +285,6 @@ def training(classifier,epochs,optimizer,x_train,y_train,x_val,y_val,anti_number
         avg_train_losses.append(train_loss)
         avg_valid_losses.append(valid_loss)
         if (epoc+1) % 100 == 0:
-            # print the loss per iteration
-            # print('[%d/%d] Loss: %.3f' % (epoc + 1, epochs, loss.item()))
             epoch_len = len(str(epochs))
             print_msg = (f'[{epoc:>{epoch_len}}/{epochs:>{epoch_len}}] ' +
                      f'train_loss: {train_loss:.5f} ' +
@@ -334,10 +313,7 @@ def training_after_optimize(classifier,epochs,optimizer,x_train,y_train,anti_num
             optimizer.zero_grad()  # zero gradients #previous gradients do not keep accumulating
             inputv = sample_x[0]
             inputv=inputv.to(device)
-
-            # inputv = torch.FloatTensor(inputv)
             inputv = Variable(inputv).view(len(inputv), -1)
-            # print(inputv.size())
 
             if anti_number == 1:
                 labelsv = sample_y[0].view(len(sample_y[0]), -1)
@@ -422,8 +398,6 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, N_cv, f_scale
     ##prepare data stores for testing scores##
     # select testing folder
     out_cv=0 #always use the first folder as testing folder
-    test_samples = folders_sample[out_cv]
-    # x_test = data_x[test_samples]
     train_val_samples = folders_sample[:out_cv] + folders_sample[out_cv + 1:]  # list
 
     for innerCV in N_cv: # 0,1,2,3,4
@@ -537,8 +511,6 @@ def multi_eval(species, antibiotics, level, xdata, ydata, p_names, N_cv, f_scale
                 threshold_matrix = np.full(pred_val_sub.shape, threshold)
                 y_val_pred = (pred_val_sub > threshold_matrix)
                 y_val_pred = 1 * y_val_pred
-
-                mcc_sub_anti = []
                 f1_sub_anti = []
 
                 # for validation scores output. Oct 21.2021
@@ -637,8 +609,6 @@ def multi_test(species, antibiotics, level, xdata, ydata, p_names, cv_number,f_s
     anti_number = data_y[0].size  # number of antibiotics
     nlabel = data_y[0].size  # number of neurons in the output layer
     D_input = len(data_x[0])  # number of neurons in the input layer
-    N_sample = len(data_x)  # number of input samples #should be equal to len(names)
-
     hyper_space = hyper_range(anti_number, f_no_early_stop, antibiotics)
 
 
@@ -652,9 +622,7 @@ def multi_test(species, antibiotics, level, xdata, ydata, p_names, cv_number,f_s
     x_test = x_test.to(device)
     # remain= list(set(range(cv)) - set([out_cv])).sort()#first round: set(0,1,2,3,4)-set(0)=set(1,2,3,4)
     train_val_samples = folders_sample[:out_cv] + folders_sample[out_cv + 1:]  # list
-    # Validation_mcc_thresholds = []  # inner CV *11 thresholds value
     Validation_f1_thresholds = []  # inner CV *11 thresholds value # later choose the inner loop and relevant thresholds with the highest f1 score
-    # Validation_auc = []  # inner CV
     Validation_actul_epoc = []
 
 
@@ -777,11 +745,9 @@ def multi_test(species, antibiotics, level, xdata, ydata, p_names, cv_number,f_s
     pred_test_binary_sub = (pred_test_sub > threshold_matrix)
     pred_test_binary_sub = 1 * pred_test_binary_sub
     y_test = np.array(y_test)
-    # pred_test_binary_sub = np.array(pred_test_binary_sub)
     pred_test_binary.append(pred_test_binary_sub)
 
-    # print(y_test)
-    # print(pred_test_binary_sub)
+
     f1_test_anti = []  # multi-out
     score_report_test_anti = []  # multi-out
     aucs_test_anti = []  # multi-out

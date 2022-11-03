@@ -26,7 +26,7 @@ def cmd(path, path_results, point_database_path,res_database_path, kma_path,stra
                     + " --db_path_res " + res_database_path
                     + " --kmaPath " + kma_path
                     + " -u")
-    print(cmd_acquired)
+
     return cmd_acquired
 
 

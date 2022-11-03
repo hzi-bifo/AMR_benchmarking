@@ -56,7 +56,6 @@ def extract_info(path_sequence, s,f_all, f_prepare_meta,cv, level,f_phylotree,f_
                     # 2. prepare meta files for this round of training samples-------------------
                     # only retain those in the training and validataion CV folders
                     name_list_train = name_list.loc[name_list['genome_id'].isin(id_val_train)]
-                    # name_list_train['genome_id'].to_csv(meta_txt + '_Train_' + str(out_cv) + '_id2', sep="\t", index=False, header=False)
                     name_list_train.loc[:,'ID'] = 'iso_' + name_list_train['genome_id'].astype(str)
                     name_list_train['ID'].to_csv(meta_txt +  '_Train_' + str(out_cv) + '_id', sep="\t", index=False, header=False)
 
@@ -64,7 +63,6 @@ def extract_info(path_sequence, s,f_all, f_prepare_meta,cv, level,f_phylotree,f_
 
                     # only retain those in the training and validataion CV folders
                     name_list_test = name_list.loc[name_list['genome_id'].isin(id_test)]
-                    # name_list_test['genome_id'].to_csv(meta_txt + '_Test_' + str(out_cv) + '_id2', sep="\t", index=False,header=False)
                     name_list_test.loc[:,'ID'] = 'iso_' + name_list_test['genome_id'].astype(str)
                     name_list_test['ID'].to_csv(meta_txt + '_Test_' + str(out_cv) + '_id', sep="\t", index=False, header=False)
 

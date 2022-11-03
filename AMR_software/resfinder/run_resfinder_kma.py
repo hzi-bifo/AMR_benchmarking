@@ -240,7 +240,7 @@ db_path_point = None
 
 if(args.species):
     args.species = args.species.lower()
-    print()
+
     fixed_species = species_transl.get(args.species, None)
     if(fixed_species):
         args.species = fixed_species

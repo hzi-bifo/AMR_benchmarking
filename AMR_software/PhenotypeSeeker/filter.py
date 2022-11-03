@@ -129,9 +129,7 @@ def get_ML_dataframe_testset(level,species,anti,cv,f_phylotree,f_kma,temp_path):
     # Initalization using the training set with already selected kmers.
     vocab_df=pd.read_csv(meta_temp + "_" + str(cv) + '_Train_df.csv', dtype={'genome_id': object}, sep="\t")
     vocab_df = vocab_df.set_index('genome_id')
-
     vocab=vocab_df.columns.values
-
     data = np.zeros((len(vocab), 1), dtype='uint16')
     feature_matrix = pd.DataFrame(data, index=vocab, columns=['initializer'])  # delete later
     feature_matrix.index.name = 'feature'
@@ -168,8 +166,6 @@ def extract_info(s,anti,level,cv,f_test,f_phylotree,f_kma,temp_path):
     data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
     data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
     data = data.loc[s, :]
-    # data.at['Mycobacterium tuberculosis', 'modelling antibiotics']=['capreomycin', 'ciprofloxacin']
-    # --------------------------------------------------------
     df_species = data.index.tolist()
     antibiotics = data['modelling antibiotics'].tolist()
 
@@ -205,8 +201,5 @@ if __name__== '__main__':
                         help='Filter the testing set according to training set; otherwise, filter the training set '
                              'according to the Chi-squared test.')
 
-    #parser.set_defaults(canonical=True)
-    # parser.print_help()
     parsedArgs=parser.parse_args()
-    print(parsedArgs)
     extract_info(parsedArgs.species,parsedArgs.anti,parsedArgs.level,parsedArgs.cv,parsedArgs.f_test,parsedArgs.f_phylotree,parsedArgs.f_kma,parsedArgs.temp_path)

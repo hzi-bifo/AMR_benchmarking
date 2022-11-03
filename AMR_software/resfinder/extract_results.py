@@ -17,7 +17,7 @@ warnings.filterwarnings('ignore')
 
 
 def determination(species,antibiotics,level,f_no_zip,temp_path):
-    # path_to_pr=temp_path+ str(species.replace(" ", "_"))
+
     path_temp1 =temp_path+"software_output"
     path_temp2 =temp_path+"analysis"
     file_utility.make_dir(path_temp1)
@@ -25,7 +25,7 @@ def determination(species,antibiotics,level,f_no_zip,temp_path):
     antibiotics_selected = ast.literal_eval(antibiotics)
     print(species, '====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
     mcc_all=[]
-    Y_pred = []
+
 
     for anti in antibiotics_selected:
         print(anti,'---------------------------running-----------------------------------------')
@@ -39,7 +39,7 @@ def determination(species,antibiotics,level,f_no_zip,temp_path):
         for strain_ID in samples:
 
             # Read prediction info---------------------------------------------------------------------------
-            # file = get_file(species, strain_ID, tool)
+
             temp_file_name=path_temp2+'/'+str(temp_number)+'/'+str(species.replace(" ", "_"))+"temp.txt"
             temp_file = open(temp_file_name, "w+")
 
@@ -83,11 +83,11 @@ def determination(species,antibiotics,level,f_no_zip,temp_path):
                                      names=['Antimicrobial', 'Class', 'WGS-predicted phenotype', 'Match', 'Genetic background'],
                                     sep="\t")
 
-            # print(pheno_table.size)
+
             pheno_table_sub = pheno_table.loc[pheno_table['Antimicrobial'] == str(anti.translate(str.maketrans({'/': '+'}))), 'WGS-predicted phenotype']
             if pheno_table_sub.size>0:
                 pheno=pheno_table_sub.values[0]
-                # print(pheno)
+
                 if pheno=='No resistance':
                     y_pre.append(0)
                 elif pheno=='Resistant':
@@ -98,13 +98,10 @@ def determination(species,antibiotics,level,f_no_zip,temp_path):
         shutil.rmtree(os.path.dirname(temp_file_name))
 
         if len(y_pre)>0:
-            # print('y_pre',len(y_pre))
+
             y = data_sub_anti['resistant_phenotype'].to_numpy()
             mcc=matthews_corrcoef(y, y_pre)
-            # print('y',len(y))
-            # print("mcc results",mcc)
             report=classification_report(y, y_pre, labels=[0, 1],output_dict=True)
-            # print(report)
             df = pd.DataFrame(report).transpose()
             df.to_csv(path_temp2 + '/' +str(species.replace(" ", "_")) +'/'+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_classificationReport.txt', sep="\t")#
             mcc_all.append(mcc)
@@ -125,28 +122,24 @@ def make_visualization(species,antibiotics,level,f_no_zip,version,temp_path,outp
     recall of the positive class is also known as  sensitivity ; recall of the negative class is "specificity".'''
 
     antibiotics_selected = ast.literal_eval(antibiotics)
-    # print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
     save_name_score =name_utility.GETname_ResfinderResults(species,version,output_path)
-
 
     temp_path=temp_path+'log/software/'+version+'/'
     path_temp2=temp_path+"analysis"
 
-
     mcc_all=determination(species,antibiotics,level,f_no_zip,temp_path)
     final=pd.DataFrame(index=antibiotics_selected, columns=['f1_macro','f1_negative','f1_positive','accuracy','precision','recall','mcc',
                                                             'precision_neg','recall_neg','support'] )
-    # print(final)
-    # print(mcc_all)
+
 
 
     i=0
     for anti in antibiotics_selected:
-        # print(anti, '--------------------------------------------------------------------')
+
         try:
             data = pd.read_csv(path_temp2+ '/' +str(species.replace(" ", "_")) +'/'+
                                str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_classificationReport.txt', index_col=0, header=0,sep="\t")
-            # print(data)
+
             final.loc[str(anti),'f1_macro']=data.loc['macro avg','f1-score']
             final.loc[str(anti),'precision'] = data.loc['macro avg','precision']
             final.loc[str(anti),'recall'] = data.loc['macro avg','recall']
@@ -156,13 +149,12 @@ def make_visualization(species,antibiotics,level,f_no_zip,version,temp_path,outp
             final.loc[str(anti), 'f1_negative'] = data.loc['0', 'f1-score']
             final.loc[str(anti), 'precision_neg'] = data.loc['0', 'precision']
             final.loc[str(anti), 'recall_neg'] = data.loc['0', 'recall']
-            # final.loc[str(anti), 'support_positive'] = data.loc['1', 'support']
             final.loc[str(anti), 'mcc'] = mcc_all[i]
         except:
             pass
         i+=1
     final=final.astype(float).round(2)
-    print(final)
+
 
     file_utility.make_dir(os.path.dirname(save_name_score)) #'Results/software/<version_name>/'+ str(species.replace(" ", "_"))
     final.to_csv(save_name_score + '.csv', sep="\t")
@@ -189,13 +181,8 @@ def com_blast_kma(df_species,antibiotics, fscore,output_path):
             df_blast = pd.read_csv(output_pathB + '.csv',index_col=0 ,header=0,sep="\t")
             data_kma=df_kma[fscore].dropna().to_list()
             data_blast=df_blast[fscore].dropna().to_list()
-            print(data_kma)
-            print(data_blast)
             kma_results=kma_results+data_kma
             blast_results=blast_results+data_blast
-
-    print(kma_results)
-    print(blast_results)
 
     result = ttest_rel(kma_results, blast_results)# paired T-test
 
@@ -219,7 +206,7 @@ def extract_info(s,level,fscore,f_no_zip,f_com,f_all,temp_path,output_path):
         data = data.loc[s, :]
     df_species = data.index.tolist()
     antibiotics = data['modelling antibiotics'].tolist()
-    # print(df_species)
+
     if f_com: #Compare KMA Blastn version results.
        com_blast_kma(df_species,antibiotics, fscore,output_path)
     else:
@@ -235,8 +222,6 @@ if __name__== '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-l','--level',default='loose', type=str,
                         help='Quality control: strict or loose')
-    # parser.add_argument('-t', '--tool', default='Both', type=str,
-    #                     help='res, point, both')
     parser.add_argument('-f_com', '--f_com', dest='f_com', action='store_true',
                         help='Compare the results of balst based resfinder and kma based resfinder')
     parser.add_argument('-f_no_zip', '--f_no_zip', dest='f_no_zip', action='store_true',
@@ -244,7 +229,6 @@ if __name__== '__main__':
     parser.add_argument('-s','--species', default=[], type=str,nargs='+',help='species to run: e.g.\'seudomonas aeruginosa\' \
      \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
      \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
-
     parser.add_argument('-fscore', '--fscore', default='f1_macro', type=str, required=False,
                         help='the score for benchmarking, and used to choose the best classifier for each antibiotic. Can be f1_pos'
                              'f1_neg, accuracy.')
@@ -255,6 +239,6 @@ if __name__== '__main__':
     parser.add_argument('-o', '--output_path', default='./', type=str, required=False,
                     help='Results folder.')
     parsedArgs=parser.parse_args()
-    # parser.print_help()
+
     extract_info(parsedArgs.species, parsedArgs.level, parsedArgs.fscore,parsedArgs.f_no_zip,parsedArgs.f_com,parsedArgs.f_all,parsedArgs.temp_path,parsedArgs.output_path)
 

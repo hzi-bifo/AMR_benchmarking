@@ -1,8 +1,7 @@
 #!/usr/bin/env/python
-import getopt, sys
+import sys
 import warnings
 import argparse
-import pandas as pd
 import numpy as np
 import zipfile
 if not sys.warnoptions:
@@ -13,10 +12,10 @@ def extract_info(input_path,file,out_path,f_no_zip):
 	output = open(out_path, "w")
 
 	file_list=np.genfromtxt(file,dtype='str')
-	# print(file_list)
+
 	if f_no_zip==False:
 		for strain in file_list:
-			# print(strain)
+
 			with zipfile.ZipFile("%s/%s.zip" % (input_path, strain)) as z:
 				aq_open = z.open("%s/ResFinder_results_tab.txt" % strain, "r")
 				# aq_open = open("%s/%s/ResFinder_results_tab.txt" % (input_path, str(strain)), "r")
@@ -63,9 +62,8 @@ def main():
 	parser.add_argument('-f_no_zip', '--f_no_zip', dest='f_no_zip', action='store_true',
 						help=' Point/ResFinder results are not stored in zip format.')
 	parsedArgs = parser.parse_args()
-	# parser.print_help()
-	# print(parsedArgs)
+
 	extract_info(parsedArgs.respath,parsedArgs.list,parsedArgs.output,parsedArgs.f_no_zip)
 
 if __name__ == '__main__':
-    main()
+	main()
