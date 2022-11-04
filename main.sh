@@ -20,15 +20,16 @@ eval $(parse_yaml Config.yaml)
 
 export PATH="$PWD"/src:$PATH
 export PYTHONPATH=$PWD
-
-#-------------------------------------------
-#PART 1. Install env
-#-------------------------------------------
-#note: if you use GPU for NN model, you need to install pytorch in the multi_torch_env env.
-# To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/.
-# Our code was tested with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
-bash ./install/install.sh
+SCRIPT=$(realpath "$0")
+SCRIPTPATH=$(dirname "$SCRIPT")
+################################################
+#PART 1. Install 7 pieces of conda environments
+################################################
+### note: if you use GPU for NN model, you need to install pytorch in the multi_torch_env env.
+### To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/.
+### Our code was tested with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
 #
+bash ./install/install.sh
 echo "Please check if Env created."
 #-------------------------------------------
 #2.PATRIC Data
@@ -60,8 +61,7 @@ bash ./scripts/data_preprocess/retrive_PATRIC_data.sh ${dataset_location}
 ### install KMA and Point-/Resfinder
 ##If issues arise in this step, you can alternatively manually install it.
 ## please further refer to https://bitbucket.org/genomicepidemiology/resfinder/src/master/
-SCRIPT=$(realpath "$0")
-SCRIPTPATH=$(dirname "$SCRIPT")
+
 cd ./AMR_software/resfinder
 cd cge
 git clone https://bitbucket.org/genomicepidemiology/kma.git
@@ -111,27 +111,26 @@ bash ./scripts/model/AytanAktug_MSMA_concat.sh
 
 ##############################
 #5. Software 3.Seq2Geno
-#
 ##############################
-cd ./AMR_software/
-git clone --recurse-submodules https://github.com/hzi-bifo/seq2geno.git
-cd seq2geno
-git submodule update --init --recursive
-cd install/
-./SETENV.sh snakemake_env
-conda activate snakemake_env
+## set up snakemake pipeline.
+cd SCRIPTPATH
+cd ./AMR_software/seq2geno/install/
+./SETENV.sh ${se2ge_env_name}
+export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
+export PYTHONPATH=$PWD
+conda activate ${se2ge_env_name}
 ./TESTING.sh
-# If error occurs for Seq2Geno installation steps until now, please manually Install Seq2Geno according to the instruction from: https://github.com/hzi-bifo/seq2geno/tree/dev_v13/install
-#----------------------------------------------------------------------------
-# Then please update Seq2Geno to the version that can deal with genome data
-#----------------------------------------------------------------------------
+conda deactivate
+# Then update seq2geno to the adaption version that can deal with genome data
 cd SCRIPTPATH
 cd ./AMR_software/
-cp  -r seq2geno_assemble/* seq2geno/  # Afterwards, update the seq2geno root folds with files from this(our) repo
-bash ./scripts/model/seq2geno.sh #Run. Please manually comment the CV score generation part Line 70-84
-echo "features are prepared, please then proceed to https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno to run Geno2Pheno"
-#### CV score generation.
-bash ./scripts/model/seq2geno.sh #Run. Please manually uncomment the the CV score generation part Line 70-84, and comment other already-finished parts.
+cp  -r seq2geno_assemble/* seq2geno/
+wait
+bash ./scripts/model/seq2geno.sh #Run.
+echo "Features are prepared, please then proceed to https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno to run Geno2Pheno"
+##### CV score generation. Not provided because Geno2Phen is not an open source software.
+#bash ./scripts/model/seq2geno.sh #Run results from Geno2Pheno. Please manually uncomment the the CV score generation part Line 70-84, and comment other already-finished parts.
+##The Geno2Pheno output format is different
 
 ##############################
 #6. Software 4. Phenotyperseeker
