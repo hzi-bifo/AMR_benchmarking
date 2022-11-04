@@ -1,0 +1,58 @@
+metadata:
+  project: test_package
+  phylogenetic_tree: "data/phylogentictree.txt"
+  phenotype_table: "data/phenotypes.txt"
+  output_directory: "results/"
+  number_of_cores: 20
+
+genotype_tables:
+  tables:
+    - table:
+          name: 'genexp'
+          path: "data/genexp.csv"
+          preprocessing: none
+          delimiter: ","
+          datatype: numerical
+    - table:
+          name:  'gpa'
+          path: "data/genotype_table.txt"
+          preprocessing: binary
+          datatype: text
+          delimiter: ' '
+    - sequence:
+          name: '6mer'
+          path: "data/sequences/"
+          preprocessing: l1
+          k_value: 6
+
+predictions:
+  - prediction:
+        name: "amr_pred"
+        label_mapping:
+          1: 1
+          0: 0
+        optimized_for: "f1_macro"
+        reporting: ['accuracy', 'f1_pos', 'f1_macro']
+        features:
+          - feature: "GenExp"
+            list: ['genexp']
+            validation_tuning:
+              name: "cv_tree"
+              train:
+                method: "treebased"
+                folds: 10
+              test:
+                method: "treebased"
+                ratio: 0.1
+              inner_cv: 10
+          - feature: "K-mer"
+            list: ["6mer"]
+            use_validation_tuning: "cv_tree"
+          - feature: "GPA"
+            list: ["gpa"]
+            use_validation_tuning: "cv_tree"
+        classifiers:
+          - lsvm
+          - svm
+          - lr
+          - rf

@@ -1,0 +1,21 @@
+#!/bin/bash
+#align illumina reads using stampy and art-file for visualization
+
+prefix=$1	# used to name the different output files
+reference=$2	# path and prefix of reference file
+mindepth=$3	# minimum read depth for filtering variants
+
+### Converting to BAM ###
+samtools view -bS $prefix.sam > $prefix.bam
+
+### Sorting BAM ###
+samtools sort $prefix.bam $prefix
+
+### Indexing BAM ###
+samtools index $prefix.bam
+
+### Variant calling ###
+samtools mpileup -uf $reference $prefix.bam | bcftools view -bvcg - > $prefix.raw.bcf
+
+### Variant filtering ###
+bcftools view $prefix.raw.bcf | vcfutils.pl varFilter -d $mindepth > $prefix.flt.vcf

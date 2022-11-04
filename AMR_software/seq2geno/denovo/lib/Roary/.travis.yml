@@ -1,0 +1,27 @@
+language: perl
+sudo: false
+addons:
+  apt:
+    packages:
+    - libssl-dev
+    - mafft
+cache:
+  directories:
+  - build/parallel-20160722
+  - build/parallel-20130922
+  - build/bedtools2
+  - build/cd-hit-v4.6.6-2016-0711
+  - build/prank-msa-master
+  - build/ncbi-blast-2.4.0+
+  - build/mcl-14-137
+  - build/fasttree
+perl:
+  - "5.14"
+  - "5.20"
+  - "5.24"
+env:
+  - PARALLEL_VERSION=20160722
+  - PARALLEL_VERSION=20130922
+install:
+  - "source ./install_dependencies.sh"
+script: "ROARY_FULL_TESTS=1 dzil test"

@@ -1,0 +1,63 @@
+!!python/object/apply:collections.OrderedDict
+- - - metadata
+    - number_of_cores: 20
+      output_directory: /
+      phenotype_table: phenotype.csv
+      phylogenetic_tree: tree.csv
+      project: test_package
+  - - genotype_tables
+    - tables:
+      - table:
+          datatype: numerical
+          delimiter: ','
+          name: genexp
+          path: genexp.csv
+          preprocessing: none
+      - table:
+          datatype: text
+          delimiter: ' '
+          name: gpa
+          path: gpa.csv
+          preprocessing: binary
+      - sequence:
+          k_value: 6
+          name: 6mer
+          path: sequences//
+          preprocessing: l1
+  - - predictions
+    - - prediction:
+          classifiers:
+          - lsvm
+          - svm
+          - lr
+          - rf
+          features:
+          - feature: GenExp
+            list:
+            - genexp
+            validation_tuning:
+              inner_cv: 10
+              name: cv_tree
+              test:
+                method: treebased
+                ratio: 0.1
+              train:
+                folds: 10
+                method: treebased
+          - feature: K-mer
+            list:
+            - 6mer
+            use_validation_tuning: cv_tree
+          - feature: GPA
+            list:
+            - gpa
+            use_validation_tuning: cv_tree
+          label_mapping:
+            0: 0
+            1: 1
+          name: amr_pred
+          optimized_for: f1_macro
+          reporting:
+          - accuracy
+          - f1_pos
+          - f1_macro

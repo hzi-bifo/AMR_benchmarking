@@ -10,17 +10,17 @@ from src.amr_utility import name_utility, file_utility, load_data
 import argparse
 import itertools
 import pandas as pd
-import hyper_range
-from sklearn.pipeline import Pipeline
-from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import auc,roc_curve,matthews_corrcoef,confusion_matrix,f1_score,precision_recall_fscore_support,classification_report
-import pickle,json
-from sklearn import preprocessing
-from src.cv_folds import name2index
+# import hyper_range
+# from sklearn.pipeline import Pipeline
+# from sklearn.model_selection import GridSearchCV
+# from sklearn.metrics import auc,roc_curve,matthews_corrcoef,confusion_matrix,f1_score,precision_recall_fscore_support,classification_report
+# import pickle,json
+# from sklearn import preprocessing
+# from src.cv_folds import name2index
 
 
 def extract_info(path_sequence,temp_path,s,f_all,f_prepare_meta, f_phylotree, f_kma,level,f_ml,cv,n_jobs):
-
+    software_name='seq2geno'
 
     main_meta,_=name_utility.GETname_main_meta(level)
     data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
@@ -29,20 +29,24 @@ def extract_info(path_sequence,temp_path,s,f_all,f_prepare_meta, f_phylotree, f_
         data = data.loc[s, :]
     df_species = data.index.tolist()
     antibiotics = data['modelling antibiotics'].tolist()
-    file_utility.make_dir(temp_path+'log/software/seq2geno/software_output/cano6mer/temp') #for kmers
+    file_utility.make_dir(temp_path+'log/software/'+software_name+'/software_output/cano6mer/temp') #for kmers
+
+
+
 
     if f_prepare_meta:
+
         #prepare the dna list accroding to S2G format.
         for species, antibiotics in zip(df_species, antibiotics):
             antibiotics, _, _ =  load_data.extract_info(species, False, level)
             ALL=[]
             for anti in antibiotics:
-                name,_,_ = name_utility.GETname_model('seq2geno',level, species, anti,'',temp_path)
+                name,_,_ = name_utility.GETname_model(software_name,level, species, anti,'',temp_path)
                 name_list = pd.read_csv(name, index_col=0, dtype={'genome_id': object}, sep="\t")
                 name_list['path']=str(path_sequence) +'/'+ name_list['genome_id'].astype(str)+'.fna'
                 name_list['genome_id'] = 'iso_' + name_list['genome_id'].astype(str)
                 pseudo=np.empty(len(name_list.index.to_list()),dtype='object')
-                pseudo.fill ('./AMR_software/seq2geno/example/CH2500.1.fastq.gz, /AMR_software/seq2geno/example/CH2500.2.fastq.gz')
+                pseudo.fill ('./AMR_software/'+software_name+'/example/CH2500.1.fastq.gz, /AMR_software/'+software_name+'/example/CH2500.2.fastq.gz')
                 name_list['path_pseudo'] = pseudo
                 ALL.append(name_list)
 
@@ -62,17 +66,17 @@ def extract_info(path_sequence,temp_path,s,f_all,f_prepare_meta, f_phylotree, f_
 
             #prepare yml files based on a basic version at working directory
 
-            # cmd_cp='cp seq2geno_inputs.yml %s' %wd
-            # subprocess.run(cmd_cp, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+
             wd_results = wd + 'results'
             file_utility.make_dir(wd_results)
 
-            fileDir = os.path.dirname(os.path.realpath('__file__'))
-            wd_results = os.path.join(fileDir, wd_results)
-            assemble_list=os.path.join(fileDir, assemble_list)
-            dna_list=os.path.join(fileDir, dna_list)
+            # # fileDir = os.path.dirname(os.path.realpath('__file__'))
+            # # wd_results = os.path.join(fileDir, wd_results)
+            # # assemble_list=os.path.join(fileDir, assemble_list)
+            # # dna_list=os.path.join(fileDir, dna_list)
+
             # #modify the yml file
-            a_file = open("./AMR_software/seq2geno/seq2geno_inputs.yml", "r")
+            a_file = open('./AMR_software/'+software_name+'/seq2geno_inputs.yml', "r")
             list_of_lines = a_file.readlines()
             list_of_lines[12] = "    100000\n"
             list_of_lines[14] = "    %s\n" % dna_list
@@ -83,8 +87,6 @@ def extract_info(path_sequence,temp_path,s,f_all,f_prepare_meta, f_phylotree, f_
             a_file = open(yml_file, "w")
             a_file.writelines(list_of_lines)
             a_file.close()
-
-
 
 
 
@@ -118,7 +120,7 @@ if __name__ == '__main__':
                 \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
                 \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
     parser.add_argument('-f_ml', '--f_ml', dest='f_ml', action='store_true',
-                        help='ML')  #todo delete this
+                        help='ML')
     parser.add_argument("-cv", "--cv_number", default=10, type=int,
                         help='CV splits number. Default=10 ')
     parser.add_argument('-n_jobs','--n_jobs', default=1, type=int, help='Number of jobs to run in parallel.')

@@ -38,7 +38,7 @@ def kmer(species,k,canonical,vocab,temp_path):
     l = 0
     for i in ID:
         l += 1
-        if (l % 1000 == 0):
+        if (l % 1000 == 0): #just for checking the process.
             print(l,species)
         # map feature txt from stored data(KMC tool processed) to feature matrix.
         f = pd.read_csv(save_mame_kmc + str(i) + '.txt',

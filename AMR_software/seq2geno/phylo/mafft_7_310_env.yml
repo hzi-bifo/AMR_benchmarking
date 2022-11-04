@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2021 Tzu-Hao Kuo
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: mafft_7_310_env
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+  - conda-forge/label/broken
+dependencies:
+  - mafft=7.310=1
+

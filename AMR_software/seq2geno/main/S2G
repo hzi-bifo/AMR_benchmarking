@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# activate the environment
+source activate _core_env || conda activate _core_env
+if [ $# -eq 0 ];then
+	seq2geno_gui
+else
+	seq2geno.py $@
+fi
+source deactivate || conda deactivate
+

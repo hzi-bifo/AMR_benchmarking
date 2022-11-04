@@ -1,0 +1,18 @@
+features:
+  ar: N
+  de: N
+  denovo: Y 
+  dryrun: Y 
+  expr: N
+  phylo: N
+  snps: N
+general:
+  cores: '2'
+  dna_reads: /home/thkuo/test_seq2geno/seq2geno/_developing/input_zip/example_input/dna_list
+  mem_mb: '2000'
+  phe_table: /home/thkuo/test_seq2geno/seq2geno/_developing/input_zip/example_input/phenotype/mem_phenotypes.mat
+  ref_fa: /home/thkuo/test_seq2geno/seq2geno/_developing/input_zip/example_input/reference/pseudomonas.fna
+  ref_gbk: /home/thkuo/test_seq2geno/seq2geno/_developing/input_zip/example_input/reference/pseudomonas.gbk
+  ref_gff: /home/thkuo/test_seq2geno/seq2geno/_developing/input_zip/example_input/reference/pseudomonas.gff
+  rna_reads: /home/thkuo/test_seq2geno/seq2geno/_developing/input_zip/example_input/rna_list
+  wd: /home/thkuo/test_seq2geno/seq2geno/_developing/input_zip/example_input/results

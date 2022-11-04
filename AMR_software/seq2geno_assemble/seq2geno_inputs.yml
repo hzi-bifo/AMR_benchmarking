@@ -13,13 +13,13 @@ general:
     2000
   dna_reads: 
     /vol/projects/khu/amr/seq2geno/example_sg_dataset/dna_list
-  phe_table: 
+  phe_table:
     /vol/projects/khu/amr/seq2geno/example_sg_dataset/mem_phenotypes.mat
-  ref_fa: 
+  ref_fa:
     /vol/projects/khu/amr/seq2geno/example_sg_dataset/reference/Pseudomonas_aeruginosa_PA14.edit.fasta.sub
-  ref_gff: 
+  ref_gff:
     /vol/projects/khu/amr/seq2geno/example_sg_dataset/reference/RefCln_UCBPP-PA14.edit.gff.sub.coor_shift
-  ref_gbk: 
+  ref_gbk:
     /vol/projects/khu/amr/seq2geno/example_sg_dataset/reference/Pseudomonas_aeruginosa_PA14_ncRNA.edit.utf-8.gbk.sub
   rna_reads:
     /vol/projects/khu/amr/seq2geno/example_sg_dataset/rna_list
