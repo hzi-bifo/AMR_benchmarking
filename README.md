@@ -40,7 +40,7 @@ We compare the binary phenotype prediction performance of four machine learning 
 
 ## <a name="pre"></a>Prerequirements
 
-- To reproduce the output, you need to use `conda`, Miniconda 4.8.3 was used by us. Please follow the instruction [here](https://bioconda.github.io/) to install Bioconda
+- To reproduce the output, you need to use Linux OS and `conda` (Miniconda 4.8.3 was used by us). Please follow the instruction [here](https://bioconda.github.io/) to install Bioconda
 -  Create conda environments and install packages. If coming across with creating environment for Kover, please refer to [Kover](https://aldro61.github.io/kover/doc_installation.html) to try other installation methods.
 ```
 bash ./install/install.sh
