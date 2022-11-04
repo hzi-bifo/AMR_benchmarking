@@ -67,7 +67,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |n_jobs| CPU cores to use. Although you can set it to 1, but be sure to prepare at least 2 cores as some software installation procedures use 2 cores by default. | 10 |
 |gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
 |kover_location| Kover install path  | /vol/projects/khu/amr/kover/bin/ |
-|TODO |cleaning large intermediate files of the specified software|
+| clean_software|cleaning large intermediate files of the specified software||
 
 **B.Optional parameters setting**
 
@@ -81,6 +81,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |multi_torch_env_name|conda env for NN model|multi_torch_env|
 |kover_env_name|conda env for NN model|kover_env|
 |se2ge_env_name|conda env for Seg2Geno|snakemake_env|
+|kmer_env_name|conda env for Seg2Geno k-mers generation |kmer_kmc|
 
 **C. Adanced/optional parameters setting (Model)**
  
