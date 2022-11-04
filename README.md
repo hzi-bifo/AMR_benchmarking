@@ -69,7 +69,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |kover_location| Kover install path  | /vol/projects/khu/amr/kover/bin/ |
 |TODO |cleaning large intermediate files of the specified software|
 
-**B. Adanced/optional parameters setting**
+**B.Optional parameters setting**
 
 - Please change the conda environment names if the same names already exist in your working PC.
 
