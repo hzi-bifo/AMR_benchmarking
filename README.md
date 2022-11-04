@@ -82,7 +82,7 @@ The input file is an yaml file `Config.yaml` at the root folder where all option
 |kover_env_name|conda env for NN model|kover_env|
 |se2ge_env_name|conda env for Seg2Geno|snakemake_env|
 |kmer_env_name|conda env for Seg2Geno k-mers generation |kmer_kmc|
-|phylo_r_name|conda env for Seg2Geno phylogenetic trees generation|phylo_env|
+|phylo_name|conda env for Seg2Geno phylogenetic trees generation|phylo_env|
 
 **C. Adanced/optional parameters setting (Model)**
  
