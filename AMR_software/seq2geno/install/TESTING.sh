@@ -7,7 +7,9 @@
 # This script test Seq2Geno with the example dataset.
 # In the processes, procedure-specific dependencies will also be installed if needed
 # This script DOESN'T activate any conda environment as it evaluates the current environment
-
+export SEQ2GENO_HOME=$( dirname $( dirname $( realpath ${BASH_SOURCE[0]} ) ) )
+export PATH=$SEQ2GENO_HOME:$SEQ2GENO_HOME/main:$PATH
+echo 'SEQ2GENO_HOME is '$SEQ2GENO_HOME
 check_conda_channels () {
 	## ensure conda channels
 	echo '+check conda channels...'

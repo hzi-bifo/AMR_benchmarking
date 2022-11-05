@@ -56,7 +56,7 @@ class SGProcess:
             restart_times=3,
             cores=max_cores,
             resources={'mem_mb': self.mem_mb},
-            configfile=config_f,
+            configfiles=[config_f],
             force_incomplete=True,
             workdir=os.path.dirname(config_f),
             use_conda=True,

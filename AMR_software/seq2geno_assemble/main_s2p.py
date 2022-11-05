@@ -35,7 +35,7 @@ def extract_info(path_sequence,temp_path,s,f_all,f_prepare_meta, f_phylotree, f_
 
 
     if f_prepare_meta:
-
+        fileDir = os.path.dirname(os.path.realpath('__file__'))
         #prepare the dna list accroding to S2G format.
         for species, antibiotics in zip(df_species, antibiotics):
             antibiotics, _, _ =  load_data.extract_info(species, False, level)
@@ -46,11 +46,11 @@ def extract_info(path_sequence,temp_path,s,f_all,f_prepare_meta, f_phylotree, f_
                 name_list['path']=str(path_sequence) +'/'+ name_list['genome_id'].astype(str)+'.fna'
                 name_list['genome_id'] = 'iso_' + name_list['genome_id'].astype(str)
                 pseudo=np.empty(len(name_list.index.to_list()),dtype='object')
-                pseudo.fill ('./AMR_software/'+software_name+'/example/CH2500.1.fastq.gz, /AMR_software/'+software_name+'/example/CH2500.2.fastq.gz')
+                pseudo.fill (fileDir+'/AMR_software/'+software_name+'/example/CH2500.1.fastq.gz,'+fileDir+'/AMR_software/'+software_name+'/example/CH2500.2.fastq.gz')
                 name_list['path_pseudo'] = pseudo
                 ALL.append(name_list)
 
-            _,dna_list, assemble_list, yml_file, run_file_name,wd =  name_utility.GETname_S2Gfeature( species, temp_path,6)
+            _,dna_list, assemble_list, yml_file, run_file_name,wd ,pseudo_args=  name_utility.GETname_S2Gfeature( species, temp_path,6)
             file_utility.make_dir(os.path.dirname(dna_list))
 
             #combine the list for all antis
@@ -82,6 +82,15 @@ def extract_info(path_sequence,temp_path,s,f_all,f_prepare_meta, f_phylotree, f_
             list_of_lines[14] = "    %s\n" % dna_list
             list_of_lines[26] = "    %s\n" % wd_results
             list_of_lines[28] = "    %s\n" % assemble_list
+
+
+            list_of_lines[16] = "    %s\n" % pseudo_args[0]
+            list_of_lines[18] = "    %s\n" % pseudo_args[1]
+            list_of_lines[20] = "    %s\n" % pseudo_args[2]
+            list_of_lines[22] = "    %s\n" % pseudo_args[3]
+            list_of_lines[24] = "    %s\n" % pseudo_args[4]
+
+
 
 
             a_file = open(yml_file, "w")

@@ -21,3 +21,4 @@ dependencies:
   - scipy=1.6.3
   - snakemake=6.4.1
   - tqdm=4.61.1
+  - psutil=5.8.0

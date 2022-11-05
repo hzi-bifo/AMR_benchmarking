@@ -12,18 +12,18 @@ general:
   mem_mb:
     2000
   dna_reads: 
-    /vol/projects/khu/amr/seq2geno/example_sg_dataset/dna_list
+    /vol/projects/khu/amr/seq2geno/example/dna_list
   phe_table:
-    /vol/projects/khu/amr/seq2geno/example_sg_dataset/mem_phenotypes.mat
+    /vol/projects/khu/amr/seq2geno/example/mem_phenotypes.mat
   ref_fa:
-    /vol/projects/khu/amr/seq2geno/example_sg_dataset/reference/Pseudomonas_aeruginosa_PA14.edit.fasta.sub
+   ./example/reference/Pseudomonas_aeruginosa_PA14.edit.fasta.sub
   ref_gff:
-    /vol/projects/khu/amr/seq2geno/example_sg_dataset/reference/RefCln_UCBPP-PA14.edit.gff.sub.coor_shift
+    /vol/projects/khu/amr/seq2geno/example/reference/RefCln_UCBPP-PA14.edit.gff.sub.coor_shift
   ref_gbk:
-    /vol/projects/khu/amr/seq2geno/example_sg_dataset/reference/Pseudomonas_aeruginosa_PA14_ncRNA.edit.utf-8.gbk.sub
+    /vol/projects/khu/amr/seq2geno/example/reference/Pseudomonas_aeruginosa_PA14_ncRNA.edit.utf-8.gbk.sub
   rna_reads:
-    /vol/projects/khu/amr/seq2geno/example_sg_dataset/rna_list
+    /vol/projects/khu/amr/seq2geno/example/rna_list
   wd:
-    /vol/projects/khu/amr/seq2geno/example_sg_dataset/seq2geno_test
+    /vol/projects/khu/amr/seq2geno/example/seq2geno_test
   assemblies:
-    /vol/projects/khu/amr/seq2geno/example_sg_dataset/dna_new
+    /vol/projects/khu/amr/seq2geno/example/dna_new

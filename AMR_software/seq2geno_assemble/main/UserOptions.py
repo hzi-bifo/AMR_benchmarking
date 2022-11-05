@@ -43,14 +43,13 @@ class arguments:
         # ensure obligatory arguments included
         for k in obligatory_args:
             assert hasattr(self, k), '"{}" not properly set'.format(k)
-        # modified by KHU Nov 2022.
-        '''
+
         # check the reference genome
         ArgsTest.test_reference_seq(self.ref_fa)
         # check the dna-seq data
         ArgsTest.test_dna_reads_list(self.dna_reads)
         # check the rna-seq data (if set)
-        '''
+
         if getattr(self, 'expr') == 'Y':
             if not re.search('\w', getattr(self, 'rna_reads')) is None:
                 ArgsTest.test_rna_reads_list(self.rna_reads)

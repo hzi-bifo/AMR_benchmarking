@@ -1,0 +1,110 @@
+LOCUS       NC_008463               3001 bp    DNA              UNK 01-JAN-1980
+DEFINITION  Partial chromosome.
+ACCESSION   NC_008463
+VERSION     NC_008463
+KEYWORDS    .
+SOURCE      .
+  ORGANISM  .
+            .
+FEATURES             Location/Qualifiers
+     gene            complement(690..1136)
+                     /locus_tag="PA14_51770"
+                     /gene_synonym="ybgC"
+                     /name="ybgC"
+     CDS             complement(690..1136)
+                     /db_xref="GI:116048893"
+                     /function="Hypothetical, unclassified, unknown"
+                     /protein_id="YP_792306.1"
+                     /localization_and_confidence="Cytoplasmic, Class 3"
+                     /product="hypothetical protein"
+                     /translation="MRAQHGGKPFQQRFRVYYEDTDAGGIVYYVNYLKFMERARTERLR
+                     ALGFAQSQLVGDNLLFVVHSAEARYHAPAKLDDELLVSAEVEELNRASLKFRQQVRRAS
+                     DSVLLCEGRFLVACVRADTLKPRAIPETLRAAFAGSPDSFSAGD"
+                     /product_name_confidence="Class 4"
+     gene            complement(1189..2247)
+                     /locus_tag="PA14_51780"
+                     /name="ruvB"
+     CDS             complement(1189..2247)
+                     /function="DNA replication, recombination, modification and
+                     repair"
+                     /protein_id="YP_792307.1"
+                     /db_xref="GI:116048892"
+                     /localization_and_confidence="Cytoplasmic, Class 3"
+                     /translation="MIEPDRLISAVSGRERDEQLDRAIRPLKLADYIGQPSVREQMELF
+                     IHAARGRQEALDHTLIFGPPGLGKTTLANIIAQEMGVSIKSTSGPVLERPGDLAALLTN
+                     LEAGDVLFVDEIHRLSPIVEEVLYPAMEDFQLDIMIGEGPAARSIKLDLPPFTLVGATT
+                     RAGMLTNPLRDRFGIVQRLEFYNVEDLATIVSRSAGILGLEIEPQGAAEIAKRARGTPR
+                     IANRLLRRVRDFAEVRGQGDITRVIADKALNLLDVDERGFDHLDRRLLLTMIDKFDGGP
+                     VGIDNLAAALSEERHTIEDVLEPYLIQQGYIMRTPRGRVVTRHAYLHFGLNIPKRLGPG
+                     VTTDLFTSEDGN"
+                     /product="Holliday junction DNA helicase RuvB"
+                     /product_name_confidence="Class 1"
+                     /EC_number="3.1.22.4"
+     gene            complement(2258..2863)
+                     /locus_tag="PA14_51790"
+                     /name="ruvA"
+     CDS             complement(2258..2863)
+                     /db_xref="GI:116048891"
+                     /function="DNA replication, recombination, modification and
+                     repair"
+                     /protein_id="YP_792308.1"
+                     /localization_and_confidence="Cytoplasmic, Class 3"
+                     /product="Holliday junction DNA helicase RuvA"
+                     /translation="MIGRLRGTLAEKQPPHLILDVNGVGYEVEVPMTTLYRLPSVGEPV
+                     TLHTHLVVREDAHLLYGFAEKRERELFRELIRLNGVGPKLALALMSGLEVDELVRCVQA
+                     QDTSTLVKIPGVGKKTAERLLVELKDRFKAWENMPTIAPLVMEPRASATVSSAEADAVS
+                     ALIALGFKPQEASRAVAAVPGEDLSSEEMIRQALKGMV"
+                     /product_name_confidence="Class 1"
+ORIGIN
+        1 cgctggtgtg caccttgcgg tgcaggatgg cctggaactc gtcggcgaag gtgtagtaac
+       61 gaccgatcag catctcagaa cgtgcggaga agcggttgta ggcgatgacc gcggggatcg
+      121 cggcgaacag gccgatggcg gtggcgatca gcgcttcggc gatacccggg gcgacggtgg
+      181 ccagggtagc ctgctgcacg gtggccaggc cacggaagga attcatgata ccccagacgg
+      241 taccgaacag gccgacgtac gggctggtgg agccgacggt tgccaggaac ggcaggctgg
+      301 cctcgagttt ctcctcctca cgggagatgg ccacacgcat ggcgcgcgcc acgccctcca
+      361 tcactgcatc gggatcgacg ccgggctgct ggcgcagacg ggaaaactcc ttgaagccgg
+      421 cacggaagat ctgctcgacg ccggagtccg ggtccggatt gctaccggcc tggcgataca
+      481 gcttggacag gtcgatgccc gaccagaagc gttcttcgaa ggcatccagt gccttcttgg
+      541 cagcgcgcat ggcgttgccg cgctggaaaa tcatgatcca ggatgtgacc gaggcggcca
+      601 cgagggtcag catgaccagc tgcaccacga tactggcgtt gctgatcagg ctccacatgg
+      661 aggtatggtc gacgacgttc ggttccactt taatctcctg ctgaaaaaga atccgggctt
+      721 ccggcaaaag ccgcacgcaa cgtttcgggg atagcacgtg gcttcagggt gtccgctcgc
+      781 acgcacgcca ccaggaaccg cccctcgcag agcaggacgg agtccgacgc tcgacgaacc
+      841 tgttgacgaa acttcaggct cgcccggttc aactcctcga cctcggcgct gacaagcagt
+      901 tcatcgtcga gcttggccgg ggcgtggtaa cgcgcctcgg cggagtgcac gacgaacagc
+      961 agattgtcgc cgaccagttg cgattgggcg aaccccaaag ctcgcagccg ctcggtccga
+     1021 gcccgttcca tgaacttgag atagttgacg taatagacga tgccgccggc atccgtgtcc
+     1081 tcgtaataga cccggaaacg ctgctggaac ggctttcccc cgtgttgcgc gcgcatactc
+     1141 tagaaccaag tcccggcttt gccaatcggc aatcgcccac aaatgcaatt aattaccatc
+     1201 ttcagacgtg aatagatccg tcgtcacccc cggccccaac cttttcggaa tattcaggcc
+     1261 aaagtgcagg tacgcatggc gtgttaccac gcgtccccgc ggtgtccgca tgatgtagcc
+     1321 ctgctggatc agatagggct ccagtacatc ttcgatcgtg tgccgctcct cgctcaacgc
+     1381 cgcagccaag ttgtcgattc ctacaggccc gccatcgaac ttgtcgatca tggtcagcaa
+     1441 cagacgacgg tcgaggtggt cgaagccacg ctcgtcgaca tcgagcaggt tcaatgcctt
+     1501 gtcggcgatc acccgggtaa tgtcgccctg cccccggacc tcggcgaagt cgcgtacccg
+     1561 gcgcagcagg cgattggcga ttcgcggcgt accgcgggcg cgcttggcga tttccgccgc
+     1621 gccctgcggc tcgatctcca ggccgagaat gccggccgac cgactgacga tggtcgccag
+     1681 gtcctcgacg ttgtagaact ccaggcgctg gacgataccg aagcgatcgc gcagtggatt
+     1741 ggtcagcatg ccggcacggg tggtcgcgcc gaccagcgtg aacggcggca ggtccagctt
+     1801 gatggagcgg gccgcgggcc cttcgccgat catgatgtcc agttggaaat cttccatggc
+     1861 cggatacaac acttcttcga cgatgggcga aagacggtgg atctcgtcga cgaacaggac
+     1921 gtcgccggcc tccaggttgg tcagcaacgc ggcgagatcg ccgggacgct cgagcaccgg
+     1981 cccggaagta ctcttgatgg aaacgcccat ttcctgggcg atgatattcg ccagggtcgt
+     2041 cttgcccagc cccggcggac cgaagatcag cgtatggtcg agcgcctcct ggcggccgcg
+     2101 cgcggcatgg atgaacagct ccatctgctc gcgcacgctg ggctggccga tgtagtcggc
+     2161 cagcttcagc gggcgaatgg cgcggtccag ttgctcatcg cgttcgcgac cggaaacggc
+     2221 ggatatgagg cgatcaggct cgatcatcgg gcgccaccta gaccatgccc ttcagggcct
+     2281 ggcggatcat ttcttcgctg gacaaatcct ctcccggtac ggctgcgacg gcacgactgg
+     2341 cttcctgtgg cttgaagccg agggcgatca gcgcgctgac tgcatcggcc tcggcgcttg
+     2401 agactgtagc gctggcacgg ggttccatca ccaacggtgc aatcgtgggc atgttttccc
+     2461 aagccttgaa gcggtccttc aactccacca gcaggcgctc ggcggtcttc ttgccaacac
+     2521 cggggatctt caccagggtt gaggtgtcct gtgcctggac gcaacgcacc agttcgtcca
+     2581 cttccaggcc cgacatcagc gccagagcca gtttcggacc cacgccgttg agtcggatca
+     2641 gctcacggaa cagctctcgc tcgcgctttt cggcgaagcc atagagcaag tgcgcatcct
+     2701 cacgcacaac cagatgggta tgcaaggtca ccggctcgcc taccgaaggc aaccgataga
+     2761 gggtcgtcat cggcacttcc acttcatagc cgacgccatt cacatcgagg atcaggtgcg
+     2821 gcggctgttt ctccgccagg gtgccacgca agcgtccgat cacgaagagc tttccttatt
+     2881 caaagacgca ggcgcccgcc acgtcggcgt gcgcccacca ggccatgggg gaccagactc
+     2941 tgttgggtat gggcatgaca cagggcgatg gccagggcgt cggaggcatc gatctgcggt
+     3001 t
+//
