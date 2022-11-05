@@ -42,9 +42,9 @@ We compare the binary phenotype prediction performance of four machine learning 
 - Pyhton environment
     - To reproduce the output, you need to use Linux OS and `conda` (Miniconda 4.8.4 was used by us). Please follow the instruction [here](https://bioconda.github.io/) to install Bioconda
     - Create 8 pieces of conda environments and install packages respectively. If coming across with creating environment for Kover, please refer to [Kover](https://aldro61.github.io/kover/doc_installation.html) to try other installation methods.
-    ```
-    bash ./install/install.sh
-    ```
+        ```
+        bash ./install/install.sh
+        ```
     - Install pytorch in the `multi_env` and `multi_torch_env` manually. To install pytorch compatible with your CPU or CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version 10.1 and 11.0 .
 
 - Memory requirment: Some procedures require extremely large memory. Aytan-Aktug multi-species model (adaption version) feature building needs ~370G memory. Other ML software needs up to 80G memory, depending on the number of CPU set and specis-antibiotic combination.
