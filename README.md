@@ -41,11 +41,12 @@ We compare the binary phenotype prediction performance of four machine learning 
 ## <a name="pre"></a>Prerequirements
 - Dependencies
     - To reproduce the output, you need to use Linux OS and `conda` (Miniconda 4.8.4 was used by us). Please follow the instruction [here](https://bioconda.github.io/) to install Bioconda
-    - Install [Blastn](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) for [ResFinder](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) (feel free to refer to their original instructions), and make sure that "blastn" is in you PATH.
+
     - Installation of the conda environments:
         ```
         bash ./install/install.sh #Create 8 pieces of conda environments and install packages respectively
         ```
+    - Install [Blastn](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) for [ResFinder](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) (feel free to refer to their original instructions), and make sure that "blastn" is in you PATH.
     -  If coming across with creating environment for Kover, please refer to [Kover](https://aldro61.github.io/kover/doc_installation.html) to try other installation methods.
     - Finally, you need to install pytorch in the `multi_torch_env` manually. To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version 10.1 and 11.0 .
 
