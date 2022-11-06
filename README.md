@@ -41,7 +41,7 @@ We compare the binary phenotype prediction performance of four machine learning 
 ## <a name="pre"></a>Prerequirements
 - Dependencies
     - To reproduce the output, you need to use Linux OS and `conda` (Miniconda 4.8.4 was used by us). Please follow the instruction [here](https://bioconda.github.io/) to install Bioconda
-    - Install [Blastn](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) for [ResFinder](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) (can refer to their original instructions), and make sure that "blastn" is in you PATH.
+    - Install [Blastn](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) for [ResFinder](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) (feel free to refer to their original instructions), and make sure that "blastn" is in you PATH.
     - Installation of the environments.
         ```
         bash ./install/install.sh #Create 8 pieces of conda environments and install packages respectively
