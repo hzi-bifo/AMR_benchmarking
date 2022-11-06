@@ -39,7 +39,7 @@ We compare the binary phenotype prediction performance of four machine learning 
 
 
 ## <a name="pre"></a>Prerequirements
-- Pyhton environment
+- Dependencies
     - To reproduce the output, you need to use Linux OS and `conda` (Miniconda 4.8.4 was used by us). Please follow the instruction [here](https://bioconda.github.io/) to install Bioconda
     - Install [Blastn](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) for ResFinder, and make sure that "blastn" is in you PATH.
     - Installation of the environments.
