@@ -61,13 +61,19 @@ def clean(temp_path,software,level):
     elif  software=='seq2geno':
         for species in df_species:
 
-            temp_folder=str(temp_path)+'log/software/' +  str(software) +'/software_output/'+str(species.replace(" ", "_")) +'/results/denovo'
+            temp_folder=str(temp_path)+'log/software/' +  str(software) +'/software_output/'+str(species.replace(" ", "_")) +'/results/denovo/prokka'
             if os.path.isdir(temp_folder):
                 print('remove: '+temp_folder)
                 shutil.rmtree(temp_folder)
 
-
-
+            temp_folder=str(temp_path)+'log/software/' +  str(software) +'/software_output/'+str(species.replace(" ", "_")) +'/results/denovo/spades'
+            if os.path.isdir(temp_folder):
+                print('remove: '+temp_folder)
+                shutil.rmtree(temp_folder)
+            temp_folder=str(temp_path)+'log/software/' +  str(software) +'/software_output/'+str(species.replace(" ", "_")) +'/results/denovo/extracted_proteins_nt'
+            if os.path.isdir(temp_folder):
+                print('remove: '+temp_folder)
+                shutil.rmtree(temp_folder)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

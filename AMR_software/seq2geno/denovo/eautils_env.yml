@@ -10,10 +10,4 @@ channels:
   - defaults
   - conda-forge/label/broken
 dependencies:
-  - ea-utils=1.1.2.779=h9dd4a16_0
-  - gsl=2.2.1=h0c605f7_3
-  - libgcc-ng=7.2.0=hdf63c60_3
-  - libgfortran=3.0.0=1
-  - libstdcxx-ng=7.2.0=hdf63c60_3
-  - openblas=0.2.20=8
-  - zlib=1.2.11=h470a237_3
+  - gsl=2.2.1

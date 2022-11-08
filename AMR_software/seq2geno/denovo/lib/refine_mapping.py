@@ -18,6 +18,7 @@ def parse(mapping):
             else:
                 prokka_gene = p_dict["gene"]
             name %= pa_id, gene
+            # noinspection PyCompatibility
             print "%s\t%s" % (p_dict["ID"], name)
 
 if __name__ == "__main__":

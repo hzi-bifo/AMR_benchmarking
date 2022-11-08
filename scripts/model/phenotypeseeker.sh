@@ -28,14 +28,17 @@ species_tree=( "${species_list_temp_tree[@]//_/ }" )
 ### Initialization
 export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
 export PYTHONPATH=$PWD
-source activate ${PhenotypeSeeker_env_name}
+source activate ${amr_env_name}
 python ./AMR_software/PhenotypeSeeker/main_pts.py -f_phylotree -f_prepare_meta -temp ${log_path} -s "${species_tree[@]}" -l ${QC_criteria}
 python ./AMR_software/PhenotypeSeeker/main_pts.py -f_kma -f_prepare_meta -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
 python ./AMR_software/PhenotypeSeeker/main_pts.py -f_prepare_meta -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
+conda deactivate
 
 
+source activate ${PhenotypeSeeker_env_name}
 #### Prepare features
-bash ./AMR_software/PhenotypeSeeker/kmer.sh ${dataset_location} ${log_path}
+for s in "${species_list_temp[@]}"; \
+do bash ./AMR_software/PhenotypeSeeker/kmer.sh ${dataset_location} ${log_path}  by_species_bq/id_${s};done
 
 
 for s in "${species_list_temp_tree[@]}"; \

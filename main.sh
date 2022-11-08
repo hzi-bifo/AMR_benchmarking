@@ -64,9 +64,9 @@ bash ./scripts/data_preprocess/retrive_PATRIC_data.sh ${dataset_location}
 
 cd ./AMR_software/resfinder
 cd cge
-git clone https://bitbucket.org/genomicepidemiology/kma.git
+##git clone https://bitbucket.org/genomicepidemiology/kma.git
 cd kma && make
-cd SCRIPTPATH
+cd ${SCRIPTPATH}
 
 #index Point-/ResFinder databases with KMA
 cd ./AMR_software/resfinder/db_resfinder
@@ -74,7 +74,7 @@ python3 INSTALL.py ${BASEDIR}/AMR_software/resfinder/cge/kma/kma non_interactive
 cd $BASEDIR
 cd ./AMR_software/resfinder/db_pointfinder
 python3 INSTALL.py ${BASEDIR}/AMR_software/resfinder/cge/kma/kma non_interactive
-cd SCRIPTPATH
+cd ${SCRIPTPATH}
 
 bash /scripts/model/resfinder.sh
 
@@ -113,19 +113,21 @@ bash ./scripts/model/AytanAktug_MSMA_concat.sh
 #5. Software 3.Seq2Geno
 ##############################
 ## set up snakemake pipeline.
-cd SCRIPTPATH
+cd ${SCRIPTPATH}
 cd ./AMR_software/seq2geno/install/
 ./SETENV.sh ${se2ge_env_name}
 export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
 export PYTHONPATH=$PWD
 conda activate ${se2ge_env_name}
+wait
 ./TESTING.sh
 conda deactivate
 # Then update seq2geno to the adaption version that can deal with genome data
-cd SCRIPTPATH
+cd ${SCRIPTPATH}
 cd ./AMR_software/
 cp  -r seq2geno_assemble/* seq2geno/
 wait
+cd ${SCRIPTPATH}
 bash ./scripts/model/seq2geno.sh #Run.
 echo "Features are prepared, please then proceed to https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno to run Geno2Pheno"
 ##### CV score generation. Not provided because Geno2Phen is not an open source software.

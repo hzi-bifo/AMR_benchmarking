@@ -24,25 +24,26 @@ def explore_resources_dir(resources_dir=''):
     return(possible_resources)
 
 
-def explore_functions_dir(functions_dir):
+def explore_functions_dir(functions_dir): #modified by Khu for genomic data Nov 2022
     # explore the functions folder and determine the functions to include
     possible_functions = {'snps': 'N',
-                          'denovo': 'N',
+                          'denovo': 'Y',
                           'expr': 'N',
                           'phylo': 'N',
                           'de': 'N',
                           'ar': 'N',
-                          'dryrun': 'N'}
+                          'dryrun': 'Y'}
+
     functions_file = os.path.join(functions_dir, 'functions')
     assert os.path.isfile(functions_file), (
         'Functions file {} not found'.format(functions_file))
-    with open(functions_file, 'r') as functions_fh:
-        for func in functions_fh.readlines():
-            func = func.strip()
-            if func in possible_functions:
-                possible_functions[func] = 'Y'
-    assert any([val == 'Y' for val in possible_functions.values()]), (
-        'No functions opted')
+    # with open(functions_file, 'r') as functions_fh:
+    #     for func in functions_fh.readlines():
+    #         func = func.strip()
+    #         if func in possible_functions:
+    #             possible_functions[func] = 'Y'
+
+
     return(possible_functions)
 
 

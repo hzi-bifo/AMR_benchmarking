@@ -18,14 +18,9 @@ import torch.nn as nn
 import numpy as np
 import torch.optim as optim
 from torch.autograd import Variable
-import sys
-import warnings
-import matplotlib
-matplotlib.use('Agg')
 from sklearn.metrics import matthews_corrcoef
 from sklearn.model_selection import ParameterGrid
 from sklearn.metrics import roc_curve, auc,classification_report,f1_score
-from scipy import interp
 from sklearn import preprocessing
 from src.amr_utility import name_utility
 import itertools

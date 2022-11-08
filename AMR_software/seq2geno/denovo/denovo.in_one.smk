@@ -17,7 +17,9 @@
 # - binary GPA table
 #
 import os
+import shutil
 import pandas as pd
+import logging
 def LoadFile(f):
     # The files might have different encoding methods
     # To void the problem, this is a generalized loader to create file handels
@@ -74,6 +76,32 @@ annot_tab = config['annot_tab']
 awk_script_f = os.path.join(os.environ['TOOL_HOME'], 'lib', 'filter.awk')
 adaptor_f = config['adaptor']
 new_reads_dir = config['new_reads_dir']
+
+# enable utility of precomputed assemblies
+if 'assemblies' in config:
+    if not os.path.isdir(out_spades_dir):
+        os.makedirs(out_spades_dir)
+    assem_list_f = config['assemblies']
+    with LoadFile(assem_list_f) as assem_list_fh:
+        for l in assem_list_fh.readlines():
+            if re.match('#', l):
+                continue
+            d = l.strip().split('\t')
+            strain = d[0]
+            assem_f = d[1]
+            assert os.path.isfile(assem_f), (
+                'Assembly file {} not found'.format(assem_f))
+            out_spades_strain_dir = os.path.join(out_spades_dir, strain)
+            contigs_f = os.path.join(out_spades_strain_dir, 'contigs.fasta')
+            if os.path.isfile(contigs_f):
+                logging.info('{} exists, so {} will be ignored')
+            else:
+                logging.info('Use precomputed assembly file {}. '
+                    'De novo assemly will be skipped for {}'.format(
+                    assem_f, strain))
+                if not os.path.isdir(out_spades_strain_dir):
+                    os.makedirs(out_spades_strain_dir)
+                shutil.copyfile(assem_f, contigs_f)
 
 
 rule all:
@@ -164,7 +192,7 @@ rule gpa_bin_mat:
             name_dict[d[0]] = d[1]
 
         # read roary result and identify single-copy genes
-        df=pd.read_csv(gpa_f, sep= ',',
+        df = pd.read_csv(gpa_f, sep= ',',
                 header=0, index_col=0, quotechar='"', low_memory=False)
 
         # filter and convert the states
@@ -186,7 +214,7 @@ rule indel_select_core_genes:
         min_num_strains = 2,
         filter_awk_script = awk_script_f
     conda:'indel_env.yml'
-    threads: 12
+    threads: 20
     shell:
         '''
         awk -v threshold="{params.min_num_strains}" \
@@ -199,30 +227,32 @@ rule indel_select_core_genes:
 rule indel_align_families:
     #' Compute family-wise alignments
     input:
-        ffn_files = expand(os.path.join(
-            out_prokka_dir, '{strain}', '{strain}.ffn'),
-            strain=list(dna_reads.keys())),
+#        ffn_files = expand(os.path.join(
+#            out_prokka_dir, '{strain}', '{strain}.ffn'),
+#            strain=list(dna_reads.keys())),
         core_gene_list = os.path.join(out_roary_dir,'core_genes_50.txt'),
         prot_tab = os.path.join(out_roary_dir, 'clustered_proteins')
     output:
         fam_aln_files = dynamic(os.path.join(
             extracted_proteins_dir, '{fam}.aln'))
     params:
+        prokka_dir = out_prokka_dir,
         gene_cluster2multi_script = 'gene_clusters2multi_fasta.py',
         extracted_proteins_dir = extracted_proteins_dir,
         parallel_log= 'mafft.log'
-    threads: 12 
+    threads: 20
     conda: 'indel_cluster_env.yml'
     shell:
         '''
-        core_genes={input.core_gene_list}
+	core_genes={input.core_gene_list}
         #number of core genes
         core_genes_wc=$(wc -l $core_genes | cut -f1 -d" ")
         #extract fasta sequences for each gene family
+
         {params.gene_cluster2multi_script} \
-{params.extracted_proteins_dir} \
-<(head -n $core_genes_wc {input.prot_tab}) \
-{input.ffn_files}
+        {params.extracted_proteins_dir} \
+        <(head -n $core_genes_wc {input.prot_tab}) \
+        {params.prokka_dir}/*/*ffn
         # align
         cd {params.extracted_proteins_dir}
         parallel --joblog {params.parallel_log} -j {threads} \
@@ -294,17 +324,19 @@ rule roary:
     #' Run Roary to compute orthologous groups
     input:
         gff_files= expand(os.path.join(out_prokka_dir, '{strain}', '{strain}.gff'),
-            strain= list(dna_reads.keys()))
+                        strain= list(dna_reads.keys()))
+
     output:
         gpa_csv = '{roary_dir}/gene_presence_absence.csv',
         gpa_rtab = '{roary_dir}/gene_presence_absence.Rtab',
         prot_tab = '{roary_dir}/clustered_proteins'
     conda: 'perl5_22_env.yml'
     params:
+        prokka_dir=out_prokka_dir,
         check_add_perl_env_script = 'install_perl_mods.sh',
         check_add_software_script = 'set_roary_env.sh',
         roary_bin = 'roary'
-    threads: 16
+    threads: 20
     shell:
         '''
         set +u
@@ -327,7 +359,7 @@ $ROARY_HOME/build/bedtools2/lib:$PERL5LIB
         echo $PERLLIB
         rm -r {wildcards.roary_dir}
         {params.roary_bin} -f {wildcards.roary_dir} \
--v {input.gff_files} -p {threads} -g 100000 -z
+-v {params.prokka_dir}/*/*gff -p {threads} -e --mafft -g 700000 -z
         set -u
         '''
 
@@ -339,7 +371,7 @@ rule create_gff:
     output:
         os.path.join(out_prokka_dir, '{strain}', '{strain}.gff'),
         os.path.join(out_prokka_dir, '{strain}', '{strain}.ffn')
-    threads: 1
+    threads: 20
     #conda: 'perl_for_prokka.yml'
     conda: 'prokka_env.yml'
     shell:

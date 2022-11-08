@@ -1,0 +1,6 @@
+The changed files compared to origianl Seq2Geno:
+./main/ZIP2Config.py, which is due to set "N" to everything except denovo when setting up conda environments
+almost eerything in ./denovo, which is to make the pipeline skip spades process
+Later after the conda env(s) are all set up, copy main folders from  seq2geno_assemble, where we hard coded to use already assemled genomes instead of spades produced.
+
+Khu. Nov 2022

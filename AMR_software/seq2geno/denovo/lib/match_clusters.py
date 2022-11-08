@@ -1,6 +1,6 @@
 #!/usr/bin/env python2
 import pandas as pd
-
+# noinspection PyCompatibility
 def parse(mapping, clustered_proteins):
 
     m = pd.read_csv(mapping, sep = "\t", header = None, index_col = 0)
@@ -11,10 +11,12 @@ def parse(mapping, clustered_proteins):
             matched = False
             for p in gene_ids.strip().split("\t"):
                 if p in prokka_set:
-                    print "%s\t%s,%s" % (gf, m.loc[p,].iloc[0], gf) 
+                    # noinspection PyCompatibility
+                    print "%s\t%s,%s" % (gf, m.loc[p,].iloc[0], gf)
                     matched = True
                     break
             if not matched:
+                # noinspection PyCompatibility
                 print "%s\t,,%s" % (gf, gf)
 
 if __name__ == "__main__":

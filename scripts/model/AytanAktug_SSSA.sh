@@ -23,8 +23,8 @@ eval $(parse_yaml Config.yaml)
 export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
 export PATH=~/miniconda2/bin:$PATH
 export PYTHONPATH=$PWD
-#source activate ${multi_env_name}
-source activate ${multi_torch_env_name}
+source activate ${multi_env_name}
+#source activate ${multi_torch_env_name}
 wait
 echo $CONDA_DEFAULT_ENV
 IFS=', ' read -ra species_list_temp <<< "$species_list"

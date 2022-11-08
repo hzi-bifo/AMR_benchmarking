@@ -139,6 +139,11 @@ def GETname_ResfinderResults(species,version,output_path):
 # ======================
 
 def GETname_S2Gfeature(species,temp_path,k):
+
+    if '.' in temp_path:
+        fileDir = os.path.dirname(os.path.realpath('__file__'))
+        temp_path=temp_path.replace(".",fileDir)
+
     log_feature=str(temp_path)+'log/software/seq2geno/software_output/' + str(species.replace(" ", "_"))+'/'
     dna_list=log_feature+'dna_list'
     assemble_list=log_feature+'assemble_list'
@@ -147,27 +152,18 @@ def GETname_S2Gfeature(species,temp_path,k):
     save_name_kmer=log_feature +  'cano_'+ str(species.replace(" ", "_")) +'_'+str(k) + '_mer.h5'
 
 
-    return save_name_kmer,dna_list,assemble_list,yml_file,run_file,log_feature
+    #only for the sake of original pipeline checking procedure. Not used actually in our benchmarking pipeline.
+    fileDir = os.path.dirname(os.path.realpath('__file__'))
+    phe_table= fileDir+'/AMR_software/seq2geno/examples/mem_phenotypes.mat'
+    ref_fa= fileDir+'/AMR_software/seq2geno/examples/reference/Pseudomonas_aeruginosa_PA14.edit.fasta.sub'
+    ref_gff=fileDir+ '/AMR_software/seq2geno/examples/reference/RefCln_UCBPP-PA14.edit.gff.sub.coor_shift'
+    ref_gbk= fileDir+'/AMR_software/seq2geno/examples/reference/Pseudomonas_aeruginosa_PA14_ncRNA.edit.utf-8.gbk.sub'
+    rna_reads= fileDir+'/AMR_software/seq2geno/examples/rna_list'
+    pseudo=[phe_table,ref_fa,ref_gff,ref_gbk,rna_reads]
 
 
 
-
-# ======================
-# Names for results and further visualization.  all ML software
-# ======================
-#todo
-
-# def GETsave_name_final(fscore,species,f_kma,f_phylotree,chosen_cl):
-def GETname_final(fscore,level,species,f_kma,f_phylotree,chosen_cl):
-    save_name_score = 'log/results/'+fscore+'/' +str(species.replace(" ", "_"))+'_kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'_'+chosen_cl
-    save_name_final = 'log/results/'+fscore+'/' + str(species.replace(" ", "_")) + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree)
-    return save_name_score,save_name_final
-
-def GETname_all():
-    name='Results/whole/'
-    return name
-
-
+    return save_name_kmer,dna_list,assemble_list,yml_file,run_file,log_feature,pseudo
 
 
 

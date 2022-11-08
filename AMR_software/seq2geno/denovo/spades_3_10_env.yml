@@ -9,22 +9,7 @@ channels:
   - defaults
   - conda-forge/label/broken
 dependencies:
-  - spades=3.10.0=py35_0
-  - bzip2=1.0.6=h470a237_2
-  - ca-certificates=2018.11.29=ha4d7672_0
-  - certifi=2018.8.24=py35_1001
-  - libffi=3.2.1=hfc679d8_5
-  - libgcc-ng=7.2.0=hdf63c60_3
-  - libstdcxx-ng=7.2.0=hdf63c60_3
-  - ncurses=6.1=hfc679d8_2
-  - openssl=1.0.2p=h470a237_2
-  - pip=18.0=py35_1001
-  - python=3.5.5=h5001a0f_2
-  - readline=7.0=haf1bffa_1
-  - setuptools=40.4.3=py35_0
-  - sqlite=3.26.0=hb1c47c0_0
-  - tk=8.6.9=ha92aebf_0
-  - wheel=0.32.0=py35_1000
-  - xz=5.2.4=h470a237_1
-  - zlib=1.2.11=h470a237_3
+  - spades=3.10.0
+  - python=3.5.5
+  - sqlite=3.26.0
 

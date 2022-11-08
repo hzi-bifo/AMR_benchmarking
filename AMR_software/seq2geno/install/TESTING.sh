@@ -13,7 +13,7 @@ echo 'SEQ2GENO_HOME is '$SEQ2GENO_HOME
 check_conda_channels () {
 	## ensure conda channels
 	echo '+check conda channels...'
-	for c in hzi-bifo conda-forge/label/broken bioconda conda-forge defaults; do 
+	for c in hzi-bifo conda-forge/label/broken bioconda conda-forge defaults anaconda; do
 		echo '+'$c
 		if [ $(conda config --get channels | grep $c | wc -l) -eq 0 ]; then
 			conda config --add channels $c

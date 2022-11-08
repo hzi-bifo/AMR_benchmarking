@@ -64,7 +64,7 @@ def run_Res(path,path_results,strain_ID,species,threshold_point,min_cov_point):
     res_database_path = os.path.abspath(os.path.realpath(res_database_path))
     # kma_path = os.path.join(fileDir, 'AMR_software/resfinder/cge/kma/kma')
     # kma_path = os.path.abspath(os.path.realpath(kma_path))
-    path_results=path_results+'resfinder_b_output/'#todo check
+    path_results=path_results+'software_output/'
     try:
         if species in ['Klebsiella pneumoniae','Escherichia coli','Staphylococcus aureus','Mycobacterium tuberculosis','Salmonella enterica',
                        'Neisseria gonorrhoeae','Enterococcus faecium','Campylobacter jejuni']:
