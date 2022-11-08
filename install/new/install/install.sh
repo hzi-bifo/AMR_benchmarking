@@ -34,12 +34,8 @@ eval $(parse_yaml Config.yaml)
 export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
 export PYTHONPATH=$PWD
 
-#todo add requirements.txt
+
 ###1.amr
-# F1: yml works!
-#conda env create -n ${amr_env_name}  -f ./install/amr_env.yml python=3.7 || { echo "Errors in activate env."; exit; }
-#----------------
-#F2:
 #conda create -n ${amr_env_name} -y python=3.7
 #conda init
 #source activate ${amr_env_name} || { echo "Errors in activate env."; exit; }
@@ -61,30 +57,8 @@ export PYTHONPATH=$PWD
 #conda deactivate
 #echo " ${amr_env_name} created successfully."
 
-####2.Point-/ResFinder
 
-conda create -n ${resfinder_env} -y python=3.8
-conda init
-source activate ${resfinder_env} || { echo "Errors in activate env."; exit; }
-wait
-echo $CONDA_DEFAULT_ENV
-conda install -y blast=2.5.0
-#conda install -c bioconda blast
-#conda install -c anaconda biopython
-#conda install -c anaconda gitpython
-#conda install -c anaconda tabulate
-#conda install -c anaconda cgecore
-#conda install -c conda-forge python-dateutil
-conda install -c anaconda -y pandas #todo
-conda install -y biopython=1.78|| { echo "Errors."; exit; }
-conda install -y gitpython=3.1.18 || { echo "Errors."; exit; } ##resfinder
-conda install -y tabulate==0.8.10|| { echo "Errors."; exit; } #resfinder
-conda install -y cgecore=1.5.6|| { echo "Errors."; exit; } ##resfinder
-conda install -y python-dateutil= 2.8.2|| { echo "Errors."; exit; } ##resfinder
-conda install -y blast=2.13.0|| { echo "Errors."; exit; } ##resfinder #todo check
-conda deactivate
-
-####3.PhenotypeSeeker
+####2.PhenotypeSeeker
 #conda create -n ${PhenotypeSeeker_env_name} -y python=3.7
 #conda init
 #source activate ${PhenotypeSeeker_env_name} || { echo "Errors in activate env."; exit; }
@@ -113,7 +87,6 @@ conda deactivate
 #pip install pandas==1.1.3|| { echo "Errors."; exit; }
 #pip install scikit-learn==0.24.1|| { echo "Errors."; exit; }
 #pip install scipy==1.5.4|| { echo "Errors."; exit; }
-#pip install biopython==1.78|| { echo "Errors."; exit; }
 #pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cpu|| { echo "Errors."; exit; }
 #conda deactivate
 #echo " ${multi_env_name} created successfully."
@@ -131,7 +104,6 @@ conda deactivate
 #pip install pandas==1.1.3|| { echo "Errors."; exit; }
 #pip install scikit-learn==0.24.1|| { echo "Errors."; exit; }
 #pip install scipy==1.5.4|| { echo "Errors."; exit; }
-#pip install biopython==1.78|| { echo "Errors."; exit; }
 #conda deactivate
 #echo " ${multi_torch_env_name} created successfully."
 #

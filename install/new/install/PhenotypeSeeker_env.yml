@@ -1,0 +1,49 @@
+name: PhenotypeSeeker_env
+channels:
+  - r
+  - anaconda
+  - pytorch
+  - conda-forge/label/broken
+  - hzi-bifo
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - _openmp_mutex=5.1=1_gnu
+  - ca-certificates=2022.07.19=h06a4308_0
+  - capnproto=0.9.1=h4ff587b_0
+  - certifi=2022.6.15=py37h06a4308_0
+  - genometester4=4.0=hec16e2b_4
+  - gsl=2.6=he838d99_2
+  - ld_impl_linux-64=2.38=h1181459_1
+  - libblas=3.8.0=1_openblas
+  - libcblas=3.8.0=1_openblas
+  - libffi=3.3=he6710b0_2
+  - libgcc-ng=11.2.0=h1234567_1
+  - libgfortran=3.0.0=1
+  - libgomp=11.2.0=h1234567_1
+  - liblapack=3.8.0=1_openblas
+  - libstdcxx-ng=11.2.0=h1234567_1
+  - mash=2.3=he348c14_1
+  - ncurses=6.3=h5eee18b_3
+  - numpy=1.18.1=py37h8960a57_0
+  - openblas=0.3.5=ha44fe06_0
+  - openssl=1.1.1q=h7f8727e_0
+  - pip=22.1.2=py37h06a4308_0
+  - pyparsing=2.4.7=pyhd8ed1ab_1
+  - python=3.7.13=h12debd9_0
+  - python_abi=3.7=2_cp37m
+  - readline=8.1.2=h7f8727e_1
+  - setuptools=61.2.0=py37h06a4308_0
+  - sqlite=3.39.2=h5082296_0
+  - tk=8.6.12=h1ccaba5_0
+  - wheel=0.37.1=pyhd3eb1b0_0
+  - xz=5.2.5=h7f8727e_1
+  - zlib=1.2.12=h7f8727e_2
+  - pip:
+    - joblib==1.2.0
+    - scikit-learn==0.24.1
+    - scipy==1.4.1
+    - threadpoolctl==3.1.0
+prefix: /home/khu/miniconda2/envs/PhenotypeSeeker_env
