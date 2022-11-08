@@ -92,7 +92,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
  
 - Users, who would like to reproduce this AMR benchmarking results, are not advised to change settings in this category. 
 - You can change them accordingly when you want to make use of this benchmarking workflow to explore more. 
-- For species_list and species_list_phylotree options, you can run one species at one time by one set or a smaller list of species to the value.
+- For species_list and species_list_phylotree options, you can evaluate software on one species at one time or on a smaller list of species at one time by changing the corresponding values.
 - For species related to multi-models, we have listed the possible maximum (in terms of data sets this study provides) for each setting, so you can explore as you like by reducing the species, but not by adding others on.
  
 |option|	action	|values ([default])|
