@@ -23,3 +23,4 @@ dependencies:
   - tqdm=4.61.1
   - psutil=5.8.0
   - python=3.9
+  - mamba=0.13.0

@@ -288,6 +288,7 @@ rule indel_vcf2bin:
         prefix= lambda wildcards: 'indel/{}'.format(wildcards.fam) 
     shell:
         '''
+        echo {input.indel_vcf}
         {params.vcf2indel_script} {input.indel_vcf} \
  {params.prefix} {output.indel_indels} {output.indel_gff} {output.indel_stats}
         '''
@@ -341,8 +342,9 @@ rule roary:
         '''
         set +u
         ROARY_HOME=$(dirname $(dirname $(which roary)))
+        echo $ROARY_HOME
         # required perl modules
-        {params.check_add_perl_env_script}
+        {params.check_add_perl_env_script} 
 
         export PATH=$ROARY_HOME/build/fasttree:\
 $ROARY_HOME/build/mcl-14-137/src/alien/oxygen/src:\
@@ -357,7 +359,9 @@ $ROARY_HOME/build/bedtools2/lib:$PERL5LIB
         which perl
         echo $PERL5LIB
         echo $PERLLIB
+        
         rm -r {wildcards.roary_dir}
+
         {params.roary_bin} -f {wildcards.roary_dir} \
 -v {params.prokka_dir}/*/*gff -p {threads} -e --mafft -g 700000 -z
         set -u

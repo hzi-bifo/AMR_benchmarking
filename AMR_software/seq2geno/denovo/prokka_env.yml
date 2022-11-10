@@ -34,7 +34,6 @@ dependencies:
   - keyutils=1.6.1
   - krb5=1.19.3
   - lcms2=2.14
-  - ld_impl_linux-64=2.39
   - lerc=4.0.0
   - minced=0.4.2
   - ncurses=6.3

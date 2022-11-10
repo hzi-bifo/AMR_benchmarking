@@ -37,7 +37,7 @@ download_proc_specific_env () {
 	echo '+extract example dataset'
 	cd $SEQ2GENO_HOME/examples
 	echo '+test the procedures in dryrun mode with the example dataset'
-	$SEQ2GENO_HOME/main/seq2geno -z example_input.zip || return false
+	$SEQ2GENO_HOME/main/seq2geno -z $SEQ2GENO_HOME/examples/example_input.zip || return false
 }
 
 #>>>
