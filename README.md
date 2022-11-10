@@ -18,12 +18,14 @@
 ## <a name="intro"></a>Introduction
 ### software list
 
-We compare the binary phenotype prediction performance of four machine learning (ML)- based and one direct association antimicrobial resistance (AMR) determination software:
+- We compare the binary phenotype prediction performance of four machine learning (ML)- based and one direct association antimicrobial resistance (AMR) determination software:
 1. [Aytan-Aktug](https://bitbucket.org/deaytan/neural_networks/src/master/) [[1]](#1), 
 2. Seq2Geno2Pheno([Seq2Geno](https://github.com/hzi-bifo/seq2geno.git)&[Geno2Pheno](https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno)) [[2]](#2), 
 3. [PhenotypeSeeker 0.7.3](https://github.com/bioinfo-ut/PhenotypeSeeker) [[3]](#3), 
 4. [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4). 
 5. [Point-/ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
+
+- All software methods, except for Kover, were benchmarked with adaption versions (provided in `./AMR_software`).
 
 ### <a name="data"></a>Data sets
 
@@ -92,7 +94,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
  
 - Users, who would like to reproduce this AMR benchmarking results, are not advised to change settings in this category. 
 - You can change them accordingly when you want to make use of this benchmarking workflow to explore more. 
-- For species_list and species_list_phylotree options, you can run one species at one time by one set or a smaller list of species to the value.
+- For species_list and species_list_phylotree options, you can evaluate software on one species at one time or on a smaller list of species at one time by changing the corresponding values.
 - For species related to multi-models, we have listed the possible maximum (in terms of data sets this study provides) for each setting, so you can explore as you like by reducing the species, but not by adding others on.
  
 |option|	action	|values ([default])|
@@ -102,7 +104,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 |species_list_phylotree|species to be included in for phylogeny-aware folds for the five software tools (Aytan-Aktug single-species-antibiotic model)|Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae|
 |species_list_multi_antibiotics|species to be included in for Aytan-Aktug single-species multi-antibiotic model. |Mycobacterium_tuberculosis, Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Neisseria_gonorrhoeae|
 |species_list_multi_species|species to be included in for three variants of Aytan-Aktug multi-species multi-antibiotic models. For user-defining species combinations for MSMA, please change species names here and replace -f_all with -s "${species[@]}" in ./scripts/model/AytanAktug_MSMA_concat.sh and ./scripts/model/AytanAktug_MSMA_discrete.sh|Mycobacterium_tuberculosis, Salmonella_enterica, Streptococcus_pneumoniae, Escherichia_coli, Staphylococcus_aureus, Klebsiella_pneumoniae, Acinetobacter_baumannii, Pseudomonas_aeruginosa, Campylobacter_jejuni|
-|merge_name| used to notate the folders for saving the results of three Aytan-Aktug multi-species multi-antibiotic models. Always takes such a form of a concatenation of species names in the order defined in the default value. E.g. only two species of Mycobacterium_tuberculosis and Salmonella_enterica will result in Mt_Se.|Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj|
+|merge_name| used to notate the folders for the results of three Aytan-Aktug multi-species multi-antibiotic models. Always takes such a form of a concatenation of species names in the order defined by input species list. E.g. only two species of Mycobacterium_tuberculosis and Salmonella_enterica will result in Mt_Se.|Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj|
 |cv_number|the k of k-fold nested cross-validation for the five software tools (Aytan-Aktug single-species-antibiotic model) and Aytan-Aktug single-species multi-antibiotic model|10|
 |cv_number_multiS|k+1, where the k corresponds to k-fold cross-validation and 1 corresponds to the hold out test set, for three variants of Aytan-Aktug multi-species multi-antibiotics models)|6|
 
