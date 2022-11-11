@@ -8,7 +8,7 @@ features:
   ar: N
 general:
   cores: 
-    20
+    2
   mem_mb:
     2000
   dna_reads: 

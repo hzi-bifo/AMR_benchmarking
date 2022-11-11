@@ -35,8 +35,8 @@ df = pd.read_csv(f, sep='\t', header=0, index_col=0,
 check_input(df)
 
 # group the features
-df = df.sort_index(axis=0, ascending=False)
-df = df.sort_index(axis=1, ascending=False)
+# df = df.sort_index(axis=0, ascending=False)
+# df = df.sort_index(axis=1, ascending=False)
 t_df = df.transpose()  # features in rows
 grouped_t_df = t_df.groupby(t_df.columns.values.tolist())
 

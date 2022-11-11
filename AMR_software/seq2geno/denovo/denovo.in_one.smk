@@ -109,7 +109,7 @@ rule all:
         indel_bin_mat = out_indel_f,
         gpa_bin_mat = out_gpa_f,
         non_redundant = expand('{in_tab}_{info}',
-            in_tab=[out_indel_f, out_gpa_f],
+            in_tab=[out_indel_f, out_cd _f],
             info=['GROUPS', 'NONRDNT'])
 
 
@@ -122,6 +122,69 @@ rule remove_redundant_feat:
     conda: 'cmpr_env.yml'
     script: 'featCompress.py'
 
+
+rule gpa_bin_mat:
+    # Encoding the roary output into the matrix of binary states
+    input:
+        rename_dict_f = os.path.join(out_roary_dir, 'roary_abricate.txt'),
+        gpa_csv = os.path.join(out_roary_dir, 'gene_presence_absence.csv')
+    output:
+        gpa_bin_mat = out_gpa_f
+    params:
+        strains = list(dna_reads.keys())
+    run:
+        import pandas as pd
+        import textwrap
+
+        strains = params['strains']
+        gpa_f = input['gpa_csv']
+        output_f = output['gpa_bin_mat']
+
+        # new name
+        name_dict = {}
+        in_fh = open(input.rename_dict_f, 'r')
+        for l in in_fh:
+            d = l.strip().split('\t')
+            name_dict[d[0]] = d[1]
+
+        # read roary result and identify single-copy genes
+        df = pd.read_csv(gpa_f, sep= ',',
+                header=0, index_col=0, quotechar='"', low_memory=False)
+
+        # filter and convert the states
+        bin_df = df.loc[:, strains].applymap(lambda x: '0' if pd.isna(x) else '1')
+        bin_df = bin_df.transpose() # strains in rows
+        bin_df.rename(columns=name_dict, inplace=True)
+        bin_df.to_csv(output_f, sep='\t', header=True, index=True,
+            index_label= 'Isolate')
+
+rule indel_integrate_indels:
+    # Combine the data of all families
+    input:
+        indel_all_indels = dynamic('indels/{fam}_indels.txt'),
+        core_gene_list = os.path.join(out_roary_dir,'core_genes_50.txt'),
+        gpa_rtab = os.path.join(out_roary_dir, 'gene_presence_absence.Rtab'),
+        annot = out_gpa_f,
+        roary_abricate = os.path.join(out_roary_dir, 'roary_abricate.txt')
+    output:
+        indel_annot = out_indel_f,
+        indel_annot_stats = out_indel_f+'.stats'
+    params:
+        generate_feature_script='generate_indel_features.py',
+        w_dir= 'indels'
+    conda: 'indel_env.yml'
+    shell:
+        '''
+        cd {params.w_dir}
+        # In 'clustered_proteins', roary never quotes gene names; 
+        # in the .Rtab, space-included names are quoted
+        {params.generate_feature_script} \
+<(cut -f1 ../{input.gpa_rtab} | tail -n+2 | sed 's/"//g') \
+../{input.annot} \
+../{output.indel_annot} \
+../{output.indel_annot}.stats \
+../{input.roary_abricate}
+        '''
 
 rule make_annotation:
     input:
@@ -166,41 +229,6 @@ rule abricate_dict:
 {input.roary_clustered_proteins} > {output.rename_dict}
         '''
 
-
-rule gpa_bin_mat:
-    # Encoding the roary output into the matrix of binary states
-    input:
-        rename_dict_f = os.path.join(out_roary_dir, 'roary_abricate.txt'),
-        gpa_csv = os.path.join(out_roary_dir, 'gene_presence_absence.csv')
-    output:
-        gpa_bin_mat = out_gpa_f
-    params:
-        strains = list(dna_reads.keys())
-    run:
-        import pandas as pd
-        import textwrap
-
-        strains = params['strains']
-        gpa_f = input['gpa_csv']
-        output_f = output['gpa_bin_mat']
-
-        # new name
-        name_dict = {}
-        in_fh = open(input.rename_dict_f, 'r')
-        for l in in_fh:
-            d = l.strip().split('\t')
-            name_dict[d[0]] = d[1]
-
-        # read roary result and identify single-copy genes
-        df = pd.read_csv(gpa_f, sep= ',',
-                header=0, index_col=0, quotechar='"', low_memory=False)
-
-        # filter and convert the states
-        bin_df = df.loc[:, strains].applymap(lambda x: '0' if pd.isna(x) else '1')
-        bin_df = bin_df.transpose() # strains in rows
-        bin_df.rename(columns=name_dict, inplace=True)
-        bin_df.to_csv(output_f, sep='\t', header=True, index=True,
-            index_label= 'Isolate')
 
 
 rule indel_select_core_genes:
@@ -291,34 +319,6 @@ rule indel_vcf2bin:
         echo {input.indel_vcf}
         {params.vcf2indel_script} {input.indel_vcf} \
  {params.prefix} {output.indel_indels} {output.indel_gff} {output.indel_stats}
-        '''
-
-rule indel_integrate_indels:
-    # Combine the data of all families
-    input:
-        indel_all_indels = dynamic('indels/{fam}_indels.txt'),
-        core_gene_list = os.path.join(out_roary_dir,'core_genes_50.txt'),
-        gpa_rtab = os.path.join(out_roary_dir, 'gene_presence_absence.Rtab'),
-        annot = out_gpa_f,
-        roary_abricate = os.path.join(out_roary_dir, 'roary_abricate.txt')
-    output:
-        indel_annot = out_indel_f,
-        indel_annot_stats = out_indel_f+'.stats'
-    params:
-        generate_feature_script='generate_indel_features.py',
-        w_dir= 'indels'
-    conda: 'indel_env.yml'
-    shell:
-        '''
-        cd {params.w_dir}
-        # In 'clustered_proteins', roary never quotes gene names; 
-        # in the .Rtab, space-included names are quoted
-        {params.generate_feature_script} \
-<(cut -f1 ../{input.gpa_rtab} | tail -n+2 | sed 's/"//g') \
-../{input.annot} \
-../{output.indel_annot} \
-../{output.indel_annot}.stats \
-../{input.roary_abricate}
         '''
 
 rule roary:

@@ -72,6 +72,7 @@ def extract_info(path_sequence,temp_path,s,f_all,f_prepare_meta, f_phylotree, f_
             # #modify the yml file
             a_file = open('./AMR_software/'+software_name+'/seq2geno_inputs.yml', "r")
             list_of_lines = a_file.readlines()
+            list_of_lines[10] = "    %s\n" % n_jobs
             list_of_lines[12] = "    100000\n"
             list_of_lines[14] = "    %s\n" % dna_list
             list_of_lines[26] = "    %s\n" % wd_results
