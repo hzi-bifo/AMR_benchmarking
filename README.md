@@ -48,7 +48,6 @@
         ```
         bash ./install/install.sh #Create 8 pieces of conda environments and install packages respectively
         ```
-    - Install [Blastn](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/) for [ResFinder](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) (feel free to refer to their original instructions), and make sure that "blastn" is in your PATH.
     -  If coming across creating environment for Kover, please refer to [Kover](https://aldro61.github.io/kover/doc_installation.html) to try other installation methods.
     - Finally, you need to install pytorch in the `multi_torch_env` manually. To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version 10.1 and 11.0 .
 
