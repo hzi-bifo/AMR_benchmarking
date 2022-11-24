@@ -71,7 +71,6 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 |log_path| To where to generate the `log` folder for the intermediate files, which you can delete by hand afterward. Large temp files are stored under `<log_path>/log/software/<software_name>/software_output`. Running benchmarking study scripts from beginning to the end will generate temp files up to the order of 10 terabytes, which means you are suggested to delete temp files via `./src/software_utility/clean.py` as soon as one software finishes evaluation successfully, except Point-/ResFinder. | ./|
 |n_jobs| CPU cores to use. Although you can set it to 1, be sure to prepare at least 2 cores as some software installation procedures use 2 cores by default. | 10 |
 |gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
-|kover_location| Kover install path  | /vol/projects/khu/amr/kover/bin/ |
 | clean_software|cleaning large intermediate files of the specified software||
 
 **B.Optional parameters setting**
@@ -136,7 +135,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 ## <a name="usage"></a>Usage
 ```
 git clone https://github.com/hzi-bifo/AMR_benchmarking.git
-bash main.sh
+bash main.sh #details of usage were explained in main.sh
 bash ./scripts/model/clean.sh # Optional. Clean intermediate files 
 ```
 
@@ -166,6 +165,11 @@ bash ./scripts/model/clean.sh # Optional. Clean intermediate files
 
 ## <a name="citation"></a> Citation
 
+
 ## <a name="contact"></a> Contact
 - Open an  [issue](https://github.com/hzi-bifo/AMR_benchmarking/issues) in the repository.
 - Send an email to Kaixin Hu (Kaixin.Hu@helmhotz-hzi.de).
+
+
+TODO: 1.remove ML seq2geno before make public!
+2. add 'recall_neg' 'precision_neg' to final analysis
