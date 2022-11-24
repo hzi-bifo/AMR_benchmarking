@@ -25,7 +25,7 @@ def get_mean_std(f1_pos_sub):
     f1_pos_m_s = str(round(f1_pos_mean,2))+'±'+str(round(f1_pos_std,2))
     return f1_pos_m_s
 
-def extract_info_species2(softwareName,cl_list,level,species,antibiotics,cv,f_phylotree,f_kma, temp_path, output_path):
+def extract_info_species2(softwareName,cl_list,level,species,cv,f_phylotree,f_kma, temp_path, output_path):
     '''
     Usage for : resfinder_folds & majority. No need to select the best classifier for reporting.
     [Low level]for each species and each classifier
@@ -35,11 +35,9 @@ def extract_info_species2(softwareName,cl_list,level,species,antibiotics,cv,f_ph
     ceftazidime|0.85±0.20|...
     ciprofloxacin|
     '''
-    antibiotics_selected = ast.literal_eval(antibiotics)
-    print(species)
-    print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
+    ### out_score='f' #['f1_macro','f1_positive', 'f1_negative','accuracy']
+    out_score='neg' #[f1_macro', 'f1_positive','f1_negative','precision_neg', 'recall_neg', 'accuracy']
     antibiotics, _, _ =  load_data.extract_info(species, False, level)
-
 
     for chosen_cl in cl_list:
         print('---------------------',chosen_cl)
@@ -84,7 +82,7 @@ def extract_info_species2(softwareName,cl_list,level,species,antibiotics,cv,f_ph
 
         #finish one chosen_cl
         #[Low level]for each species and each classifier
-        out_score='f' #['weighted-f1_macro','weighted-f1_positive', 'weighted-f1_negative','weighted-accuracy'
+
         if f_kma:
             final, final_plot,final_std =  make_table.make_visualization(out_score, summary_table_ByClassifier_all, antibiotics)
         else:#if f_phylotree or random
@@ -95,9 +93,15 @@ def extract_info_species2(softwareName,cl_list,level,species,antibiotics,cv,f_ph
 
         _,save_name_score_final = name_utility.GETname_result(softwareName, species, '',f_kma,f_phylotree,'',output_path)
         file_utility.make_dir(os.path.dirname(save_name_score_final))
-        final_plot=final_plot.rename(columns={"weighted-f1_macro": "f1_macro", "weighted-f1_positive": "f1_positive","weighted-f1_negative": "f1_negative", "weighted-accuracy": "accuracy" })
-        final=final.rename(columns={"weighted-f1_macro": "f1_macro", "weighted-f1_positive": "f1_positive","weighted-f1_negative": "f1_negative", "weighted-accuracy": "accuracy" })
-        final_std=final_std.rename(columns={"weighted-f1_macro": "f1_macro", "weighted-f1_positive": "f1_positive","weighted-f1_negative": "f1_negative", "weighted-accuracy": "accuracy" })
+        final_plot=final_plot.rename(columns={"weighted-f1_macro": "f1_macro", "weighted-f1_positive": "f1_positive",
+                                              "weighted-f1_negative": "f1_negative", "weighted-accuracy": "accuracy",
+                                              "weighted-precision_neg": "precision_neg" , "weighted-recall_neg": "recall_neg"})
+        final=final.rename(columns={"weighted-f1_macro": "f1_macro", "weighted-f1_positive": "f1_positive",
+                                    "weighted-f1_negative": "f1_negative", "weighted-accuracy": "accuracy",
+                                    "weighted-precision_neg": "precision_neg" , "weighted-recall_neg": "recall_neg"})
+        final_std=final_std.rename(columns={"weighted-f1_macro": "f1_macro", "weighted-f1_positive": "f1_positive",
+                                            "weighted-f1_negative": "f1_negative", "weighted-accuracy": "accuracy",
+                                            "weighted-precision_neg": "precision_neg" , "weighted-recall_neg": "recall_neg" })
 
         final.to_csv(save_name_score_final + '_SummaryBenchmarking.txt', sep="\t")
         final_plot.to_csv(save_name_score_final + '_SummaryBenchmarking_PLOT.txt', sep="\t")
@@ -106,7 +110,7 @@ def extract_info_species2(softwareName,cl_list,level,species,antibiotics,cv,f_ph
 
 
 
-def extract_info_species(softwareName,cl_list,level,species,antibiotics,cv,f_phylotree,f_kma, temp_path, output_path):
+def extract_info_species(softwareName,cl_list,level,species,cv,f_phylotree,f_kma, temp_path, output_path):
     '''
 
     [Low level]for each species and each classifier
@@ -116,14 +120,12 @@ def extract_info_species(softwareName,cl_list,level,species,antibiotics,cv,f_phy
     ceftazidime|0.85±0.20|...
     ciprofloxacin|
     '''
-    antibiotics_selected = ast.literal_eval(antibiotics)
-    print(species)
-    print('>>')
-    print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
+    ### out_score='f' #['f1_macro','f1_positive', 'f1_negative','accuracy']
+    out_score='neg' #[f1_macro', 'f1_positive','f1_negative','precision_neg', 'recall_neg', 'accuracy']
 
     antibiotics, _, _ =  load_data.extract_info(species, False, level)
 
-    # cl_list = ['svm', 'lr','rf']
+    ## cl_list = ['svm', 'lr','rf']
     for chosen_cl in cl_list:
         print('---------------------',chosen_cl)
         hy_para_fre=[]
@@ -134,41 +136,62 @@ def extract_info_species(softwareName,cl_list,level,species,antibiotics,cv,f_phy
 
             _,_ ,save_name_score= name_utility.GETname_model(softwareName,level, species, anti,chosen_cl,temp_path)
 
-
-            with open(save_name_score + '_KMA_' + str(f_kma) + '_Tree_' + str(f_phylotree) + '.json') as f:
-                score = json.load(f)
-            score2= pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '_model.pickle',"rb"))
-
-            summary_table_ByClassifier_ = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
+            try: #new version
+                with open(save_name_score + '_KMA_' + str(f_kma) + '_Tree_' + str(f_phylotree) + '.json') as f:
+                    score = json.load(f)
+                score2= pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '_model.pickle',"rb"))
+                summary_table_ByClassifier_ = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
                                        columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
                                                 'mcc', 'f1_positive', 'f1_negative', 'precision_neg', 'recall_neg',
                                                 'auc','threshold', 'support', 'support_positive'])
 
-            try:# not for MT
+                try:# not for MT
 
-                f1_test=score['f1_test']
-                score_report_test=score['score_report_test']
-                aucs_test=score['aucs_test']
-                mcc_test=score['mcc_test']
-                hyperparameters_test=score2['hyperparameters_test']
+                    f1_test=score['f1_test']
+                    score_report_test=score['score_report_test']
+                    aucs_test=score['aucs_test']
+                    mcc_test=score['mcc_test']
+                    hyperparameters_test=score2['hyperparameters_test']
 
-                common,ind =  math_utility.get_most_fre_hyper(hyperparameters_test,True)
-                hy_para_fre.append(common.to_dict())
-                hy_para_fren.append(ind)
-                hy_para_all.append(hyperparameters_test)
+                    common,ind =  math_utility.get_most_fre_hyper(hyperparameters_test,True)
+                    hy_para_fre.append(common.to_dict())
+                    hy_para_fren.append(ind)
+                    hy_para_all.append(hyperparameters_test)
 
 
 
-                if f_kma:# extract infor from report
-                    summary_table_ByClassifier=  extract_score.score_summary(None, summary_table_ByClassifier_, cv, score_report_test, f1_test,aucs_test,
-                                                                               mcc_test,
-                                                                               np.zeros(cv))# the last 0: no meaning.
-                else:# f_phylotree or random
-                    summary_table_ByClassifier =  extract_score.score_summary_Tree(None, summary_table_ByClassifier_, cv, score_report_test,
-                                                                                    f1_test,aucs_test, mcc_test,
-                                                                                np.zeros(cv))# the last 0: no meaning.
-            except:#only for MT
-                summary_table_ByClassifier = summary_table_ByClassifier_
+                    if f_kma:# extract infor from report
+                        summary_table_ByClassifier=  extract_score.score_summary(None, summary_table_ByClassifier_, cv, score_report_test, f1_test,aucs_test,
+                                                                                   mcc_test,
+                                                                                   np.zeros(cv))# the last 0: no meaning.
+                    else:# f_phylotree or random
+                        summary_table_ByClassifier =  extract_score.score_summary_Tree(None, summary_table_ByClassifier_, cv, score_report_test,
+                                                                                        f1_test,aucs_test, mcc_test,
+                                                                                    np.zeros(cv))# the last 0: no meaning.
+                except:#only for MT
+                    summary_table_ByClassifier = summary_table_ByClassifier_
+
+            except: #old version-----------------------------------------------------------------------------------------------------------------------------
+
+                score = pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '.pickle',"rb"))
+                try:# not for MT
+                    [f1_test, score_report_test, aucs_test, mcc_test, hyperparameters_test]=score
+                    summary_table_ByClassifier_ = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
+                                       columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                                'mcc', 'f1_positive', 'f1_negative', 'precision_neg', 'recall_neg',
+                                                'auc','threshold', 'support', 'support_positive'])
+                    if f_kma:# extract infor from report
+                        summary_table_ByClassifier=  extract_score.score_summary(None, summary_table_ByClassifier_, cv, score_report_test, f1_test,aucs_test,
+                                                                                       mcc_test,
+                                                                                       np.zeros(cv))# the last 0: no meaning.
+                    else:# f_phylotree or random
+                        summary_table_ByClassifier =  extract_score.score_summary_Tree(None, summary_table_ByClassifier_, cv, score_report_test,
+                                                                                            f1_test,aucs_test, mcc_test,
+                                                                                        np.zeros(cv))# the last 0: no meaning.
+                except:#only for MT
+                    summary_table_ByClassifier = summary_table_ByClassifier_
+            ########-------------------------------------------------------------------------------------------------------------------------------------------
+
 
             summary_table_ByClassifier_all.append(summary_table_ByClassifier)
 
@@ -177,7 +200,7 @@ def extract_info_species(softwareName,cl_list,level,species,antibiotics,cv,f_phy
 
         #finish one chosen_cl
         #[Low level]for each species and each classifier
-        out_score='f' #['weighted-f1_macro','weighted-f1_positive', 'weighted-f1_negative','weighted-accuracy'
+
         if f_kma:
             final, final_plot,final_std =  make_table.make_visualization(out_score, summary_table_ByClassifier_all, antibiotics)
         else:#if f_phylotree or random
@@ -197,7 +220,7 @@ def extract_info_species(softwareName,cl_list,level,species,antibiotics,cv,f_phy
 
 
 
-def extract_best_estimator(softwareName,cl_list,level,species,fscore,antibiotics,f_phylotree,f_kma,  output_path):
+def extract_best_estimator(softwareName,cl_list,level,species,fscore,f_phylotree,f_kma,  output_path):
     '''
     for each species output:
     e.g. 1. summary_benchmarking
@@ -218,23 +241,18 @@ def extract_best_estimator(softwareName,cl_list,level,species,fscore,antibiotics
     # ceftazidime||...
     # ciprofloxacin|
     '''
-    antibiotics_selected = ast.literal_eval(antibiotics)
-
-    print(species)
-    print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
+    score_list=['f1_macro','accuracy', 'f1_positive','f1_negative','precision_neg', 'recall_neg']
 
     antibiotics, _, _ =  load_data.extract_info(species, False, level)
-    # cl_list = ['svm', 'lr','rf']
-
+    ### cl_list = ['svm', 'lr','rf']
 
     summary_table = pd.DataFrame(index=antibiotics,columns=cl_list)
     summary_table_mean = pd.DataFrame(index=antibiotics, columns=cl_list)
     summary_table_std = pd.DataFrame(index=antibiotics, columns=cl_list)
-    summary_benchmarking=pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative',
-                                                                 'classifier', 'classifier_bymean','hyperparameter sets','selected hyperparameter','frequency(out of 10)'])
+    summary_benchmarking=pd.DataFrame(index=antibiotics,columns=score_list+['classifier', 'classifier_bymean','hyperparameter sets','selected hyperparameter','frequency(out of 10)'])
 
-    summary_benchmarking_plot=pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative','classifier'])
-    summary_benchmarking_std=pd.DataFrame(index=antibiotics,columns=['f1_macro','accuracy', 'f1_positive','f1_negative','classifier'])
+    summary_benchmarking_plot=pd.DataFrame(index=antibiotics,columns=score_list+['classifier'])
+    summary_benchmarking_std=pd.DataFrame(index=antibiotics,columns=score_list+['classifier'])
     for anti in antibiotics:
         for chosen_cl in cl_list:
 
@@ -253,6 +271,8 @@ def extract_best_estimator(softwareName,cl_list,level,species,fscore,antibiotics
             summary_table_std.loc[anti, chosen_cl] = score_sub_std.loc[anti, final_score_]
 
     _,save_name_final = name_utility.GETname_result(softwareName, species, fscore,f_kma,f_phylotree,'',output_path)
+
+    file_utility.make_dir(os.path.dirname(save_name_final))
     summary_table.to_csv(save_name_final + '_SummaryClassifier.txt', sep="\t")
 
 
@@ -279,19 +299,19 @@ def extract_best_estimator(softwareName,cl_list,level,species,fscore,antibiotics
         score_sub_std= pd.read_csv(score_ + '_std.txt', header=0, index_col=0, sep="\t")
         if f_kma:
 
-            summary_benchmarking.loc[anti, ['f1_macro','accuracy', 'f1_positive','f1_negative']] = score_sub.loc[anti, ['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative']].to_list()
-            summary_benchmarking_plot.loc[[anti], ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']] = score_sub_plot.loc[
-                anti, ['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative']].to_list()
-            summary_benchmarking_std.loc[[anti], ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']] = score_sub_std.loc[
-                anti, ['weighted-f1_macro','weighted-accuracy', 'weighted-f1_positive','weighted-f1_negative']].to_list()
+            summary_benchmarking.loc[anti, score_list] = score_sub.loc[anti, ['weighted-'+x for x in score_list]].to_list()
+            summary_benchmarking_plot.loc[[anti], score_list] = score_sub_plot.loc[
+                anti, ['weighted-'+x for x in score_list]].to_list()
+            summary_benchmarking_std.loc[[anti], score_list] = score_sub_std.loc[
+                anti,['weighted-'+x for x in score_list]].to_list()
 
         else:
-            summary_benchmarking.loc[anti, ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative','hyperparameter sets','selected hyperparameter','frequency(out of 10)']] = score_sub.loc[
-                anti, ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative','hyperparameter sets','selected hyperparameter','frequency(out of 10)']].to_list()
-            summary_benchmarking_plot.loc[[anti], ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']] = score_sub_plot.loc[
-                anti, ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']].to_list()
-            summary_benchmarking_std.loc[[anti], ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']] = score_sub_std.loc[
-                anti, ['f1_macro', 'accuracy', 'f1_positive', 'f1_negative']].to_list()
+            summary_benchmarking.loc[anti, score_list+['hyperparameter sets','selected hyperparameter','frequency(out of 10)']] = score_sub.loc[
+                anti,score_list+ ['hyperparameter sets','selected hyperparameter','frequency(out of 10)']].to_list()
+            summary_benchmarking_plot.loc[[anti], score_list] = score_sub_plot.loc[
+                anti, score_list].to_list()
+            summary_benchmarking_std.loc[[anti], score_list] = score_sub_std.loc[
+                anti, score_list].to_list()
     print(summary_benchmarking)
     summary_benchmarking.to_csv(save_name_final + '_SummaryBenchmarking.txt', sep="\t")
     summary_benchmarking_plot.to_csv(save_name_final + '_SummaryBenchmarking_PLOT.txt', sep="\t")
@@ -307,15 +327,14 @@ def extract_info(softwareName,cl_list,level,s,f_all,cv,fscore,f_phylotree,f_kma,
     if f_all == False:
         data = data.loc[s, :]
     df_species = data.index.tolist()
-    antibiotics = data['modelling antibiotics'].tolist()
 
-    for species, antibiotics in zip(df_species, antibiotics):
+    for species in  df_species:
 
         if len(cl_list)>1: # phenotypeseeker & s2g2p
-            extract_info_species(softwareName,cl_list,level, species, antibiotics, cv,f_phylotree,f_kma ,temp_path, output_path)
-            extract_best_estimator(softwareName,cl_list,level, species, fscore, antibiotics,f_phylotree,f_kma, output_path)
+            extract_info_species(softwareName,cl_list,level, species, cv,f_phylotree,f_kma ,temp_path, output_path)
+            extract_best_estimator(softwareName,cl_list,level, species, fscore,f_phylotree,f_kma, output_path)
         else:# resfinder_folds & majority. No need to select the best classifier for reporting.
-            extract_info_species2(softwareName,cl_list,level, species, antibiotics, cv,f_phylotree,f_kma ,temp_path, output_path)
+            extract_info_species2(softwareName,cl_list,level, species, cv,f_phylotree,f_kma ,temp_path, output_path)
 
 
 

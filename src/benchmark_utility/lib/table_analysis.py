@@ -9,7 +9,8 @@ import numpy as np
 import copy
 from openpyxl import load_workbook
 from src.benchmark_utility.lib.CombineResults import combine_data
-
+import itertools
+from scipy.stats import ttest_rel
 
 '''
 This script organizes the performance for Supplementary materials, and further analysis on the results.
@@ -37,9 +38,9 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
     # # ------------------------------------------
     if step=='1':
         if com_tool_list==['Point-/ResFinder']:
-            path_table_results2=output_path+ 'Results/other_figures_tables/ML_Com_resfinder.xlsx'
+            path_table_results2=output_path+ 'Results/other_figures_tables/ML_Com_resfinder_'+fscore+'.xlsx'
         elif com_tool_list==['ML Baseline (Majority)']:
-            path_table_results2=output_path+ 'Results/other_figures_tables/ML_Com_MLbaseline.xlsx'
+            path_table_results2=output_path+ 'Results/other_figures_tables/ML_Com_MLbaseline_'+fscore+'.xlsx'
         else:
             print('Please add a new name manually at ./src/benchmark_utility/lib/table_analysis.py \
             if a new software except resfinder and ML baseline is chosed for a comparison with the rest.')
@@ -114,13 +115,18 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
     # ------------------------------------------
     if step=='2':
         if tool_list==['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']:
-            path_table_results3_1=output_path+ 'Results/supplement_figures_tables/S6-1_software_winner.xlsx'
-            path_table_results3_2=output_path+ 'Results/final_figures_tables/F3_results_heatmap.xlsx'
+
+            if fscore=='f1_macro':
+                path_table_results3_1=output_path+ 'Results/supplement_figures_tables/S6-1_software_winner_'+fscore+'.xlsx'
+                path_table_results3_2=output_path+ 'Results/final_figures_tables/F3_results_heatmap_'+fscore+'.xlsx'
+            else:
+                path_table_results3_1=output_path+ 'Results/other_figures_tables/software_winner_'+fscore+'.xlsx'
+                path_table_results3_2=output_path+ 'Results/other_figures_tables/results_heatmap_'+fscore+'.xlsx'
         elif tool_list==['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
                    'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
                 'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']:
-            path_table_results3_1=output_path+ 'Results/supplement_figures_tables/S6-2_software_winner_multiModel.xlsx'
-            path_table_results3_2=output_path+ 'Results/final_figures_tables/results_heatmap_multiModel.xlsx'
+            path_table_results3_1=output_path+ 'Results/supplement_figures_tables/S6-2_software_winner_multiModel_'+fscore+'.xlsx'
+            path_table_results3_2=output_path+ 'Results/final_figures_tables/results_heatmap_multiModel_'+fscore+'.xlsx'
         else:
             print('Please add a new name manually at ./src/benchmark_utility/lib/table_analysis.py \
             if new software combinations are used for deciding winner or generate heatmap format excel.')
@@ -242,3 +248,49 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
 
 
 
+    if step=='3':
+        # paired T-test
+        print('Now paired T-test')
+        Presults={}
+        for eachfold in foldset:
+            i=0
+            for each_tool in tool_list:
+
+                df_final=pd.DataFrame(columns=['species', 'antibiotics', each_tool])
+                for species in  species_list:
+
+                    species_sub=[species]
+                    df_score=combine_data(species_sub,level,fscore,[each_tool],[eachfold],output_path)
+                    df_score=df_score.reset_index()
+                    df_score=df_score.drop(columns=['index'])
+
+                    df_score[fscore] = df_score[fscore].astype(str)
+                    df_score[each_tool]=df_score[fscore].apply(lambda x:x.split('±')[0]) #get mean if there is mean
+                    df_score[each_tool] = df_score[each_tool] .astype(float)
+                    df_score=df_score[['species', 'antibiotics',each_tool]]
+                    df_final= pd.concat([df_final,df_score])
+
+                if i==0:
+                    df_compare=df_final
+                else:
+                    df_compare=pd.merge(df_compare, df_final, how="left", on=['species', 'antibiotics'])
+                i+=1
+
+
+            df_mean=df_compare[tool_list]
+            df_mean = df_mean.dropna()
+            print('Paired T-test:')
+            #T-test
+            i_noDiff=0
+            for each_com in list(itertools.combinations(tool_list, 2)):
+                mean1 = df_mean[each_com[0]]
+                mean2 = df_mean[each_com[1]]
+                result=ttest_rel(mean1, mean2)
+                pvalue = result[1]
+                print(each_com,pvalue)
+                Presults[str( [each_com]+[eachfold])]=pvalue
+                if pvalue>=0.05:
+                    i_noDiff+=1
+        print('No. can not reject null hypothesis:',i_noDiff)
+        with open(output_path+ 'Results/supplement_figures_tables/S6-3_software_Pvalue_'+fscore+'.json', 'w') as f:
+            json.dump(Presults, f)

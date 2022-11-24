@@ -20,7 +20,7 @@ This script summarizes benchmarking results as graphs and tables.
 
 
 def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_sample,
-                 f_table,f_table_analysis,output_path):
+                 f_table,f_table_analysis,f_clinical_analysis,output_path):
 
     ####################################################################################################################
     ### 1.Supplemental File 1 Performance(F1-macro, negative F1-score, positive F1-score, accuracy) of five methods alongside with the baseline method (Majority)
@@ -47,6 +47,7 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
     ###3.2 Three pieces of software lists, under random folds, phylogeny-aware folds, and homology-aware folds.
     ##  Each list provides the software (or several) with highest F1-macro mean, and lowest F1-macro standard deviation
     ##  if several are with the same highest mean.
+    ## Paired t-test
     ###################################################################################################################
     if f_table_analysis:
 
@@ -63,13 +64,41 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
 
         foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
         tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
-        src.benchmark_utility.lib.table_analysis.extract_info(level,species, fscore, f_all ,output_path,'2',tool_list,foldset,com_tool_list)
+        src.benchmark_utility.lib.table_analysis.extract_info(level,species, fscore, f_all ,output_path,'2',tool_list,foldset,'')
 
         foldset=['Homology-aware folds']
         tool_list=['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
                    'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
                 'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
-        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,  f_all ,output_path,'2',tool_list,foldset,com_tool_list)
+        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,  f_all ,output_path,'2',tool_list,foldset,'')
+
+
+        #paired t-test
+        foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
+        tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,f_all ,output_path,'3',tool_list,foldset,'')
+
+    ### Clinical-oriented performance analysis
+    ###  compared the software performance regarding F1-negative and precision-negative
+    if f_clinical_analysis:
+        foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
+        tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+        com_tool_list=['Point-/ResFinder']
+        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore, f_all ,output_path,'1',tool_list,foldset,com_tool_list)
+        foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
+        tool_list=['Point-/ResFinder','Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+        com_tool_list=['ML Baseline (Majority)']
+        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,  f_all ,output_path,'1',tool_list,foldset,com_tool_list)
+        foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
+        tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+        src.benchmark_utility.lib.table_analysis.extract_info(level,species, fscore, f_all ,output_path,'2',tool_list,foldset,'')
+        foldset=['Homology-aware folds']
+        tool_list=['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
+                   'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
+                'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
+        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,  f_all ,output_path,'2',tool_list,foldset,'')
+
+
     ####################################################################################################################
     ### 4.  Fig. 4 & Supplemental File 2 Fig. S5-7 Error bar plot.
     ## Software performance (F1-macro  with 95% with confidence intervals) comparison on combinations sharing the same antibiotic,
@@ -162,7 +191,8 @@ if __name__== '__main__':
     parser.add_argument('-f_species', '--f_species', dest='f_species', action='store_true',
                         help='benchmarking by species.')
     parser.add_argument('-fscore', '--fscore', default='f1_macro', type=str, required=False,
-                        help='the score used to choose the best classifier for each antibiotic. Can be one of: \'f1_macro\',\'f1_positive\',\'f1_negative\',\'accuracy\'')
+                        help='the score used to choose the best classifier for each antibiotic. \
+                        Can be one of: \'f1_macro\',\'f1_positive\',\'f1_negative\',\'accuracy\',\'precision-negative\',\'recall-negative\'')
     parser.add_argument('-f_robust', '--f_robust', dest='f_robust', action='store_true',
                         help='plotting pairbox w.r.t. 3 folds split methods.')
     parser.add_argument('-f_sample', '--f_sample', dest='f_sample', action='store_true',
@@ -171,6 +201,8 @@ if __name__== '__main__':
                         help='Performance scores for Supplemental File 1.')
     parser.add_argument('-f_table_analysis', '--f_table_analysis', dest='f_table_analysis', action='store_true',
                         help='Winner lists and tables for further analysis.')
+    parser.add_argument('-f_clinical_analysis', '--f_clinical_analysis', dest='f_clinical_analysis', action='store_true',
+                        help='Comparision based on F1-negative and precision-negative.')
     parser.add_argument('-f_anti', '--f_anti', dest='f_anti', action='store_true',
                         help='Compare software performance on combinations sharing antibiotics but different species.')
     parser.add_argument('-o', '--output_path', default='./', type=str, required=False,
@@ -178,4 +210,4 @@ if __name__== '__main__':
     parsedArgs = parser.parse_args()
 
     extract_info(parsedArgs.l,parsedArgs.species,parsedArgs.fscore,parsedArgs.f_all,parsedArgs.f_species,parsedArgs.f_anti,
-                 parsedArgs.f_robust,parsedArgs.f_sample,parsedArgs.f_table,parsedArgs.f_table_analysis,parsedArgs.output_path)
+                 parsedArgs.f_robust,parsedArgs.f_sample,parsedArgs.f_table,parsedArgs.f_table_analysis,parsedArgs.f_clinical_analysis,parsedArgs.output_path)

@@ -163,8 +163,10 @@ def multi_make_visualization_normalCV(out_score,All_antibiotics,score):
     if out_score == 'f':
         final = final[['f1_macro', 'f1_positive', 'f1_negative', 'accuracy_macro']]
 
-    elif out_score == 'f_p_r':
-        final = final[['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro']]
+    # elif out_score == 'f_p_r':
+    #     final = final[['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro']]
+    elif out_score=='neg':
+        final = final[['f1_macro', 'f1_positive','f1_negative','precision_neg', 'recall_neg', 'accuracy']]
 
     else:  # all scores
         print('oerroe! only f or f_p_r for out_score.')
@@ -213,8 +215,10 @@ def concat_multi_make_visualization(out_score, All_antibiotics , score):
     if out_score=='f':
         final=final[['f1_macro','f1_positive', 'f1_negative','accuracy']]
 
-    elif out_score=='f_p_r':
-        final = final[['f1_macro', 'precision_macro', 'recall_macro', 'accuracy']]
+    ## elif out_score == 'f_p_r':
+    ##     final = final[['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro']]
+    elif out_score=='neg':
+        final = final[['f1_macro', 'f1_positive','f1_negative','precision_neg', 'recall_neg', 'accuracy']]
 
     else:#all scores
         pass
