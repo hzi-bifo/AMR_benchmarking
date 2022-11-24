@@ -171,4 +171,5 @@ bash ./scripts/model/clean.sh # Optional. Clean intermediate files
 - Send an email to Kaixin Hu (Kaixin.Hu@helmhotz-hzi.de).
 
 
-TODO: remove ML seq2geno before make public!
+TODO: 1.remove ML seq2geno before make public!
+2. add 'recall_neg' 'precision_neg' to final analysis
