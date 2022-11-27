@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import statistics
 import math
-
+from sympy import symbols, Eq, solve
 
 def weithgted_var(values,average,weights):
     n=len(values)
@@ -322,6 +322,78 @@ def summary_allLoop(count_anti,summary, cv,score_report_test,f1_test, aucs_test,
         summary = summary.append(summary_sub, ignore_index=True)
     return summary
 
+
+
+def score_clinical(summary, cv, score_report_test):
+    ## Only for F1-negative, precision-negative. Intergrate predicted results from all folds, and compute the scores.
+    ## this is done due to the uneven distribution of R and S samples across the folds under phylo-folds and kma-based folds.
+    ## but for convenience of comparison, we also intergated the results evaluated under random folds for clinical oriented scores generation.
+    ## Nov 24 2022.
+    TP=[]
+    FP=[]
+    TN=[]
+    FN=[]
+
+    for i in np.arange(cv):
+        report = score_report_test[i]
+        i+=1
+        report=pd.DataFrame(report).transpose()
+        # print(report)
+        precision_pos=report.loc['1', 'precision']
+        recall_pos=report.loc['1', 'recall']
+        precision_neg=report.loc['0', 'precision']
+        recall_neg=report.loc['0', 'recall']
+        support_neg=report.loc['0', 'support']
+        support_pos=report.loc['1', 'support']
+        # precision_pos=float(precision_pos)
+        # precision_neg=float(precision_neg)
+        # recall_neg=float(recall_neg)
+        # recall_pos=float(recall_pos)
+        tp,fp,tn,fn = symbols('tp,fp,tn,fn')
+        eq1 = Eq((tp-precision_pos*(tp+fp)),0)
+        eq2 = Eq((tp-recall_pos*(tp+fn)),0)
+        eq3 = Eq((tn-precision_neg*(tn+fn)),0 )
+        eq4 = Eq((tn-recall_neg*(tn+fp)),0)
+        # eq1 = Eq((tp/(tp+fp)), precision_pos)
+        # eq2 = Eq((tp/(tp+fn)),recall_pos)
+        # eq3 = Eq((tn/(tn+fn)), precision_neg)
+        # eq4 = Eq((tn/(tn+fp)),recall_neg)
+        eq5 = Eq(tn+fp,support_neg)
+        eq6 = Eq(tp+fn,support_pos)
+
+        confusion=solve((eq1, eq2,eq3, eq4,eq5,eq6), (tp,fp,tn,fn))
+        if confusion==[]:
+            confusion=solve((eq1, eq2,eq3, eq4,eq5,eq6), (tp,fp,tn,fn), rational=False)
+            if confusion==[]:
+                A=np.array([[(1-precision_pos), -precision_pos, 0,0],
+                            [0,0,(1-precision_neg), -precision_neg],[0,1,1,0],[1,0,0,1]])
+                B = np.array([0, 0, support_neg,support_pos])
+                tp_,fp_,tn_,fn_ = np.linalg.inv(A).dot(B)
+                confusion={tp: tp_, fp: fp_, tn: tn_, fn: fn_}
+
+        tp_sub=confusion[tp]
+        TP.append(tp_sub)
+        fp_sub=confusion[fp]
+        FP.append(fp_sub)
+        tn_sub=confusion[tn]
+        TN.append(tn_sub)
+        fn_sub=confusion[fn]
+        FN.append(fn_sub)
+    tp_whole=sum(TP)
+    fp_whole=sum(FP)
+    tn_whole=sum(TN)
+    fn_whole=sum(FN)
+
+    clinical_f1_negative=2*tn_whole/(2*tn_whole+fn_whole+fp_whole)
+    if (tn_whole+fn_whole)>0 :
+        clinical_precision_neg=tn_whole/(tn_whole+fn_whole)
+    else:
+        clinical_precision_neg=0
+    clinical_recall_neg=tn_whole/(tn_whole+fp_whole)
+    summary.loc['value', :] =[clinical_f1_negative,clinical_precision_neg,clinical_recall_neg]
+
+
+    return summary
 
 
 

@@ -119,14 +119,18 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
             if fscore=='f1_macro':
                 path_table_results3_1=output_path+ 'Results/supplement_figures_tables/S6-1_software_winner_'+fscore+'.xlsx'
                 path_table_results3_2=output_path+ 'Results/final_figures_tables/F3_results_heatmap_'+fscore+'.xlsx'
-            else:
+            else: #clinical-oriented
                 path_table_results3_1=output_path+ 'Results/other_figures_tables/software_winner_'+fscore+'.xlsx'
                 path_table_results3_2=output_path+ 'Results/other_figures_tables/results_heatmap_'+fscore+'.xlsx'
         elif tool_list==['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
                    'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
                 'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']:
-            path_table_results3_1=output_path+ 'Results/supplement_figures_tables/S6-2_software_winner_multiModel_'+fscore+'.xlsx'
-            path_table_results3_2=output_path+ 'Results/final_figures_tables/results_heatmap_multiModel_'+fscore+'.xlsx'
+            if fscore=='f1_macro':
+                path_table_results3_1=output_path+ 'Results/supplement_figures_tables/S6-2_software_winner_multiModel_'+fscore+'.xlsx'
+                path_table_results3_2=output_path+ 'Results/final_figures_tables/results_heatmap_multiModel_'+fscore+'.xlsx'
+            else:#clinical-oriented
+                path_table_results3_1=output_path+ 'Results/other_figures_tables/software_winner_multiModel_'+fscore+'.xlsx'
+                path_table_results3_2=output_path+ 'Results/other_figures_tables/results_heatmap_multiModel_'+fscore+'.xlsx'
         else:
             print('Please add a new name manually at ./src/benchmark_utility/lib/table_analysis.py \
             if new software combinations are used for deciding winner or generate heatmap format excel.')

@@ -27,6 +27,9 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
 
 
     if tool=='KMA-based Point-/ResFinder': #without folds
+        if 'clinical_' in fscore: #because no folds, so no different between "clinical_score" and "score", defined in this study.
+            fscore=fscore.split('_',1)[1]
+
         if species not in ['Neisseria gonorrhoeae']:
             results_file=name_utility.GETname_ResfinderResults(species,'resfinder_k',output_path)
             results = pd.read_csv(results_file + '.csv',index_col=0,header=0 ,sep="\t")
@@ -34,6 +37,8 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
         else:
             score=np.nan
     if tool=='Blastn-based Point-/ResFinder': #without folds
+        if 'clinical_' in fscore: #because no folds, so no different between "clinical_score" and "score", defined in this study.
+            fscore=fscore.split('_',1)[1]
         results_file=name_utility.GETname_ResfinderResults(species,'resfinder_b',output_path)
         results = pd.read_csv(results_file + '.csv',index_col=0 ,header=0,sep="\t")
         score=results.loc[anti,fscore]
@@ -106,6 +111,8 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
         score=results.loc[anti,fscore_format]
 
     if tool=='Discrete databases multi-species model':
+        if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
+            fscore=fscore.split('_',1)[1]
         learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
         results_file =  name_utility.GETname_AAresult('AytanAktug','Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj',learning,\
               epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'MSMA_discrete',output_path)
@@ -122,6 +129,8 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
                 score=np.nan
 
     if tool=='Concatenated databases mixed multi-species model':
+        if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
+            fscore=fscore.split('_',1)[1]
         learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
 
         results_file = name_utility.GETname_AAresult('AytanAktug','Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj',learning,\
@@ -139,6 +148,8 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
                 score=np.nan
 
     if tool=='Concatenated databases leave-one-out multi-species model':
+        if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
+            fscore=fscore.split('_',1)[1]
         learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
         results_file = name_utility.GETname_AAresult('AytanAktug','Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj',learning,\
                      epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'MSMA_concatLOO',output_path)

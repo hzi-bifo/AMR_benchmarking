@@ -33,6 +33,95 @@ def j2l(score_temp):
 
     return score
 
+def extract_OldFormat(hy_para_all,hy_para_fre,species, anti,learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score,temp_path,f_kma,f_phylotree):
+    #for extracting results from our CV results stored in pickle files, which was a format not used in this project anymore.
+
+    folder=temp_path+'log/software/AytanAktug/analysis/SSSA/'+ str(species.replace(" ", "_"))
+    save_name_score=folder +'/'+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_lr_'+ str(learning)+'_ep_'+str(epochs)+'_fixT_'+str(f_fixed_threshold)
+    if f_phylotree:
+        score = pickle.load(open(save_name_score + '_all_score_Tree.pickle', "rb"))
+    elif f_kma:
+        score =  pickle.load(open(save_name_score + '_all_score.pickle', "rb"))
+    else:
+        score =pickle.load(open(save_name_score + '_all_score_Random.pickle', "rb"))
+    f1macro=score[1]
+    aucs_test = score[4]
+    score_report_test = score[3]
+    mcc_test = score[2]
+    thresholds_selected_test = score[0]
+    hy_para_all.append([score[6],score[7],score[8]])#1*n_cv
+    #vote the most frequent used hyper-para
+    hy_para_collection=score[6]#10 dimension. each reapresents one outer loop.
+    common,ind= math_utility.get_most_fre_hyper(hy_para_collection)
+    hy_para_fre.append(common.to_dict())
+    return f1macro,aucs_test,score_report_test,mcc_test,thresholds_selected_test,hy_para_all,hy_para_fre
+
+def extract_info_clinical_SSSA(level,species,cv,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_phylotree,f_kma, temp_path):
+    antibiotics, _, _ =  load_data.extract_info(species, False, level)
+    score_list=['clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']
+    summary_table_ByClassifier_all = []
+    for anti in antibiotics:
+        print(species,anti)
+        summary_table_ByClassifier_ = pd.DataFrame(index=['value'],columns=score_list)
+
+        save_name_score,_,_ =  name_utility.GETname_AAscoreSSSA('AytanAktug',species, anti,learning,
+                                                                         epochs,f_fixed_threshold,f_nn_base,
+                                                           f_optimize_score,temp_path,f_kma,f_phylotree)
+
+
+        try:#new version
+            with open(save_name_score) as f:
+                score = json.load(f)
+            score_report_test=score['score_report_test']
+        except:#old version
+            folder=temp_path+'log/software/AytanAktug/analysis/SSSA/'+ str(species.replace(" ", "_"))
+            save_name_score=folder +'/'+str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_lr_'+ str(learning)+'_ep_'+str(epochs)+'_fixT_'+str(f_fixed_threshold)
+            if f_phylotree:
+                score = pickle.load(open(save_name_score + '_all_score_Tree.pickle', "rb"))
+            elif f_kma:
+                score =  pickle.load(open(save_name_score + '_all_score.pickle', "rb"))
+            else:
+                score =pickle.load(open(save_name_score + '_all_score_Random.pickle', "rb"))
+            score_report_test = score[3]
+
+        summary_table_ByClassifier =  extract_score.score_clinical(summary_table_ByClassifier_, cv, score_report_test)
+        summary_table_ByClassifier_all.append(summary_table_ByClassifier)
+
+    final =  make_table.make_visualization_clinical(score_list, summary_table_ByClassifier_all, antibiotics)
+    return final
+
+def extract_info_clinical_SSMA(level,species,cv,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_phylotree,f_kma, temp_path):#todo check
+    antibiotics, _, _ =  load_data.extract_info(species, False, level)
+    score_list=['clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']
+    summary_table_ByClassifier_all = []
+
+    save_name_score,_, _ = name_utility.GETname_AAscoreSSMA('AytanAktug',species,learning, epochs,
+                 f_fixed_threshold, f_nn_base, f_optimize_score,temp_path,f_kma,f_phylotree)
+
+    try:#new version
+        with open(save_name_score) as f:
+            score = json.load(f)
+        score_report_test=score['score_report_test']
+    except:#old version
+        folder=temp_path+'log/software/AytanAktug/analysis/SSMA/'+ str(species.replace(" ", "_"))
+        save_name_score=folder +'/multiAnti_lr_'+ str(learning)+'_ep_'+str(epochs)+'_fixT_'+str(f_fixed_threshold)
+        if f_phylotree:
+            score = pickle.load(open(save_name_score + '_all_score_Tree.pickle', "rb"))
+        elif f_kma:
+            score =  pickle.load(open(save_name_score + '_all_score.pickle', "rb"))
+        else:
+            score =pickle.load(open(save_name_score + '_all_score_Random.pickle', "rb"))
+        score_report_test = score[3]
+
+    summary_table_ByClassifier_=pd.DataFrame(index='value', columns=score_list)
+    count_anti = 0
+    for anti in antibiotics:
+        summary_table_ByClassifier=extract_score.score_clinical(summary_table_ByClassifier_, cv, score_report_test[count_anti])
+        count_anti+=1
+        summary_table_ByClassifier_all.append(summary_table_ByClassifier)
+    final =  make_table.make_visualization_clinical(score_list, summary_table_ByClassifier_all, antibiotics)
+    return final
+
 
 def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_MSMA_conLOO,f_split_species,f_all,f_match_single,list_species,level,cv,
                  epochs, learning,f_fixed_threshold,f_nn_base,f_phylotree,f_kma,f_optimize_score, temp_path, output_path):
@@ -63,6 +152,16 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
                                      f_nn_base,f_optimize_score,f_kma,f_phylotree,'SSMA',output_path)
             file_utility.make_dir(os.path.dirname(save_name_score_final))
             final=make_table.multi_make_visualization(fscore,antibiotics, cv,score)
+
+
+            ######################################
+            ##### Add clinical oriented scores ['clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']
+            ##### Nov 2022
+            clinical_table=extract_info_clinical_SSMA(level,species,cv,learning,epochs,f_fixed_threshold,f_nn_base,f_phylotree,f_kma, temp_path)#todo redo
+            final = pd.concat([final, clinical_table], axis=1, join="inner")
+            #########################################################################################################################################
+
+
             final.to_csv(save_name_score_final + '_SummaryBenchmarking.txt', sep="\t")
 
 
@@ -87,29 +186,34 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
             hy_para_fre=[]
             for anti in antibiotics:
                 print(anti)
-                save_name_score,_,_ =  name_utility.GETname_AAscoreSSSA('AytanAktug',species, anti,learning,
-                                                                     epochs,f_fixed_threshold,f_nn_base,
-                                                       f_optimize_score,temp_path,f_kma,f_phylotree)
+                try: #new format
+                    save_name_score,_,_ =  name_utility.GETname_AAscoreSSSA('AytanAktug',species, anti,learning,
+                                                                         epochs,f_fixed_threshold,f_nn_base,
+                                                           f_optimize_score,temp_path,f_kma,f_phylotree)
 
 
-                with open(save_name_score) as f:
-                    score_temp = json.load(f)
-                score=j2l(score_temp)
-
-
-                f1macro=score[0]
-                score_report_test = score[1]
-                aucs_test = score[2]
-                mcc_test = score[3]
-                thresholds_selected_test = score[4]
-                hy_para_all.append([score[5],score[6],score[7]])#1*n_cv
-                #vote the most frequent used hyper-para
-                hy_para_collection=score[5]#10 dimension. each reapresents one outer loop.
-                try:
+                    with open(save_name_score) as f:
+                        score_temp = json.load(f)
+                    score=j2l(score_temp)
+                    f1macro=score[0]
+                    score_report_test = score[1]
+                    aucs_test = score[2]
+                    mcc_test = score[3]
+                    thresholds_selected_test = score[4]
+                    hy_para_all.append([score[5],score[6],score[7]])#1*n_cv
+                    #vote the most frequent used hyper-para
+                    hy_para_collection=score[5]#10 dimension. each reapresents one outer loop.
+                    # try:
                     common,ind= math_utility.get_most_fre_hyper(hy_para_collection)
                     hy_para_fre.append(common.to_dict())
-                except:
-                    hy_para_fre.append(None)
+                    # except:
+                    #     hy_para_fre.append(None)
+                except: #old version format.
+
+                    f1macro,aucs_test,score_report_test,mcc_test,thresholds_selected_test,hy_para_all,hy_para_fre=\
+                        extract_OldFormat(hy_para_all,hy_para_fre,species, anti,learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score,temp_path,f_kma,f_phylotree)
+
+
                 summary = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
                                        columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
                                                 'mcc', 'f1_positive','f1_negative', 'precision_neg', 'recall_neg', 'auc',
@@ -134,12 +238,24 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
 
             final['the most frequent hyperparameter'] = hy_para_fre
             final['selected hyperparameter'] = hy_para_all # add hyperparameter information. Each antibiotic has 10 hyper-para, each for one outer loop.
+
+
+
+            ######################################
+            ##### Add clinical oriented scores ['clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg'] to the main tables and PLOT table
+            ##### Nov 2022
+            clinical_table=extract_info_clinical_SSSA(level,species,cv,learning,epochs,f_fixed_threshold,f_nn_base,f_phylotree,f_kma, temp_path)
+            final = pd.concat([final, clinical_table], axis=1, join="inner")
+            final_plot = pd.concat([final_plot, clinical_table], axis=1, join="inner")
+            #########################################################################################################################################
+
             final.to_csv(save_name_score_final + '_SummaryBenchmarking.txt', sep="\t")
             final_plot.to_csv(save_name_score_final + '_SummaryBenchmarking_PLOT.txt', sep="\t")
             final_std.to_csv(save_name_score_final + '_SummaryBenchmarking_std.txt', sep="\t")
 
 
     elif f_MSMA_discrete:
+        out_score='neg' #'f1_macro', 'f1_positive','f1_negative','precision_neg', 'recall_neg', 'accuracy'
         if f_split_species==False and f_match_single==False:
             merge_name = []
             data = pd.read_csv('./data/PATRIC/meta/'+str(level)+'_multi-species_summary.csv', index_col=0,
@@ -174,8 +290,7 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
             final=make_table.multi_make_visualization_normalCV(out_score,All_antibiotics,score)
             final.to_csv(save_name_score_final + '_SummaryBenchmarking.txt', sep="\t")
 
-
-        if f_MSMA_discrete and f_split_species:# split species-specific scores from discrete model and concatenated mixed species model. so far only f1_macro
+        if f_MSMA_discrete and f_split_species:# split species-specific scores from discrete model and concatenated mixed species model.
             merge_name = []
             data = pd.read_csv('./data/PATRIC/meta/'+str(level)+'_multi-species_summary.csv', index_col=0,
                            dtype={'genome_id': object}, sep="\t")
@@ -243,8 +358,8 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
                     f1_pos=(report.loc['1', 'f1-score'])
                     f1_neg=(report.loc['0', 'f1-score'])
                     accuracy=(report.iat[2,2])
-
-
+                    precision_neg=(report.loc['0', 'precision'])
+                    recall_neg=(report.loc['0', 'recall'])
                     if fscore=='f1_macro':
                         final_init.loc[species,anti]=f1
                     elif fscore=='f1_positive':
@@ -253,8 +368,12 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
                         final_init.loc[species,anti]=f1_neg
                     elif fscore=='accuracy':
                         final_init.loc[species,anti]=accuracy
+                    elif fscore=='precision_neg':
+                        final_init.loc[species,anti]=precision_neg
+                    elif fscore=='recall_neg':
+                        final_init.loc[species,anti]=recall_neg
                     else:
-                        print('only <f1_macro,f1_positive,f1_positive,accuracy> possible so far')
+                        print('only <f1_macro,f1_positive,f1_positive,accuracy,precision_neg,recall_neg> possible so far')
                         exit(1)
             final_init.to_csv(save_name_score_final+'_split_discrete_model_'+str(fscore)+'.txt', sep="\t")
             print(final_init)
@@ -413,7 +532,8 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
                     f1_pos=(report.loc['1', 'f1-score'])
                     f1_neg=(report.loc['0', 'f1-score'])
                     accuracy=(report.iat[2,2])
-
+                    precision_neg=(report.loc['0', 'precision'])
+                    recall_neg=(report.loc['0', 'recall'])
 
                     if fscore=='f1_macro':
                         final_init.loc[species,anti]=f1
@@ -423,14 +543,19 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
                         final_init.loc[species,anti]=f1_neg
                     elif fscore=='accuracy':
                         final_init.loc[species,anti]=accuracy
+                    elif fscore=='precision_neg':
+                        final_init.loc[species,anti]=precision_neg
+                    elif fscore=='recall_neg':
+                        final_init.loc[species,anti]=recall_neg
                     else:
-                        print('only <f1_macro,f1_positive,f1_positive,accuracy> possible so far')
+                        print('only <f1_macro,f1_positive,f1_positive,accuracy,precision_neg,recall_neg> possible so far')
                         exit(1)
 
             final_init.to_csv(save_name_score_final+'_split_discrete_model_'+str(fscore)+'.txt', sep="\t")
             print(final_init)
 
     elif f_MSMA_conLOO:
+        out_score='neg' #f1_macro,f1_positive,f1_positive,accuracy,precision_neg,recall_neg
         merge_name = []
         data = pd.read_csv('./data/PATRIC/meta/'+str(level)+'_multi-species_summary.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
@@ -506,7 +631,7 @@ if __name__== '__main__':
     parser.add_argument("-f_match_single", "--f_match_single", dest='f_match_single', action='store_true',
                         help='flag for match single-species model results to multi-species model results for a comparison.')
     parser.add_argument('-out_score', '--out_score', default='f', type=str,
-                        help='Scores of the final output table. f:f_macro,f_pos,f_neg,f_micro. all:all scores. f_p_r:f1_macro,precision,recall,accuracy')
+                        help='Scores of the final output table. f:f_macro,f_pos,f_neg,f_micro. all:all scores. neg:f1_macro,precision,recall,accuracy')
     parser.add_argument('-fscore', '--fscore', default='f1_macro', type=str, required=False,
                         help='The score used for final comparison. Can be one of: \'f1_macro\',\'f1_positive\',\'f1_negative\',\'accuracy\'.')
     parser.add_argument("-cv", "--cv_number", default=10, type=int,

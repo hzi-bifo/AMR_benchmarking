@@ -5,8 +5,7 @@ import numpy as np
 from sklearn.metrics import classification_report,f1_score
 import statistics,math
 import pandas as pd
-
-
+from src.analysis_utility.result_analysis import extract_best_estimator_clinical
 
 ''' For summerize and visualize the outoputs of Kover.'''
 def weithgted_var(values,average,weights):
@@ -15,11 +14,10 @@ def weithgted_var(values,average,weights):
     s_variance=p_variance * n/(n-1)
     return s_variance
 
-def extract_info_species( level,species,antibiotics,cv,f_phylotree,f_kma,temp_path,output_path):
-    score_list=['f1_macro','accuracy', 'f1_positive','f1_negative','precision_neg', 'recall_neg']
-    antibiotics_selected = ast.literal_eval(antibiotics)
-    print(species)
-    print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
+def extract_info_species( level,species,cv,f_phylotree,f_kma,temp_path,output_path):
+    # score_list=['f1_macro','accuracy', 'f1_positive','f1_negative','precision_neg', 'recall_neg']
+    score_list=['f1_macro','accuracy', 'f1_positive','f1_negative']
+
     antibiotics, _, _ =  load_data.extract_info(species, False, level)
 
     for chosen_cl in ['scm','tree']:
@@ -42,8 +40,8 @@ def extract_info_species( level,species,antibiotics,cv,f_phylotree,f_kma,temp_pa
             support=[]
             support_pos=[]
             support_neg=[]
-            precision_neg_list=[]
-            recall_neg_list=[]
+            # precision_neg_list=[]
+            # recall_neg_list=[]
 
             _,name,meta_txt,_ = name_utility.GETname_model2('kover',level, species, anti,'',temp_path,f_kma,f_phylotree)
             name_list = pd.read_csv(name, index_col=0, dtype={'genome_id': object}, sep="\t")
@@ -86,8 +84,8 @@ def extract_info_species( level,species,antibiotics,cv,f_phylotree,f_kma,temp_pa
                 support.append(report.loc['macro avg','support'])
                 f1_positive_list.append(report.loc['1', 'f1-score'])
                 f1_negative_list.append(report.loc['0', 'f1-score'])
-                precision_neg_list.append(report.loc['0', 'precision'])
-                recall_neg_list.append(report.loc['0', 'recall'])
+                # precision_neg_list.append(report.loc['0', 'precision'])
+                # recall_neg_list.append(report.loc['0', 'recall'])
                 support_pos.append(report.loc['1', 'support'])
                 support_neg.append(report.loc['0', 'support'])
 
@@ -99,15 +97,15 @@ def extract_info_species( level,species,antibiotics,cv,f_phylotree,f_kma,temp_pa
                 accuracy_average=np.average(accuracy_list, weights=support)
                 f1_pos_average=np.average(f1_positive_list, weights=support)#change from support-pos to support. May 2022
                 f1_neg_average=np.average(f1_negative_list, weights=support)# change from support-neg to support. May 2022.
-                precision_neg_average=np.average(precision_neg_list, weights=support)
-                recall_neg_average=np.average(recall_neg_list, weights=support)
-                final_table_sub.loc['weighted-mean',:] = [f1_average,accuracy_average,f1_pos_average, f1_neg_average,precision_neg_average,recall_neg_average]
+
+                final_table_sub.loc['weighted-mean',:] = [f1_average,accuracy_average,f1_pos_average, f1_neg_average]
                 final_table_sub.loc['weighted-std',:] = [math.sqrt(weithgted_var(f1_list,f1_average,support )),
                                                        math.sqrt(weithgted_var(accuracy_list, accuracy_average, support)),
                                                        math.sqrt(weithgted_var(f1_positive_list, f1_pos_average, support)), #change from support-pos to support. May 2022
-                                                       math.sqrt(weithgted_var(f1_negative_list, f1_neg_average, support)),# change from support-neg to support. May 2022.
-                                                       math.sqrt(weithgted_var(precision_neg_list, precision_neg_average, support)),
-                                                         math.sqrt(weithgted_var(recall_neg_list, recall_neg_average, support))]
+                                                       math.sqrt(weithgted_var(f1_negative_list, f1_neg_average, support))]# change from support-neg to support. May 2022.
+
+
+
 
                 m = final_table_sub.loc['weighted-mean',:].apply(lambda x: "{:.2f}".format(x))
                 n = final_table_sub.loc['weighted-std',:].apply(lambda x: "{:.2f}".format(x))
@@ -121,16 +119,13 @@ def extract_info_species( level,species,antibiotics,cv,f_phylotree,f_kma,temp_pa
                 accuracy_average=np.average(accuracy_list)
                 f1_pos_average=np.average(f1_positive_list)
                 f1_neg_average=np.average(f1_negative_list)
-                precision_neg_average=np.average(precision_neg_list)
-                recall_neg_average=np.average(recall_neg_list)
 
-                final_table_sub.loc['mean',:] = [f1_average,accuracy_average,f1_pos_average, f1_neg_average,precision_neg_average,recall_neg_average]
+
+                final_table_sub.loc['mean',:] = [f1_average,accuracy_average,f1_pos_average, f1_neg_average]
                 final_table_sub.loc['std',:] = [statistics.stdev(f1_list),
                                                 statistics.stdev(accuracy_list),
                                                 statistics.stdev(f1_positive_list),
-                                               statistics.stdev(f1_negative_list),
-                                                statistics.stdev(precision_neg_list),
-                                                statistics.stdev(recall_neg_list)]
+                                               statistics.stdev(f1_negative_list)]
 
                 m = final_table_sub.loc['mean',:].apply(lambda x: "{:.2f}".format(x))
                 n = final_table_sub.loc['std',:].apply(lambda x: "{:.2f}".format(x))
@@ -148,18 +143,77 @@ def extract_info_species( level,species,antibiotics,cv,f_phylotree,f_kma,temp_pa
         print(final_table)
 
 
-def extract_best_estimator(level,species,antibiotics,fscore,f_phylotree,f_kma,output_path):
+def extract_info_species_clinical( level,species,cv,f_phylotree,f_kma,temp_path,output_path):
+    ## score_list=['f1_macro','accuracy', 'f1_positive','f1_negative','precision_neg', 'recall_neg']
+    ## score_list=['f1_macro','accuracy', 'f1_positive','f1_negative']
+    score_list=['clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']
+    antibiotics, _, _ =  load_data.extract_info(species, False, level)
+
+    for chosen_cl in ['scm','tree']:
+
+        if f_kma:
+            final_table = pd.DataFrame(index=antibiotics,columns=["weighted-"+x for x in score_list])
+
+        else:#if f_phylotree or f_random
+            final_table = pd.DataFrame(index=antibiotics,columns=score_list)
+        # final_best=pd.DataFrame(index=antibiotics,columns=['f1_macro','classifier'])# the results from the better classifier of scm and tree.
+
+        for anti in antibiotics:
+            print(anti)
+
+            y_true=[]
+            y_pre=[]
+
+            _,name,meta_txt,_ = name_utility.GETname_model2('kover',level, species, anti,'',temp_path,f_kma,f_phylotree)
+            name_list = pd.read_csv(name, index_col=0, dtype={'genome_id': object}, sep="\t")
+            name_list.loc[:,'ID'] = 'iso_' + name_list['genome_id'].astype(str)
+            name_list2 = name_list.loc[:, ['ID', 'resistant_phenotype']]
+            for outer_cv in range(cv):
+                with open(meta_txt+'_temp/'+str(chosen_cl)+'_b_'+str(outer_cv)+'/results.json') as f:
+                    data = json.load(f)
+
+                    test_errors_list=data["classifications"]['test_errors']
+                    test_corrects_list=data["classifications"]['test_correct']
+
+
+
+                    for each in test_corrects_list:
+                        p=name_list2[name_list2['ID']==each].iat[0,1]
+                        y_true.append(p)
+                        y_pre.append(p)
+
+                    for each in test_errors_list:
+                        p=name_list2[name_list2['ID']==each].iat[0,1]
+                        if p==1:
+                            y_true.append(1)
+                            y_pre.append(0)
+                        else:
+                            y_true.append(0)
+                            y_pre.append(1)
+
+            df=classification_report(y_true, y_pre, labels=[0, 1], output_dict=True,zero_division=0)
+            report = pd.DataFrame(df).transpose()
+            f1_negative=report.loc['0', 'f1-score']
+            precision_neg=report.loc['0', 'precision']
+            recall_neg=report.loc['0', 'recall']
+            final_table.loc[anti,:]=[f1_negative,precision_neg,recall_neg]
+
+        save_name_score,_ = name_utility.GETname_result('kover', species, '',f_kma,f_phylotree,chosen_cl,output_path)
+        file_utility.make_dir(os.path.dirname(save_name_score))
+        final_table.to_csv(save_name_score + '_clinical.txt', sep="\t")
+
+        print(final_table)
+
+def extract_best_estimator(level,species,fscore,f_phylotree,f_kma,output_path):
     '''
     for each species
     final_score:the score used for classifiers comparison.
     '''
-    antibiotics_selected = ast.literal_eval(antibiotics)
-
-    print(species)
-    print('====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
+    # score_list=['f1_macro','accuracy', 'f1_positive','f1_negative','precision_neg', 'recall_neg']
+    score_list=['f1_macro','accuracy', 'f1_positive','f1_negative']
     antibiotics, ID, Y =  load_data.extract_info(species, False, level)
     cl_list = ['scm','tree']
-    score_list=['f1_macro','accuracy', 'f1_positive','f1_negative','precision_neg', 'recall_neg']
+
     '''e.g. 1. summery_benchmarking
     
     'antibiotic'|'f1_macro'|'accuracy'| 'f1_positive'|'f1_negative'|'classifier'|'selected hyperparameter'|'frequency'
@@ -265,8 +319,15 @@ def extract_info(level,s,f_all,cv,fscore,f_phylotree,f_kma,temp_path,output_path
 
 
     for df_species, antibiotics in zip(df_species, antibiotics):
-        extract_info_species(level, df_species, antibiotics, cv,f_phylotree,f_kma,temp_path,output_path)
-        extract_best_estimator(level, df_species, antibiotics,fscore,f_phylotree,f_kma,output_path)
+        if "clinical_" in fscore:
+            extract_info_species_clinical(level, df_species, cv,f_phylotree,f_kma,temp_path,output_path)
+            extract_best_estimator_clinical('kover',['scm','tree'],level, df_species,fscore,f_phylotree,f_kma,output_path)
+
+        else:
+            extract_info_species(level, df_species, cv,f_phylotree,f_kma,temp_path,output_path)
+            extract_best_estimator(level, df_species,fscore,f_phylotree,f_kma,output_path)
+
+
 
 
 if __name__ == '__main__':
@@ -285,7 +346,9 @@ if __name__ == '__main__':
     parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
                         help='all the possible species, regarding multi-model.')
     parser.add_argument('-fscore', '--fscore', default='f1_macro', type=str, required=False,
-                        help='the score used to choose the best classifier for each antibiotic. Can be one of: \'f1_macro\',\'f1_positive\',\'f1_negative\',\'accuracy\'')
+                        help='the score used to choose the best classifier for each antibiotic. Can be one of: '
+                             '\'f1_macro\',\'f1_positive\',\'f1_negative\',\'accuracy\','
+                             '\'clinical_f1_negative\',\'clinical_precision_neg\',\'clinical_recall_neg\'')
     parser.add_argument('-f_ml', '--f_ml', dest='f_ml', action='store_true',
                         help='prepare bash')
     parser.add_argument("-cv", "--cv", default=10, type=int,

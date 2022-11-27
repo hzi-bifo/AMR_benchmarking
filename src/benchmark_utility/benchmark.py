@@ -31,16 +31,16 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
     ##  Performance(F1-macro, F1-positive, F1-negative, accuracy) of KMA-based Point-/ResFinder and
     # BLAST-based Point-/ResFinder on each combination’s whole dataset.
     ###################################################################################################################
-    if f_table:
+    if f_table: #todo run again
         foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
         tool_list=['Point-/ResFinder' ,'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
         save_file_name=output_path+ 'Results/supplement_figures_tables/S1_cv_results.xlsx'
-        src.benchmark_utility.lib.MAINtable.extract_info(level,s, f_all ,output_path,tool_list,foldset,save_file_name)
+        src.benchmark_utility.lib.MAINtable.extract_info(level,species, f_all ,output_path,tool_list,foldset,save_file_name)
 
         foldset=['no folds']
         tool_list=['KMA-based Point-/ResFinder','Blastn-based Point-/ResFinder']
         save_file_name=output_path+ 'Results/supplement_figures_tables/S5_cv_results_resfinder.xlsx'
-        src.benchmark_utility.lib.MAINtable.extract_info(level,s, f_all ,output_path,tool_list,foldset,save_file_name)
+        src.benchmark_utility.lib.MAINtable.extract_info(level,species, f_all ,output_path,tool_list,foldset,save_file_name)
     ####################################################################################################################
     ### 3. Supplemental File 6.
     ##  3.11-3.12 tables for further analysis (ML comparison with ResFinder, ML baseline)
@@ -80,7 +80,7 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
 
     ### Clinical-oriented performance analysis
     ###  compared the software performance regarding F1-negative and precision-negative
-    if f_clinical_analysis:
+    if f_clinical_analysis:#todo run again
         foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
         tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
         com_tool_list=['Point-/ResFinder']
@@ -96,7 +96,7 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
         tool_list=['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
                    'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
                 'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
-        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,  f_all ,output_path,'2',tool_list,foldset,'')
+        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore, f_all ,output_path,'2',tool_list,foldset,'')
 
 
     ####################################################################################################################
@@ -192,7 +192,8 @@ if __name__== '__main__':
                         help='benchmarking by species.')
     parser.add_argument('-fscore', '--fscore', default='f1_macro', type=str, required=False,
                         help='the score used to choose the best classifier for each antibiotic. \
-                        Can be one of: \'f1_macro\',\'f1_positive\',\'f1_negative\',\'accuracy\',\'precision-negative\',\'recall-negative\'')
+                        Can be one of: \'f1_macro\',\'f1_positive\',\'f1_negative\',\'accuracy\','
+                             '\'clinical_f1_negative\',\'clinical_precision_neg\',\'clinical_recall_neg\'')
     parser.add_argument('-f_robust', '--f_robust', dest='f_robust', action='store_true',
                         help='plotting pairbox w.r.t. 3 folds split methods.')
     parser.add_argument('-f_sample', '--f_sample', dest='f_sample', action='store_true',

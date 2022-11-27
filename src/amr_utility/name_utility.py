@@ -70,7 +70,7 @@ def GETname_model2(software, level,species, anti,cl,temp_path,f_kma,f_phylotree)
         anti_list=str(temp_path)+'log/software/'+str(software) +'/software_output/random/'+ str(species.replace(" ", "_")) +'/anti_list'
 
     save_name_score_temp=str(temp_path)+'log/software/'+str(software) +'/analysis/'+ str(species.replace(" ", "_"))  + '/' + \
-            str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl) #the same as GETname_model, important as used in result_analysis.py
+            str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl) #the same as GETname_model, which is important as used in result_analysis.py
 
     return anti_list,meta, meta_temp,save_name_score_temp
 
@@ -78,7 +78,7 @@ def GETname_model2(software, level,species, anti,cl,temp_path,f_kma,f_phylotree)
 def GETname_result(software,species,fscore,f_kma,f_phylotree,chosen_cl,output_path):
     '''
     resfinder_folds , majority, AA results will not be stored by fscore (selection criteria).
-    Only Kover, S2G2P,Phenotypeseeker will be stored by fscore (folder names) due to multiple classifiers. TODO manually move old
+    Only Kover, S2G2P,Phenotypeseeker will be stored by fscore (folder names) due to multiple classifiers. TODO manually move old. seems done..
     '''
 
     save_name_score=output_path+'Results/software/'+str(software) +'/' + str(species.replace(" ", "_")) +'/' + str(species.replace(" ", "_"))+ \
@@ -89,7 +89,6 @@ def GETname_result(software,species,fscore,f_kma,f_phylotree,chosen_cl,output_pa
     else:
         save_name_final = output_path+'Results/software/'+str(software) +'/' + str(species.replace(" ", "_")) +'/' +  str(species.replace(" ", "_"))+\
                     '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree)
-
 
     return save_name_score,save_name_final
 
@@ -213,7 +212,7 @@ def GETname_AAscoreSSSA(software,species, antibiotics,learning, epochs,f_fixed_t
     str(antibiotics.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_lr_' + str(
             learning) + '_ep_' + str(epochs) + '_base_'+str(f_nn_base)+ '_ops_' + f_optimize_score+'_fixT_'+str(f_fixed_threshold)
 
-
+    #------------------------------------------------------------------------------------------------------------------------------------------
     save_name_score_temp=save_name_score_temp+'_all_score_KMA_' + str(f_kma) + '_Tree_' + str(f_phylotree) + '.json'
     save_name_weights=save_name_weights+ '_KMA_'+ str(f_kma) + '_Tree_' + str(f_phylotree)
     save_name_loss=save_name_loss+'_KMA_'+ str(f_kma) + '_Tree_' + str(f_phylotree)+'_traininglog.txt'

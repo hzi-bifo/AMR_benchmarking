@@ -225,4 +225,24 @@ def concat_multi_make_visualization(out_score, All_antibiotics , score):
     return final
 
 
+def make_visualization_clinical( score_list, summary_all, antibiotics):
+    final=pd.DataFrame(index=antibiotics, columns=score_list)
 
+    count = 0
+    for anti in antibiotics:
+        data=summary_all[count]
+        print(data.values.tolist())
+        final.loc[anti,:]=data.values.tolist()[0]
+        count+=1
+
+    return final
+
+def make_visualization_clinicalSSMA( score_list, score_report_test, antibiotics,cv):
+    final=pd.DataFrame(index=antibiotics, columns=score_list)
+    summary_table_ByClassifier_=pd.DataFrame(index='value', columns=score_list)
+    count_anti = 0
+    for anti in antibiotics:
+        summary_table_ByClassifier_=extract_score.score_clinical(summary_table_ByClassifier_, cv, score_report_test[count_anti])
+        count_anti+=1
+
+    return final

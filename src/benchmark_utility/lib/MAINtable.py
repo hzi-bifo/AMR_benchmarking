@@ -52,14 +52,23 @@ def extract_info(level,s, f_all,output_path,tool_list,foldset,save_file_name):
         df_neg=combine_data(species_sub,level,'f1_negative',tool_list,foldset,output_path)
         df_pos=combine_data(species_sub,level,'f1_positive',tool_list,foldset,output_path)
 
+        df_cli_neg=combine_data(species_sub,level,'clinical_f1_negative',tool_list,foldset,output_path)
+        df_cli_pre=combine_data(species_sub,level,'clinical_precision_neg',tool_list,foldset,output_path)
+        df_cli_rec=combine_data(species_sub,level,'recall_precision_neg',tool_list,foldset,output_path)
+
+
         df_macro['f1_negative']=df_neg['f1_negative']
         df_macro['f1_positive']=df_pos['f1_positive']
         df_macro['accuracy']=df_acu['accuracy']
+        df_macro['clinical_f1_negative']=df_cli_neg['clinical_f1_negative']
+        df_macro['clinical_precision_neg']=df_cli_pre['clinical_precision_neg']
+        df_macro['recall_precision_neg']=df_cli_rec['recall_precision_neg']
 
 
         df_macro=df_macro.reset_index()
         df_macro=df_macro.drop(columns=['index'])
-        df_macro = df_macro[['species', 'antibiotics', 'folds', 'software','f1_macro', 'f1_positive', 'f1_negative', 'accuracy']]
+        df_macro = df_macro[['species', 'antibiotics', 'folds', 'software','f1_macro', 'f1_positive', 'f1_negative',
+                             'accuracy','clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']]
         wb = load_workbook(path_table_results)
         ew = pd.ExcelWriter(path_table_results)
         ew.book = wb
