@@ -54,7 +54,7 @@ def extract_info(level,s, f_all,output_path,tool_list,foldset,save_file_name):
 
         df_cli_neg=combine_data(species_sub,level,'clinical_f1_negative',tool_list,foldset,output_path)
         df_cli_pre=combine_data(species_sub,level,'clinical_precision_neg',tool_list,foldset,output_path)
-        df_cli_rec=combine_data(species_sub,level,'recall_precision_neg',tool_list,foldset,output_path)
+        df_cli_rec=combine_data(species_sub,level,'clinical_recall_neg',tool_list,foldset,output_path)
 
 
         df_macro['f1_negative']=df_neg['f1_negative']
@@ -62,7 +62,7 @@ def extract_info(level,s, f_all,output_path,tool_list,foldset,save_file_name):
         df_macro['accuracy']=df_acu['accuracy']
         df_macro['clinical_f1_negative']=df_cli_neg['clinical_f1_negative']
         df_macro['clinical_precision_neg']=df_cli_pre['clinical_precision_neg']
-        df_macro['recall_precision_neg']=df_cli_rec['recall_precision_neg']
+        df_macro['clinical_recall_neg']=df_cli_rec['clinical_recall_neg']
 
 
         df_macro=df_macro.reset_index()

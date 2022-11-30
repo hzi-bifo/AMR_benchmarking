@@ -27,7 +27,7 @@ species=( "${species_list_temp[@]//_/ }" )
 
 
 ###1. Fig.1 Data set overview. sample size. Further annotated through Drawio before the version in our article.
-python ./src/benchmark_utility/benchmark.py -f_sample  -o ${output_path}
+#python ./src/benchmark_utility/benchmark.py -f_sample  -o ${output_path}
 
 ###2. Fig. 2 Draw by Drawio.
 
@@ -43,7 +43,7 @@ python ./src/benchmark_utility/benchmark.py -f_sample  -o ${output_path}
 
 ###6. Fig. 6.
 ### Paired box plot
-python  ./src/benchmark_utility/benchmark.py -f_robust -fscore 'f1_macro' -f_all -o ${output_path}
+#python  ./src/benchmark_utility/benchmark.py -f_robust -fscore 'f1_macro' -f_all -o ${output_path}
 
 ###Fig. 7-8 generated through ./scripts/analysis_visualization/AytanAktug_analysis.sh
 

@@ -203,20 +203,24 @@ def extract_info_species(softwareName,cl_list,level,species,cv,f_phylotree,f_kma
                                                                                     np.zeros(cv))# the last 0: no meaning.
                 except:#only for MT
                     summary_table_ByClassifier = summary_table_ByClassifier_
+                    hy_para_fre.append(None)
+                    hy_para_fren.append(None)
+                    hy_para_all.append(None)
 
             except: #old version-----------------------------------------------------------------------------------------------------------------------------
 
-                score = pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '.pickle',"rb"))
+                summary_table_ByClassifier_ = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
+                                       columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                                'mcc', 'f1_positive', 'f1_negative', 'precision_neg', 'recall_neg',
+                                                'auc','threshold', 'support', 'support_positive'])
                 try:# not for MT
+                    score = pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '.pickle',"rb"))
                     [f1_test, score_report_test, aucs_test, mcc_test, hyperparameters_test]=score
                     common,ind =  math_utility.get_most_fre_hyper(hyperparameters_test,True)
                     hy_para_fre.append(common.to_dict())
                     hy_para_fren.append(ind)
                     hy_para_all.append(hyperparameters_test)
-                    summary_table_ByClassifier_ = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
-                                       columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
-                                                'mcc', 'f1_positive', 'f1_negative', 'precision_neg', 'recall_neg',
-                                                'auc','threshold', 'support', 'support_positive'])
+
                     if f_kma:# extract infor from report
                         summary_table_ByClassifier=  extract_score.score_summary(None, summary_table_ByClassifier_, cv, score_report_test, f1_test,aucs_test,
                                                                                        mcc_test,
@@ -226,10 +230,12 @@ def extract_info_species(softwareName,cl_list,level,species,cv,f_phylotree,f_kma
                                                                                             f1_test,aucs_test, mcc_test,
                                                                                         np.zeros(cv))# the last 0: no meaning.
 
-
-
                 except:#only for MT
+
                     summary_table_ByClassifier = summary_table_ByClassifier_
+                    hy_para_fre.append(None)
+                    hy_para_fren.append(None)
+                    hy_para_all.append(None)
             ########-------------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -365,17 +371,21 @@ def extract_best_estimator(softwareName,cl_list,level,species,fscore,f_phylotree
     summary_table_mean=summary_table_mean.astype(float)
     summary_table_std=summary_table_std.astype(float)
 
-
     cl_temp = [summary_table_mean.columns[i].tolist() for i in summary_table_mean.values == summary_table_mean.max(axis=1)[:,None]]
     summary_benchmarking['classifier_bymean']=cl_temp
 
-    for index, row in summary_benchmarking.iterrows():
+    for index, row in summary_benchmarking.iterrows(): #if there are several classifiers with the same highest fscore, then we select those with the lowest standard deviation.
         std_list=[summary_table_std.loc[index,each] for each in row['classifier_bymean']]
-        cl_chose_sub=std_list.index(min(std_list))
-        row['classifier']=row['classifier_bymean'][cl_chose_sub]
-
+        try:
+            cl_chose_sub=std_list.index(min(std_list))
+            row['classifier']=row['classifier_bymean'][cl_chose_sub]
+        except:#MT issues.
+            row['classifier']=np.nan
 
     print(summary_benchmarking)
+
+    if species =='Mycobacterium tuberculosis':#MT issues.
+        antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','rifampin','streptomycin']
     for anti in antibiotics:
         chosen_cl=summary_benchmarking.loc[anti,'classifier']
 
@@ -424,7 +434,6 @@ def extract_best_estimator_clinical(softwareName,cl_list,level,species,fscore,f_
 
 
     _,save_name_final = name_utility.GETname_result(softwareName, species, fscore,f_kma,f_phylotree,'',output_path)
-
     file_utility.make_dir(os.path.dirname(save_name_final))
     summary_table.to_csv(save_name_final + '_SummaryClassifier.txt', sep="\t")
 

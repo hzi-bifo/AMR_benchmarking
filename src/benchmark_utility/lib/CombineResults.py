@@ -181,10 +181,14 @@ def combine_data(species_list,level,fscore,tool_list,folds,output_path):
             f_phylotree=True
             f_kma=False
             fscore_format= fscore
-        elif fold=='Homology-aware folds':
+        elif fold=='Homology-aware folds' and ("clinical_" not in fscore):
             f_phylotree=False
             f_kma=True
             fscore_format="weighted-"+fscore #only for Aytan-Aktug SSSA
+        elif fold=='Homology-aware folds' and ("clinical_" in fscore):
+            f_phylotree=False
+            f_kma=True
+            fscore_format= fscore #only for Aytan-Aktug SSSA
         else:#'Random folds', or 'no folds'
             f_phylotree=False
             f_kma=False
@@ -337,7 +341,7 @@ def combine_data_meanstd(species_list,level,fscore,tool_list,folds,output_path,f
             f_phylotree=True
             f_kma=False
             fscore_format= fscore
-        elif fold=='Homology-aware folds':
+        elif fold=='Homology-aware folds' and ("clinical_" not in fscore):
             f_phylotree=False
             f_kma=True
             fscore_format="weighted-"+fscore #only for Aytan-Aktug SSSA

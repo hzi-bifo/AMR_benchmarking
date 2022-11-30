@@ -54,7 +54,6 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
         foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
         tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
         com_tool_list=['Point-/ResFinder']
-
         src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore, f_all ,output_path,'1',tool_list,foldset,com_tool_list)
 
         foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
@@ -81,17 +80,21 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
     ### Clinical-oriented performance analysis
     ###  compared the software performance regarding F1-negative and precision-negative
     if f_clinical_analysis:#todo run again
+
         foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
         tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
         com_tool_list=['Point-/ResFinder']
         src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore, f_all ,output_path,'1',tool_list,foldset,com_tool_list)
+
         foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
         tool_list=['Point-/ResFinder','Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
         com_tool_list=['ML Baseline (Majority)']
-        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,  f_all ,output_path,'1',tool_list,foldset,com_tool_list)
+        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore, f_all ,output_path,'1',tool_list,foldset,com_tool_list)
+
         foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
         tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
         src.benchmark_utility.lib.table_analysis.extract_info(level,species, fscore, f_all ,output_path,'2',tool_list,foldset,'')
+
         foldset=['Homology-aware folds']
         tool_list=['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
                    'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',

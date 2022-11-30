@@ -7,10 +7,10 @@ def get_most_fre_hyper(hy_para_collection,f_pipe):
     :return: the most frequenct hyper-para setting.
     '''
     if f_pipe:
-        hy_para_collection_1=[i.steps[0][1].get_params() for i in hy_para_collection]
-        hy_para_collection_2=[i.steps[0][1].__class__.__name__ for i in hy_para_collection]
+        hy_para_collection=[i.steps[0][1].get_params() for i in hy_para_collection]
+        # hy_para_collection_2=[i.steps[0][1].__class__.__name__ for i in hy_para_collection]
 
-    df = pd.DataFrame(hy_para_collection_1)
+    df = pd.DataFrame(hy_para_collection)
     # print(df)
     df_count=df.groupby(df.columns.tolist(), as_index=False, dropna=False).size()
     # print(df_count)

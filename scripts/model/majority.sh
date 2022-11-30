@@ -27,17 +27,17 @@ export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
 export PYTHONPATH=$PWD
 source activate ${amr_env_name}
 
-#CV
-python ./AMR_software/majority/main_majority.py -f_phylotree -cv ${cv_number} -temp ${log_path} -s "${species_tree[@]}" -l ${QC_criteria}
-python ./AMR_software/majority/main_majority.py -f_kma -cv ${cv_number} -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
-python ./AMR_software/majority/main_majority.py  -cv ${cv_number} -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
-
+##CV
+#python ./AMR_software/majority/main_majority.py -f_phylotree -cv ${cv_number} -temp ${log_path} -s "${species_tree[@]}" -l ${QC_criteria}
+#python ./AMR_software/majority/main_majority.py -f_kma -cv ${cv_number} -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
+#python ./AMR_software/majority/main_majority.py  -cv ${cv_number} -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
+#
 
 
 ### CV score generation.
-python ./src/analysis_utility/result_analysis.py -software 'majority' -f_phylotree -fscore 'f1_macro' -cl_list 'majority' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'majority' -f_phylotree -cl_list 'majority' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
 
-python ./src/analysis_utility/result_analysis.py -software 'majority' -f_kma -fscore 'f1_macro' -cl_list 'majority'  -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'majority' -f_kma -cl_list 'majority'  -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
 
-python ./src/analysis_utility/result_analysis.py -software 'majority'  -fscore 'f1_macro' -cl_list 'majority' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'majority' -cl_list 'majority' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
 conda deactivate

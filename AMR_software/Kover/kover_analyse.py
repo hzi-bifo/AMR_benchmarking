@@ -40,8 +40,8 @@ def extract_info_species( level,species,cv,f_phylotree,f_kma,temp_path,output_pa
             support=[]
             support_pos=[]
             support_neg=[]
-            # precision_neg_list=[]
-            # recall_neg_list=[]
+            ## precision_neg_list=[]
+            ## recall_neg_list=[]
 
             _,name,meta_txt,_ = name_utility.GETname_model2('kover',level, species, anti,'',temp_path,f_kma,f_phylotree)
             name_list = pd.read_csv(name, index_col=0, dtype={'genome_id': object}, sep="\t")
@@ -84,8 +84,8 @@ def extract_info_species( level,species,cv,f_phylotree,f_kma,temp_path,output_pa
                 support.append(report.loc['macro avg','support'])
                 f1_positive_list.append(report.loc['1', 'f1-score'])
                 f1_negative_list.append(report.loc['0', 'f1-score'])
-                # precision_neg_list.append(report.loc['0', 'precision'])
-                # recall_neg_list.append(report.loc['0', 'recall'])
+                ## precision_neg_list.append(report.loc['0', 'precision'])
+                ## recall_neg_list.append(report.loc['0', 'recall'])
                 support_pos.append(report.loc['1', 'support'])
                 support_neg.append(report.loc['0', 'support'])
 
@@ -151,13 +151,7 @@ def extract_info_species_clinical( level,species,cv,f_phylotree,f_kma,temp_path,
 
     for chosen_cl in ['scm','tree']:
 
-        if f_kma:
-            final_table = pd.DataFrame(index=antibiotics,columns=["weighted-"+x for x in score_list])
-
-        else:#if f_phylotree or f_random
-            final_table = pd.DataFrame(index=antibiotics,columns=score_list)
-        # final_best=pd.DataFrame(index=antibiotics,columns=['f1_macro','classifier'])# the results from the better classifier of scm and tree.
-
+        final_table = pd.DataFrame(index=antibiotics,columns=score_list)
         for anti in antibiotics:
             print(anti)
 
@@ -174,8 +168,6 @@ def extract_info_species_clinical( level,species,cv,f_phylotree,f_kma,temp_path,
 
                     test_errors_list=data["classifications"]['test_errors']
                     test_corrects_list=data["classifications"]['test_correct']
-
-
 
                     for each in test_corrects_list:
                         p=name_list2[name_list2['ID']==each].iat[0,1]
@@ -259,8 +251,8 @@ def extract_best_estimator(level,species,fscore,f_phylotree,f_kma,output_path):
 
 
     _,save_name_final = name_utility.GETname_result('kover', species, fscore,f_kma,f_phylotree,'',output_path)
+    file_utility.make_dir(os.path.dirname(save_name_final))
     summary_table.to_csv(save_name_final + '_SummaryClassifier.txt', sep="\t")
-
 
     summary_table_mean=summary_table_mean.astype(float)
     summary_table_std=summary_table_std.astype(float)

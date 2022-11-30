@@ -50,12 +50,12 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
         df1 = pd.DataFrame(index=species_list)
         file_utility.make_dir(os.path.dirname(path_table_results2))
         df1.to_excel(path_table_results2, sheet_name='introduction')
-
+        score_list=['f1_macro', 'f1_positive', 'f1_negative', 'accuracy','clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']
         for com_tool in com_tool_list:
             #each time count the cases the com_tool outperforms others.
             for eachfold in foldset:
-                df_final=pd.DataFrame(columns=['species', 'antibiotics', 'folds', 'software','f1_macro', 'f1_positive', 'f1_negative', 'accuracy'])
-                df_com=pd.DataFrame(columns=['species', 'antibiotics', 'folds', 'software','f1_macro', 'f1_positive', 'f1_negative', 'accuracy'])
+                df_final=pd.DataFrame(columns=['species', 'antibiotics', 'folds', 'software']+score_list)
+                df_com=pd.DataFrame(columns=['species', 'antibiotics', 'folds', 'software']+score_list)
                 print('Compare with:',com_tool,eachfold,'-----')
                 for species, antibiotics_selected in zip(df_species, antibiotics):
                     species_sub=[species]
@@ -64,14 +64,21 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                     df_acu=combine_data(species_sub,level,'accuracy',tool_list_rest,[eachfold],output_path)
                     df_neg=combine_data(species_sub,level,'f1_negative',tool_list_rest,[eachfold],output_path)
                     df_pos=combine_data(species_sub,level,'f1_positive',tool_list_rest,[eachfold],output_path)
+                    df_cl_f1=combine_data(species_sub,level,'clinical_f1_negative',tool_list_rest,[eachfold],output_path)
+                    df_cl_pre=combine_data(species_sub,level,'clinical_precision_neg',tool_list_rest,[eachfold],output_path)
+                    df_cl_rec=combine_data(species_sub,level,'clinical_recall_neg',tool_list_rest,[eachfold],output_path)
 
                     df_macro['f1_negative']=df_neg['f1_negative']
                     df_macro['f1_positive']=df_pos['f1_positive']
                     df_macro['accuracy']=df_acu['accuracy']
+                    df_macro['clinical_f1_negative']=df_cl_f1['clinical_f1_negative']
+                    df_macro['clinical_precision_neg']=df_cl_pre['clinical_precision_neg']
+                    df_macro['clinical_recall_neg']=df_cl_rec['clinical_recall_neg']
+
 
                     df_macro=df_macro.reset_index()
                     df_macro=df_macro.drop(columns=['index'])
-                    df_macro = df_macro[['species', 'antibiotics', 'folds', 'software','f1_macro', 'f1_positive', 'f1_negative', 'accuracy']]
+                    df_macro = df_macro[['species', 'antibiotics', 'folds', 'software']+score_list]
                     df_final= pd.concat([df_final,df_macro])
 
                     # -----compare tool, based on fscore scores.

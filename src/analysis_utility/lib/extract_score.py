@@ -14,17 +14,14 @@ def weithgted_var(values,average,weights):
     s_variance=p_variance * n/(n-1)
     return s_variance
 
-def score_summary_normalCV(count_anti,summary,score_report_test,f1_test,aucs_test,mcc_test,thresholds_selected_test):
+def score_summary_normalCV(count_anti,summary,score_report_test,f1_test,aucs_test,mcc_test):
     #only for normal CV. So a score without std.
 
     if count_anti != None:#multi-species model.
         mcc_test=np.array(mcc_test)
-        # print('mcc_test shape',mcc_test.shape)
         mcc_test=mcc_test[count_anti]
-        # mcc_test=mcc_test.tolist()
         aucs_test = np.array(aucs_test)
         aucs_test = aucs_test[count_anti]
-        # aucs_test = aucs_test.tolist()
         f1_test= np.array(f1_test)
         f1_test = f1_test[count_anti]
 
@@ -35,40 +32,33 @@ def score_summary_normalCV(count_anti,summary,score_report_test,f1_test,aucs_tes
             report = score_report_test
 
         report=pd.DataFrame(report).transpose()
-
-
-
-
         accuracy=(report.iat[2,2])
-        # f1=(report.loc['macro avg','f1-score'])
-
-        precision=(report.loc['macro avg','precision'])
-        recall=(report.loc['macro avg','recall'])
         support=(report.loc['macro avg','support'])
 
         f1_pos=(report.loc['1', 'f1-score'])
         f1_neg=(report.loc['0', 'f1-score'])
         precision_pos=(report.loc['1', 'precision'])
-
         recall_pos=(report.loc['1', 'recall'])
+
+        precision_neg=(report.loc['0', 'precision'])
+        recall_neg=(report.loc['0', 'recall'])
+
         support_pos=(report.loc['1', 'support'])
         support_neg=(report.loc['0', 'support'])
 
         summary.loc['score','accuracy_macro'] =  accuracy
         summary.loc['score', 'f1_macro'] = f1_test
-        summary.loc['score', 'precision_macro'] = precision
-        summary.loc['score', 'recall_macro'] = recall
+        summary.loc['score', 'precision_neg'] = precision_neg
+        summary.loc['score', 'recall_neg'] = recall_neg
         summary.loc['score', 'auc'] = aucs_test
         summary.loc['score', 'mcc'] =  mcc_test
-        summary.loc['score', 'threshold'] = thresholds_selected_test
         summary.loc['score', 'f1_positive'] = f1_pos
         summary.loc['score', 'f1_negative'] =  f1_neg
-
-        summary.loc['score', 'precision_positive'] =  precision_pos
-        summary.loc['score', 'recall_positive'] = recall_pos
+        summary.loc['score', 'precision_pos'] =  precision_pos
+        summary.loc['score', 'recall_pos'] = recall_pos
         summary.loc['score', 'support'] = support
-        summary.loc['score', 'support_positive'] =  support_pos
-
+        summary.loc['score', 'support_pos'] =  support_pos
+        summary.loc['score', 'support_neg'] =  support_neg
 
     return summary
 
@@ -116,14 +106,11 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
         else:
             report = score_report_test[i]
         # -------------------------------------------------
-
         if type(report) != dict: ##multi-anti MT model.
             pass
         else:
 
             report=pd.DataFrame(report).transpose()
-            # if count_anti==4:
-            #     print(report)
             accuracy.append(report.iat[2,2])
             # f1.append(report.loc['macro avg','f1-score'])
             precision.append(report.loc['macro avg','precision'])
@@ -337,48 +324,51 @@ def score_clinical(summary, cv, score_report_test):
     for i in np.arange(cv):
         report = score_report_test[i]
         i+=1
-        report=pd.DataFrame(report).transpose()
-        # print(report)
-        precision_pos=report.loc['1', 'precision']
-        recall_pos=report.loc['1', 'recall']
-        precision_neg=report.loc['0', 'precision']
-        recall_neg=report.loc['0', 'recall']
-        support_neg=report.loc['0', 'support']
-        support_pos=report.loc['1', 'support']
-        # precision_pos=float(precision_pos)
-        # precision_neg=float(precision_neg)
-        # recall_neg=float(recall_neg)
-        # recall_pos=float(recall_pos)
-        tp,fp,tn,fn = symbols('tp,fp,tn,fn')
-        eq1 = Eq((tp-precision_pos*(tp+fp)),0)
-        eq2 = Eq((tp-recall_pos*(tp+fn)),0)
-        eq3 = Eq((tn-precision_neg*(tn+fn)),0 )
-        eq4 = Eq((tn-recall_neg*(tn+fp)),0)
-        # eq1 = Eq((tp/(tp+fp)), precision_pos)
-        # eq2 = Eq((tp/(tp+fn)),recall_pos)
-        # eq3 = Eq((tn/(tn+fn)), precision_neg)
-        # eq4 = Eq((tn/(tn+fp)),recall_neg)
-        eq5 = Eq(tn+fp,support_neg)
-        eq6 = Eq(tp+fn,support_pos)
+        if type(report) != dict: ##multi-anti MT model.
+            pass
+        else:
+            report=pd.DataFrame(report).transpose()
+            # print(report)
+            precision_pos=report.loc['1', 'precision']
+            recall_pos=report.loc['1', 'recall']
+            precision_neg=report.loc['0', 'precision']
+            recall_neg=report.loc['0', 'recall']
+            support_neg=report.loc['0', 'support']
+            support_pos=report.loc['1', 'support']
+            # precision_pos=float(precision_pos)
+            # precision_neg=float(precision_neg)
+            # recall_neg=float(recall_neg)
+            # recall_pos=float(recall_pos)
+            tp,fp,tn,fn = symbols('tp,fp,tn,fn')
+            eq1 = Eq((tp-precision_pos*(tp+fp)),0)
+            eq2 = Eq((tp-recall_pos*(tp+fn)),0)
+            eq3 = Eq((tn-precision_neg*(tn+fn)),0 )
+            eq4 = Eq((tn-recall_neg*(tn+fp)),0)
+            # eq1 = Eq((tp/(tp+fp)), precision_pos)
+            # eq2 = Eq((tp/(tp+fn)),recall_pos)
+            # eq3 = Eq((tn/(tn+fn)), precision_neg)
+            # eq4 = Eq((tn/(tn+fp)),recall_neg)
+            eq5 = Eq(tn+fp,support_neg)
+            eq6 = Eq(tp+fn,support_pos)
 
-        confusion=solve((eq1, eq2,eq3, eq4,eq5,eq6), (tp,fp,tn,fn))
-        if confusion==[]:
-            confusion=solve((eq1, eq2,eq3, eq4,eq5,eq6), (tp,fp,tn,fn), rational=False)
+            confusion=solve((eq1, eq2,eq3, eq4,eq5,eq6), (tp,fp,tn,fn))
             if confusion==[]:
-                A=np.array([[(1-precision_pos), -precision_pos, 0,0],
-                            [0,0,(1-precision_neg), -precision_neg],[0,1,1,0],[1,0,0,1]])
-                B = np.array([0, 0, support_neg,support_pos])
-                tp_,fp_,tn_,fn_ = np.linalg.inv(A).dot(B)
-                confusion={tp: tp_, fp: fp_, tn: tn_, fn: fn_}
+                confusion=solve((eq1, eq2,eq3, eq4,eq5,eq6), (tp,fp,tn,fn), rational=False)
+                if confusion==[]:
+                    A=np.array([[(1-precision_pos), -precision_pos, 0,0],
+                                [0,0,(1-precision_neg), -precision_neg],[0,1,1,0],[1,0,0,1]])
+                    B = np.array([0, 0, support_neg,support_pos])
+                    tp_,fp_,tn_,fn_ = np.linalg.inv(A).dot(B)
+                    confusion={tp: tp_, fp: fp_, tn: tn_, fn: fn_}
 
-        tp_sub=confusion[tp]
-        TP.append(tp_sub)
-        fp_sub=confusion[fp]
-        FP.append(fp_sub)
-        tn_sub=confusion[tn]
-        TN.append(tn_sub)
-        fn_sub=confusion[fn]
-        FN.append(fn_sub)
+            tp_sub=confusion[tp]
+            TP.append(tp_sub)
+            fp_sub=confusion[fp]
+            FP.append(fp_sub)
+            tn_sub=confusion[tn]
+            TN.append(tn_sub)
+            fn_sub=confusion[fn]
+            FN.append(fn_sub)
     tp_whole=sum(TP)
     fp_whole=sum(FP)
     tn_whole=sum(TN)
@@ -392,7 +382,7 @@ def score_clinical(summary, cv, score_report_test):
     clinical_recall_neg=tn_whole/(tn_whole+fp_whole)
     summary.loc['value', :] =[clinical_f1_negative,clinical_precision_neg,clinical_recall_neg]
 
-
+    # print(summary)
     return summary
 
 
