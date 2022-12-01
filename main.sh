@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 function parse_yaml {
    local prefix=$2
    local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
@@ -29,8 +30,8 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 ### To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/.
 ### Our code was tested with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
 #
-bash ./install/install.sh
-echo "Please check if Env created."
+#bash ./install/install.sh
+#echo "Please check if Env created."
 #-------------------------------------------
 #2.PATRIC Data
 #-------------------------------------------
@@ -40,11 +41,11 @@ echo "Please check if Env created."
 # We use the dataset based on QC.
 
 #2.0 Quality control  (You can skip this step, as we provided the sample list after pre-selection &  QC: ./data/PATRIC/meta)
-## If you want to go through the pre-selection & QC, and re-generate the list. Note: this step will update the ./data/PATRIC/meta folder.
-bash ./scripts/data/preprocess.sh
-
-# 2.1 PATRIC Data download
-bash ./scripts/data_preprocess/retrive_PATRIC_data.sh ${dataset_location}
+### If you want to go through the pre-selection & QC, and re-generate the list. Note: this step will update the ./data/PATRIC/meta folder.
+#bash ./scripts/data/preprocess.sh
+#
+## 2.1 PATRIC Data download
+#bash ./scripts/data_preprocess/retrive_PATRIC_data.sh ${dataset_location}
 
 
 
@@ -62,22 +63,21 @@ bash ./scripts/data_preprocess/retrive_PATRIC_data.sh ${dataset_location}
 ##If issues arise in this step, you can alternatively manually install it.
 ## please further refer to https://bitbucket.org/genomicepidemiology/resfinder/src/master/
 
-cd ./AMR_software/resfinder
-cd cge
+#cd ./AMR_software/resfinder
+#cd cge
 ##git clone https://bitbucket.org/genomicepidemiology/kma.git
-cd kma && make
-cd ${SCRIPTPATH}
+#cd kma && make
+#cd ${SCRIPTPATH}
+##
+###index Point-/ResFinder databases with KMA
+#cd ./AMR_software/resfinder/db_resfinder
+#python3 INSTALL.py ${SCRIPTPATH}/AMR_software/resfinder/cge/kma/kma non_interactive
+#cd ${SCRIPTPATH}
+#cd ./AMR_software/resfinder/db_pointfinder
+#python3 INSTALL.py ${SCRIPTPATH}/AMR_software/resfinder/cge/kma/kma non_interactive
+#cd ${SCRIPTPATH}
 
-#index Point-/ResFinder databases with KMA
-cd ./AMR_software/resfinder/db_resfinder
-python3 INSTALL.py ${BASEDIR}/AMR_software/resfinder/cge/kma/kma non_interactive
-cd $BASEDIR
-cd ./AMR_software/resfinder/db_pointfinder
-python3 INSTALL.py ${BASEDIR}/AMR_software/resfinder/cge/kma/kma non_interactive
-cd ${SCRIPTPATH}
-
-bash /scripts/model/resfinder.sh
-
+#bash ./scripts/model/resfinder.sh
 
 
 
@@ -94,77 +94,89 @@ bash /scripts/model/resfinder.sh
 ##############################
 
 # 4.1 single-species single-antibiotics
-bash ./scripts/model/AytanAktug_SSSA.sh
+#bash ./scripts/model/AytanAktug_SSSA.sh
 
 # 4.2 single-species multi-antibiotics
-bash ./scripts/model/AytanAktug_SSMA.sh
+#bash ./scripts/model/AytanAktug_SSMA.sh
 
 # 4.3 discrete databases multi-species model
-bash ./scripts/model/AytanAktug_MSMA_discrete.sh
+#bash ./scripts/model/AytanAktug_MSMA_discrete.sh
 
 # 4.4 concatenated databases mixed(-species) multi-species model
 # 4.5  concatenated databases leave-one(-species)-out multi-species model
-bash ./scripts/model/AytanAktug_MSMA_concat.sh
+#bash ./scripts/model/AytanAktug_MSMA_concat.sh
 
 
 
 
-##############################
-#5. Software 3.Seq2Geno
-##############################
+###############################
+##5. Software 3.Seq2Geno
+###############################
 ## set up snakemake pipeline.
 cd ${SCRIPTPATH}
 cd ./AMR_software/seq2geno/install/
 ./SETENV.sh ${se2ge_env_name}
+echo "Seq2Geno main env set up. Now proceed to set up denovo envs.."
 export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
 export PYTHONPATH=$PWD
-conda activate ${se2ge_env_name}
+source activate ${se2ge_env_name}
 wait
-./TESTING.sh
+cd ${SCRIPTPATH}
+cd ./AMR_software/seq2geno/install/
+./TESTING.sh # dry run and set Roary dependencies
 conda deactivate
-# Then update seq2geno to the adaption version that can deal with genome data
+## Then update seq2geno to the adaption version that can deal with genomic data
 cd ${SCRIPTPATH}
 cd ./AMR_software/
 cp  -r seq2geno_assemble/* seq2geno/
 wait
+source activate ${phylo_name} #install R packages
+Rscript --vanilla ./install/phylo_env.r
+conda deactivate
 cd ${SCRIPTPATH}
 bash ./scripts/model/seq2geno.sh #Run.
-echo "Features are prepared, please then proceed to https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno to run Geno2Pheno"
-##### CV score generation. Not provided because Geno2Phen is not an open source software.
-#bash ./scripts/model/seq2geno.sh #Run results from Geno2Pheno. Please manually uncomment the the CV score generation part Line 70-84, and comment other already-finished parts.
-##The Geno2Pheno output format is different
+#echo "Features are prepared, please then proceed to https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno to run Geno2Pheno"
+###### CV score generation. Not provided because Geno2Phen is not an open source software.
+##bash ./scripts/model/seq2geno.sh #Run results from Geno2Pheno. Please manually uncomment the the CV score generation part Line 70-84, and comment other already-finished parts.
+###The Geno2Pheno output format is different
 
-##############################
-#6. Software 4. Phenotyperseeker
-##############################
-bash ./scripts/model/phenotypeseeker.sh
+###############################
+##6. Software 4. Phenotyperseeker
+###############################
+#bash ./scripts/model/phenotypeseeker.sh
+#exit 0
+#
+###############################
+##7. Software 5. Kover
+###############################
+### Please install Kover 2.0 according to https://aldro61.github.io/kover/doc_installation.html or https://github.com/aldro61/kover
+### We used the command line version in Linux.
+##install
+source activate ${kover_env_name}
+cd ./AMR_software/Kover/
+bash ./install.sh
+conda deactivate
+cd ${SCRIPTPATH}
+#bash ./scripts/model/kover.sh
 
-
-##############################
-#7. Software 5. Kover
-##############################
-## Please install Kover 2.0 according to https://aldro61.github.io/kover/doc_installation.html or https://github.com/aldro61/kover
-## We used the command line version in Linux.
-bash ./scripts/model/kover.sh
-
-##############################
-#7. Software 6. ML baseline (majority)
-##############################
-bash ./scripts/model/majority.sh
-
-
+###############################
+##7. Software 6. ML baseline (majority)
+###############################
+#bash ./scripts/model/majority.sh
+#
+#
 
 #-------------------------------------------
 #8. Main Analysis and Visualiztion
 #-------------------------------------------
-bash ./scripts/analysis_visualization/AytanAktug_analysis.sh
-bash ./scripts/analysis_visualization/compare.sh
+#bash ./scripts/analysis_visualization/AytanAktug_analysis.sh
+#bash ./scripts/analysis_visualization/compare.sh
 
 
 #-------------------------------------------
 #9. Other Visualiztion(supplements)
 #-------------------------------------------
-bash ./scripts/analysis_visualization/compare_supplement.sh
+#bash ./scripts/analysis_visualization/compare_supplement.sh
 
 
 
