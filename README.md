@@ -172,4 +172,4 @@ bash ./scripts/model/clean.sh # Optional. Clean intermediate files
 
 
 TODO: 1.remove ML seq2geno before make public!
-2. add 'recall_neg' 'precision_neg' to final analysis
+2. update supplemental folder for adding 'recall_neg' 'precision_neg' to final analysis
