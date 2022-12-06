@@ -10,14 +10,11 @@ from src.analysis_utility.lib import extract_score,math_utility
 
 def make_visualization(out_score,summary_all,antibiotics ):
 
-
-    final=pd.DataFrame(index=antibiotics, columns=['weighted-f1_macro', 'weighted-precision_macro', 'weighted-recall_macro', 'weighted-accuracy',
-                                                   'weighted-mcc','weighted-f1_positive', 'weighted-f1_negative','weighted-precision_neg','weighted-recall_neg','weighted-auc','weighted-threshold','support','support_positive'] )
-
-    final_plot=pd.DataFrame(index=antibiotics, columns=['weighted-f1_macro', 'weighted-precision_macro', 'weighted-recall_macro', 'weighted-accuracy',
-                                                   'weighted-mcc','weighted-f1_positive', 'weighted-f1_negative','weighted-precision_neg','weighted-recall_neg','weighted-auc','weighted-threshold','support','support_positive'] )
-    final_std=pd.DataFrame(index=antibiotics, columns=['weighted-f1_macro', 'weighted-precision_macro', 'weighted-recall_macro', 'weighted-accuracy',
-                                                   'weighted-mcc','weighted-f1_positive', 'weighted-f1_negative','weighted-precision_neg','weighted-recall_neg','weighted-auc','weighted-threshold','support','support_positive'] )
+    column_name=summary_all.columns.tolist()
+    column_name=['weighted-'+ name for name in column_name]
+    final=pd.DataFrame(index=antibiotics, columns=column_name )
+    final_plot=pd.DataFrame(index=antibiotics, columns=column_name)
+    final_std=pd.DataFrame(index=antibiotics, columns=column_name)
 
 
     count = 0
@@ -47,17 +44,11 @@ def make_visualization(out_score,summary_all,antibiotics ):
     return final,final_plot,final_std
 
 def make_visualization_Tree(out_score,summary_all,antibiotics):
-
-
-    final=pd.DataFrame(index=antibiotics, columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
-                                                   'mcc','f1_positive', 'f1_negative','precision_neg','recall_neg','auc','threshold','support','support_positive'] )
-    final_plot=pd.DataFrame(index=antibiotics, columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
-                                                   'mcc','f1_positive', 'f1_negative','precision_neg','recall_neg','auc','threshold','support','support_positive'] )
-    final_std=pd.DataFrame(index=antibiotics, columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
-                                                   'mcc','f1_positive', 'f1_negative','precision_neg','recall_neg','auc','threshold','support','support_positive'] )
-
-
-
+    column_name=summary_all.columns.tolist()
+    column_name=['weighted-'+ name for name in column_name]
+    final=pd.DataFrame(index=antibiotics, columns=column_name )
+    final_plot=pd.DataFrame(index=antibiotics, columns=column_name)
+    final_std=pd.DataFrame(index=antibiotics, columns=column_name)
 
     count=0
     for anti in antibiotics:
@@ -109,7 +100,7 @@ def multi_make_visualization(out_score,All_antibiotics,cv,score):
     for anti in All_antibiotics:
 
         summary = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
-                                           columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                           columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
                                                     'mcc', 'f1_positive','f1_negative', 'precision_neg', 'recall_neg', 'auc',
                                                     'threshold', 'support', 'support_positive'])
         print('count_anti----------------------:',count_anti,anti)
@@ -127,7 +118,7 @@ def multi_make_visualization(out_score,All_antibiotics,cv,score):
         final = final[['f1_macro', 'f1_positive', 'f1_negative', 'accuracy']]
 
     # elif out_score == 'f_p_r':
-    #     final = final[['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro']]
+    #     final = final[['f1_macro', 'precision_macro', 'recall_macro', 'accuracy']]
     elif out_score=='neg':
         final = final[['f1_macro', 'f1_positive','f1_negative','precision_neg', 'recall_neg', 'accuracy']]
 
@@ -152,7 +143,7 @@ def multi_make_visualization_normalCV(out_score,All_antibiotics,score):
     mcc_test = score[3][0]
     thresholds_selected_test = score[4][0]
     hy_para_all=[score[5][0],score[6][0],score[7][0]]#1*n_cv
-    score_list=['f1_macro',  'f1_positive', 'f1_negative', 'accuracy_macro','precision_neg', 'recall_neg',
+    score_list=['f1_macro',  'f1_positive', 'f1_negative', 'accuracy','precision_neg', 'recall_neg',
                                   'precision_pos', 'recall_pos', 'auc','mcc','support', 'support_pos', 'support_neg']
     final = pd.DataFrame(index=All_antibiotics,
                          columns=score_list)
@@ -167,9 +158,9 @@ def multi_make_visualization_normalCV(out_score,All_antibiotics,score):
         count_anti += 1
         final.loc[anti, :] = summary.loc['score', :].to_list()
     if out_score == 'f':
-        final = final[['f1_macro', 'f1_positive', 'f1_negative', 'accuracy_macro']]
+        final = final[['f1_macro', 'f1_positive', 'f1_negative', 'accuracy']]
     elif out_score=='neg':
-        final = final[['f1_macro', 'f1_positive','f1_negative','precision_neg', 'recall_neg', 'accuracy_macro']]
+        final = final[['f1_macro', 'f1_positive','f1_negative','precision_neg', 'recall_neg', 'accuracy']]
     else:
         exit(1)
     final['selected hyperparameter'] = [hy_para_all] * count_anti
@@ -183,9 +174,9 @@ def concat_multi_make_visualization(out_score, All_antibiotics , score):
     score_report_test = score[1][0]
     aucs_test = score[2][0]
     mcc_test = score[3][0]
-    # thresholds_selected_test = score[4][0]
+    ## thresholds_selected_test = score[4][0]
     # # hy_para_all=[score[5][0],score[6][0],score[7][0]]#1*n_cv
-    score_list=['f1_macro',  'f1_positive', 'f1_negative', 'accuracy_macro','precision_neg', 'recall_neg',
+    score_list=['f1_macro',  'f1_positive', 'f1_negative', 'accuracy','precision_neg', 'recall_neg',
                                   'precision_pos', 'recall_pos', 'auc','mcc','support', 'support_pos', 'support_neg']
     final = pd.DataFrame(index=All_antibiotics,columns=score_list)
     count=0
@@ -207,9 +198,9 @@ def concat_multi_make_visualization(out_score, All_antibiotics , score):
         count+=1
 
     if out_score=='f':
-        final=final[['f1_macro','f1_positive', 'f1_negative','accuracy_macro']]
+        final=final[['f1_macro','f1_positive', 'f1_negative','accuracy']]
     elif out_score=='neg':
-        final = final[['f1_macro', 'f1_positive','f1_negative','precision_neg', 'recall_neg', 'accuracy_macro']]
+        final = final[['f1_macro', 'f1_positive','f1_negative','precision_neg', 'recall_neg', 'accuracy']]
     else:
         exit(1)
     return final

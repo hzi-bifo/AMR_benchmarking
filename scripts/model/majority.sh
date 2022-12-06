@@ -28,10 +28,10 @@ export PYTHONPATH=$PWD
 source activate ${amr_env_name}
 
 ##CV
-#python ./AMR_software/majority/main_majority.py -f_phylotree -cv ${cv_number} -temp ${log_path} -s "${species_tree[@]}" -l ${QC_criteria}
-#python ./AMR_software/majority/main_majority.py -f_kma -cv ${cv_number} -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
-#python ./AMR_software/majority/main_majority.py  -cv ${cv_number} -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
-#
+python ./AMR_software/majority/main_majority.py -f_phylotree -cv ${cv_number} -temp ${log_path} -s "${species_tree[@]}" -l ${QC_criteria}
+python ./AMR_software/majority/main_majority.py -f_kma -cv ${cv_number} -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
+python ./AMR_software/majority/main_majority.py  -cv ${cv_number} -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}
+
 
 
 ### CV score generation.

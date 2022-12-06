@@ -188,7 +188,7 @@ def combine_data(species_list,level,fscore,tool_list,folds,output_path):
         elif fold=='Homology-aware folds' and ("clinical_" in fscore):
             f_phylotree=False
             f_kma=True
-            fscore_format= fscore #only for Aytan-Aktug SSSA
+            fscore_format= fscore
         else:#'Random folds', or 'no folds'
             f_phylotree=False
             f_kma=False

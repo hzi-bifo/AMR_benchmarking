@@ -8,12 +8,12 @@ import pandas as pd
 from openpyxl import load_workbook
 from src.benchmark_utility.lib.CombineResults import combine_data
 
-"""This script organizes the performance 4 scores(F1-macro,F1-pos,F1-neg,accuracy) for Aytan-Aktug SSSA, SSMA, MSMA models."""
+"""This script organizes the performance 4 scores(F1-macro,F1-pos,F1-neg,accuracy) and () for Aytan-Aktug SSSA, SSMA, MSMA models."""
 
 
 
 
-def run(species_list,level,foldset, tool_list, f_compare,path_table_results,output_path):
+def run(species_list,level,foldset, tool_list,score_list, f_compare,path_table_results,output_path):
 
 
     # ------------------------------------------
@@ -25,7 +25,8 @@ def run(species_list,level,foldset, tool_list, f_compare,path_table_results,outp
 
         #--------------------------------
         #mean +- std verson
-        for fscore in ['f1_macro','f1_positive','f1_negative','accuracy']:
+        ## for fscore in ['f1_macro','f1_positive','f1_negative','accuracy']:
+        for fscore in score_list:
             for eachfold in foldset:
                 i=0
                 for each_tool in tool_list:
@@ -53,7 +54,7 @@ def run(species_list,level,foldset, tool_list, f_compare,path_table_results,outp
                 wb = load_workbook(path_table_results+'.xlsx')
                 ew = pd.ExcelWriter(path_table_results+'.xlsx')
                 ew.book = wb
-                df_compare.to_excel(ew,sheet_name = (eachfold+'_'+fscore))
+                df_compare.to_excel(ew,sheet_name = (eachfold.split(' ')[0]+'_'+fscore))
                 ew.save()
 
 
@@ -78,16 +79,16 @@ def extract_info(s,level,f_compare,output_path,f_all):
     tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species multi-antibiotics Aytan-Aktug', 'Discrete databases multi-species model', \
                 'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
     path_table_results=output_path+ 'Results/supplement_figures_tables/S8_Aytan-Aktug_multi'
-
-    run(species_list,level,foldset,tool_list,f_compare,path_table_results,output_path)
+    score_list=['f1_macro','f1_positive','f1_negative','accuracy','clinical_f1_negative','clinical_precision_neg','clinical_recall_neg']
+    run(species_list,level,foldset,tool_list,score_list,f_compare,path_table_results,output_path)
     #===============
     # 2. Compare Aytan-Aktug SSSA and SSSA with default NN settings
     #===============
     print('Compare Aytan-Aktug SSSA and SSSA with default NN settings')
     path_table_results=output_path+ 'Results/supplement_figures_tables/S7_Aytan-Aktug_SSSAdefault'
-
+    score_list=['f1_macro','f1_positive','f1_negative','accuracy']
     tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species-antibiotics default']
-    run(species_list,level,foldset,tool_list, f_compare,path_table_results,output_path)
+    run(species_list,level,foldset,tool_list,score_list, f_compare,path_table_results,output_path)
 
 
 

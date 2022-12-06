@@ -39,7 +39,7 @@ species=( "${species_list_temp[@]//_/ }" )
 ### note: Species list hard coded.
 python ./src/benchmark_utility/lib/AytanAktug/excel_multi_analysis.py  -f_compare -f_Ttest -fscore 'f1_macro'
 
-### 1) Generate tables of all AytanAktug-related results (F1-macro,F1-pos,F1-neg,accuracy). Sup F7 & Sup F8
+### 1) Generate tables of all AytanAktug-related results (F1-macro,F1-pos,F1-neg,accuracy) and clinical oriented metrics. Sup F7 & Sup F8
 python ./src/benchmark_utility/lib/AytanAktug/excel_multi.py  -f_compare -s "${species[@]}"
 
 

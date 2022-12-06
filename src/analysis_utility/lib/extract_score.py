@@ -34,19 +34,16 @@ def score_summary_normalCV(count_anti,summary,score_report_test,f1_test,aucs_tes
         report=pd.DataFrame(report).transpose()
         accuracy=(report.iat[2,2])
         support=(report.loc['macro avg','support'])
-
         f1_pos=(report.loc['1', 'f1-score'])
         f1_neg=(report.loc['0', 'f1-score'])
         precision_pos=(report.loc['1', 'precision'])
         recall_pos=(report.loc['1', 'recall'])
-
         precision_neg=(report.loc['0', 'precision'])
         recall_neg=(report.loc['0', 'recall'])
-
         support_pos=(report.loc['1', 'support'])
         support_neg=(report.loc['0', 'support'])
 
-        summary.loc['score','accuracy_macro'] =  accuracy
+        summary.loc['score','accuracy'] =  accuracy
         summary.loc['score', 'f1_macro'] = f1_test
         summary.loc['score', 'precision_neg'] = precision_neg
         summary.loc['score', 'recall_neg'] = recall_neg
@@ -81,12 +78,10 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
 
         mcc_test=np.array(mcc_test)
         mcc_test=mcc_test[ : ,count_anti]
-
-        # mcc_test = [x for x in mcc_test if math.isnan(x) == False]#multi-anti MT model.
+        ## mcc_test = [x for x in mcc_test if math.isnan(x) == False]#multi-anti MT model.
         aucs_test = np.array(aucs_test)
         aucs_test = aucs_test[:, count_anti]
-
-        # aucs_test = [x for x in aucs_test if math.isnan(x) == False]#multi-anti MT model.
+        ## aucs_test = [x for x in aucs_test if math.isnan(x) == False]#multi-anti MT model.
         f1_test = np.array(f1_test)
         f1_test = f1_test[:, count_anti]
         f1_test = f1_test.tolist()
@@ -112,7 +107,7 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
 
             report=pd.DataFrame(report).transpose()
             accuracy.append(report.iat[2,2])
-            # f1.append(report.loc['macro avg','f1-score'])
+            ## f1.append(report.loc['macro avg','f1-score'])
             precision.append(report.loc['macro avg','precision'])
             recall.append(report.loc['macro avg','recall'])
             support.append(report.loc['macro avg','support'])
@@ -125,21 +120,17 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
             support_neg.append(report.loc['0', 'support'])
 
 
-    summary.loc['mean','accuracy_macro'] = statistics.mean(accuracy)
-    summary.loc['std','accuracy_macro'] = statistics.stdev(accuracy)
+
     summary.loc['mean', 'f1_macro'] = statistics.mean(f1_test)
     summary.loc['std', 'f1_macro'] = statistics.stdev(f1_test)
     summary.loc['mean', 'precision_macro'] = statistics.mean(precision)
     summary.loc['std', 'precision_macro'] = statistics.stdev(precision)
     summary.loc['mean', 'recall_macro'] = statistics.mean(recall)
     summary.loc['std', 'recall_macro'] = statistics.stdev(recall)
-    summary.loc['mean', 'auc'] = statistics.mean(aucs_test)
-    summary.loc['std', 'auc'] = statistics.stdev(aucs_test)
+    summary.loc['mean','accuracy'] = statistics.mean(accuracy)
+    summary.loc['std','accuracy'] = statistics.stdev(accuracy)
     summary.loc['mean', 'mcc'] = statistics.mean(mcc_test)
     summary.loc['std', 'mcc'] = statistics.stdev(mcc_test)
-    summary.loc['mean', 'threshold'] = statistics.mean(thresholds_selected_test)
-    summary.loc['std', 'threshold'] = statistics.stdev(thresholds_selected_test)
-
     summary.loc['mean', 'f1_positive'] = statistics.mean(f1_pos)
     summary.loc['std', 'f1_positive'] = statistics.stdev(f1_pos)
     summary.loc['mean', 'f1_negative'] = statistics.mean(f1_neg)
@@ -148,6 +139,10 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
     summary.loc['std', 'precision_neg'] = statistics.stdev(precision_neg)
     summary.loc['mean', 'recall_neg'] = statistics.mean(recall_neg)
     summary.loc['std', 'recall_neg'] = statistics.stdev(recall_neg)
+    summary.loc['mean', 'auc'] = statistics.mean(aucs_test)
+    summary.loc['std', 'auc'] = statistics.stdev(aucs_test)
+    summary.loc['mean', 'threshold'] = statistics.mean(thresholds_selected_test)
+    summary.loc['std', 'threshold'] = statistics.stdev(thresholds_selected_test)
     summary.loc['mean', 'support'] = statistics.mean(support)
     summary.loc['std', 'support'] = statistics.stdev(support)
     summary.loc['mean', 'support_positive'] = statistics.mean(support_pos)
@@ -157,36 +152,42 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
     f1_average = np.average(f1_test, weights=support)
     precision_average = np.average(precision, weights=support)
     recall_average = np.average(recall, weights=support)
-
-
     f1_pos_average = np.average(f1_pos, weights=support)
     f1_neg_average = np.average(f1_neg, weights=support)
     precision_neg_average = np.average(precision_neg, weights=support)
     recall_neg_average = np.average(recall_neg, weights=support)
-
-
     aucs_average = np.average(aucs_test, weights=support)
     mcc_average = np.average(mcc_test, weights=support)
     thr_average = np.average(thresholds_selected_test, weights=support)
     accuracy_average = np.average(accuracy, weights=support)
     # print(summary)
-    summary.loc['weighted-mean', :] = [f1_average, precision_average, recall_average, accuracy_average,
-                                       mcc_average,f1_pos_average, f1_neg_average, precision_neg_average,recall_neg_average, aucs_average,thr_average,
-                                       statistics.mean(support),statistics.mean(support_pos)]
 
-    summary.loc['weighted-std', :] = [math.sqrt(weithgted_var(f1_test, f1_average, support)),
-                                      math.sqrt(weithgted_var(precision, precision_average, support)),
-                                      math.sqrt(weithgted_var(recall, recall_average, support)),
-                                      math.sqrt(weithgted_var(accuracy, accuracy_average, support)),
-                                      math.sqrt(weithgted_var(mcc_test, mcc_average, support)),
-                                      math.sqrt(weithgted_var(f1_pos, f1_pos_average, support)),
-                                      math.sqrt(weithgted_var(f1_neg, f1_neg_average, support)),
-                                      math.sqrt(weithgted_var(precision_neg, precision_neg_average, support)),
-                                      math.sqrt(weithgted_var(recall_neg, recall_neg_average, support)),
-                                      math.sqrt(weithgted_var(aucs_test, aucs_average, support)),
-                                      math.sqrt(weithgted_var(thresholds_selected_test, thr_average, support)),
-                                      statistics.stdev(support),statistics.stdev(support_pos)]
-
+    summary.loc['weighted-mean', 'f1_macro'] = f1_average
+    summary.loc['weighted-std', 'f1_macro'] = math.sqrt(weithgted_var(f1_test, f1_average, support))
+    summary.loc['weighted-mean', 'precision_macro'] = precision_average
+    summary.loc['weighted-std', 'precision_macro'] = math.sqrt(weithgted_var(precision, precision_average, support))
+    summary.loc['weighted-mean', 'recall_macro'] = recall_average
+    summary.loc['weighted-std', 'recall_macro'] = math.sqrt(weithgted_var(recall, recall_average, support))
+    summary.loc['weighted-mean','accuracy'] = accuracy_average
+    summary.loc['weighted-std','accuracy'] =  math.sqrt(weithgted_var(accuracy, accuracy_average, support))
+    summary.loc['weighted-mean', 'mcc'] = mcc_average
+    summary.loc['weighted-std', 'mcc'] =  math.sqrt(weithgted_var(mcc_test, mcc_average, support))
+    summary.loc['weighted-mean', 'f1_positive'] = f1_pos_average
+    summary.loc['weighted-std', 'f1_positive'] =  math.sqrt(weithgted_var(f1_pos, f1_pos_average, support))
+    summary.loc['weighted-mean', 'f1_negative'] = f1_neg_average
+    summary.loc['weighted-std', 'f1_negative'] =  math.sqrt(weithgted_var(f1_neg, f1_neg_average, support))
+    summary.loc['weighted-mean', 'precision_neg'] = precision_neg_average
+    summary.loc['weighted-std', 'precision_neg'] =  math.sqrt(weithgted_var(precision_neg, precision_neg_average, support))
+    summary.loc['weighted-mean', 'recall_neg'] = recall_neg_average
+    summary.loc['weighted-std', 'recall_neg'] =  math.sqrt(weithgted_var(recall_neg, recall_neg_average, support))
+    summary.loc['weighted-mean', 'auc'] = aucs_average
+    summary.loc['weighted-std', 'auc'] =  math.sqrt(weithgted_var(aucs_test, aucs_average, support))
+    summary.loc['weighted-mean', 'threshold'] = thr_average
+    summary.loc['weighted-std', 'threshold'] =  math.sqrt(weithgted_var(thresholds_selected_test, thr_average, support))
+    summary.loc['weighted-mean', 'support'] = statistics.mean(support)
+    summary.loc['weighted-std', 'support'] = statistics.stdev(support)
+    summary.loc['weighted-mean', 'support_positive'] = statistics.mean(support_pos)
+    summary.loc['weighted-std', 'support_positive'] = statistics.stdev(support_pos)
 
 
     return summary
@@ -208,7 +209,7 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,f1_test,aucs_test
     # print(count_anti)
     if count_anti != None:#multi-species model.
         mcc_test=np.array(mcc_test)
-        print('mcc_test shape',mcc_test.shape)
+        # print('mcc_test shape',mcc_test.shape)
         mcc_test=mcc_test[ : ,count_anti]
         mcc_test=mcc_test.tolist()
         aucs_test = np.array(aucs_test)
@@ -222,7 +223,6 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,f1_test,aucs_test
     for i in np.arange(cv):
         if count_anti != None:
             report=score_report_test[i][count_anti]#multi-species model.
-            # mcc_test_anti.append(mcc_test[i][count_anti])
         else:
             report = score_report_test[i]
         report=pd.DataFrame(report).transpose()
@@ -230,7 +230,7 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,f1_test,aucs_test
 
 
         accuracy.append(report.iat[2,2])
-        # f1.append(report.loc['macro avg','f1-score'])
+        ## f1.append(report.loc['macro avg','f1-score'])
         precision.append(report.loc['macro avg','precision'])
         recall.append(report.loc['macro avg','recall'])
         support.append(report.loc['macro avg','support'])
@@ -243,8 +243,8 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,f1_test,aucs_test
         support_neg.append(report.loc['0', 'support'])
 
 
-    summary.loc['mean','accuracy_macro'] = statistics.mean(accuracy)
-    summary.loc['std','accuracy_macro'] = statistics.stdev(accuracy)
+    summary.loc['mean','accuracy'] = statistics.mean(accuracy)
+    summary.loc['std','accuracy'] = statistics.stdev(accuracy)
     summary.loc['mean', 'f1_macro'] = statistics.mean(f1_test)
     summary.loc['std', 'f1_macro'] = statistics.stdev(f1_test)
     summary.loc['mean', 'precision_macro'] = statistics.mean(precision)
@@ -272,44 +272,6 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,f1_test,aucs_test
     summary.loc['std', 'support_positive'] = statistics.stdev(support_pos)
 
     return summary
-
-#
-def summary_allLoop(count_anti,summary, cv,score_report_test,f1_test, aucs_test, mcc_test,anti ):
-    '''
-    Summarize scores in each loop, for visualiztion(bar plot with sig interval) comparison of MSMA. No use so far, as we changed to bar plot with no sig interval.
-    '''
-
-    if count_anti != None:  # multi-species model.
-        mcc_test = np.array(mcc_test)
-        print('mcc_test shape', mcc_test.shape)
-        mcc_test = mcc_test[:, count_anti]
-        mcc_test = mcc_test.tolist()
-        aucs_test = np.array(aucs_test)
-        aucs_test = aucs_test[:, count_anti]
-        aucs_test = aucs_test.tolist()
-        f1_test = np.array(f1_test)
-        f1_test = f1_test[:, count_anti]
-        f1_test=f1_test.tolist()
-    for i in np.arange(cv):
-        if count_anti != None:
-            report = score_report_test[i][count_anti]  # multi-species model.
-            # mcc_test_anti.append(mcc_test[i][count_anti])
-        else:
-            report = score_report_test[i]
-        report = pd.DataFrame(report).transpose()
-
-        summary_sub=pd.DataFrame(columns=['antibiotic','f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
-                                        'mcc', 'f1_positive', 'f1_negative', 'precision_positive',
-                                        'recall_positive', 'auc'])
-
-        summary_sub.loc['score',:]=[anti,f1_test[i],report.loc['macro avg', 'precision'],report.loc['macro avg', 'recall'],
-                                report.iat[2,2],mcc_test[i],report.loc['1', 'f1-score'],report.loc['0', 'f1-score'],
-                                report.loc['1', 'precision'],report.loc['1', 'recall'],aucs_test[i]]
-
-        summary = summary.append(summary_sub, ignore_index=True)
-    return summary
-
-
 
 def score_clinical(summary, cv, score_report_test):
     ## Only for F1-negative, precision-negative. Intergrate predicted results from all folds, and compute the scores.
@@ -335,19 +297,16 @@ def score_clinical(summary, cv, score_report_test):
             recall_neg=report.loc['0', 'recall']
             support_neg=report.loc['0', 'support']
             support_pos=report.loc['1', 'support']
-            # precision_pos=float(precision_pos)
-            # precision_neg=float(precision_neg)
-            # recall_neg=float(recall_neg)
-            # recall_pos=float(recall_pos)
+
             tp,fp,tn,fn = symbols('tp,fp,tn,fn')
             eq1 = Eq((tp-precision_pos*(tp+fp)),0)
             eq2 = Eq((tp-recall_pos*(tp+fn)),0)
             eq3 = Eq((tn-precision_neg*(tn+fn)),0 )
             eq4 = Eq((tn-recall_neg*(tn+fp)),0)
-            # eq1 = Eq((tp/(tp+fp)), precision_pos)
-            # eq2 = Eq((tp/(tp+fn)),recall_pos)
-            # eq3 = Eq((tn/(tn+fn)), precision_neg)
-            # eq4 = Eq((tn/(tn+fp)),recall_neg)
+            # # eq1 = Eq((tp/(tp+fp)), precision_pos)
+            # # eq2 = Eq((tp/(tp+fn)),recall_pos)
+            # # eq3 = Eq((tn/(tn+fn)), precision_neg)
+            # # eq4 = Eq((tn/(tn+fp)),recall_neg)
             eq5 = Eq(tn+fp,support_neg)
             eq6 = Eq(tp+fn,support_pos)
 
@@ -384,6 +343,48 @@ def score_clinical(summary, cv, score_report_test):
 
     # print(summary)
     return summary
+
+
+#
+# def summary_allLoop(count_anti,summary, cv,score_report_test,f1_test, aucs_test, mcc_test,anti ):
+#     '''
+#     Summarize scores in each loop, for visualiztion(bar plot with sig interval) comparison of MSMA.
+#     No use so far, as we changed to bar plot with no sig interval, but standard deviation.
+#     '''
+#
+#     if count_anti != None:  # multi-species model.
+#         mcc_test = np.array(mcc_test)
+#         print('mcc_test shape', mcc_test.shape)
+#         mcc_test = mcc_test[:, count_anti]
+#         mcc_test = mcc_test.tolist()
+#         aucs_test = np.array(aucs_test)
+#         aucs_test = aucs_test[:, count_anti]
+#         aucs_test = aucs_test.tolist()
+#         f1_test = np.array(f1_test)
+#         f1_test = f1_test[:, count_anti]
+#         f1_test=f1_test.tolist()
+#     for i in np.arange(cv):
+#         if count_anti != None:
+#             report = score_report_test[i][count_anti]  # multi-species model.
+#             # mcc_test_anti.append(mcc_test[i][count_anti])
+#         else:
+#             report = score_report_test[i]
+#         report = pd.DataFrame(report).transpose()
+#
+#         summary_sub=pd.DataFrame(columns=['antibiotic','f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
+#                                         'mcc', 'f1_positive', 'f1_negative', 'precision_positive',
+#                                         'recall_positive', 'auc'])
+#
+#         summary_sub.loc['score',:]=[anti,f1_test[i],report.loc['macro avg', 'precision'],report.loc['macro avg', 'recall'],
+#                                 report.iat[2,2],mcc_test[i],report.loc['1', 'f1-score'],report.loc['0', 'f1-score'],
+#                                 report.loc['1', 'precision'],report.loc['1', 'recall'],aucs_test[i]]
+#
+#         summary = summary.append(summary_sub, ignore_index=True)
+#     return summary
+#
+
+
+
 
 
 

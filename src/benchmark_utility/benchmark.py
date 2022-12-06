@@ -31,7 +31,7 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
     ##  Performance(F1-macro, F1-positive, F1-negative, accuracy) of KMA-based Point-/ResFinder and
     # BLAST-based Point-/ResFinder on each combination’s whole dataset.
     ###################################################################################################################
-    if f_table: #todo run again
+    if f_table:
         foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
         tool_list=['Point-/ResFinder' ,'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
         save_file_name=output_path+ 'Results/supplement_figures_tables/S1_cv_results.xlsx'
@@ -79,7 +79,7 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
 
     ### Clinical-oriented performance analysis
     ###  compared the software performance regarding F1-negative and precision-negative
-    if f_clinical_analysis:#todo run again
+    if f_clinical_analysis:
 
         foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
         tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']

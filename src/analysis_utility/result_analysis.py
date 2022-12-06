@@ -83,7 +83,7 @@ def extract_info_species2(softwareName,cl_list,level,species,cv,f_phylotree,f_km
         ## score2= pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '.pickle',"rb"))
         ## hyperparameters_test=score2['hyperparameters_test']
         summary_table_ByClassifier_ = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
-                                   columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                   columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
                                             'mcc', 'f1_positive', 'f1_negative', 'precision_neg', 'recall_neg',
                                             'auc','threshold', 'support', 'support_positive'])
         if f1_test[0]!=None:
@@ -171,12 +171,12 @@ def extract_info_species(softwareName,cl_list,level,species,cv,f_phylotree,f_kma
 
             _,_ ,save_name_score= name_utility.GETname_model(softwareName,level, species, anti,chosen_cl,temp_path)
 
-            try: #new version
+            try: #new version of format json
                 with open(save_name_score + '_KMA_' + str(f_kma) + '_Tree_' + str(f_phylotree) + '.json') as f:
                     score = json.load(f)
                 score2= pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '_model.pickle',"rb"))
                 summary_table_ByClassifier_ = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
-                                       columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                       columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
                                                 'mcc', 'f1_positive', 'f1_negative', 'precision_neg', 'recall_neg',
                                                 'auc','threshold', 'support', 'support_positive'])
 
@@ -207,10 +207,10 @@ def extract_info_species(softwareName,cl_list,level,species,cv,f_phylotree,f_kma
                     hy_para_fren.append(None)
                     hy_para_all.append(None)
 
-            except: #old version-----------------------------------------------------------------------------------------------------------------------------
+            except: #old version format pickle--------------------------------------------------------------------------------------------------------------
 
                 summary_table_ByClassifier_ = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
-                                       columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
+                                       columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
                                                 'mcc', 'f1_positive', 'f1_negative', 'precision_neg', 'recall_neg',
                                                 'auc','threshold', 'support', 'support_positive'])
                 try:# not for MT
@@ -237,12 +237,8 @@ def extract_info_species(softwareName,cl_list,level,species,cv,f_phylotree,f_kma
                     hy_para_fren.append(None)
                     hy_para_all.append(None)
             ########-------------------------------------------------------------------------------------------------------------------------------------------
-
-
             summary_table_ByClassifier_all.append(summary_table_ByClassifier)
 
-
-            # print(summary_table_ByClassifier)
 
         #finish one chosen_cl
         #[Low level]for each species and each classifier
@@ -251,7 +247,6 @@ def extract_info_species(softwareName,cl_list,level,species,cv,f_phylotree,f_kma
             final, final_plot,final_std =  make_table.make_visualization(out_score, summary_table_ByClassifier_all, antibiotics)
         else:#if f_phylotree or random
             final, final_plot,final_std =  make_table.make_visualization_Tree(out_score, summary_table_ByClassifier_all, antibiotics)
-
 
         save_name_score_final,_ = name_utility.GETname_result(softwareName, species, '',f_kma,f_phylotree,chosen_cl,output_path)
         file_utility.make_dir(os.path.dirname(save_name_score_final))

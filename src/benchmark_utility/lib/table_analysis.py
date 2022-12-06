@@ -71,9 +71,9 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                     df_macro['f1_negative']=df_neg['f1_negative']
                     df_macro['f1_positive']=df_pos['f1_positive']
                     df_macro['accuracy']=df_acu['accuracy']
-                    df_macro['clinical_f1_negative']=df_cl_f1['clinical_f1_negative']
-                    df_macro['clinical_precision_neg']=df_cl_pre['clinical_precision_neg']
-                    df_macro['clinical_recall_neg']=df_cl_rec['clinical_recall_neg']
+                    df_macro['clinical_f1_negative']=df_cl_f1['clinical_f1_negative'].round(2)
+                    df_macro['clinical_precision_neg']=df_cl_pre['clinical_precision_neg'].round(2)
+                    df_macro['clinical_recall_neg']=df_cl_rec['clinical_recall_neg'].round(2)
 
 
                     df_macro=df_macro.reset_index()
@@ -106,8 +106,8 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
 
                 df_final[fscore+'_mean'] = df_final[fscore+'_mean'] .astype(float)
                 df_final[fscore+'_std'] = df_final[fscore+'_std'] .astype(float)
-                df_final['compare_'+fscore+'_mean'] = df_final['compare_'+fscore+'_mean'] .astype(float)
-                df_final['compare_'+fscore+'_std'] = df_final['compare_'+fscore+'_std'] .astype(float)
+                df_final['compare_'+fscore+'_mean'] = df_final['compare_'+fscore+'_mean'] .astype(float).round(2)
+                df_final['compare_'+fscore+'_std'] = df_final['compare_'+fscore+'_std'] .astype(float).round(2)
 
                 wb = load_workbook(path_table_results2)
                 ew = pd.ExcelWriter(path_table_results2)
@@ -177,8 +177,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                 i+=1
 
 
-
-
+            df_compare=df_compare.round(2)
             df_std=df_compare[[x+'_std' for x in tool_list]]
 
             df_compare['max_'+fscore]=df_compare[tool_list].max(axis=1)

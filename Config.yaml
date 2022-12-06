@@ -4,50 +4,43 @@
 #A. Basic/required parameters setting
 ############################################################################################################################
 #1. the location to download the PATRIC dataset to.  ~246G (Please change to your local address.)
-dataset_location: /vol/projects/BIFO/patric_genome
-#dataset_location: /net/projects/BIFO/patric_genome
+#dataset_location: /vol/projects/BIFO/patric_genome
+dataset_location: /net/projects/BIFO/patric_genome
 #2. The path to store the direct results of each software and further visualization. (either sbsolute path or relative path)
 output_path: ./
 #3. The path to store the tempary files (note: some software will generate large amount of temp files to 60G in the process,
 #  if you run all species in parallel.  Either sbsolute path or relative path)
 log_path: ./
 #4 . max cpu
-n_jobs: 10
+n_jobs: 20
 #5. gpu possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied;
 #  Otherwise, it will be applied on one gpu core sequentially.
 gpu_on: True
-
-#6. Kover install path
-kover_location: /vol/projects/khu/amr/kover/bin/
+#6. Cleaning large intermediate files of the specified software. Can be either empty, phenotypeseeker, AytanAktug, seq2geno
+clean_software:
 
 
 
 #<change the conda env names if these names have already existed in your PC.>
 ############################################################################################################################
-#B. Env: Adanced/optional parameters setting
+#B. Env: Optional parameters setting
 ############################################################################################################################
-#amr_env_name: amr_env
-amr_env_name: amr
-#PhenotypeSeeker_env_name: PhenotypeSeeker_env
-PhenotypeSeeker_env_name: PhenotypeSeeker2
-#multi_env_name: multi_env
-multi_env_name: multi_bench
-kmer_env_name: python36
+
+amr_env_name: amr_env
+PhenotypeSeeker_env_name: PhenotypeSeeker_env
+multi_env_name: multi_env
 #this environment includes pytorch, which should be installed according to https://pytorch.org/get-started/locally/ manually.
-#multi_torch_env_name: multi_torch_env
-multi_torch_env_name: multi_bench_torch
-#kover_env_name: kover_env
-kover_env_name: base
-
-#if you want to rename this one, please follow instructions w.r.t.  Seq2Geno
-se2ge_env_name: snakemake_env
-phylo_r_name: phylo_r
-
-
+multi_torch_env_name: multi_torch_env
+kover_env_name: kover_env
+phylo_name: phylo_env
+perl_name:  perl_env
+se2ge_env_name: snakemake_env2
+kmer_env_name: kmer_kmc
+resfinder_env: res_env
 
 #<You don't need to change parameters below, if you aim at reproducing the complete results of our benchmarking study.>
 ############################################################################################################################
-#C. Model: Adanced/optional parameters setting
+#C. Model: Advanced/optional parameters setting
 ############################################################################################################################
 #1. sample selection criteria: loose/trict. By default, we only benchmarked on the loosely selected dataset.
 QC_criteria: loose
@@ -57,14 +50,10 @@ QC_criteria: loose
 #
 species_list: Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Mycobacterium_tuberculosis, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae
 species_list_phylotree: Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae
-species_list_multi_antibiotics:  Mycobacterium_tuberculosis, Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Neisseria_gonorrhoeae
+species_list_multi_antibiotics: Mycobacterium_tuberculosis, Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Neisseria_gonorrhoeae
 species_list_multi_species:  Mycobacterium_tuberculosis, Salmonella_enterica, Streptococcus_pneumoniae, Escherichia_coli, Staphylococcus_aureus, Klebsiella_pneumoniae, Acinetobacter_baumannii, Pseudomonas_aeruginosa, Campylobacter_jejuni
 merge_name: Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj
-#---below only testing/working
-#species_list: Klebsiella_pneumoniae
-#species_list_phylotree: Klebsiella_pneumoniae
-#species_list_multi_antibiotics: Mycobacterium_tuberculosis, Klebsiella_pneumoniae
-#species_list_multi_species: Mycobacterium_tuberculosis
+
 
 #3. CV settings.
 #nested CV
@@ -72,5 +61,5 @@ cv_number: 10
 
 # 5 CV folds + 1 hold out set. Only for Aytan-Aktug Multi-species multi-antibiotics discrete databases Neural networks model.
 cv_number_multiS: 6
-#4. Env
+
 
