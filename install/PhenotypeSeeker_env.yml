@@ -1,0 +1,21 @@
+name: PhenotypeSeeker_env
+channels:
+  - r
+  - anaconda
+  - pytorch
+  - conda-forge/label/broken
+  - hzi-bifo
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - genometester4=4.0
+  - mash=2.3
+  - numpy=1.18.1
+  - pyparsing=2.4.7
+  - pandas=1.0.1
+  - biopython=1.76
+  - pip:
+    - scikit-learn==0.24.1
+    - scipy==1.4.1
+prefix: /home/khu/miniconda2/envs/PhenotypeSeeker_env

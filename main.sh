@@ -30,22 +30,22 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 ### To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/.
 ### Our code was tested with pytorch v1.7.1, with CUDA Version: 10.1 and 11.0 .
 #
-#bash ./install/install.sh
-#echo "Please check if Env created."
-#-------------------------------------------
-#2.PATRIC Data
-#-------------------------------------------
-#Download  PATRIC_genomes_AMR.txt from https://docs.patricbrc.org/user_guides/ftp.html on Dec. 2020.
-#Download quality attribute tables using p3-all-genomes, saved at : ./data/PATRIC/quality/${species}.csv, for quality control(QC).
-#Based on above mentioned materials, we conducted a pre-selection(selecion based only on sample numbers w.r.t. each species) and QC, and then downloaded the data based on the pre-selection.
-# We use the dataset based on QC.
+bash ./install/install.sh
+echo "Please check if Env created."
+##-------------------------------------------
+##2.PATRIC Data
+##-------------------------------------------
+###Download  PATRIC_genomes_AMR.txt from https://docs.patricbrc.org/user_guides/ftp.html on Dec. 2020.
+##Download quality attribute tables using p3-all-genomes, saved at : ./data/PATRIC/quality/${species}.csv, for quality control(QC).
+##Based on above mentioned materials, we conducted a pre-selection(selecion based only on sample numbers w.r.t. each species) and QC, and then downloaded the data based on the pre-selection.
+## We use the dataset based on QC.
 
 #2.0 Quality control  (You can skip this step, as we provided the sample list after pre-selection &  QC: ./data/PATRIC/meta)
 ### If you want to go through the pre-selection & QC, and re-generate the list. Note: this step will update the ./data/PATRIC/meta folder.
 #bash ./scripts/data/preprocess.sh
 #
 ## 2.1 PATRIC Data download
-#bash ./scripts/data_preprocess/retrive_PATRIC_data.sh ${dataset_location}
+bash ./scripts/data_preprocess/retrive_PATRIC_data.sh ${dataset_location}
 
 
 
@@ -63,21 +63,21 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 ##If issues arise in this step, you can alternatively manually install it.
 ## please further refer to https://bitbucket.org/genomicepidemiology/resfinder/src/master/
 
-#cd ./AMR_software/resfinder
-#cd cge
-##git clone https://bitbucket.org/genomicepidemiology/kma.git
-#cd kma && make
-#cd ${SCRIPTPATH}
-##
-###index Point-/ResFinder databases with KMA
-#cd ./AMR_software/resfinder/db_resfinder
-#python3 INSTALL.py ${SCRIPTPATH}/AMR_software/resfinder/cge/kma/kma non_interactive
-#cd ${SCRIPTPATH}
-#cd ./AMR_software/resfinder/db_pointfinder
-#python3 INSTALL.py ${SCRIPTPATH}/AMR_software/resfinder/cge/kma/kma non_interactive
-#cd ${SCRIPTPATH}
+cd ./AMR_software/resfinder
+cd cge
+###git clone https://bitbucket.org/genomicepidemiology/kma.git
+cd kma && make
+cd ${SCRIPTPATH}
+#
+##index Point-/ResFinder databases with KMA
+cd ./AMR_software/resfinder/db_resfinder
+python3 INSTALL.py ${SCRIPTPATH}/AMR_software/resfinder/cge/kma/kma non_interactive
+cd ${SCRIPTPATH}
+cd ./AMR_software/resfinder/db_pointfinder
+python3 INSTALL.py ${SCRIPTPATH}/AMR_software/resfinder/cge/kma/kma non_interactive
+cd ${SCRIPTPATH}
 
-#bash ./scripts/model/resfinder.sh
+bash ./scripts/model/resfinder.sh
 
 
 
@@ -93,18 +93,18 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 ##Reference: Early stopping for PyTorch https://github.com/Bjarten/early-stopping-pytorch
 ##############################
 
-# 4.1 single-species single-antibiotics
-#bash ./scripts/model/AytanAktug_SSSA.sh
+## 4.1 single-species single-antibiotics
+bash ./scripts/model/AytanAktug_SSSA.sh
 
-# 4.2 single-species multi-antibiotics
-#bash ./scripts/model/AytanAktug_SSMA.sh
+## 4.2 single-species multi-antibiotics
+bash ./scripts/model/AytanAktug_SSMA.sh
 
-# 4.3 discrete databases multi-species model
-#bash ./scripts/model/AytanAktug_MSMA_discrete.sh
+## 4.3 discrete databases multi-species model
+bash ./scripts/model/AytanAktug_MSMA_discrete.sh
 
-# 4.4 concatenated databases mixed(-species) multi-species model
-# 4.5  concatenated databases leave-one(-species)-out multi-species model
-#bash ./scripts/model/AytanAktug_MSMA_concat.sh
+## 4.4 concatenated databases mixed(-species) multi-species model
+## 4.5  concatenated databases leave-one(-species)-out multi-species model
+bash ./scripts/model/AytanAktug_MSMA_concat.sh
 
 
 
@@ -137,14 +137,14 @@ cd ${SCRIPTPATH}
 bash ./scripts/model/seq2geno.sh #Run.
 #echo "Features are prepared, please then proceed to https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno to run Geno2Pheno"
 ###### CV score generation. Not provided because Geno2Phen is not an open source software.
-##bash ./scripts/model/seq2geno.sh #Run results from Geno2Pheno. Please manually uncomment the the CV score generation part Line 70-84, and comment other already-finished parts.
+###bash ./scripts/model/seq2geno.sh #Run results from Geno2Pheno. Please manually uncomment the the CV score generation part Line 70-84, and comment other already-finished parts.
 ###The Geno2Pheno output format is different
 
 ###############################
 ##6. Software 4. Phenotyperseeker
 ###############################
-#bash ./scripts/model/phenotypeseeker.sh
-#exit 0
+bash ./scripts/model/phenotypeseeker.sh
+
 #
 ###############################
 ##7. Software 5. Kover
@@ -157,26 +157,26 @@ cd ./AMR_software/Kover/
 bash ./install.sh
 conda deactivate
 cd ${SCRIPTPATH}
-#bash ./scripts/model/kover.sh
+bash ./scripts/model/kover.sh
 
 ###############################
 ##7. Software 6. ML baseline (majority)
 ###############################
-#bash ./scripts/model/majority.sh
+bash ./scripts/model/majority.sh
 #
 #
 
 #-------------------------------------------
 #8. Main Analysis and Visualiztion
 #-------------------------------------------
-#bash ./scripts/analysis_visualization/AytanAktug_analysis.sh
-#bash ./scripts/analysis_visualization/compare.sh
+bash ./scripts/analysis_visualization/AytanAktug_analysis.sh
+bash ./scripts/analysis_visualization/compare.sh
 
 
 #-------------------------------------------
 #9. Other Visualiztion(supplements)
 #-------------------------------------------
-#bash ./scripts/analysis_visualization/compare_supplement.sh
+bash ./scripts/analysis_visualization/compare_supplement.sh
 
 
 
