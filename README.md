@@ -42,7 +42,7 @@
 
 ## <a name="pre"></a>Prerequirements
 - Dependencies
-    - To reproduce the output, you need to use Linux OS and `conda` (Miniconda 4.8.4 was used by us). Please follow the instruction [here](https://bioconda.github.io/) to install Bioconda
+    - To reproduce the output, you need to use Linux OS and `conda` (Miniconda 4.8.4 was used by us).
 
     - Installation of the conda environments:
         ```
