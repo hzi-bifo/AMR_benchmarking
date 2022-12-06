@@ -191,11 +191,10 @@ def _split(dataset, split_name, random_generator, random_seed, train_idx, test_i
     progress_callback("Split", 1.0 * n_splits_done / n_splits_to_perform)
 
     if n_folds > 0:
-        print('-------check>khu1...')
         logging.debug("Splitting the training set into %d cross-validation folds." % n_folds)
         folds = split.create_group("folds")
 
-        # Assign each genome to a fold randomly. #todo??
+        # Assign each genome to a fold randomly
         fold_by_training_set_genome = np.arange(len(train_idx)) % n_folds
         random_generator.shuffle(fold_by_training_set_genome)
 

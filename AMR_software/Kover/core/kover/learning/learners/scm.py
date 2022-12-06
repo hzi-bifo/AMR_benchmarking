@@ -17,7 +17,7 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-# import logging
+import logging
 import numpy as np
 
 from math import ceil
@@ -210,7 +210,7 @@ class BaseSetCoveringMachine(object):
 class SetCoveringMachine(BaseSetCoveringMachine):
     """
     The Set Covering Machine (SCM).
-    Marchand, M., & Taylor, J. S. (2003). The set covering machine. Journal of Machine Learning Research, 3, 723–746.
+    Marchand, M., & Taylor, J. S. (2003). The set covering machine. Journal of Machine Learning Research, 3, 723-746.
     Parameters:
     -----------
     model_type: pyscm.model.conjunction or pyscm.model.disjunction, default=pyscm.model.conjunction
@@ -225,7 +225,7 @@ class SetCoveringMachine(BaseSetCoveringMachine):
 
     def __init__(self, model_type=conjunction, p=1.0, max_rules=10):
         super(SetCoveringMachine, self).__init__(model_type=model_type, max_rules=max_rules)
-        print(model_type,'??????')
+
         if model_type == conjunction:
             self.model = ConjunctionModel()
         elif model_type == disjunction:
