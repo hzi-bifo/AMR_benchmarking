@@ -45,7 +45,7 @@ resfinder_env: res_env
 #1. sample selection criteria: loose/trict. By default, we only benchmarked on the loosely selected dataset.
 QC_criteria: loose
 #2. By default, we benchmarked using 11 species for Aytan-Aktug SSSA, Seq2Geno2Pheno, PhenotypeSeeker, Kover and Point-/ResFinder.
-# 9 species for Aytan-Aktug SSMA, and 3 MSMA models
+# 9 species for Aytan-Aktug SSMA and 3 MSMA models
 # For user defining species combinations for MSMA, please replace -f_all with -s "${species[@]}" in ./scripts/model/AytanAktug_MSMA_concat.sh and ./scripts/model/AytanAktug_MSMA_discrete.sh
 #
 species_list: Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Mycobacterium_tuberculosis, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae
