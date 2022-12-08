@@ -1,5 +1,3 @@
-TODO: Add license after Fernando's review.
-
 # Benchmarking machine learning-based software for antimicrobial resistance determination from genomic data
 
 ## Contents
