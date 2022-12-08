@@ -46,7 +46,7 @@
 
     - Installation of the conda environments:
         ```
-        bash ./install/install.sh #Create 8 pieces of conda environments and install packages respectively
+        bash ./install/install.sh #Create 9 pieces of conda environments and install packages respectively
         ```
     -  If coming across creating environment for Kover, please refer to [Kover](https://aldro61.github.io/kover/doc_installation.html) to try other installation methods.
     - Finally, you need to install pytorch in the `multi_torch_env` manually. To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version 10.1 and 11.0 .
