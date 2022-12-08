@@ -66,12 +66,13 @@ wait
 echo $CONDA_DEFAULT_ENV
 pip install -r install/multi_env.txt
 conda deactivate
-echo " ${multi_torch_env_name} created successfully."
+echo " To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/."
 
 
 
 ##5.Kover #Tested Dec 6. successful only after updating Kover version.
-conda env create -n ${kover_env_name}  -f ./install/kover_env.yml
+###conda env create -n ${kover_env_name}  -f ./install/kover_env.yml
+conda create -n ${kover_env_name} -y  python=2.7
 source activate ${kover_env_name}|| { echo "Errors in activate env."; exit; }
 wait
 echo $CONDA_DEFAULT_ENV
