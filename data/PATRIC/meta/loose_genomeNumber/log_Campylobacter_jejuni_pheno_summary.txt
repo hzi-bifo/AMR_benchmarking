@@ -1,0 +1,2 @@
+	Resistant	Susceptible	Resistant(downsampling)	Susceptible(downsampling)
+tetracycline	272	123	184	123

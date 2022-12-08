@@ -1,0 +1,3 @@
+	Resistant	Susceptible	Resistant(downsampling)	Susceptible(downsampling)
+azithromycin	210	234	210	234
+cefixime	117	264	117	175

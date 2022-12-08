@@ -1,0 +1,14 @@
+	Resistant	Susceptible	Resistant(downsampling)	Susceptible(downsampling)
+amikacin	150	1361	150	225
+aztreonam	1288	131	196	131
+cefepime	906	397	595	397
+cefoxitin	799	602	799	602
+ciprofloxacin	1488	209	313	209
+gentamicin	775	911	775	911
+imipenem	521	948	521	948
+levofloxacin	1181	235	352	235
+meropenem	538	1071	538	1071
+piperacillin/tazobactam	986	360	540	360
+tetracycline	697	557	697	557
+tobramycin	787	527	787	527
+trimethoprim/sulfamethoxazole	1316	366	549	366

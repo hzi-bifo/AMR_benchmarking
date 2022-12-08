@@ -1,0 +1,2 @@
+	Resistant	Susceptible	Resistant(downsampling)	Susceptible(downsampling)
+vancomycin	134	143	134	143

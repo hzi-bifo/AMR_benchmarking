@@ -1,0 +1,6 @@
+	Resistant	Susceptible	Resistant(downsampling)	Susceptible(downsampling)
+ceftazidime	281	376	281	376
+ciprofloxacin	277	268	277	268
+levofloxacin	187	249	187	249
+meropenem	399	311	399	311
+tobramycin	169	413	169	253

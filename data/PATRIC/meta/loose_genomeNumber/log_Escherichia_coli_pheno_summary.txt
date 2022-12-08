@@ -1,0 +1,14 @@
+	Resistant	Susceptible	Resistant(downsampling)	Susceptible(downsampling)
+amoxicillin	693	425	693	425
+amoxicillin/clavulanic acid	735	1478	735	1102
+ampicillin	951	533	951	533
+aztreonam	114	434	114	171
+cefotaxime	185	1205	185	277
+ceftazidime	193	1493	193	289
+ceftriaxone	199	190	199	190
+cefuroxime	215	1148	215	322
+ciprofloxacin	489	1274	489	733
+gentamicin	178	1573	178	267
+piperacillin/tazobactam	137	1347	137	205
+tetracycline	171	114	171	114
+trimethoprim	195	273	195	273

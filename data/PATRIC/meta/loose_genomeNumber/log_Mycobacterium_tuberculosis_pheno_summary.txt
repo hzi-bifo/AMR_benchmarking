@@ -1,0 +1,13 @@
+	Resistant	Susceptible	Resistant(downsampling)	Susceptible(downsampling)
+amikacin	302	1233	302	453
+capreomycin	346	1189	346	519
+ethambutol	2098	9667	2098	3147
+ethiomide	149	192	149	192
+ethionamide	139	298	139	208
+isoniazid	4542	8529	4542	8529
+kanamycin	393	1225	393	589
+ofloxacin	408	771	408	771
+pyrazinamide	1319	6669	1319	1978
+rifampicin	2658	5081	2658	5081
+rifampin	1246	4434	1246	1869
+streptomycin	1356	3807	1356	2034

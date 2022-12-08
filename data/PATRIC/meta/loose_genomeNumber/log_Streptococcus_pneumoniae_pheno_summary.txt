@@ -1,0 +1,6 @@
+	Resistant	Susceptible	Resistant(downsampling)	Susceptible(downsampling)
+chloramphenicol	104	1799	104	156
+erythromycin	766	1611	766	1149
+penicillin	1082	1166	1082	1166
+tetracycline	593	1312	593	889
+trimethoprim/sulfamethoxazole	1714	727	1090	727

@@ -1,0 +1,10 @@
+	Resistant	Susceptible	Resistant(downsampling)	Susceptible(downsampling)
+cefoxitin	818	241	361	241
+ciprofloxacin	791	1073	791	1073
+clindamycin	259	621	259	388
+erythromycin	703	1496	703	1054
+fusidic acid	296	1726	296	444
+gentamicin	147	2077	147	220
+methicillin	1145	811	1145	811
+penicillin	1062	158	237	158
+tetracycline	207	1709	207	310
