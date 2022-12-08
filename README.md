@@ -71,7 +71,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 |log_path| To where to generate the `log` folder for the intermediate files, which you can delete by hand afterward. Large temp files are stored under `<log_path>/log/software/<software_name>/software_output`. Running benchmarking study scripts from beginning to the end will generate temp files up to the order of 10 terabytes, which means you are suggested to delete temp files via `./src/software_utility/clean.py` as soon as one software finishes evaluation successfully, except Point-/ResFinder. | ./|
 |n_jobs| CPU cores to use. Although you can set it to 1, be sure to prepare at least 2 cores as some software installation procedures use 2 cores by default. | 10 |
 |gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
-| clean_software|cleaning large intermediate files of the specified software. This is pptional, as some less useful intermediate large files will be automatically removed once the corresponding software finishes a certain procedure.||
+| clean_software|cleaning large intermediate files of the specified software. This is optional, as some less useful intermediate large files will be automatically removed once the corresponding software finishes a certain procedure.||
 
 **B.Optional parameters setting**
 
