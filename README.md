@@ -25,7 +25,7 @@
 4. [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4). 
 5. [Point-/ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
 
-- All software methods, except for Kover, were benchmarked with adaption versions (provided in `./AMR_software`).
+- All software methods, except for Kover, were benchmarked with adaptation versions (provided in `./AMR_software`).
 
 ### <a name="data"></a>Data sets
 
@@ -52,9 +52,9 @@
     - Finally, you need to install pytorch in the `multi_torch_env` manually. To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version 10.1 and 11.0 .
 
 
-- Memory requirement: Some procedures require extremely large memory. Aytan-Aktug multi-species model (adaption version) feature building needs ~370G memory. Other ML software needs up to 80G memory, depending on the number of CPU and which specis-antibiotic combination.
+- Memory requirement: Some procedures require extremely large memory. Aytan-Aktug multi-species model (adaptation version) feature building needs ~370G memory. Other ML software needs up to 80G memory, depending on the number of CPU and which specis-antibiotic combination.
 
-- Disk storage requirement: Some procedures generate extremely large intermediate files, although they are deleted once the procedures generate feature files. E.g. PhenotypeSeeker (adaption version) needs up to the magnitude of 10T depending on the data set size of the species runnning, which will be deleted automaically. 
+- Disk storage requirement: Some procedures generate extremely large intermediate files, although they are deleted once the procedures generate feature files. E.g. PhenotypeSeeker (adaptation version) needs up to the magnitude of 10T depending on the data set size of the species runnning, which will be deleted automaically. 
 
 
 ## <a name="input"></a>Input file
@@ -133,7 +133,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 - Visualization tables and graphs are generated under `output_path/Results/final_figures_tables` and `output_path/Results/supplement_figures_tables`.
 - Numbers and statistic results mentioned in our benchmarking article are generated under `output_path/Results/other_figures_tables`.
 <!--
-- Stochastic factors in generating results:( **do we actually needed to say this? or not**)  We provide in this repository the software or corresponding adaption versions of all the methods we benchmarked, with the original software accessed time and modification details disclosed in our publication. We set a predefined seed for processes including predictor learning and folds partition. But there are 2 points that invite stochastic factors. [KMA](https://bitbucket.org/genomicepidemiology/kma/src/master/) version, which is installed from repository when setting up Point-/ResFinder (as by instructions of Point-/ResFinder on 2021-05-06), and Neural networks dropout mechanism. We accessed KMA on 2021-05-06 for all except for P. aeruginosa samples for three multi-species models, we accessed the KMA on September 2022. As we assume the KMA version influence small, we provide in `./AMR_software/resfinder/cge` a KMA retrieved on 2022-11-05. 
+- Stochastic factors in generating results:( **do we actually needed to say this? or not**)  We provide in this repository the software or corresponding adaptation versions of all the methods we benchmarked, with the original software accessed time and modification details disclosed in our publication. We set a predefined seed for processes including predictor learning and folds partition. But there are 2 points that invite stochastic factors. [KMA](https://bitbucket.org/genomicepidemiology/kma/src/master/) version, which is installed from repository when setting up Point-/ResFinder (as by instructions of Point-/ResFinder on 2021-05-06), and Neural networks dropout mechanism. We accessed KMA on 2021-05-06 for all except for P. aeruginosa samples for three multi-species models, we accessed the KMA on September 2022. As we assume the KMA version influence small, we provide in `./AMR_software/resfinder/cge` a KMA retrieved on 2022-11-05. 
 -->
 
 ## <a name="usage"></a>Usage
