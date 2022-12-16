@@ -133,7 +133,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                    'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
                 'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']:
             if fscore=='f1_macro':
-                path_table_results3_1=output_path+ 'Results/supplement_figures_tables/S6-2_software_winner_multiModel_'+fscore+'.xlsx'
+                path_table_results3_1=output_path+ 'Results/supplement_figures_tables/S6-3_software_winner_multiModel_'+fscore+'.xlsx'
                 path_table_results3_2=output_path+ 'Results/final_figures_tables/results_heatmap_multiModel_'+fscore+'.xlsx'
             else:#clinical-oriented
                 path_table_results3_1=output_path+ 'Results/other_figures_tables/software_winner_multiModel_'+fscore+'.xlsx'
@@ -302,5 +302,5 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                 if pvalue>=0.05:
                     i_noDiff+=1
         print('No. can not reject null hypothesis:',i_noDiff)
-        with open(output_path+ 'Results/supplement_figures_tables/S6-3_software_Pvalue_'+fscore+'.json', 'w') as f:
+        with open(output_path+ 'Results/supplement_figures_tables/S6-2_software_Pvalue_'+fscore+'.json', 'w') as f:
             json.dump(Presults, f)

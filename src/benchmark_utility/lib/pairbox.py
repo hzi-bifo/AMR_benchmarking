@@ -117,7 +117,7 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
                 ax.set(ylim=(0, 0.5))
 
             if col==0:
-                ax.set_ylabel(fscore,size = 25)
+                ax.set_ylabel(fscore.replace("_", "-").capitalize(),size = 25)
                 ax.tick_params(axis='y', which='major', labelsize=20)
             else:
                 ax.set_yticks([])
@@ -161,7 +161,7 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
                 else:
                     ax.set(ylim=(0, 0.5))
                 if col==0:
-                    ax.set_ylabel(fscore,size = 25)
+                    ax.set_ylabel(fscore.replace("_", "-").capitalize(),size = 25)
                     ax.tick_params(axis='y', which='major', labelsize=25)
                 else:
                     ax.set_yticks([])
@@ -213,7 +213,7 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
             else:
                 ax.set(ylim=(0, 0.5))
             if col==0:
-                ax.set_ylabel(fscore,size = 25)
+                ax.set_ylabel(fscore.replace("_", "-").capitalize(),size = 25)
                 ax.tick_params(axis='y', which='major', labelsize=25)
             else:
                 ax.set_yticks([])
@@ -338,7 +338,7 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
                     ax.set(ylim=(0, 1.0))
                 else:
                     ax.set(ylim=(0, 0.5))
-                ax.set_ylabel(fscore,size=22)
+                ax.set_ylabel(fscore.replace("_", "-").capitalize(),size=22)
                 if species=='Escherichia coli' and ( i_color in [1,2,3]):
                     ax.legend(bbox_to_anchor=(1, 1.65),ncol=3,fontsize=26,frameon=False,markerscale=2,labels=['Random folds', 'Phylogeny-aware folds','Homology-aware folds'])
 

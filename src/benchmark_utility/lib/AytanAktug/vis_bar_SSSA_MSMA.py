@@ -64,14 +64,14 @@ def combinedata(species,df_anti,merge_name,fscore,learning,epochs,f_fixed_thresh
         #concat M
 
         summary_plot_concatM = pd.DataFrame(columns=[fscore, 'antibiotic', 'model','std'])
-        summary_plot_concatM.loc['e'] = [concatM_results.loc[species,each_anti ],each_anti, 'Concatenated databases mixed multi-species model',np.nan]
+        summary_plot_concatM.loc['e'] = [concatM_results.loc[species,each_anti ],each_anti, 'Concatenated database mixed multi-species model',np.nan]
         summary_plot = summary_plot.append(summary_plot_concatM, ignore_index=True)
 
 
         #-----------concat leave-one-out
         # summary_plot_sub.loc[species, each_anti] = data_score.loc[each_anti, each_score]
         summary_plot_multi = pd.DataFrame(columns=[fscore, 'antibiotic', 'model','std'])
-        summary_plot_multi.loc['e'] = [concat_results.loc[each_anti,fscore], each_anti, 'Concatenated databases leave-one-out multi-species model',np.nan]
+        summary_plot_multi.loc['e'] = [concat_results.loc[each_anti,fscore], each_anti, 'Concatenated database leave-one-out multi-species model',np.nan]
         summary_plot = summary_plot.append(summary_plot_multi, ignore_index=True)
     return summary_plot
 
@@ -128,7 +128,7 @@ def extract_info(fscore,level,f_all,learning,epochs,f_optimize_score,f_fixed_thr
         summary_plot = summary_plot.sort_values(['model','antibiotic'],ascending=[False, True])
 
         if species in ['Mycobacterium tuberculosis']:
-            print(summary_plot)
+
             ax_ = plt.subplot(251)
             g = sns.barplot(x="antibiotic_acr", y=fscore, hue='model',
                         data=summary_plot, dodge=True, ax=ax_,palette=palette)
@@ -138,7 +138,7 @@ def extract_info(fscore,level,f_all,learning,epochs,f_optimize_score,f_fixed_thr
             ax_.errorbar(x=x_coords, y=y_coords, yerr=summary_plot["std"].to_list(), elinewidth=4,capsize=6,capthick=4,fmt="none",ecolor='black', c="k")
 
             n+=1
-            g.set_ylabel(fscore, fontsize=25)
+            g.set_ylabel(fscore.replace("_", "-").capitalize(), fontsize=25)
             g.set_title(species_title,fontsize=31,style='italic', weight='bold',pad=10)
             g.tick_params(axis='y', which='major', labelsize=25)
         elif species in ['Campylobacter jejuni']:
@@ -178,13 +178,13 @@ def extract_info(fscore,level,f_all,learning,epochs,f_optimize_score,f_fixed_thr
             axbig.errorbar(x=x_coords, y=y_coords, yerr=summary_plot["std"], elinewidth=4,capsize=3,capthick=4,fmt="none",ecolor='black', c="k")
 
             n+=1
-            g.set_ylabel(fscore, fontsize=25)
+            g.set_ylabel(fscore.replace("_", "-").capitalize(), fontsize=25)
             g.set_title(species_title,fontsize=31,style='italic', weight='bold' ,pad=10)
             g.tick_params(axis='y', which='major', labelsize=25)
         else:
             g = sns.barplot(x="antibiotic_acr", y=fscore, hue='model',
                     data=summary_plot, dodge=True, ax=axs[row, col],palette=palette)#ax=axs[row, col]
-            print(summary_plot)
+
             x_coords = [p.get_x() + 0.5 * p.get_width() for p in g.patches]
             y_coords = [p.get_height() for p in g.patches]
             axs[row, col].errorbar(x=x_coords, y=y_coords, yerr=summary_plot["std"],  elinewidth=4,capsize=6,capthick=4,fmt="none",ecolor='black', c="k")

@@ -27,7 +27,7 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
     foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
     if f_mean_std=='mean':
         flag='_PLOT'
-    elif f_mean_std=='std':
+    elif f_mean_std=='standard deviation':
         flag='_std'
     else:
         print('Wrong parameters set, please reset.')
@@ -54,9 +54,9 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
                 ax.set(ylim=(0, 1.0))
             else:
                 ax.set(ylim=(0, 0.5))
-            ax.set_ylabel(fscore,size = 25)
+            ax.set_ylabel(fscore.replace("_", "-").capitalize(),size = 25)
             ax.tick_params(axis='y', which='major', labelsize=25)
-            ax.set_title(tool+'\n mean', weight='bold',size=31)
+            ax.set_title(tool+'\n '+f_mean_std, weight='bold',size=31)
             ax.set(xticklabels=[])
             ax.set(xlabel=None)
             ax.tick_params(axis='x',bottom=False)

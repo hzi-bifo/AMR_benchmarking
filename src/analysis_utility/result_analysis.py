@@ -5,7 +5,7 @@ import sys,os
 sys.path.insert(0, os.getcwd())
 from src.amr_utility import name_utility, file_utility, load_data
 from src.analysis_utility.lib import extract_score,make_table,math_utility
-import ast,os
+import os
 import argparse
 import pickle, json
 import pandas as pd

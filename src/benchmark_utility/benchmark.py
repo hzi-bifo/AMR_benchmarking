@@ -68,7 +68,7 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
         foldset=['Homology-aware folds']
         tool_list=['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
                    'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
-                'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
+                'Concatenated database mixed multi-species model', 'Concatenated database leave-one-out multi-species model']
         src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,  f_all ,output_path,'2',tool_list,foldset,'')
 
 
@@ -98,7 +98,7 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
         foldset=['Homology-aware folds']
         tool_list=['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
                    'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
-                'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
+                'Concatenated database mixed multi-species model', 'Concatenated database leave-one-out multi-species model']
         src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore, f_all ,output_path,'2',tool_list,foldset,'')
 
 
@@ -167,7 +167,7 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
 
         ###only for ML baseline majority Supplemental File 2 Fig. S9
         src.benchmark_utility.lib.pairbox_majority.extract_info(level,species, fscore,f_all,'1','mean',output_path)
-        src.benchmark_utility.lib.pairbox_majority.extract_info(level,species, fscore,f_all,'1','std',output_path)
+        src.benchmark_utility.lib.pairbox_majority.extract_info(level,species, fscore,f_all,'1','standard deviation',output_path)
 
     ####################################################################################################################
     ### 7.  Fig. 1  sample size

@@ -94,7 +94,7 @@ def ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path):
         axs[row, col].set(ylim=(0, 1.1))
         plt.yticks([0,0.2,0.4,0.6,0.8, 1])
         axs[row, col].set_xlabel('')
-        axs[row, col].set_ylabel(fscore,size = 18)
+        axs[row, col].set_ylabel(fscore.replace("_", "-").capitalize(),size = 18)
 
 
         if i!=2:

@@ -24,7 +24,7 @@ def ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path):
 
 
     fig, axs = plt.subplots(1,1,figsize=(10, 10))
-    plt.tight_layout(pad=5)
+    plt.tight_layout(pad=5.2)
     # fig, axs = plt.subplots(5,4,figsize=(20, 25))
     # plt.tight_layout(pad=6)
     # fig.subplots_adjust(wspace=0, hspace=0, top=0.9, bottom=0.1)
@@ -82,11 +82,9 @@ def ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path):
 
 
     axs.set(ylim=(0, 1.01))
-    plt.yticks([0,0.2,0.4,0.6,0.8, 1])
+    plt.yticks([0,0.2,0.4,0.6,0.8, 1],size=25)
     axs.set_xlabel('')
-    axs.set_ylabel(fscore,size =25)
-
-
+    axs.set_ylabel(fscore.replace("_", "-").capitalize(),size =25)
 
     axs.legend()
 
