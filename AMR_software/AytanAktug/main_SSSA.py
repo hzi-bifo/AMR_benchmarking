@@ -68,7 +68,7 @@ def Evaluation(species, anti,learning, epochs, f_fixed_threshold, f_nn_base, f_o
     file_utility.make_dir(os.path.dirname(save_name_weights))
     file_utility.make_dir(os.path.dirname(save_name_loss))
 
-    RedirectPrint(save_name_loss)
+    # RedirectPrint(save_name_loss)
     score=nn_SSSA.eval(species, anti, level, path_x,path_y, path_name,cv,
                          f_scaler, f_fixed_threshold, f_nn_base,f_phylotree,f_kma, f_optimize_score,
                          save_name_weights)# hyperparmeter selection in inner loop of nested CV
