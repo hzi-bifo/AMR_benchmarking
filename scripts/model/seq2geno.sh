@@ -60,13 +60,13 @@ conda deactivate
 source activate ${perl_name}
 export PATH=$(pwd)/AMR_software/seq2geno/denovo/lib/Roary/bin:$PATH
 export PERL5LIB=$PERL5LIB:$(pwd)/AMR_software/seq2geno/denovo/lib/Roary/lib
-echo which roary
+which roary
 export PYTHONPATH=$PWD
 for s in "${species_list_temp_tree[@]}"; \
 do
-  rm -rf {log_path}/software/seq2geno/software_output/${s}/results/denovo/roary
-roary -p ${n_jobs} -f  {log_path}/software/seq2geno/software_output/${s}/results/denovo/roary -e --mafft \
--v  {log_path}/software/seq2geno/software_output/${s}/results/denovo/prokka/*/*gff \
+  rm -rf {log_path}log/software/seq2geno/software_output/${s}/results/denovo/roary2
+roary -p ${n_jobs} -f  ${log_path}log/software/seq2geno/software_output/${s}/results/denovo/roary2 -e --mafft \
+-v  ${log_path}log/software/seq2geno/software_output/${s}/results/denovo/prokka/*/*gff \
 -g 70000 -z ;done
 conda deactivate
 
