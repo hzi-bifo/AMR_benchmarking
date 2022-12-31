@@ -42,7 +42,7 @@
 
 ## <a name="pre"></a>Prerequirements
 - Dependencies
-    - To reproduce the output, you need to use Linux OS and `conda`. Miniconda 4.8.4 was used by us. All software environments were actvated under "base"       env, which is the default environment.
+    - To reproduce the output, you need to use Linux OS and `conda`. Miniconda2 4.8.4 was used by us. All software environments were actvated under "base"       env, which is the default environment.
 
     - Installation of the conda environments:
         ```
