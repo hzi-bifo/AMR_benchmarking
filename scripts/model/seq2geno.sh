@@ -31,7 +31,7 @@ export PYTHONPATH=$PWD
 
 ### Initialization
 source activate ${amr_env_name}
-python ./AMR_software/seq2geno/main_s2p.py -f_prepare_meta -path_sequence ${dataset_location} -temp ${log_path} -s "${species[@]}" -l ${QC_criteria}  -n_jobs ${n_jobs}|| { echo "Errors in S2G initializing. Exit ."; exit; }
+python ./AMR_software/seq2geno/main_s2p.py -f_prepare_meta -path_sequence ${dataset_location} -temp ${log_path} -s "${species_tree[@]}" -l ${QC_criteria}  -n_jobs ${n_jobs}|| { echo "Errors in S2G initializing. Exit ."; exit; }
 conda deactivate
 
 
@@ -79,7 +79,7 @@ conda deactivate
 ## Generate 6-mer matrix for all speceis samples.
 source activate ${kmer_env_name}
 bash ./AMR_software/seq2geno/kmc.sh ${dataset_location} ${log_path}
-python ./AMR_software/seq2geno/k_mer.py -c -temp ${log_path} -l ${QC_criteria} -k 6 -s "${speciesPhylotree[@]}" -n_jobs ${n_jobs}|| { echo "Errors in kmer generating. Exit ."; exit; }
+python ./AMR_software/seq2geno/k_mer.py -c -temp ${log_path} -l ${QC_criteria} -k 6 -s "${species_tree[@]}" -n_jobs ${n_jobs}|| { echo "Errors in kmer generating. Exit ."; exit; }
 conda deactivate
 echo "Seg2Geno model finished successfully, you need to use Geno2Pheno via https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno."
 
