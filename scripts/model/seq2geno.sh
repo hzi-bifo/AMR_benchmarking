@@ -61,6 +61,8 @@ conda deactivate
 ### and manually copy all the contents in ./AMR_software/seq2geno_3 to ./AMR_software/seq2geno_2, and then rename the se2ge_env_name item in ./Config.yaml
 ### Then run the Seq2Geno as it specified in ./main.sh as usual.
 ### You will find core_gene_alignment.aln in roary folder
+### This is the input file of the next step. Through nest step, we generate a phylogeny tree for each species' samples.
+# Based on the tree, Geno2Pheno generate phylogeny-awareness folds.
 
 
 export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
