@@ -55,23 +55,12 @@ do
 echo "Finished: seg2geno."
 conda deactivate
 
-
-### Generating phylo-trees, based on which phylogeny-aware folds were generated.
-### No use now. 2022 Dec.--------------------------------------------------------------
-##source activate ${perl_name}
-##export PATH=$(pwd)/AMR_software/seq2geno/denovo/lib/Roary/bin:$PATH
-##export PERL5LIB=$PERL5LIB:$(pwd)/AMR_software/seq2geno/denovo/lib/Roary/lib
-##which roary
-##export PYTHONPATH=$PWD
-##for s in "${species_list_temp_tree[@]}"; \
-##do
-##  rm -rf {log_path}log/software/seq2geno/software_output/${s}/results/denovo/roary2
-##roary -p ${n_jobs} -f  ${log_path}log/software/seq2geno/software_output/${s}/results/denovo/roary2 -e --mafft \
-##-v  ${log_path}log/software/seq2geno/software_output/${s}/results/denovo/prokka/*/*gff \
-##-g 70000 -z ;done
-##conda deactivate
-##----------------------------------------------------------------------------------------
-
+##if above process does not generate core_gene_alignment.aln in ${log_path}log/software/seq2geno/software_output/Campylobacter_jejuni/results/denovo/roary folder. In our experience, this may happen in different operating system, due to Perl dependencies issues.
+### Then you need to generate it using a more recent Roary version (tested using Dec 31 2022 version) instead of the one in Seq2Geno
+### Please re-download and re-install our AMR_benchmarking git repository at a new location,
+### and manually copy all the contents in ./AMR_software/seq2geno_3 to ./AMR_software/seq2geno_2, and then rename the se2ge_env_name item in ./Config.yaml
+### Then run the Seq2Geno as it specified in ./main.sh as usual.
+### You will find core_gene_alignment.aln in roary folder
 
 
 export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
