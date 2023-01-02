@@ -13,7 +13,8 @@ for anti in ${Anti_List[@]};do
     mkdir -p ${feature_path}/${species}/${anti}_temp
     echo "$anti"
 
-    ${kover_location}kover dataset create from-contigs \
+
+    ./AMR_software/Kover/bin/kover dataset create from-contigs \
     --genomic-data ${feature_path}/${species}/${anti}_data \
     --phenotype-metadata ${feature_path}/${species}/${anti}_pheno \
     --output ${feature_path}/${species}/${anti}_koverdataset_0 \
@@ -23,6 +24,7 @@ for anti in ${Anti_List[@]};do
     --phenotype-description 'No description.' \
     -x
 
+    echo " finish dataset creating"
 
     for j in {1..9};do
       cp ${feature_path}/${species}/${anti}_koverdataset_0 ${feature_path}/${species}/${anti}_koverdataset_${j}
@@ -34,7 +36,7 @@ for anti in ${Anti_List[@]};do
     for j in {0..9};do
 
         echo "CV ${j}"
-        ${kover_location}kover dataset split --dataset ${feature_path}/${species}/${anti}_koverdataset_${j} \
+        ./AMR_software/Kover/bin/kover dataset split --dataset ${feature_path}/${species}/${anti}_koverdataset_${j} \
         --id ${feature_path}/${species}/${anti}_id \
         --train-ids ${feature_path}/${species}/${anti}_Train_${j}_id \
         --test-ids ${feature_path}/${species}/${anti}_Test_${j}_id \

@@ -15,13 +15,15 @@ for anti in ${Anti_List[@]};do
     mkdir -p ${feature_path}/${species}/${anti}_temp
     echo "$anti"
 
-
+#    for j in {0..0};do
     for j in {0..9};do
 #        rm -rf ./log/temp/loose/${species}/${anti}_temp/CV_tr${j}
 #        rm -rf ./log/temp/loose/${species}/${anti}_temp/CV_te${j}
         echo "CV ${j}"
 
-        ${kover_location}kover learn scm --dataset ${feature_path}/${species}/${anti}_koverdataset_${j} \
+
+
+        ./AMR_software/Kover/bin/kover learn scm --dataset ${feature_path}/${species}/${anti}_koverdataset_${j} \
          --split ${feature_path}/${species}/${anti}_id \
          --hp-choice bound \
          --model-type conjunction disjunction \
@@ -32,7 +34,7 @@ for anti in ${Anti_List[@]};do
          --progress
 #         --bound-max-genome-size #By default number of k-mers in the dataset is used.
 
-         ${kover_location}kover learn tree --dataset ${feature_path}/${species}/${anti}_koverdataset_${j} \
+         ./AMR_software/Kover/bin/kover learn tree --dataset ${feature_path}/${species}/${anti}_koverdataset_${j} \
          --split ${feature_path}/${species}/${anti}_id \
          --hp-choice bound \
          --criterion gini \
