@@ -10,7 +10,7 @@ from src.analysis_utility.lib import extract_score,math_utility
 
 def make_visualization(out_score,summary_all,antibiotics ):
 
-    column_name=summary_all.columns.tolist()
+    column_name=summary_all[0].columns.tolist()
     column_name=['weighted-'+ name for name in column_name]
     final=pd.DataFrame(index=antibiotics, columns=column_name )
     final_plot=pd.DataFrame(index=antibiotics, columns=column_name)
@@ -44,8 +44,10 @@ def make_visualization(out_score,summary_all,antibiotics ):
     return final,final_plot,final_std
 
 def make_visualization_Tree(out_score,summary_all,antibiotics):
-    column_name=summary_all.columns.tolist()
-    column_name=['weighted-'+ name for name in column_name]
+
+
+    column_name=summary_all[0].columns.tolist()
+
     final=pd.DataFrame(index=antibiotics, columns=column_name )
     final_plot=pd.DataFrame(index=antibiotics, columns=column_name)
     final_std=pd.DataFrame(index=antibiotics, columns=column_name)
@@ -65,7 +67,7 @@ def make_visualization_Tree(out_score,summary_all,antibiotics):
 
         final.loc[anti,:]=m.str.cat(n, sep='±').values
 
-
+    
 
     if out_score=='f':
         final=final[['f1_macro','f1_positive', 'f1_negative','accuracy']]
