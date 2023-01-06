@@ -166,7 +166,7 @@ bash ./scripts/model/clean.sh # Optional. Clean intermediate files
 
 
 ## <a name="license"></a> License
-
+MIT License
 ## <a name="citation"></a> Citation
 
 
