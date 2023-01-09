@@ -89,7 +89,7 @@ sub _single_iteration_gene_expansion {
             $existing_groups{$group}++;
         }
 
-        for my $group (sort {$a cmp $b} keys %existing_groups ) {
+        for my $group ( keys %existing_groups ) {
             if ( $existing_groups{$group} >= ($files_counter*$self->core_definition) ) {
                 $conserved_groups_counter++;
             }

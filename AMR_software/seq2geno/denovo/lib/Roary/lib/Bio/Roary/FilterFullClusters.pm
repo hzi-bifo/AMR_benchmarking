@@ -42,7 +42,7 @@ sub _build__full_cluster_gene_names
   
   my %full_cluster_gene_names ;
   
-  for my $gene_name (sort {$a cmp $b} keys %{$self->_clustered_genes})
+  for my $gene_name (keys %{$self->_clustered_genes})
   {
   
     if($self->_greater_than_or_equal == 0)
@@ -79,7 +79,7 @@ sub _build__all_full_cluster_genes
    my ($self) = @_;
    my %full_cluster_genes;
    
-   for my $gene_name (sort {$a cmp $b} keys %{$self->_full_cluster_gene_names})
+   for my $gene_name (keys %{$self->_full_cluster_gene_names})
    {
      $full_cluster_genes{$gene_name}++;
      for my $cluster_gene_name (@{$self->_clustered_genes->{$gene_name}})
@@ -96,7 +96,7 @@ sub _create_groups_file
   my ($self) = @_;
   open(my $out_fh, '>>', $self->output_groups_file);
   
-  for my $gene_name (sort {$a cmp $b} keys %{$self->_full_cluster_gene_names})
+  for my $gene_name (keys %{$self->_full_cluster_gene_names})
   {
     print {$out_fh} $gene_name."\t". join("\t", @{$self->_clustered_genes->{$gene_name}}). "\n";
   }

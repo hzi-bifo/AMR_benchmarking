@@ -106,7 +106,7 @@ sub _build__column_mappings
   }
   
   # Add any columns not in the tree to the end
-  for my $sample_name  (sort {$a cmp $b} keys %input_sample_order)
+  for my $sample_name  (keys %input_sample_order)
   {
     push(@column_mappings, $input_sample_order{$sample_name});
     delete($input_sample_order{$sample_name});

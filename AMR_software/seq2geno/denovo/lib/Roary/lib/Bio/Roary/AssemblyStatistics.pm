@@ -82,8 +82,8 @@ sub _build_gene_category_count {
         $self->_shell_percentage( $self->_soft_core_percentage - 0.01 );
     }
 
-    my $number_of_samples = keys %{ $self->sample_names_to_column_index }; # in scalar context, returning the number of keys
-    for my $gene_name (sort {$a cmp $b}  keys %{ $self->_genes_to_rows } ) {
+    my $number_of_samples = keys %{ $self->sample_names_to_column_index };
+    for my $gene_name ( keys %{ $self->_genes_to_rows } ) {
         my $isolates_with_gene = 0;
 
         for ( my $i = $self->_num_fixed_headers ; $i < @{ $self->_genes_to_rows->{$gene_name} } ; $i++ ) {
@@ -146,7 +146,7 @@ sub _build_all_sample_statistics {
     my %sample_stats;
 
     # For each sample - loop over genes in order - number of contiguous blocks - max size of contiguous block - n50 - incorrect joins
-    for my $sample_name ( sort {$a cmp $b} sort keys %{ $self->sample_names_to_column_index } ) {
+    for my $sample_name ( sort keys %{ $self->sample_names_to_column_index } ) {
         $sample_stats{$sample_name} = $self->_sample_statistics($sample_name);
     }
     return \%sample_stats;

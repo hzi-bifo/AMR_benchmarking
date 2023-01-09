@@ -15,10 +15,11 @@ def summarize(gene_list, roary_gpa, table_out, stat_out, roary_PA14_abricate_map
     #restrict to the genes in gene list
     gpa = gpa.loc[:, gene_list]
     for l in gene_list:
-        print l
+
         gene_id = "%s_indels.txt" % (l.split(",")[2])
         if os.path.exists(gene_id):
             indels = pd.read_csv(gene_id, sep = "\t", index_col = 0).iloc[:, 0]
+
             indels.name = l 
             if (indels == 0).any():
                 indel_genes.append(l)

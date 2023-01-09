@@ -82,7 +82,7 @@ sub _count_num_files_in_group {
             $filename_freq{ $self->_genes_to_file->{$gene} }++;
         }
     }
-    my @uniq_filenames =sort {$a cmp $b}  keys %filename_freq;
+    my @uniq_filenames = keys %filename_freq;
     return @uniq_filenames;
 }
 

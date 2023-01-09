@@ -66,7 +66,7 @@ sub _generate__ids_to_groups {
     my ($self) = @_;
     my %ids_to_groups;
 
-    for my $group (sort {$a cmp $b}  keys %{ $self->_groups_to_id_names } ) {
+    for my $group ( keys %{ $self->_groups_to_id_names } ) {
         for my $id_name ( @{ $self->_groups_to_id_names->{$group} } ) {
             $ids_to_groups{$id_name} = $group;
         }
@@ -153,9 +153,7 @@ sub consensus_product_for_id_names {
         $product_freq{ $self->_ids_to_product->{$id_name} }++;
     }
 
-    my @sorted_product_keys = sort { $product_freq{$b} <=> $product_freq{$a} or
-      (length $b) <=> (length $a) or
-      $b cmp $a} keys(%product_freq);
+    my @sorted_product_keys = sort { $product_freq{$b} <=> $product_freq{$a} } keys(%product_freq);
 
     if ( @sorted_product_keys > 0 ) {
         return $sorted_product_keys[0];
@@ -187,7 +185,7 @@ sub _builder__groups_to_id_names {
 
 sub _groups {
     my ($self) = @_;
-    my @groups = sort {$a cmp $b} keys %{ $self->_groups_to_id_names };
+    my @groups = keys %{ $self->_groups_to_id_names };
     return \@groups;
 }
 
@@ -206,7 +204,7 @@ sub _consensus_gene_name_for_group {
     my ( $self, $group_name ) = @_;
     my $gene_name_freq = $self->_ids_grouped_by_gene_name_for_group($group_name);
 
-    my @sorted_gene_names = sort { @{ $gene_name_freq->{$b} } <=> @{ $gene_name_freq->{$a} } or $a cmp $b} keys %{$gene_name_freq};
+    my @sorted_gene_names = sort { @{ $gene_name_freq->{$b} } <=> @{ $gene_name_freq->{$a} } } keys %{$gene_name_freq};
     if ( @sorted_gene_names > 0 ) {
         return shift(@sorted_gene_names);
     }
@@ -219,7 +217,7 @@ sub _build_group_nucleotide_lengths
 {
 	my ($self) = @_;
 	my %group_nucleotide_lengths;
-    for my $group_name (sort {$a cmp $b} keys %{ $self->_groups_to_id_names } )
+    for my $group_name (keys %{ $self->_groups_to_id_names } )
     {
 		my @gene_lengths;
 		for my $gene_id (@{$self->_groups_to_id_names->{$group_name}})
@@ -246,14 +244,14 @@ sub _generate_groups_to_consensus_gene_names {
     my $group_prefix = $self->_group_default_prefix;
 
     # These are already annotated
-    for my $group_name ( sort { @{ $self->_groups_to_id_names->{$b} } <=> @{ $self->_groups_to_id_names->{$a} } or $a cmp $b}
+    for my $group_name ( sort { @{ $self->_groups_to_id_names->{$b} } <=> @{ $self->_groups_to_id_names->{$a} } }
         keys %{ $self->_groups_to_id_names } )
     {
         next if ( $group_name =~ /$group_prefix/ );
         $groups_to_gene_names{$group_name} = $group_name;
     }
 
-    for my $group_name ( sort { @{ $self->_groups_to_id_names->{$b} } <=> @{ $self->_groups_to_id_names->{$a} } or $a cmp $b}
+    for my $group_name ( sort { @{ $self->_groups_to_id_names->{$b} } <=> @{ $self->_groups_to_id_names->{$a} } }
         keys %{ $self->_groups_to_id_names } )
     {
         next unless ( $group_name =~ /$group_prefix/ );
@@ -305,7 +303,7 @@ sub reannotate {
 
     my %groups_to_id_names = %{ $self->_groups_to_id_names };
     for
-      my $group_name ( sort { @{ $groups_to_id_names{$b} } <=> @{ $groups_to_id_names{$a} } or $a cmp $b } keys %groups_to_id_names )
+      my $group_name ( sort { @{ $groups_to_id_names{$b} } <=> @{ $groups_to_id_names{$a} } } keys %groups_to_id_names )
     {
         my $consensus_gene_name = $self->_groups_to_consensus_gene_names->{$group_name};
         print { $self->_output_fh } $consensus_gene_name . ": "
@@ -326,7 +324,7 @@ sub full_annotation {
         $product_freq{ $self->_ids_to_verbose_stats->{$id_name}->{'product'} }++;
     }
 
-    my @sorted_product_keys = sort { $product_freq{$b} <=> $product_freq{$a} or $a cmp $b} keys(%product_freq);
+    my @sorted_product_keys = sort { $product_freq{$b} <=> $product_freq{$a} } keys(%product_freq);
 
     if ( @sorted_product_keys > 0 ) {
         return join('; ', @sorted_product_keys);

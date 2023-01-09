@@ -216,9 +216,7 @@ sub _find_paralogs {
 	# pick the smallest number of paralogs
 	my $smallest_number = 1000000;
 	my $smallest_group;
-	# for my $v ( values %occ ){
-	for my $k ( sort {$a cmp $b} keys %occ ){
-	  	my $v = $occ{$k};
+	for my $v ( values %occ ){
 		my $v_len = scalar( @{$v} );
 		if ( $v_len < $smallest_number && $v_len > 1 ){
 			$smallest_number = $v_len;

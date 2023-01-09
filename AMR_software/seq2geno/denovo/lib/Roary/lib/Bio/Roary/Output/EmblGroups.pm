@@ -200,7 +200,7 @@ sub _fragment_blocks {
         );
     }
 
-    for my $accessory_label (sort {$a cmp $b} keys %fragment_numbers ) {
+    for my $accessory_label ( keys %fragment_numbers ) {
         next unless ( defined( $fragment_numbers{$accessory_label} ) );
         my @sorted_fragment = sort { $a <=> $b } @{ $fragment_numbers{$accessory_label} };
         my $tab_file_entry = '';

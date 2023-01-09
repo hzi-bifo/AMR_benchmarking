@@ -74,7 +74,7 @@ sub create_accessory_binary_fasta {
         for my $group ( sort keys %{ $self->groups_to_files } ) {
 			last if($gene_count > $self->max_accessory_to_include);
 
-            my @files = sort {$a cmp $b} keys %{ $self->groups_to_files->{$group} };
+            my @files = keys %{ $self->groups_to_files->{$group} };
 
             next if ( @files <= $self->_lower_bound_value || @files > $self->_upper_bound_value );
 

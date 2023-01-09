@@ -59,7 +59,7 @@ sub _build__clustered_genes
   }
   
   # iterate over the raw clusters and convert to a simple hash
-  for my $cluster_name (sort {$a cmp $b} keys %raw_clusters)
+  for my $cluster_name (keys %raw_clusters)
   {
     $clustered_genes{$raw_clusters{$cluster_name}{representative_gene_name}} = $raw_clusters{$cluster_name}{gene_names};
   }

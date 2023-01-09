@@ -78,13 +78,10 @@ sub inflate
   }
   
   # Inflate any clusters that were in the clusters file but not sent to mcl
-  #for my $gene_name(keys %{$self->_clustered_genes})
-  for my $gene_name(sort {$a cmp $b} keys %{$self->_clustered_genes})
+  for my $gene_name(keys %{$self->_clustered_genes})
   {
     next unless(defined($self->_clustered_genes->{$gene_name}));
-    my @members = sort {$a cmp $b} @{$self->_clustered_genes->{$gene_name}};
-    print $gene_name."\t". join("\t",@members)."\n";
-    print { $self->_output_fh } $gene_name."\t". join("\t",@members)."\n";
+    print { $self->_output_fh } $gene_name."\t". join("\t",@{$self->_clustered_genes->{$gene_name}})."\n";
   }
   
   if(defined($self->cdhit_groups_filename))

@@ -98,62 +98,30 @@ sub run {
         $self->_split_groups_obj->split_groups;
     }
 
-    opendir my $tmp_d, "." or die "Cannot open directory: $!";
-    my @tmp_files = sort {$a cmp $b} readdir $tmp_d;
-    print("PostAnalysis line 104 @tmp_files\n");
-    closedir $tmp_d;
     $self->logger->info("Labelling the groups");
     $self->_group_labels_obj->add_labels();
 
-    opendir $tmp_d, "." or die "Cannot open directory: $!";
-    @tmp_files = sort {$a cmp $b} readdir $tmp_d;
-    print("PostAnalysis line 110 @tmp_files\n");
-    closedir $tmp_d;
     $self->logger->info("Transfering the annotation to the groups");
     $self->_annotate_groups_obj->reannotate;
 
-    opendir $tmp_d, "." or die "Cannot open directory: $!";
-    @tmp_files = sort {$a cmp $b} readdir $tmp_d;
-    print("PostAnalysis line 117 @tmp_files\n");
-    closedir $tmp_d;
     $self->logger->info("Creating accessory binary gene presence and absence fasta");
     $self->_accessory_binary_fasta->create_accessory_binary_fasta;
 
-    opendir $tmp_d, "." or die "Cannot open directory: $!";
-    @tmp_files = sort {$a cmp $b} readdir $tmp_d;
-    print("PostAnalysis line 124 @tmp_files\n");
-    closedir $tmp_d;
     $self->logger->info("Creating accessory binary gene presence and absence tree");
     $self->_accessory_binary_tree->run;
 
-    opendir $tmp_d, "." or die "Cannot open directory: $!";
-    @tmp_files = sort {$a cmp $b} readdir $tmp_d;
-    print("PostAnalysis line 131 @tmp_files\n");
-    closedir $tmp_d;
     $self->logger->info("Creating accessory gene presence and absence clusters");
     if ( $self->_accessory_clustering ) {
         $self->_accessory_clustering->sample_weights;
     }
 
-    opendir $tmp_d, "." or die "Cannot open directory: $!";
-    @tmp_files = sort {$a cmp $b} readdir $tmp_d;
-    print("PostAnalysis line 140 @tmp_files\n");
-    closedir $tmp_d;
     $self->logger->info("Creating the spreadsheet with gene presence and absence");
     $self->_group_statistics_obj->create_spreadsheet;
 	$self->_group_statistics_obj->create_rtab;
 
-    opendir $tmp_d, "." or die "Cannot open directory: $!";
-    @tmp_files = sort {$a cmp $b} readdir $tmp_d;
-    print("PostAnalysis line 148 @tmp_files\n");
-    closedir $tmp_d;
     $self->logger->info("Creating summary statistics of the spreadsheet");
     $self->_assembly_statistics->create_summary_output;
 
-    opendir $tmp_d, "." or die "Cannot open directory: $!";
-    @tmp_files = sort {$a cmp $b} readdir $tmp_d;
-    print("PostAnalysis line 155 @tmp_files\n");
-    closedir $tmp_d;
     $self->logger->info("Creating tab files for R");
     $self->_number_of_groups_obj->create_output_files;
 

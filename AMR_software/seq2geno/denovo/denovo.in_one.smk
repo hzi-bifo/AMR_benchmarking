@@ -109,7 +109,7 @@ rule all:
         indel_bin_mat = out_indel_f,
         gpa_bin_mat = out_gpa_f,
         non_redundant = expand('{in_tab}_{info}',
-            in_tab=[out_indel_f, out_cd _f],
+            in_tab=[out_indel_f, out_gpa_f],
             info=['GROUPS', 'NONRDNT'])
 
 
@@ -321,6 +321,8 @@ rule indel_vcf2bin:
  {params.prefix} {output.indel_indels} {output.indel_gff} {output.indel_stats}
         '''
 
+
+
 rule roary:
     #' Run Roary to compute orthologous groups
     input:
@@ -330,22 +332,22 @@ rule roary:
     output:
         gpa_csv = '{roary_dir}/gene_presence_absence.csv',
         gpa_rtab = '{roary_dir}/gene_presence_absence.Rtab',
-        prot_tab = '{roary_dir}/clustered_proteins'
+        prot_tab = '{roary_dir}/clustered_proteins',
+
     conda: 'perl5_22_env.yml'
     params:
         prokka_dir=out_prokka_dir,
         check_add_perl_env_script = 'install_perl_mods.sh',
         check_add_software_script = 'set_roary_env.sh',
         roary_bin = 'roary'
-    threads: 20
+    threads: 10
     shell:
         '''
         set +u
         ROARY_HOME=$(dirname $(dirname $(which roary)))
         echo $ROARY_HOME
         # required perl modules
-        {params.check_add_perl_env_script} 
-
+        {params.check_add_perl_env_script}
         export PATH=$ROARY_HOME/build/fasttree:\
 $ROARY_HOME/build/mcl-14-137/src/alien/oxygen/src:\
 $ROARY_HOME/build/mcl-14-137/src/shmcl:\
@@ -356,16 +358,22 @@ $ROARY_HOME/build/bedtools2/bin:\
 $ROARY_HOME/build/parallel-20160722/src:$PATH
         export PERL5LIB=$ROARY_HOME/lib:\
 $ROARY_HOME/build/bedtools2/lib:$PERL5LIB
+        which python
+        python -V
+        echo "!!"
         which perl
         echo $PERL5LIB
         echo $PERLLIB
+        which blastp
+        
+        
         
         rm -r {wildcards.roary_dir}
-
         {params.roary_bin} -f {wildcards.roary_dir} \
 -v {params.prokka_dir}/*/*gff -p {threads} -e --mafft -g 700000 -z
         set -u
         '''
+
 
 
 rule create_gff:

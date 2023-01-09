@@ -69,7 +69,7 @@ sub _build__groups_to_file_contigs {
         $sample_name =~ s/\.gff//gi;
 
         # Loop over each contig in the GFF file
-        for my $contig_name (sort {$a cmp $b} keys %{ $contigs_to_ids_obj->contig_to_ids } ) {
+        for my $contig_name ( keys %{ $contigs_to_ids_obj->contig_to_ids } ) {
             my @groups_on_contig;
 
             # loop over each gene in each contig in the GFF file
@@ -99,7 +99,7 @@ sub _build_group_order {
     my %group_order;
 
     my %groups_to_sample_names;
-    for my $sample_name (sort {$a cmp $b} keys %{ $self->_groups_to_file_contigs } ) {
+    for my $sample_name ( keys %{ $self->_groups_to_file_contigs } ) {
         my $groups_to_file_contigs = $self->_groups_to_file_contigs->{$sample_name};
         for my $groups_on_contig ( @{$groups_to_file_contigs} ) {
             for ( my $i = 1 ; $i < @{$groups_on_contig} ; $i++ ) {
@@ -147,8 +147,8 @@ sub _save_graph_to_file {
 sub _add_groups_to_graph {
     my ($self) = @_;
 
-    for my $current_group (sort {$a cmp $b} keys %{ $self->group_order() } ) {
-        for my $group_to (sort {$a cmp $b} keys %{ $self->group_order->{$current_group} } ) {
+    for my $current_group ( keys %{ $self->group_order() } ) {
+        for my $group_to ( keys %{ $self->group_order->{$current_group} } ) {
             my $weight = 1.0 / ( $self->group_order->{$current_group}->{$group_to} );
             $self->group_graphs->add_weighted_edge( $current_group, $group_to, $weight );
         }
@@ -166,15 +166,15 @@ sub _reorder_connected_components {
         $groups{$_}++ for ( @{$graph_group} );
         my $edge_sum = 0;
 
-        for my $current_group (sort {$a cmp $b} keys %groups ) {
-            for my $group_to (sort {$a cmp $b} keys %{ $self->group_order->{$current_group} } ) {
+        for my $current_group ( keys %groups ) {
+            for my $group_to ( keys %{ $self->group_order->{$current_group} } ) {
                 next unless defined( $groups{$group_to} );
                 $edge_sum += $self->group_order->{$current_group}->{$group_to};
             }
         }
 
         my %samples_in_graph;
-        for my $current_group (sort {$a cmp $b} keys %groups ) {
+        for my $current_group ( keys %groups ) {
             my $sample_names = $self->groups_to_sample_names->{$current_group};
             if ( defined($sample_names) ) {
                 for my $sample_name ( @{$sample_names} ) {
@@ -182,7 +182,7 @@ sub _reorder_connected_components {
                 }
             }
         }
-        my @sample_names = sort {$a cmp $b} keys %samples_in_graph;
+        my @sample_names = sort keys %samples_in_graph;
 
         if ( @{$graph_group} == 1 ) {
 
@@ -197,31 +197,17 @@ sub _reorder_connected_components {
         }
         else {
             my $graph = Graph->new( undirected => 1 );
-	    my @all_true_weights = (); 
-	    my @all_groups = sort {$a cmp $b} keys %groups;
-            for my $group_ix (0..$#all_groups) {
-	        my $current_group = $all_groups[$group_ix]; 
-		my @all_group_tos = sort {$a cmp $b} keys %{ $self->group_order->{$current_group} } ;
-                for my $group_to_ix (0..$#all_group_tos) {
-		    my $group_to = $all_group_tos[$group_to_ix];
+            for my $current_group ( keys %groups ) {
+                for my $group_to ( keys %{ $self->group_order->{$current_group} } ) {
                     if ( $groups{$group_to} ) {
-		      	my $weight = 1 / $self->group_order->{$current_group}->{$group_to};
-			my $true_weight = $weight;
-			srand($group_ix * $group_to_ix);
-			$weight = $true_weight + rand(1e-9);
+                        my $weight = 1 / $self->group_order->{$current_group}->{$group_to};
                         $graph->add_weighted_edge( $current_group, $group_to, $weight );
                     }
                 }
             }
-	    my %mst_opt = (first_root => (sort { $a cmp $b } $graph->unique_vertices)[0],
-	      random_seed => 1234,
-  	      next_alphabetic => 1); # to avoid random resolution
-            my $minimum_spanning_tree = $graph->minimum_spanning_tree(%mst_opt);
-	    my %dfs_opt = (first_root => (sort { $a cmp $b } $graph->unique_vertices)[0],
-  	      next_alphabetic => 1); # to avoid random resolution
-            my $dfs_obj               = Graph::Traversal::DFS->new($minimum_spanning_tree, %dfs_opt);
+            my $minimum_spanning_tree = $graph->minimum_spanning_tree;
+            my $dfs_obj               = Graph::Traversal::DFS->new($minimum_spanning_tree);
             my @reordered_dfs_groups  = $dfs_obj->dfs;
-
             push(
                 @paths_and_weights,
                 {
@@ -242,14 +228,9 @@ sub _order_by_samples_and_weights {
 
     my @ordered_graph_groups;
     if ( !defined( $self->samples_to_clusters ) ) {
-      my @ordered_paths_and_weights = sort { $a->{average_weight} <=> $b->{average_weight} or
-		@{$b->{path}} <=> @{$a->{path}} or
-		${$b->{path}}[0] cmp ${$a->{path}}[0] or
-		${$b->{path}}[$#{$b->{path}}] cmp ${$a->{path}}[$#{$a->{path}}] or
-		@{$b->{sample_names}} <=> @{$a->{sample_names}} or
-   		${$b->{sample_names}}[$#{$b->{sample_names}}] cmp ${$a->{sample_names}}[$#{$a->{sample_names}}] } @{$paths_and_weights};
-      @ordered_graph_groups = map { $_->{path} } @ordered_paths_and_weights;
-      return \@ordered_graph_groups;
+        my @ordered_paths_and_weights = sort { $a->{average_weight} <=> $b->{average_weight} } @{$paths_and_weights};
+        @ordered_graph_groups = map { $_->{path} } @ordered_paths_and_weights;
+        return \@ordered_graph_groups;
     }
 
     # Find the largest cluster in each graph and regroup
@@ -263,13 +244,7 @@ sub _order_by_samples_and_weights {
         }
         my $largest_cluster = ( sort { $cluster_count{$b} <=> $cluster_count{$a} || $a cmp $b} keys %cluster_count )[0];
         if ( !defined($largest_cluster) ) {
-	    my @ordered_paths_and_weights = sort { $b->{average_weight} <=> $a->{average_weight} or
-		@{$b->{path}} <=> @{$a->{path}} or
-		${$b->{path}}[0] cmp ${$a->{path}}[0] or
-		${$b->{path}}[$#{$b->{path}}] cmp ${$a->{path}}[$#{$a->{path}}] or
-		@{$b->{sample_names}} <=> @{$a->{sample_names}} or
-   		${$b->{sample_names}}[$#{$b->{sample_names}}] cmp ${$a->{sample_names}}[$#{$a->{sample_names}}] } @{$paths_and_weights};
-	  
+            my @ordered_paths_and_weights = sort { $b->{average_weight} <=> $a->{average_weight} } @{$paths_and_weights};
             @ordered_graph_groups = map { $_->{path} } @ordered_paths_and_weights;
             return \@ordered_graph_groups;
         }
@@ -283,21 +258,18 @@ sub _order_by_samples_and_weights {
     for my $cluster_name (
         sort {
             $largest_cluster_to_paths_and_weights{$b}->{largest_cluster_size}
-              <=> $largest_cluster_to_paths_and_weights{$a}->{largest_cluster_size} or
-	      $a cmp $b
+              <=> $largest_cluster_to_paths_and_weights{$a}->{largest_cluster_size}
         } keys %largest_cluster_to_paths_and_weights
       )
     {
+		
         my @ordered_paths_and_weights =
-          sort { $b->{average_weight} <=> $a->{average_weight} or
-		@{$b->{path}} <=> @{$a->{path}} or
-		${$b->{path}}[0] cmp ${$a->{path}}[0] or
-		${$b->{path}}[$#{$b->{path}}] cmp ${$a->{path}}[$#{$a->{path}}] or
-		@{$b->{sample_names}} <=> @{$a->{sample_names}} or
-   		${$b->{sample_names}}[$#{$b->{sample_names}}] cmp ${$a->{sample_names}}[$#{$a->{sample_names}}] } 
-	      @{ $largest_cluster_to_paths_and_weights{$cluster_name}->{graph_details} };
+          sort { $b->{average_weight} <=> $a->{average_weight} } @{ $largest_cluster_to_paths_and_weights{$cluster_name}->{graph_details} };
         @ordered_graph_groups = map { $_->{path} } @ordered_paths_and_weights;
-	@clustered_ordered_graph_groups = @ordered_graph_groups;
+
+        for my $graph_group (@ordered_graph_groups) {
+            push( @clustered_ordered_graph_groups, $graph_group );
+        }
     }
     return \@clustered_ordered_graph_groups;
 }
@@ -386,8 +358,7 @@ sub _create_accessory_graph {
     my %core_groups;
     my %group_freq;
 
-    # for my $sample_name ( keys %{ $self->_groups_to_file_contigs } ) {
-    for my $sample_name (sort {$a cmp $b} keys %{ $self->_groups_to_file_contigs } ) {
+    for my $sample_name ( keys %{ $self->_groups_to_file_contigs } ) {
         my $groups_to_file_contigs = $self->_groups_to_file_contigs->{$sample_name};
 
         for my $groups_on_contig ( @{$groups_to_file_contigs} ) {
@@ -397,12 +368,10 @@ sub _create_accessory_graph {
         }
     }
 
-    # for my $current_group (keys %{ $self->group_order() } ) {
-    for my $current_group (sort {$a cmp $b}  keys %{ $self->group_order() } ) {
+    for my $current_group ( keys %{ $self->group_order() } ) {
         next if ( $group_freq{$current_group} >= ( $self->number_of_files * $self->core_definition ) );
 		
-	# for my $group_to ( keys %{ $self->group_order->{$current_group} } ) {
-        for my $group_to (sort {$a cmp $b}  keys %{ $self->group_order->{$current_group} } ) {
+        for my $group_to ( keys %{ $self->group_order->{$current_group} } ) {
             if ( $group_freq{$group_to} >= ( $self->number_of_files * $self->core_definition ) ) {
                 $graph->add_vertex($current_group);
             }

@@ -33,7 +33,7 @@ has 'clusters'                => ( is => 'ro', isa => 'HashRef', lazy     => 1, 
 sub _build_sample_weights {
     my ($self) = @_;
     my %sample_weights;
-    for my $cluster_name (sort {$a cmp $b} keys %{ $self->clusters_to_samples } ) {
+    for my $cluster_name ( keys %{ $self->clusters_to_samples } ) {
         my $cluster_size = @{ $self->clusters_to_samples->{$cluster_name} };
         for my $sample_name ( @{ $self->clusters_to_samples->{$cluster_name} } ) {
             $sample_weights{$sample_name} = 1 / $cluster_size;
@@ -45,7 +45,7 @@ sub _build_sample_weights {
 sub _build_samples_to_clusters {
     my ($self) = @_;
     my %samples_to_clusters;
-    for my $cluster_name ( sort {$a cmp $b} keys %{ $self->clusters_to_samples } ) {
+    for my $cluster_name ( keys %{ $self->clusters_to_samples } ) {
         for my $sample_name ( @{ $self->clusters_to_samples->{$cluster_name} } ) {
             $samples_to_clusters{$sample_name} = $cluster_name;
         }
@@ -71,7 +71,7 @@ sub _build_clusters_to_samples {
     $cdhit_obj->run();
     my $clusterd_genes = $self->_clustered_genes;
 
-    for my $cluster_name ( sort {$a cmp $b} keys %{$clusterd_genes} ) {
+    for my $cluster_name ( keys %{$clusterd_genes} ) {
         my $found = 0;
         for my $gene_name ( @{ $clusterd_genes->{$cluster_name} } ) {
             if ( $gene_name eq $cluster_name ) {

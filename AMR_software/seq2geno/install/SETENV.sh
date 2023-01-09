@@ -66,17 +66,17 @@ echo $( python -V )
 
 # ensure the conda channels
 check_conda_channels ||{ echo "Errors in setting conda channels"; exit; }
-if [ -d $( dirname $( dirname $( which conda ) ) )/envs/$core_env_name ]; then
+if [ -d $( dirname $( dirname $( /usr/bin/which conda ) ) )/envs/$core_env_name ]; then
   echo '-----'
   echo 'Naming conflict: an existing environment with same name found: '
-  echo $( dirname $( dirname $( which conda ) ) )/envs/$core_env_name
+  echo $( dirname $( dirname $( /usr/bin/which conda ) ) )/envs/$core_env_name
   exit
 else
   # start creating the environment
   create_core_env $core_env_name || { echo "Errors in downloading the core environment"; exit; }
 fi
 # activate the environment
-source $( dirname $( dirname $( which conda ) ) )/etc/profile.d/conda.sh
+source $( dirname $( dirname $( /usr/bin/which conda ) ) )/etc/profile.d/conda.sh
 conda activate $core_env_name || source activate $core_env_name
 # make variables automatically set when the environment is activated 
 set_core_env_vars || { echo "Errors in setting up the core environment"; exit; }

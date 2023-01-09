@@ -70,9 +70,6 @@ sub run {
         output_filename => $output_combined_filename,
     );
     $combine_fasta_files->create_combined_proteome_file;
-    if (-e '_combined_files.groups'){
-      print("Roary line 74\n")
-    }
 
     my $number_of_input_files = @{$self->input_files};
 
@@ -85,9 +82,6 @@ sub run {
       job_runner                       => $self->job_runner,
       cpus                             => $self->cpus
     );
-    if (-e '_combined_files.groups'){
-      print("Roary line 89 _combined_files.groups\n")
-    }
     
     $iterative_cdhit->run();
 
@@ -101,18 +95,12 @@ sub run {
         blastp_exec             => $self->blastp_exec,
         perc_identity           => $self->perc_identity
     );
-    if (-e '_combined_files.groups'){
-      print("Roary line 105 _combined_files.groups\n")
-    }
     $blast_obj->run();
     
     my $blast_identity_frequency_obj = Bio::Roary::Output::BlastIdentityFrequency->new(
         input_filename      => $output_blast_results_filename,
       );
     $blast_identity_frequency_obj->create_file();
-    if (-e '_combined_files.groups'){
-      print("Roary line 114 _combined_files.groups\n")
-    }
 
 	print "Cluster with MCL\n" if($self->verbose);
     my $mcl = Bio::Roary::External::Mcl->new(
