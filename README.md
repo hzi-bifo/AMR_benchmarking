@@ -79,7 +79,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
-|amr_env_name|conda env for general use |amr_env|
+|amr_env_name,amr_env_name2|conda env for general use |amr_env,amr2|
 |PhenotypeSeeker_env_name|conda env for PhenotypeSeeker |PhenotypeSeeker_env|
 |multi_env_name|conda env for |multi_env|
 |multi_torch_env_name|conda env for NN model|multi_torch_env|
@@ -87,7 +87,6 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 |se2ge_env_name|conda env for Seg2Geno|snakemake_env|
 |kmer_env_name|conda env for Seg2Geno k-mers generation |kmer_kmc|
 |phylo_name|conda env for Seg2Geno phylogenetic trees generation|phylo_env|
-|perl_name|also conda env for Seg2Geno phylogenetic trees generation|perl_env|
 |resfinder_env|conda env for Point-/ResFinder|res_env|
 
 
