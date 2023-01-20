@@ -1,0 +1,17 @@
+name: amr_env2
+channels:
+  - r
+  - anaconda
+  - conda-forge/label/broken
+  - hzi-bifo
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - matplotlib=3.6.2
+  - numpy=1.22.3
+  - openpyxl=3.0.10
+  - pandas=1.4.3
+  - scipy=1.8.1
+  - seaborn=0.11.2
+

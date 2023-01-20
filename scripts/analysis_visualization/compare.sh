@@ -31,9 +31,7 @@ python ./src/benchmark_utility/benchmark.py -f_sample  -o ${output_path}
 
 ###2. Fig. 2 Draw by Drawio.
 
-###3. Fig. 3  heatmap (comparison of 4 methods with 3 folds panels.)
-## table was generated through ./scripts/analysis_visualization/compare_supplement.sh 3.
-## Note, further annotation on the table to a heatmap was manually done in EXCEL.
+
 
 ###4. Fig. 4.
 ## bar plot generated through ./scripts/analysis_visualization/compare_supplement.sh.
@@ -48,6 +46,10 @@ python  ./src/benchmark_utility/benchmark.py -f_robust -fscore 'f1_macro' -f_all
 ###Fig. 7-8 generated through ./scripts/analysis_visualization/AytanAktug_analysis.sh
 
 
+###3. Fig. 3  heatmap (comparison of 4 methods with 3 folds panels.)
+conda deactivate
+source activate ${amr_env_name2}
+python  ./src/benchmark_utility/benchmark.py -f_hmap -fscore 'f1_macro' -f_all -o ${output_path}
 conda deactivate
 
 

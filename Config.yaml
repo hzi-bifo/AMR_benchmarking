@@ -27,6 +27,7 @@ clean_software:
 ############################################################################################################################
 
 amr_env_name: amr_env
+amr_env_name2: amr2
 PhenotypeSeeker_env_name: PhenotypeSeeker_env
 multi_env_name: multi_env
 #this environment includes pytorch, which should be installed according to https://pytorch.org/get-started/locally/ manually.
