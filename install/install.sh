@@ -82,7 +82,7 @@ echo " ${kover_env_name} created successfully."
 #
 
 ##6.phylo_r for generating phylo-tree.
-conda env create -n ${perl_name}  -f ./install/perl5_22_env.yml python=2.7 || { echo "Errors."; exit; }
+###conda env create -n ${perl_name}  -f ./install/perl5_22_env.yml python=2.7 || { echo "Errors."; exit; }
 conda create -n ${phylo_name} -y  python=3.9
 source activate ${phylo_name}|| { echo "Errors in activate env."; exit; }
 wait
