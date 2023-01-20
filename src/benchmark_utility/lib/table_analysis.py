@@ -126,6 +126,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
             if fscore=='f1_macro':
                 path_table_results3_1=output_path+ 'Results/supplement_figures_tables/S6-1_software_winner_'+fscore+'.xlsx'
                 path_table_results3_2=output_path+ 'Results/final_figures_tables/F3_results_heatmap_'+fscore+'.xlsx'
+                path_table_results3_3=output_path+ 'Results/other_figures_tables/software_winner_'+fscore
             else: #clinical-oriented
                 path_table_results3_1=output_path+ 'Results/other_figures_tables/software_winner_'+fscore+'.xlsx'
                 path_table_results3_2=output_path+ 'Results/other_figures_tables/results_heatmap_'+fscore+'.xlsx'
@@ -205,6 +206,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
             df_compare=df_compare.replace({10: np.nan})
             df_compare['winner'] = df.mul(df.columns.to_series()).apply(','.join, axis=1).str.strip(',')
             df_compare=df_compare[['species', 'antibiotics']+tool_list+['max_'+fscore]+[x+'_std' for x in tool_list]+['winner' ]]
+            df_compare.to_csv(path_table_results3_3+'_'+eachfold+'.csv', sep="\t") #for annotating heatmap
 
             wb = load_workbook(path_table_results3_1)
             ew = pd.ExcelWriter(path_table_results3_1)

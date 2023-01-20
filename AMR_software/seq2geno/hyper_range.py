@@ -95,7 +95,7 @@ def hyper_range(chosen_cl):
         ]
 
     if chosen_cl=='lsvm':
-        cl=LinearSVC(random_state=1, max_iter=1000,class_weight='balanced')
+        cl=LinearSVC(random_state=1, max_iter=10000,class_weight='balanced')
         hyper_space = [
         {
             "cl__C": [

@@ -67,7 +67,7 @@ def make_visualization_Tree(out_score,summary_all,antibiotics):
 
         final.loc[anti,:]=m.str.cat(n, sep='±').values
 
-    
+
 
     if out_score=='f':
         final=final[['f1_macro','f1_positive', 'f1_negative','accuracy']]

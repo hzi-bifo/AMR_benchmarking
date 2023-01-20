@@ -6,7 +6,7 @@ sys.path.insert(0, os.getcwd())
 import src.benchmark_utility.lib.MAINtable,src.benchmark_utility.lib.table_analysis, src.benchmark_utility.lib.SampleSize,\
     src.benchmark_utility.lib.Com_BySpecies,src.benchmark_utility.lib.Com_BySpecies_each, src.benchmark_utility.lib.pairbox,\
     src.benchmark_utility.lib.ByAnti_errorbar,src.benchmark_utility.lib.pairbox_majority,src.benchmark_utility.lib.pairbox_majority,\
-    src.benchmark_utility.lib.ByAnti_errorbar_each
+    src.benchmark_utility.lib.ByAnti_errorbar_each,src.benchmark_utility.lib.heatmap
 import argparse
 
 
@@ -20,7 +20,7 @@ This script summarizes benchmarking results as graphs and tables.
 
 
 def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_sample,
-                 f_table,f_table_analysis,f_clinical_analysis,output_path):
+                 f_table,f_table_analysis,f_clinical_analysis,f_hmap,output_path):
 
     ####################################################################################################################
     ### 1.Supplemental File 1 Performance(F1-macro, negative F1-score, positive F1-score, accuracy) of five methods alongside with the baseline method (Majority)
@@ -68,7 +68,7 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
         foldset=['Homology-aware folds']
         tool_list=['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
                    'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
-                'Concatenated database mixed multi-species model', 'Concatenated database leave-one-out multi-species model']
+                'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
         src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,  f_all ,output_path,'2',tool_list,foldset,'')
 
 
@@ -98,7 +98,7 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
         foldset=['Homology-aware folds']
         tool_list=['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
                    'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
-                'Concatenated database mixed multi-species model', 'Concatenated database leave-one-out multi-species model']
+                'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
         src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore, f_all ,output_path,'2',tool_list,foldset,'')
 
 
@@ -176,6 +176,15 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
         save_file_name=output_path+ 'Results/final_figures_tables/samplesize.png'
         src.benchmark_utility.lib.SampleSize.extract_info(level, save_file_name)
 
+    ####################################################################################################################
+    ### 6.  Fig. 3  heatmap
+    ####################################################################################################################
+    if f_hmap:
+        save_file_name=output_path+ 'Results/final_figures_tables/'
+        foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
+        tool_list=['Point-/ResFinder','Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+
+        src.benchmark_utility.lib.heatmap.extract_info(level,fscore,foldset,tool_list,output_path,save_file_name)
 
 
 
@@ -209,9 +218,12 @@ if __name__== '__main__':
                         help='Comparision based on F1-negative and precision-negative.')
     parser.add_argument('-f_anti', '--f_anti', dest='f_anti', action='store_true',
                         help='Compare software performance on combinations sharing antibiotics but different species.')
+    parser.add_argument('-f_hmap', '--f_hmap', dest='f_hmap', action='store_true',
+                        help='Plotting heatmaps of F1-macro mean.')
     parser.add_argument('-o', '--output_path', default='./', type=str, required=False,
                         help='Directory to store CV scores.')
     parsedArgs = parser.parse_args()
 
     extract_info(parsedArgs.l,parsedArgs.species,parsedArgs.fscore,parsedArgs.f_all,parsedArgs.f_species,parsedArgs.f_anti,
-                 parsedArgs.f_robust,parsedArgs.f_sample,parsedArgs.f_table,parsedArgs.f_table_analysis,parsedArgs.f_clinical_analysis,parsedArgs.output_path)
+                 parsedArgs.f_robust,parsedArgs.f_sample,parsedArgs.f_table,parsedArgs.f_table_analysis,
+                 parsedArgs.f_clinical_analysis,parsedArgs.f_hmap,parsedArgs.output_path)
