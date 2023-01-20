@@ -79,7 +79,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
-|amr_env_name|conda env for general use |amr_env|
+|amr_env_name,amr_env_name2|conda env for general use |amr_env,amr2|
 |PhenotypeSeeker_env_name|conda env for PhenotypeSeeker |PhenotypeSeeker_env|
 |multi_env_name|conda env for |multi_env|
 |multi_torch_env_name|conda env for NN model|multi_torch_env|
