@@ -1,16 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=s2g_ml  # Name of job
-#SBATCH --output=/vol/cluster-data/khu/sge_stdout_logs/%x_%j.out  # stdout
-#SBATCH --error=/vol/cluster-data/khu/sge_stdout_logs/%x_%j.err  # stderr
-#SBATCH --partition=cpu  # partition to use (check with sinfo)
-#SBATCH --nodes=1  # Number of nodes
-#SBATCH --ntasks=20 # Number of tasks | Alternative: --ntasks-per-node
-#SBATCH --threads-per-core=1 # Ensure we only get one logical CPU per core
-#SBATCH --cpus-per-task=1 # Number of cores per task
-#SBATCH --mem=150G # Memory per node | Alternative: --mem-per-cpu
-#SBATCH --time=240:00:00 # wall time limit (HH:MM:SS)
-#SBATCH --qos long
-#SBATCH --clusters=bioinf
+
 
 function parse_yaml {
    local prefix=$2
