@@ -1,13 +1,8 @@
 import sys
 import os
-sys.path.insert(0, os.path.abspath('../'))
+# sys.path.insert(0, os.path.abspath('../'))
+sys.path.insert(0, os.getcwd())
 from src.amr_utility import name_utility,file_utility,load_data
-from matplotlib.patches import Circle, RegularPolygon
-from matplotlib.path import Path
-from matplotlib.projections import register_projection
-from matplotlib.spines import Spine
-from matplotlib.transforms import Affine2D
-from ast import literal_eval
 from pylab import *
 import json
 import pandas as pd

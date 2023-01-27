@@ -369,7 +369,9 @@ def extract_best_estimator(softwareName,cl_list,level,species,fscore,f_phylotree
     cl_temp = [summary_table_mean.columns[i].tolist() for i in summary_table_mean.values == summary_table_mean.max(axis=1)[:,None]]
     summary_benchmarking['classifier_bymean']=cl_temp
 
-    for index, row in summary_benchmarking.iterrows(): #if there are several classifiers with the same highest fscore, then we select those with the lowest standard deviation.
+    for index, row in summary_benchmarking.iterrows():
+        #if there are several classifiers with the same highest fscore, then we select those with the lowest standard deviation.
+        # if several with the same highest fscore and same lowest standard deviation, then select the first classifier in the list
         std_list=[summary_table_std.loc[index,each] for each in row['classifier_bymean']]
         try:
             cl_chose_sub=std_list.index(min(std_list))

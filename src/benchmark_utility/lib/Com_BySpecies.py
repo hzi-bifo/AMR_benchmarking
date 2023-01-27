@@ -1,6 +1,7 @@
 import sys
 import os
-sys.path.insert(0, os.path.abspath('../'))
+# sys.path.insert(0, os.path.abspath('../'))
+sys.path.insert(0, os.getcwd())
 from src.amr_utility import name_utility,file_utility,load_data
 from matplotlib.patches import RegularPolygon
 from matplotlib.path import Path

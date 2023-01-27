@@ -49,16 +49,14 @@ def heatmap(f_folds,data, row_labels, col_labels, ax=None,
 
     # Plot the heatmap
     im = ax.imshow(data, **kwargs)
-    # if f_folds:
-    #     cbar = ax.figure.colorbar(im, ax=ax, location='top',shrink=0.6,**cbar_kw)
-    #     cbar.ax.set_ylabel(cbarlabel, rotation=-90, va="bottom")
+
     if f_folds:
         # Show all ticks and label them with the respective list entries.
         ax.set_yticks(np.arange(data.shape[0]), labels=row_labels)
-        # ax.set_yticks(np.arange(data.shape[0]+1)-.5, minor=True)
+
     else:
         ax.get_yaxis().set_ticks([])
-        # ax.get_xaxis().set_ticks([])
+
 
     ax.set_xticks(np.arange(data.shape[1]), labels=col_labels)
     # Let the horizontal axes labeling appear on top.

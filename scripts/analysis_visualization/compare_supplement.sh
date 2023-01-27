@@ -61,5 +61,8 @@ python  ./src/benchmark_utility/benchmark.py -f_clinical_analysis -fscore 'clini
 python  ./src/benchmark_utility/benchmark.py -f_clinical_analysis -fscore 'clinical_precision_neg' -f_all -o ${output_path}
 python  ./src/benchmark_utility/benchmark.py -f_clinical_analysis -fscore 'clinical_precision_neg' -f_all -o ${output_path}
 
+#### 8 .misclassified genomes analysis
+python ./src/benchmark_utility/lib/misclassify.py -o ${output_path} -cv ${cv_number} -temp ${log_path} -s 'Escherichia coli' 'Salmonella enterica'
+
 
 conda deactivate
