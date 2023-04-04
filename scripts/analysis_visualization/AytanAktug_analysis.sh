@@ -54,5 +54,7 @@ python ./src/benchmark_utility/lib/AytanAktug/vis_radar_SSSA_MSMA.py -f_all -f_f
 
 ### 4)Fig. 8 Bar plot of  SSSA,MSMA_discrete,MSMA_concat_mixedS , MSMA_concat_LOO
 python ./src/benchmark_utility/lib/AytanAktug/vis_bar_SSSA_MSMA.py -f_all -f_fixed_threshold  -o ${output_path}
+python ./src/benchmark_utility/lib/AytanAktug/vis_box.py -f_all -f_fixed_threshold  -o ${output_path}
+
 
 conda deactivate
