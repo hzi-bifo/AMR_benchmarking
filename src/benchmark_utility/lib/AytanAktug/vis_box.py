@@ -1,11 +1,11 @@
 
-import argparse
+import argparse,json
 import pandas as pd
-import json
 from src.amr_utility import name_utility,load_data,file_utility
 import matplotlib.pyplot as plt
 import seaborn as sns
-from src.benchmark_utility.lib.CombineResults import  combine_data_meanstd
+import matplotlib.transforms as mtrans
+# from src.benchmark_utility.lib.CombineResults import  combine_data_meanstd
 import matplotlib.patches as mpatches
 import numpy as np
 from matplotlib.legend_handler import HandlerPatch
@@ -60,26 +60,26 @@ def combinedata(species,level,df_anti,merge_name,fscore,learning,epochs,f_fixed_
         # summary_plot_single['model']='single-species-antibiotic model'
         # summary_plot = summary_plot.append(summary_plot_single, ignore_index=True)
         summary_plot_single=pd.DataFrame(columns=[fscore, 'antibiotic', 'model','species'])
-        summary_plot_single.loc['e'] = [single_results.loc[species,each_anti ], each_anti, 'single-model',species]
+        summary_plot_single.loc['e'] = [single_results.loc[species,each_anti ], each_anti, 'single-species model, homology nested CV',species]
         summary_plot = summary_plot.append(summary_plot_single, ignore_index=True)
         #-------discrete
         #
         summary_plot_dis = pd.DataFrame(columns=[fscore, 'antibiotic', 'model','species'])
-        summary_plot_dis.loc['e'] = [dis_results.loc[species,each_anti ], each_anti, 'control multi-species model',species]
+        summary_plot_dis.loc['e'] = [dis_results.loc[species,each_anti ], each_anti, 'control multi-species model, homology CV',species]
         summary_plot = summary_plot.append(summary_plot_dis, ignore_index=True)
 
         #------------------------------------------
         #concat M
 
         summary_plot_concatM = pd.DataFrame(columns=[fscore, 'antibiotic', 'model','species'])
-        summary_plot_concatM.loc['e'] = [concatM_results.loc[species,each_anti ],each_anti, 'type 2 multi-species model evaluation 1',species]
+        summary_plot_concatM.loc['e'] = [concatM_results.loc[species,each_anti ],each_anti, 'cross-species model, homology CV',species]
         summary_plot = summary_plot.append(summary_plot_concatM, ignore_index=True)
 
 
         #-----------concat leave-one-out
         # summary_plot_sub.loc[species, each_anti] = data_score.loc[each_anti, each_score]
         summary_plot_multi = pd.DataFrame(columns=[fscore, 'antibiotic', 'model','species'])
-        summary_plot_multi.loc['e'] = [concat_results.loc[each_anti,fscore], each_anti, 'type 2 multi-species model evaluation 2',species]
+        summary_plot_multi.loc['e'] = [concat_results.loc[each_anti,fscore], each_anti, 'cross-species model, LOSO',species]
         summary_plot = summary_plot.append(summary_plot_multi, ignore_index=True)
 
 
@@ -87,18 +87,18 @@ def combinedata(species,level,df_anti,merge_name,fscore,learning,epochs,f_fixed_
 
 def change_layout(data_plot,fscore,species):
 
-    data=pd.DataFrame(columns=['single-model', 'control multi-species model','type 2 multi-species model evaluation 1','type 2 multi-species model evaluation 2'])
+    data=pd.DataFrame(columns=['single-species model, homology nested CV', 'control multi-species model, homology CV','cross-species model, homology CV','cross-species model, LOSO'])
 
     data_plot=data_plot[(data_plot['species'] == species)] #newly added
-    data1=data_plot[(data_plot['model'] == 'single-model')]
-    data2=data_plot[(data_plot['model'] == 'control multi-species model')]
-    data3=data_plot[(data_plot['model'] == 'type 2 multi-species model evaluation 1')]
-    data4=data_plot[(data_plot['model'] == 'type 2 multi-species model evaluation 2')]
+    data1=data_plot[(data_plot['model'] == 'single-species model, homology nested CV')]
+    data2=data_plot[(data_plot['model'] == 'control multi-species model, homology CV')]
+    data3=data_plot[(data_plot['model'] == 'cross-species model, homology CV')]
+    data4=data_plot[(data_plot['model'] == 'cross-species model, LOSO')]
 
-    data['single-model']=data1[fscore].tolist()
-    data['control multi-species model']=data2[fscore].tolist()
-    data['type 2 multi-species model evaluation 1']=data3[fscore].tolist()
-    data['type 2 multi-species model evaluation 2']=data4[fscore].tolist()
+    data['single-species model, homology nested CV']=data1[fscore].tolist()
+    data['control multi-species model, homology CV']=data2[fscore].tolist()
+    data['cross-species model, homology CV']=data3[fscore].tolist()
+    data['cross-species model, LOSO']=data4[fscore].tolist()
 
     return data
 
@@ -131,9 +131,10 @@ def extract_info(fscore,level,f_all,learning,epochs,f_optimize_score,f_fixed_thr
 
     print(df_anti)
     # fig = plt.figure(figsize=(9, 9))
-    fig, axs = plt.subplots(1,1,figsize=(9, 9))
+    fig, axs = plt.subplots(1,1,figsize=(11, 9))
+    np.random.seed(5)
     # plt.tight_layout(pad=4)
-    fig.subplots_adjust(top=0.98, bottom=0.35,left=0.2)
+    fig.subplots_adjust(top=0.98, bottom=0.28,left=0.15,right=0.75)
 
     color_selection=['#a6611a','#dfc27d','#80cdc1','#018571']
     palette = iter(color_selection)
@@ -150,7 +151,15 @@ def extract_info(fscore,level,f_all,learning,epochs,f_optimize_score,f_fixed_thr
     ax=sns.boxplot(data=data_plot, x="model", y=fscore,palette=palette)
 
 
-    ax.set_xticklabels(ax.get_xticklabels(),rotation=20,fontsize=20,ha='right')
+
+
+    ax.set_xticklabels(ax.get_xticklabels(),rotation=-20,fontsize=20,ha='left')
+
+    ## move the ticklabels by a few pixels
+    trans = mtrans.Affine2D().translate(-50, 0)
+    for t in ax.get_xticklabels():
+        t.set_transform(t.get_transform()+trans)
+
     ax.set(xlabel=None)
     # ax.xticks(rotation=10)
     ax.tick_params(axis='y', which='major', labelsize=25)
@@ -198,7 +207,7 @@ def extract_info(fscore,level,f_all,learning,epochs,f_optimize_score,f_fixed_thr
     #     patchList.append(data_key)
     # plt.legend(handles=patchList,bbox_to_anchor=(1.15, -0.25), ncol=2,fontsize=10,frameon=False,prop={'size': 15, 'style': 'italic'})
     c = [ mpatches.Circle((0.5, 0.5), radius = 0.25, facecolor=palette_tab10[i], edgecolor="none" ) for i in range(len(species_list_s))]
-    plt.legend(c,species_list_s,bbox_to_anchor=(1.15, -0.25),  ncol=2,prop={'size': 15, 'style': 'italic'}, handler_map={mpatches.Circle: HandlerEllipse()})
+    plt.legend(c,species_list_s,bbox_to_anchor=(1, 0.5),  ncol=1,prop={'size': 15, 'style': 'italic'}, handler_map={mpatches.Circle: HandlerEllipse()})
 
 
     file_utility.make_dir(output_path+'Results/final_figures_tables')
