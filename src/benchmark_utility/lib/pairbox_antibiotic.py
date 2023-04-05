@@ -109,7 +109,7 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
         exit(1)
     np.random.seed(0)
 
-
+    Summary_table= pd.DataFrame(columns=['antibiotic']+foldset)#summary table for antibiotic rankings.
 
     # --------------
     #1. by antibiotic
@@ -147,6 +147,20 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
         #[fscore, 'species', 'software','anti','folds']
 
         data_plot=data_plot[data_plot["antibiotics"] == each_anti]
+        # print(data_plot)
+        ####summary table for antibiotic rankings.#################################################################
+        average_table=data_plot.groupby(['folds']).mean()
+        # print(average_table)
+        if 'Phylogeny-aware folds' in average_table.index.tolist():
+            row_table= [each_anti,average_table.loc['Random folds',fscore],average_table.loc['Phylogeny-aware folds',fscore],average_table.loc['Homology-aware folds',fscore]]
+        else:
+            row_table= [each_anti,average_table.loc['Random folds',fscore],np.nan,average_table.loc['Homology-aware folds',fscore]]
+
+
+        Summary_table.loc[i] =row_table
+        # print(Summary_table)
+        ##########################################################################################################
+
 
         data_plot= data_plot.astype({fscore:float})
         if species_p==['Mycobacterium tuberculosis']:
@@ -185,10 +199,10 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
         #connect dots representing the same tool+species combination
         for species in species_p:
             # print(species)
-            print(data_plot)
+            # print(data_plot)
             df=change_layout(data_plot,fscore,species)
-            if species=='Mycobacterium tuberculosis':
-                print(df)
+            # if species=='Mycobacterium tuberculosis':
+            #     # print(df)
 
             jitter = 0.05
             df_x_jitter = pd.DataFrame(np.random.normal(loc=0, scale=jitter, size=df.values.shape), columns=df.columns)
@@ -284,5 +298,19 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
 
     plt.legend(handles=patchList,bbox_to_anchor=(0.9, 12.2), ncol=6,fontsize=25,frameon=False,prop={'size': 25, 'style': 'italic'})
 
-    fig.savefig(output_path+'Results/supplement_figures_tables/S2_byAnti_C'+f_mean_std+'.png')
-    fig.savefig(output_path+'Results/supplement_figures_tables/S2_byAnti'+f_mean_std+'.pdf')
+    # fig.savefig(output_path+'Results/supplement_figures_tables/S2_byAnti_C'+f_mean_std+'.png')
+    # fig.savefig(output_path+'Results/supplement_figures_tables/S2_byAnti'+f_mean_std+'.pdf')
+
+
+    ####summary table for antibiotic rankings.#################################################################
+    print(Summary_table)
+    Summary_table=Summary_table.sort_values('Random folds',ascending=False)
+    print(Summary_table)
+    anti_acro= [map_acr[x] for x in Summary_table['antibiotic'].tolist()]
+    # print(anti_acro)
+    Summary_table.insert(loc=1, column='Antibiotic', value=anti_acro)
+    print(Summary_table)
+    Summary_table.to_csv(output_path+ 'Results/other_figures_tables/antibiotic_ranking.csv', sep="\t")
+
+
+    ###########################################################################################################
