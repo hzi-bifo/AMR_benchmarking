@@ -1,9 +1,8 @@
 #!/bin/bash
 # use the base conda env.
 species="$1"
-dataset_location="$2"
-feature_path="$3"
-kover_location="$4"
+feature_path="$2"
+kover_location="$3"
 
 readarray -t Anti_List <  ${feature_path}/${species}/anti_list
 

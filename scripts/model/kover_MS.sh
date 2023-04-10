@@ -1,4 +1,6 @@
 #!/bin/bash
+
+
 function parse_yaml {
    local prefix=$2
    local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
@@ -24,19 +26,19 @@ species=( "${species_list_temp[@]//_/ }" )
 export PATH=$( dirname $( dirname $( /usr/bin/which conda ) ) )/bin:$PATH
 export PYTHONPATH=$PWD
 
-## Initialization
-#source activate ${amr_env_name}
-#python ./AMR_software/Kover/multiSpecies/kover_multiSpecies.py  -f_all -cv ${cv_number} -f_prepare_meta -path_sequence ${dataset_location} -temp ${log_path}  -l ${QC_criteria}
-#conda deactivate
-#wait
-
-## Running Kover pipeline
+# Initialization
+source activate ${amr_env_name}
+python ./AMR_software/Kover/multiSpecies/kover_multiSpecies.py  -f_all -cv ${cv_number} -f_prepare_meta -path_sequence ${dataset_location} -temp ${log_path}  -l ${QC_criteria}
+conda deactivate
+wait
 source activate ${kover_env_name}
+
+# Running Kover pipeline
 for s in "${species_list_temp[@]}"; do
-bash ./AMR_software/Kover/multiSpecies/run_data_multi.sh ${s} ${dataset_location} ${log_path}log/software/kover/software_output/MS ;done
+bash ./AMR_software/Kover/multiSpecies/run_data_multi.sh ${s} ${log_path}log/software/kover/software_output/MS ${n_jobs};done
 
 
-#### Running bound selection CV
-#for s in "${species_list_temp[@]}"; do
-#bash ./AMR_software/Kover/multiSpecies/run_cv_multi.sh ${s} ${dataset_location} ${log_path}log/software/kover/software_output/phylotree ${n_jobs};done
-##
+### Running bound selection CV
+for s in "${species_list_temp[@]}"; do
+bash ./AMR_software/Kover/multiSpecies/run_cv_multi.sh ${s} ${log_path}log/software/kover/software_output/MS ${n_jobs};done
+

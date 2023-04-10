@@ -40,25 +40,25 @@ source activate ${kover_env_name}
 wait
 #### Prepare data sets
 for s in "${species_list_temp_tree[@]}"; do
-bash ./AMR_software/Kover/run_data.sh ${s} ${dataset_location} ${log_path}log/software/kover/software_output/phylotree ${kover_location};done
+bash ./AMR_software/Kover/run_data.sh ${s} ${log_path}log/software/kover/software_output/phylotree;done
 
 for s in "${species_list_temp[@]}"; do
-bash ./AMR_software/Kover/run_data.sh ${s} ${dataset_location} ${log_path}log/software/kover/software_output/kma ${kover_location};done
+bash ./AMR_software/Kover/run_data.sh ${s} ${log_path}log/software/kover/software_output/kma;done
 
 for s in "${species_list_temp[@]}"; do
-bash ./AMR_software/Kover/run_data.sh ${s} ${dataset_location} ${log_path}log/software/kover/software_output/random ${kover_location};done
+bash ./AMR_software/Kover/run_data.sh ${s} ${log_path}log/software/kover/software_output/random ;done
 
 
 
 #### Running bound selection CV
 for s in "${species_list_temp_tree[@]}"; do
-bash ./AMR_software/Kover/run_cv.sh ${s} ${dataset_location} ${log_path}log/software/kover/software_output/phylotree ${n_jobs} ${kover_location};done
+bash ./AMR_software/Kover/run_cv.sh ${s} ${log_path}log/software/kover/software_output/phylotree ${n_jobs} ;done
 #
 for s in "${species_list_temp[@]}"; do
-bash ./AMR_software/Kover/run_cv.sh ${s} ${dataset_location} ${log_path}log/software/kover/software_output/kma ${n_jobs} ${kover_location};done
+bash ./AMR_software/Kover/run_cv.sh ${s} ${log_path}log/software/kover/software_output/kma ${n_jobs};done
 
 for s in "${species_list_temp[@]}"; do
-bash ./AMR_software/Kover/run_cv.sh ${s} ${dataset_location} ${log_path}log/software/kover/software_output/random ${n_jobs} ${kover_location};done
+bash ./AMR_software/Kover/run_cv.sh ${s} ${log_path}log/software/kover/software_output/random ${n_jobs} ;done
 #
 conda deactivate
 wait
