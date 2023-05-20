@@ -23,14 +23,16 @@ def make_visualization(out_score,summary_all,antibiotics ):
         data=summary_all[count]
         count+=1
         data=data.loc[['weighted-mean','weighted-std'],:]
+        final_std.loc[anti,:]=data.loc['weighted-std',:].to_list()
+        final_plot.loc[anti,:]=data.loc['weighted-mean',:].to_list()
+
         data = data.astype(float).round(2)
 
         m= data.loc['weighted-mean',:].apply(lambda x: "{:.2f}".format(x))
         n=data.loc['weighted-std',:].apply(lambda x: "{:.2f}".format(x))
 
         final.loc[anti,:]=m.str.cat(n, sep='±').values
-        final_std.loc[anti,:]=data.loc['weighted-std',:].to_list()
-        final_plot.loc[anti,:]=data.loc['weighted-mean',:].to_list()
+
     if out_score=='f':
         final=final[['weighted-f1_macro','weighted-f1_positive', 'weighted-f1_negative','weighted-accuracy']]
         final_plot=final_plot[['weighted-f1_macro','weighted-f1_positive', 'weighted-f1_negative','weighted-accuracy']]

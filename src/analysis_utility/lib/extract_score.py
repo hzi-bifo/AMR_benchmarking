@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import statistics
 import math
-from sympy import symbols, Eq, solve
+
 
 def weithgted_var(values,average,weights):
     n=len(values)
@@ -274,6 +274,7 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,f1_test,aucs_test
     return summary
 
 def score_clinical(summary, cv, score_report_test):
+    from sympy import symbols, Eq, solve
     ## Only for F1-negative, precision-negative. Intergrate predicted results from all folds, and compute the scores.
     ## this is done due to the uneven distribution of R and S samples across the folds under phylo-folds and kma-based folds.
     ## but for convenience of comparison, we also intergated the results evaluated under random folds for clinical oriented scores generation.
