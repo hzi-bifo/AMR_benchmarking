@@ -7,8 +7,6 @@ from src.benchmark_utility.lib.CombineResults import  combine_data_meanstd
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
-import matplotlib.patches as mpatches
-
 
 def change_layout(data_plot,fscore,species):
     if species !='Mycobacterium tuberculosis' :
@@ -109,8 +107,8 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
         exit(1)
     np.random.seed(0)
 
-    Summary_table= pd.DataFrame(columns=['antibiotic']+foldset)#summary table for antibiotic rankings.
-    Summary_table_md= pd.DataFrame(columns=['antibiotic']+foldset)#summary table for antibiotic rankings.
+
+
     # --------------
     #1. by antibiotic
     # --------------
@@ -119,11 +117,8 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
 
     fig, axs = plt.subplots(9,5,figsize=(25, 34))
     plt.tight_layout(pad=4)
-    fig.subplots_adjust(wspace=0.1, hspace=0.25, top=0.90, bottom=0.03,left=0.06)
-    # fig.suptitle('A', weight='bold',size=35,x=0.02,y=0.97 )
-
-    palette_tab10 = sns.color_palette("tab10", 10)
-    palette_tab10.append('#01665e')
+    fig.subplots_adjust(wspace=0.1, hspace=0.25, top=0.90, bottom=0.05,left=0.06)
+    fig.suptitle('A', weight='bold',size=35,x=0.02,y=0.97 )
 
     i=0
     # for species, antibiotics_selected in zip(df_species, antibiotics):
@@ -144,51 +139,20 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
         i+=1
 
         data_plot=combine_data_meanstd(species_p,level,fscore,tool_list,foldset,output_path,flag)
-        # print(data_plot)
         #[fscore, 'species', 'software','anti','folds']
-        data_plot=data_plot.replace(np. nan,0) # add in zeros into the plots!!! April 2023.
 
         data_plot=data_plot[data_plot["antibiotics"] == each_anti]
-        # print(data_plot)
-        ####summary table for antibiotic rankings.#################################################################
-        average_table=data_plot.groupby(['folds']).mean()
-        # print(average_table)
-        if 'Phylogeny-aware folds' in average_table.index.tolist():
-            row_table= [each_anti,average_table.loc['Random folds',fscore],average_table.loc['Phylogeny-aware folds',fscore],average_table.loc['Homology-aware folds',fscore]]
-        else:
-            row_table= [each_anti,average_table.loc['Random folds',fscore],np.nan,average_table.loc['Homology-aware folds',fscore]]
-
-
-        Summary_table.loc[i] =row_table
-
-        ##########################################################################################################
-        ####summary table for antibiotic rankings.#################################################################
-        average_table_md=data_plot.groupby(['folds']).median()
-        # print(average_table)
-        if 'Phylogeny-aware folds' in average_table.index.tolist():
-            row_table= [each_anti,average_table_md.loc['Random folds',fscore],average_table_md.loc['Phylogeny-aware folds',fscore],average_table_md.loc['Homology-aware folds',fscore]]
-        else:
-            row_table= [each_anti,average_table_md.loc['Random folds',fscore],np.nan,average_table_md.loc['Homology-aware folds',fscore]]
-
-
-        Summary_table_md.loc[i] =row_table
-        #
-        ##########################################################################################################
-
 
         data_plot= data_plot.astype({fscore:float})
         if species_p==['Mycobacterium tuberculosis']:
+
             data_plot.loc[len(data_plot)]=[np.nan,'Mycobacterium tuberculosis','',each_anti,'Phylogeny-aware folds']
-        # ax = sns.violinplot(x="folds", y=fscore, ax=axs[row, col],data=data_plot,
-        #         inner=None, color="0.95",order=['Random folds', 'Phylogeny-aware folds','Homology-aware folds'])
-        ax=sns.boxplot(data=data_plot, x="folds", ax=axs[row, col],y=fscore,\
-                       order=['Random folds', 'Phylogeny-aware folds','Homology-aware folds'])
-        for i_temp,box in enumerate(ax.artists):
-            box.set_edgecolor('black')
-            box.set_facecolor('white')
-            # iterate over whiskers and median lines
-            for j in range(6*i,6*(i_temp+1)):
-                 ax.lines[j].set_color('black')
+
+
+        ax = sns.violinplot(x="folds", y=fscore, ax=axs[row, col],data=data_plot,
+                inner=None, color="0.95",order=['Random folds', 'Phylogeny-aware folds','Homology-aware folds'])
+
+
 
         if f_mean_std=='mean':
             ax.set(ylim=(0, 1.0))
@@ -203,10 +167,10 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
             ax.set(ylabel=None)
             ax.tick_params(axis='y',bottom=False)
 
-        # if row==8:
-        #     # ax.tick_params(axis='x', which='major', labelsize=20,rotate=10)
-        #     ax.set_xticklabels(ax.get_xticklabels(),rotation=20,fontsize=25,ha='right')
-        #     # ax.xticks(rotation=10)
+        if row==8:
+            # ax.tick_params(axis='x', which='major', labelsize=20,rotate=10)
+            ax.set_xticklabels(ax.get_xticklabels(),rotation=20,fontsize=25,ha='right')
+            # ax.xticks(rotation=10)
 
         #Add acronym
         with open('./data/AntiAcronym_dict.json') as f:
@@ -221,10 +185,9 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
         #connect dots representing the same tool+species combination
         for species in species_p:
             # print(species)
-            # print(data_plot)
             df=change_layout(data_plot,fscore,species)
             # if species=='Mycobacterium tuberculosis':
-            #     # print(df)
+            #     print(df)
 
             jitter = 0.05
             df_x_jitter = pd.DataFrame(np.random.normal(loc=0, scale=jitter, size=df.values.shape), columns=df.columns)
@@ -240,18 +203,18 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
 
                 if species != 'Mycobacterium tuberculosis':
                     if i_color%3==0:
-                        ax.plot(df_x_jitter[col_t], df[col_t], 'o',c=palette_tab10[species_list.index(species)], alpha=0.8, zorder=1, ms=8, mew=1, label="Random folds")
+                        ax.plot(df_x_jitter[col_t], df[col_t], 'o',c='blue', alpha=0.6, zorder=1, ms=8, mew=1, label="Random folds")
                     elif i_color%3==1:
-                        ax.plot(df_x_jitter[col_t], df[col_t], 'v',c=palette_tab10[species_list.index(species)], alpha=0.8, zorder=1, ms=8, mew=1, label="Phylogeny-aware folds")
+                        ax.plot(df_x_jitter[col_t], df[col_t], 'o',c='orange', alpha=0.6, zorder=1, ms=8, mew=1, label="Phylogeny-aware folds")
                     else:
-                        ax.plot(df_x_jitter[col_t], df[col_t], 's', c=palette_tab10[species_list.index(species)], alpha=0.8, zorder=1, ms=8, mew=1, label="Homology-aware folds")
+                        ax.plot(df_x_jitter[col_t], df[col_t], 'o', c='green', alpha=0.6, zorder=1, ms=8, mew=1, label="Homology-aware folds")
 
                 else:
                     if i_color%3==0:
-                        ax.plot(df_x_jitter[col_t], df[col_t], 'o',c=palette_tab10[species_list.index(species)], alpha=0.8, zorder=1, ms=8, mew=1,label="Random folds")
+                        ax.plot(df_x_jitter[col_t], df[col_t], 'o',c='blue', alpha=0.6, zorder=1, ms=8, mew=1,label="Random folds")
                     elif i_color%3==2:
                         # print('!!!')
-                        ax.plot(df_x_jitter[col_t], df[col_t], 's',c=palette_tab10[species_list.index(species)],alpha=0.8, zorder=1, ms=8, mew=1, label="Homology-aware folds")
+                        ax.plot(df_x_jitter[col_t], df[col_t], 'o',c='green',alpha=0.6, zorder=1, ms=8, mew=1, label="Homology-aware folds")
 
 
 
@@ -268,33 +231,19 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
                     ax.set(ylabel=None)
                     ax.tick_params(axis='y',bottom=False)
 
-                if each_anti=='amoxicillin' and (i_color in [1,2,3]):
+                if each_anti=='amoxicillin' and ( i_color in [1,2,3]):
+                    pass
+                    # if f_mean_std=='mean':
+                    #     leg=ax.legend(bbox_to_anchor=(0.8, 1.11),ncol=3,fontsize=30,frameon=False, markerscale=2)
+                    # else:
+                    #     leg=ax.legend(bbox_to_anchor=(4, 1.38),ncol=3,fontsize=30,frameon=False, markerscale=2)
+                    # for lh in leg.legendHandles:
+                    #     lh._legmarker.set_alpha(1)
 
-
-
-                    if f_mean_std=='mean':
-
-                        leg=ax.legend(bbox_to_anchor=(0.8, 1.2),ncol=3,fontsize=30,frameon=False, markerscale=2)
-                        # leg2=ax.legend(bbox_to_anchor=(0.8, 1.11),ncol=2,fontsize=20,frameon=False, markerscale=2)
-
-                    else:
-                        leg=ax.legend(bbox_to_anchor=(4, 1.38),ncol=3,fontsize=30,frameon=False, markerscale=2)
-
-                    # leg.legendHandles[0].set_color('black')
-                    ax.add_artist(leg)
-                    leg = ax.get_legend()
-                    # leg.legendHandles[0].set_color('black')
-                    # leg.legendHandles[1].set_color('black')
-                    # ax.add_artist(leg2)
-                    for lh in leg.legendHandles:
-                        lh._legmarker.set_color('black')
-                        # lh._legmarker.set_alpha(1)
-
-
-            # if row <8:
-            ax.set(xticklabels=[])
-            ax.set(xlabel=None)
-            ax.tick_params(axis='x',bottom=False)
+            if row <8:
+                ax.set(xticklabels=[])
+                ax.set(xlabel=None)
+                ax.tick_params(axis='x',bottom=False)
 
 
 
@@ -310,38 +259,6 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
             ax.set(xlabel=None)
             ax.tick_params(axis='x',bottom=False)
 
-    species_list_s=[(species[0] +". "+ species.split(' ')[1] ) for species in species_list]
-    legend_dict=dict(zip(species_list_s, palette_tab10))
 
-    patchList = []
-    for key in legend_dict:
-        data_key = mpatches.Patch(color=legend_dict[key], label=key)
-        patchList.append(data_key)
-
-    plt.legend(handles=patchList,bbox_to_anchor=(0.9, 12.2), ncol=6,fontsize=25,frameon=False,prop={'size': 25, 'style': 'italic'})
-
-    fig.savefig(output_path+'Results/supplement_figures_tables/S2_byAnti_'+f_mean_std+'.png')
-    fig.savefig(output_path+'Results/supplement_figures_tables/S2_byAnti_'+f_mean_std+'.pdf')
-
-
-    ####summary table for antibiotic rankings.#################################################################
-    print(Summary_table)
-    Summary_table=Summary_table.sort_values('Random folds',ascending=False)
-    print(Summary_table)
-    anti_acro= [map_acr[x] for x in Summary_table['antibiotic'].tolist()]
-    # print(anti_acro)
-    Summary_table.insert(loc=1, column='Antibiotic', value=anti_acro)
-    print(Summary_table)
-    Summary_table.to_csv(output_path+ 'Results/other_figures_tables/antibiotic_ranking.csv', sep="\t")
-
-
-    ###########################################################################################################
-     ####summary table for antibiotic rankings.#################################################################
-    print(Summary_table_md)
-    Summary_table_md=Summary_table_md.sort_values('Random folds',ascending=False)
-    print(Summary_table_md)
-    anti_acro= [map_acr[x] for x in Summary_table_md['antibiotic'].tolist()]
-    # print(anti_acro)
-    Summary_table_md.insert(loc=1, column='Antibiotic', value=anti_acro)
-    print(Summary_table)
-    Summary_table_md.to_csv(output_path+ 'Results/other_figures_tables/antibiotic_MDranking.csv', sep="\t")
+    fig.savefig(output_path+'Results/supplement_figures_tables/S2_byAnti_C'+f_mean_std+'.png')
+    fig.savefig(output_path+'Results/supplement_figures_tables/S2_byAnti'+f_mean_std+'.pdf')

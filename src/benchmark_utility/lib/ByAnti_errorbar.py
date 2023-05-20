@@ -105,8 +105,11 @@ def ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path):
 
             if f_kma:
                 axs[row, col].legend(bbox_to_anchor=(3.5,1.3), ncol=8,fontsize=18,frameon=False)
-            if f_phylotree:
+            elif f_phylotree:
                 axs[row, col].legend(bbox_to_anchor=(3.5,1.3), ncol=8,fontsize=18,frameon=False)
             else:
-                axs[row, col].legend(bbox_to_anchor=(3,5.3), ncol=8,fontsize=18,frameon=False)
+                print("???")
+                axs[row, col].legend(bbox_to_anchor=(3.5,1.3), ncol=8,fontsize=18,frameon=False)
+
+
     fig.savefig(output_path+'Results/supplement_figures_tables/S2_ByAnti_'+'kma_'+str(f_kma)+'_tree_'+str(f_phylotree)+'_'+fscore+'.pdf')

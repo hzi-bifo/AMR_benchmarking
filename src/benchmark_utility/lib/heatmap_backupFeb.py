@@ -138,9 +138,9 @@ def annotate_heatmap(data_anno,im, data=None, valfmt="{x:.2f}",
 
             kw.update(color='white')
             if data_anno[i,j]==1:
-                text = im.axes.text(j, i, data[i,j], horizontalalignment='center',verticalalignment='center',color='black',fontweight='extra bold',fontsize=12)
+                text = im.axes.text(j, i, data[i,j], horizontalalignment='center',verticalalignment='center',color='black',fontweight='extra bold')
             else:
-                text = im.axes.text(j, i, data[i,j], horizontalalignment='center',verticalalignment='center',color='white',fontsize=12)
+                text = im.axes.text(j, i, data[i,j], horizontalalignment='center',verticalalignment='center',color='white')
             texts.append(text)
 
     return texts
@@ -159,13 +159,11 @@ def extract_info(level, fscore,foldset,tool_list,output_path,save_file_name):
     antibiotics= data['modelling antibiotics'].tolist()
 
     plt.tight_layout()
-    fig, ax= plt.subplots(1,3, figsize=(23, 25))
+    fig, ax= plt.subplots(1,3, figsize=(20, 30))
     (ax1, ax2 , ax3)=ax
 
-
-    ###color
     # fig.subplots_adjust(left=0.06,  right=0.9,wspace=-0.6, hspace=0.1, top=0.9, bottom=0.03)
-    fig.subplots_adjust(left=0,  right=1.1,wspace=-0.6, top=0.87, bottom=0.02)
+    fig.subplots_adjust(left=0,  right=1.1,wspace=-0.6, top=0.88, bottom=0.02)
     # cmap = plt.get_cmap('viridis')
     cmap = plt.get_cmap('plasma')
     mymap=truncate_colormap(cmap, minval=0.0, maxval=0.9, n=300)
@@ -281,16 +279,16 @@ def extract_info(level, fscore,foldset,tool_list,output_path,save_file_name):
             # cbar = ax3.figure.colorbar(im,ax=ax3 ,location='right',shrink=0.3 )# ax=ax1,
             # cbar.ax.set_ylabel("harvest", rotation=-90, va="bottom")
         j+=1
-    ax1.set_aspect(0.25)
-    ax2.set_aspect(0.25)
-    ax3.set_aspect(0.25)
+    ax1.set_aspect(0.38)
+    ax2.set_aspect(0.38)
+    ax3.set_aspect(0.38)
     cax = fig.add_axes([0.15, .98, 0.35, 0.01])
     cbar=fig.colorbar(im, orientation='horizontal', cax=cax)
     # cbar = fig.colorbar(im,ax=ax[:3], orientation='horizontal')# ax=ax1,,shrink=0.5,pad=0.05
-    cbar.ax.set_ylabel("F1-macro", rotation=0,labelpad=80.0,fontsize=20)#loc='top',
+    cbar.ax.set_ylabel("F1-macro", rotation=0,labelpad=8.0,loc='top',fontsize=20)
     cbar.ax.tick_params(axis='x', which='major', labelsize=20)
 
-    fig.text(0.11, 0.968, '0 ~', fontsize=20 )
+    fig.text(0.11, 0.97, '0 ~', fontsize=20 )
     fig.text(0.2, 0.95, 'A.  Random folds', fontsize=23,weight='bold')
     fig.text(0.42, 0.95, 'B.  Phylogeny-aware folds', fontsize=23,weight='bold')
     fig.text(0.7, 0.95, 'C.  Homology-aware folds', fontsize=23,weight='bold')

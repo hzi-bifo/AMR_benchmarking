@@ -10,7 +10,7 @@ import copy
 from openpyxl import load_workbook
 from src.benchmark_utility.lib.CombineResults import combine_data
 import itertools
-from scipy.stats import ttest_rel
+from scipy.stats import ttest_rel,ttest_ind
 
 '''
 This script organizes the performance for Supplementary materials, and further analysis on the results.
@@ -114,11 +114,21 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                 ew.book = wb
                 df_final.to_excel(ew,sheet_name = (eachfold.split(' ')[0][0]+eachfold.split(' ')[1][0]+'_Comp_'+str(com_tool.translate(str.maketrans({'/': '', ' ': '_'})))))
                 ew.save()
+                #### Paired T test
+                df_test=df_final[[fscore+'_mean', 'compare_'+fscore+'_mean']]
+                df_test=df_test.fillna(0)
+                print(df_test)
+                mean1 = df_test[fscore+'_mean']
+                mean2 = df_test['compare_'+fscore+'_mean']
+                _,pvalue=ttest_rel(mean1, mean2,alternative='less') #
+                print(pvalue)
+                _,pvalue=ttest_rel(mean1, mean2,alternative='greater') #random
+                print(pvalue)
 
 
 
     # ------------------------------------------
-    # Step 2 figuring out which ML performs best.
+    # Step 2 figuring out which method performs best. And counting.
     # ------------------------------------------
     if step=='2':
         if tool_list==['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']:
@@ -213,6 +223,22 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
             ew.book = wb
             df_compare.to_excel(ew,sheet_name = (eachfold))
             ew.save()
+
+            #counting for each software the time it is the best, tied best had the coresponding portion of a 1.
+            print('counting the perdentage of being best;')
+            for each_tool in tool_list:
+                print(each_tool,'-------------------------')
+                count=0
+                for each in df_compare['winner'].tolist():
+                    if each_tool==each:
+                        count+=1
+                    elif each_tool in each:
+                        # print(each)
+                        winner_list=each.split(',')
+                        winner_list = [x for x in winner_list if x != '']
+                        # print(winner_list)
+                        count+= (1/len(winner_list))
+                print(count,count/len(df_compare['winner'].tolist()))
         #--------------------------------
         #mean +- std verson
 
@@ -260,11 +286,16 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
 
 
 
+
     if step=='3':
         # paired T-test
         print('Now paired T-test')
+        output=pd.DataFrame(columns=['folds','software','F1 diff', "p value"])
         Presults={}
+        i_noDiff=0
+        i_out=0
         for eachfold in foldset:
+            print(eachfold)
             i=0
             for each_tool in tool_list:
 
@@ -290,19 +321,95 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
 
 
             df_mean=df_compare[tool_list]
-            df_mean = df_mean.dropna()
+
+            # df_mean = df_mean.dropna()
+            ### Feb 2023: maybe change the Nan to 0
+            df_mean=df_mean.fillna(0)
+
             print('Paired T-test:')
             #T-test
-            i_noDiff=0
+
             for each_com in list(itertools.combinations(tool_list, 2)):
                 mean1 = df_mean[each_com[0]]
                 mean2 = df_mean[each_com[1]]
-                result=ttest_rel(mean1, mean2)
-                pvalue = result[1]
+                # result=ttest_rel(mean1, mean2) # two-tailed
+                # pvalue = result[1]
+                ###Feb 17th 2023, change to one-tailed test.
+                # print(np.mean(mean1),np.mean(mean2))
+                # Orders are based on Table 1 in the article.
+                if eachfold=='Random folds':
+                    order=[ 'Kover','PhenotypeSeeker','Point-/ResFinder', 'Seq2Geno2Pheno', 'Aytan-Aktug']
+                elif eachfold=='Phylogeny-aware folds':
+                    order=[ 'Point-/ResFinder','Kover','PhenotypeSeeker', 'Seq2Geno2Pheno', 'Aytan-Aktug']
+                else:
+                    order=[ 'Point-/ResFinder', 'Kover','PhenotypeSeeker','Seq2Geno2Pheno', 'Aytan-Aktug']
+
+                # if np.mean(mean1) < np.mean(mean2):
+                if order.index(each_com[0]) > order.index(each_com[1]):
+                    _,pvalue=ttest_rel(mean1, mean2,alternative='less')
+                else:
+                    _,pvalue=ttest_rel(mean1, mean2,alternative='greater')
                 print(each_com,pvalue)
                 Presults[str( [each_com]+[eachfold])]=pvalue
+                i_out+=1
+
+                output.loc[i_out] = [eachfold, each_com,np.mean(mean1) - np.mean(mean2), pvalue]
+
                 if pvalue>=0.05:
                     i_noDiff+=1
         print('No. can not reject null hypothesis:',i_noDiff)
-        with open(output_path+ 'Results/supplement_figures_tables/S6-2_software_Pvalue_'+fscore+'.json', 'w') as f:
-            json.dump(Presults, f)
+        output.to_csv(output_path+ 'Results/supplement_figures_tables/S6-2_software_Pvalue_'+fscore+'_dropNan_1s_order.csv', sep="\t")
+        # with open(output_path+ 'Results/supplement_figures_tables/S6-2_software_Pvalue_'+fscore+'.json', 'w') as f:
+        #     json.dump(Presults, f)
+
+
+
+
+
+    # if step=='4':
+    #     # paired T-test, in the pool there are results from 4 ML methods and
+    #     # 4 set of results of ResFinder (each set : the Resfinder results for the corresponding folds)
+    #     print('Now paired T-test')
+    #     pd.set_option('display.max_rows', 500)
+    #     # pd.set_option('display.max_columns', 8)
+    #     # # pd.set_option('display.width', 1000)
+    #
+    #     for eachfold in foldset:
+    #         print(eachfold)
+    #         i=0
+    #         for each_tool in tool_list:
+    #
+    #             df_final=pd.DataFrame(columns=['species', 'antibiotics', each_tool])
+    #             for species in  species_list:
+    #
+    #                 species_sub=[species]
+    #                 df_score=combine_data(species_sub,level,fscore,[each_tool],[eachfold],output_path)
+    #                 df_score=df_score.reset_index()
+    #                 df_score=df_score.drop(columns=['index'])
+    #
+    #                 df_score[fscore] = df_score[fscore].astype(str)
+    #                 df_score[each_tool]=df_score[fscore].apply(lambda x:x.split('±')[0]) #get mean if there is mean
+    #                 df_score[each_tool] = df_score[each_tool] .astype(float)
+    #                 df_score=df_score[['species', 'antibiotics',each_tool]]
+    #                 df_final= pd.concat([df_final,df_score])
+    #
+    #             if i==0:
+    #                 df_compare=df_final
+    #             else:
+    #                 df_compare=pd.merge(df_compare, df_final, how="left", on=['species', 'antibiotics'])
+    #             i+=1
+    #
+    #
+    #         df_mean=df_compare[['species', 'antibiotics']+tool_list]
+    #         df_mean=df_mean.fillna(0)
+    #         print(df_mean)
+    #
+    #
+    #         table_eachfolds=pd.DataFrame(columns=['Point-/ResFinder','ML'])
+    #         for each_com in ['Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']:
+    #             table_eachfolds=table_eachfolds.rename({'ML':each_com}, axis=1)
+    #             table_eachfolds=pd.concat([table_eachfolds, df_mean['Point-/ResFinder',each_com]], ignore_index=True)
+    #
+    #
+    #         table_eachfolds.to_csv(output_path+ 'Results/other_figures_tables/S6-2_software_Pvalue_'+fscore+'.csv', sep="\t")
+

@@ -6,7 +6,8 @@ sys.path.insert(0, os.getcwd())
 import src.benchmark_utility.lib.MAINtable,src.benchmark_utility.lib.table_analysis, src.benchmark_utility.lib.SampleSize,\
     src.benchmark_utility.lib.Com_BySpecies,src.benchmark_utility.lib.Com_BySpecies_each, src.benchmark_utility.lib.pairbox,\
     src.benchmark_utility.lib.ByAnti_errorbar,src.benchmark_utility.lib.pairbox_majority,src.benchmark_utility.lib.pairbox_majority,\
-    src.benchmark_utility.lib.ByAnti_errorbar_each,src.benchmark_utility.lib.heatmap
+    src.benchmark_utility.lib.ByAnti_errorbar_each,src.benchmark_utility.lib.heatmap, src.benchmark_utility.lib.pairbox_antibiotic, \
+    src.benchmark_utility.lib.pairbox_separateFig
 import argparse
 
 
@@ -51,31 +52,32 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
     ###################################################################################################################
     if f_table_analysis:
 
-        foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
-        tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
-        com_tool_list=['Point-/ResFinder']
-        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore, f_all ,output_path,'1',tool_list,foldset,com_tool_list)
-
-        foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
-        tool_list=['Point-/ResFinder','Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
-        com_tool_list=['ML Baseline (Majority)']
-        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,  f_all ,output_path,'1',tool_list,foldset,com_tool_list)
+        # foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
+        # tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+        # com_tool_list=['Point-/ResFinder']
+        # src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore, f_all ,output_path,'1',tool_list,foldset,com_tool_list)
+        #
+        # foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
+        # tool_list=['Point-/ResFinder','Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+        # com_tool_list=['ML Baseline (Majority)']
+        # src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,  f_all ,output_path,'1',tool_list,foldset,com_tool_list)
 
         foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
         tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
         src.benchmark_utility.lib.table_analysis.extract_info(level,species, fscore, f_all ,output_path,'2',tool_list,foldset,'')
+        #
+        # foldset=['Homology-aware folds']
+        # tool_list=['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
+        #            'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
+        #         'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
+        # src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,  f_all ,output_path,'2',tool_list,foldset,'')
+        #
 
-        foldset=['Homology-aware folds']
-        tool_list=['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
-                   'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
-                'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
-        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,  f_all ,output_path,'2',tool_list,foldset,'')
+        ###paired t-test
+        # foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
+        # tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+        # src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,f_all ,output_path,'3',tool_list,foldset,'')
 
-
-        #paired t-test
-        foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
-        tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
-        src.benchmark_utility.lib.table_analysis.extract_info(level,species,fscore,f_all ,output_path,'3',tool_list,foldset,'')
 
     ### Clinical-oriented performance analysis
     ###  compared the software performance regarding F1-negative and precision-negative
@@ -119,6 +121,8 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
         f_phylotree=True
         f_kma=False
         src.benchmark_utility.lib.ByAnti_errorbar.ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path)
+
+
         f_phylotree=False
         f_kma=False
         src.benchmark_utility.lib.ByAnti_errorbar_each.ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path)
@@ -158,16 +162,26 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
     ####################################################################################################################
     if f_robust:
         ###by species and antibiotics, respectively. mean.  Fig. 6
-        src.benchmark_utility.lib.pairbox.extract_info(level,species, fscore,f_all,'1','mean',output_path)
-        ###by species and antibiotics, respectively. std. Supplemental File 2 Fig. S8
-        src.benchmark_utility.lib.pairbox.extract_info(level,species, fscore,f_all,'1','std',output_path)
-        ###by combinations  Supplemental File 2 Fig. S10-11
-        src.benchmark_utility.lib.pairbox.extract_info(level,species, fscore,f_all,'3','mean',output_path)
-        src.benchmark_utility.lib.pairbox.extract_info(level,species, fscore,f_all,'3','std',output_path)
+        # src.benchmark_utility.lib.pairbox.extract_info(level,species, fscore,f_all,'1','mean',output_path)
+        # src.benchmark_utility.lib.pairbox_separateFig.extract_info(level,species, fscore,f_all,'1','mean',output_path)
 
-        ###only for ML baseline majority Supplemental File 2 Fig. S9
+        # ###by species and antibiotics, respectively. std. Supplemental File 2 Fig. S8
+        # src.benchmark_utility.lib.pairbox.extract_info(level,species, fscore,f_all,'1','std',output_path)
+        # ###by species-anti combinations  Supplemental File 2 Fig. S10-11
+        # src.benchmark_utility.lib.pairbox.extract_info(level,species, fscore,f_all,'3','mean',output_path)
+        # src.benchmark_utility.lib.pairbox.extract_info(level,species, fscore,f_all,'3','std',output_path)
+        #
+        # ###only for ML baseline majority Supplemental File 2 Fig. S9
         src.benchmark_utility.lib.pairbox_majority.extract_info(level,species, fscore,f_all,'1','mean',output_path)
-        src.benchmark_utility.lib.pairbox_majority.extract_info(level,species, fscore,f_all,'1','standard deviation',output_path)
+        src.benchmark_utility.lib.pairbox_majority.extract_info(level,species, fscore,f_all,'1','std',output_path)
+
+
+        ### April 2023 newly added. across each antibiotics.
+        # src.benchmark_utility.lib.pairbox_antibiotic.extract_info(level,species, fscore,f_all,'1','mean',output_path)
+
+
+
+
 
     ####################################################################################################################
     ### 7.  Fig. 1  sample size

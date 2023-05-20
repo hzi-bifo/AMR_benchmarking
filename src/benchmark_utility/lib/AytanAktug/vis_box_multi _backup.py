@@ -10,7 +10,8 @@ import matplotlib.patches as mpatches
 import numpy as np
 from matplotlib.legend_handler import HandlerPatch
 
-'''April 2023. one box plot to replace Fig. 8.'''
+'''April 2023. one box plot to replace Fig. 8. 
+Kover multi-species LOSO added.'''
 
 def combinedata(species,level,df_anti,merge_name,fscore,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,temp_path,output_path):
     #1. SSSA
@@ -43,6 +44,18 @@ def combinedata(species,level,df_anti,merge_name,fscore,learning,epochs,f_fixed_
     dis_results=pd.read_csv(save_name_score_final+'_split_discrete_model_'+str(fscore)+'.txt',  index_col=0,sep="\t")
 
 
+    # 5. ---------Kover single -model
+    results_file1, _= name_utility.GETname_result('kover', merge_name_test,fscore,f_kma,f_phylotree,'scm',output_path)
+    k_s1_results=pd.read_csv(results_file1 +'_PLOT.txt', header=0, index_col=0,sep="\t")
+    results_file2, _= name_utility.GETname_result('kover', merge_name_test,fscore,f_kma,f_phylotree,'tree',output_path)
+    k_s2_results=pd.read_csv(results_file2 +'_PLOT.txt', header=0, index_col=0,sep="\t")
+
+    # 6. ---------Kover multi LOSO
+    k_m1=name_utility.GETname_result2('kover',merge_name_test,fscore,'scm',output_path)
+    k_m1_results=pd.read_csv(k_m1 + '.txt', sep="\t", header=0, index_col=0)
+    k_m2=name_utility.GETname_result2('kover',merge_name_test,fscore,'tree',output_path)
+    k_m2_results=pd.read_csv(k_m2 +'.txt', sep="\t", header=0, index_col=0)
+
 
     #-------------------------------
     #Prepare dataframe for plotting.
@@ -54,51 +67,86 @@ def combinedata(species,level,df_anti,merge_name,fscore,learning,epochs,f_fixed_
 
     for each_anti in antibiotics:
 
-        # print(single_results)
-        # summary_plot_single=single_results.loc[single_results['antibiotic']==each_anti]
-        # summary_plot_single=summary_plot_single[[fscore,'antibiotic']]
-        # summary_plot_single['model']='single-species-antibiotic model'
-        # summary_plot = summary_plot.append(summary_plot_single, ignore_index=True)
+        ### AA single
         summary_plot_single=pd.DataFrame(columns=[fscore, 'antibiotic', 'model','species'])
-        summary_plot_single.loc['e'] = [single_results.loc[species,each_anti ], each_anti, 'single-species model, homology nested CV',species]
+        summary_plot_single.loc['e'] = [single_results.loc[species,each_anti ], each_anti, 'Aytan-Aktug single-species model, homology nested CV',species]
         summary_plot = summary_plot.append(summary_plot_single, ignore_index=True)
         #-------discrete
         #
         summary_plot_dis = pd.DataFrame(columns=[fscore, 'antibiotic', 'model','species'])
-        summary_plot_dis.loc['e'] = [dis_results.loc[species,each_anti ], each_anti, 'control multi-species model, homology CV',species]
+        summary_plot_dis.loc['e'] = [dis_results.loc[species,each_anti ], each_anti, 'Aytan-Aktug control multi-species model, homology CV',species]
         summary_plot = summary_plot.append(summary_plot_dis, ignore_index=True)
 
         #------------------------------------------
         #concat M
 
         summary_plot_concatM = pd.DataFrame(columns=[fscore, 'antibiotic', 'model','species'])
-        summary_plot_concatM.loc['e'] = [concatM_results.loc[species,each_anti ],each_anti, 'cross-species model, homology CV',species]
+        summary_plot_concatM.loc['e'] = [concatM_results.loc[species,each_anti ],each_anti, 'Aytan-Aktug cross-species model, homology CV',species]
         summary_plot = summary_plot.append(summary_plot_concatM, ignore_index=True)
 
 
         #-----------concat leave-one-out
         # summary_plot_sub.loc[species, each_anti] = data_score.loc[each_anti, each_score]
         summary_plot_multi = pd.DataFrame(columns=[fscore, 'antibiotic', 'model','species'])
-        summary_plot_multi.loc['e'] = [concat_results.loc[each_anti,fscore], each_anti, 'cross-species model, LOSO',species]
+        summary_plot_multi.loc['e'] = [concat_results.loc[each_anti,fscore], each_anti, 'Aytan-Aktug cross-species model, LOSO',species]
         summary_plot = summary_plot.append(summary_plot_multi, ignore_index=True)
+
+
+
+        ### Kover single
+        summary_plot_s1 = pd.DataFrame(columns=[fscore, 'antibiotic', 'model','species'])
+        summary_plot_s1.loc['e'] = [k_s1_results.loc[each_anti,'weighted-'+fscore], each_anti, 'Kover SCM single-species model, homology CV',species]
+        summary_plot = summary_plot.append(summary_plot_s1, ignore_index=True)
+
+        summary_plot_s2 = pd.DataFrame(columns=[fscore, 'antibiotic', 'model','species'])
+        summary_plot_s2.loc['e'] = [k_s2_results.loc[each_anti,'weighted-'+fscore], each_anti, 'Kover CART single-species model, homology CV',species]
+        summary_plot = summary_plot.append(summary_plot_s2, ignore_index=True)
+
+        ### Kover multi LOSO
+        summary_plot_m1 = pd.DataFrame(columns=[fscore, 'antibiotic', 'model','species'])
+        summary_plot_m1.loc['e'] = [k_m1_results.loc[each_anti,fscore], each_anti, 'Kover SCM multi-species model, LOSO',species]
+        summary_plot = summary_plot.append(summary_plot_m1, ignore_index=True)
+
+        summary_plot_m2 = pd.DataFrame(columns=[fscore, 'antibiotic', 'model','species'])
+        summary_plot_m2.loc['e'] = [k_m2_results.loc[each_anti,fscore], each_anti, 'Kover CART multi-species model, LOSO',species]
+        summary_plot = summary_plot.append(summary_plot_m2, ignore_index=True)
 
 
     return summary_plot
 
 def change_layout(data_plot,fscore,species):
 
-    data=pd.DataFrame(columns=['single-species model, homology nested CV', 'control multi-species model, homology CV','cross-species model, homology CV','cross-species model, LOSO'])
+    data=pd.DataFrame(columns=['Aytan-Aktug single-species model, homology nested CV', \
+                               'Aytan-Aktug control multi-species model, homology CV',\
+                               'Aytan-Aktug cross-species model, homology CV',\
+                               'Aytan-Aktug cross-species model, LOSO',\
+                                'Kover SCM single-species model, homology CV',\
+                               'Kover CART single-species model, homology CV',\
+                               'Kover SCM multi-species model, LOSO',\
+                               'Kover CART multi-species model, LOSO'])
 
     data_plot=data_plot[(data_plot['species'] == species)] #newly added
-    data1=data_plot[(data_plot['model'] == 'single-species model, homology nested CV')]
-    data2=data_plot[(data_plot['model'] == 'control multi-species model, homology CV')]
-    data3=data_plot[(data_plot['model'] == 'cross-species model, homology CV')]
-    data4=data_plot[(data_plot['model'] == 'cross-species model, LOSO')]
+    data1=data_plot[(data_plot['model'] == 'Aytan-Aktug single-species model, homology nested CV')]
+    data2=data_plot[(data_plot['model'] == 'Aytan-Aktug control multi-species model, homology CV')]
+    data3=data_plot[(data_plot['model'] == 'Aytan-Aktug cross-species model, homology CV')]
+    data4=data_plot[(data_plot['model'] == 'Aytan-Aktug cross-species model, LOSO')]
 
-    data['single-species model, homology nested CV']=data1[fscore].tolist()
-    data['control multi-species model, homology CV']=data2[fscore].tolist()
-    data['cross-species model, homology CV']=data3[fscore].tolist()
-    data['cross-species model, LOSO']=data4[fscore].tolist()
+    data5=data_plot[(data_plot['model'] == 'Kover SCM single-species model, homology CV')]
+    data6=data_plot[(data_plot['model'] == 'Kover CART single-species model, homology CV')]
+    data7=data_plot[(data_plot['model'] == 'Kover SCM multi-species model, LOSO')]
+    data8=data_plot[(data_plot['model'] == 'Kover CART multi-species model, LOSO')]
+
+
+    data['Aytan-Aktug single-species model, homology nested CV']=data1[fscore].tolist()
+    data['Aytan-Aktug control multi-species model, homology CV']=data2[fscore].tolist()
+    data['Aytan-Aktug cross-species model, homology CV']=data3[fscore].tolist()
+    data['Aytan-Aktug cross-species model, LOSO']=data4[fscore].tolist()
+
+    data['Kover SCM single-species model, homology CV']=data5[fscore].tolist()
+    data['Kover CART single-species model, homology CV']=data6[fscore].tolist()
+    data['Kover SCM multi-species model, LOSO']=data7[fscore].tolist()
+    data['Kover CART multi-species model, LOSO']=data8[fscore].tolist()
+
 
     return data
 
@@ -131,7 +179,7 @@ def extract_info(fscore,level,f_all,learning,epochs,f_optimize_score,f_fixed_thr
 
     print(df_anti)
     # fig = plt.figure(figsize=(9, 9))
-    fig, axs = plt.subplots(1,1,figsize=(11, 9))
+    fig, axs = plt.subplots(1,1,figsize=(13, 9))
     np.random.seed(5)
     # plt.tight_layout(pad=4)
     fig.subplots_adjust(top=0.98, bottom=0.28,left=0.15,right=0.75)
@@ -195,22 +243,19 @@ def extract_info(fscore,level,f_all,learning,epochs,f_optimize_score,f_fixed_thr
             ax.plot(df_x_jitter[col_t], df[col_t], 'o',c=palette_tab10[list_species.index(species)], alpha=0.8, zorder=1, ms=8, mew=1 )
 
     species_list_s=[(species[0] +". "+ species.split(' ')[1] ) for species in list_species]
-    legend_dict=dict(zip(species_list_s, palette_tab10))
-    patchList = []
-
-
-
+    # legend_dict=dict(zip(species_list_s, palette_tab10))
+    # patchList = []
     # for key in legend_dict:
     #     data_key = mpatches.Patch(color=legend_dict[key], label=key)
     #     patchList.append(data_key)
     # plt.legend(handles=patchList,bbox_to_anchor=(1.15, -0.25), ncol=2,fontsize=10,frameon=False,prop={'size': 15, 'style': 'italic'})
     c = [ mpatches.Circle((0.5, 0.5), radius = 0.25, facecolor=palette_tab10[i], edgecolor="none" ) for i in range(len(species_list_s))]
     plt.legend(c,species_list_s,bbox_to_anchor=(1, 0.5),  ncol=1,prop={'size': 15, 'style': 'italic'}, handler_map={mpatches.Circle: HandlerEllipse()})
-
+    # plt.legend(c,species_list_s,bbox_to_anchor=(0.3, 0.3),  ncol=3,prop={'size': 15, 'style': 'italic'}, handler_map={mpatches.Circle: HandlerEllipse()})
 
     file_utility.make_dir(output_path+'Results/final_figures_tables')
-    fig.savefig(output_path+'Results/final_figures_tables/F8_Compare_MSMA_box.pdf')
-    fig.savefig(output_path+'Results/final_figures_tables/F8_Compare_MSMA_box.png')
+    fig.savefig(output_path+'Results/final_figures_tables/F8_Compare_MS_box.pdf')
+    fig.savefig(output_path+'Results/final_figures_tables/F8_Compare_MS_box.png')
 
 
 class HandlerEllipse(HandlerPatch):

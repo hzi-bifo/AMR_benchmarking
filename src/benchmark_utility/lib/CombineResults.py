@@ -128,7 +128,7 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
             else:
                 score=np.nan
 
-    if tool=='Concatenated database mixed multi-species model':
+    if tool=='Concatenated databases mixed multi-species model':
         if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
             fscore=fscore.split('_',1)[1]
         learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
@@ -139,15 +139,13 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
         results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
         if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
             score=np.nan
-
         else:
-
             if anti in results.columns:
                 score=results.loc[species,anti]
             else:
                 score=np.nan
 
-    if tool=='Concatenated database leave-one-out multi-species model':
+    if tool=='Concatenated databases leave-one-out multi-species model':
         if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
             fscore=fscore.split('_',1)[1]
         learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
@@ -160,6 +158,65 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
 
         else:
             results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
+            if anti in results.index:
+                score=results.loc[anti, fscore]
+            else:
+                score=np.nan
+
+    if tool=='Kover cross-species SCM':
+        if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
+            fscore=fscore.split('_',1)[1]
+        results_file = name_utility.GETname_result2('kover',species,fscore,'scm',output_path)
+
+        if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
+            score=np.nan
+        else:
+            results=pd.read_csv(results_file + '.txt', sep="\t", header=0, index_col=0)
+            if anti in results.index:
+                score=results.loc[anti, fscore]
+            else:
+                score=np.nan
+
+    if tool=='Kover cross-species CART':
+        if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
+            fscore=fscore.split('_',1)[1]
+        results_file = name_utility.GETname_result2('kover',species,fscore,'tree',output_path)
+
+        if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
+            score=np.nan
+        else:
+            results=pd.read_csv(results_file + '.txt', sep="\t", header=0, index_col=0)
+            if anti in results.index:
+                score=results.loc[anti, fscore]
+            else:
+                score=np.nan
+
+    if tool=='Kover single-species SCM':
+        results_file,_ = name_utility.GETname_result('kover', species,fscore,f_kma,f_phylotree,'scm',output_path)
+        results=pd.read_csv(results_file + '.txt', sep="\t", header=0, index_col=0)
+        score=results.loc[anti, fscore_format]
+
+    if tool=='Kover single-species CART':
+        results_file,_ =name_utility.GETname_result('kover', species,fscore,f_kma,f_phylotree,'tree',output_path)
+        results=pd.read_csv(results_file + '.txt', sep="\t", header=0, index_col=0)
+        score=results.loc[anti, fscore_format]
+
+
+    if tool=='PhenotypeSeeker single-species LR':
+        results_file,_ = name_utility.GETname_result('phenotypeseeker', species,fscore,f_kma,f_phylotree,'lr',output_path)
+        results=pd.read_csv(results_file + '.txt', sep="\t", header=0, index_col=0)
+        score=results.loc[anti, fscore_format]
+
+    if tool=='PhenotypeSeeker multi-species LR':
+
+        if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
+            fscore=fscore.split('_',1)[1]
+        results_file = name_utility.GETname_result2('phenotypeseeker',species,fscore,'lr',output_path)
+
+        if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
+            score=np.nan
+        else:
+            results=pd.read_csv(results_file + '.txt', sep="\t", header=0, index_col=0)
             if anti in results.index:
                 score=results.loc[anti, fscore]
             else:
@@ -228,6 +285,7 @@ def combine_data_get_score_meanstd(species,tool,anti,f_phylotree,f_kma,fscore,fs
             _, results_file= name_utility.GETname_result('seq2geno', species, fscore,f_kma,f_phylotree,'',output_path)
             results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
             score=results.loc[anti,fscore]
+
         else:
             score=np.nan
     if tool=='PhenotypeSeeker':
@@ -268,14 +326,14 @@ def combine_data_get_score_meanstd(species,tool,anti,f_phylotree,f_kma,fscore,fs
             results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
             score=results.loc[anti,fscore]
 
-    if tool=='Single-species-antibiotics default':
-        learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.001, 1000,True,True,'f1_macro'
-        results_file =  name_utility.GETname_AAresult('AytanAktug',species,learning, epochs,\
-                          f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'SSSA',output_path)
-        results_file=results_file+'_SummaryBenchmarking'+flag+'.txt'
-        results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
-        score=results.loc[anti,fscore_format]
-
+    # if tool=='Single-species-antibiotics default':
+    #     learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.001, 1000,True,True,'f1_macro'
+    #     results_file =  name_utility.GETname_AAresult('AytanAktug',species,learning, epochs,\
+    #                       f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'SSSA',output_path)
+    #     results_file=results_file+'_SummaryBenchmarking'+flag+'.txt'
+    #     results=pd.read_csv(results_file, header=0, index_col=0,sep="\t")
+    #     score=results.loc[anti,fscore_format]
+    #
     # if tool=='Discrete databases multi-species model':
     #     learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
     #     results_file =  name_utility.GETname_AAresult('AytanAktug','Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj',learning,\

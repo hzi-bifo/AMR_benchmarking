@@ -49,7 +49,7 @@ def extract_info(fscore,output_path):
     with open('./data/AntiAcronym_dict.json') as f:
         map_acr = json.load(f)
     anti_labels= [map_acr[x] for x in anti_list]
-    species_lable=['$\mathbf{'+x.split(' ')[0][0]+'.' +x.split(' ')[0]+'}$' + '| ' for x in species_list]
+    species_lable=['$\mathbf{'+x.split(' ')[0][0]+'.' +x.split(' ')[1]+'}$' + '| ' for x in species_list]
 
 
     labels = ['Single-species multi-antibiotics F1-macro mean','Single-species-antibiotic F1-macro mean','Single-species multi-antibiotics F1-macro standard deviation','Single-species-antibiotic F1-macro standard deviation' ]

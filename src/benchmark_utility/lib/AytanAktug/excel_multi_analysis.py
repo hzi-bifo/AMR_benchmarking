@@ -129,7 +129,7 @@ def run(species_list,level,fscore,foldset, tool_list, f_compare,f_Ttest,path_tab
         for eachfold in foldset:
             i=0
             for each_tool in tool_list:
-
+                print(each_tool)
                 df_final=pd.DataFrame(columns=['species', 'antibiotics', each_tool])
                 for species in  species_list:
 
@@ -141,6 +141,9 @@ def run(species_list,level,fscore,foldset, tool_list, f_compare,f_Ttest,path_tab
                     df_score[fscore] = df_score[fscore].astype(str)
                     df_score[each_tool]=df_score[fscore].apply(lambda x:x.split('±')[0]) #get mean if there is mean
                     df_score[each_tool] = df_score[each_tool] .astype(float)
+                    # rounded to 2
+                    df_score=df_score.round(2)
+                    #---
                     df_score=df_score[['species', 'antibiotics',each_tool]]
                     df_final= pd.concat([df_final,df_score])
 
@@ -149,11 +152,10 @@ def run(species_list,level,fscore,foldset, tool_list, f_compare,f_Ttest,path_tab
                 else:
                     df_compare=pd.merge(df_compare, df_final, how="left", on=['species', 'antibiotics'])
                 i+=1
-
-
-
+            print(df_compare)
             df_mean=df_compare[tool_list]
-            df_mean = df_mean.dropna()
+            df_mean = df_mean.dropna() #Nan means no multi-models for that combination.
+            print(df_mean)
             print('Paired T-test:')
             #T-test
             Presults={}
@@ -170,50 +172,91 @@ def run(species_list,level,fscore,foldset, tool_list, f_compare,f_Ttest,path_tab
 
 
 
-def extract_info(level,fscore,f_compare,f_Ttest,output_path):
+def extract_info(level,fscore,f_compare,f_Ttest,f_kover,f_pts,output_path):
 
     #
     foldset=['Homology-aware folds']
+    if f_kover==False and f_pts==False:
+        #===============
+        #1. Compare Aytan-Aktug  SSSA and MSMA (3 variants)
+        #===============
+        print('1. Compare Aytan-Aktug  SSSA and MSMA (3 variants)')
+        species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
+                      'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis','Campylobacter jejuni']
+        tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Discrete databases multi-species model',
+                    'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
+        path_table_results=output_path+ 'Results/supplement_figures_tables/S8_Aytan-Aktug_MSMA'
+        temp_results=output_path+ 'Results/other_figures_tables/S8_Aytan-Aktug_MSMA'
+        file_utility.make_dir(os.path.dirname(temp_results))
+        file_utility.make_dir(os.path.dirname(path_table_results))
+        run(species_list,level,fscore,foldset,tool_list,f_compare,f_Ttest,path_table_results,temp_results,output_path)
+        #===============
+        #2. Compare Aytan-Aktug  SSSA and SSMA
+        #===============
+        print('2. Compare Aytan-Aktug  SSSA and SSMA')
+        species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
+                      'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Neisseria gonorrhoeae']
+        tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species multi-antibiotics Aytan-Aktug']
+        path_table_results=output_path+ 'Results/supplement_figures_tables/S8_Aytan-Aktug_SSMA'
+        temp_results=output_path+ 'Results/other_figures_tables/S8_Aytan-Aktug_SSMA'
+        run(species_list,level,fscore,foldset,tool_list,f_compare,f_Ttest,path_table_results,temp_results,output_path)
+
+        #===============
+        # 3. Compare Aytan-Aktug SSSA and SSSA with default NN settings
+        #===============
+        print('3.  Compare Aytan-Aktug SSSA and SSSA with default NN settings')
+        species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
+                      'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni',
+                      'Enterococcus faecium','Neisseria gonorrhoeae']
+
+        path_table_results=output_path+ 'Results/supplement_figures_tables/S7_Aytan-Aktug_SSSAdefault'
+        temp_results=output_path+ 'Results/other_figures_tables/S8_Aytan-Aktug_SSSAdefault'
+        tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species-antibiotics default']
+        run(species_list,level,fscore,foldset,tool_list, f_compare,f_Ttest,path_table_results,temp_results,output_path)
+
+        #TODO:maybe add 5 tools+ AAmulti-models; maybe not.
 
     #===============
-    #1. Compare Aytan-Aktug  SSSA and MSMA (3 variants)
+    # 4. Compare Kover
     #===============
-    print('1. Compare Aytan-Aktug  SSSA and MSMA (3 variants)')
-    species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
-                  'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis','Campylobacter jejuni']
-    tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Discrete databases multi-species model',
-                'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
-    path_table_results=output_path+ 'Results/supplement_figures_tables/S8_Aytan-Aktug_MSMA'
-    temp_results=output_path+ 'Results/other_figures_tables/S8_Aytan-Aktug_MSMA'
-    file_utility.make_dir(os.path.dirname(temp_results))
-    file_utility.make_dir(os.path.dirname(path_table_results))
-    run(species_list,level,fscore,foldset,tool_list,f_compare,f_Ttest,path_table_results,temp_results,output_path)
-    #===============
-    #2. Compare Aytan-Aktug  SSSA and SSMA
-    #===============
-    print('2. Compare Aytan-Aktug  SSSA and SSMA')
-    species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
-                  'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Neisseria gonorrhoeae']
-    tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species multi-antibiotics Aytan-Aktug']
-    path_table_results=output_path+ 'Results/supplement_figures_tables/S8_Aytan-Aktug_SSMA'
-    temp_results=output_path+ 'Results/other_figures_tables/S8_Aytan-Aktug_SSMA'
-    run(species_list,level,fscore,foldset,tool_list,f_compare,f_Ttest,path_table_results,temp_results,output_path)
-
-    #===============
-    # 3. Compare Aytan-Aktug SSSA and SSSA with default NN settings
-    #===============
-    print('3.  Compare Aytan-Aktug SSSA and SSSA with default NN settings')
-    species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
-                  'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni',
-                  'Enterococcus faecium','Neisseria gonorrhoeae']
-
-    path_table_results=output_path+ 'Results/supplement_figures_tables/S7_Aytan-Aktug_SSSAdefault'
-    temp_results=output_path+ 'Results/other_figures_tables/S8_Aytan-Aktug_SSSAdefault'
-    tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species-antibiotics default']
-    run(species_list,level,fscore,foldset,tool_list, f_compare,f_Ttest,path_table_results,temp_results,output_path)
+    if f_kover:
+        print('4. Paired T test betweeen Kover multi- & single- models')
+        species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
+                      'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni',
+                      'Enterococcus faecium','Neisseria gonorrhoeae']
+        tool_list=[ 'Kover single-species SCM','Kover single-species CART','Kover cross-species SCM','Kover cross-species CART']
+        path_table_results=output_path+ 'Results/supplement_figures_tables/S8_Kover_multi'
+        temp_results=output_path+ 'Results/other_figures_tables/S8_Kover_multi'
+        run(species_list,level,fscore,foldset,tool_list, f_compare,f_Ttest,path_table_results,temp_results,output_path)
 
 
-    #TODO:maybe add 5 tools+ AAmulti-models; maybe not.
+
+    #===============
+    # 5. Compare PhenotypeSeeker
+    #===============
+    if f_pts:
+        print('5. Paired T test betweeen PhenotypeSeeker multi- & single- models')
+        species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
+                      'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni',
+                      'Enterococcus faecium','Neisseria gonorrhoeae']
+        tool_list=[ 'PhenotypeSeeker single-species LR','PhenotypeSeeker multi-species LR']
+        path_table_results=output_path+ 'Results/supplement_figures_tables/S8_PTS_multi'
+        temp_results=output_path+ 'Results/other_figures_tables/S8_PTS_multi'
+        run(species_list,level,fscore,foldset,tool_list, f_compare,f_Ttest,path_table_results,temp_results,output_path)
+
+
+        ##### cross tools
+        tool_list=['Discrete databases multi-species model','Concatenated databases mixed multi-species model',\
+                   'Concatenated databases leave-one-out multi-species model','Kover cross-species SCM','Kover cross-species CART',\
+                   'PhenotypeSeeker multi-species LR']
+        path_table_results=output_path+ 'Results/supplement_figures_tables/S8_crossT_multi'
+        temp_results=output_path+ 'Results/other_figures_tables/S8_crossT_multi'
+        run(species_list,level,fscore,foldset,tool_list, f_compare,f_Ttest,path_table_results,temp_results,output_path)
+
+
+
+
+
 
 if __name__== '__main__':
     parser = argparse.ArgumentParser()
@@ -223,6 +266,10 @@ if __name__== '__main__':
                         help='The score used for final comparison. Can be one of: \'f1_macro\',\'f1_positive\',\'f1_negative\',\'accuracy\'.')
     parser.add_argument('-f_Ttest', '--f_Ttest', dest='f_Ttest', action='store_true',
                         help=' Perform paired T test.')
+    parser.add_argument('-f_kover', '--f_kover', dest='f_kover', action='store_true',
+                        help=' Perform paired T test for Kover.')
+    parser.add_argument('-f_pts', '--f_pts', dest='f_pts', action='store_true',
+                        help=' Perform paired T test for PhenotypeSeeker.')
     parser.add_argument('-f_compare', '--f_compare', dest='f_compare', action='store_true',
                         help='List Aytan-Aktug SSSA, SSSA with default NN and 4 variants and Figure out which ML performs best.')
     parser.add_argument('-o', '--output_path', default='./', type=str, required=False,
@@ -230,4 +277,4 @@ if __name__== '__main__':
 
 
     parsedArgs = parser.parse_args()
-    extract_info(parsedArgs.level,parsedArgs.fscore,parsedArgs.f_compare,parsedArgs.f_Ttest,parsedArgs.output_path)
+    extract_info(parsedArgs.level,parsedArgs.fscore,parsedArgs.f_compare,parsedArgs.f_Ttest,parsedArgs.f_kover,parsedArgs.f_pts,parsedArgs.output_path)

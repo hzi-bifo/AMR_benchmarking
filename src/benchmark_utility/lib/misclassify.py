@@ -122,7 +122,7 @@ def extract_info(s,f_all,level,cv,fscore,temp_path,output_path):
     for species in df_species :
         OCCUR=[] #  The number of species-antibiotic combinations a genome is in. For each specific species.
         MISCLASSIFY=[]# The number of occurring >1 may indicate being predicted wrongly in more than two methods or more than two antibiotics.
-        if 'Aytan-Aktug' not in tool_list: # only for the sake of provide the OCCUR 
+        if 'Aytan-Aktug' not in tool_list: # only for the sake of provide the OCCUR
             f_phylotree=False
             f_kma=False
             fold='Random folds'

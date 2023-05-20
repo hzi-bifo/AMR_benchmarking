@@ -48,8 +48,18 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
             data_plot=combine_data_meanstd(df_species,level,fscore,tool_p,foldset,output_path,flag)
             data_plot= data_plot.astype({fscore:float})
 
-            ax = sns.violinplot(x="folds", y=fscore,data=data_plot,
-                        inner=None, color="0.95")
+            # ax = sns.violinplot(x="folds", y=fscore,data=data_plot,
+            #             inner=None, color="0.95")
+            ax=sns.boxplot(data=data_plot, x="folds", y=fscore)
+            i=0
+            for i_temp,box in enumerate(ax.artists):
+                box.set_edgecolor('black')
+                box.set_facecolor('white')
+                # iterate over whiskers and median lines
+                for j in range(6*i,6*(i_temp+1)):
+                     ax.lines[j].set_color('black')
+
+
             if f_mean_std=='mean':
                 ax.set(ylim=(0, 1.0))
             else:
@@ -60,6 +70,9 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
             ax.set(xticklabels=[])
             ax.set(xlabel=None)
             ax.tick_params(axis='x',bottom=False)
+
+
+
             #--
             #connect dots representing the same tool+anti combination
             df_whole,df_else,df_mt=change_layoutByTool(data_plot,fscore)
@@ -72,8 +85,24 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
             df=df.set_index(df_x_jitter.index)
 
 
-            for col in df:
-                ax.plot(df_x_jitter[col], df[col], 'o', alpha=.40, zorder=1, ms=8, mew=1)
+
+            i_color=0
+            for col_vis in df:
+
+                if i_color%3==0:
+                    ax.plot(df_x_jitter[col_vis], df[col_vis], 'o',c='tab:blue', alpha=.60, zorder=1, ms=8, mew=1, label="Random folds")
+                elif i_color%3==1:
+                    ax.plot(df_x_jitter[col_vis], df[col_vis], 'o',c='orange', alpha=.60, zorder=1, ms=8, mew=1, label="Phylogeny-aware folds")
+                else:
+                    ax.plot(df_x_jitter[col_vis], df[col_vis], 'go', alpha=.60, zorder=1, ms=8, mew=1, label="Homology-aware folds")
+                i_color+=1
+
+
+            if f_mean_std=='mean':
+                leg=ax.legend(bbox_to_anchor=(1,1),ncol=1,fontsize=20,frameon=False, markerscale=2)
+                for lh in leg.legendHandles:
+                    lh._legmarker.set_alpha(1)
+
 
 
             ax.set(xticklabels=[])
