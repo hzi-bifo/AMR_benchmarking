@@ -18,18 +18,16 @@ for anti in ${Anti_List[@]};do
 #        rm -rf ./log/temp/loose/${species}/${anti}_temp/CV_tr${j}
 #        rm -rf ./log/temp/loose/${species}/${anti}_temp/CV_te${j}
 
-##          ./AMR_software/Kover/bin/kover dataset split --dataset ${feature_path}/${species}/${anti}_koverdataset \
-#        /vol/projects/khu/amr/kover/bin/kover dataset split --dataset ${feature_path}/${species}/${anti}_koverdataset \
-#        --id ${feature_path}/${species}/${anti}_id \
-#        --train-ids ${feature_path}/${species}/${anti}_Train_id \
-#        --test-ids ${feature_path}/${species}/${anti}_Test_id \
-#        --random-seed 42 \
-#        -x
+          ./AMR_software/Kover/bin/kover dataset split --dataset ${feature_path}/${species}/${anti}_koverdataset \
+        --id ${feature_path}/${species}/${anti}_id \
+        --train-ids ${feature_path}/${species}/${anti}_Train_id \
+        --test-ids ${feature_path}/${species}/${anti}_Test_id \
+        --random-seed 42 \
+        -x
 
 
 
-#      ./AMR_software/Kover/bin/kover learn scm --dataset ${feature_path}/${species}/${anti}_koverdataset \ #todo change back when uploadig git
-      /vol/projects/khu/amr/kover/bin/kover learn scm --dataset ${feature_path}/${species}/${anti}_koverdataset \
+      ./AMR_software/Kover/bin/kover learn scm --dataset ${feature_path}/${species}/${anti}_koverdataset \
        --split ${feature_path}/${species}/${anti}_id \
        --hp-choice bound \
        --model-type conjunction disjunction \
@@ -40,8 +38,7 @@ for anti in ${Anti_List[@]};do
        --progress
 #         --bound-max-genome-size #By default number of k-mers in the dataset is used.
 
-#       ./AMR_software/Kover/bin/kover learn tree --dataset ${feature_path}/${species}/${anti}_koverdataset \ #todo change back when uploadig git
-      /vol/projects/khu/amr/kover/bin/kover learn tree --dataset ${feature_path}/${species}/${anti}_koverdataset \
+       ./AMR_software/Kover/bin/kover learn tree --dataset ${feature_path}/${species}/${anti}_koverdataset \
        --split ${feature_path}/${species}/${anti}_id \
        --hp-choice bound \
        --criterion gini \

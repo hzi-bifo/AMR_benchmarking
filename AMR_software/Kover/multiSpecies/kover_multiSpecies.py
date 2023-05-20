@@ -13,7 +13,7 @@ warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 "Each time one species-antibiotic combination is used as testing set. " \
 "The other combinations sharing the samne antibiotics are used as training set. "
 
-def extract_info(path_sequence, list_species,f_all, f_prepare_meta,cv, level, temp_path):
+def extract_info(path_sequence, list_species,f_all, f_prepare_meta ,level, temp_path):
 
     merge_name = []
     data = pd.read_csv('./data/PATRIC/meta/'+str(level)+'_multi-species_summary.csv', index_col=0,
@@ -27,13 +27,13 @@ def extract_info(path_sequence, list_species,f_all, f_prepare_meta,cv, level, te
         data = data.loc[list_species, :]
         data = data.loc[:, (data.sum() > 1)]
     data = data.loc[:, (data != 0).any(axis=0)]
-    All_antibiotics = data.columns.tolist()
+    # All_antibiotics = data.columns.tolist()
     df_anti = data.dot(data.columns + ';').str.rstrip(';')
     for n in list_species:
         merge_name.append(n[0] + n.split(' ')[1][0])
-    merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
-    print(data)
-    print(df_anti)
+    # merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
+    # print(data)
+    # print(df_anti)
 
     if f_prepare_meta:
         # prepare the anti list and id list for each species, antibiotic, and CV folders.
@@ -95,7 +95,8 @@ def extract_info(path_sequence, list_species,f_all, f_prepare_meta,cv, level, te
                 name_list_test.loc[:,'ID'] = 'iso_' + name_list_test['genome_id'].astype(str)
                 name_list_test['ID'].to_csv(meta_save +  '_Test_id', sep="\t", index=False, header=False)
 
-            pd.DataFrame(antibiotics_test).to_csv(anti_save, sep="\t", index=False, header=False) #todo re-consider location
+            antibiotics_test_=[str(anti.translate(str.maketrans({'/': '_', ' ': '_'}))) for anti in antibiotics_test]
+            pd.DataFrame(antibiotics_test_).to_csv(anti_save, sep="\t", index=False, header=False) #todo re-consider location
 
 if __name__ == '__main__':
 
@@ -104,22 +105,21 @@ if __name__ == '__main__':
                         help='Path of the directory with PATRIC sequences')
     parser.add_argument('-temp', '--temp_path', default='./', type=str, required=False,
                         help='Directory to store temporary files.')
-    parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
-                        help=' phylo-tree based cv folders.')
-    parser.add_argument('-f_kma', '--f_kma', dest='f_kma', action='store_true',
-                        help='kma based cv folders.')
+    # parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
+    #                     help=' phylo-tree based cv folders.')
+    # parser.add_argument('-f_kma', '--f_kma', dest='f_kma', action='store_true',
+    #                     help='kma based cv folders.')
     parser.add_argument('-l', '--level', default='loose', type=str,
                         help='Quality control: strict or loose')
     parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
                         help='all the possible species, regarding multi-model.')
     parser.add_argument('-f_prepare_meta', '--f_prepare_meta', dest='f_prepare_meta', action='store_true',
                         help='Prepare the list files for S2G.')
-    parser.add_argument("-cv", "--cv", default=10, type=int,
-                        help='CV splits number')
+    # parser.add_argument("-cv", "--cv", default=10, type=int,
+    #                     help='CV splits number')
     parser.add_argument('-s', '--species', default=[], type=str, nargs='+', help='species to run: e.g.\'Pseudomonas aeruginosa\' \
                     \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
                     \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
     parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel.')
     parsedArgs = parser.parse_args()
-    extract_info(parsedArgs.path_sequence, parsedArgs.species, parsedArgs.f_all, parsedArgs.f_prepare_meta,
-                 parsedArgs.cv, parsedArgs.level,parsedArgs.temp_path)
+    extract_info(parsedArgs.path_sequence, parsedArgs.species, parsedArgs.f_all, parsedArgs.f_prepare_meta,parsedArgs.level,parsedArgs.temp_path)

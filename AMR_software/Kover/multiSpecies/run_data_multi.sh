@@ -11,8 +11,7 @@ for anti in ${Anti_List[@]};do
     mkdir -p ${feature_path}/${species}/${anti}_temp
     echo "$anti"
 
-#    ./AMR_software/Kover/bin/kover dataset create from-contigs \ #todo change back when uploadig git
-    /vol/projects/khu/amr/kover/bin/kover dataset create from-contigs \
+    ./AMR_software/Kover/bin/kover dataset create from-contigs \
     --genomic-data ${feature_path}/${species}/${anti}_data \
     --phenotype-metadata ${feature_path}/${species}/${anti}_pheno \
     --output ${feature_path}/${species}/${anti}_koverdataset \
