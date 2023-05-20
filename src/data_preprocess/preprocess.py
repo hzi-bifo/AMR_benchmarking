@@ -21,10 +21,11 @@ def workflow(level,logfile,temp_path):
     )
 
     logger = logging.getLogger('data_preprocess')
+
     # 1. pre-selection
     temp_path=temp_path+'log/temp/data/'
     file_utility.make_dir(temp_path)
-    # lib.metadata.summarise_strain(temp_path)
+    lib.metadata.summarise_strain(temp_path)
     logger.info('finish extracting information from PATRIC_genomes_AMR.txt')
     lib.metadata.summarise_species(temp_path)
     lib.metadata.sorting_deleteing(500,temp_path) #500: retain only this that has >=500 strains for a specific antibotic w.r.t. a species
@@ -40,6 +41,7 @@ def workflow(level,logfile,temp_path):
 
     #3. get genome number. Print to the console.
     lib.summary.summary_genome(level)
+
     #4.  get genome number per combination. Save to ./data/PATRIC/meta/'+str(level)+'_genomeNumber/
     file_utility.make_dir('./data/PATRIC/meta/'+str(level)+'_genomeNumber')
     main_meta,_=name_utility.GETname_main_meta(level)
@@ -48,6 +50,8 @@ def workflow(level,logfile,temp_path):
     df_species = data.index.tolist()
     for species  in  df_species :
         lib.summary.summary_pheno(species,level)
+
+
 
 if __name__== '__main__':
     parser = argparse.ArgumentParser()

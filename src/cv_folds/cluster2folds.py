@@ -282,18 +282,21 @@ def prepare_folders(cv, Random_State, p_names, p_clusters,f_version):
             iter_clusters = all_data_splits[out_cv]  # clusters included in that split
             for cl_ID in iter_clusters:
                 for element in dict_cluster[cl_ID]:
-                    folders_sample_sub.append(names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
-                    folders_sampleName_sub.append('iso_'+element)
+                    if element in names: # May19, 2023, only for the sake of MT SSMA. rifampicin rifampin issues.
+                        folders_sample_sub.append(names.index(element))  # extract cluster ID from the rest folders. 4*(cluster_N)
+                        folders_sampleName_sub.append('iso_'+element)
             folders_sample.append(folders_sample_sub)
             folders_sampleName.append(folders_sampleName_sub)
 
         totals = []
-        for folder_cluster in all_data_splits:  # 5.#cluster order
+        for folder_cluster in all_data_splits:  # 5.#cluster order #May19, 2023. Note: this is not correct for MT SSMA (rifampicin rifampin issues)
             tem = []
             for e in folder_cluster:
                 elements = dict_cluster[str(e)]
                 tem.append(len(elements))
             totals.append(sum(tem))
+
+
 
     elif type(dict_cluster)==list:#multi-species
         folders_sample=[]#D:n_cv* sample numbers

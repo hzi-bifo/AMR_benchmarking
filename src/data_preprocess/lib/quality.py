@@ -186,6 +186,12 @@ def filter_quality(level,f_balance):
             # and either were equipped with enough data samples. so we simply remove one overlapping data set
             select_antibiotic_final.remove('cotrimoxazole') #Mar,2022. as 'cotrimoxazole' ='trimethoprim/sulfamethoxazole'
             select_antibiotic_final.remove('beta-lactam') #April,2022. as beta-lactam class includes multiple antibiotics.
+
+        if species=='Mycobacterium tuberculosis':
+            ## not merged.
+            select_antibiotic_final.remove('rifampin') #May,2023. as 'rifampicin' ='trifampin'
+
+
         Species_quality.at[species,'modelling antibiotics']= select_antibiotic_final
         Species_quality.at[species, 'number'] =len(select_antibiotic_final)
     print('selected species and antibiotics:')
