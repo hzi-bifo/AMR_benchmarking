@@ -16,10 +16,12 @@ function parse_yaml {
    }'
 }
 eval $(parse_yaml Config.yaml)
-
 export PATH=$( dirname $( dirname $( which conda ) ) )/bin:$PATH
 export PYTHONPATH=$PWD
 
+
 source activate ${amr_env_name}
+
 python ./src/software_utility/clean.py -s ${clean_software} -temp ${log_path}
+
 conda deactivate

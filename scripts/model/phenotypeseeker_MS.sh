@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 function parse_yaml {
    local prefix=$2
    local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
@@ -19,33 +18,38 @@ function parse_yaml {
 }
 eval $(parse_yaml Config.yaml)
 
-
 IFS=', ' read -ra species_list_temp <<< "$species_list_multi_species"
 species=( "${species_list_temp[@]//_/ }" )
+
 
 export PATH=$( dirname $( dirname $( /usr/bin/which conda ) ) )/bin:$PATH
 export PYTHONPATH=$PWD
 
 # Initialization
 source activate ${amr_env_name}
-python ./AMR_software/Kover/multiSpecies/kover_multiSpecies.py  -f_all -cv ${cv_number} -f_prepare_meta -path_sequence ${dataset_location} -temp ${log_path}  -l ${QC_criteria}
+python ./AMR_software/PhenotypeSeeker/multiSpecies/pts_multiSpecies.py -f_prepare_meta -temp ${log_path} -f_all -l ${QC_criteria}
 conda deactivate
-wait
-source activate ${kover_env_name}
-
-# Running Kover pipeline
-for s in "${species_list_temp[@]}"; do
-bash ./AMR_software/Kover/multiSpecies/run_data_multi.sh ${s} ${log_path}log/software/kover/software_output/MS ${n_jobs};done
 
 
-### Running bound selection CV
-for s in "${species_list_temp[@]}"; do
-bash ./AMR_software/Kover/multiSpecies/run_cv_multi.sh ${s} ${log_path}log/software/kover/software_output/MS ${n_jobs};done
+source activate ${PhenotypeSeeker_env_name}
+### Prepare features #done
+for s in "${species_list_temp[@]}"; \
+do bash ./AMR_software/PhenotypeSeeker/kmer.sh ${dataset_location} ${log_path}  by_species_bq/id_${s};done
+
+for s in "${species_list_multi_species[@]}"; \
+do bash ./AMR_software/PhenotypeSeeker/multiSpecies/map_multi.sh ${s} ${log_path}log/software/phenotypeseeker/software_output \
+${log_path}log/software/phenotypeseeker/software_output/MS ${dataset_location} ${log_path} ;done
 
 conda deactivate
-wait
-
+#
+##### ML CV
 source activate ${amr_env_name}
-### extract results to metric table.
-python ./AMR_software/Kover/multiSpecies/kover_analyse_multi.py  -f_all  -temp ${log_path}  -l ${QC_criteria}
+#wait
+python ./AMR_software/PhenotypeSeeker/multiSpecies/pts_multiSpecies.py -cv ${cv_number} -f_ml -temp ${log_path} -f_all  -l ${QC_criteria} -n_jobs 40
+
+
+#### CV score generation.
+python ./AMR_software/PhenotypeSeeker/multiSpecies/pts_multianalysis.py -f_all -cl_list  'lr'   -temp ${log_path} -o ${output_path}
+
+
 

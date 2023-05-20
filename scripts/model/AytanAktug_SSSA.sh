@@ -71,12 +71,14 @@ python ./AMR_software/AytanAktug/main_SSSA.py  -f_res -temp ${log_path} -n_jobs 
 python ./AMR_software/AytanAktug/main_SSSA.py  -f_merge_mution_gene -temp ${log_path} -n_jobs ${n_jobs} -s "${species[@]}" -l ${QC_criteria} || { echo "Errors in Aytan-Aktug SSSA feature building 2. Exit ."; exit; }
 python ./AMR_software/AytanAktug/main_SSSA.py  -f_matching_io -temp ${log_path} -n_jobs ${n_jobs} -s "${species[@]}" -l ${QC_criteria} || { echo "Errors in Aytan-Aktug SSSA feature building 3. Exit ."; exit; }
 echo "Finished: features."
-
+conda deactivate
 
 
 ### nested CV
 if [ "$gpu_on" = True ]
 then
+  source activate ${multi_torch_env_name}
+  wait
   #### we modified their codes by adding in early stop mechanism (patience 200), dropout (0, 0.2) hyperparameters, and a hyperparameter optimization procedure
   python ./AMR_software/AytanAktug/main_SSSA.py  -f_phylotree -f_nn -temp ${log_path} -s "${species_tree[@]}" -l ${QC_criteria} -learning 0.0 -e 0 -f_fixed_threshold -f_optimize_score 'f1_macro' || { echo "Errors in Aytan-Aktug SSSA NN. Exit ."; exit; }
   python ./AMR_software/AytanAktug/main_SSSA.py  -f_kma -f_nn -temp ${log_path} -s "${species[@]}" -l ${QC_criteria} -learning 0.0 -e 0 -f_fixed_threshold -f_optimize_score 'f1_macro' || { echo "Errors in Aytan-Aktug SSSA NN. Exit ."; exit; }
@@ -89,6 +91,8 @@ then
 
 
 else #parallel on CPUs
+  source activate ${multi_env_name}
+  wait
   ### we modified their codes by adding in early stop mechanism (patience 200), dropout (0, 0.2) hyperparameters, and a hyperparameter optimization procedure
   python ./AMR_software/AytanAktug/main_SSSA.py -cv ${cv_number} -n_jobs ${n_jobs} -f_cpu -f_phylotree -f_nn -temp ${log_path} -s "${species_tree[@]}" -l ${QC_criteria} -learning 0.0 -e 0 -f_fixed_threshold -f_optimize_score 'f1_macro' || { echo "Errors in Aytan-Aktug SSSA NN. Exit ."; exit; }
   python ./AMR_software/AytanAktug/main_SSSA.py -cv ${cv_number} -n_jobs ${n_jobs} -f_cpu -f_kma -f_nn -temp ${log_path} -s "${species[@]}" -l ${QC_criteria} -learning 0.0 -e 0 -f_fixed_threshold -f_optimize_score 'f1_macro' || { echo "Errors in Aytan-Aktug SSSA NN. Exit ."; exit; }
