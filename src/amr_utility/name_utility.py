@@ -74,7 +74,7 @@ def GETname_model2(software, level,species, anti,cl,temp_path,f_kma,f_phylotree)
 
     return anti_list,meta, meta_temp,save_name_score_temp
 def GETname_model3(software, level,species,anti,cl,temp_path):
-    '''usage: kover multi-species single-antibiotic model '''
+    '''usage: kover, phenotypeseeker multi-species single-antibiotic model '''
 
 
     meta = './data/PATRIC/meta/'+str(level)+'_by_species/Data_' + str(species.replace(" ", "_")) + '_' + str(\
@@ -83,9 +83,8 @@ def GETname_model3(software, level,species,anti,cl,temp_path):
         str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
     anti_list=str(temp_path)+'log/software/'+str(software) +'/software_output/MS/'+ str(species.replace(" ", "_")) +'/anti_list'
 
-    save_name_score_temp=str(temp_path)+'log/software/'+str(software) +'/analysis/'+ str(species.replace(" ", "_"))  + '/' + \
-            str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl) #todo
-
+    save_name_score_temp=str(temp_path)+'log/software/'+str(software) +'/analysis/MS/'+ str(species.replace(" ", "_"))  + '/' + \
+            str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl) #only for phenotypeseeker.
     return anti_list,meta, meta_temp,save_name_score_temp
 
 def GETname_result(software,species,fscore,f_kma,f_phylotree,chosen_cl,output_path):
@@ -104,6 +103,17 @@ def GETname_result(software,species,fscore,f_kma,f_phylotree,chosen_cl,output_pa
                     '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree)
 
     return save_name_score,save_name_final
+def GETname_result2(software,species,fscore,chosen_cl,output_path):
+    '''
+     multi-species LOSO kover, PhenotypeSeeker
+    '''
+    save_name_score=output_path+'Results/software/'+str(software) +'/MS/' + str(species.replace(" ", "_")) +\
+                    '/' + str(species.replace(" ", "_"))+  '_'+chosen_cl + '_'+fscore
+    return save_name_score
+
+
+
+
 
 def GETname_AAresult(software,species,learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,version,output_path):
 
