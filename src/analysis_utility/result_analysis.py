@@ -24,6 +24,7 @@ def get_mean_std(f1_pos_sub):
     f1_pos_std = statistics.stdev(f1_pos_sub)
     f1_pos_m_s = str(round(f1_pos_mean,2))+'±'+str(round(f1_pos_std,2))
     return f1_pos_m_s
+
 def extract_info_species_clinical2(softwareName,chosen_cl,level,species,cv,f_phylotree,f_kma, temp_path):
     antibiotics, _, _ =  load_data.extract_info(species, False, level)
     score_list=['clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']
@@ -116,7 +117,7 @@ def extract_info_species2(softwareName,cl_list,level,species,cv,f_phylotree,f_km
 
 
 
-    _,save_name_score_final = name_utility.GETname_result(softwareName,chosen_cl, species, '',f_kma,f_phylotree,'',output_path)
+    _,save_name_score_final = name_utility.GETname_result(softwareName,species,'',f_kma,f_phylotree,chosen_cl,output_path)
     file_utility.make_dir(os.path.dirname(save_name_score_final))
     final_plot=final_plot.rename(columns={"weighted-f1_macro": "f1_macro", "weighted-f1_positive": "f1_positive",
                                           "weighted-f1_negative": "f1_negative", "weighted-accuracy": "accuracy",
@@ -132,7 +133,7 @@ def extract_info_species2(softwareName,cl_list,level,species,cv,f_phylotree,f_km
     ##### Add clinical oriented scores ['clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg'] to the main tables and PLOT table
     ##### Nov 2022
 
-    clinical_table=extract_info_species_clinical2(softwareName,level,species,cv,f_phylotree,f_kma, temp_path)
+    clinical_table=extract_info_species_clinical2(softwareName,chosen_cl,level,species,cv,f_phylotree,f_kma, temp_path)
     final = pd.concat([final, clinical_table], axis=1, join="inner")
     final_plot = pd.concat([final_plot, clinical_table], axis=1, join="inner")
     #############################################################################################################################################
