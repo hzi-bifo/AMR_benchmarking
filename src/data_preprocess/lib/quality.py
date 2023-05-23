@@ -196,6 +196,10 @@ def filter_quality(level,f_balance):
         Species_quality.at[species, 'number'] =len(select_antibiotic_final)
     print('selected species and antibiotics:')
     print(Species_quality)#visualization of selected species.
+
+    ##drop 0 rows
+    Species_quality = Species_quality[ (Species_quality['number'] > 0)]
+
     main_meta,_=name_utility.GETname_main_meta(level)
     Species_quality.to_csv(main_meta, sep="\t")
 
