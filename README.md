@@ -22,7 +22,7 @@
 1. [Aytan-Aktug](https://bitbucket.org/deaytan/neural_networks/src/master/) [[1]](#1), 
 2. Seq2Geno2Pheno([Seq2Geno](https://github.com/hzi-bifo/seq2geno.git)&[Geno2Pheno](https://galaxy.bifo.helmholtz-hzi.de/galaxy/root?tool_id=genopheno)) [[2]](#2), 
 3. [PhenotypeSeeker 0.7.3](https://github.com/bioinfo-ut/PhenotypeSeeker) [[3]](#3), 
-4. [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4). 
+4. [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4),
 5. [Point-/ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
 
 - All software methods, except for Kover, were benchmarked with adaptation versions (provided in `./AMR_software`).
@@ -87,6 +87,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 |se2ge_env_name|conda env for Seg2Geno|snakemake_env|
 |kmer_env_name|conda env for Seg2Geno k-mers generation |kmer_kmc|
 |phylo_name|conda env for Seg2Geno phylogenetic trees generation|phylo_env|
+|phylo_name2|conda env for for visualization of misclassified genomes|phylo_env2|
 |resfinder_env|conda env for Point-/ResFinder|res_env|
 
 
