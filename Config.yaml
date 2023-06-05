@@ -34,7 +34,7 @@ multi_env_name: multi_env
 multi_torch_env_name: multi_torch_env
 kover_env_name: kover_env
 phylo_name: phylo_env
-perl_name:  perl_env
+phylo_name2: phylo_env2
 se2ge_env_name: snakemake_env2
 kmer_env_name: kmer_kmc
 resfinder_env: res_env

@@ -39,14 +39,14 @@ export PYTHONPATH=$PWD
 conda env create -n ${amr_env_name}  -f ./install/amr_env.yml python=3.7 || { echo "Errors in installing env."; exit; }
 conda env create -n ${amr_env_name2}  -f ./install/amr_env2.yml python=3.8 || { echo "Errors in installing env."; exit; }
 ####2.Point-/ResFinder.
-conda env create -n ${resfinder_env}  -f ./install/res_env.yml python=3.8 || { echo "Errors in installing env."; exit; }
+conda env create -n ${resfinder_env}  -f ./install/res_env.yml || { echo "Errors in installing env."; exit; }
 
 ####3.PhenotypeSeeker.
 conda env create -n ${PhenotypeSeeker_env_name}  -f ./install/PhenotypeSeeker_env.yml python=3.7 || { echo "Errors in installing env."; exit; }
 
 
 
-##4.multi_bench. Tested Dec 6 2022
+##4.multi_bench.
 conda create -n ${multi_env_name} -y python=3.6
 source activate ${multi_env_name}|| { echo "Errors in activate env."; exit; }
 echo $CONDA_DEFAULT_ENV
@@ -93,7 +93,7 @@ echo " ${phylo_name} created successfully."
 
 #
 ###7.  ${kmer_env_name}: generating kmer matrix. KMC.
-conda create -n ${kmer_env_name} -y  python=3.6 #tod now trying at hzi
+conda create -n ${kmer_env_name} -y  python=3.6
 source activate ${kmer_env_name}|| { echo "Errors in activate env."; exit; }
 echo $CONDA_DEFAULT_ENV
 conda install -c bioconda  -y kmc=3.1|| { echo "Errors."; exit; } # we used 3.1.2rc1 version, but now it is not available anymore.
@@ -103,8 +103,13 @@ conda install -y tables==3.6.1|| { echo "Errors."; exit; }
 conda deactivate
 
 
-
-
+###8. #for visualization of misclassified genomes on trees.
+conda create -n ${phylo_name2} -y  python=3.9
+source activate ${phylo_name2}|| { echo "Errors in activate env."; exit; }
+wait
+echo $CONDA_DEFAULT_ENV
+conda install -y -c conda-forge r-base=4.2.0|| { echo "Errors."; exit; }
+conda deactivate
 
 
 
