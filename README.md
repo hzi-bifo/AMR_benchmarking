@@ -87,6 +87,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 |se2ge_env_name|conda env for Seg2Geno|snakemake_env|
 |kmer_env_name|conda env for Seg2Geno k-mers generation |kmer_kmc|
 |phylo_name|conda env for Seg2Geno phylogenetic trees generation|phylo_env|
+|phylo_name2|conda env for for visualization of misclassified genomes|phylo_env2|
 |resfinder_env|conda env for Point-/ResFinder|res_env|
 
 
