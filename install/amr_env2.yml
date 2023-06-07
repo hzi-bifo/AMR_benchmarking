@@ -1,10 +1,6 @@
 name: amr_env2
 channels:
-  - r
-  - anaconda
   - conda-forge/label/broken
-  - hzi-bifo
-  - bioconda
   - conda-forge
   - defaults
 dependencies:

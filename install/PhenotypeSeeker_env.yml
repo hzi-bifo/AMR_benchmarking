@@ -1,10 +1,6 @@
 name: PhenotypeSeeker_env
 channels:
-  - r
-  - anaconda
-  - pytorch
   - conda-forge/label/broken
-  - hzi-bifo
   - bioconda
   - conda-forge
   - defaults
