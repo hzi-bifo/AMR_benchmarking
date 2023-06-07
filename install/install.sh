@@ -13,7 +13,7 @@ check_conda_channels () {
 }
 check_conda_channels ||{ echo "Errors in setting conda channels. Please set it by hand yourself."; exit; }
 
-config_file=options.yaml
+
 function parse_yaml {
    local prefix=$2
    local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
