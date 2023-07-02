@@ -10,6 +10,10 @@ import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 from src.benchmark_utility.lib.CombineResults import combine_data
+from pylab import *
+rcParams['mathtext.fontset'] = 'custom'
+rcParams['mathtext.it'] = 'stixsans:italic'
+rcParams['mathtext.bf'] = 'stixsans:italic:bold'
 
 def truncate_colormap(cmap, minval=0.0, maxval=1.0, n=100):
     new_cmap = colors.LinearSegmentedColormap.from_list(
@@ -53,6 +57,23 @@ def heatmap(f_folds,data, row_labels, col_labels, ax=None,
     if f_folds:
         # Show all ticks and label them with the respective list entries.
         ax.set_yticks(np.arange(data.shape[0]), labels=row_labels)
+        ## Junly 2023.
+
+        # Iterate over the tick labels and modify the first two parts to be italic
+        modified_tick_labels = []
+        for label in row_labels:
+            parts = label.split(' ')
+            modified_parts = []
+            for i, part in enumerate(parts):
+                if i < 2:
+                    modified_parts.append(r'$\mathit{' + part + '}$')
+                else:
+                    modified_parts.append(part)
+            modified_tick_labels.append(' '.join(modified_parts))
+
+        # Update the y-axis tick labels
+        ax.set_yticklabels(modified_tick_labels)
+
 
     else:
         ax.get_yaxis().set_ticks([])
@@ -76,6 +97,10 @@ def heatmap(f_folds,data, row_labels, col_labels, ax=None,
     ax.tick_params(axis='both',which="minor", bottom=False, left=False, top=False, right=False)
     ax.tick_params(axis='x', which='major', labelsize=20)
     ax.tick_params(axis='y', which='major', labelsize=15)
+
+
+
+
 
     ## return im, cbar
     return im
@@ -242,7 +267,7 @@ def extract_info(level, fscore,foldset,tool_list,output_path,save_file_name):
 
         #--------------------
         # ##annotate the best cell in each row by bold font
-        df_winner=pd.read_csv(output_path+ 'Results/other_figures_tables/software_winner_'+fscore+'_'+eachfold+'.csv'
+        df_winner=pd.read_csv(output_path+ 'Results/other_figures_tables/software_winner_'+fscore+'_'+str(eachfold.replace(" ", "_"))+'.csv'
                             , index_col=0, dtype={'genome_id': object}, sep="\t")
         with open('./data/AntiAcronym_dict.json') as f:
             map_acr = json.load(f)

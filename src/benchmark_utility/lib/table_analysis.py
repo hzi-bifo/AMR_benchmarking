@@ -17,6 +17,8 @@ This script organizes the performance for Supplementary materials, and further a
 '''
 
 
+
+
 def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_tool_list):
     main_meta,_=name_utility.GETname_main_meta(level)
     data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
@@ -114,16 +116,17 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                 ew.book = wb
                 df_final.to_excel(ew,sheet_name = (eachfold.split(' ')[0][0]+eachfold.split(' ')[1][0]+'_Comp_'+str(com_tool.translate(str.maketrans({'/': '', ' ': '_'})))))
                 ew.save()
-                #### Paired T test
-                df_test=df_final[[fscore+'_mean', 'compare_'+fscore+'_mean']]
-                df_test=df_test.fillna(0)
-                print(df_test)
-                mean1 = df_test[fscore+'_mean']
-                mean2 = df_test['compare_'+fscore+'_mean']
-                _,pvalue=ttest_rel(mean1, mean2,alternative='less') #
-                print(pvalue)
-                _,pvalue=ttest_rel(mean1, mean2,alternative='greater') #random
-                print(pvalue)
+
+                #### Paired T test. May 23 2023. No use anymore.
+                # df_test=df_final[[fscore+'_mean', 'compare_'+fscore+'_mean']]
+                # df_test=df_test.fillna(0)
+                # print(df_test)
+                # mean1 = df_test[fscore+'_mean']
+                # mean2 = df_test['compare_'+fscore+'_mean']
+                # _,pvalue=ttest_rel(mean1, mean2,alternative='less') #
+                # print(pvalue)
+                # _,pvalue=ttest_rel(mean1, mean2,alternative='greater') #random
+                # print(pvalue)
 
 
 
@@ -142,7 +145,8 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                 path_table_results3_2=output_path+ 'Results/other_figures_tables/results_heatmap_'+fscore+'.xlsx'
         elif tool_list==['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
                    'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
-                'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']:
+                'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model',
+                         'Kover cross-species SCM','Kover cross-species CART','PhenotypeSeeker multi-species LR']:
             if fscore=='f1_macro':
                 path_table_results3_1=output_path+ 'Results/supplement_figures_tables/S6-3_software_winner_multiModel_'+fscore+'.xlsx'
                 path_table_results3_2=output_path+ 'Results/final_figures_tables/results_heatmap_multiModel_'+fscore+'.xlsx'
@@ -216,7 +220,9 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
             df_compare=df_compare.replace({10: np.nan})
             df_compare['winner'] = df.mul(df.columns.to_series()).apply(','.join, axis=1).str.strip(',')
             df_compare=df_compare[['species', 'antibiotics']+tool_list+['max_'+fscore]+[x+'_std' for x in tool_list]+['winner' ]]
-            df_compare.to_csv(path_table_results3_3+'_'+eachfold+'.csv', sep="\t") #for annotating heatmap
+            if tool_list==['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover'] and fscore=='f1_macro':
+                ####only for annotating heatmap plots.
+                df_compare.to_csv(path_table_results3_3+'_'+str(eachfold.replace(" ", "_"))+'.csv', sep="\t")
 
             wb = load_workbook(path_table_results3_1)
             ew = pd.ExcelWriter(path_table_results3_1)
@@ -225,7 +231,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
             ew.save()
 
             #counting for each software the time it is the best, tied best had the coresponding portion of a 1.
-            print('counting the perdentage of being best;')
+            print('counting the perdentage of being best: ')
             for each_tool in tool_list:
                 print(each_tool,'-------------------------')
                 count=0
@@ -245,6 +251,10 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
 
         df1 = pd.DataFrame(index=species_list)
         file_utility.make_dir(os.path.dirname(path_table_results3_2))
+
+        #add phenotype ratio
+
+
         df1.to_excel(path_table_results3_2, sheet_name='introduction')
         # foldset=['random folds','phylo-tree-based folds','KMA-based folds']
         # tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
@@ -321,8 +331,8 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
 
 
             df_mean=df_compare[tool_list]
-
-            # df_mean = df_mean.dropna()
+            print(df_mean)
+            ### df_mean = df_mean.dropna()
             ### Feb 2023: maybe change the Nan to 0
             df_mean=df_mean.fillna(0)
 
@@ -358,9 +368,9 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                 if pvalue>=0.05:
                     i_noDiff+=1
         print('No. can not reject null hypothesis:',i_noDiff)
-        output.to_csv(output_path+ 'Results/supplement_figures_tables/S6-2_software_Pvalue_'+fscore+'_dropNan_1s_order.csv', sep="\t")
-        # with open(output_path+ 'Results/supplement_figures_tables/S6-2_software_Pvalue_'+fscore+'.json', 'w') as f:
-        #     json.dump(Presults, f)
+        # output.to_csv(output_path+ 'Results/supplement_figures_tables/S6-2_software_Pvalue_'+fscore+'_dropNan_1s_order.csv', sep="\t")
+        with open(output_path+ 'Results/supplement_figures_tables/S6-2_software_Pvalue_'+fscore+'.json', 'w') as f:
+            json.dump(Presults, f)
 
 
 
