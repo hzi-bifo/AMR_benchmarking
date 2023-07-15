@@ -51,27 +51,27 @@ def extract_info_species( level,species,cv,f_phylotree,f_kma,temp_path,output_pa
                 with open(meta_txt+'_temp/'+str(chosen_cl)+'_b_'+str(outer_cv)+'/results.json') as f:
                     data = json.load(f)
 
-                    test_errors_list=data["classifications"]['test_errors']
-                    test_corrects_list=data["classifications"]['test_correct']
+                test_errors_list=data["classifications"]['test_errors']
+                test_corrects_list=data["classifications"]['test_correct']
 
 
-                    y_true=[]
-                    y_pre=[]
-                    for each in test_corrects_list:
-                        p=name_list2[name_list2['ID']==each].iat[0,1]
+                y_true=[]
+                y_pre=[]
+                for each in test_corrects_list:
+                    p=name_list2[name_list2['ID']==each].iat[0,1]
 
-                        y_true.append(p)
-                        y_pre.append(p)
+                    y_true.append(p)
+                    y_pre.append(p)
 
 
-                    for each in test_errors_list:
-                        p=name_list2[name_list2['ID']==each].iat[0,1]
-                        if p==1:
-                            y_true.append(1)
-                            y_pre.append(0)
-                        else:
-                            y_true.append(0)
-                            y_pre.append(1)
+                for each in test_errors_list:
+                    p=name_list2[name_list2['ID']==each].iat[0,1]
+                    if p==1:
+                        y_true.append(1)
+                        y_pre.append(0)
+                    else:
+                        y_true.append(0)
+                        y_pre.append(1)
 
                 df=classification_report(y_true, y_pre, labels=[0, 1], output_dict=True,zero_division=0)
                 f1_test=f1_score(y_true, y_pre, average='macro')
@@ -259,14 +259,13 @@ def extract_best_estimator(level,species,fscore,f_phylotree,f_kma,output_path):
     # print(summary_table_mean)
     # print(summary_table_std)
     #-----------------------------------------------------------------------------------------------------------
-    #choose the best estimator according to 1) mean. 2) std. 3) svm,lr, rf.
+    #choose the best estimator according to 1) mean. 2) std.
 
 
     cl_temp = [summary_table_mean.columns[i].tolist() for i in summary_table_mean.values == summary_table_mean.max(axis=1)[:,None]]
     summary_benchmarking['classifier_bymean']=cl_temp
 
     for index, row in summary_benchmarking.iterrows():
-
         std_list=[summary_table_std.loc[index,each] for each in row['classifier_bymean']]
         cl_chose_sub=std_list.index(min(std_list))
         row['classifier']=row['classifier_bymean'][cl_chose_sub]
