@@ -143,8 +143,7 @@ def model(level,species,cv,f_phylotree,f_kma,f_no_zip,temp_path,temp_path_k,temp
                 score_report_test.append(report)
                 aucs_test.append(roc_auc)
                 predictY_test.append(y_pre)
-                true_Y.append(y_test.tolist())
-                sampleNames_test.append(folders_sample[out_cv])
+
             else:
                 mcc_test.append(None)
                 f1_test.append(None)
@@ -152,7 +151,8 @@ def model(level,species,cv,f_phylotree,f_kma,f_no_zip,temp_path,temp_path_k,temp
                 aucs_test.append(None)
 
                 print("No information for antibiotic: ", anti)
-
+            true_Y.append(y_test.tolist())
+            sampleNames_test.append(folders_sample[out_cv])
 
 
         score ={'f1_test':f1_test,'score_report_test':score_report_test,'aucs_test':aucs_test,'mcc_test':mcc_test,
