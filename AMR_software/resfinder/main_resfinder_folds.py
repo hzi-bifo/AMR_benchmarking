@@ -149,7 +149,7 @@ def model(level,species,cv,f_phylotree,f_kma,f_no_zip,temp_path,temp_path_k,temp
                 f1_test.append(None)
                 score_report_test.append(None)
                 aucs_test.append(None)
-
+                predictY_test.append(None)
                 print("No information for antibiotic: ", anti)
             true_Y.append(y_test.tolist())
             sampleNames_test.append(folders_sample[out_cv])
