@@ -15,9 +15,13 @@ import warnings,os,shutil
 warnings.filterwarnings('ignore')
 
 
-def determine(Tsamples,species,anti,f_no_zip,temp_path):
+def determine(Tsamples,species,anti,f_no_zip,temp_path,sub_temp_path):
+    '''
+    temp_path: ResFinder software output
+    sub_temp_path: for extracting results, removed on-the-line.
+    '''
     path_temp1 =temp_path+"software_output"
-    path_temp2 =temp_path+"analysis"
+    path_temp2 =sub_temp_path+"analysis"
     file_utility.make_dir(path_temp1)
     file_utility.make_dir(path_temp2)
 
@@ -84,7 +88,7 @@ def determine(Tsamples,species,anti,f_no_zip,temp_path):
                 if len(y_pre)>0:
                     print("Warning: may miss a sample regarding y_pre. ")
                     exit()
-    shutil.rmtree(os.path.dirname(temp_file_name))
+    shutil.rmtree(os.path.dirname(temp_file_name)) #remove temporary files
     return y_pre
 
 def model(level,species,cv,f_phylotree,f_kma,f_no_zip,temp_path,temp_path_k,temp_path_b):
@@ -127,9 +131,9 @@ def model(level,species,cv,f_phylotree,f_kma,f_no_zip,temp_path,temp_path_k,temp
             y_test = y_all[test_samples_index]
 
             if species=='Neisseria gonorrhoeae' :
-                y_pre=determine(id_test,species,anti,f_no_zip,temp_path_b)#based on Blastn version of resfinder
+                y_pre=determine(id_test,species,anti,f_no_zip,temp_path_b,temp_path_b)#based on Blastn version of resfinder
             else:
-                y_pre=determine(id_test,species,anti,f_no_zip,temp_path_k)#based on KMA version of resfinder
+                y_pre=determine(id_test,species,anti,f_no_zip,temp_path_k,temp_path_k)#based on KMA version of resfinder
 
             if len(y_pre)>0:
 
