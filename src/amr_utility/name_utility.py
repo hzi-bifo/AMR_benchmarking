@@ -76,7 +76,6 @@ def GETname_model2(software, level,species, anti,cl,temp_path,f_kma,f_phylotree)
 def GETname_model3(software, level,species,anti,cl,temp_path):
     '''usage: kover, phenotypeseeker multi-species single-antibiotic model '''
 
-
     meta = './data/PATRIC/meta/'+str(level)+'_by_species/Data_' + str(species.replace(" ", "_")) + '_' + str(\
         anti.translate(str.maketrans({'/': '_', ' ': '_'}))) +'_pheno.txt'
     meta_temp = str(temp_path)+'log/software/' +  str(software) +'/software_output/MS/'+   str(species.replace(" ", "_"))  + '/' + \
@@ -86,6 +85,33 @@ def GETname_model3(software, level,species,anti,cl,temp_path):
     save_name_score_temp=str(temp_path)+'log/software/'+str(software) +'/analysis/MS/'+ str(species.replace(" ", "_"))  + '/' + \
             str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl) #only for phenotypeseeker.
     return anti_list,meta, meta_temp,save_name_score_temp
+
+def GETname_model4(software,base_software, level,species, anti,cl,temp_path,f_kma,f_phylotree):
+    '''usage: ensemble base methods'''
+    meta = './data/PATRIC/meta/'+str(level)+'_by_species/Data_' + str(species.replace(" ", "_")) + '_' + str(\
+        anti.translate(str.maketrans({'/': '_', ' ': '_'}))) +'_pheno.txt'
+    if f_phylotree:
+        meta_temp = str(temp_path)+'log/software/' +  str(software) +'/software_output/phylotree/'+ base_software +'/'+ str(species.replace(" ", "_"))  + '/' + \
+            str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+
+        anti_list=str(temp_path)+'log/software/'+str(software) +'/software_output/phylotree/'+ base_software +'/'+  str(species.replace(" ", "_")) +'/anti_list'
+    elif f_kma:
+        meta_temp = str(temp_path)+'log/software/' +  str(software) +'/software_output/kma/'+ base_software +'/'+   str(species.replace(" ", "_"))  + '/' + \
+            str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+
+        anti_list=str(temp_path)+'log/software/'+str(software) +'/software_output/kma/'+ base_software +'/'+  str(species.replace(" ", "_")) +'/anti_list'
+    else:
+        meta_temp = str(temp_path)+'log/software/' +  str(software) +'/software_output/random/'+ base_software +'/'+    str(species.replace(" ", "_"))  + '/' + \
+            str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+        anti_list=str(temp_path)+'log/software/'+str(software) +'/software_output/random/'+ base_software +'/'+  str(species.replace(" ", "_")) +'/anti_list'
+
+    # save_name_score_temp=str(temp_path)+'log/software/'+str(software) +'/analysis/'+ str(species.replace(" ", "_"))  + '/' + \
+    #         str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl) #the same as GETname_model, which is important as used in result_analysis.py
+
+    return anti_list,meta, meta_temp
+
+
+
 
 def GETname_result(software,species,fscore,f_kma,f_phylotree,chosen_cl,output_path):
     '''

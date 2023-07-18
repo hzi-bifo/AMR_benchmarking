@@ -383,7 +383,8 @@ def extract_best_estimator(softwareName,cl_list,level,species,fscore,f_phylotree
     print(summary_benchmarking)
 
     if species =='Mycobacterium tuberculosis':#MT issues.
-        antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','rifampin','streptomycin']
+        # antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','rifampin','streptomycin']
+        antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','streptomycin']
     for anti in antibiotics:
         chosen_cl=summary_benchmarking.loc[anti,'classifier']
 
@@ -470,7 +471,7 @@ def extract_info(softwareName,cl_list,level,s,f_all,cv,fscore,f_phylotree,f_kma,
             else:
                 extract_info_species(softwareName,cl_list,level, species, cv,f_phylotree,f_kma ,temp_path, output_path)
                 extract_best_estimator(softwareName,cl_list,level, species, fscore,f_phylotree,f_kma, output_path)
-        else:# resfinder_folds & majority. No need to select the best classifier for reporting.
+        else:# resfinder_folds & majority, ensemble. No need to select the best classifier for reporting.
             extract_info_species2(softwareName,cl_list,level, species, cv,f_phylotree,f_kma ,temp_path, output_path)
 
 
