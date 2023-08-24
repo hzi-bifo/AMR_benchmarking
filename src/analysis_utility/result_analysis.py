@@ -173,16 +173,16 @@ def extract_info_species(softwareName,cl_list,level,species,cv,f_phylotree,f_kma
             _,_ ,save_name_score= name_utility.GETname_model(softwareName,level, species, anti,chosen_cl,temp_path)
 
             try: #new version of format json
-                with open(save_name_score + '_KMA_' + str(f_kma) + '_Tree_' + str(f_phylotree) + '.json') as f:
-                    score = json.load(f)
-                score2= pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '_model.pickle',"rb"))
+
                 summary_table_ByClassifier_ = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
                                        columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
                                                 'mcc', 'f1_positive', 'f1_negative', 'precision_neg', 'recall_neg',
                                                 'auc','threshold', 'support', 'support_positive'])
 
                 try:# not for MT
-
+                    with open(save_name_score + '_KMA_' + str(f_kma) + '_Tree_' + str(f_phylotree) + '.json') as f:
+                        score = json.load(f)
+                    score2= pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '_model.pickle',"rb"))
                     f1_test=score['f1_test']
                     score_report_test=score['score_report_test']
                     aucs_test=score['aucs_test']
