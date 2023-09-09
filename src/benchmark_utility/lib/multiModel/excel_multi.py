@@ -80,17 +80,31 @@ def extract_info(s,level,f_compare,output_path,f_all):
                 'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
     path_table_results=output_path+ 'Results/supplement_figures_tables/S8_Aytan-Aktug_multi'
     score_list=['f1_macro','f1_positive','f1_negative','accuracy','clinical_f1_negative','clinical_precision_neg','clinical_recall_neg']
+    species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
+                      'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis','Campylobacter jejuni','Neisseria gonorrhoeae']
+
     run(species_list,level,foldset,tool_list,score_list,f_compare,path_table_results,output_path)
     #===============
-    # 2. Compare Aytan-Aktug SSSA and SSSA with default NN settings
+    # # 2. Compare Aytan-Aktug SSSA and SSSA with default NN settings
+    # #===============
+    # print('Compare Aytan-Aktug SSSA and SSSA with default NN settings')
+    # path_table_results=output_path+ 'Results/supplement_figures_tables/S7_Aytan-Aktug_SSSAdefault'
+    # score_list=['f1_macro','f1_positive','f1_negative','accuracy']
+    # tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species-antibiotics default']
+    # run(species_list,level,foldset,tool_list,score_list, f_compare,path_table_results,output_path)
+
     #===============
-    print('Compare Aytan-Aktug SSSA and SSSA with default NN settings')
-    path_table_results=output_path+ 'Results/supplement_figures_tables/S7_Aytan-Aktug_SSSAdefault'
+    # 3. Compare Aytan-Aktug ,kover, Pts, multi-models
+    #===============
+    print('Compare multi-species models of 3 ML methods.')
+    path_table_results=output_path+ 'Results/supplement_figures_tables/S8_crossT_multi'
     score_list=['f1_macro','f1_positive','f1_negative','accuracy']
-    tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species-antibiotics default']
+    tool_list=['Discrete databases multi-species model','Concatenated databases mixed multi-species model',\
+                   'Concatenated databases leave-one-out multi-species model','Kover cross-species SCM','Kover cross-species CART',\
+                   'PhenotypeSeeker multi-species LR']
+    species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
+                      'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis','Campylobacter jejuni']
     run(species_list,level,foldset,tool_list,score_list, f_compare,path_table_results,output_path)
-
-
 
 
 if __name__== '__main__':

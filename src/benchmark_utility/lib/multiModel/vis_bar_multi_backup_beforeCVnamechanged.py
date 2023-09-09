@@ -10,7 +10,7 @@ import numpy as np
 '''Bar plot of SSSA,MSMA_discrete,MSMA_concat_mixedS , MSMA_concat_LOO.
 April 2023. Kover multi LOSO added.
 May 1,2023. PhenotypeSeeker multi-species LOSO added.
-July 4 2023. change the name of CV and cross-species'''
+'''
 
 def combinedata(species,df_anti,merge_name,fscore,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,output_path):
     #1. SSSA
@@ -106,11 +106,11 @@ def combinedata(species,df_anti,merge_name,fscore,learning,epochs,f_fixed_thresh
 
         #-----------Kover single
         summary_plot_k_s1=pd.DataFrame(columns=[fscore, 'antibiotic', 'model','std'])
-        summary_plot_k_s1.loc['e'] = [k_s1_results.loc[each_anti,'weighted-'+fscore ], each_anti, 'SCM single-species model, homology evaluation',k_s1_results_std.loc[each_anti,'weighted-'+fscore]]
+        summary_plot_k_s1.loc['e'] = [k_s1_results.loc[each_anti,'weighted-'+fscore ], each_anti, 'SCM single-species model, homology CV',k_s1_results_std.loc[each_anti,'weighted-'+fscore]]
         summary_plot = summary_plot.append(summary_plot_k_s1, ignore_index=True)
 
         summary_plot_k_s2=pd.DataFrame(columns=[fscore, 'antibiotic', 'model','std'])
-        summary_plot_k_s2.loc['e'] = [k_s2_results.loc[each_anti,'weighted-'+fscore ], each_anti, 'CART single-species model, homology evaluation',k_s2_results_std.loc[each_anti,'weighted-'+fscore]]
+        summary_plot_k_s2.loc['e'] = [k_s2_results.loc[each_anti,'weighted-'+fscore ], each_anti, 'CART single-species model, homology CV',k_s2_results_std.loc[each_anti,'weighted-'+fscore]]
         summary_plot = summary_plot.append(summary_plot_k_s2, ignore_index=True)
 
         #-----------Kover LOSO
@@ -210,8 +210,8 @@ def extract_info(fscore,level,f_all,learning,epochs,f_optimize_score,f_fixed_thr
                                'control multi-species model, homology CV':1,\
                                'cross-species model, homology CV':2,\
                                'cross-species model, LOSO':3,\
-                                'SCM single-species model, homology evaluation':4,\
-                               'CART single-species model, homology evaluation':5,\
+                                'SCM single-species model, homology CV':4,\
+                               'CART single-species model, homology CV':5,\
                                'SCM cross-species model, LOSO':6,\
                                'CART cross-species model, LOSO':7,\
                         'LR single-species model, homology CV':8,\

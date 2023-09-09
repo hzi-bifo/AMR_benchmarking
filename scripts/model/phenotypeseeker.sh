@@ -62,30 +62,11 @@ python ./AMR_software/PhenotypeSeeker/main_pts.py -cv ${cv_number} -n_jobs ${n_j
 
 
 ## CV score generation.
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'f1_macro' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'f1_negative' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'f1_positive' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'accuracy' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'clinical_f1_negative' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'clinical_precision_neg' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree -fscore 'clinical_recall_neg' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_phylotree  -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
 
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma   -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
 
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'f1_macro' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'f1_negative' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'f1_positive' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'accuracy' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'clinical_f1_negative' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'clinical_precision_neg' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker' -f_kma -fscore 'clinical_recall_neg' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'f1_macro' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'f1_negative' -cl_list 'svm' 'lr' 'rf'  -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'f1_positive' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'accuracy' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'clinical_f1_negative' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'clinical_precision_neg' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -fscore 'clinical_recall_neg' -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
+python ./src/analysis_utility/result_analysis.py -software 'phenotypeseeker'  -cl_list 'svm' 'lr' 'rf' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
 
 conda deactivate
 

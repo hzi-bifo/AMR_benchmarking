@@ -166,16 +166,21 @@ bash ./scripts/model/kover.sh
 bash ./scripts/model/majority.sh
 #
 #
+########################################
+###8. Kover, PhenotypeSeeker cross-species models.
+########################################
+bash ./scripts/model/phenotypeseeker_MS.sh
+bash ./scripts/model/kover_MS.sh
 
 #-------------------------------------------
-#8. Main Analysis and Visualiztion
+#9. Main Analysis and Visualiztion
 #-------------------------------------------
 bash ./scripts/analysis_visualization/multiModel_analysis.sh
 bash ./scripts/analysis_visualization/compare.sh
 
 
 #-------------------------------------------
-#9. Other Visualiztion(supplements)
+#110. Other Visualiztion(supplements)
 #-------------------------------------------
 bash ./scripts/analysis_visualization/compare_supplement.sh
 

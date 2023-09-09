@@ -10,7 +10,7 @@ from pandas.core.common import SettingWithCopyWarning
 warnings.simplefilter(action="ignore", category=SettingWithCopyWarning)
 "For preparing meta files to run Kover 2.0."
 
-def extract_info(path_sequence, s,f_all, f_prepare_meta,cv, level,f_phylotree,f_kma,temp_path):
+def extract_info(path_sequence, s,f_all, f_prepare_meta,f_prepare_meta_val,cv, level,f_phylotree,f_kma,temp_path):
     main_meta,_=name_utility.GETname_main_meta(level)
     data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
     if f_all == False:
@@ -73,7 +73,63 @@ def extract_info(path_sequence, s,f_all, f_prepare_meta,cv, level,f_phylotree,f_
             pd.DataFrame(antibiotics_).to_csv(anti_list, sep="\t", index=False, header=False)
 
 
+    if f_prepare_meta_val:
+        # prepare the anti list and id list for each species, antibiotic, and CV folders.
+        for species, antibiotics in zip(df_species, antibiotics):
+            print(species)
+            antibiotics, ID, _ =  load_data.extract_info(species, False, level)
+            i_anti = 0
+            antibiotics_=[]
+            for anti in antibiotics:
+                id_all = ID[i_anti]  # sample names
+                i_anti += 1
+                id_all = np.array(id_all)
+                _,name,meta_txt,_ = name_utility.GETname_model2_val('kover',level, species, anti,'',temp_path,f_kma,f_phylotree)
 
+                file_utility.make_dir(os.path.dirname(meta_txt))
+                name_list = pd.read_csv(name, index_col=0, dtype={'genome_id': object}, sep="\t")
+                name_list.loc[:,'ID'] = 'iso_' + name_list['genome_id'].astype(str)
+                name_list['path']=str(path_sequence) +'/'+ name_list['genome_id'].astype(str)+'.fna'
+                name_list1 = name_list.loc[:, ['ID', 'path']]
+                name_list1.to_csv(meta_txt + '_data', sep="\t", index=False,header=False)
+                name_list2 = name_list.loc[:, ['ID', 'resistant_phenotype']]
+                name_list2.to_csv(meta_txt + '_pheno', sep="\t", index=False,header=False)
+                name_list['ID'].to_csv(meta_txt + '_id', sep="\t", index=False, header=False)
+
+                # 1. exrtact CV folders---------------------------------------------------------------
+                p_names = name_utility.GETname_meta(species,anti,level)
+                folds_txt=name_utility.GETname_folds(species,anti,level,f_kma,f_phylotree)
+                folders_sample = json.load(open(folds_txt, "rb"))
+                folders_index=name2index.Get_index(folders_sample,p_names) # CV folds
+
+                for out_cv in range(cv):
+                    test_samples_index = folders_index[out_cv]
+                    train_val_train_index = folders_index[:out_cv] + folders_index[out_cv + 1:]
+
+                    for inner_cv in range(cv-1):
+                        val_index=train_val_train_index[inner_cv]
+                        train_index=train_val_train_index[:inner_cv] + train_val_train_index[inner_cv+1 :]
+                        id_train = id_all[list(itertools.chain.from_iterable(train_index))]  # sample name list
+                        id_val = id_all[val_index]
+
+                        # 2. prepare meta files for this round of training samples-------------------
+                        # only retain those in the training and validataion CV folders
+                        name_list_train = name_list.loc[name_list['genome_id'].isin(id_train)]
+                        name_list_train.loc[:,'ID'] = 'iso_' + name_list_train['genome_id'].astype(str)
+                        name_list_train['ID'].to_csv(meta_txt +  '_Train_outer_' + str(out_cv)+'_inner_'+str(inner_cv) + '_id', sep="\t", index=False, header=False)
+
+                        # 3. prepare meta files for this round of testing samples-------------------
+
+                        # only retain those in the training and validataion CV folders
+                        name_list_test = name_list.loc[name_list['genome_id'].isin(id_val)]
+                        name_list_test.loc[:,'ID'] = 'iso_' + name_list_test['genome_id'].astype(str)
+                        name_list_test['ID'].to_csv(meta_txt + '_Test_' + str(out_cv)+'_inner_'+str(inner_cv) + '_id', sep="\t", index=False, header=False)
+
+                anti=str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+                antibiotics_.append(anti)
+            # save the list to a txt file.
+            anti_list,_,_,_= name_utility.GETname_model2_val('kover',level, species, '','',temp_path,f_kma,f_phylotree)
+            pd.DataFrame(antibiotics_).to_csv(anti_list, sep="\t", index=False, header=False)
 
 
 if __name__ == '__main__':
@@ -92,7 +148,9 @@ if __name__ == '__main__':
     parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
                         help='all the possible species, regarding multi-model.')
     parser.add_argument('-f_prepare_meta', '--f_prepare_meta', dest='f_prepare_meta', action='store_true',
-                        help='Prepare the list files for S2G.')
+                        help='Prepare the list files for iterative bound selection.')
+    parser.add_argument('-f_prepare_meta_val', '--f_prepare_meta_val', dest='f_prepare_meta_val', action='store_true',
+                        help='Prepare the list files for CV on training set.')
     parser.add_argument("-cv", "--cv", default=10, type=int,
                         help='CV splits number')
     parser.add_argument('-s', '--species', default=[], type=str, nargs='+', help='species to run: e.g.\'Pseudomonas aeruginosa\' \
@@ -100,5 +158,5 @@ if __name__ == '__main__':
                     \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
     parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel.')
     parsedArgs = parser.parse_args()
-    extract_info(parsedArgs.path_sequence, parsedArgs.species, parsedArgs.f_all, parsedArgs.f_prepare_meta,
+    extract_info(parsedArgs.path_sequence, parsedArgs.species, parsedArgs.f_all, parsedArgs.f_prepare_meta,parsedArgs.f_prepare_meta_val,
                  parsedArgs.cv, parsedArgs.level, parsedArgs.f_phylotree,parsedArgs.f_kma,parsedArgs.temp_path)

@@ -63,35 +63,38 @@ bash ./AMR_software/Kover/run_cv.sh ${s} ${log_path}log/software/kover/software_
 conda deactivate
 wait
 
+####################################
+### 2. CV : classifier selection Initialization
+####################################
+source activate ${amr_env_name}
+python ./AMR_software/Kover/main_kover.py -f_phylotree -cv ${cv_number} -f_prepare_meta_val -path_sequence ${dataset_location} -temp ${log_path} -s "${species_tree[@]}" -l ${QC_criteria} || { echo "Errors in kover initializing. Exit ."; exit; }
+python ./AMR_software/Kover/main_kover.py -f_kma -cv ${cv_number} -f_prepare_meta_val -path_sequence ${dataset_location} -temp ${log_path} -s "${species[@]}" -l ${QC_criteria} || { echo "Errors in kover initializing. Exit ."; exit; }
+python ./AMR_software/Kover/main_kover.py  -cv ${cv_number} -f_prepare_meta_val -path_sequence ${dataset_location} -temp ${log_path} -s "${species[@]}" -l ${QC_criteria} || { echo "Errors in kover initializing. Exit ."; exit; }
+conda deactivate
 
-### CV score generation.
+
+##### Running Kover pipeline
+source activate ${kover_env_name}
+wait
+##### Prepare data sets
+for s in "${species_list_temp_tree[@]}"; do
+bash ./AMR_software/Kover/run_val.sh ${s} ${log_path}log/software/kover/software_output_val/phylotree;done
+
+for s in "${species_list_temp[@]}"; do
+bash ./AMR_software/Kover/run_val.sh  ${s} ${log_path}log/software/kover/software_output_val/kma;done
+#
+for s in "${species_list_temp[@]}"; do
+bash ./AMR_software/Kover/run_val.sh  ${s} ${log_path}log/software/kover/software_output_val/random  ;done
+conda deactivate
+####################################
+### 3. CV score generation.
+####################################
 source activate ${amr_env_name}
 wait
-python ./AMR_software/Kover/kover_analyse.py -f_phylotree -fscore 'f1_macro' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -f_phylotree -fscore 'f1_negative' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -f_phylotree -fscore 'f1_positive' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -f_phylotree -fscore 'accuracy' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -f_phylotree -fscore 'clinical_f1_negative' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -f_phylotree -fscore 'clinical_precision_neg' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -f_phylotree -fscore 'clinical_recall_neg' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
+python ./AMR_software/Kover/kover_analyse.py -f_phylotree -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species_tree[@]}" -l ${QC_criteria}
 
+python ./AMR_software/Kover/kover_analyse.py -f_kma -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
 
-python ./AMR_software/Kover/kover_analyse.py -f_kma -fscore 'f1_macro' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -f_kma -fscore 'f1_negative' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -f_kma -fscore 'f1_positive' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -f_kma -fscore 'accuracy' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -f_kma -fscore 'clinical_f1_negative' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -f_kma -fscore 'clinical_precision_neg' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -f_kma -fscore 'clinical_recall_neg' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-
-
-python ./AMR_software/Kover/kover_analyse.py  -fscore 'f1_macro' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -fscore 'f1_negative' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -fscore 'f1_positive' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -fscore 'accuracy' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -fscore 'clinical_f1_negative' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -fscore 'clinical_precision_neg' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-python ./AMR_software/Kover/kover_analyse.py -fscore 'clinical_recall_neg' -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
-
+python ./AMR_software/Kover/kover_analyse.py -cv ${cv_number} -temp ${log_path} -o ${output_path} -s "${species[@]}" -l ${QC_criteria}
 
 conda deactivate

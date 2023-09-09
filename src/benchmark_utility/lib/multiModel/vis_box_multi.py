@@ -12,7 +12,8 @@ from matplotlib.legend_handler import HandlerPatch
 
 '''April 2023. one box plot to replace Fig. 8. 
 Kover multi-species LOSO added.
-May 1,, 2023. PhenotypeSeeker multi-species LOSO added'''
+May 1,2023. PhenotypeSeeker multi-species LOSO added
+July 4 2023. change the name of CV and cross-species'''
 
 def combinedata(species,level,df_anti,merge_name,fscore,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,temp_path,output_path):
     #1. SSSA
@@ -241,8 +242,8 @@ def extract_info(fscore,level,f_all,learning,epochs,f_optimize_score,f_fixed_thr
                                'control multi-species model,\n homology CV',\
                                'cross-species model,\n homology CV',\
                                'cross-species model,\n LOSO',\
-                                'SCM single-species model, \n homology CV',\
-                               'CART single-species model,\n homology CV',\
+                                'SCM single-species model, \n homology evaluation',\
+                               'CART single-species model,\n homology evaluation',\
                                'SCM cross-species model,\n  LOSO',\
                                'CART cross-species model,\n LOSO',\
                                'LR single-species model,\n homology CV',\

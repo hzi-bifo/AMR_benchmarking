@@ -70,9 +70,38 @@ def GETname_model2(software, level,species, anti,cl,temp_path,f_kma,f_phylotree)
         anti_list=str(temp_path)+'log/software/'+str(software) +'/software_output/random/'+ str(species.replace(" ", "_")) +'/anti_list'
 
     save_name_score_temp=str(temp_path)+'log/software/'+str(software) +'/analysis/'+ str(species.replace(" ", "_"))  + '/' + \
+            str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl) #the same as GETname_model, which is important as used in result_analysis.py(pts)
+
+    return anti_list,meta, meta_temp,save_name_score_temp
+
+def GETname_model2_val(software, level,species, anti,cl,temp_path,f_kma,f_phylotree):
+    '''usage: kover validation.'''
+    meta = './data/PATRIC/meta/'+str(level)+'_by_species/Data_' + str(species.replace(" ", "_")) + '_' + str(\
+        anti.translate(str.maketrans({'/': '_', ' ': '_'}))) +'_pheno.txt'
+    if f_phylotree:
+        meta_temp = str(temp_path)+'log/software/' +  str(software) +'/software_output_val/phylotree/'+   str(species.replace(" ", "_"))  + '/' + \
+            str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+        # save_name_score_temp=str(temp_path)+'log/software/'+str(software) +'/analysis/phylotree/'+ str(species.replace(" ", "_"))  + '/' + \
+        #     str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl)
+        anti_list=str(temp_path)+'log/software/'+str(software) +'/software_output_val/phylotree/'+ str(species.replace(" ", "_")) +'/anti_list'
+    elif f_kma:
+        meta_temp = str(temp_path)+'log/software/' +  str(software) +'/software_output_val/kma/'+   str(species.replace(" ", "_"))  + '/' + \
+            str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+        # save_name_score_temp=str(temp_path)+'log/software/'+str(software) +'/analysis/kma/'+ str(species.replace(" ", "_"))  + '/' + \
+        #     str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl)
+        anti_list=str(temp_path)+'log/software/'+str(software) +'/software_output_val/kma/'+ str(species.replace(" ", "_")) +'/anti_list'
+    else:
+        meta_temp = str(temp_path)+'log/software/' +  str(software) +'/software_output_val/random/'+   str(species.replace(" ", "_"))  + '/' + \
+            str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))
+
+        anti_list=str(temp_path)+'log/software/'+str(software) +'/software_output_val/random/'+ str(species.replace(" ", "_")) +'/anti_list'
+
+    save_name_score_temp=str(temp_path)+'log/software/'+str(software) +'/analysis/'+ str(species.replace(" ", "_"))  + '/' + \
             str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_cl_'+str(cl) #the same as GETname_model, which is important as used in result_analysis.py
 
     return anti_list,meta, meta_temp,save_name_score_temp
+
+
 def GETname_model3(software, level,species,anti,cl,temp_path):
     '''usage: kover, phenotypeseeker multi-species single-antibiotic model '''
 
@@ -116,19 +145,21 @@ def GETname_model4(software,base_software, level,species, anti,cl,temp_path,f_km
 def GETname_result(software,species,fscore,f_kma,f_phylotree,chosen_cl,output_path):
     '''
     resfinder_folds , majority, AA results will not be stored by fscore (selection criteria).
-    Only Kover, S2G2P,Phenotypeseeker will be stored by fscore (folder names) due to multiple classifiers. TODO manually move old. seems done..
+    Only Kover, S2G2P,Phenotypeseeker will be stored by fscore (folder names) due to multiple classifiers.
+    Aug 2023 update:  Kover, S2G2P,Phenotypeseeker  also don't need special " fscore " folder.
     '''
 
     save_name_score=output_path+'Results/software/'+str(software) +'/' + str(species.replace(" ", "_")) +'/' + str(species.replace(" ", "_"))+ \
                     '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree)+'_'+chosen_cl
-    if software in ['seq2geno','phenotypeseeker', 'kover']:
-        save_name_final = output_path+'Results/software/'+str(software) +'/' + str(species.replace(" ", "_")) +'/' +fscore+ '/' +  str(species.replace(" ", "_"))+\
-                    '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree)
-    else:
-        save_name_final = output_path+'Results/software/'+str(software) +'/' + str(species.replace(" ", "_")) +'/' +  str(species.replace(" ", "_"))+\
+    # if software in ['seq2geno','phenotypeseeker', 'kover'] and "clinical_" in fscore:
+    #     save_name_final = output_path+'Results/software/'+str(software) +'/' + str(species.replace(" ", "_")) +'/' +fscore+ '/' +  str(species.replace(" ", "_"))+\
+    #                 '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree)
+    # else:
+    save_name_final = output_path+'Results/software/'+str(software) +'/' + str(species.replace(" ", "_")) +'/' +  str(species.replace(" ", "_"))+\
                     '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree)
 
     return save_name_score,save_name_final
+
 def GETname_result2(software,species,fscore,chosen_cl,output_path):
     '''
      multi-species LOSO kover, PhenotypeSeeker

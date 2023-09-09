@@ -3,7 +3,7 @@
 species="$1"
 feature_path="$2"
 n_jobs="$3"
-kover_location="$4"
+
 
 
 readarray -t Anti_List <  ${feature_path}/${species}/anti_list
@@ -14,7 +14,7 @@ for anti in ${Anti_List[@]};do
     mkdir -p ${feature_path}/${species}/${anti}_temp
     echo "$anti"
 
-#    for j in {0..0};do
+
     for j in {0..9};do
 #        rm -rf ./log/temp/loose/${species}/${anti}_temp/CV_tr${j}
 #        rm -rf ./log/temp/loose/${species}/${anti}_temp/CV_te${j}

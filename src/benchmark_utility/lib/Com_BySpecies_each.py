@@ -26,7 +26,7 @@ class colorStyle:
 
 def ComBySpecies(tool_list,level,s, fscore, f_phylotree, f_kma,fig,i,output_path):
 
-    ##tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
+    ##tool_list=['ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
     main_meta,_=name_utility.GETname_main_meta(level)
     data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
     data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.

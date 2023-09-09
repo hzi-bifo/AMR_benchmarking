@@ -104,7 +104,6 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
         if type(report) != dict: ##multi-anti MT model.
             pass
         else:
-
             report=pd.DataFrame(report).transpose()
             accuracy.append(report.iat[2,2])
             ## f1.append(report.loc['macro avg','f1-score'])

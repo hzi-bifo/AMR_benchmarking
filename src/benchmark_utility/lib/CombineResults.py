@@ -26,7 +26,7 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
 
 
 
-    if tool=='KMA-based Point-/ResFinder': #without folds
+    if tool=='KMA-based ResFinder': #without folds
         if 'clinical_' in fscore: #because no folds, so no different between "clinical_score" and "score", defined in this study.
             fscore=fscore.split('_',1)[1]
 
@@ -36,7 +36,7 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
             score=results.loc[anti,fscore]
         else:
             score=np.nan
-    if tool=='Blastn-based Point-/ResFinder': #without folds
+    if tool=='Blastn-based ResFinder': #without folds
         if 'clinical_' in fscore: #because no folds, so no different between "clinical_score" and "score", defined in this study.
             fscore=fscore.split('_',1)[1]
         results_file=name_utility.GETname_ResfinderResults(species,'resfinder_b',output_path)
@@ -44,8 +44,12 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
         score=results.loc[anti,fscore]
 
 
-    if tool=='Point-/ResFinder':#folds version.
+    if tool=='ResFinder':#folds version.
         _, results_file= name_utility.GETname_result('resfinder_folds', species, '',f_kma,f_phylotree,'',output_path)
+        results=pd.read_csv(results_file + '_SummaryBenchmarking.txt', header=0, index_col=0,sep="\t")
+        score=results.loc[anti,fscore]
+    if tool=='ensemble': # resfinder + kover+pts
+        _, results_file= name_utility.GETname_result('ensemble', species, '',f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking.txt', header=0, index_col=0,sep="\t")
         score=results.loc[anti,fscore]
 
@@ -61,21 +65,22 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
         if species !='Mycobacterium tuberculosis':#no MT information.
             _, results_file= name_utility.GETname_result('seq2geno', species, fscore,f_kma,f_phylotree,'',output_path)
             results=pd.read_csv(results_file + '_SummaryBenchmarking.txt', header=0, index_col=0,sep="\t")
-            score=results.loc[anti,fscore]
+
+            score=results.loc[anti,fscore_format]
         else:
             score=np.nan
     if tool=='PhenotypeSeeker':
         # if species !='Mycobacterium tuberculosis':
         _, results_file= name_utility.GETname_result('phenotypeseeker', species, fscore,f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking.txt', header=0, index_col=0,sep="\t")
-        score=results.loc[anti,fscore]
+        score=results.loc[anti,fscore_format]
         # else:
         #     score=np.nan
     if tool=='Kover':
 
         _, results_file= name_utility.GETname_result('kover', species,fscore,f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking.txt', header=0, index_col=0,sep="\t")
-        score=results.loc[anti,fscore]
+        score=results.loc[anti,fscore_format]
 
     if tool=='ML Baseline (Majority)':
         _, results_file= name_utility.GETname_result('majority', species, '',f_kma,f_phylotree,'',output_path)
@@ -164,8 +169,9 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
                 score=np.nan
 
     if tool=='Kover cross-species SCM':
-        if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
-            fscore=fscore.split('_',1)[1]
+        fscore='f1_macro' #as using the same table whatever the score.
+        # if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
+        #     fscore=fscore.split('_',1)[1]
         results_file = name_utility.GETname_result2('kover',species,fscore,'scm',output_path)
 
         if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
@@ -178,8 +184,9 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
                 score=np.nan
 
     if tool=='Kover cross-species CART':
-        if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
-            fscore=fscore.split('_',1)[1]
+        fscore='f1_macro' #as using the same table whatever the score.
+        # if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
+        #     fscore=fscore.split('_',1)[1]
         results_file = name_utility.GETname_result2('kover',species,fscore,'tree',output_path)
 
         if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
@@ -209,8 +216,9 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
 
     if tool=='PhenotypeSeeker multi-species LR':
 
-        if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
-            fscore=fscore.split('_',1)[1]
+        # if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
+        #     fscore=fscore.split('_',1)[1]
+        fscore='f1_macro' #as using the same table whatever the score.
         results_file = name_utility.GETname_result2('phenotypeseeker',species,fscore,'lr',output_path)
 
         if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
@@ -256,6 +264,7 @@ def combine_data(species_list,level,fscore,tool_list,folds,output_path):
                 antibiotics, _, _ =  load_data.extract_info(species, False, level)
                 for anti in antibiotics:
                     for tool in tool_list:
+
                         score=combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_format,output_path)
 
                         df_plot_sub.loc['s'] = [score,species,tool,anti,fold]#[fscore, 'species', 'software','anti','folds']
@@ -267,8 +276,12 @@ def combine_data_get_score_meanstd(species,tool,anti,f_phylotree,f_kma,fscore,fs
 
 
 
-    if tool=='Point-/ResFinder':#folds version.
+    if tool=='ResFinder':#folds version.
         _, results_file= name_utility.GETname_result('resfinder_folds', species, '',f_kma,f_phylotree,'',output_path)
+        results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
+        score=results.loc[anti,fscore]
+    if tool=='ensemble':# resfinder + kover+pts
+        _, results_file= name_utility.GETname_result('ensemble', species, '',f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
         score=results.loc[anti,fscore]
 
@@ -284,7 +297,7 @@ def combine_data_get_score_meanstd(species,tool,anti,f_phylotree,f_kma,fscore,fs
         if species !='Mycobacterium tuberculosis':#no MT information.
             _, results_file= name_utility.GETname_result('seq2geno', species, fscore,f_kma,f_phylotree,'',output_path)
             results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
-            score=results.loc[anti,fscore]
+            score=results.loc[anti,fscore_format]
 
         else:
             score=np.nan
@@ -292,14 +305,14 @@ def combine_data_get_score_meanstd(species,tool,anti,f_phylotree,f_kma,fscore,fs
         # if species !='Mycobacterium tuberculosis':
         _, results_file= name_utility.GETname_result('phenotypeseeker', species, fscore,f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
-        score=results.loc[anti,fscore]
+        score=results.loc[anti,fscore_format]
         # else:
         #     score=np.nan
     if tool=='Kover':
 
         _, results_file= name_utility.GETname_result('kover', species,fscore,f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
-        score=results.loc[anti,fscore]
+        score=results.loc[anti,fscore_format]
 
     if tool=='ML Baseline (Majority)':
         _, results_file= name_utility.GETname_result('majority', species, '',f_kma,f_phylotree,'',output_path)

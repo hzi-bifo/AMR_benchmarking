@@ -98,7 +98,7 @@ def extract_info(path_sequence,s,level,f_all,f_phylotree,f_kma,f_pre_meta, f_pre
             folds_txt=name_utility.GETname_foldsSSMA(species,level, True, False)
             print(folds_txt)
             with open(folds_txt, 'w') as f:
-                    json.dump(folders_sampleName, f)
+                json.dump(folders_sampleName, f)
 
         # =================================
         # 2. Analysing PointFinder results

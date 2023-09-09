@@ -39,7 +39,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
     # # Step 1.2 figuring out the number of combinations that each tool performs better than ML baseline
     # # ------------------------------------------
     if step=='1':
-        if com_tool_list==['Point-/ResFinder']:
+        if com_tool_list==['ResFinder']:
             path_table_results2=output_path+ 'Results/other_figures_tables/ML_Com_resfinder_'+fscore+'.xlsx'
         elif com_tool_list==['ML Baseline (Majority)']:
             path_table_results2=output_path+ 'Results/other_figures_tables/ML_Com_MLbaseline_'+fscore+'.xlsx'
@@ -134,7 +134,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
     # Step 2 figuring out which method performs best. And counting.
     # ------------------------------------------
     if step=='2':
-        if tool_list==['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']:
+        if tool_list==['ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']:
 
             if fscore=='f1_macro':
                 path_table_results3_1=output_path+ 'Results/supplement_figures_tables/S6-1_software_winner_'+fscore+'.xlsx'
@@ -143,7 +143,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
             else: #clinical-oriented
                 path_table_results3_1=output_path+ 'Results/other_figures_tables/software_winner_'+fscore+'.xlsx'
                 path_table_results3_2=output_path+ 'Results/other_figures_tables/results_heatmap_'+fscore+'.xlsx'
-        elif tool_list==['Point-/ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
+        elif tool_list==['ResFinder', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Single-species-antibiotic Aytan-Aktug',
                    'Single-species multi-antibiotics Aytan-Aktug','Discrete databases multi-species model',
                 'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model',
                          'Kover cross-species SCM','Kover cross-species CART','PhenotypeSeeker multi-species LR']:
@@ -154,6 +154,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                 path_table_results3_1=output_path+ 'Results/other_figures_tables/software_winner_multiModel_'+fscore+'.xlsx'
                 path_table_results3_2=output_path+ 'Results/other_figures_tables/results_heatmap_multiModel_'+fscore+'.xlsx'
         else:
+            print(tool_list)
             print('Please add a new name manually at ./src/benchmark_utility/lib/table_analysis.py \
             if new software combinations are used for deciding winner or generate heatmap format excel.')
             exit(1)
@@ -220,7 +221,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
             df_compare=df_compare.replace({10: np.nan})
             df_compare['winner'] = df.mul(df.columns.to_series()).apply(','.join, axis=1).str.strip(',')
             df_compare=df_compare[['species', 'antibiotics']+tool_list+['max_'+fscore]+[x+'_std' for x in tool_list]+['winner' ]]
-            if tool_list==['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover'] and fscore=='f1_macro':
+            if tool_list==['ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover'] and fscore=='f1_macro':
                 ####only for annotating heatmap plots.
                 df_compare.to_csv(path_table_results3_3+'_'+str(eachfold.replace(" ", "_"))+'.csv', sep="\t")
 
@@ -232,6 +233,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
 
             #counting for each software the time it is the best, tied best had the coresponding portion of a 1.
             print('counting the perdentage of being best: ')
+            print(len(df_compare['winner'].tolist()))
             for each_tool in tool_list:
                 print(each_tool,'-------------------------')
                 count=0
@@ -257,7 +259,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
 
         df1.to_excel(path_table_results3_2, sheet_name='introduction')
         # foldset=['random folds','phylo-tree-based folds','KMA-based folds']
-        # tool_list=['Point-/ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
+        # tool_list=['ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']
             #each time count the cases the com_tool outperforms others.
         for eachfold in foldset:
 
@@ -348,11 +350,11 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                 # print(np.mean(mean1),np.mean(mean2))
                 # Orders are based on Table 1 in the article.
                 if eachfold=='Random folds':
-                    order=[ 'Kover','PhenotypeSeeker','Point-/ResFinder', 'Seq2Geno2Pheno', 'Aytan-Aktug']
+                    order=[ 'Kover','PhenotypeSeeker','ResFinder', 'Seq2Geno2Pheno', 'Aytan-Aktug']
                 elif eachfold=='Phylogeny-aware folds':
-                    order=[ 'Point-/ResFinder','Kover','PhenotypeSeeker', 'Seq2Geno2Pheno', 'Aytan-Aktug']
+                    order=[ 'ResFinder','Kover','PhenotypeSeeker', 'Seq2Geno2Pheno', 'Aytan-Aktug']
                 else:
-                    order=[ 'Point-/ResFinder', 'Kover','PhenotypeSeeker','Seq2Geno2Pheno', 'Aytan-Aktug']
+                    order=[ 'ResFinder', 'Kover','PhenotypeSeeker','Seq2Geno2Pheno', 'Aytan-Aktug']
 
                 # if np.mean(mean1) < np.mean(mean2):
                 if order.index(each_com[0]) > order.index(each_com[1]):
@@ -415,10 +417,10 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
     #         print(df_mean)
     #
     #
-    #         table_eachfolds=pd.DataFrame(columns=['Point-/ResFinder','ML'])
+    #         table_eachfolds=pd.DataFrame(columns=['ResFinder','ML'])
     #         for each_com in ['Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover']:
     #             table_eachfolds=table_eachfolds.rename({'ML':each_com}, axis=1)
-    #             table_eachfolds=pd.concat([table_eachfolds, df_mean['Point-/ResFinder',each_com]], ignore_index=True)
+    #             table_eachfolds=pd.concat([table_eachfolds, df_mean['ResFinder',each_com]], ignore_index=True)
     #
     #
     #         table_eachfolds.to_csv(output_path+ 'Results/other_figures_tables/S6-2_software_Pvalue_'+fscore+'.csv', sep="\t")

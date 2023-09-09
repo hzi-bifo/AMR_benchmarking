@@ -102,7 +102,7 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
         summary_table_mean= pd.DataFrame(columns=['software','Random folds', 'Phylogeny-aware folds','Homology-aware folds']) ##not for plotting.
         summary_table_std= pd.DataFrame(columns=['software','Random folds', 'Phylogeny-aware folds','Homology-aware folds']) ##not for plotting.
         summary_table_md= pd.DataFrame(columns=['software','Random folds', 'Phylogeny-aware folds','Homology-aware folds']) ##not for plotting.
-        tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Point-/ResFinder']
+        tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ResFinder']
         for tool in tool_list:
             print(tool)
             row = (i //4)
@@ -115,23 +115,26 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
             data_plot=data_plot.replace(np. nan,0) # add in zeros into the plots!!!
 
             data_summary=data_plot.replace(np. nan,0)
-            average_table=data_summary.groupby(['folds']).mean()
-            average_table=average_table.sort_values('folds',ascending=False)
-            summary_table_mean_each=[tool]+average_table[fscore].tolist()
-            summary_table_mean.loc[len(summary_table_mean)]=summary_table_mean_each
-            # print(average_table)
-            #-------------
-            average_table=data_summary.groupby(['folds']).std()
-            average_table=average_table.sort_values('folds',ascending=False)
-            # print(average_table)
-            summary_table_std_each=[tool]+average_table[fscore].tolist()
-            summary_table_std.loc[len(summary_table_std)]=summary_table_std_each
-            #------------
-            average_table=data_summary.groupby(['folds']).median()
-            average_table=average_table.sort_values('folds',ascending=False)
-            # print(average_table)
-            summary_table_md_each=[tool]+average_table[fscore].tolist()
-            summary_table_md.loc[len(summary_table_md)]=summary_table_md_each
+
+
+            if f_mean_std=='mean':
+                average_table=data_summary.groupby(['folds']).mean()
+                average_table=average_table.sort_values('folds',ascending=False)
+                summary_table_mean_each=[tool]+average_table[fscore].tolist()
+                summary_table_mean.loc[len(summary_table_mean)]=summary_table_mean_each
+                print(summary_table_mean)
+                #-------------
+                average_table=data_summary.groupby(['folds']).std()
+                average_table=average_table.sort_values('folds',ascending=False)
+                # print(average_table)
+                summary_table_std_each=[tool]+average_table[fscore].tolist()
+                summary_table_std.loc[len(summary_table_std)]=summary_table_std_each
+                #------------
+                average_table=data_summary.groupby(['folds']).median()
+                average_table=average_table.sort_values('folds',ascending=False)
+                # print(average_table)
+                summary_table_md_each=[tool]+average_table[fscore].tolist()
+                summary_table_md.loc[len(summary_table_md)]=summary_table_md_each
 
 
 
@@ -230,32 +233,34 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
 
             average_table=Species_summary.groupby(['folds']).mean()
             average_table=average_table.sort_values('folds',ascending=False)
-            if species=='Mycobacterium tuberculosis':
-                temp_=average_table[fscore].tolist()
-                Species_table_mean_each=[species]+[temp_[0]]+[np.nan]+[temp_[1]]
-            else:
-                Species_table_mean_each=[species]+average_table[fscore].tolist()
-            Species_table_mean.loc[len(Species_table_mean)]=Species_table_mean_each
-            # print(average_table)
-            #-------------
-            average_table=Species_summary.groupby(['folds']).std()
-            average_table=average_table.sort_values('folds',ascending=False)
-            if species=='Mycobacterium tuberculosis':
-                temp_=average_table[fscore].tolist()
-                Species_table_std_each=[species]+[temp_[0]]+[np.nan]+[temp_[1]]
-            else:
-                Species_table_std_each=[species]+average_table[fscore].tolist()
-            Species_table_std.loc[len(Species_table_std)]=Species_table_std_each
-            #------------
-            average_table=Species_summary.groupby(['folds']).median()
-            average_table=average_table.sort_values('folds',ascending=False)
-            if species=='Mycobacterium tuberculosis':
-                temp_=average_table[fscore].tolist()
-                Species_table_md_each=[species]+[temp_[0]]+[np.nan]+[temp_[1]]
-            else:
-                Species_table_md_each=[species]+average_table[fscore].tolist()
-            Species_table_md.loc[len(Species_table_md)]=Species_table_md_each
-            ###############################################################################################
+
+            if f_mean_std=='mean':
+                if species=='Mycobacterium tuberculosis':
+                    temp_=average_table[fscore].tolist()
+                    Species_table_mean_each=[species]+[temp_[0]]+[np.nan]+[temp_[1]]
+                else:
+                    Species_table_mean_each=[species]+average_table[fscore].tolist()
+                Species_table_mean.loc[len(Species_table_mean)]=Species_table_mean_each
+                # print(average_table)
+                #-------------
+                average_table=Species_summary.groupby(['folds']).std()
+                average_table=average_table.sort_values('folds',ascending=False)
+                if species=='Mycobacterium tuberculosis':
+                    temp_=average_table[fscore].tolist()
+                    Species_table_std_each=[species]+[temp_[0]]+[np.nan]+[temp_[1]]
+                else:
+                    Species_table_std_each=[species]+average_table[fscore].tolist()
+                Species_table_std.loc[len(Species_table_std)]=Species_table_std_each
+                #------------
+                average_table=Species_summary.groupby(['folds']).median()
+                average_table=average_table.sort_values('folds',ascending=False)
+                if species=='Mycobacterium tuberculosis':
+                    temp_=average_table[fscore].tolist()
+                    Species_table_md_each=[species]+[temp_[0]]+[np.nan]+[temp_[1]]
+                else:
+                    Species_table_md_each=[species]+average_table[fscore].tolist()
+                Species_table_md.loc[len(Species_table_md)]=Species_table_md_each
+                ###############################################################################################
 
 
 
@@ -272,7 +277,10 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
                      ax.lines[j].set_color('black')
 
             if i==6:
-                ax.text(-0.7, 1.08, 'B', fontsize=35,weight='bold')
+                if f_mean_std=='mean':
+                    ax.text(-0.7, 1.08, 'B', fontsize=35,weight='bold')
+                else:
+                    ax.text(-0.7, 0.55, 'B', fontsize=35,weight='bold')
             if f_mean_std=='mean':
                 ax.set(ylim=(0, 1.0))
             else:
@@ -457,17 +465,22 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
                     posi=i_anti.find('/')
                     _i_anti=i_anti[:(posi+1)] + '\n' + i_anti[(posi+1):]
                     labels_p=[_i_anti if x==i_anti else x for x in labels_p]
-            temp=0
-            for i_label_p in labels_p:
-                if temp%3==1:
-                    labels_p[temp] = i_label_p.rsplit('\n',1)[0]
 
-                else:
-                    labels_p[temp]=''
-                temp+=1
-            ax.set_xticklabels(labels_p,size=20,rotation=10)
+
+
 
             if species !='Mycobacterium tuberculosis':
+                temp=0
+                for i_label_p in labels_p:
+                    if temp%3==1:
+                        labels_p[temp] = i_label_p.rsplit('\n',1)[0]
+
+                    else:
+                        labels_p[temp]=''
+                    temp+=1
+
+                ax.set_xticklabels(labels_p,size=20,rotation=10)
+
                 for idx in df.index:
                     for i_label in range(len(labels)):
                         if i_label%3==0:
@@ -475,10 +488,23 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
                             ax.plot(df_x_jitter.loc[idx,labels[i_label+1:i_label+3]], df.loc[idx,labels[i_label+1:i_label+3]], color = 'grey', linewidth = 0.5, linestyle = '--', zorder=-1)
 
             else:
+                temp=0
+                for i_label_p in labels_p:
+                    if temp%2==0:
+                        labels_p[temp] = i_label_p.rsplit('\n',1)[0]
+
+                    else:
+                        labels_p[temp]=''
+                    temp+=1
+
+                ax.set_xticklabels(labels_p,size=20,rotation=10)
+
                 for idx in df.index:
                     for i_label in range(len(labels)):
                         if i_label%2==0:
                             ax.plot(df_x_jitter.loc[idx,labels[i_label:i_label+2]], df.loc[idx,labels[i_label:i_label+2]], color = 'grey', linewidth = 0.5, linestyle = '--', zorder=-1)
+
+
 
 
         fig.savefig(output_path+'Results/supplement_figures_tables/S2_RobustAnalysis_C'+f_mean_std+'.png')

@@ -161,7 +161,7 @@ def extract_info_species(softwareName,cl_list,level,species,cv,f_phylotree,f_kma
 
     antibiotics, _, _ =  load_data.extract_info(species, False, level)
 
-    ### cl_list = ['svm', 'lr','rf']
+
     for chosen_cl in cl_list:
         print('---------------------',chosen_cl)
         hy_para_fre=[]
@@ -172,71 +172,42 @@ def extract_info_species(softwareName,cl_list,level,species,cv,f_phylotree,f_kma
 
             _,_ ,save_name_score= name_utility.GETname_model(softwareName,level, species, anti,chosen_cl,temp_path)
 
-            try: #new version of format json
-
-                summary_table_ByClassifier_ = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
+            summary_table_ByClassifier_ = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
                                        columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
                                                 'mcc', 'f1_positive', 'f1_negative', 'precision_neg', 'recall_neg',
-                                                'auc','threshold', 'support', 'support_positive'])
+                                            'auc','threshold', 'support', 'support_positive'])
 
-                try:# not for MT
-                    with open(save_name_score + '_KMA_' + str(f_kma) + '_Tree_' + str(f_phylotree) + '.json') as f:
-                        score = json.load(f)
-                    score2= pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '_model.pickle',"rb"))
-                    f1_test=score['f1_test']
-                    score_report_test=score['score_report_test']
-                    aucs_test=score['aucs_test']
-                    mcc_test=score['mcc_test']
-                    hyperparameters_test=score2['hyperparameters_test']
+            try:# not for MT
+                with open(save_name_score + '_KMA_' + str(f_kma) + '_Tree_' + str(f_phylotree) + '.json') as f:
+                    score = json.load(f)
+                score2= pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '_model.pickle',"rb"))
 
-                    common,ind =  math_utility.get_most_fre_hyper(hyperparameters_test,True)
-                    hy_para_fre.append(common.to_dict())
-                    hy_para_fren.append(ind)
-                    hy_para_all.append(hyperparameters_test)
+                f1_test=score['f1_test']
+                score_report_test=score['score_report_test']
+                aucs_test=score['aucs_test']
+                mcc_test=score['mcc_test']
+                hyperparameters_test=score2['hyperparameters_test']
 
-                    if f_kma:# extract infor from report
-                        summary_table_ByClassifier=  extract_score.score_summary(None, summary_table_ByClassifier_, cv, score_report_test, f1_test,aucs_test,
-                                                                                   mcc_test,
-                                                                                   np.zeros(cv))# the last 0: no meaning.
-                    else:# f_phylotree or random
-                        summary_table_ByClassifier =  extract_score.score_summary_Tree(None, summary_table_ByClassifier_, cv, score_report_test,
-                                                                                        f1_test,aucs_test, mcc_test,
-                                                                                    np.zeros(cv))# the last 0: no meaning.
-                except:#only for MT
-                    summary_table_ByClassifier = summary_table_ByClassifier_
-                    hy_para_fre.append(None)
-                    hy_para_fren.append(None)
-                    hy_para_all.append(None)
+                common,ind =  math_utility.get_most_fre_hyper(hyperparameters_test,True)
+                hy_para_fre.append(common.to_dict())
+                hy_para_fren.append(ind)
+                hy_para_all.append(hyperparameters_test)
 
-            except: #old version format pickle--------------------------------------------------------------------------------------------------------------
+                if f_kma:# extract infor from report
+                    summary_table_ByClassifier=  extract_score.score_summary(None, summary_table_ByClassifier_, cv, score_report_test, f1_test,aucs_test,
+                                                                               mcc_test,
+                                                                               np.zeros(cv))# the last 0: no meaning.
+                else:# f_phylotree or random
+                    summary_table_ByClassifier =  extract_score.score_summary_Tree(None, summary_table_ByClassifier_, cv, score_report_test,
+                                                                                    f1_test,aucs_test, mcc_test,
+                                                                                np.zeros(cv))# the last 0: no meaning.
+            except:#only for MT
+                summary_table_ByClassifier = summary_table_ByClassifier_
+                hy_para_fre.append(None)
+                hy_para_fren.append(None)
+                hy_para_all.append(None)
 
-                summary_table_ByClassifier_ = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
-                                       columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
-                                                'mcc', 'f1_positive', 'f1_negative', 'precision_neg', 'recall_neg',
-                                                'auc','threshold', 'support', 'support_positive'])
-                try:# not for MT
-                    score = pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '.pickle',"rb"))
-                    [f1_test, score_report_test, aucs_test, mcc_test, hyperparameters_test]=score
-                    common,ind =  math_utility.get_most_fre_hyper(hyperparameters_test,True)
-                    hy_para_fre.append(common.to_dict())
-                    hy_para_fren.append(ind)
-                    hy_para_all.append(hyperparameters_test)
 
-                    if f_kma:# extract infor from report
-                        summary_table_ByClassifier=  extract_score.score_summary(None, summary_table_ByClassifier_, cv, score_report_test, f1_test,aucs_test,
-                                                                                       mcc_test,
-                                                                                       np.zeros(cv))# the last 0: no meaning.
-                    else:# f_phylotree or random
-                        summary_table_ByClassifier =  extract_score.score_summary_Tree(None, summary_table_ByClassifier_, cv, score_report_test,
-                                                                                            f1_test,aucs_test, mcc_test,
-                                                                                        np.zeros(cv))# the last 0: no meaning.
-
-                except:#only for MT
-
-                    summary_table_ByClassifier = summary_table_ByClassifier_
-                    hy_para_fre.append(None)
-                    hy_para_fren.append(None)
-                    hy_para_all.append(None)
             ########-------------------------------------------------------------------------------------------------------------------------------------------
             summary_table_ByClassifier_all.append(summary_table_ByClassifier)
 
@@ -307,151 +278,166 @@ def extract_info_species_clinical(softwareName,cl_list,level,species,cv,f_phylot
 
 
 
-def extract_best_estimator(softwareName,cl_list,level,species,fscore,f_phylotree,f_kma,  output_path):
+def extract_best_estimator(softwareName,cl_list,level,species,fscore,cv,f_phylotree,f_kma, temp_path, output_path):
     '''
-    for each species output:
-    e.g. 1. summary_benchmarking
 
-    'antibiotic'|'f1_macro'|'accuracy'| 'f1_positive'|'f1_negative'|'classifier'|'selected hyperparameter'|'frequency'
-
-    'selected hyperparameter':
-    {'canonical': True, 'cutting': 0.5, 'kmer': 6, 'odh': False, 'pca': False}
-    2. [High level]for each species
-    summary_table
-      |SVM|Logistic Regression|Random Forest
-    ceftazidime|0.85±0.20|...
-    ciprofloxacin|
-
-
-    # hyper_table
-    # |SVM|Logistic Regression|Random Forest
-    # ceftazidime||...
-    # ciprofloxacin|
+     Aug 2023:
+     Select the best classifier in inner loop of nested CV
+     update: no need to set separate folders for different metrics.
     '''
-    score_list=['f1_macro','accuracy', 'f1_positive','f1_negative']
-
+    if species =='Mycobacterium tuberculosis':#MT issues. only for PhenotypeSeeker.
+        ### antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','rifampin','streptomycin']
+        antibiotics_run=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','streptomycin']
 
     antibiotics, _, _ =  load_data.extract_info(species, False, level)
-    ### cl_list = ['svm', 'lr','rf']
 
-    summary_table = pd.DataFrame(index=antibiotics,columns=cl_list)
-    summary_table_mean = pd.DataFrame(index=antibiotics, columns=cl_list)
-    summary_table_std = pd.DataFrame(index=antibiotics, columns=cl_list)
-    summary_benchmarking=pd.DataFrame(index=antibiotics,columns=score_list+['classifier', 'classifier_bymean','hyperparameter sets','selected hyperparameter','frequency(out of 10)'])
+    summary_table_ByClassifier_all=[]
+    hy_para_fre=[]
+    hy_para_fren = []
+    hy_para_all=[]
+    report_all=[] ##for clinical-oriented score extraction.
 
-    summary_benchmarking_plot=pd.DataFrame(index=antibiotics,columns=score_list+['classifier'])
-    summary_benchmarking_std=pd.DataFrame(index=antibiotics,columns=score_list+['classifier'])
+    classifier_selection=[] ## only for misclassifier.py usage. Added 7 Sep 2023.
     for anti in antibiotics:
-        for chosen_cl in cl_list:
+        classifier_selection_sub=[]
+        print(anti)
 
-            score_,_ = name_utility.GETname_result(softwareName, species,'', f_kma,f_phylotree,chosen_cl,output_path)
-
-            score_sub=pd.read_csv(score_ + '.txt', header=0, index_col=0,sep="\t")
-            score_sub_mean = pd.read_csv(score_ + '_PLOT.txt', header=0, index_col=0, sep="\t")
-            score_sub_std = pd.read_csv(score_ + '_std.txt', header=0, index_col=0, sep="\t")
-            if f_kma:
-                final_score_='weighted-'+fscore
-            else:
-                final_score_=fscore
-
-            summary_table.loc[anti,chosen_cl]=score_sub.loc[anti,final_score_]
-            summary_table_mean.loc[anti, chosen_cl] = score_sub_mean.loc[anti, final_score_]
-            summary_table_std.loc[anti, chosen_cl] = score_sub_std.loc[anti, final_score_]
-
-    _,save_name_final = name_utility.GETname_result(softwareName, species, fscore,f_kma,f_phylotree,'',output_path)
-
-    file_utility.make_dir(os.path.dirname(save_name_final))
-    summary_table.to_csv(save_name_final + '_SummaryClassifier.txt', sep="\t")
+        summary_table_ByClassifier_ = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
+                                   columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy',
+                                            'mcc', 'f1_positive', 'f1_negative', 'precision_neg', 'recall_neg',
+                                            'auc','threshold', 'support', 'support_positive'])
 
 
-    summary_table_mean=summary_table_mean.astype(float)
-    summary_table_std=summary_table_std.astype(float)
-
-    cl_temp = [summary_table_mean.columns[i].tolist() for i in summary_table_mean.values == summary_table_mean.max(axis=1)[:,None]]
-    summary_benchmarking['classifier_bymean']=cl_temp
-
-    for index, row in summary_benchmarking.iterrows():
-        #if there are several classifiers with the same highest fscore, then we select those with the lowest standard deviation.
-        # if several with the same highest fscore and same lowest standard deviation, then select the first classifier in the list
-        std_list=[summary_table_std.loc[index,each] for each in row['classifier_bymean']]
-        try:
-            cl_chose_sub=std_list.index(min(std_list))
-            row['classifier']=row['classifier_bymean'][cl_chose_sub]
-        except:#MT issues.
-            row['classifier']=np.nan
-
-    print(summary_benchmarking)
-
-    if species =='Mycobacterium tuberculosis':#MT issues.
-        # antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','rifampin','streptomycin']
-        antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','streptomycin']
-    for anti in antibiotics:
-        chosen_cl=summary_benchmarking.loc[anti,'classifier']
-
-        score_,_ = name_utility.GETname_result(softwareName, species, '',f_kma,f_phylotree,chosen_cl,output_path)
-        score_sub = pd.read_csv(score_ + '.txt', header=0, index_col=0, sep="\t")
-        score_sub_plot = pd.read_csv(score_ + '_PLOT.txt', header=0, index_col=0, sep="\t")
-        score_sub_std= pd.read_csv(score_ + '_std.txt', header=0, index_col=0, sep="\t")
-        if f_kma:
-
-            summary_benchmarking.loc[anti, score_list] = score_sub.loc[anti, ['weighted-'+x for x in score_list]].to_list()
-            summary_benchmarking_plot.loc[[anti], score_list] = score_sub_plot.loc[
-                anti, ['weighted-'+x for x in score_list]].to_list()
-            summary_benchmarking_std.loc[[anti], score_list] = score_sub_std.loc[
-                anti,['weighted-'+x for x in score_list]].to_list()
-
+        if species=='Mycobacterium tuberculosis' and anti not in antibiotics_run: #MT issues. PhenotyperSeeker.
+            summary_table_ByClassifier = summary_table_ByClassifier_
+            hy_para_fre.append(None)
+            hy_para_fren.append(None)
+            hy_para_all.append(None)
+            report_all.append(None)
+            classifier_selection.append(None)
         else:
-            summary_benchmarking.loc[anti, score_list+['hyperparameter sets','selected hyperparameter','frequency(out of 10)']] = score_sub.loc[
-                anti,score_list+ ['hyperparameter sets','selected hyperparameter','frequency(out of 10)']].to_list()
-            summary_benchmarking_plot.loc[[anti], score_list] = score_sub_plot.loc[
-                anti, score_list].to_list()
-            summary_benchmarking_std.loc[[anti], score_list] = score_sub_std.loc[
-                anti, score_list].to_list()
-    print(summary_benchmarking)
-    summary_benchmarking.to_csv(save_name_final + '_SummaryBenchmarking.txt', sep="\t")
-    summary_benchmarking_plot.to_csv(save_name_final + '_SummaryBenchmarking_PLOT.txt', sep="\t")
-    summary_benchmarking_std.to_csv(save_name_final + '_SummaryBenchmarking_std.txt', sep="\t")
+            score_report_test, f1_test,aucs_test, mcc_test=[],[],[],[]
+            hyperparameters_test=[]
+            for outer_cv in range(cv):
+
+                MEAN=[]
+                STD=[]
+                CL=[]
+                for cl_each in cl_list:
+
+                    _,_ ,save_name_score= name_utility.GETname_model(softwareName,level, species, anti,cl_each,temp_path)
+                    score2= pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '_model.pickle',"rb"))
+                    score_InnerLoop=score2['score_InnerLoop'][outer_cv]
+                    index_InnerLoop=score2['index_InnerLoop'][outer_cv]
+                    cv_results_InnerLoop=score2['cv_results_InnerLoop'][outer_cv]
+                    std_InnerLoop=cv_results_InnerLoop['std_test_score'][index_InnerLoop]
+                    MEAN.append(score_InnerLoop)
+                    STD.append(std_InnerLoop)
+                    CL.append(cl_each)
+                ##select the highest mean, resorting to the lowest std.
+                combined = [(MEAN[i], STD[i]) for i in range(len(MEAN))]
+                # Sort the list of tuples first by a in descending order and then by b in ascending order
+                sorted_combined = sorted(combined, key=lambda x: (-x[0], x[1]))
+                # Get the index of the first element in the sorted list
+                optimal_index = MEAN.index(sorted_combined[0][0])
+                chosen_cl=CL[optimal_index]
+                classifier_selection_sub.append(chosen_cl) ## only for misclassifier.py usage. Added 7 Sep 2023.
 
 
-def extract_best_estimator_clinical(softwareName,cl_list,level,species,fscore,f_phylotree,f_kma,  output_path):
-    score_list=['clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']
-    antibiotics, _, _ =  load_data.extract_info(species, False, level)
-    ### cl_list = ['svm', 'lr','rf']
+                # print('chose: ',chosen_cl)
+                _,_ ,save_name_score= name_utility.GETname_model(softwareName,level, species, anti,chosen_cl,temp_path)
+                with open(save_name_score + '_KMA_' + str(f_kma) + '_Tree_' + str(f_phylotree) + '.json') as f:
+                    score = json.load(f)
+                score2= pickle.load(open(save_name_score + '_kma_' + str(f_kma) + '_tree_' + str(f_phylotree) + '_model.pickle',"rb"))
 
-    summary_table = pd.DataFrame(index=antibiotics,columns=cl_list)
-    summary_benchmarking=pd.DataFrame(index=antibiotics,columns=score_list+['classifier'])
+                f1_macro_each=score['f1_test'][outer_cv]
+                report_each=score['score_report_test'][outer_cv]
+                aucs_each=score['aucs_test'][outer_cv]
+                mcc_each=score['mcc_test'][outer_cv]
+
+                hyperparameters_each=score2['hyperparameters_test'][outer_cv]
+                score_report_test.append(report_each)
+                f1_test.append(f1_macro_each)
+                aucs_test.append(aucs_each)
+                mcc_test.append(mcc_each)
+                hyperparameters_test.append(hyperparameters_each)
+
+            classifier_selection.append(classifier_selection_sub) ## only for misclassifier.py usage. Added 7 Sep 2023.
+            if f_kma:# extract infor from report
+                summary_table_ByClassifier=  extract_score.score_summary(None, summary_table_ByClassifier_, cv, score_report_test, f1_test,aucs_test,
+                                                                           mcc_test, np.zeros(cv))# the last 0: no meaning.
+            else:# f_phylotree or random
+                summary_table_ByClassifier =  extract_score.score_summary_Tree(None, summary_table_ByClassifier_, cv, score_report_test,
+                                                                                f1_test,aucs_test, mcc_test,np.zeros(cv))# the last 0: no meaning.
+
+            common,ind =  math_utility.get_most_fre_hyper(hyperparameters_test,True)
+            hy_para_fre.append(common.to_dict())
+            hy_para_fren.append(ind)
+            hy_para_all.append(hyperparameters_test)
+            report_all.append(score_report_test)
 
 
-    for anti in antibiotics:
-        for chosen_cl in cl_list:
+        summary_table_ByClassifier_all.append(summary_table_ByClassifier)
 
-            score_,_ = name_utility.GETname_result(softwareName, species,'', f_kma,f_phylotree,chosen_cl,output_path)
-            score_sub=pd.read_csv(score_ + '_clinical.txt', header=0, index_col=0,sep="\t")
-            final_score_=fscore
-            summary_table.loc[anti,chosen_cl]=score_sub.loc[anti,final_score_]
 
+    out_score='f' #['f1_macro','f1_positive', 'f1_negative','accuracy']
+    if f_kma:
+        final, final_plot,final_std =  make_table.make_visualization(out_score, summary_table_ByClassifier_all, antibiotics)
+    else:#if f_phylotree or random
+        final, final_plot,final_std =  make_table.make_visualization_Tree(out_score, summary_table_ByClassifier_all, antibiotics)
+
+    #### If you want to explore more into the classifiers used in each outer loop evaluation, then uncomment the following codes.
+    # final['selected hyperparameter'] = hy_para_fre
+    # final['frequency(out of 10)'] = hy_para_fren
+    # final['hyperparameter sets'] = hy_para_all
+    ####################################################################################################################
+
+
+    ####Add clinical_oriented.
+    clinical_table=extract_best_estimator_clinical(report_all,cv,level,species)
+    final = pd.concat([final, clinical_table], axis=1, join="inner")
+    final_plot = pd.concat([final_plot, clinical_table], axis=1, join="inner")
+    # #################################
 
 
     _,save_name_final = name_utility.GETname_result(softwareName, species, fscore,f_kma,f_phylotree,'',output_path)
     file_utility.make_dir(os.path.dirname(save_name_final))
-    summary_table.to_csv(save_name_final + '_SummaryClassifier.txt', sep="\t")
+
+    final.to_csv(save_name_final + '_SummaryBenchmarking.txt', sep="\t")
+    final_plot.to_csv(save_name_final + '_SummaryBenchmarking_PLOT.txt', sep="\t")
+    final_std.to_csv(save_name_final + '_SummaryBenchmarking_std.txt', sep="\t")
+
+    with open(save_name_final + '_classifier.json', 'w') as f:  # overwrite mode. ## only for misclassifier.py usage. Added 7 Sep 2023.
+        json.dump(classifier_selection, f)
 
 
-    summary_table=summary_table.astype(float)
-    summary_benchmarking['classifier']=summary_table.idxmax(axis=1)#choose the best estimator according to summary_table
 
 
-    # print(summary_benchmarking)
+def extract_best_estimator_clinical(report_all,cv,level,species):
+    '''23Aug 2023.  TODO: mt exception. finished.
+    Select the best classifier in inner loop of nested CV
+    '''
+    if species =='Mycobacterium tuberculosis':#MT issues. only for PhenotypeSeeker.
+        ### antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','rifampin','streptomycin']
+        antibiotics_run=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','streptomycin']
+    antibiotics, _, _ =  load_data.extract_info(species, False, level)
+    score_list=['clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']
+    summary_table_all = []
+    i=0
     for anti in antibiotics:
-        chosen_cl=summary_benchmarking.loc[anti,'classifier']
-        try:#MT cases in Phenotyperseeker
-            score_,_ = name_utility.GETname_result(softwareName, species, '',f_kma,f_phylotree,chosen_cl,output_path)
-            score_sub = pd.read_csv(score_ + '_clinical.txt', header=0, index_col=0, sep="\t")
-            summary_benchmarking.loc[anti, score_list] = score_sub.loc[anti,score_list ].to_list()
-        except:
-            pass
-    print(summary_benchmarking)
-    summary_benchmarking.to_csv(save_name_final + '_SummaryBenchmarking.txt', sep="\t")
+        print(species,anti)
+        summary_table_initial= pd.DataFrame(index=['value'],columns=score_list)
+        if species=='Mycobacterium tuberculosis' and anti not in antibiotics_run:
+            i+=1
+            summary_table=summary_table_initial
+        else:
+            score_report_test=report_all[i]
+            i+=1
+            summary_table =  extract_score.score_clinical(summary_table_initial, cv, score_report_test)
+        summary_table_all.append(summary_table)
+
+    final =  make_table.make_visualization_clinical(score_list, summary_table_all, antibiotics)
+    return final
 
 
 def extract_info(softwareName,cl_list,level,s,f_all,cv,fscore,f_phylotree,f_kma, temp_path, output_path):
@@ -467,11 +453,16 @@ def extract_info(softwareName,cl_list,level,s,f_all,cv,fscore,f_phylotree,f_kma,
         if len(cl_list)>1: # phenotypeseeker & s2g2p
             if "clinical_" in fscore:
                 extract_info_species_clinical(softwareName,cl_list,level, species, cv,f_phylotree,f_kma ,temp_path, output_path)
-                extract_best_estimator_clinical(softwareName,cl_list,level, species, fscore,f_phylotree,f_kma, output_path)
+                ### extract_best_estimator_clinical(softwareName,cl_list,level, species, fscore,f_phylotree,f_kma, output_path)
             else:
+                ### extract CV results for each classifier
                 extract_info_species(softwareName,cl_list,level, species, cv,f_phylotree,f_kma ,temp_path, output_path)
-                extract_best_estimator(softwareName,cl_list,level, species, fscore,f_phylotree,f_kma, output_path)
-        else:# resfinder_folds & majority, ensemble. No need to select the best classifier for reporting.
+
+                ###extract CV results for the software as a whole: for each outer loop, report the best classifier's results base on inner loop CV.
+                ### including also clinical-oriented scores here.
+                ### select criteria: f1-macro.
+                extract_best_estimator(softwareName,cl_list,level, species, fscore,cv,f_phylotree,f_kma, temp_path,output_path)
+        else:# resfinder_folds & majority, ensemble_voting. No need to select the best classifier for reporting.
             extract_info_species2(softwareName,cl_list,level, species, cv,f_phylotree,f_kma ,temp_path, output_path)
 
 
@@ -495,15 +486,167 @@ if __name__== '__main__':
     parser.add_argument('-s', '--species', default=[], type=str, nargs='+', help='species to run: e.g.\'seudomonas aeruginosa\' \
          \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
          \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
+    # parser.add_argument('-fscore', '--fscore', default='f1_macro', type=str, required=False,
+                        # help='the score used to choose the best classifier for each antibiotic. Can be one of: \'f1_macro\','
+                        #      '\'f1_positive\',\'f1_negative\',\'accuracy\',\'clinical_f1_negative\',\'clinical_precision_neg\',\'clinical_recall_neg\'')
     parser.add_argument('-fscore', '--fscore', default='f1_macro', type=str, required=False,
-                        help='the score used to choose the best classifier for each antibiotic. Can be one of: \'f1_macro\','
-                             '\'f1_positive\',\'f1_negative\',\'accuracy\',\'clinical_f1_negative\',\'clinical_precision_neg\',\'clinical_recall_neg\'')
+                        help='No use anymore. Deprecate. ')
     parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
                         help=' phylo-tree based cv folders.')
     parser.add_argument('-f_kma', '--f_kma', dest='f_kma', action='store_true',
                         help='kma based cv folders.')
 
     parsedArgs = parser.parse_args()
-    # parser.print_help()
     extract_info(parsedArgs.softwareName,parsedArgs.cl_list,parsedArgs.level,parsedArgs.species,parsedArgs.f_all,parsedArgs.cv_number,parsedArgs.fscore,parsedArgs.f_phylotree,
                  parsedArgs.f_kma,parsedArgs.temp_path,parsedArgs.output_path)
+
+
+
+# def extract_best_estimator(softwareName,cl_list,level,species,fscore,f_phylotree,f_kma,  output_path):
+#     '''
+#     old before Aug 2023: select the estimator based on outerloop results
+#     for each species output:
+#     e.g. 1. summary_benchmarking
+#
+#     'antibiotic'|'f1_macro'|'accuracy'| 'f1_positive'|'f1_negative'|'classifier'|'selected hyperparameter'|'frequency'
+#
+#     'selected hyperparameter':
+#     {'canonical': True, 'cutting': 0.5, 'kmer': 6, 'odh': False, 'pca': False}
+#     2. [High level]for each species
+#     summary_table
+#       |SVM|Logistic Regression|Random Forest
+#     ceftazidime|0.85±0.20|...
+#     ciprofloxacin|
+#
+#
+#     # hyper_table
+#     # |SVM|Logistic Regression|Random Forest
+#     # ceftazidime||...
+#     # ciprofloxacin|
+#     '''
+#     score_list=['f1_macro','accuracy', 'f1_positive','f1_negative']
+#
+#
+#     antibiotics, _, _ =  load_data.extract_info(species, False, level)
+#     ### cl_list = ['svm', 'lr','rf']
+#
+#     summary_table = pd.DataFrame(index=antibiotics,columns=cl_list)
+#     summary_table_mean = pd.DataFrame(index=antibiotics, columns=cl_list)
+#     summary_table_std = pd.DataFrame(index=antibiotics, columns=cl_list)
+#     summary_benchmarking=pd.DataFrame(index=antibiotics,columns=score_list+['classifier', 'classifier_bymean','hyperparameter sets','selected hyperparameter','frequency(out of 10)'])
+#
+#     summary_benchmarking_plot=pd.DataFrame(index=antibiotics,columns=score_list+['classifier'])
+#     summary_benchmarking_std=pd.DataFrame(index=antibiotics,columns=score_list+['classifier'])
+#     for anti in antibiotics:
+#         for chosen_cl in cl_list:
+#
+#             score_,_ = name_utility.GETname_result(softwareName, species,'', f_kma,f_phylotree,chosen_cl,output_path)
+#
+#             score_sub=pd.read_csv(score_ + '.txt', header=0, index_col=0,sep="\t")
+#             score_sub_mean = pd.read_csv(score_ + '_PLOT.txt', header=0, index_col=0, sep="\t")
+#             score_sub_std = pd.read_csv(score_ + '_std.txt', header=0, index_col=0, sep="\t")
+#             if f_kma:
+#                 final_score_='weighted-'+fscore
+#             else:
+#                 final_score_=fscore
+#
+#             summary_table.loc[anti,chosen_cl]=score_sub.loc[anti,final_score_]
+#             summary_table_mean.loc[anti, chosen_cl] = score_sub_mean.loc[anti, final_score_]
+#             summary_table_std.loc[anti, chosen_cl] = score_sub_std.loc[anti, final_score_]
+#
+#     _,save_name_final = name_utility.GETname_result(softwareName, species, fscore,f_kma,f_phylotree,'',output_path)
+#
+#     file_utility.make_dir(os.path.dirname(save_name_final))
+#     summary_table.to_csv(save_name_final + '_SummaryClassifier.txt', sep="\t")
+#
+#
+#     summary_table_mean=summary_table_mean.astype(float)
+#     summary_table_std=summary_table_std.astype(float)
+#
+#     cl_temp = [summary_table_mean.columns[i].tolist() for i in summary_table_mean.values == summary_table_mean.max(axis=1)[:,None]]
+#     summary_benchmarking['classifier_bymean']=cl_temp
+#
+#     for index, row in summary_benchmarking.iterrows():
+#         #if there are several classifiers with the same highest fscore, then we select those with the lowest standard deviation.
+#         # if several with the same highest fscore and same lowest standard deviation, then select the first classifier in the list
+#         std_list=[summary_table_std.loc[index,each] for each in row['classifier_bymean']]
+#         try:
+#             cl_chose_sub=std_list.index(min(std_list))
+#             row['classifier']=row['classifier_bymean'][cl_chose_sub]
+#         except:#MT issues.
+#             row['classifier']=np.nan
+#
+#     print(summary_benchmarking)
+#
+#     if species =='Mycobacterium tuberculosis':#MT issues.
+#         # antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','rifampin','streptomycin']
+#         antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','streptomycin']
+#     for anti in antibiotics:
+#         chosen_cl=summary_benchmarking.loc[anti,'classifier']
+#
+#         score_,_ = name_utility.GETname_result(softwareName, species, '',f_kma,f_phylotree,chosen_cl,output_path)
+#         score_sub = pd.read_csv(score_ + '.txt', header=0, index_col=0, sep="\t")
+#         score_sub_plot = pd.read_csv(score_ + '_PLOT.txt', header=0, index_col=0, sep="\t")
+#         score_sub_std= pd.read_csv(score_ + '_std.txt', header=0, index_col=0, sep="\t")
+#         if f_kma:
+#
+#             summary_benchmarking.loc[anti, score_list] = score_sub.loc[anti, ['weighted-'+x for x in score_list]].to_list()
+#             summary_benchmarking_plot.loc[[anti], score_list] = score_sub_plot.loc[
+#                 anti, ['weighted-'+x for x in score_list]].to_list()
+#             summary_benchmarking_std.loc[[anti], score_list] = score_sub_std.loc[
+#                 anti,['weighted-'+x for x in score_list]].to_list()
+#
+#         else:
+#             summary_benchmarking.loc[anti, score_list+['hyperparameter sets','selected hyperparameter','frequency(out of 10)']] = score_sub.loc[
+#                 anti,score_list+ ['hyperparameter sets','selected hyperparameter','frequency(out of 10)']].to_list()
+#             summary_benchmarking_plot.loc[[anti], score_list] = score_sub_plot.loc[
+#                 anti, score_list].to_list()
+#             summary_benchmarking_std.loc[[anti], score_list] = score_sub_std.loc[
+#                 anti, score_list].to_list()
+#     print(summary_benchmarking)
+#     summary_benchmarking.to_csv(save_name_final + '_SummaryBenchmarking.txt', sep="\t")
+#     summary_benchmarking_plot.to_csv(save_name_final + '_SummaryBenchmarking_PLOT.txt', sep="\t")
+#     summary_benchmarking_std.to_csv(save_name_final + '_SummaryBenchmarking_std.txt', sep="\t")
+#
+#
+# def extract_best_estimator_clinical(softwareName,cl_list,level,species,fscore,f_phylotree,f_kma,  output_path):
+#     '''old before Aug 2023: select the estimator based on outerloop results'''
+#     score_list=['clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']
+#     antibiotics, _, _ =  load_data.extract_info(species, False, level)
+#     ### cl_list = ['svm', 'lr','rf']
+#
+#     summary_table = pd.DataFrame(index=antibiotics,columns=cl_list)
+#     summary_benchmarking=pd.DataFrame(index=antibiotics,columns=score_list+['classifier'])
+#
+#
+#     for anti in antibiotics:
+#         for chosen_cl in cl_list:
+#
+#             score_,_ = name_utility.GETname_result(softwareName, species,'', f_kma,f_phylotree,chosen_cl,output_path)
+#             score_sub=pd.read_csv(score_ + '_clinical.txt', header=0, index_col=0,sep="\t")
+#             final_score_=fscore
+#             summary_table.loc[anti,chosen_cl]=score_sub.loc[anti,final_score_]
+#
+#
+#
+#     _,save_name_final = name_utility.GETname_result(softwareName, species, fscore,f_kma,f_phylotree,'',output_path)
+#     file_utility.make_dir(os.path.dirname(save_name_final))
+#     summary_table.to_csv(save_name_final + '_SummaryClassifier.txt', sep="\t")
+#
+#
+#     summary_table=summary_table.astype(float)
+#     summary_benchmarking['classifier']=summary_table.idxmax(axis=1)#choose the best estimator according to summary_table
+#
+#
+#     # print(summary_benchmarking)
+#     for anti in antibiotics:
+#         chosen_cl=summary_benchmarking.loc[anti,'classifier']
+#         try:#MT cases in Phenotyperseeker
+#             score_,_ = name_utility.GETname_result(softwareName, species, '',f_kma,f_phylotree,chosen_cl,output_path)
+#             score_sub = pd.read_csv(score_ + '_clinical.txt', header=0, index_col=0, sep="\t")
+#             summary_benchmarking.loc[anti, score_list] = score_sub.loc[anti,score_list ].to_list()
+#         except:
+#             pass
+#     print(summary_benchmarking)
+#     summary_benchmarking.to_csv(save_name_final + '_SummaryBenchmarking.txt', sep="\t")
+#

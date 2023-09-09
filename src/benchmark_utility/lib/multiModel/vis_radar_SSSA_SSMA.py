@@ -52,7 +52,7 @@ def extract_info(fscore,output_path):
     species_lable=['$\mathbf{'+x.split(' ')[0][0]+'.' +x.split(' ')[1]+'}$' + '| ' for x in species_list]
 
 
-    labels = ['Single-species multi-antibiotics F1-macro mean','Single-species-antibiotic F1-macro mean','Single-species multi-antibiotics F1-macro standard deviation','Single-species-antibiotic F1-macro standard deviation' ]
+    labels = ['Single-species multi-antibiotic F1-macro mean','Single-species-antibiotic F1-macro mean','Single-species multi-antibiotic F1-macro standard deviation','Single-species-antibiotic F1-macro standard deviation' ]
     #if too long label, make it 2 lines.
 
     rcParams['mathtext.fontset'] = 'custom'

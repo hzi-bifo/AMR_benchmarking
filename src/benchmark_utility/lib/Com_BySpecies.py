@@ -43,18 +43,18 @@ def combine_data_get_score(species,tool,antibiotics,f_phylotree,f_kma,fscore,fsc
 
 
     if flag=='_PLOT':
-        if tool=='KMA-based Point-/ResFinder' : #without folds
+        if tool=='KMA-based ResFinder' : #without folds
             if species not in ['Neisseria gonorrhoeae']:
                 results_file=name_utility.GETname_ResfinderResults(species,'resfinder_k',output_path)
                 results = pd.read_csv(results_file + '.csv',index_col=0,header=0 ,sep="\t")
                 score=results.loc[:,fscore]
             else:
                 score=np.nan
-        if tool=='Blastn-based Point-/ResFinder': #without folds
+        if tool=='Blastn-based ResFinder': #without folds
             results_file=name_utility.GETname_ResfinderResults(species,'resfinder_b',output_path)
             results = pd.read_csv(results_file + '.csv',index_col=0 ,header=0,sep="\t")
             score=results.loc[:,fscore]
-        if tool=='Point-/ResFinder not valuated by folds' : #without folds, only for radar plot Supplemental File 2 Fig. S4
+        if tool=='ResFinder not valuated by folds' : #without folds, only for radar plot Supplemental File 2 Fig. S4
             if species not in ['Neisseria gonorrhoeae']:
                 results_file=name_utility.GETname_ResfinderResults(species,'resfinder_k',output_path)
                 results = pd.read_csv(results_file + '.csv',index_col=0,header=0 ,sep="\t")
@@ -69,8 +69,9 @@ def combine_data_get_score(species,tool,antibiotics,f_phylotree,f_kma,fscore,fsc
 
 
 
-    if tool in ['Point-/ResFinder','Point-/ResFinder evaluated by folds']:#folds version.
+    if tool in ['ResFinder','ResFinder evaluated by folds']:#folds version.
         _, results_file= name_utility.GETname_result('resfinder_folds', species, '',f_kma,f_phylotree,'',output_path)
+
         results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
         score=results.loc[:,fscore]
 
@@ -86,7 +87,7 @@ def combine_data_get_score(species,tool,antibiotics,f_phylotree,f_kma,fscore,fsc
         if species !='Mycobacterium tuberculosis':#no MT information.
             _, results_file= name_utility.GETname_result('seq2geno', species, fscore,f_kma,f_phylotree,'',output_path)
             results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
-            score=results.loc[:,fscore]
+            score=results.loc[:,fscore_format]
         else:
             score=np.empty((len(antibiotics)))
             score[:] = np.NaN
@@ -95,13 +96,13 @@ def combine_data_get_score(species,tool,antibiotics,f_phylotree,f_kma,fscore,fsc
 
         _, results_file= name_utility.GETname_result('phenotypeseeker', species, fscore,f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
-        score=results.loc[:,fscore]
+        score=results.loc[:,fscore_format]
 
     if tool=='Kover':
 
         _, results_file= name_utility.GETname_result('kover', species,fscore,f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
-        score=results.loc[:,fscore]
+        score=results.loc[:,fscore_format]
 
     if tool=='ML Baseline (Majority)':
         _, results_file= name_utility.GETname_result('majority', species, '',f_kma,f_phylotree,'',output_path)
@@ -322,16 +323,17 @@ def ComBySpecies(tool_list,level,s, fscore, f_phylotree, f_kma,f_all,fig,i,trans
     # ------------------------------------------------------------------------------------------------
 
     for species, antibiotics_selected in zip(df_species_radar, antibiotics_radar):
-        print(species)
-        antibiotics, ID, Y =load_data.extract_info(species, False, level)
 
+        antibiotics, ID, Y =load_data.extract_info(species, False, level)
+        print(species,len(antibiotics))
         #---------------------------------------------------
         # -------------------Std of scores--------------
 
         theta = radar_factory(len(antibiotics),'radar'+species, frame='polygon')
         axs_std = plt.subplot(9,3,i, projection='radar'+species)
         data = combine_data_std(species,antibiotics,fscore, f_phylotree, f_kma,tool_list,output_path)
-        # print(data)
+        # if species=='Mycobacterium tuberculosis':
+        #     print(data)
 
         spoke_labels = antibiotics#antibiotics
         #Add acronym
@@ -347,6 +349,7 @@ def ComBySpecies(tool_list,level,s, fscore, f_phylotree, f_kma,f_all,fig,i,trans
         p_radar=[]
 
         for d, color in zip(data, colors):
+
             p_ =axs_std.plot(theta, d,  'o-', markersize=6,color=color,dashes=[5,2],linewidth=line_width )
             p_radar.append(p_)
 
@@ -391,7 +394,8 @@ def ComBySpecies(tool_list,level,s, fscore, f_phylotree, f_kma,f_all,fig,i,trans
         # -------------------Mean of scores--------------
 
         data = combine_data_mean(species,antibiotics,fscore, f_phylotree, f_kma,tool_list,output_path)
-        # print(data)
+        # if species=='Mycobacterium tuberculosis':
+        #     print(data)
 
 
         temp_zorder=0

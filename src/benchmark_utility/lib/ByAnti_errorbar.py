@@ -108,7 +108,7 @@ def ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path):
             elif f_phylotree:
                 axs[row, col].legend(bbox_to_anchor=(3.5,1.3), ncol=8,fontsize=18,frameon=False)
             else:
-                print("???")
+                # print("???")
                 axs[row, col].legend(bbox_to_anchor=(3.5,1.3), ncol=8,fontsize=18,frameon=False)
 
 

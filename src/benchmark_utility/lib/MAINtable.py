@@ -44,7 +44,7 @@ def extract_info(level,s, f_all,output_path,tool_list,foldset,save_file_name):
 
 
     for species, antibiotics_selected in zip(df_species, antibiotics):
-
+        print(species,foldset)
 
         species_sub=[species]
         df_macro=combine_data(species_sub,level,'f1_macro',tool_list,foldset,output_path)

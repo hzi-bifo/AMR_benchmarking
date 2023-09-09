@@ -218,7 +218,7 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
         ### tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
         summary_table_mean= pd.DataFrame(columns=['software','Random folds', 'Phylogeny-aware folds','Homology-aware folds']) ##not for plotting.
         summary_table_std= pd.DataFrame(columns=['software','Random folds', 'Phylogeny-aware folds','Homology-aware folds']) ##not for plotting.
-        tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','Point-/ResFinder']
+        tool_list=[ 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ResFinder']
         fig, axs = plt.subplots(2,3,figsize=(25, 18))
         plt.tight_layout(pad=4)
         fig.subplots_adjust(wspace=0.1, hspace=0.25, top=0.95, bottom=0.02,left=0.08)
@@ -291,7 +291,7 @@ def extract_info(level,s, fscore,f_all,f_step,f_mean_std,output_path):
                     ax.plot(df_x_jitter[col_t], df[col_t], 'go', alpha=0.6, zorder=1, ms=8, mew=1, label="Homology-aware folds")
                 i_color+=1
 
-            if tool=='Point-/ResFinder':
+            if tool=='ResFinder':
                 if f_mean_std=='mean':
                     leg=ax.legend(bbox_to_anchor=(2.17, 0.7),ncol=1,fontsize=40,frameon=False, markerscale=2)
                 else:

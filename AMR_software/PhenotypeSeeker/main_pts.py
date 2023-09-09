@@ -77,7 +77,8 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
                     # only retain those in the training and validataion CV folders
                     name_list_train = name_list.loc[name_list['genome_id'].isin(id_val_train)]
                     name_list_train['genome_id'].to_csv(meta_txt + '_Train_' + str(out_cv) + '_id2', sep="\t", index=False, header=False)
-                    name_list_train['ID'] = temp_path+'log/software/phenotypeseeker/software_output/K-mer_lists/'+ name_list_train['genome_id'].astype(str)+'_0_'+str(kmer)+'.list' #todo, when finished, make the path relative.
+                    name_list_train['ID'] = temp_path+'log/software/phenotypeseeker/software_output/K-mer_lists/'+ \
+                                            name_list_train['genome_id'].astype(str)+'_0_'+str(kmer)+'.list'
                     name_list_train['ID'].to_csv(meta_txt + '_Train_' + str(out_cv) + '_id', sep="\t", index=False, header=False)
                     name_list_train.rename(columns={'resistant_phenotype': anti}, inplace=True)
                     name_list_train = name_list_train.loc[:, ['genome_id',anti]]
@@ -105,14 +106,15 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
 
 
             antibiotics, _, _ =  load_data.extract_info(species, False, level)
-            if species=='Mycobacterium tuberculosis': #for this species, some combinations could not ne finished with 2 months.
+            if species=='Mycobacterium tuberculosis': #for this species, some combinations could not be finished with 2 months.
                 antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','rifampin','streptomycin']
 
 
+            # antibiotics=antibiotics[12:]
             for anti in antibiotics:
                 print(anti)
                 for chosen_cl in ['svm', 'lr','rf']:
-
+                # for chosen_cl in ['rf']:
                     hyper_space, cl = hyper_range(chosen_cl)
 
                     mcc_test = []  # MCC results for the test data
@@ -120,6 +122,9 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
                     score_report_test = []
                     aucs_test = []
                     hyperparameters_test = []
+                    score_InnerLoop=[]
+                    index_InnerLoop=[]
+                    cv_results_InnerLoop=[]
                     predictY_test=[]
                     true_Y=[]
                     sampleNames_test=[]
@@ -144,7 +149,7 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
                         train_val_train_index = folders_index[:out_cv] + folders_index[out_cv + 1:]
                         main_meta = pd.read_csv(meta_original, index_col=0, dtype={'genome_id': object}, sep="\t")
 
-                        main_meta = main_meta.set_index('genome_id')
+                        main_meta = main_meta.set_index('genome_id') #the sam eorder ias P_names
                         train_set_new=train_set.reindex(main_meta.index) #[force] the data_x 's order in according with id_list
                         train_set_new = train_set_new.fillna(0)#the nan part will not be used, because cv folders setting. But sklearn requires numerical type.
                         ### Those na indicates samples bolong to the testing set.
@@ -157,7 +162,7 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
                         #------------------------------------------
                         #------------------------------------------
 
-                        X = train_set_new.iloc[:,0:-1].values#the whole set
+                        X = train_set_new.iloc[:,0:-1].values#the whole set, with 0 for samples in test set.
                         y = train_set_new.iloc[:, -1].values.flatten() #the whole set
                         X_train = train_set.iloc[:, 0:-1].values
                         y_train = train_set.iloc[:,-1].values.flatten()
@@ -172,9 +177,13 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
 
                         search.fit(X, y)
                         hyperparameters_test_sub=search.best_estimator_
+                        scores_best=search.best_score_ #### July 2023. newly added. used to select the best classifiers for final outer loop testing.
+                        index_best=search.best_index_
+                        cv_results=search.cv_results_
                         current_pipe=hyperparameters_test_sub
                         # -------------------------------------------------------
-                        ### retrain on train and val
+                        ### retrain on train and val.
+                        ### Note, the X,y include testing data, so we can't just use best_estimator_.predict() directly.
                         current_pipe.fit(X_train, y_train)
                         y_test_pred = current_pipe.predict(X_test)
                         ### scores
@@ -189,6 +198,9 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
                         aucs_test.append(roc_auc)
                         mcc_test.append(mcc)
                         hyperparameters_test.append(hyperparameters_test_sub)
+                        score_InnerLoop.append(scores_best)
+                        cv_results_InnerLoop.append(cv_results)
+                        index_InnerLoop.append(index_best)
                         predictY_test.append( y_test_pred.tolist())
                         true_Y.append(y_test.tolist())
                         sampleNames_test.append(folders_sample[out_cv])
@@ -196,7 +208,8 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
 
                     score ={'f1_test':f1_test,'score_report_test':score_report_test,'aucs_test':aucs_test,'mcc_test':mcc_test,
                          'predictY_test':predictY_test,'ture_Y':true_Y,'samples':sampleNames_test}
-                    score2= {'hyperparameters_test':hyperparameters_test,'estimator_test':estimator_test}
+                    score2= {'hyperparameters_test':hyperparameters_test,'estimator_test':estimator_test,
+                             'score_InnerLoop':score_InnerLoop,'index_InnerLoop':index_InnerLoop,'cv_results_InnerLoop':cv_results_InnerLoop}
                     with open(save_name_score + '_KMA_' + str(f_kma) + '_Tree_' + str(f_phylotree) + '.json',
                               'w') as f:  # overwrite mode
                         json.dump(score, f)
