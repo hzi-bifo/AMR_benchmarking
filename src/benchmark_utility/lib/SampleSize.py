@@ -67,6 +67,7 @@ def extract_info(level,save_file_name ):
     kind = 'barh',
     stacked = True,
     mark_right = True,ax=axs[0])
+
     fig=ax.get_figure()
     ax.yaxis.set_label_text('')
     ax.legend(bbox_to_anchor=(0.9, 1.03 ),ncol=2,fontsize=24,frameon=False)
@@ -103,3 +104,64 @@ def extract_info(level,save_file_name ):
     print('Number of combinations with im balance ratio < 0.5:',df_rel[df_rel<0.5].count()+count_ratio)
     fig.savefig(save_file_name)
 
+def extract_info2(level,save_file_name ):
+    ## log scale plotting
+
+
+    species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
+                  'Acinetobacter baumannii','Streptococcus pneumoniae', 'Campylobacter jejuni','Enterococcus faecium',
+                  'Neisseria gonorrhoeae','Mycobacterium tuberculosis']
+
+
+    species_list=rearrange(species_list)
+
+
+    df_plot = pd.DataFrame(columns=[ 'anti', 'Resistant','Susceptible'])
+
+    fig, axs = plt.subplots(1,1,figsize=(6, 20))
+    plt.tight_layout(pad=4)
+    fig.subplots_adjust(left=0.6,  right=0.96,wspace=0.25, hspace=0.1, top=0.97, bottom=0.02)
+    for species in  species_list :
+        df=pd.read_csv('./data/PATRIC/meta/'+str(level)+'_genomeNumber/log_' + str(species.replace(" ", "_")) + '_pheno_summary' + '.txt', sep="\t" )
+
+        df=df.rename(columns={"Unnamed: 0": "anti"})
+        df=df[['anti','Resistant','Susceptible']]
+        # reverse the order of antibiotics list. to make it consistent with other tables.
+        df=df.loc[::-1]
+
+        df_plot=df_plot.append(df, sort=False)
+
+    df_plot=df_plot.reset_index(drop=True)
+
+    ## change to log scale
+    print(df_plot)
+    df_plot_temp=df_plot[['Resistant','Susceptible']]
+    df_plot_temp=df_plot_temp.astype(float)
+    df_plot_temp=np.log10(df_plot_temp)
+    print(df_plot_temp)
+    df_plot[['Resistant','Susceptible']]=df_plot_temp[['Resistant','Susceptible']]
+
+    #add acronym
+    with open('./data/AntiAcronym_dict.json') as f:
+                map_acr = json.load(f)
+    df_plot['anti_new']=df_plot['anti'].apply(lambda x:map_acr[x])
+
+    print(df_plot)
+
+    ax=df_plot.plot(
+    x = 'anti_new',
+    kind = 'barh',
+    stacked = True,
+    mark_right = True,ax=axs)
+
+    fig=ax.get_figure()
+    ax.yaxis.set_label_text('')
+    ax.legend(bbox_to_anchor=(1, 1.04 ),ncol=2,fontsize=20,frameon=False)
+    ax.set_yticklabels(ax.get_yticklabels(),fontsize = 20 )
+    ax.set(xlim=(0, 8))
+    plt.xticks(fontsize=20)
+    # ax.tick_params(axis='x', which='minor', labelsize=20)
+    # ax.tick_params(axis='x', which='minor',  labelsize=500)
+
+    print(save_file_name)
+    fig.savefig(save_file_name)
