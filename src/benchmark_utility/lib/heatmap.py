@@ -258,7 +258,7 @@ def extract_info(level, fscore,foldset,tool_list,output_path,save_file_name):
         # df_mean=df_mean.round(2)
         df_mean=df_mean[tool_list]
         if j==1:
-            df_mean=df_mean.reindex(list(range(0,79))).reset_index(drop=True)
+            df_mean=df_mean.reindex(list(range(0,78))).reset_index(drop=True)
 
         data_mean=df_mean.to_numpy()
 
