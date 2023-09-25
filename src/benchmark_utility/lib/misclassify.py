@@ -14,19 +14,20 @@ analyze misclassified genomes
 log: 7 Sep 2023: modifying due to classifier selection update.
 '''
 
-def get_genomes(softwareName,level, species, anti,chosen_cl,temp_path,f_kma,f_phylotree,
-                cv,fold,SampleName_correct_Phylo,SampleName_wrong_Phylo,SampleName_correct_KMA,
-                SampleName_wrong_KMA,SampleName_correct_Random,SampleName_wrong_Random,OCCUR,MISCLASSIFY):
+def get_genomes(softwareName,level, species, i_anti,anti,cv,fscore,temp_path,f_kma,f_phylotree,output_path):
     '''only for S2G2P, pts'''
-
     # Correctly predicted genome name list.
-    correct=[]
-    wrong=[]
-    all=[]
-    for i_cv in range(cv):
-        # the classifier for each iteration of outer loop is selected based on inner loop CV. information extracted in result_analysis.py.
-        chosen_cl_cv=chosen_cl[i_cv]
 
+
+    _,save_name_final = name_utility.GETname_result(softwareName, species, fscore,f_kma,f_phylotree,'',output_path)
+    with open(save_name_final + '_classifier.json') as f:
+        classifier_selection = json.load(f)  ## 7 sep 2023
+    chosen_cl=classifier_selection[i_anti]
+    correct=[]
+    all=[]
+    for outer_cv in range(cv):
+        # the classifier for each iteration of outer loop is selected based on inner loop CV. information extracted in result_analysis.py.
+        chosen_cl_cv=chosen_cl[outer_cv]
         _,_ ,save_name_score= name_utility.GETname_model(softwareName,level, species, anti,chosen_cl_cv,temp_path)
         with open(save_name_score + '_KMA_' + str(f_kma) + '_Tree_' + str(f_phylotree) + '.json') as f:
             score = json.load(f)
@@ -35,85 +36,78 @@ def get_genomes(softwareName,level, species, anti,chosen_cl,temp_path,f_kma,f_ph
         true_Y=score['ture_Y']
 
         j_genome=0
-        for each in true_Y[i_cv]:
-            if predictY_test[i_cv][j_genome] == each:
-                correct.append(All_samples[i_cv][j_genome])
-            else:
-                wrong.append(All_samples[i_cv][j_genome])
-            all.append(All_samples[i_cv][j_genome])
+        for each in true_Y[outer_cv]:
+            if predictY_test[outer_cv][j_genome] == each:
+                correct.append(All_samples[outer_cv][j_genome])
+            all.append(All_samples[outer_cv][j_genome])
             j_genome+=1
-    # print(correct)
-    # print(wrong)
     correct=['iso_'+ a for a in correct]
-    # wrong=['iso_'+ a for a in wrong]
+    all=['iso_'+ a for a in all]
+
+    return correct,all
 
 
-    if fold=='Phylogeny-aware folds':
-         SampleName_correct_Phylo=SampleName_correct_Phylo+correct
-         # SampleName_wrong_Phylo=SampleName_wrong_Phylo+wrong
-    elif fold=='Homology-aware folds':
-         SampleName_correct_KMA=SampleName_correct_KMA+correct
-         # SampleName_wrong_KMA=SampleName_wrong_KMA+wrong
-    else:#'Random folds', or 'no folds'
-        SampleName_correct_Random=SampleName_correct_Random+correct
-        # SampleName_wrong_Random=SampleName_wrong_Random+wrong
-        ###OCCUR=OCCUR+all
-
-    ### list out genomes that are correctly predicted by random folds, while woringly predicted by the other two.
-
-    for each in SampleName_correct_Random:
-        if (each not in SampleName_correct_KMA) and (each not in SampleName_correct_Phylo):
-            MISCLASSIFY.append(each)
-    return MISCLASSIFY
-
-
-def get_genomes2(score,cv,fold,SampleName_correct_Phylo,SampleName_wrong_Phylo,SampleName_correct_KMA,
-                SampleName_wrong_KMA,SampleName_correct_Random,SampleName_wrong_Random,OCCUR,MISCLASSIFY):
+def get_genomes_AA(species, anti,cv,temp_path,f_kma,f_phylotree):
     '''
-    difference with get_genomes:
     only for 'Aytan-Aktug': predictY_test format slightly different.
-    ouput "OCCUR"
-    no classifier selection.
+    all: samples involved for this scenario, this drug, this species.
+    correct: samples being correctly predicted.
     '''
+    learning=0.0
+    epochs=0
+    f_fixed_threshold=True
+    f_nn_base=False
+    f_optimize_score='f1_macro'
+    save_name_score,_,_ =  name_utility.GETname_AAscoreSSSA('AytanAktug',species, anti,learning,\
+                                                                         epochs,f_fixed_threshold,f_nn_base,\
+                                                           f_optimize_score,temp_path,f_kma,f_phylotree)
 
+    with open(save_name_score) as f:
+        score = json.load(f)
     All_samples=score['samples']
     predictY_test=score['predictY_test']
     true_Y=score['ture_Y']
 
     # Correctly predicted genome name list.
     correct=[]
-    # wrong=[]
     all=[]
     for i_cv in range(cv):
         j_genome=0
         for each in true_Y[i_cv]:
             if predictY_test[i_cv][j_genome][0] == each:
                 correct.append(All_samples[i_cv][j_genome])
-            # else:
-            #     wrong.append(All_samples[i_cv][j_genome])
             all.append(All_samples[i_cv][j_genome])
             j_genome+=1
     correct=['iso_'+ a for a in correct]
-    # wrong=['iso_'+ a for a in wrong]
     all=['iso_'+ a for a in all]
 
-    if fold=='Phylogeny-aware folds':
-         SampleName_correct_Phylo=SampleName_correct_Phylo+correct
-         # SampleName_wrong_Phylo=SampleName_wrong_Phylo+wrong
-    elif fold=='Homology-aware folds':
-         SampleName_correct_KMA=SampleName_correct_KMA+correct
-         # SampleName_wrong_KMA=SampleName_wrong_KMA+wrong
-    else:#'Random folds', or 'no folds'
-        SampleName_correct_Random=SampleName_correct_Random+correct
-        # SampleName_wrong_Random=SampleName_wrong_Random+wrong
-        OCCUR=OCCUR+all
+    return correct,all
 
-    ### list out genomes that are correctly predicted by random folds, while woringly predicted by the other two.
 
-    for each in SampleName_correct_Random:
-        if (each not in SampleName_correct_KMA) and (each not in SampleName_correct_Phylo):
-            MISCLASSIFY.append(each)
-    return MISCLASSIFY,OCCUR
+def get_genomes_kover(species,level,i_anti, anti,cv,fscore,temp_path,f_kma,f_phylotree,output_path):
+
+    _,save_name_final = name_utility.GETname_result('kover', species, fscore,f_kma,f_phylotree,'',output_path)
+    with open(save_name_final + '_classifier.json') as f:
+        classifier_selection = json.load(f)  ## 7 sep 2023
+
+    chosen_cl=classifier_selection[i_anti]
+    correct=[]
+    wrong=[]
+    all=[]
+    for outer_cv in range(cv):
+
+        chosen_cl_cv=chosen_cl[outer_cv]
+        _,_,meta_txt,_ = name_utility.GETname_model2('kover',level, species, anti,'',temp_path,f_kma,f_phylotree)
+        with open(meta_txt+'_temp/'+str(chosen_cl_cv)+'_b_'+str(outer_cv)+'/results.json') as f:
+            data = json.load(f)
+
+        test_errors_list=data["classifications"]['test_errors']
+        test_corrects_list=data["classifications"]['test_correct']
+        correct=correct+test_errors_list
+        wrong=wrong+test_corrects_list
+    all=all+correct+wrong
+    return correct, all
+
 
 
 def generate_annotate_file(df_species,tool_list,cv,level,foldset,fscore,temp_path,output_path,annotation_name):
@@ -121,191 +115,95 @@ def generate_annotate_file(df_species,tool_list,cv,level,foldset,fscore,temp_pat
         OCCUR=[] #  The number of species-antibiotic combinations a genome is in. For each specific species.
         MISCLASSIFY=[]# The number of occurring >1 may indicate being predicted wrongly in more than two methods or more than two antibiotics.
 
-        if 'Aytan-Aktug' not in tool_list: # only for the sake of provide the OCCUR, which could be provided during analyzing Aytan-Aktug.
-            f_phylotree=False
-            f_kma=False
-            fold='Random folds'
-            MISCLASSIFY_=[]
-
-            antibiotics, ID, _ =  load_data.extract_info(species, False, level)
-            learning=0.0
-            epochs=0
-            f_fixed_threshold=True
-            f_nn_base=False
-            f_optimize_score='f1_macro'
-            ##1. random folds
-            ### f_kma,f_phylotree=False,False
-            i=0
-            for anti in antibiotics:
-                SampleName_correct_Random=[]
-                SampleName_correct_Phylo=[]
-                SampleName_correct_KMA=[]
-                SampleName_wrong_Random=[]
-                SampleName_wrong_Phylo=[]
-                SampleName_wrong_KMA=[]
-                save_name_score,_,_ =  name_utility.GETname_AAscoreSSSA('AytanAktug',species, anti,learning,\
-                                                                         epochs,f_fixed_threshold,f_nn_base,\
-                                                           f_optimize_score,temp_path,f_kma,f_phylotree)
-
-
-                with open(save_name_score) as f:
-                    score = json.load(f)
-                _,OCCUR=get_genomes2(score,cv,fold,SampleName_correct_Phylo,SampleName_wrong_Phylo,SampleName_correct_KMA,
-                        SampleName_wrong_KMA,SampleName_correct_Random,SampleName_wrong_Random,OCCUR,MISCLASSIFY_)
-
-
-
-
-
-
-
         for softwareName in tool_list:
 
-            for fold in foldset:
-                if fold=='Phylogeny-aware folds':
-                    f_phylotree=True
+            print(species,'----',softwareName,'----')
+            antibiotics, ID, _ =  load_data.extract_info(species, False, level)
+            if softwareName=='Aytan-Aktug':
+                ##### MISCLASSIFY_allAnti=[] #note: the occurrence of each genome indicates its count for misclassification.
+                OCCUR_allAnti=[] # the occurrence of each genome indicates its count for being involved in species-antibiotic combinations.
+                for anti in antibiotics:
+
+                    f_phylotree=False
                     f_kma=False
-                    # fscore_format= fscore
-                elif fold=='Homology-aware folds':
+                    SampleName_correct_Random,occur=get_genomes_AA(species, anti,cv,temp_path,f_kma,f_phylotree)
+
                     f_phylotree=False
                     f_kma=True
-                    # fscore_format="weighted-"+fscore #only for Aytan-Aktug SSSA
-                else:#'Random folds', or 'no folds'
+                    SampleName_correct_Phylo,_=get_genomes_AA(species, anti,cv,temp_path,f_kma,f_phylotree)
+
+                    f_phylotree=True
+                    f_kma=False
+                    SampleName_correct_KMA,_=get_genomes_AA(species, anti,cv,temp_path,f_kma,f_phylotree)
+
+                    ### list out genomes that are correctly predicted by random folds, while woringly predicted by the other two.
+                    for each in SampleName_correct_Random:
+                        if (each not in SampleName_correct_KMA) and (each not in SampleName_correct_Phylo):
+                            MISCLASSIFY.append(each)
+
+                    OCCUR_allAnti=OCCUR_allAnti+occur
+                OCCUR=OCCUR+OCCUR_allAnti
+            elif softwareName=='kover':
+                OCCUR_allAnti=[] # the occurrence of each genome indicates its count for being involved in species-antibiotic combinations.
+                i_anti=0
+                for anti in antibiotics:
+
                     f_phylotree=False
                     f_kma=False
-                    # fscore_format= fscore
+                    SampleName_correct_Random,occur=get_genomes_kover(species,level,i_anti, anti,cv,fscore,temp_path,f_kma,f_phylotree,output_path)
 
-                print(species,'----',softwareName,'----', fold)
-                antibiotics, ID, _ =  load_data.extract_info(species, False, level)
-                if softwareName=='Aytan-Aktug':
-                    learning=0.0
-                    epochs=0
-                    f_fixed_threshold=True
-                    f_nn_base=False
-                    f_optimize_score='f1_macro'
-                    ##1. random folds
-                    ### f_kma,f_phylotree=False,False
-                    i=0
-                    for anti in antibiotics:
-                        SampleName_correct_Random=[]
-                        SampleName_correct_Phylo=[]
-                        SampleName_correct_KMA=[]
-                        SampleName_wrong_Random=[]
-                        SampleName_wrong_Phylo=[]
-                        SampleName_wrong_KMA=[]
-                        save_name_score,_,_ =  name_utility.GETname_AAscoreSSSA('AytanAktug',species, anti,learning,\
-                                                                                 epochs,f_fixed_threshold,f_nn_base,\
-                                                                   f_optimize_score,temp_path,f_kma,f_phylotree)
+                    f_phylotree=False
+                    f_kma=True
+                    SampleName_correct_Phylo,_=get_genomes_kover(species,level,i_anti, anti,cv,fscore,temp_path,f_kma,f_phylotree,output_path)
 
+                    f_phylotree=True
+                    f_kma=False
+                    SampleName_correct_KMA,_=get_genomes_kover(species,level,i_anti, anti,cv,fscore,temp_path,f_kma,f_phylotree,output_path)
+                    i_anti+=1
+                    ### list out genomes that are correctly predicted by random folds, while woringly predicted by the other two.
+                    for each in SampleName_correct_Random:
+                        if (each not in SampleName_correct_KMA) and (each not in SampleName_correct_Phylo):
+                            MISCLASSIFY.append(each)
+                    # print(len(occur))
+                    OCCUR_allAnti=OCCUR_allAnti+occur
+                OCCUR=OCCUR+OCCUR_allAnti
+            else: ### S2G2P, PTS.
+                OCCUR_allAnti=[]
+                i_anti=0
+                for anti in antibiotics:
+                    f_phylotree=False
+                    f_kma=False
+                    SampleName_correct_Random,occur=get_genomes(softwareName,level, species, i_anti,anti,cv,fscore,temp_path,f_kma,f_phylotree,output_path)
 
-                        with open(save_name_score) as f:
-                            score = json.load(f)
+                    f_phylotree=False
+                    f_kma=True
+                    SampleName_correct_Phylo,_=get_genomes(softwareName,level, species, i_anti,anti,cv,fscore,temp_path,f_kma,f_phylotree,output_path)
 
-                        MISCLASSIFY,OCCUR=get_genomes2(score,cv,fold,SampleName_correct_Phylo,SampleName_wrong_Phylo,SampleName_correct_KMA,
-                                SampleName_wrong_KMA,SampleName_correct_Random,SampleName_wrong_Random,OCCUR,MISCLASSIFY)
+                    f_phylotree=True
+                    f_kma=False
+                    SampleName_correct_KMA,_=get_genomes(softwareName,level, species, i_anti,anti,cv,fscore,temp_path,f_kma,f_phylotree,output_path)
+                    i_anti+=1
+                    ### list out genomes that are correctly predicted by random folds, while woringly predicted by the other two.
+                    for each in SampleName_correct_Random:
+                        if (each not in SampleName_correct_KMA) and (each not in SampleName_correct_Phylo):
+                            MISCLASSIFY.append(each)
+                    OCCUR_allAnti=OCCUR_allAnti+occur
 
-
-
-                elif softwareName=='kover':
-                    _,save_name_final = name_utility.GETname_result(softwareName, species, fscore,f_kma,f_phylotree,'',output_path)
-                    # results=pd.read_csv(save_name_final + '_SummaryBenchmarking.txt', sep="\t",index_col=0)
-                    # chosen_classifier=results['classifier'].tolist()
-                    with open(save_name_final + '_classifier.json') as f:
-                        classifier_selection = json.load(f)  ## 7 sep 2023
-
-                    i=0
-                    for anti in antibiotics:
-                        SampleName_correct_Random=[]
-                        SampleName_correct_Phylo=[]
-                        SampleName_correct_KMA=[]
-                        SampleName_wrong_Random=[]
-                        SampleName_wrong_Phylo=[]
-                        SampleName_wrong_KMA=[]
-
-                        chosen_cl=classifier_selection[i]
-
-
-
-                        _,_,meta_txt,_ = name_utility.GETname_model2('kover',level, species, anti,'',temp_path,f_kma,f_phylotree)
-
-                        correct=[]
-                        wrong=[]
-                        for outer_cv in range(cv):
-
-                            chosen_cl_cv=chosen_cl[outer_cv]
-                            with open(meta_txt+'_temp/'+str(chosen_cl_cv)+'_b_'+str(outer_cv)+'/results.json') as f:
-                                data = json.load(f)
-
-                            test_errors_list=data["classifications"]['test_errors']
-                            test_corrects_list=data["classifications"]['test_correct']
-                            correct=correct+test_errors_list
-                            wrong=wrong+test_corrects_list
-
-
-
-                        if fold=='Phylogeny-aware folds':
-                             SampleName_correct_Phylo=SampleName_correct_Phylo+correct
-                             # SampleName_wrong_Phylo=SampleName_wrong_Phylo+wrong
-                        elif fold=='Homology-aware folds':
-                             SampleName_correct_KMA=SampleName_correct_KMA+correct
-                             # SampleName_wrong_KMA=SampleName_wrong_KMA+wrong
-                        else:#'Random folds', or 'no folds'
-                            SampleName_correct_Random=SampleName_correct_Random+correct
-                            # SampleName_wrong_Random=SampleName_wrong_Random+wrong
-
-                        ### list out genomes that are correctly predicted by random folds, while woringly predicted by the other two.
-
-                        for each in SampleName_correct_Random:
-                            if (each not in SampleName_correct_KMA) and (each not in SampleName_correct_Phylo):
-                                MISCLASSIFY.append(each)
-
-
-                else: ### S2G2P, PTS.
-
-
-                    ##1. random folds
-                    ### f_kma,f_phylotree=False,False
-                    _,save_name_final = name_utility.GETname_result(softwareName, species, fscore,f_kma,f_phylotree,'',output_path)
-                    #### results=pd.read_csv(save_name_final + '_SummaryBenchmarking.txt', sep="\t",index_col=0)
-
-                    with open(save_name_final + '_classifier.json') as f:
-                        classifier_selection = json.load(f)  ## 7 sep 2023
-
-                    # chosen_classifier=results['classifier'].tolist()
-
-
-                    i=0
-                    for anti in antibiotics:
-                        SampleName_correct_Random=[]
-                        SampleName_correct_Phylo=[]
-                        SampleName_correct_KMA=[]
-                        SampleName_wrong_Random=[]
-                        SampleName_wrong_Phylo=[]
-                        SampleName_wrong_KMA=[]
-                        chosen_cl=classifier_selection[i]
-                        i+=1
-
-                        MISCLASSIFY=get_genomes(softwareName,level, species, anti,chosen_cl,temp_path,f_kma,f_phylotree,
-                                                cv,fold,SampleName_correct_Phylo,SampleName_wrong_Phylo,SampleName_correct_KMA,
-                                SampleName_wrong_KMA,SampleName_correct_Random,SampleName_wrong_Random,OCCUR,MISCLASSIFY)
-
-
-
-
+                OCCUR=OCCUR+OCCUR_allAnti
 
         # print(len(MISCLASSIFY))
         mis_unique=list(dict.fromkeys(MISCLASSIFY))
         MISCLASSIFY_dic=Counter(MISCLASSIFY)
-        print(len(MISCLASSIFY_dic))
+        print('MISCLASSIFY_dic: ',len(MISCLASSIFY_dic))
         # print(MISCLASSIFY_dic)
         OCCUR_dic=Counter(OCCUR)
-        print(len(OCCUR_dic))
+        print('OCCUR',len(OCCUR_dic))
         # print(OCCUR_dic)
 
-
-        # print out the max occurring, just for double checking.
-        print(max(MISCLASSIFY_dic.values()) )#E.coli 31, Sa: 36
-        print(max(OCCUR_dic.values())  )#11,11
+        if len(MISCLASSIFY_dic)>0:
+            # print out the max occurring, just for double checking.
+            print(max(MISCLASSIFY_dic.values()) )#E.coli 31, Sa: 36
+        print('max(OCCUR_dic.values())',max(OCCUR_dic.values()) )#11,11
 
 
         save_file_name=output_path+ 'Results/other_figures_tables/MisclassifiedGenomes_'+ annotation_name+'/'+str(species.replace(" ", "_"))
@@ -315,10 +213,7 @@ def generate_annotate_file(df_species,tool_list,cv,level,foldset,fscore,temp_pat
         with open(save_file_name+ '_Alloccur.json','w') as f:  # overwrite mode
             json.dump(OCCUR_dic, f)
 
-        # f = open(save_file_name+".txt", "w")
-        # for i in MISCLASSIFY_dic:
-        #     f.write(i +' '+ str(MISCLASSIFY_dic[i])+'\n')
-        # f.close()
+
 
         f = open(save_file_name+"_Alloccur.txt", "w")
         for i in MISCLASSIFY_dic:
@@ -349,7 +244,7 @@ def extract_info(s,f_all,level,cv,fscore,temp_path,output_path):
     foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
     tool_list=[ 'seq2geno','phenotypeseeker','Aytan-Aktug','kover']
     generate_annotate_file(df_species,tool_list,cv,level,foldset,fscore,temp_path,output_path,'4methods')
-
+    #
     tool_list=['seq2geno']
     generate_annotate_file(df_species,tool_list,cv,level,foldset,fscore,temp_path,output_path,'s2g2p')
 
