@@ -217,12 +217,12 @@ def generate_annotate_file(df_species,tool_list,cv,level,foldset,fscore,temp_pat
 
         f = open(save_file_name+"_Alloccur.txt", "w")
         for i in MISCLASSIFY_dic:
-            f.write(i+','+ str(MISCLASSIFY_dic[i]) +','+ str(OCCUR_dic[i])+'\n')
+            f.write(i+','+ str(100 * MISCLASSIFY_dic[i] / OCCUR_dic[i]) +','+ str(OCCUR_dic[i]/len(tool_list))+'\n')
         f.close()
 
-        f = open(save_file_name+"_ratio.txt", "w")
+        f = open(save_file_name+"_ratio.txt", "w") ### for all 4 methods misclassification analysis, this ratio averaged all the 4 methods.
         for i in MISCLASSIFY_dic:
-            r= MISCLASSIFY_dic[i]/ OCCUR_dic[i]
+            r=  MISCLASSIFY_dic[i] / OCCUR_dic[i]   ###(MISCLASSIFY_dic[i]/len(tool_list)) / (OCCUR_dic[i]/len(tool_list))
             r=str(round(r, 2))
             f.write(i+','+ r +'\n')
         f.close()
