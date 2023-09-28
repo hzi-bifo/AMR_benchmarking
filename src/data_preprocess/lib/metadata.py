@@ -131,4 +131,22 @@ def extract_multi_model_summary(level):
     summary.loc['Total'] = summary.sum()
     summary.to_csv(main_multi_meta, sep="\t")
 
+def extract_multi_model_size(level):
+    _,main_multi_meta=name_utility.GETname_main_meta(level)
+    data = pd.read_csv(main_multi_meta, index_col=0, sep="\t")
+    data_size=pd.DataFrame(index=data.index, columns=data.columns)  # initialize for visualization
+    for index, row in data.iterrows():
+        for column in data.columns:
+            cell_value = row[column]
+            species=index
+            anti=column
+            if cell_value==1:
+
+                pheno_summary=pd.read_csv('./data/PATRIC/meta/'+str(level)+'_genomeNumber/log_' + str(species.replace(" ", "_")) + '_pheno_summary' + '.txt', index_col=0,sep="\t")
+
+                genome_count=pheno_summary.at[anti,'Resistant']+pheno_summary.at[anti,'Susceptible']
+                data_size.at[species,anti]=genome_count
+
+    print(data_size)
+    data_size.to_csv('./data/PATRIC/meta/'+str(level)+'_genomeNumber/multi-species-antibiotic.csv', sep="\t")
 

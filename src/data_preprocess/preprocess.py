@@ -51,6 +51,9 @@ def workflow(level,logfile,temp_path):
     for species  in  df_species :
         lib.summary.summary_pheno(species,level)
 
+    ## save genome number for each of s-a combination in multi-s-a dataset. Sep 2023
+    lib.metadata.extract_multi_model_size(level)
+
 
 
 if __name__== '__main__':
