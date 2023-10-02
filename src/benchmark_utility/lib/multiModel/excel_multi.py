@@ -54,7 +54,7 @@ def run(species_list,level,foldset, tool_list,score_list, f_compare,path_table_r
                 wb = load_workbook(path_table_results+'.xlsx')
                 ew = pd.ExcelWriter(path_table_results+'.xlsx')
                 ew.book = wb
-                df_compare.to_excel(ew,sheet_name = (eachfold.split(' ')[0]+'_'+fscore))
+                df_compare.to_excel(ew,sheet_name = (fscore))
                 ew.save()
 
 
@@ -66,10 +66,7 @@ def extract_info(s,level,f_compare,output_path,f_all):
     data = data[data['number'] != 0]
     if f_all == False:
         data = data.loc[s, :]
-    species_list = data.index.tolist()
-
-
-
+    # species_list = data.index.tolist()
     foldset=['Homology-aware folds']
 
     #===============
@@ -79,7 +76,7 @@ def extract_info(s,level,f_compare,output_path,f_all):
     tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species multi-antibiotics Aytan-Aktug', 'Discrete databases multi-species model', \
                 'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
     path_table_results=output_path+ 'Results/supplement_figures_tables/S8_Aytan-Aktug_multi'
-    score_list=['f1_macro','f1_positive','f1_negative','accuracy','clinical_f1_negative','clinical_precision_neg','clinical_recall_neg']
+    score_list=['f1_macro','f1_positive','f1_negative','accuracy','clinical_f1_negative','clinical_precision_negative','clinical_recall_negative']
     species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
                       'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis','Campylobacter jejuni','Neisseria gonorrhoeae']
 

@@ -14,6 +14,7 @@ from scipy.stats import ttest_rel,ttest_ind
 
 '''
 This script organizes the performance for Supplementary materials, and further analysis on the results.
+log: 28Sep 2023: adding more scores.
 '''
 
 
@@ -26,8 +27,8 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
     if f_all == False:#should not use it.
         data = data.loc[s, :]
     species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
-                  'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni',
-                  'Enterococcus faecium','Neisseria gonorrhoeae']
+                  'Acinetobacter baumannii','Streptococcus pneumoniae', 'Campylobacter jejuni',
+                  'Enterococcus faecium','Neisseria gonorrhoeae','Mycobacterium tuberculosis',]
     data=data.loc[species_list,:]
     df_species = data.index.tolist()
     antibiotics= data['modelling antibiotics'].tolist()
@@ -52,7 +53,8 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
         df1 = pd.DataFrame(index=species_list)
         file_utility.make_dir(os.path.dirname(path_table_results2))
         df1.to_excel(path_table_results2, sheet_name='introduction')
-        score_list=['f1_macro', 'f1_positive', 'f1_negative', 'accuracy','clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']
+        score_set=['f1_macro', 'f1_positive', 'f1_negative', 'accuracy']
+        score_list=score_set+['clinical_f1_negative','clinical_precision_negative', 'clinical_recall_negative']
         for com_tool in com_tool_list:
             #each time count the cases the com_tool outperforms others.
             for eachfold in foldset:
@@ -66,16 +68,20 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                     df_acu=combine_data(species_sub,level,'accuracy',tool_list_rest,[eachfold],output_path)
                     df_neg=combine_data(species_sub,level,'f1_negative',tool_list_rest,[eachfold],output_path)
                     df_pos=combine_data(species_sub,level,'f1_positive',tool_list_rest,[eachfold],output_path)
+
                     df_cl_f1=combine_data(species_sub,level,'clinical_f1_negative',tool_list_rest,[eachfold],output_path)
-                    df_cl_pre=combine_data(species_sub,level,'clinical_precision_neg',tool_list_rest,[eachfold],output_path)
-                    df_cl_rec=combine_data(species_sub,level,'clinical_recall_neg',tool_list_rest,[eachfold],output_path)
+                    df_cl_pre=combine_data(species_sub,level,'clinical_precision_negative',tool_list_rest,[eachfold],output_path)
+                    df_cl_rec=combine_data(species_sub,level,'clinical_recall_negative',tool_list_rest,[eachfold],output_path)
 
                     df_macro['f1_negative']=df_neg['f1_negative']
                     df_macro['f1_positive']=df_pos['f1_positive']
                     df_macro['accuracy']=df_acu['accuracy']
+
+
+
                     df_macro['clinical_f1_negative']=df_cl_f1['clinical_f1_negative'].round(2)
-                    df_macro['clinical_precision_neg']=df_cl_pre['clinical_precision_neg'].round(2)
-                    df_macro['clinical_recall_neg']=df_cl_rec['clinical_recall_neg'].round(2)
+                    df_macro['clinical_precision_negative']=df_cl_pre['clinical_precision_negative'].round(2)
+                    df_macro['clinical_recall_negative']=df_cl_rec['clinical_recall_negative'].round(2)
 
 
                     df_macro=df_macro.reset_index()
@@ -198,10 +204,10 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
 
             df_compare['max_'+fscore]=df_compare[tool_list].max(axis=1)
             a = df_compare[tool_list]
-            df = a.eq(a.max(axis=1), axis=0)
+            df_temp = a.eq(a.max(axis=1), axis=0)
 
             #considering of std
-            for index, row in df.iterrows():
+            for index, row in df_temp.iterrows():
 
                 winner=[]
                 winner_std=[]
@@ -218,12 +224,39 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
                     filter=list(set(winner) - set(winner_filter))
                     for each in filter:
                         row[each]=False
+
+
+
+
             df_compare=df_compare.replace({10: np.nan})
-            df_compare['winner'] = df.mul(df.columns.to_series()).apply(','.join, axis=1).str.strip(',')
+            df_compare['winner'] = df_temp.mul(df_temp.columns.to_series()).apply(','.join, axis=1).str.strip(',')
             df_compare=df_compare[['species', 'antibiotics']+tool_list+['max_'+fscore]+[x+'_std' for x in tool_list]+['winner' ]]
+
             if tool_list==['ResFinder', 'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover'] and fscore=='f1_macro':
                 ####only for annotating heatmap plots.
+                with open('./data/AntiAcronym_dict.json') as f:
+                    map_acr = json.load(f)
+                anti_acro= [map_acr[x] for x in df_compare['antibiotics'].tolist()]
+                df_mean=df_compare[['species', 'antibiotics']+tool_list]
+
+                df_mean.insert(loc=2, column='Acronym', value=anti_acro)
+                df_std=df_compare[['species', 'antibiotics']+[x+'_std' for x in tool_list]]
+                df_std.insert(loc=2, column='Acronym', value=anti_acro)
+
+
+                df_temp.insert(loc=0, column='Acronym', value=anti_acro)
+                df_temp=pd.concat([ df_compare[['species', 'antibiotics']],df_temp], axis=1)
+
+                if eachfold=='Phylogeny-aware folds':
+                    df_mean=df_mean.reindex(list(range(0,78))).reset_index(drop=True)
+
+
+                df_temp.to_csv(path_table_results3_3+'_'+str(eachfold.replace(" ", "_"))+'_highlight.csv', sep="\t")
+                df_mean.to_csv(path_table_results3_3+'_'+str(eachfold.replace(" ", "_"))+'_mean.csv', sep="\t")
+                df_std.to_csv(path_table_results3_3+'_'+str(eachfold.replace(" ", "_"))+'_std.csv', sep="\t")
                 df_compare.to_csv(path_table_results3_3+'_'+str(eachfold.replace(" ", "_"))+'.csv', sep="\t")
+
+
 
             wb = load_workbook(path_table_results3_1)
             ew = pd.ExcelWriter(path_table_results3_1)

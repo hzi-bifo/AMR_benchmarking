@@ -47,7 +47,7 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
     if tool=='ResFinder':#folds version.
         _, results_file= name_utility.GETname_result('resfinder_folds', species, '',f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking.txt', header=0, index_col=0,sep="\t")
-        score=results.loc[anti,fscore]
+        score=results.loc[anti,fscore_format]
     if tool=='ensemble': # resfinder + kover+pts
         _, results_file= name_utility.GETname_result('ensemble', species, '',f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking.txt', header=0, index_col=0,sep="\t")
@@ -85,7 +85,7 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
     if tool=='ML Baseline (Majority)':
         _, results_file= name_utility.GETname_result('majority', species, '',f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking.txt', header=0, index_col=0,sep="\t")
-        score=results.loc[anti,fscore]
+        score=results.loc[anti,fscore_format]
 
     if tool=='Single-species-antibiotic Aytan-Aktug':
         learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
@@ -279,7 +279,7 @@ def combine_data_get_score_meanstd(species,tool,anti,f_phylotree,f_kma,fscore,fs
     if tool=='ResFinder':#folds version.
         _, results_file= name_utility.GETname_result('resfinder_folds', species, '',f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
-        score=results.loc[anti,fscore]
+        score=results.loc[anti,fscore_format]
     if tool=='ensemble':# resfinder + kover+pts
         _, results_file= name_utility.GETname_result('ensemble', species, '',f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
@@ -317,7 +317,7 @@ def combine_data_get_score_meanstd(species,tool,anti,f_phylotree,f_kma,fscore,fs
     if tool=='ML Baseline (Majority)':
         _, results_file= name_utility.GETname_result('majority', species, '',f_kma,f_phylotree,'',output_path)
         results=pd.read_csv(results_file + '_SummaryBenchmarking'+flag+'.txt', header=0, index_col=0,sep="\t")
-        score=results.loc[anti,fscore]
+        score=results.loc[anti,fscore_format]
 
     if tool=='Single-species-antibiotic Aytan-Aktug':
         learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.0,0,True,False,'f1_macro'
