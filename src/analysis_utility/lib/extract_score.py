@@ -45,17 +45,17 @@ def score_summary_normalCV(count_anti,summary,score_report_test,f1_test,aucs_tes
 
         summary.loc['score','accuracy'] =  accuracy
         summary.loc['score', 'f1_macro'] = f1_test
-        summary.loc['score', 'precision_neg'] = precision_neg
-        summary.loc['score', 'recall_neg'] = recall_neg
+        summary.loc['score', 'precision_negative'] = precision_neg
+        summary.loc['score', 'recall_negative'] = recall_neg
         summary.loc['score', 'auc'] = aucs_test
         summary.loc['score', 'mcc'] =  mcc_test
         summary.loc['score', 'f1_positive'] = f1_pos
         summary.loc['score', 'f1_negative'] =  f1_neg
-        summary.loc['score', 'precision_pos'] =  precision_pos
-        summary.loc['score', 'recall_pos'] = recall_pos
+        summary.loc['score', 'precision_positive'] =  precision_pos
+        summary.loc['score', 'recall_positive'] = recall_pos
         summary.loc['score', 'support'] = support
-        summary.loc['score', 'support_pos'] =  support_pos
-        summary.loc['score', 'support_neg'] =  support_neg
+        summary.loc['score', 'support_positive'] =  support_pos
+        summary.loc['score', 'support_negative'] =  support_neg
 
     return summary
 
@@ -69,6 +69,8 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
     f1_neg = []
     precision_neg = []
     recall_neg = []
+    precision_pos = []
+    recall_pos = []
     support_pos=[]
     support_neg = []
     support=[]
@@ -95,6 +97,7 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
         aucs_test = aucs_test.tolist()
         mcc_test=mcc_test.tolist()
 
+
     for i in np.arange(cv):
         if count_anti != None:#multi-anti model.
             report=score_report_test[i][count_anti]#multi-species model.
@@ -110,11 +113,12 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
             precision.append(report.loc['macro avg','precision'])
             recall.append(report.loc['macro avg','recall'])
             support.append(report.loc['macro avg','support'])
-
             f1_pos.append(report.loc['1', 'f1-score'])
             f1_neg.append(report.loc['0', 'f1-score'])
             precision_neg.append(report.loc['0', 'precision'])
             recall_neg.append(report.loc['0', 'recall'])
+            precision_pos.append(report.loc['1', 'precision'])
+            recall_pos.append(report.loc['1', 'recall'])
             support_pos.append(report.loc['1', 'support'])
             support_neg.append(report.loc['0', 'support'])
 
@@ -134,10 +138,14 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
     summary.loc['std', 'f1_positive'] = statistics.stdev(f1_pos)
     summary.loc['mean', 'f1_negative'] = statistics.mean(f1_neg)
     summary.loc['std', 'f1_negative'] = statistics.stdev(f1_neg)
-    summary.loc['mean', 'precision_neg'] = statistics.mean(precision_neg)
-    summary.loc['std', 'precision_neg'] = statistics.stdev(precision_neg)
-    summary.loc['mean', 'recall_neg'] = statistics.mean(recall_neg)
-    summary.loc['std', 'recall_neg'] = statistics.stdev(recall_neg)
+    summary.loc['mean', 'precision_negative'] = statistics.mean(precision_neg)
+    summary.loc['std', 'precision_negative'] = statistics.stdev(precision_neg)
+    summary.loc['mean', 'recall_negative'] = statistics.mean(recall_neg)
+    summary.loc['std', 'recall_negative'] = statistics.stdev(recall_neg)
+    summary.loc['mean', 'precision_positive'] = statistics.mean(precision_pos)
+    summary.loc['std', 'precision_positive'] = statistics.stdev(precision_pos)
+    summary.loc['mean', 'recall_positive'] = statistics.mean(recall_pos)
+    summary.loc['std', 'recall_positive'] = statistics.stdev(recall_pos)
     summary.loc['mean', 'auc'] = statistics.mean(aucs_test)
     summary.loc['std', 'auc'] = statistics.stdev(aucs_test)
     summary.loc['mean', 'threshold'] = statistics.mean(thresholds_selected_test)
@@ -146,7 +154,8 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
     summary.loc['std', 'support'] = statistics.stdev(support)
     summary.loc['mean', 'support_positive'] = statistics.mean(support_pos)
     summary.loc['std', 'support_positive'] = statistics.stdev(support_pos)
-
+    summary.loc['mean', 'support_negative'] = statistics.mean(support_pos)
+    summary.loc['std', 'support_negative'] = statistics.stdev(support_pos)
 
     f1_average = np.average(f1_test, weights=support)
     precision_average = np.average(precision, weights=support)
@@ -155,10 +164,13 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
     f1_neg_average = np.average(f1_neg, weights=support)
     precision_neg_average = np.average(precision_neg, weights=support)
     recall_neg_average = np.average(recall_neg, weights=support)
+    precision_pos_average = np.average(precision_pos, weights=support)
+    recall_pos_average = np.average(recall_pos, weights=support)
     aucs_average = np.average(aucs_test, weights=support)
     mcc_average = np.average(mcc_test, weights=support)
     thr_average = np.average(thresholds_selected_test, weights=support)
     accuracy_average = np.average(accuracy, weights=support)
+
     # print(summary)
 
     summary.loc['weighted-mean', 'f1_macro'] = f1_average
@@ -175,10 +187,17 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
     summary.loc['weighted-std', 'f1_positive'] =  math.sqrt(weithgted_var(f1_pos, f1_pos_average, support))
     summary.loc['weighted-mean', 'f1_negative'] = f1_neg_average
     summary.loc['weighted-std', 'f1_negative'] =  math.sqrt(weithgted_var(f1_neg, f1_neg_average, support))
-    summary.loc['weighted-mean', 'precision_neg'] = precision_neg_average
-    summary.loc['weighted-std', 'precision_neg'] =  math.sqrt(weithgted_var(precision_neg, precision_neg_average, support))
-    summary.loc['weighted-mean', 'recall_neg'] = recall_neg_average
-    summary.loc['weighted-std', 'recall_neg'] =  math.sqrt(weithgted_var(recall_neg, recall_neg_average, support))
+
+    summary.loc['weighted-mean', 'precision_negative'] = precision_neg_average
+    summary.loc['weighted-std', 'precision_negative'] =  math.sqrt(weithgted_var(precision_neg, precision_neg_average, support))
+    summary.loc['weighted-mean', 'recall_negative'] = recall_neg_average
+    summary.loc['weighted-std', 'recall_negative'] =  math.sqrt(weithgted_var(recall_neg, recall_neg_average, support))
+
+    summary.loc['weighted-mean', 'precision_positive'] = precision_pos_average
+    summary.loc['weighted-std', 'precision_positive'] =  math.sqrt(weithgted_var(precision_pos, precision_pos_average, support))
+    summary.loc['weighted-mean', 'recall_positive'] = recall_pos_average
+    summary.loc['weighted-std', 'recall_positive'] =  math.sqrt(weithgted_var(recall_pos, recall_pos_average, support))
+
     summary.loc['weighted-mean', 'auc'] = aucs_average
     summary.loc['weighted-std', 'auc'] =  math.sqrt(weithgted_var(aucs_test, aucs_average, support))
     summary.loc['weighted-mean', 'threshold'] = thr_average
@@ -187,7 +206,8 @@ def score_summary(count_anti,summary,cv,score_report_test,f1_test,aucs_test,mcc_
     summary.loc['weighted-std', 'support'] = statistics.stdev(support)
     summary.loc['weighted-mean', 'support_positive'] = statistics.mean(support_pos)
     summary.loc['weighted-std', 'support_positive'] = statistics.stdev(support_pos)
-
+    summary.loc['weighted-mean', 'support_negative'] = statistics.mean(support_neg)
+    summary.loc['weighted-std', 'support_negative'] = statistics.stdev(support_neg)
 
     return summary
 
@@ -201,6 +221,8 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,f1_test,aucs_test
     f1_neg = []
     precision_neg = []
     recall_neg = []
+    precision_pos = []
+    recall_pos = []
     support_pos=[]
     support_neg = []
     support=[]
@@ -238,6 +260,8 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,f1_test,aucs_test
         f1_neg.append(report.loc['0', 'f1-score'])
         precision_neg.append(report.loc['0', 'precision'])
         recall_neg.append(report.loc['0', 'recall'])
+        precision_pos.append(report.loc['1', 'precision'])
+        recall_pos.append(report.loc['1', 'recall'])
         support_pos.append(report.loc['1', 'support'])
         support_neg.append(report.loc['0', 'support'])
 
@@ -261,14 +285,22 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,f1_test,aucs_test
     summary.loc['std', 'f1_positive'] = statistics.stdev(f1_pos)
     summary.loc['mean', 'f1_negative'] = statistics.mean(f1_neg)
     summary.loc['std', 'f1_negative'] = statistics.stdev(f1_neg)
-    summary.loc['mean', 'precision_neg'] = statistics.mean(precision_neg)
-    summary.loc['std', 'precision_neg'] = statistics.stdev(precision_neg)
-    summary.loc['mean', 'recall_neg'] = statistics.mean(recall_neg)
-    summary.loc['std', 'recall_neg'] = statistics.stdev(recall_neg)
+    summary.loc['mean', 'precision_negative'] = statistics.mean(precision_neg)
+    summary.loc['std', 'precision_negative'] = statistics.stdev(precision_neg)
+    summary.loc['mean', 'recall_negative'] = statistics.mean(recall_neg)
+    summary.loc['std', 'recall_negative'] = statistics.stdev(recall_neg)
+
+    summary.loc['mean', 'precision_positive'] = statistics.mean(precision_pos)
+    summary.loc['std', 'precision_positive'] = statistics.stdev(precision_pos)
+    summary.loc['mean', 'recall_positive'] = statistics.mean(recall_pos)
+    summary.loc['std', 'recall_positive'] = statistics.stdev(recall_pos)
+
     summary.loc['mean', 'support'] = statistics.mean(support)
     summary.loc['std', 'support'] = statistics.stdev(support)
     summary.loc['mean', 'support_positive'] = statistics.mean(support_pos)
     summary.loc['std', 'support_positive'] = statistics.stdev(support_pos)
+    summary.loc['mean', 'support_negative'] = statistics.mean(support_neg)
+    summary.loc['std', 'support_negative'] = statistics.stdev(support_neg)
 
     return summary
 

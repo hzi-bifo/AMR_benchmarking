@@ -6,7 +6,7 @@ sys.path.insert(0, os.getcwd())
 import pandas as pd
 import ast
 from sklearn.metrics import matthews_corrcoef
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report,roc_curve,auc
 import argparse
 import zipfile,json
 from scipy.stats import ttest_rel
@@ -25,7 +25,7 @@ def determination(species,antibiotics,level,f_no_zip,temp_path):
     antibiotics_selected = ast.literal_eval(antibiotics)
     print(species, '====> Select_antibiotic:', len(antibiotics_selected), antibiotics_selected)
     mcc_all=[]
-
+    auc_all=[]
 
     for anti in antibiotics_selected:
         print(anti,'---------------------------running-----------------------------------------')
@@ -100,20 +100,24 @@ def determination(species,antibiotics,level,f_no_zip,temp_path):
         if len(y_pre)>0:
 
             y = data_sub_anti['resistant_phenotype'].to_numpy()
+            fpr, tpr, _ = roc_curve(y, y_pre, pos_label=1)
+            roc_auc = auc(fpr, tpr)
             mcc=matthews_corrcoef(y, y_pre)
             report=classification_report(y, y_pre, labels=[0, 1],output_dict=True)
             df = pd.DataFrame(report).transpose()
             df.to_csv(path_temp2 + '/' +str(species.replace(" ", "_")) +'/'+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_classificationReport.txt', sep="\t")#
             mcc_all.append(mcc)
+            auc_all.append(roc_auc)
         else:
             mcc_all.append(None)
+            auc_all.append(None)
             print("No information for antibiotic: ", anti)
 
 
         with open(path_temp2 + '/' +str(species.replace(" ", "_")) +'/'+ str(anti.translate(str.maketrans({'/': '_', ' ': '_'}))) + '_Ypre.pickle', 'wb') as f:  # overwrite
             pickle.dump(y_pre, f)
 
-    return mcc_all
+    return mcc_all,auc_all
 
 def make_visualization(species,antibiotics,level,f_no_zip,version,temp_path,output_path):
 
@@ -127,9 +131,12 @@ def make_visualization(species,antibiotics,level,f_no_zip,version,temp_path,outp
     temp_path=temp_path+'log/software/'+version+'/'
     path_temp2=temp_path+"analysis"
 
-    mcc_all=determination(species,antibiotics,level,f_no_zip,temp_path)
-    final=pd.DataFrame(index=antibiotics_selected, columns=['f1_macro','f1_negative','f1_positive','accuracy','precision','recall','mcc',
-                                                            'precision_neg','recall_neg','support'] )
+    mcc_all,auc_all=determination(species,antibiotics,level,f_no_zip,temp_path)
+
+    score_set=['f1_macro', 'f1_positive', 'f1_negative', 'accuracy',
+        'precision_macro', 'recall_macro', 'precision_negative', 'recall_negative','precision_positive', 'recall_positive',
+        'mcc',  'auc','support', 'support_positive','support_negative']
+    final=pd.DataFrame(index=antibiotics_selected, columns=score_set )
 
 
 
@@ -145,11 +152,17 @@ def make_visualization(species,antibiotics,level,f_no_zip,version,temp_path,outp
             final.loc[str(anti),'recall'] = data.loc['macro avg','recall']
             final.loc[str(anti),'accuracy'] = data.loc['accuracy', 'f1-score']
             final.loc[str(anti), 'support'] = data.loc['macro avg','support']
+            final.loc[str(anti), 'support_positive'] = data.loc['1','support']
+            final.loc[str(anti), 'support_negative'] = data.loc['0','support']
             final.loc[str(anti), 'f1_positive'] = data.loc['1', 'f1-score']
             final.loc[str(anti), 'f1_negative'] = data.loc['0', 'f1-score']
-            final.loc[str(anti), 'precision_neg'] = data.loc['0', 'precision']
-            final.loc[str(anti), 'recall_neg'] = data.loc['0', 'recall']
+            final.loc[str(anti), 'precision_negative'] = data.loc['0', 'precision']
+            final.loc[str(anti), 'recall_negative'] = data.loc['0', 'recall']
+            final.loc[str(anti), 'precision_positive'] = data.loc['1', 'precision']
+            final.loc[str(anti), 'recall_positive'] = data.loc['1', 'recall']
             final.loc[str(anti), 'mcc'] = mcc_all[i]
+            final.loc[str(anti), 'auc'] = auc_all[i]
+
         except:
             pass
         i+=1

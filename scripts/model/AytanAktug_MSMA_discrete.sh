@@ -92,9 +92,9 @@ python ./src/analysis_utility/result_analysis_AytanAktug.py -f_MSMA_discrete -f_
 python ./src/analysis_utility/result_analysis_AytanAktug.py -f_MSMA_discrete -f_split_species -f_kma -f_all \
 -f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -o ${output_path} -l ${QC_criteria} -fscore 'accuracy'
 python ./src/analysis_utility/result_analysis_AytanAktug.py -f_MSMA_discrete -f_split_species -f_kma -f_all \
--f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -o ${output_path} -l ${QC_criteria} -fscore 'precision_neg'
+-f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -o ${output_path} -l ${QC_criteria} -fscore 'precision_negative'
 python ./src/analysis_utility/result_analysis_AytanAktug.py -f_MSMA_discrete -f_split_species -f_kma -f_all \
--f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -o ${output_path} -l ${QC_criteria} -fscore 'recall_neg'
+-f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -o ${output_path} -l ${QC_criteria} -fscore 'recall_negative'
 #
 #
 python ./src/analysis_utility/result_analysis_AytanAktug.py -f_MSMA_discrete -f_match_single -f_kma -f_all \
@@ -108,9 +108,9 @@ python ./src/analysis_utility/result_analysis_AytanAktug.py -f_MSMA_discrete -f_
 python ./src/analysis_utility/result_analysis_AytanAktug.py -f_MSMA_discrete -f_match_single -f_kma -f_all \
 -f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -o ${output_path} -l ${QC_criteria} -fscore 'clinical_f1_negative'
 python ./src/analysis_utility/result_analysis_AytanAktug.py -f_MSMA_discrete -f_match_single -f_kma -f_all \
--f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -o ${output_path} -l ${QC_criteria} -fscore 'clinical_precision_neg'
+-f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -o ${output_path} -l ${QC_criteria} -fscore 'clinical_precision_negative'
 python ./src/analysis_utility/result_analysis_AytanAktug.py -f_MSMA_discrete -f_match_single -f_kma -f_all \
--f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -o ${output_path} -l ${QC_criteria} -fscore 'clinical_recall_neg'
+-f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -o ${output_path} -l ${QC_criteria} -fscore 'clinical_recall_negative'
 
 conda deactivate
 echo "Aytan-Aktug multi-species multi-antibiotics discrete databases model running finished successfully."

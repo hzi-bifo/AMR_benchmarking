@@ -11,7 +11,9 @@ import warnings
 warnings.filterwarnings('ignore')
 from sklearn.metrics import f1_score,classification_report
 
-
+score_set=['f1_macro', 'f1_positive', 'f1_negative', 'accuracy',
+        'precision_macro', 'recall_macro', 'precision_negative', 'recall_negative','precision_positive', 'recall_positive',
+        'mcc',  'auc','threshold', 'support', 'support_positive','support_negative']
 def l2n(arrays):
     np_arrays = []
     for array in arrays:
@@ -69,7 +71,7 @@ def extract_OldFormat(version,hy_para_all,hy_para_fre,species, anti,learning, ep
 
 def extract_info_clinical_SSSA(level,species,cv,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_phylotree,f_kma, temp_path):
     antibiotics, _, _ =  load_data.extract_info(species, False, level)
-    score_list=['clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']
+    score_list=['clinical_f1_negative','clinical_precision_negative', 'clinical_recall_negative']
     summary_table_ByClassifier_all = []
     for anti in antibiotics:
         print(species,anti)
@@ -103,7 +105,7 @@ def extract_info_clinical_SSSA(level,species,cv,learning,epochs,f_fixed_threshol
 
 def extract_info_clinical_SSMA(level,species,cv,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_phylotree,f_kma, temp_path):#todo check
     antibiotics, _, _ =  load_data.extract_info(species, False, level)
-    score_list=['clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']
+    score_list=['clinical_f1_negative','clinical_precision_negative', 'clinical_recall_negative']
     summary_table_ByClassifier_all = []
 
     save_name_score,_, _ = name_utility.GETname_AAscoreSSMA('AytanAktug',species,learning, epochs,
@@ -137,10 +139,10 @@ def extract_info_clinical_SSMA(level,species,cv,learning,epochs,f_fixed_threshol
     return final
 
 
-def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_MSMA_conLOO,f_split_species,f_all,f_match_single,list_species,level,cv,
+def extract_info(fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_MSMA_conLOO,f_split_species,f_all,f_match_single,list_species,level,cv,
                  epochs, learning,f_fixed_threshold,f_nn_base,f_phylotree,f_kma,f_optimize_score, temp_path, output_path):
     if f_SSMA:
-        out_score='f'
+
         main_meta,_=name_utility.GETname_main_meta(level)
         data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
         data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
@@ -173,11 +175,11 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
             save_name_score_final =  name_utility.GETname_AAresult('AytanAktug',species,learning, epochs,f_fixed_threshold,\
                                      f_nn_base,f_optimize_score,f_kma,f_phylotree,'SSMA',output_path)
             file_utility.make_dir(os.path.dirname(save_name_score_final))
-            final=make_table.multi_make_visualization(out_score,antibiotics, cv,score)
+            final=make_table.multi_make_visualization(antibiotics, cv,score)
 
 
             ######################################
-            ##### Add clinical oriented scores ['clinical_f1_negative','clinical_precision_neg', 'clinical_recall_neg']
+            ##### Add clinical oriented scores ['clinical_f1_negative','clinical_precision_negative', 'clinical_recall_negative']
             ##### Nov 2022
             clinical_table=extract_info_clinical_SSMA(level,species,cv,learning,epochs,f_fixed_threshold,f_nn_base,f_optimize_score,f_phylotree,f_kma, temp_path)#todo redo
             final = pd.concat([final, clinical_table], axis=1, join="inner")
@@ -224,11 +226,9 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
                     hy_para_all.append([score[5],score[6],score[7]])#1*n_cv
                     #vote the most frequent used hyper-para
                     hy_para_collection=score[5]#10 dimension. each reapresents one outer loop.
-                    # try:
                     common,ind= math_utility.get_most_fre_hyper(hy_para_collection,False)
                     hy_para_fre.append(common.to_dict())
-                    # except:
-                    #     hy_para_fre.append(None)
+
                 except: #old version format.
 
                     f1macro,aucs_test,score_report_test,mcc_test,thresholds_selected_test,hy_para_all,hy_para_fre=\
@@ -236,9 +236,7 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
 
 
                 summary = pd.DataFrame(index=['mean', 'std', 'weighted-mean', 'weighted-std'],
-                                       columns=['f1_macro', 'precision_macro', 'recall_macro', 'accuracy_macro',
-                                                'mcc', 'f1_positive','f1_negative', 'precision_neg', 'recall_neg', 'auc',
-                                                'threshold', 'support', 'support_positive'])
+                                       columns=score_set)
 
                 if f_kma:
                     summary = extract_score.score_summary(None, summary, cv, score_report_test, f1macro, aucs_test,mcc_test,
@@ -253,9 +251,9 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
                                      f_nn_base,f_optimize_score,f_kma,f_phylotree,'SSSA',output_path)
             file_utility.make_dir(os.path.dirname(save_name_score_final))
             if f_kma:#f_kma
-                final,final_plot,final_std= make_table.make_visualization(out_score,summary_all,  antibiotics )
+                final,final_plot,final_std= make_table.make_visualization(summary_all,  antibiotics )
             else:# f_random, f_phylotree
-                final, final_plot,final_std =  make_table.make_visualization_Tree(out_score,summary_all, antibiotics)
+                final, final_plot,final_std =  make_table.make_visualization_Tree(summary_all, antibiotics)
 
             final['the most frequent hyperparameter'] = hy_para_fre
             final['selected hyperparameter'] = hy_para_all # add hyperparameter information. Each antibiotic has 10 hyper-para, each for one outer loop.
@@ -276,7 +274,7 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
 
 
     elif f_MSMA_discrete:
-        out_score='neg' #'f1_macro', 'f1_positive','f1_negative','precision_neg', 'recall_neg', 'accuracy'
+
         if f_split_species==False and f_match_single==False:
             merge_name = []
             data = pd.read_csv('./data/PATRIC/meta/'+str(level)+'_multi-species_summary.csv', index_col=0,
@@ -308,7 +306,7 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
                 score_temp = json.load(f)
             score=j2l(score_temp)
 
-            final=make_table.multi_make_visualization_normalCV(out_score,All_antibiotics,score)
+            final=make_table.multi_make_visualization_normalCV(All_antibiotics,score)
             final.to_csv(save_name_score_final + '_SummaryBenchmarking.txt', sep="\t")
 
         if f_MSMA_discrete and f_split_species:# split species-specific scores from discrete model and concatenated mixed species model.
@@ -337,7 +335,7 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
 
             save_name_score_final =  name_utility.GETname_AAresult('AytanAktug',merge_name,learning, epochs,f_fixed_threshold,\
                                          f_nn_base,f_optimize_score,f_kma,f_phylotree,'MSMA_discrete',output_path)
-            # save_name_score_final=os.path.dirname(save_name_score_final)
+
 
             with open(save_name_score  + '0_test.json') as f:
                 score_temp = json.load(f)
@@ -389,9 +387,9 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
                         final_init.loc[species,anti]=f1_neg
                     elif fscore=='accuracy':
                         final_init.loc[species,anti]=accuracy
-                    elif fscore=='precision_neg':
+                    elif fscore=='precision_negative':
                         final_init.loc[species,anti]=precision_neg
-                    elif fscore=='recall_neg':
+                    elif fscore=='recall_negative':
                         final_init.loc[species,anti]=recall_neg
                     else:
                         print('only <f1_macro,f1_positive,f1_positive,accuracy,precision_neg,recall_neg> possible so far')
@@ -443,7 +441,7 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
                     for each_anti in anti:
                         final_init.loc[species,each_anti]=data_score.loc[each_anti,fscore]
                 final_init.to_csv(save_name_score_final+'_SSSAmapping_'+fscore+'.txt', sep="\t")
-                # print(final_init)
+
 
                 ####std
                 if 'clinical_' not in fscore:
@@ -455,7 +453,7 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
 
     elif f_MSMA_conMix:
         if f_split_species==False:
-            out_score='neg'
+
             merge_name = []
             data = pd.read_csv('./data/PATRIC/meta/'+str(level)+'_multi-species_summary.csv', index_col=0,
                            dtype={'genome_id': object}, sep="\t")
@@ -488,7 +486,7 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
             score=j2l(score_temp)
 
 
-            final=make_table.multi_make_visualization_normalCV(out_score, All_antibiotics, score)
+            final=make_table.multi_make_visualization_normalCV( All_antibiotics, score)
             final.to_csv(save_name_score_final + '_SummaryBenchmarking.txt', sep="\t")
 
         if f_MSMA_conMix and f_split_species:
@@ -570,9 +568,9 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
                         final_init.loc[species,anti]=f1_neg
                     elif fscore=='accuracy':
                         final_init.loc[species,anti]=accuracy
-                    elif fscore=='precision_neg':
+                    elif fscore=='precision_negative':
                         final_init.loc[species,anti]=precision_neg
-                    elif fscore=='recall_neg':
+                    elif fscore=='recall_negative':
                         final_init.loc[species,anti]=recall_neg
                     else:
                         print('only <f1_macro,f1_positive,f1_positive,accuracy,precision_neg,recall_neg> possible so far')
@@ -582,7 +580,7 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
             print(final_init)
 
     elif f_MSMA_conLOO:
-        out_score='neg' #f1_macro,f1_positive,f1_positive,accuracy,precision_neg,recall_neg
+
         merge_name = []
         data = pd.read_csv('./data/PATRIC/meta/'+str(level)+'_multi-species_summary.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
@@ -625,7 +623,7 @@ def extract_info(out_score,fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_
                 score_temp = json.load(f)
             score=j2l(score_temp)
 
-            final=make_table.concat_multi_make_visualization(out_score, All_antibiotics, score)
+            final=make_table.concat_multi_make_visualization(All_antibiotics, score)
             final.to_csv(save_name_score_final + '_'+merge_name_test+'_SummaryBenchmarking.txt', sep="\t")
 
 
@@ -685,7 +683,7 @@ if __name__== '__main__':
     parsedArgs = parser.parse_args()
     # parser.print_help()
 
-    extract_info(parsedArgs.out_score,parsedArgs.fscore,parsedArgs.f_SSMA,parsedArgs.f_SSSA,parsedArgs.f_MSMA_discrete,
+    extract_info(parsedArgs.fscore,parsedArgs.f_SSMA,parsedArgs.f_SSSA,parsedArgs.f_MSMA_discrete,
                  parsedArgs.f_MSMA_conMix,parsedArgs.f_MSMA_conLOO,parsedArgs.f_split_species,
                  parsedArgs.f_all,parsedArgs.f_match_single,parsedArgs.species,parsedArgs.level,
                  parsedArgs.cv_number,parsedArgs.epochs,parsedArgs.learning,parsedArgs.f_fixed_threshold,parsedArgs.f_nn_base,
