@@ -87,28 +87,28 @@ def extract_info(level,fscore,f_compare,f_Ttest,f_kover,f_pts,output_path):
         # #===============
         #2. Compare Aytan-Aktug  SSSA and SSMA
         #===============
-        # print('2. Compare Aytan-Aktug  SSSA and SSMA')
-        # species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
-        #               'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Neisseria gonorrhoeae']
-        # tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species multi-antibiotics Aytan-Aktug']
-        # path_table_results=output_path+ 'Results/supplement_figures_tables/S8_Aytan-Aktug_SSMA'
-        # temp_results=output_path+ 'Results/other_figures_tables/S8_Aytan-Aktug_SSMA'
-        # run(species_list,level,fscore,foldset,tool_list,f_compare,f_Ttest,path_table_results,temp_results,output_path)
+        print('2. Compare Aytan-Aktug  SSSA and SSMA')
+        species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
+                      'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Neisseria gonorrhoeae']
+        tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species multi-antibiotics Aytan-Aktug']
+        path_table_results=output_path+ 'Results/supplement_figures_tables/S8_Aytan-Aktug_SSMA'
+        temp_results=output_path+ 'Results/other_figures_tables/S8_Aytan-Aktug_SSMA'
+        run(species_list,level,fscore,foldset,tool_list,f_compare,f_Ttest,path_table_results,temp_results,output_path)
 
         # #===============
         # # 3. Compare Aytan-Aktug SSSA and SSSA with default NN settings
         # #===============
-        # print('3.  Compare Aytan-Aktug SSSA and SSSA with default NN settings')
-        # species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
-        #               'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni',
-        #               'Enterococcus faecium','Neisseria gonorrhoeae']
-        #
-        # path_table_results=output_path+ 'Results/supplement_figures_tables/S7_Aytan-Aktug_SSSAdefault'
-        # temp_results=output_path+ 'Results/other_figures_tables/S8_Aytan-Aktug_SSSAdefault'
-        # tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species-antibiotics default']
-        # run(species_list,level,fscore,foldset,tool_list, f_compare,f_Ttest,path_table_results,temp_results,output_path)
-        #
-        # #TODO:maybe add 5 tools+ AAmulti-models; maybe not.
+        print('3.  Compare Aytan-Aktug SSSA and SSSA with default NN settings')
+        species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
+                      'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Campylobacter jejuni',
+                      'Enterococcus faecium','Neisseria gonorrhoeae']
+
+        path_table_results=output_path+ 'Results/supplement_figures_tables/S7_Aytan-Aktug_SSSAdefault'
+        temp_results=output_path+ 'Results/other_figures_tables/S8_Aytan-Aktug_SSSAdefault'
+        tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species-antibiotics default']
+        run(species_list,level,fscore,foldset,tool_list, f_compare,f_Ttest,path_table_results,temp_results,output_path)
+
+
 
     #===============
     # 4. Compare Kover
