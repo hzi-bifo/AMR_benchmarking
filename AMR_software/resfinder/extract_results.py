@@ -148,8 +148,8 @@ def make_visualization(species,antibiotics,level,f_no_zip,version,temp_path,outp
                                str(anti.translate(str.maketrans({'/': '_', ' ': '_'})))+'_classificationReport.txt', index_col=0, header=0,sep="\t")
 
             final.loc[str(anti),'f1_macro']=data.loc['macro avg','f1-score']
-            final.loc[str(anti),'precision'] = data.loc['macro avg','precision']
-            final.loc[str(anti),'recall'] = data.loc['macro avg','recall']
+            final.loc[str(anti),'precision_macro'] = data.loc['macro avg','precision']
+            final.loc[str(anti),'recall_macro'] = data.loc['macro avg','recall']
             final.loc[str(anti),'accuracy'] = data.loc['accuracy', 'f1-score']
             final.loc[str(anti), 'support'] = data.loc['macro avg','support']
             final.loc[str(anti), 'support_positive'] = data.loc['1','support']
