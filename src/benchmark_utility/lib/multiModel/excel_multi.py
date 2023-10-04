@@ -8,24 +8,18 @@ import pandas as pd
 from openpyxl import load_workbook
 from src.benchmark_utility.lib.CombineResults import combine_data
 
-"""This script organizes the performance 4 scores(F1-macro,F1-pos,F1-neg,accuracy) and () for Aytan-Aktug SSSA, SSMA, MSMA models."""
+"""This script organizes the performance for multi-models."""
 
 
 
 
 def run(species_list,level,foldset, tool_list,score_list, f_compare,path_table_results,output_path):
 
-
-    # ------------------------------------------
-    # Figuring out which ML performs best.
-    # ------------------------------------------
     if f_compare:
         df1 = pd.DataFrame(index=species_list)
         df1.to_excel(path_table_results+".xlsx", sheet_name='introduction')
 
-        #--------------------------------
-        #mean +- std verson
-        ## for fscore in ['f1_macro','f1_positive','f1_negative','accuracy']:
+
         for fscore in score_list:
             for eachfold in foldset:
                 i=0
@@ -49,6 +43,8 @@ def run(species_list,level,foldset, tool_list,score_list, f_compare,path_table_r
 
 
                 df_compare=df_compare[['species', 'antibiotics']+tool_list]
+                df_compare = df_compare.astype(float).round(2)
+
 
                 # #For Supplements File 7 or 8
                 wb = load_workbook(path_table_results+'.xlsx')
@@ -76,7 +72,8 @@ def extract_info(s,level,f_compare,output_path,f_all):
     tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species multi-antibiotics Aytan-Aktug', 'Discrete databases multi-species model', \
                 'Concatenated databases mixed multi-species model', 'Concatenated databases leave-one-out multi-species model']
     path_table_results=output_path+ 'Results/supplement_figures_tables/S8_Aytan-Aktug_multi'
-    score_list=['f1_macro','f1_positive','f1_negative','accuracy','clinical_f1_negative','clinical_precision_negative','clinical_recall_negative']
+    score_list=['f1_macro','f1_positive','f1_negative','accuracy','precision_macro', 'recall_macro', 'precision_negative', 'recall_negative','precision_positive']
+    ### score_list=['f1_macro','f1_positive','f1_negative','accuracy']
     species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
                       'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis','Campylobacter jejuni','Neisseria gonorrhoeae']
 
@@ -84,18 +81,20 @@ def extract_info(s,level,f_compare,output_path,f_all):
     #===============
     # # 2. Compare Aytan-Aktug SSSA and SSSA with default NN settings
     # #===============
-    # print('Compare Aytan-Aktug SSSA and SSSA with default NN settings')
-    # path_table_results=output_path+ 'Results/supplement_figures_tables/S7_Aytan-Aktug_SSSAdefault'
-    # score_list=['f1_macro','f1_positive','f1_negative','accuracy']
-    # tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species-antibiotics default']
-    # run(species_list,level,foldset,tool_list,score_list, f_compare,path_table_results,output_path)
+    print('Compare Aytan-Aktug SSSA and SSSA with default NN settings')
+    path_table_results=output_path+ 'Results/supplement_figures_tables/S7_Aytan-Aktug_SSSAdefault'
+    score_list=['f1_macro','f1_positive','f1_negative','accuracy','precision_macro', 'recall_macro', 'precision_negative', 'recall_negative','precision_positive']
+    ### score_list=['f1_macro','f1_positive','f1_negative','accuracy']
+    tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species-antibiotics default']
+    run(species_list,level,foldset,tool_list,score_list, f_compare,path_table_results,output_path)
 
     #===============
     # 3. Compare Aytan-Aktug ,kover, Pts, multi-models
     #===============
     print('Compare multi-species models of 3 ML methods.')
     path_table_results=output_path+ 'Results/supplement_figures_tables/S8_crossT_multi'
-    score_list=['f1_macro','f1_positive','f1_negative','accuracy']
+    score_list=['f1_macro','f1_positive','f1_negative','accuracy','precision_macro', 'recall_macro', 'precision_negative', 'recall_negative','precision_positive']
+    #### score_list=['f1_macro','f1_positive','f1_negative','accuracy']
     tool_list=['Discrete databases multi-species model','Concatenated databases mixed multi-species model',\
                    'Concatenated databases leave-one-out multi-species model','Kover cross-species SCM','Kover cross-species CART',\
                    'PhenotypeSeeker multi-species LR']
