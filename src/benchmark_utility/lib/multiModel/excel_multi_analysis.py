@@ -11,117 +11,11 @@ from openpyxl import load_workbook
 from scipy.stats import ttest_rel
 from src.benchmark_utility.lib.CombineResults import combine_data
 
-"""This script organizes the performance 4 scores(F1-macro,F1-pos,F1-neg,accuracy) for Aytan-Aktug SSSA, SSMA, MSMA models."""
+""" T test for multi-models """
 
 
 
 def run(species_list,level,fscore,foldset, tool_list, f_compare,f_Ttest,path_table_results,temp_results,output_path):
-
-
-    # ------------------------------------------
-    # Figuring out which ML performs best.
-    # ------------------------------------------
-    if f_compare:
-        print('Now generating: winner version')
-        df1 = pd.DataFrame(index=species_list)
-        df1.to_excel(temp_results+"_winner.xlsx", sheet_name='introduction')
-        for eachfold in foldset:
-
-            i=0
-            for each_tool in tool_list:
-                df_final=pd.DataFrame(columns=['species', 'antibiotics', each_tool])
-
-                for species in species_list :
-                    species_sub=[species]
-                    df_score=combine_data(species_sub,level,fscore,[each_tool],[eachfold],output_path)
-                    df_score=df_score.reset_index()
-                    df_score=df_score.drop(columns=['index'])
-
-                    df_score[fscore] = df_score[fscore].astype(str)
-                    df_score[each_tool]=df_score[fscore].apply(lambda x:x.split('±')[0] ) #df_final['f1_macro']
-                    #### df_score[each_tool+'_std']=df_score[fscore].apply(lambda x: x.split('±')[1] if (len(x.split('±'))==2) else np.nan)
-                    df_score[each_tool+'_std']=df_score['f1_macro'].apply(lambda x: x.split('±')[1] if (len(x.split('±'))==2) else 10)
-                    df_score[each_tool] = df_score[each_tool] .astype(float)
-                    df_score[each_tool+'_std'] = df_score[each_tool+'_std'] .astype(float)
-                    df_score=df_score[['species', 'antibiotics',each_tool,each_tool+'_std']]
-                    df_final= pd.concat([df_final,df_score])
-
-                if i==0:
-                    df_compare=df_final
-                else:
-                    df_compare=pd.merge(df_compare, df_final, how="left", on=['species', 'antibiotics'])
-                i+=1
-
-
-            df_std=df_compare[ [i+'_std' for i in tool_list]]
-            df_compare['max_'+fscore]=df_compare[tool_list].max(axis=1)
-            a = df_compare[tool_list]
-            df = a.eq(a.max(axis=1), axis=0)
-
-            for index, row in df.iterrows():
-
-                winner=[]
-                winner_std=[]
-                for columnIndex, value in row.items():
-
-                    if value==True:
-                        winner.append(columnIndex)
-                        winner_std.append(df_std.loc[index,columnIndex+'_std'])
-                if len(winner)>1: #more than two winner, check std
-
-                    min_std = min(winner_std)
-                    winner_index=[i for i, x in enumerate(winner_std) if x == min_std]
-                    winner_filter=np.array(winner)[winner_index]
-                    filter=list(set(winner) - set(winner_filter))
-
-                    for each in filter:
-                        row[each]=False
-
-            #for further plotting graphs
-            df_compare[['species', 'antibiotics']+tool_list+[i+'_std' for i in tool_list]].to_csv(temp_results+'_multi.csv',index=True,header=True, sep="\t")
-            # print(df_compare)
-            #for Supplemental File 7 or 8, and compare to Supplemental File 6, add results here to Supplemental File 6 with caution, manually.
-            df_compare['winner'] = df.mul(df.columns.to_series()).apply(','.join, axis=1).str.strip(',')
-
-            df_compare=df_compare.replace({10: np.nan})
-            df_compare=df_compare[['species', 'antibiotics']+tool_list+[ 'max_'+fscore]+[i+'_std' for i in tool_list]+['winner' ]]
-            wb = load_workbook(temp_results+'_winner.xlsx')
-            ew = pd.ExcelWriter(temp_results+'_winner.xlsx')
-            ew.book = wb
-            df_compare.to_excel(ew,sheet_name = (eachfold))
-            ew.save()
-        #--------------------------------
-        #mean +- std verson
-        print('Now generating: mean +- std version')
-        for eachfold in foldset:
-            i=0
-            for each_tool in tool_list:
-
-                df_final=pd.DataFrame(columns=['species', 'antibiotics', each_tool])
-                for species in species_list:
-
-                    species_sub=[species]
-                    df_score=combine_data(species_sub,level,fscore,[each_tool],[eachfold],output_path)
-                    df_score=df_score.reset_index()
-                    df_score=df_score.drop(columns=['index'])
-                    df_score[each_tool]=df_score[fscore]
-                    df_score=df_score[['species', 'antibiotics',each_tool]]
-                    df_final= pd.concat([df_final,df_score])
-                if i==0:
-                    df_compare=df_final
-                else:
-                    df_compare=pd.merge(df_compare, df_final, how="left", on=['species', 'antibiotics'])
-                i+=1
-
-
-            df_compare=df_compare[['species', 'antibiotics']+tool_list]
-
-            wb = load_workbook(temp_results+'_winner.xlsx')
-            ew = pd.ExcelWriter(temp_results+'_winner.xlsx')
-            ew.book = wb
-            df_compare.to_excel(ew,sheet_name = (eachfold+'_'+fscore))
-            ew.save()
-
 
     if f_Ttest:
         # paired T-test
