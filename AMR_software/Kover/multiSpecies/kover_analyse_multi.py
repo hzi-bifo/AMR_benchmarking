@@ -66,7 +66,7 @@ def extract_info_species( level,species,antibiotics,f_phylotree,f_kma,temp_path,
 
 
 
-def extract_info(level,list_species,f_all,fscore,f_phylotree,f_kma,temp_path,output_path):
+def extract_info(level,list_species,f_all,temp_path,output_path):
     merge_name = []
     data = pd.read_csv('./data/PATRIC/meta/'+str(level)+'_multi-species_summary.csv', index_col=0,
                        dtype={'genome_id': object}, sep="\t")
@@ -79,13 +79,13 @@ def extract_info(level,list_species,f_all,fscore,f_phylotree,f_kma,temp_path,out
         data = data.loc[list_species, :]
         data = data.loc[:, (data.sum() > 1)]
     data = data.loc[:, (data != 0).any(axis=0)]
-    All_antibiotics = data.columns.tolist()
     df_anti = data.dot(data.columns + ';').str.rstrip(';')
     for n in list_species:
         merge_name.append(n[0] + n.split(' ')[1][0])
-    merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
-    score_list=['f1_macro','accuracy', 'f1_positive','f1_negative','precision_neg', 'recall_neg']
-    # score_list=['f1_macro','accuracy', 'f1_positive','f1_negative']
+
+    score_list=['f1_macro','f1_positive','f1_negative','accuracy', 'precision_macro', 'recall_macro',
+                'precision_negative', 'recall_negative','precision_positive', 'recall_positive']
+
     for each_species in  list_species :
         print(each_species)
         antibiotics=df_anti[each_species].split(';')
@@ -129,13 +129,20 @@ def extract_info(level,list_species,f_all,fscore,f_phylotree,f_kma,temp_path,out
                 report = pd.DataFrame(df).transpose()
                 f1_macro=f1_score(y_true, y_pre, average='macro')
                 f1_positive=report.loc['1', 'f1-score']
-                accuracy=report.iat[2,2] #no use of this score
+                accuracy=report.iat[2,2]
                 f1_negative=report.loc['0', 'f1-score']
+                precision=report.loc['macro avg', 'precision']
+                recall=report.loc['macro avg', 'recall']
+                precision_pos=report.loc['1', 'precision']
+                recall_pos=report.loc['1', 'recall']
                 precision_neg=report.loc['0', 'precision']
                 recall_neg=report.loc['0', 'recall']
-                final_table.loc[anti,:]=[f1_macro,accuracy,f1_positive,f1_negative,precision_neg,recall_neg]
 
-            save_name_score  = name_utility.GETname_result2('kover',each_species,fscore,chosen_cl,output_path)
+
+
+                final_table.loc[anti,:]=[f1_macro,f1_positive,f1_negative,accuracy,precision,recall,precision_neg,recall_neg,precision_pos,recall_pos]
+
+            save_name_score  = name_utility.GETname_result2('kover',each_species,chosen_cl,output_path)
             file_utility.make_dir(os.path.dirname(save_name_score))
             final_table.to_csv(save_name_score + '.txt', sep="\t")
 
@@ -151,24 +158,14 @@ if __name__ == '__main__':
                         help='Directory to store temporary files.')
     parser.add_argument('-out', '--output_path', default='./', type=str, required=False,
                         help='Directory to store CV scores.')
-    parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
-                        help=' phylo-tree based cv folders.')
-    parser.add_argument('-f_kma', '--f_kma', dest='f_kma', action='store_true',
-                        help='kma based cv folders.')
     parser.add_argument('-l', '--level', default='loose', type=str,
                         help='Quality control: strict or loose')
     parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
                         help='all the possible species, regarding multi-model.')
-    parser.add_argument('-fscore', '--fscore', default='f1_macro', type=str, required=False,
-                        help='the score used to choose the best classifier for each antibiotic. Can be one of: '
-                             '\'f1_macro\',\'f1_positive\',\'f1_negative\',\'accuracy\','
-                             '\'clinical_f1_negative\',\'clinical_precision_neg\',\'clinical_recall_neg\'')
     parser.add_argument('-f_ml', '--f_ml', dest='f_ml', action='store_true',
                         help='prepare bash')
     parser.add_argument('-s', '--species', default=[], type=str, nargs='+', help='species to run: e.g.\'Pseudomonas aeruginosa\' \
                     \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
                     \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
-    # parser.add_argument('--n_jobs', default=1, type=int, help='Number of jobs to run in parallel.')
     parsedArgs = parser.parse_args()
-    extract_info( parsedArgs.level,parsedArgs.species, parsedArgs.f_all,parsedArgs.fscore,parsedArgs.f_phylotree,
-                 parsedArgs.f_kma,parsedArgs.temp_path,parsedArgs.output_path)
+    extract_info( parsedArgs.level,parsedArgs.species, parsedArgs.f_all,parsedArgs.temp_path,parsedArgs.output_path)

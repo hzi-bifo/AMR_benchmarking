@@ -169,9 +169,7 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
                 score=np.nan
 
     if tool=='Kover cross-species SCM':
-        fscore='f1_macro' #as using the same table whatever the score.
-        # if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
-        #     fscore=fscore.split('_',1)[1]
+
         results_file = name_utility.GETname_result2('kover',species,fscore,'scm',output_path)
 
         if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
@@ -184,9 +182,7 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
                 score=np.nan
 
     if tool=='Kover cross-species CART':
-        fscore='f1_macro' #as using the same table whatever the score.
-        # if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
-        #     fscore=fscore.split('_',1)[1]
+
         results_file = name_utility.GETname_result2('kover',species,fscore,'tree',output_path)
 
         if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
@@ -216,9 +212,6 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
 
     if tool=='PhenotypeSeeker multi-species LR':
 
-        # if 'clinical_' in fscore: #because no nested CV, so no different between "clinical_score" and "score", defined in this study.
-        #     fscore=fscore.split('_',1)[1]
-        fscore='f1_macro' #as using the same table whatever the score.
         results_file = name_utility.GETname_result2('phenotypeseeker',species,fscore,'lr',output_path)
 
         if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:

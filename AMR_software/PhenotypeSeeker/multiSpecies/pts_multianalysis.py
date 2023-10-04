@@ -18,7 +18,8 @@ import statistics
 
 def extract_info_species(softwareName,cl_list,level,species_testing,antibiotics_test, fscore,temp_path, output_path):
 
-    score_list=['f1_macro','accuracy','f1_positive', 'f1_negative','precision_neg','recall_neg']
+    score_list=['f1_macro','f1_positive', 'f1_negative','accuracy','precision_macro', 'recall_macro',
+                'precision_negative', 'recall_negative','precision_positive', 'recall_positive']
     # out_score='neg'
     for chosen_cl in cl_list:
         print('---------------------',chosen_cl)
@@ -28,7 +29,7 @@ def extract_info_species(softwareName,cl_list,level,species_testing,antibiotics_
             _,_, _,save_name_score= name_utility.GETname_model3('phenotypeseeker',level, species_testing, anti,chosen_cl,temp_path)
             with open(save_name_score +'.json') as f:
                     score = json.load(f)
-            f1_test=score['f1_test'][0]
+            f1_macro=score['f1_test'][0]
             report_df=score['score_report_test'][0]
             report = pd.DataFrame(report_df).transpose()
             # aucs_test=score['aucs_test']
@@ -36,14 +37,18 @@ def extract_info_species(softwareName,cl_list,level,species_testing,antibiotics_
             f1_positive=report.loc['1', 'f1-score']
             accuracy=report.iat[2,2] #no use of this score
             f1_negative=report.loc['0', 'f1-score']
+            precision=report.loc['macro avg', 'precision']
+            recall=report.loc['macro avg', 'recall']
+            precision_pos=report.loc['1', 'precision']
+            recall_pos=report.loc['1', 'recall']
             precision_neg=report.loc['0', 'precision']
             recall_neg=report.loc['0', 'recall']
-            final_table.loc[anti,:]=[f1_test,accuracy,f1_positive,f1_negative,precision_neg,recall_neg]
-            # print(summary_table_ByClassifier)
+            final_table.loc[anti,:]=[f1_macro,f1_positive,f1_negative,accuracy,precision,recall,precision_neg,recall_neg,precision_pos,recall_pos]
+
 
         #finish one chosen_cl
 
-        save_name_score_final  = name_utility.GETname_result2('phenotypeseeker',species_testing,fscore,chosen_cl,output_path)
+        save_name_score_final  = name_utility.GETname_result2('phenotypeseeker',species_testing,chosen_cl,output_path)
         file_utility.make_dir(os.path.dirname(save_name_score_final))
         final_table.to_csv(save_name_score_final + '.txt', sep="\t")
         print(final_table)

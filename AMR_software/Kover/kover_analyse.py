@@ -281,16 +281,6 @@ def extract_best_estimator(level,species,cv,fscore,f_phylotree,f_kma,temp_path,o
                     with open(meta_txt+'_temp/'+str(cl_each)+'_b_'+str(outer_cv)+'_'+str(inner_cv)+'/results.json') as f:
                         data = json.load(f)
 
-                    ##################only for check, delete later. checked correct!
-                    # n2=np.genfromtxt(meta_txt + '_Train_outer_' + str(outer_cv)+'_inner_'+str(inner_cv) + '_id', dtype="str")
-                    # print(len(n2))
-                    # train_errors_list=data["classifications"]['train_errors']
-                    # train_corrects_list=data["classifications"]['train_correct']
-                    # t=train_errors_list+train_corrects_list
-                    # print(len(t))
-                    # exit()
-                    ####################
-                    #####################
                     test_errors_list=data["classifications"]['test_errors']
                     test_corrects_list=data["classifications"]['test_correct']
                     f1,_,_,_=get_scores(test_corrects_list,test_errors_list,name_list2)
@@ -431,7 +421,7 @@ def extract_info(level,s,f_all,cv,fscore,f_phylotree,f_kma,temp_path,output_path
 
     for df_species, antibiotics in zip(df_species, antibiotics):
         #### 1. extract evaluation information for each classifier.
-        # extract_info_species(level, df_species, cv,f_phylotree,f_kma,temp_path,output_path)
+        extract_info_species(level, df_species, cv,f_phylotree,f_kma,temp_path,output_path)
 
         ### 2. extract inner CV results for choosing the best classifier between scm and carrt(tree).
         ### including also clinical-oriented scores here.

@@ -160,12 +160,12 @@ def GETname_result(software,species,fscore,f_kma,f_phylotree,chosen_cl,output_pa
 
     return save_name_score,save_name_final
 
-def GETname_result2(software,species,fscore,chosen_cl,output_path):
+def GETname_result2(software,species,chosen_cl,output_path):
     '''
      multi-species LOSO kover, PhenotypeSeeker
     '''
     save_name_score=output_path+'Results/software/'+str(software) +'/MS/' + str(species.replace(" ", "_")) +\
-                    '/' + str(species.replace(" ", "_"))+  '_'+chosen_cl + '_'+fscore
+                    '/' + str(species.replace(" ", "_"))+  '_'+chosen_cl
     return save_name_score
 
 
