@@ -16,12 +16,10 @@ for each species-antibiotic combination.
 
 """
 
-score_set=['f1_macro', 'f1_positive', 'f1_negative', 'accuracy',
-        'precision_macro', 'recall_macro', 'precision_negative', 'recall_negative','precision_positive', 'recall_positive',
-        'mcc',  'auc', 'clinical_f1_negative','clinical_precision_negative', 'clinical_recall_negative']
 
 
-def extract_info(level,s, f_all,output_path,tool_list,foldset,save_file_name):
+
+def extract_info(score_set,level,s, f_all,output_path,tool_list,foldset,save_file_name):
     main_meta,_=name_utility.GETname_main_meta(level)
     data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
     data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.

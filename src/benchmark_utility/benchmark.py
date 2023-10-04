@@ -33,15 +33,20 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
     ### BLAST-based ResFinder directly on whole dataset.
     ###################################################################################################################
     if f_table:
+        score_set=['f1_macro', 'f1_positive', 'f1_negative', 'accuracy',
+        'precision_macro', 'recall_macro', 'precision_negative', 'recall_negative','precision_positive', 'recall_positive',
+        'clinical_f1_negative','clinical_precision_negative', 'clinical_recall_negative']
         foldset=['Random folds', 'Phylogeny-aware folds','Homology-aware folds']
         tool_list=['ResFinder' ,'Aytan-Aktug', 'Seq2Geno2Pheno','PhenotypeSeeker', 'Kover','ML Baseline (Majority)']
         save_file_name=output_path+ 'Results/supplement_figures_tables/S1_cv_results.xlsx'
-        src.benchmark_utility.lib.MAINtable.extract_info(level,species, f_all ,output_path,tool_list,foldset,save_file_name)
+        src.benchmark_utility.lib.MAINtable.extract_info(score_set,level,species, f_all ,output_path,tool_list,foldset,save_file_name)
 
         foldset=['no folds']
+        score_set=['f1_macro', 'f1_positive', 'f1_negative', 'accuracy',
+        'precision_macro', 'recall_macro', 'precision_negative', 'recall_negative','precision_positive', 'recall_positive']
         tool_list=['KMA-based ResFinder','Blastn-based ResFinder']
         save_file_name=output_path+ 'Results/supplement_figures_tables/S5_cv_results_resfinder.xlsx'
-        src.benchmark_utility.lib.MAINtable.extract_info(level,species, f_all ,output_path,tool_list,foldset,save_file_name)
+        src.benchmark_utility.lib.MAINtable.extract_info(score_set,level,species, f_all ,output_path,tool_list,foldset,save_file_name)
     ####################################################################################################################
     ### 3. Supplemental File 6.
     ##  3.11-3.12 tables for further analysis (ML comparison with ResFinder, ML baseline)
