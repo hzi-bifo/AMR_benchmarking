@@ -169,8 +169,7 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
                 score=np.nan
 
     if tool=='Kover cross-species SCM':
-
-        results_file = name_utility.GETname_result2('kover',species,fscore,'scm',output_path)
+        results_file = name_utility.GETname_result2('kover',species,'scm',output_path)
 
         if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
             score=np.nan
@@ -182,8 +181,7 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
                 score=np.nan
 
     if tool=='Kover cross-species CART':
-
-        results_file = name_utility.GETname_result2('kover',species,fscore,'tree',output_path)
+        results_file = name_utility.GETname_result2('kover',species,'tree',output_path)
 
         if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
             score=np.nan
@@ -212,7 +210,7 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
 
     if tool=='PhenotypeSeeker multi-species LR':
 
-        results_file = name_utility.GETname_result2('phenotypeseeker',species,fscore,'lr',output_path)
+        results_file = name_utility.GETname_result2('phenotypeseeker',species,'lr',output_path)
 
         if species in ['Neisseria gonorrhoeae','Enterococcus faecium']:
             score=np.nan
