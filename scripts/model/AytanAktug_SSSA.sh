@@ -119,6 +119,10 @@ python ./src/analysis_utility/result_analysis_AytanAktug.py -f_SSSA -cv ${cv_num
 python ./src/analysis_utility/result_analysis_AytanAktug.py -f_SSSA -cv ${cv_number} -s "${species[@]}" \
 -f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -o ${output_path} -l ${QC_criteria}
 
+#### default NN model/
+python ./src/analysis_utility/result_analysis_AytanAktug.py -f_SSSA -cv ${cv_number} -f_kma -s "${species[@]}" \
+-f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.001 -e 1000 -temp ${log_path} -o ${output_path} -l ${QC_criteria}
+
 
 conda deactivate
 echo "Aytan-Aktug single-species-antibiotic model running finished successfully."
