@@ -134,7 +134,7 @@ def extract_info_clinical_SSMA(level,species,cv,learning,epochs,f_fixed_threshol
         summary_table_ByClassifier=extract_score.score_clinical(summary_table_ByClassifier_, cv, [row[count_anti] for row in score_report_test]) #score_report_test[:,count_anti]
         count_anti+=1
         summary_table_ByClassifier_all.append(summary_table_ByClassifier)
-    print(summary_table_ByClassifier_all)
+    
     final =  make_table.make_visualization_clinical(score_list, summary_table_ByClassifier_all, antibiotics)
     return final
 
