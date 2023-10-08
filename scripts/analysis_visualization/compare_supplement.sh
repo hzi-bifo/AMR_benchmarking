@@ -25,6 +25,8 @@ source activate ${amr_env_name}
 
 IFS=', ' read -ra species_list_temp <<< "$species_list"
 species=( "${species_list_temp[@]//_/ }" )
+IFS=', ' read -ra species_list_temp_tree <<< "$species_list_phylotree"
+species_tree=( "${species_list_temp_tree[@]//_/ }" )
 
 ##1. A paired t test was performed to compare KMA and BLAST version Point-/ResFinder.
 ####Output location: Results/supplement_figures_tables/Pvalue_resfinder_kma_blast.json. P-value=0.54 (oct 15 2022)
@@ -62,7 +64,7 @@ python  ./src/benchmark_utility/benchmark.py -f_clinical_analysis -fscore 'clini
 python  ./src/benchmark_utility/benchmark.py -f_clinical_analysis -fscore 'clinical_precision_neg' -f_all -o ${output_path}
 
 #### 8 .misclassified genomes analysis
-python ./src/benchmark_utility/lib/misclassify.py -o ${output_path} -cv ${cv_number} -temp ${log_path} -s 'Escherichia coli' 'Salmonella enterica'
+python ./src/benchmark_utility/lib/misclassify.py -o ${output_path} -cv ${cv_number} -temp ${log_path} -s "${species_tree[@]}"
 
 
 conda deactivate
