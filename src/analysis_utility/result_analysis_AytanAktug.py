@@ -134,7 +134,7 @@ def extract_info_clinical_SSMA(level,species,cv,learning,epochs,f_fixed_threshol
         summary_table_ByClassifier=extract_score.score_clinical(summary_table_ByClassifier_, cv, [row[count_anti] for row in score_report_test]) #score_report_test[:,count_anti]
         count_anti+=1
         summary_table_ByClassifier_all.append(summary_table_ByClassifier)
-    
+
     final =  make_table.make_visualization_clinical(score_list, summary_table_ByClassifier_all, antibiotics)
     return final
 
@@ -276,6 +276,8 @@ def extract_info(fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_MSMA_conLO
     elif f_MSMA_discrete:
 
         if f_split_species==False and f_match_single==False:
+            ### by anitbiotics
+
             merge_name = []
             data = pd.read_csv('./data/PATRIC/meta/'+str(level)+'_multi-species_summary.csv', index_col=0,
                            dtype={'genome_id': object}, sep="\t")
@@ -309,7 +311,9 @@ def extract_info(fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_MSMA_conLO
             final=make_table.multi_make_visualization_normalCV(All_antibiotics,score)
             final.to_csv(save_name_score_final + '_SummaryBenchmarking.txt', sep="\t")
 
-        if f_MSMA_discrete and f_split_species:# split species-specific scores from discrete model and concatenated mixed species model.
+        if f_MSMA_discrete and f_split_species:
+            ### split species-specific scores from discrete model and concatenated mixed species model.
+
             merge_name = []
             data = pd.read_csv('./data/PATRIC/meta/'+str(level)+'_multi-species_summary.csv', index_col=0,
                            dtype={'genome_id': object}, sep="\t")
@@ -376,9 +380,14 @@ def extract_info(fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_MSMA_conLO
                     report=pd.DataFrame(report).transpose()
                     f1_pos=(report.loc['1', 'f1-score'])
                     f1_neg=(report.loc['0', 'f1-score'])
-                    accuracy=(report.iat[2,2])
-                    precision_neg=(report.loc['0', 'precision'])
-                    recall_neg=(report.loc['0', 'recall'])
+                    accuracy=report.iat[2,2]
+                    precision=report.loc['macro avg', 'precision']
+                    recall=report.loc['macro avg', 'recall']
+                    precision_pos=report.loc['1', 'precision']
+                    recall_pos=report.loc['1', 'recall']
+                    precision_neg=report.loc['0', 'precision']
+                    recall_neg=report.loc['0', 'recall']
+
                     if fscore=='f1_macro':
                         final_init.loc[species,anti]=f1
                     elif fscore=='f1_positive':
@@ -391,8 +400,16 @@ def extract_info(fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_MSMA_conLO
                         final_init.loc[species,anti]=precision_neg
                     elif fscore=='recall_negative':
                         final_init.loc[species,anti]=recall_neg
+                    elif fscore=='precision_positive':
+                        final_init.loc[species,anti]=precision_pos
+                    elif fscore=='recall_positive':
+                        final_init.loc[species,anti]=recall_pos
+                    elif fscore=='precision_macro':
+                        final_init.loc[species,anti]= precision
+                    elif fscore=='recall_macro':
+                        final_init.loc[species,anti]=recall
                     else:
-                        print('only <f1_macro,f1_positive,f1_positive,accuracy,precision_neg,recall_neg> possible so far')
+                        print('only <f1_macro,f1_positive,f1_positive,accuracy,precision,recall> possible so far')
                         exit(1)
             final_init.to_csv(save_name_score_final+'_split_discrete_model_'+str(fscore)+'.txt', sep="\t")
             print(final_init)
@@ -557,8 +574,12 @@ def extract_info(fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_MSMA_conLO
                     f1_pos=(report.loc['1', 'f1-score'])
                     f1_neg=(report.loc['0', 'f1-score'])
                     accuracy=(report.iat[2,2])
-                    precision_neg=(report.loc['0', 'precision'])
-                    recall_neg=(report.loc['0', 'recall'])
+                    precision=report.loc['macro avg', 'precision']
+                    recall=report.loc['macro avg', 'recall']
+                    precision_pos=report.loc['1', 'precision']
+                    recall_pos=report.loc['1', 'recall']
+                    precision_neg=report.loc['0', 'precision']
+                    recall_neg=report.loc['0', 'recall']
 
                     if fscore=='f1_macro':
                         final_init.loc[species,anti]=f1
@@ -572,6 +593,14 @@ def extract_info(fscore,f_SSMA,f_SSSA,f_MSMA_discrete,f_MSMA_conMix,f_MSMA_conLO
                         final_init.loc[species,anti]=precision_neg
                     elif fscore=='recall_negative':
                         final_init.loc[species,anti]=recall_neg
+                    elif fscore=='precision_positive':
+                        final_init.loc[species,anti]=precision_pos
+                    elif fscore=='recall_positive':
+                        final_init.loc[species,anti]=recall_pos
+                    elif fscore=='precision_macro':
+                        final_init.loc[species,anti]= precision
+                    elif fscore=='recall_macro':
+                        final_init.loc[species,anti]=recall
                     else:
                         print('only <f1_macro,f1_positive,f1_positive,accuracy,precision_neg,recall_neg> possible so far')
                         exit(1)

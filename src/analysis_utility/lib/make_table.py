@@ -12,7 +12,7 @@ whole_score_set=['f1_macro', 'f1_positive', 'f1_negative', 'accuracy',
         'mcc',  'auc','threshold', 'support', 'support_positive','support_negative']
 score_set=['f1_macro', 'f1_positive', 'f1_negative', 'accuracy',
         'precision_macro', 'recall_macro', 'precision_negative', 'recall_negative','precision_positive', 'recall_positive',
-        'mcc',  'auc']
+        'mcc', 'auc']
 score_set_weighted=['weighted-'+ a for a in score_set]
 
 def make_visualization(summary_all,antibiotics ):

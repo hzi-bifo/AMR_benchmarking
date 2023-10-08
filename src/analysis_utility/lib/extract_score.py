@@ -25,37 +25,36 @@ def score_summary_normalCV(count_anti,summary,score_report_test,f1_test,aucs_tes
         f1_test= np.array(f1_test)
         f1_test = f1_test[count_anti]
 
-    for i in np.arange(1):
-        if count_anti != None:
-            report=score_report_test[count_anti]#multi-species model.
-        else:
-            report = score_report_test
 
-        report=pd.DataFrame(report).transpose()
-        accuracy=(report.iat[2,2])
-        support=(report.loc['macro avg','support'])
-        f1_pos=(report.loc['1', 'f1-score'])
-        f1_neg=(report.loc['0', 'f1-score'])
-        precision_pos=(report.loc['1', 'precision'])
-        recall_pos=(report.loc['1', 'recall'])
-        precision_neg=(report.loc['0', 'precision'])
-        recall_neg=(report.loc['0', 'recall'])
-        support_pos=(report.loc['1', 'support'])
-        support_neg=(report.loc['0', 'support'])
+    if count_anti != None:
+        report=score_report_test[count_anti]#multi-species model.
+    else:
+        report = score_report_test
 
-        summary.loc['score','accuracy'] =  accuracy
-        summary.loc['score', 'f1_macro'] = f1_test
-        summary.loc['score', 'precision_negative'] = precision_neg
-        summary.loc['score', 'recall_negative'] = recall_neg
-        summary.loc['score', 'auc'] = aucs_test
-        summary.loc['score', 'mcc'] =  mcc_test
-        summary.loc['score', 'f1_positive'] = f1_pos
-        summary.loc['score', 'f1_negative'] =  f1_neg
-        summary.loc['score', 'precision_positive'] =  precision_pos
-        summary.loc['score', 'recall_positive'] = recall_pos
-        summary.loc['score', 'support'] = support
-        summary.loc['score', 'support_positive'] =  support_pos
-        summary.loc['score', 'support_negative'] =  support_neg
+    report=pd.DataFrame(report).transpose()
+    accuracy=(report.iat[2,2])
+    f1_pos=(report.loc['1', 'f1-score'])
+    f1_neg=(report.loc['0', 'f1-score'])
+    precision_pos=(report.loc['1', 'precision'])
+    recall_pos=(report.loc['1', 'recall'])
+    precision_neg=(report.loc['0', 'precision'])
+    recall_neg=(report.loc['0', 'recall'])
+    precision=(report.loc['macro avg', 'precision'])
+    recall=(report.loc['macro avg', 'recall'])
+
+
+    summary.loc['score','accuracy'] =  accuracy
+    summary.loc['score', 'f1_macro'] = f1_test
+    summary.loc['score', 'precision_negative'] = precision_neg
+    summary.loc['score', 'recall_negative'] = recall_neg
+    summary.loc['score', 'auc'] = aucs_test
+    summary.loc['score', 'mcc'] =  mcc_test
+    summary.loc['score', 'f1_positive'] = f1_pos
+    summary.loc['score', 'f1_negative'] =  f1_neg
+    summary.loc['score', 'precision_positive'] =  precision_pos
+    summary.loc['score', 'recall_positive'] = recall_pos
+    summary.loc['score', 'precision_macro'] =  precision
+    summary.loc['score', 'recall_macro'] = recall
 
     return summary
 
@@ -251,7 +250,6 @@ def score_summary_Tree(count_anti,summary,cv,score_report_test,f1_test,aucs_test
 
 
         accuracy.append(report.iat[2,2])
-        ## f1.append(report.loc['macro avg','f1-score'])
         precision.append(report.loc['macro avg','precision'])
         recall.append(report.loc['macro avg','recall'])
         support.append(report.loc['macro avg','support'])
