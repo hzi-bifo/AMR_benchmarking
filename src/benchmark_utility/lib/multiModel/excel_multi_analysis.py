@@ -23,7 +23,7 @@ def run(species_list,level,fscore,foldset, tool_list, f_compare,f_Ttest,path_tab
         for eachfold in foldset:
             i=0
             for each_tool in tool_list:
-                print(each_tool)
+                # print(each_tool)
                 df_final=pd.DataFrame(columns=['species', 'antibiotics', each_tool])
                 for species in  species_list:
 
@@ -49,7 +49,7 @@ def run(species_list,level,fscore,foldset, tool_list, f_compare,f_Ttest,path_tab
             print(df_compare)
             df_mean=df_compare[tool_list]
             df_mean = df_mean.dropna() #Nan means no multi-models for that combination.
-            print(df_mean)
+            # print(df_mean)
             print('Paired T-test:')
             #T-test
             Presults={}
@@ -74,7 +74,7 @@ def extract_info(level,fscore,f_compare,f_Ttest,f_kover,f_pts,output_path):
         #===============
         #1. Compare Aytan-Aktug  SSSA and MSMA (3 variants)
         # #===============
-        print('1. Compare Aytan-Aktug  SSSA and MSMA (3 variants)')
+        print('1. Compare Aytan-Aktug SSSA and MSMA (3 variants)')
         species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
                       'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis','Campylobacter jejuni']
         tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Discrete databases multi-species model',
@@ -87,7 +87,7 @@ def extract_info(level,fscore,f_compare,f_Ttest,f_kover,f_pts,output_path):
         # #===============
         #2. Compare Aytan-Aktug  SSSA and SSMA
         #===============
-        print('2. Compare Aytan-Aktug  SSSA and SSMA')
+        print('2. Compare Aytan-Aktug SSSA and SSMA')
         species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
                       'Acinetobacter baumannii','Streptococcus pneumoniae','Mycobacterium tuberculosis', 'Neisseria gonorrhoeae']
         tool_list=[ 'Single-species-antibiotic Aytan-Aktug','Single-species multi-antibiotics Aytan-Aktug']
