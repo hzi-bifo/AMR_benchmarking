@@ -108,7 +108,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 |species_list_multi_species|Benchmarked species for multi-species models. |Mycobacterium_tuberculosis, Salmonella_enterica, Streptococcus_pneumoniae, Escherichia_coli, Staphylococcus_aureus, Klebsiella_pneumoniae, Acinetobacter_baumannii, Pseudomonas_aeruginosa, Campylobacter_jejuni|
 |merge_name| Used to name the folder for multi-models. E.g. multi-models of M. tuberculosis and S. enterica will result in Mt_Se.|Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj|
 |cv_number|The k value of k-fold nested cross-validation |10|
-|cv_number_multiS|The value of k+1, where the k corresponds to k-fold cross-validation and 1 corresponds to the holdout test set, for multi-species models)|6|
+|cv_number_multiS|The value of k+1, where the k corresponds to k-fold cross-validation and 1 corresponds to the holdout test set, for multi-species models|6|
 
 
 
