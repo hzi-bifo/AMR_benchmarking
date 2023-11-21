@@ -1,19 +1,19 @@
 
-#<Please do change everything in A after the ":" to your own.>
+###<Please do change everything in A after the ":" to your own.>
 ############################################################################################################################
-#A. Basic/required parameters setting
+###A. Basic/required parameters setting
 ############################################################################################################################
-#1. the location to download the PATRIC dataset to.  ~246G (Please change to your local address.)
-#dataset_location: /vol/projects/BIFO/patric_genome
+###1. the location to download the PATRIC dataset to.  ~246G (Please change to your local address.)
+###dataset_location: /vol/projects/BIFO/patric_genome
 dataset_location: /net/projects/BIFO/patric_genome
-#2. The path to store the direct results of each software and further visualization. (either sbsolute path or relative path)
+###2. The path to store the direct results of each software and further visualization. (either sbsolute path or relative path)
 output_path: ./
-#3. The path to store the tempary files (note: some software will generate large amount of temp files to 60G in the process,
-#  if you run all species in parallel.  Either sbsolute path or relative path)
+###3. The path to store the tempary files (note: some software will generate large amount of temp files to 60G in the process,
+###  if you run all species in parallel.  Either sbsolute path or relative path)
 log_path: ./
-#4 . max cpu
+###4 . max cpu
 n_jobs: 20
-#5. gpu possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied;
+###5. gpu possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied;
 #  Otherwise, it will be applied on one gpu core sequentially.
 gpu_on: True
 #6. Cleaning large intermediate files of the specified software. Can be either empty, phenotypeseeker, AytanAktug, seq2geno
@@ -21,9 +21,9 @@ clean_software:
 
 
 
-#<change the conda env names if these names have already existed in your PC.>
+###<change the conda env names if these names have already existed in your PC.>
 ############################################################################################################################
-#B. Env: Optional parameters setting
+###B. Env: Optional parameters setting
 ############################################################################################################################
 
 amr_env_name: amr_env
@@ -39,27 +39,28 @@ se2ge_env_name: snakemake_env2
 kmer_env_name: kmer_kmc
 resfinder_env: res_env
 
-#<You don't need to change parameters below, if you aim at reproducing the complete results of our benchmarking study.>
-############################################################################################################################
-#C. Advanced/optional parameters setting
-############################################################################################################################
-#1. sample selection criteria: loose/trict. By default, we only benchmarked on the loosely selected dataset.
-QC_criteria: loose
-#2. By default, we benchmarked using 11 species for Aytan-Aktug SSSA, Seq2Geno2Pheno, PhenotypeSeeker, Kover and ResFinder.
-# 9 species for Aytan-Aktug SSMA and 3 MSMA models, and PhenotypeSeeker, Kover multi-species models
-# For user defining species combinations for MSMA, please replace -f_all with -s "${species[@]}" in ./scripts/model/AytanAktug_MSMA_concat.sh and ./scripts/model/AytanAktug_MSMA_discrete.sh
 
+############################################################################################################################
+###C. Advanced/optional parameters setting
+############################################################################################################################
+###1.  11 species for single-species models.
 species_list: Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Mycobacterium_tuberculosis, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae
 species_list_phylotree: Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae
 species_list_multi_antibiotics: Mycobacterium_tuberculosis, Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Neisseria_gonorrhoeae
+
+
+### 2. <You don't need to change parameters below, if you aim at reproducing the complete results of our benchmarking study.>
+
+### 9 species for Aytan-Aktug SSMA and 3 MSMA models, and PhenotypeSeeker, Kover multi-species models
+### For user defining species combinations for MSMA, please replace -f_all with -s "${species[@]}" in ./scripts/model/AytanAktug_MSMA_concat.sh and ./scripts/model/AytanAktug_MSMA_discrete.sh
 species_list_multi_species:  Mycobacterium_tuberculosis, Salmonella_enterica, Streptococcus_pneumoniae, Escherichia_coli, Staphylococcus_aureus, Klebsiella_pneumoniae, Acinetobacter_baumannii, Pseudomonas_aeruginosa, Campylobacter_jejuni
 merge_name: Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj
 
-
-#3. CV settings for nested CV
+### CV settings for nested CV
 cv_number: 10
 
-# 5 CV folds + 1 hold out set. Only for Aytan-Aktug Multi-species model.
+### 5 CV folds + 1 hold out set. Only for Aytan-Aktug Multi-species model.
 cv_number_multiS: 6
 
-
+### sample selection criteria: loose/trict. By default, we only benchmarked on the loosely selected dataset.
+QC_criteria: loose
