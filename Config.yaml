@@ -45,10 +45,10 @@ resfinder_env: res_env
 ############################################################################################################################
 #1. sample selection criteria: loose/trict. By default, we only benchmarked on the loosely selected dataset.
 QC_criteria: loose
-#2. By default, we benchmarked using 11 species for Aytan-Aktug SSSA, Seq2Geno2Pheno, PhenotypeSeeker, Kover and Point-/ResFinder.
-# 9 species for Aytan-Aktug SSMA and 3 MSMA models
+#2. By default, we benchmarked using 11 species for Aytan-Aktug SSSA, Seq2Geno2Pheno, PhenotypeSeeker, Kover and ResFinder.
+# 9 species for Aytan-Aktug SSMA and 3 MSMA models, and PhenotypeSeeker, Kover multi-species models
 # For user defining species combinations for MSMA, please replace -f_all with -s "${species[@]}" in ./scripts/model/AytanAktug_MSMA_concat.sh and ./scripts/model/AytanAktug_MSMA_discrete.sh
-#
+
 species_list: Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Mycobacterium_tuberculosis, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae
 species_list_phylotree: Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae
 species_list_multi_antibiotics: Mycobacterium_tuberculosis, Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Neisseria_gonorrhoeae
@@ -56,11 +56,10 @@ species_list_multi_species:  Mycobacterium_tuberculosis, Salmonella_enterica, St
 merge_name: Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj
 
 
-#3. CV settings.
-#nested CV
+#3. CV settings for nested CV
 cv_number: 10
 
-# 5 CV folds + 1 hold out set. Only for Aytan-Aktug Multi-species multi-antibiotics discrete databases Neural networks model.
+# 5 CV folds + 1 hold out set. Only for Aytan-Aktug Multi-species model.
 cv_number_multiS: 6
 
 
