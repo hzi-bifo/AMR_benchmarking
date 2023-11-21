@@ -102,6 +102,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 |species_list|Benchmarked species under random and homology-aware folds for single-species evaluation |Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Mycobacterium_tuberculosis, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae|
 |species_list_phylotree|Benchmarked species under phylogeny-aware folds for single-species evaluation |Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae|
 |cv_number|The k value of k-fold nested cross-validation |10|
+|QC_criteria|Sample quality control level. Can be loose or strict.| loose|
 
 
 
