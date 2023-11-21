@@ -55,7 +55,7 @@
 
 - Memory requirement: Some procedures require extremely large memory. Aytan-Aktug multi-species model (adapted version) feature-building procedure needs ~370G memory. Other ML software needs up to 80G memory, depending on the number of CPUs and the specific species-antibiotic combination.
 
-- Disk storage requirement: Some procedures generate extremely large intermediate files, although they are deleted once finished. E.g. PhenotypeSeeker(adapted version) needs the most disk storage, which is up to the magnitude of 10T depending on the species. 
+- Disk storage requirement: Some procedures generate extremely large intermediate files, although they are deleted once finished in our pipeline. E.g. PhenotypeSeeker(adapted version) needs the most disk storage, which is up to the magnitude of 10T depending on the species. 
 
 
 ## <a name="input"></a>Input file
