@@ -53,9 +53,9 @@
     - Finally, you need to install pytorch in the `multi_torch_env` manually. To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version 10.1 and 11.0 .
 
 
-- Memory requirement: Some procedures require extremely large memory. Aytan-Aktug multi-species model (adaptation version) feature building needs ~370G memory. Other ML software needs up to 80G memory, depending on the number of CPU and which species-antibiotic combination.
+- Memory requirement: Some procedures require extremely large memory. Aytan-Aktug multi-species model (adapted version) feature-building procedure needs ~370G memory. Other ML software needs up to 80G memory, depending on the number of CPUs and the specific species-antibiotic combination.
 
-- Disk storage requirement: Some procedures generate extremely large intermediate files, although they are deleted once the procedures generate feature files. E.g. PhenotypeSeeker (adaptation version) needs up to the magnitude of 10T depending on the data set size of the species running, which will be deleted automatically. 
+- Disk storage requirement: Some procedures generate extremely large intermediate files, although they are deleted once finished. E.g. PhenotypeSeeker(adapted version) needs the most disk storage, which is up to the magnitude of 10T depending on the species. 
 
 
 ## <a name="input"></a>Input file
