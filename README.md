@@ -106,9 +106,9 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 |species_list_phylotree|Benchmarked species under phylogeny-aware folds for single-species evaluation |Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae|
 |species_list_multi_antibiotics|Benchmarked species for Aytan-Aktug single-species multi-antibiotic model. |Mycobacterium_tuberculosis, Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Neisseria_gonorrhoeae|
 |species_list_multi_species|Benchmarked species for multi-species models. |Mycobacterium_tuberculosis, Salmonella_enterica, Streptococcus_pneumoniae, Escherichia_coli, Staphylococcus_aureus, Klebsiella_pneumoniae, Acinetobacter_baumannii, Pseudomonas_aeruginosa, Campylobacter_jejuni|
-|merge_name| Used to name the folder for three Aytan-Aktug multi-species multi-antibiotic models. E.g. only two species of Mycobacterium_tuberculosis and Salmonella_enterica will result in Mt_Se.|Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj|
+|merge_name| Used to name the folder for multi-models. E.g. only two species of Mycobacterium_tuberculosis and Salmonella_enterica will result in Mt_Se.|Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj|
 |cv_number|The k value of k-fold nested cross-validation |10|
-|cv_number_multiS|k+1, where the k corresponds to k-fold cross-validation and 1 corresponds to the holdout test set, for multi-species models)|6|
+|cv_number_multiS|The value of k+1, where the k corresponds to k-fold cross-validation and 1 corresponds to the holdout test set, for multi-species models)|6|
 
 
 
