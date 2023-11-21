@@ -149,7 +149,7 @@ bash ./scripts/model/clean.sh # Optional. Clean intermediate files
 - We suggest you run `main.sh` step by step by commenting some codes there at one time and run one species by one species at a time by setting species_list and species_list_phylotree options in the `Config.yaml` (of course except for multi-models). `./scripts/model/<software_name>.sh` also provides more detailed instructions for running this benchmarking workflow. You can't finish the whole AMR benchmarking just by submitting `main.sh` to run once and for all due to several reasons. Due to large data sets and time-consuming ML model learning process, which altogether may take more than 2 months with 20 CPUs accompanied by 10 GPUs, you may need to run different tasks on different machines and re-run some processes if it accidentally terminates unexpectedly during a long period.
 -->
 
-- Clean large and unimportant files. You can run it any time after the specified software finishes running on a benchmarked species. Don't use it when the corresponding software is running. 
+- Clean large and less important intermediate files. You can run it any time after the specified software finishes running on a benchmarked species. Don't use it when the corresponding software is running. 
 
 
 
