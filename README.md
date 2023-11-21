@@ -95,7 +95,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 **C. Advanced/optional parameters setting (Model)** 
 
 - For species_list and species_list_phylotree options, you can evaluate software on one species at one time or on a smaller list of species at one time by changing the corresponding values.
-- For species related to  [multi-models](https://github.com/hzi-bifo/AMR_benchmarking/wiki/Advanced-optional-parameters-setting-(Model)) , we have listed the possible maximum (in terms of data sets this study provides) for each setting, so you can explore as you like by reducing the species, but not by adding others on. Users, who would like to reproduce this AMR benchmarking results, are not advised to change settings in this category. 
+- For species related to  [multi-models](https://github.com/hzi-bifo/AMR_benchmarking/wiki/Advanced-parameters-setting-for-multi%E2%80%90Models) , we have listed the possible maximum (in terms of data sets this study provides) for each setting, so you can explore as you like by reducing the species, but not by adding others on. Users, who would like to reproduce this AMR benchmarking results, are not advised to change settings in this category. 
  
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
