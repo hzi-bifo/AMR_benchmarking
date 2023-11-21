@@ -31,7 +31,8 @@
 ### <a name="data"></a>Data sets
 
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/wiki/Species-and-antibiotics">Data sets overview</a>
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample list</a>  of each dataset in the form of `Data_<species>_<antibiotic>` and <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">sample phenotype metadata</a> of each dataset `Data_<species>_<antibiotic>_pheno.txt`.
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample list</a>  of each dataset in the form of `Data_<species>_<antibiotic>`
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">sample phenotype metadata</a> of each dataset in the form of `Data_<species>_<antibiotic>_pheno.txt`.
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose">Cross-validation folds</a> were generated through Aytan-Aktug (homology-aware folds), Seq2Geno2Pheno(phylogeny-aware and random folds, except for  *M. tuberculosis*), and scikit-learn package model_selection.KFold
 (random folds for  *M. tuberculosis* folds).
 
