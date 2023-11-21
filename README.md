@@ -42,7 +42,7 @@
 
 ## <a name="pre"></a>Prerequirements
 - Dependencies
-    - To reproduce the output, you need to use Linux OS and `conda`. Miniconda2 4.8.4 was used by us. All software environments were actvated under "base"       env, which is the default environment.
+    - To reproduce the output, you need to use Linux OS and `conda`. Miniconda2 4.8.4 was used by us. All software environments were activated under "base"       env, which is the default environment.
 
     - Installation of the conda environments:
         ```
@@ -52,9 +52,9 @@
     - Finally, you need to install pytorch in the `multi_torch_env` manually. To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version 10.1 and 11.0 .
 
 
-- Memory requirement: Some procedures require extremely large memory. Aytan-Aktug multi-species model (adaptation version) feature building needs ~370G memory. Other ML software needs up to 80G memory, depending on the number of CPU and which specis-antibiotic combination.
+- Memory requirement: Some procedures require extremely large memory. Aytan-Aktug multi-species model (adaptation version) feature building needs ~370G memory. Other ML software needs up to 80G memory, depending on the number of CPU and which species-antibiotic combination.
 
-- Disk storage requirement: Some procedures generate extremely large intermediate files, although they are deleted once the procedures generate feature files. E.g. PhenotypeSeeker (adaptation version) needs up to the magnitude of 10T depending on the data set size of the species runnning, which will be deleted automaically. 
+- Disk storage requirement: Some procedures generate extremely large intermediate files, although they are deleted once the procedures generate feature files. E.g. PhenotypeSeeker (adaptation version) needs up to the magnitude of 10T depending on the data set size of the species running, which will be deleted automatically. 
 
 
 ## <a name="input"></a>Input file
@@ -68,10 +68,10 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 | ------------- | ------------- |------------- |
 |dataset_location| To where the PATRIC dataset will be downloaded. ~246G| /vol/projects/BIFO/patric_genome|
 |output_path| To where to generate the `Results` folder for the direct results of each software and further visualization. | ./|
-|log_path| To where to generate the `log` folder for the intermediate files. Running benchmarking scripts will generate temp files up to the order of 10 terabytes.  | ./|
+|log_path| To where to generate the `log` folder for the intermediate files (~10 TB, while regularly cleaning files related to completed benchmarking species). | ./|
 |n_jobs| CPU cores (>1) to use. | 10 |
-|gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
-|clean_software|Clean large intermediate files of the specified software (optional). Large temp files are stored under `<log_path>/log/software/<software_name>/software_output`.||
+|gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on CPU will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
+|clean_software|Clean large intermediate files of the specified software (optional). Large temp files can also be manually removed from `<log_path>/log/software/<software_name>/software_output`.||
 
 **B.Optional parameters setting**
 
@@ -107,7 +107,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 |species_list_multi_species|species to be included in for three variants of Aytan-Aktug multi-species multi-antibiotic models. For user-defining species combinations for MSMA, please change species names here and replace -f_all with -s "${species[@]}" in ./scripts/model/AytanAktug_MSMA_concat.sh and ./scripts/model/AytanAktug_MSMA_discrete.sh|Mycobacterium_tuberculosis, Salmonella_enterica, Streptococcus_pneumoniae, Escherichia_coli, Staphylococcus_aureus, Klebsiella_pneumoniae, Acinetobacter_baumannii, Pseudomonas_aeruginosa, Campylobacter_jejuni|
 |merge_name| used to notate the folders for the results of three Aytan-Aktug multi-species multi-antibiotic models. Always takes such a form of a concatenation of species names in the order defined by input species list. E.g. only two species of Mycobacterium_tuberculosis and Salmonella_enterica will result in Mt_Se.|Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj|
 |cv_number|the k of k-fold nested cross-validation for the five software tools (Aytan-Aktug single-species-antibiotic model) and Aytan-Aktug single-species multi-antibiotic model|10|
-|cv_number_multiS|k+1, where the k corresponds to k-fold cross-validation and 1 corresponds to the hold out test set, for three variants of Aytan-Aktug multi-species multi-antibiotics models)|6|
+|cv_number_multiS|k+1, where the k corresponds to k-fold cross-validation and 1 corresponds to the holdout test set, for three variants of Aytan-Aktug multi-species multi-antibiotics models)|6|
 
 
 
@@ -133,7 +133,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 - Visualization tables and graphs are generated under `output_path/Results/final_figures_tables` and `output_path/Results/supplement_figures_tables`.
 - Numbers and statistic results mentioned in our benchmarking article are generated under `output_path/Results/other_figures_tables`.
 <!--
-- Stochastic factors in generating results:( **do we actually needed to say this? or not**)  We provide in this repository the software or corresponding adaptation versions of all the methods we benchmarked, with the original software accessed time and modification details disclosed in our publication. We set a predefined seed for processes including predictor learning and folds partition. But there are 2 points that invite stochastic factors. [KMA](https://bitbucket.org/genomicepidemiology/kma/src/master/) version, which is installed from repository when setting up ResFinder (as by instructions of ResFinder on 2021-05-06), and Neural networks dropout mechanism. We accessed KMA on 2021-05-06 for all except for P. aeruginosa samples for three multi-species models, we accessed the KMA on September 2022. As we assume the KMA version influence small, we provide in `./AMR_software/resfinder/cge` a KMA retrieved on 2022-11-05. 
+- Stochastic factors in generating results:( **do we actually needed to say this? or not**)  We provide in this repository the software or corresponding adaptation versions of all the methods we benchmarked, with the original software accessed time and modification details disclosed in our publication. We set a predefined seed for processes including predictor learning and folds partition. But there are 2 points that invite stochastic factors. [KMA](https://bitbucket.org/genomicepidemiology/kma/src/master/) version, which is installed from the repository when setting up ResFinder (as by instructions of ResFinder on 2021-05-06), and Neural networks dropout mechanism. We accessed KMA on 2021-05-06 for all except for P. aeruginosa samples for three multi-species models, we accessed the KMA on September 2022. As we assume the KMA version influence small, we provide in `./AMR_software/resfinder/cge` a KMA retrieved on 2022-11-05. 
 -->
 
 ## <a name="usage"></a>Usage
@@ -147,7 +147,7 @@ bash ./scripts/model/clean.sh # Optional. Clean intermediate files
 
 - We suggest you run `main.sh` step by step by commenting some codes there at one time and run one species by one species at a time by setting species_list and species_list_phylotree options in the `Config.yaml` (of course except for multi-models). `./scripts/model/<software_name>.sh` also provides more detailed instructions for running this benchmarking workflow. You can't finish the whole AMR benchmarking just by submitting `main.sh` to run once and for all due to several reasons. You have to access Geno2Pheno website using the feature generated by Seq2Geno. Due to large data sets and time-consuming ML model learning process, which altogether may take more than 2 months with 20 CPUs accompanied by 10 GPUs, you may need to run different tasks on different machines and re-run some processes if it accidentally terminates unexpectedly during a long period of time.
 
-- Clean intermediate files: we provide a script to clean large and unimportant intermeidate files. It will scan several predefined locations for the targets, and then delete them. You can run it any time after a corresponding software finishes running on part of species in the list. Don't use it when the corresponding software is running. Make sure you don't need those intermediate files for debugging before cleaning them.
+- Clean intermediate files: we provide a script to clean large and unimportant intermediate files. It will scan several predefined locations for the targets, and then delete them. You can run it any time after a corresponding software finishes running on part of the species in the list. Don't use it when the corresponding software is running. Make sure you don't need those intermediate files for debugging before cleaning them.
 
 
 
@@ -162,7 +162,7 @@ bash ./scripts/model/clean.sh # Optional. Clean intermediate files
 
 <a id="4">[4]</a> Alexandre Drouin, Gaël Letarte, Frédéric Raymond, Mario Marchand, Jacques Corbeil, and François Laviolette. Interpretable genotype-to-phenotype classifiers with performance guarantees. Scientific reports, 9(1):1–13, 2019.
 
-<a id="5">[5]</a>    Valeria Bortolaia, Rolf S Kaas, Etienne Ruppe, Marilyn C Roberts, Stefan Schwarz, Vincent Cattoir, Alain Philippon, Rosa L Allesoe, Ana Rita Rebelo, Alfred Ferrer Florensa, et al. Resfinder 4.0 for predictions of phenotypes from genotypes. Journal of Antimicrobial Chemotherapy, 75(12): 3491–3500, 2020.
+<a id="5">[5]</a>  Valeria Bortolaia, Rolf S Kaas, Etienne Ruppe, Marilyn C Roberts, Stefan Schwarz, Vincent Cattoir, Alain Philippon, Rosa L Allesoe, Ana Rita Rebelo, Alfred Ferrer Florensa, et al. Resfinder 4.0 for predictions of phenotypes from genotypes. Journal of Antimicrobial Chemotherapy, 75(12): 3491–3500, 2020.
 
 
 ## <a name="license"></a> License
