@@ -23,7 +23,7 @@
 2. Seq2Geno2Pheno([Seq2Geno](https://github.com/hzi-bifo/seq2geno.git)&[Geno2Pheno](https://github.com/hzi-bifo/GenoPheno) [[2]](#2), 
 3. [PhenotypeSeeker v 0.7.3](https://github.com/bioinfo-ut/PhenotypeSeeker) [[3]](#3), 
 4. [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4),
-5. [Point-/ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
+5. [ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
 
 - All software methods, except for Kover, were benchmarked with adaptation versions (provided in `./AMR_software`).
 
@@ -68,7 +68,7 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 | ------------- | ------------- |------------- |
 |dataset_location| To where the PATRIC dataset will be downloaded. ~246G| /vol/projects/BIFO/patric_genome|
 |output_path| To where to generate the `Results` folder for the direct results of each software and further visualization. | ./|
-|log_path| To where to generate the `log` folder for the intermediate files. Running benchmarking scripts will generate temp files up to the order of 10 terabytes, which means you are suggested to delete temp files via `./src/software_utility/clean.py` as soon as one software finishes evaluation successfully, except Point-/ResFinder. Large temp files are stored under `<log_path>/log/software/<software_name>/software_output`. | ./|
+|log_path| To where to generate the `log` folder for the intermediate files. Running benchmarking scripts will generate temp files up to the order of 10 terabytes, which means you are suggested to delete temp files via `./src/software_utility/clean.py` as soon as one software finishes evaluation successfully, except ResFinder. Large temp files are stored under `<log_path>/log/software/<software_name>/software_output`. | ./|
 |n_jobs| CPU cores (>1) to use. | 10 |
 |gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
 | clean_software|Clean large intermediate files of the specified software. This is optional, as some less useful intermediate large files will be automatically removed once the corresponding software finishes a certain procedure.||
@@ -87,8 +87,8 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 |se2ge_env_name|conda env for Seg2Geno|snakemake_env|
 |kmer_env_name|conda env for Seg2Geno k-mers generation |kmer_kmc|
 |phylo_name|conda env for Seg2Geno phylogenetic trees generation|phylo_env|
-|phylo_name2|conda env for for visualization of misclassified genomes|phylo_env2|
-|resfinder_env|conda env for Point-/ResFinder|res_env|
+|phylo_name2|conda env for visualization of misclassified genomes|phylo_env2|
+|resfinder_env|conda env for ResFinder|res_env|
 
 
 **C. Advanced/optional parameters setting (Model)**
@@ -129,11 +129,11 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 
 ```
 
--  Cross-validation results of each ML software and evaluation results of Point-/Resfinder are generated under `output_path/Results/<name of the software>`.
+-  Cross-validation results of each ML software and evaluation results of Resfinder are generated under `output_path/Results/<name of the software>`.
 - Visualization tables and graphs are generated under `output_path/Results/final_figures_tables` and `output_path/Results/supplement_figures_tables`.
 - Numbers and statistic results mentioned in our benchmarking article are generated under `output_path/Results/other_figures_tables`.
 <!--
-- Stochastic factors in generating results:( **do we actually needed to say this? or not**)  We provide in this repository the software or corresponding adaptation versions of all the methods we benchmarked, with the original software accessed time and modification details disclosed in our publication. We set a predefined seed for processes including predictor learning and folds partition. But there are 2 points that invite stochastic factors. [KMA](https://bitbucket.org/genomicepidemiology/kma/src/master/) version, which is installed from repository when setting up Point-/ResFinder (as by instructions of Point-/ResFinder on 2021-05-06), and Neural networks dropout mechanism. We accessed KMA on 2021-05-06 for all except for P. aeruginosa samples for three multi-species models, we accessed the KMA on September 2022. As we assume the KMA version influence small, we provide in `./AMR_software/resfinder/cge` a KMA retrieved on 2022-11-05. 
+- Stochastic factors in generating results:( **do we actually needed to say this? or not**)  We provide in this repository the software or corresponding adaptation versions of all the methods we benchmarked, with the original software accessed time and modification details disclosed in our publication. We set a predefined seed for processes including predictor learning and folds partition. But there are 2 points that invite stochastic factors. [KMA](https://bitbucket.org/genomicepidemiology/kma/src/master/) version, which is installed from repository when setting up ResFinder (as by instructions of ResFinder on 2021-05-06), and Neural networks dropout mechanism. We accessed KMA on 2021-05-06 for all except for P. aeruginosa samples for three multi-species models, we accessed the KMA on September 2022. As we assume the KMA version influence small, we provide in `./AMR_software/resfinder/cge` a KMA retrieved on 2022-11-05. 
 -->
 
 ## <a name="usage"></a>Usage
@@ -143,7 +143,7 @@ bash main.sh #details of usage were explained in main.sh. You can't finish the w
 bash ./scripts/model/clean.sh # Optional. Clean intermediate files 
 ```
 
-- One could see `main.sh` for benchmarking workflow in this study, which goes through the whole benchmarking process including: conda environment installation, data downloading/reprocessing, evaluating Point-/Resfinder, evaluating Aytan-Aktug, evaluating Seq2Geno2Pheno, evaluating Phenotyperseeker, evaluating Kover, evaluating ML baseline (majority), and benchmarking results visualization. 
+- One could see `main.sh` for benchmarking workflow in this study, which goes through the whole benchmarking process including: conda environment installation, data downloading/reprocessing, evaluating Resfinder, evaluating Aytan-Aktug, evaluating Seq2Geno2Pheno, evaluating Phenotyperseeker, evaluating Kover, evaluating ML baseline (majority), and benchmarking results visualization. 
 
 - We suggest you run `main.sh` step by step by commenting some codes there at one time and run one species by one species at a time by setting species_list and species_list_phylotree options in the `Config.yaml` (of course except for multi-models). `./scripts/model/<software_name>.sh` also provides more detailed instructions for running this benchmarking workflow. You can't finish the whole AMR benchmarking just by submitting `main.sh` to run once and for all due to several reasons. You have to access Geno2Pheno website using the feature generated by Seq2Geno. Due to large data sets and time-consuming ML model learning process, which altogether may take more than 2 months with 20 CPUs accompanied by 10 GPUs, you may need to run different tasks on different machines and re-run some processes if it accidentally terminates unexpectedly during a long period of time.
 
