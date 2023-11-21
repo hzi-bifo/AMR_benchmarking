@@ -41,7 +41,7 @@ resfinder_env: res_env
 
 #<You don't need to change parameters below, if you aim at reproducing the complete results of our benchmarking study.>
 ############################################################################################################################
-#C. Model: Advanced/optional parameters setting
+#C. Advanced/optional parameters setting
 ############################################################################################################################
 #1. sample selection criteria: loose/trict. By default, we only benchmarked on the loosely selected dataset.
 QC_criteria: loose
