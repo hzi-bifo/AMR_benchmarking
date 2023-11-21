@@ -20,7 +20,7 @@
 
 - We compare the binary phenotype prediction performance of four machine learning (ML)- based and one direct association antimicrobial resistance (AMR) determination software:
 1. [Aytan-Aktug](https://bitbucket.org/deaytan/neural_networks/src/master/) [[1]](#1), 
-2. Seq2Geno2Pheno([Seq2Geno](https://github.com/hzi-bifo/seq2geno.git)&[Geno2Pheno](https://github.com/hzi-bifo/GenoPheno) [[2]](#2), 
+2. Seq2Geno2Pheno([Seq2Geno](https://github.com/hzi-bifo/seq2geno.git)&[Geno2Pheno](https://github.com/hzi-bifo/GenoPheno) ) [[2]](#2), 
 3. [PhenotypeSeeker v 0.7.3](https://github.com/bioinfo-ut/PhenotypeSeeker) [[3]](#3), 
 4. [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4),
 5. [ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
