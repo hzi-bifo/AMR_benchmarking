@@ -94,13 +94,17 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 
 **C. Advanced/optional parameters setting (Model)** 
 
-- You can evaluate for a subset of species at a time  by modifying the values of the 'species_list' and 'species_list_phylotree' options.
-- For [multi-models](https://github.com/hzi-bifo/AMR_benchmarking/wiki/Advanced-parameters-setting-for-multi%E2%80%90Models) , we have listed the possible maximum benchmarking species (in terms of dataset this study provides);  you can explore as you like by making new combinations of the listed species. Users, who would like to reproduce this AMR benchmarking results, are not advised to change settings in this category. 
+- You can evaluate for a subset of species at a time  by modifying the values of the 'species_list', 'species_list_phylotree', and 'species_list_multi_antibiotics' options.
+- For [multi-species models](https://github.com/hzi-bifo/AMR_benchmarking/wiki/Advanced-parameters-setting-for-multi%E2%80%90Models) , we have listed all the possible benchmarking species (in terms of dataset this study provides);  you can explore as you like by making new combinations of the listed species. Users, who would like to reproduce this AMR benchmarking results, are not advised to change settings in this category. 
  
 |option|	action	|values ([default])|
 | ------------- | ------------- |------------- |
 |species_list|Benchmarked species under random and homology-aware folds for single-species evaluation |Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Mycobacterium_tuberculosis, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae|
 |species_list_phylotree|Benchmarked species under phylogeny-aware folds for single-species evaluation |Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Campylobacter_jejuni, Enterococcus_faecium, Neisseria_gonorrhoeae|
+|species_list_multi_antibiotics|Benchmarked species for single-species multi-antibiotic model. |Mycobacterium_tuberculosis, Escherichia_coli, Staphylococcus_aureus, Salmonella_enterica, Klebsiella_pneumoniae, Pseudomonas_aeruginosa, Acinetobacter_baumannii, Streptococcus_pneumoniae, Neisseria_gonorrhoeae|
+|species_list_multi_species|Benchmarked species for multi-species models. |Mycobacterium_tuberculosis, Salmonella_enterica, Streptococcus_pneumoniae, Escherichia_coli, Staphylococcus_aureus, Klebsiella_pneumoniae, Acinetobacter_baumannii, Pseudomonas_aeruginosa, Campylobacter_jejuni|
+|merge_name| Used to name the folder for multi-models. E.g. multi-models of M. tuberculosis and S. enterica will result in Mt_Se.|Mt_Se_Sp_Ec_Sa_Kp_Ab_Pa_Cj|
+|cv_number_multiS|The value of k+1, where the k corresponds to k-fold cross-validation and 1 corresponds to the holdout test set, for multi-species models|6|
 |cv_number|The k value of k-fold nested cross-validation |10|
 |QC_criteria|Sample quality control level. Can be loose or strict.| loose|
 
