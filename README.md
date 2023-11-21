@@ -26,7 +26,7 @@
 4. [Kover 2.0](https://github.com/aldro61/kover) [[4]](#4),
 5. [ResFinder 4.0](https://bitbucket.org/genomicepidemiology/resfinder/src/master/) [[5]](#5), a direct association software based on AMR determinant database, was used as the baseline.
 
-- All software methods, except for Kover, were benchmarked using adapted versions (provided in `./AMR_software`).
+- All software tools, except for Kover, were benchmarked using adapted versions (provided in `./AMR_software`).
 
 ### <a name="data"></a>Data sets
 
