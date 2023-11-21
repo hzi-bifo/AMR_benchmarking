@@ -68,10 +68,10 @@ The input file is a yaml file `Config.yaml` at the root folder where all options
 | ------------- | ------------- |------------- |
 |dataset_location| To where the PATRIC dataset will be downloaded. ~246G| /vol/projects/BIFO/patric_genome|
 |output_path| To where to generate the `Results` folder for the direct results of each software and further visualization. | ./|
-|log_path| To where to generate the `log` folder for the intermediate files. Running benchmarking scripts will generate temp files up to the order of 10 terabytes, which means you are suggested to delete temp files via `./src/software_utility/clean.py` as soon as one software finishes evaluation successfully, except ResFinder. Large temp files are stored under `<log_path>/log/software/<software_name>/software_output`. | ./|
+|log_path| To where to generate the `log` folder for the intermediate files. Running benchmarking scripts will generate temp files up to the order of 10 terabytes.  | ./|
 |n_jobs| CPU cores (>1) to use. | 10 |
 |gpu_on| GPU possibility for Aytan-Aktug SSSA model, If set to False, parallelization on cpu will be applied; Otherwise, it will be applied on one gpu core sequentially.  | False |
-| clean_software|Clean large intermediate files of the specified software. This is optional, as some less useful intermediate large files will be automatically removed once the corresponding software finishes a certain procedure.||
+|clean_software|Clean large intermediate files of the specified software (optional). Large temp files are stored under `<log_path>/log/software/<software_name>/software_output`.||
 
 **B.Optional parameters setting**
 
