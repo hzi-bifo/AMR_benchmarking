@@ -195,6 +195,8 @@ echo "Please find the results(tables, figures, and statistic numbers mentioned a
     └── software
          │── AytanAktug
          ├── kover
+         ├── majority
+         ├── phenotypeseeker
          ├── resfinder_b
          ├── resfinder_folds
          ├── resfinder_k
