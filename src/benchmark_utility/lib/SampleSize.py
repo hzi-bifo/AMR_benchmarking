@@ -151,17 +151,59 @@ def extract_info2(level,save_file_name ):
     ax=df_plot.plot(
     x = 'anti_new',
     kind = 'barh',
-    stacked = True,
+    stacked = False,
     mark_right = True,ax=axs)
 
     fig=ax.get_figure()
     ax.yaxis.set_label_text('')
     ax.legend(bbox_to_anchor=(1, 1.04 ),ncol=2,fontsize=20,frameon=False)
     ax.set_yticklabels(ax.get_yticklabels(),fontsize = 20 )
-    ax.set(xlim=(0, 8))
+    ax.set(xlim=(0, 4.5))
     plt.xticks(fontsize=20)
     # ax.tick_params(axis='x', which='minor', labelsize=20)
     # ax.tick_params(axis='x', which='minor',  labelsize=500)
 
     print(save_file_name)
     fig.savefig(save_file_name)
+
+
+def extract_info3(level,save_file_name ):
+
+    species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
+                  'Acinetobacter baumannii','Streptococcus pneumoniae', 'Campylobacter jejuni','Enterococcus faecium',
+                  'Neisseria gonorrhoeae','Mycobacterium tuberculosis']
+
+    #1st subplot rearrange the list
+    species_list=rearrange(species_list)
+
+    df_plot = pd.DataFrame(columns=[ 'species','anti', 'Resistant','Susceptible'])
+
+    fig, axs = plt.subplots(2,1,figsize=(20, 30), gridspec_kw={"height_ratios":[5.5, 1]})
+    plt.tight_layout(pad=4)
+    fig.subplots_adjust(left=0.48,  right=0.96,wspace=0.25, hspace=0.1, top=0.98, bottom=0.02)
+    for species in  species_list :
+        df=pd.read_csv('./data/PATRIC/meta/'+str(level)+'_genomeNumber/log_' + str(species.replace(" ", "_")) + '_pheno_summary' + '.txt', sep="\t" )
+
+        df.insert(0, 'species', species)
+        print(df)
+        df=df.rename(columns={"Unnamed: 0": "anti"})
+        df=df[['species','anti','Resistant','Susceptible']]
+
+        # reverse the order of antibiotics list. to make it consistent with other tables.
+        df=df.loc[::-1]
+
+        df_plot=df_plot.append(df, sort=False)
+
+    df_plot=df_plot.reset_index(drop=True)
+
+    #add acronym
+    with open('./data/AntiAcronym_dict.json') as f:
+                map_acr = json.load(f)
+    anti_acro= [map_acr[x] for x in df_plot['anti'].tolist()]
+    df_plot.insert(loc=2, column='Acronym', value=anti_acro)
+
+    df_plot=df_plot.loc[::-1]
+    df_plot=df_plot.reset_index(drop=True)
+
+    print(df_plot)
+    df_plot.to_csv( 'Results/other_figures_tables/sampleSize.csv', sep="\t")
