@@ -114,7 +114,7 @@ python ./AMR_software/AytanAktug/main_MSMA_concat.py -f_nn_all_io -f_all -f_nn_a
 cv_number_mix=$((cv_number_multiS - 2))
 echo ${cv_number_mix} #should be 4
 for i in $(seq 0 ${cv_number_mix});do
-###for i in {4..4};do
+
 echo ${i}
 python ./AMR_software/AytanAktug/main_MSMA_concat.py  -f_all -f_nn_all -f_kma -i_CV ${i} -cv ${cv_number_multiS}  -f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -l ${QC_criteria}
 done

@@ -65,7 +65,7 @@ cv_iter=$((cv_number_multiS - 2))
 echo ${cv_iter} #should be 4
 
 for i in $(seq 0 cv_iter);do
-###for i in {4..4};do
+
 echo ${i}
 python ./AMR_software/AytanAktug/main_MSMA_discrete.py  -i_CV ${i} -cv ${cv_number_multiS} -f_kma -f_nn -f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -f_all -temp ${log_path} -l ${QC_criteria} || { echo "Errors in Aytan-Aktug MSMA CV. Exit ."; exit; }
 done
