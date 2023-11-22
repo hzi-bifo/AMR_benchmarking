@@ -54,6 +54,8 @@ def ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path):
     df_s = data.T.dot(data.T.columns + ';').str.rstrip(';')#get anti names  marked with 1
 
     All_antibiotics = data.columns.tolist()
+
+    mean_compare=[] ### Sep 2023. calculate the difference of the highest F1-macro mean of a species-antibiotic to another species-antibiotic that are sharing the species.
     for anti in All_antibiotics:
         species_list_sub=df_s[anti].split(';')
         species_list_each = copy.deepcopy(species_list_sub)
@@ -70,10 +72,18 @@ def ComByAnti(level,tool_list,fscore, f_phylotree,f_kma,output_path):
 
         j=0
         position=[ -5*width/2,-3*width/2,- width/2, width/2, 3*width/2, 5*width/2]
+        mean_temp=[]
         for tool in tool_list:
             data_mean, data_std=combine_data_ByAnti(species_list_each,anti,fscore, f_phylotree, f_kma,tool,output_path)
             axs[row, col].bar(x_lable + position[j], data_mean, width, yerr=data_std, align='center', alpha=1, ecolor='black', color=colors[j],capsize=3,label=tool)
             j+=1
+            ### calculate the difference of the highest F1-macro mean of a species-antibiotic to another species-antibiotic that are sharing the species.
+            mean_temp.append(data_mean)
+        mean_temp=np.array(mean_temp)
+        mean_temp=np.nan_to_num(mean_temp)
+        mean_compare =np.max(mean_temp,axis=0)
+        mean_compare=np.around(mean_compare, decimals=2, out=None)
+        print(anti, ":   ",mean_compare, round(np.max(mean_compare)-np.min(mean_compare),2))  #todo test.
 
 
         axs[row, col].set_xticklabels(x_lable)
