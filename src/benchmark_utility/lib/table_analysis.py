@@ -28,7 +28,7 @@ def extract_info(level,s,fscore, f_all,output_path,step,tool_list,foldset,com_to
         data = data.loc[s, :]
     species_list=['Escherichia coli','Staphylococcus aureus','Salmonella enterica','Klebsiella pneumoniae','Pseudomonas aeruginosa',
                   'Acinetobacter baumannii','Streptococcus pneumoniae', 'Campylobacter jejuni',
-                  'Enterococcus faecium','Neisseria gonorrhoeae','Mycobacterium tuberculosis',]
+                  'Enterococcus faecium','Neisseria gonorrhoeae','Mycobacterium tuberculosis']
     data=data.loc[species_list,:]
     df_species = data.index.tolist()
     antibiotics= data['modelling antibiotics'].tolist()
