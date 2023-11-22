@@ -108,7 +108,7 @@ def combine_data_get_score(species,tool,anti,f_phylotree,f_kma,fscore,fscore_for
             score=results.loc[anti,fscore]
 
     if tool=='Single-species-antibiotics default':
-        learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.001, 1000,True,True,'f1_macro'
+        learning, epochs,f_fixed_threshold,f_nn_base,f_optimize_score=0.001, 1000,True,False,'f1_macro'
         results_file =  name_utility.GETname_AAresult('AytanAktug',species,learning, epochs,\
                           f_fixed_threshold,f_nn_base,f_optimize_score,f_kma,f_phylotree,'SSSA',output_path)
         results_file=results_file+'_SummaryBenchmarking.txt'
