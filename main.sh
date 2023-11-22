@@ -51,7 +51,7 @@ bash ./scripts/data_preprocess/retrive_PATRIC_data.sh ${dataset_location}
 
 
 ##############################
-#2. Software 1.  Resfinder
+#3. Software 1.  Resfinder
 ##############################
 #optional: Blastn-based version can be installed from https://bitbucket.org/genomicepidemiology/resfinder/src/master/
 # native KMA-based version can only process read data(FASTQ files).
@@ -117,7 +117,7 @@ bash ./scripts/model/AytanAktug_MSMA_concat.sh
 
 
 ###############################
-##5. Software 3.Seq2Geno
+##5. Software 3.Seq2Geno2Pheno
 ###############################
 ## set up snakemake pipeline.
 cd ${SCRIPTPATH}
