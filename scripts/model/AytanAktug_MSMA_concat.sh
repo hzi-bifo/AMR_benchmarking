@@ -78,7 +78,7 @@ echo "Finished: feature."
 ################################################
 for i in $(seq 0 ${#species[@]});do
 echo ${i}
-python ./AMR_software/AytanAktug/main_MSMA_concat_version1.py -f_nn -i_CV ${i} -cv 5 -f_all -f_kma -f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -l ${QC_criteria} || { echo "Errors in Aytan-Aktug leave-one(specie)-out MSMA concatenated databases model. Exit ."; exit; }
+python ./AMR_software/AytanAktug/main_MSMA_concat_small.py -f_nn -i_CV ${i} -cv 5 -f_all -f_kma -f_optimize_score 'f1_macro' -f_fixed_threshold -learning 0.0 -e 0 -temp ${log_path} -l ${QC_criteria} || { echo "Errors in Aytan-Aktug leave-one(specie)-out MSMA concatenated databases model. Exit ."; exit; }
 done
 
 echo "Finished: leave-one(specie)-out MSMA concatenated databases model."
