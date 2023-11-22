@@ -69,7 +69,13 @@ cd cge
 ##git clone https://bitbucket.org/genomicepidemiology/kma.git
 cd kma && make
 cd ${SCRIPTPATH}
-#
+
+#### Reference database version 2021-05-06. You can also downlaoding the latest version from the ResFinder website.
+cd ./AMR_software/resfinder
+unzip db_pointfinder.zip
+unzip db_resfinder.zip
+cd ${SCRIPTPATH}
+
 ###index Point-/ResFinder databases with KMA
 cd ./AMR_software/resfinder/db_resfinder
 python3 INSTALL.py ${SCRIPTPATH}/AMR_software/resfinder/cge/kma/kma non_interactive
