@@ -34,8 +34,9 @@ python ./AMR_software/Kover/main_kover.py  -cv ${cv_number} -f_prepare_meta -pat
 conda deactivate
 wait
 
-
-### Running Kover pipeline
+####################################
+### 1.  Running Kover pipeline
+####################################
 source activate ${kover_env_name}
 wait
 #### Prepare data sets
