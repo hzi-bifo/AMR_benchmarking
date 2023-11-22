@@ -140,7 +140,7 @@ def extract_info(path_sequence,s,level,f_initialize,f_pre_cluster,f_res,f_merge_
 
         if f_nn or f_nn_base:
             if f_cpu:
-                # antibiotics=['fusidic acid','gentamicin','penicillin','tetracycline']
+
                 pool = mp.Pool(processes=n_jobs)
                 pool.starmap(Evaluation,zip(repeat(species),antibiotics,repeat(learning),repeat(epochs),repeat(f_fixed_threshold),repeat(f_nn_base),
                                             repeat(f_optimize_score),repeat(temp_path),repeat(cv),repeat(f_scaler),repeat(f_phylotree),repeat(f_kma),repeat(level),repeat(f_cpu)))
@@ -148,7 +148,7 @@ def extract_info(path_sequence,s,level,f_initialize,f_pre_cluster,f_res,f_merge_
                 pool.join()
 
             else: #GPU
-                # antibiotics=antibiotics[2:]
+
                 for anti in antibiotics:
                     Evaluation(species, anti,learning, epochs, f_fixed_threshold, f_nn_base, f_optimize_score,temp_path,cv,f_scaler,f_phylotree,f_kma,level,f_cpu)
 

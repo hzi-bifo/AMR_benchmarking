@@ -98,8 +98,7 @@ def extract_info(path_sequence,temp_path,s,f_all,f_prepare_meta, f_phylotree, f_
         for species, antibiotics in zip(df_species, antibiotics):
             antibiotics, ID, Y = load_data.extract_info(species, False, level)
             i_anti = 0
-            # antibiotics, ID, Y = antibiotics[9:11], ID[9:11], Y[9:11]
-            # antibiotics, ID, Y = antibiotics[11:], ID[11:], Y[11:]
+            
             for anti in antibiotics:
 
                 id_all = ID[i_anti]  # sample name list, e.g. [1352.10013,1352.10014,1354.10,1366.10]

@@ -110,11 +110,11 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
                 antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','rifampin','streptomycin']
 
 
-            # antibiotics=antibiotics[12:]
+            
             for anti in antibiotics:
                 print(anti)
                 for chosen_cl in ['svm', 'lr','rf']:
-                # for chosen_cl in ['rf']:
+                
                     hyper_space, cl = hyper_range(chosen_cl)
 
                     mcc_test = []  # MCC results for the test data
