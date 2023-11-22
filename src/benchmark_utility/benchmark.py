@@ -7,7 +7,7 @@ import src.benchmark_utility.lib.MAINtable,src.benchmark_utility.lib.table_analy
     src.benchmark_utility.lib.Com_BySpecies,src.benchmark_utility.lib.Com_BySpecies_each, src.benchmark_utility.lib.pairbox,\
     src.benchmark_utility.lib.ByAnti_errorbar,src.benchmark_utility.lib.pairbox_majority,src.benchmark_utility.lib.pairbox_majority,\
     src.benchmark_utility.lib.ByAnti_errorbar_each,src.benchmark_utility.lib.heatmap, src.benchmark_utility.lib.pairbox_antibiotic, \
-    src.benchmark_utility.lib.pairbox_separateFig
+    src.benchmark_utility.lib.pairbox_separateFig, src.benchmark_utility.lib.pairbox_antibiotic_group
 import argparse
 
 
@@ -186,7 +186,8 @@ def extract_info(level,species, fscore,  f_all,f_species, f_anti,f_robust,f_samp
         src.benchmark_utility.lib.pairbox_antibiotic.extract_info(level,species, fscore,f_all,'1','mean',output_path)
 
 
-
+        #### Sep 2023 newly added. across each antibiotic group.
+        src.benchmark_utility.lib.pairbox_antibiotic_group.extract_info(level,species, fscore,f_all,'1','mean',output_path)
 
 
     ####################################################################################################################
