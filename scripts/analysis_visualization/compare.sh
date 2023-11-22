@@ -26,33 +26,21 @@ species=( "${species_list_temp[@]//_/ }" )
 
 
 
-###1. Fig.1 Data set overview. sample size. Further annotated through Drawio before the version in our article.
+### Fig.1 Data set overview. sample size. Further annotated through Drawio before the version in our article.
 python ./src/benchmark_utility/benchmark.py -f_sample  -o ${output_path}
 
-###2. Fig. 2 Draw by Drawio.
 
-###3. Fig. 3  heatmap (comparison of 4 methods with 3 folds panels.)
+### V1: Heatmap (comparison of 4 methods with 3 folds panels.). Version2: using ./src/benchmark_utility/lib/visualization_Philipp.zip
 conda deactivate
 source activate ${amr_env_name2}
 python  ./src/benchmark_utility/benchmark.py -f_hmap -fscore 'f1_macro' -f_all -o ${output_path}
 conda deactivate
 
 
-#source activate ${amr_env_name}
-###4. Fig. 4.
-## bar plot generated through ./scripts/analysis_visualization/compare_supplement.sh.
-
-###5. Fig. 5. Software performance (F1-macro)  of 5 methods + ML baseline. E. coli  phylogeny-aware folds
-### Radar plot was generated through ./scripts/analysis_visualization/compare_supplement.sh.
-
-###6. Fig. 6.
 ### Paired box plot
 python  ./src/benchmark_utility/benchmark.py -f_robust -fscore 'f1_macro' -f_all -o ${output_path}
 
-###Fig. 7-8 generated through ./scripts/analysis_visualization/AytanAktug_analysis.sh
-
-
-#conda deactivate
+### Fig.  multi-models Bar plots generated through ./scripts/analysis_visualization/multiModel_analysis.sh
 
 
 

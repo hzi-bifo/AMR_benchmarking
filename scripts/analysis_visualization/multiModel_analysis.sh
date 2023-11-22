@@ -35,7 +35,7 @@ species=( "${species_list_temp[@]//_/ }" )
 
 ### 1) Generate intermediate files for plotting and winner analysis.
 ### Paired T test of F1-macro between default hyperparameters and hyperparameter optimization.
-### Paired T test of F1-macro between any 2 of SSSA,MSMA_discrete,MSMA_concat_mixedS , MSMA_concat_LOO
+### Paired T test of F1-macro between two of Aytan-Aktug single- and multi- models
 ### note: Species list hard coded.
 python ./src/benchmark_utility/lib/multiModel/excel_multi_analysis.py  -f_compare -f_Ttest -fscore 'f1_macro'
 
@@ -48,16 +48,16 @@ python ./src/benchmark_utility/lib/multiModel/excel_multi_analysis.py -f_pts  -f
 python ./src/benchmark_utility/lib/multiModel/excel_multi.py  -f_compare -s "${species[@]}"
 
 
-### 3) Fig. 7 Radar visualization of SSSA and SSMA
+### 3) Radar visualization of AytanAktug SSSA and SSMA
 python ./src/benchmark_utility/lib/multiModel/vis_radar_SSSA_SSMA.py  -o ${output_path} -fscore 'f1_macro'
 
 
-### 4) Radar plot of SSSA, MSMA_discrete, MSMA_concat_mixedS (supplement File 2. S12)
+### 4) Radar plot of AytanAktug SSSA, MSMA_discrete, MSMA_concat_mixedS
 ### scores were based on samples from multiple species. Aytan-Aktug article version analysis
 python ./src/benchmark_utility/lib/multiModel/vis_radar_SSSA_MSMA.py -f_all -f_fixed_threshold -o ${output_path}
 
 
-### 5)Fig. 8 Bar plot of  AytanAktug SSSA,MSMA_discrete,MSMA_concat_mixedS , MSMA_concat_LOO and Kover, PhenotypeSeeker LOSO
+### 5) Bar plot of AytanAktug SSSA,MSMA_discrete,MSMA_concat_mixedS , MSMA_concat_LOO and Kover, PhenotypeSeeker LOSO
 python ./src/benchmark_utility/lib/multiModel/vis_bar_SSSA_MSMA.py -f_all -f_fixed_threshold  -o ${output_path}
 python ./src/benchmark_utility/lib/multiModel/vis_bar_multi.py -f_all -f_fixed_threshold  -o ${output_path}
 python ./src/benchmark_utility/lib/multiModel/vis_box.py -f_all -f_fixed_threshold  -o ${output_path}
