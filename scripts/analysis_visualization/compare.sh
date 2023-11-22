@@ -40,7 +40,7 @@ conda deactivate
 ### Paired box plot
 python  ./src/benchmark_utility/benchmark.py -f_robust -fscore 'f1_macro' -f_all -o ${output_path}
 
-### Fig.  multi-models Bar plots generated through ./scripts/analysis_visualization/multiModel_analysis.sh
+###  Multi-models Bar plots generated through ./scripts/analysis_visualization/multiModel_analysis.sh
 
 
 
