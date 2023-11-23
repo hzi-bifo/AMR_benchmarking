@@ -423,7 +423,7 @@ def eval(species, antibiotics, level, xdata, ydata,p_names, cv,f_scaler,f_fixed_
                 mcc_test_anti.append(mcc)
 
 
-        #summerise each outer loop's results.
+        #summarise each outer loop's results.
         if anti_number>1:
             f1_test.append(f1_test_anti)
             score_report_test.append(score_report_test_anti)

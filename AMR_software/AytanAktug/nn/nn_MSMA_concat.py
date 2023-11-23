@@ -447,7 +447,7 @@ def concat_eval(merge_name_train, antibiotics, level, xdata, ydata, p_names,fold
                 aucs_test_anti.append(None)
                 mcc_test_anti.append(None)
 
-    # summerise each outer loop's results.
+    # summarise each outer loop's results.
     if anti_number > 1:
         f1_test.append(f1_test_anti)
         score_report_test.append(score_report_test_anti)
