@@ -45,7 +45,7 @@ echo "Please check if Env created."
 #bash ./scripts/data/preprocess.sh
 #
 ## 2.1 PATRIC Data download
-bash ./scripts/data_preprocess/retrive_PATRIC_data.sh ${dataset_location}
+bash ./scripts/data_preprocess/retrieve_PATRIC_data.sh ${dataset_location}
 
 
 
