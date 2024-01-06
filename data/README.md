@@ -2,10 +2,12 @@
 
 ## 1. Single-species-antibiotic dataset usage
 
+
+
+### Full help with an example
+
 (1). <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/AMR_software/Pseudo/benchmarking.py"> Integrate the ML model to the evaluation framework based on instructions </a>  
 (2). Run the evaluation python scripts
-
-### Full help
 
 ```
 usage: evaluate.py [-h] -software SOFTWARE_NAME -sequence PATH_SEQUENCE [-temp TEMP_PATH] [-l LEVEL] [-f_all] [-f_phylotree] [-f_kma] [-s SPECIES [SPECIES ...]] [-f_ml] [-cv CV_NUMBER]
@@ -35,12 +37,33 @@ options:
                         Number of jobs to run in parallel.
 
 ```
-### Example
-
 ```
 python AMR_software/Pseudo/evaluate.py -software 'seq2geno' -s 'Escherichia coli' -sequence '/vol/projects/patric_genome' -temp './' -f_phylotree -cv 10 -n_jobs 10
 ```
 
 ## 2. Single-species multi-antibiotic dataset usage
 
+### general usage
+
+### Example 
+```
+bash ./scripts/model/AytanAktug_SSMA.sh
+```
+
+
 ## 3. Multi-species-antibiotic dataset usage
+
+
+### Full help
+
+
+
+### Example 1
+```
+bash ./scripts/model/AytanAktug_MSMA_discrete.sh
+```
+### Example 2
+
+```
+bash ./scripts/model/phenotypeseeker_MS.sh
+```
