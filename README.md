@@ -34,7 +34,7 @@
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample list</a>  of each dataset in the form of `Data_<species>_<antibiotic>`
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample phenotype metadata</a> of each dataset in the form of `Data_<species>_<antibiotic>_pheno.txt`.
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose">Cross-validation folds</a>  
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/edit/main/data/README.md">how to evaluate a model using the datasets</a>  
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/edit/main/data/README.md">how to evaluate a ML model using the datasets</a>  
 
 
 
