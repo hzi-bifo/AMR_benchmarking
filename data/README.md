@@ -42,5 +42,5 @@ python AMR_software/Pseudo/evaluate.py -software 'seq2geno' -s 'Escherichia coli
 
 ```
 
-
+## Single-species multi-antibiotic datasets Usage
 
