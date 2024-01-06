@@ -46,7 +46,7 @@ python AMR_software/Pseudo/evaluate.py -software 'seq2geno' -s 'Escherichia coli
 
 ## 2. Single-species multi-antibiotic dataset usage
 
-### general usage
+ 
 
 ### Example 
 ```
@@ -56,8 +56,7 @@ bash ./scripts/model/AytanAktug_SSMA.sh
 
 ## 3. Multi-species-antibiotic dataset usage
 
-
-### Full help
+ 
 
 
 
