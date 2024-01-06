@@ -137,7 +137,7 @@ class main():
 
 
 
-                    for out_cv in range(self.cv):
+                    for out_cv in range(self.cv): ## outer loop of nested CV
                         print(species,anti,'. Starting outer: ', str(out_cv), '; chosen_cl: ', chosen_cl)
 
                         test_samples_index = folders_index[out_cv]# a list of index
