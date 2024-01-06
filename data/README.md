@@ -1,6 +1,6 @@
 # Datasets Usage
 
-## 1. Single-species-antibiotic datasets Usage
+## 1. Single-species-antibiotic dataset usage
 
 (1). <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/AMR_software/Pseudo/benchmarking.py"> Integrate the ML model to the evaluation framework based on instructions </a>  
 (2). Run the evaluation python scripts
@@ -41,6 +41,6 @@ options:
 python AMR_software/Pseudo/evaluate.py -software 'seq2geno' -s 'Escherichia coli' -sequence '/vol/projects/patric_genome' -temp './' -f_phylotree -cv 10 -n_jobs 10
 ```
 
-## 2. Single-species multi-antibiotic datasets Usage
+## 2. Single-species multi-antibiotic dataset usage
 
-## 3. Multi-species-antibiotic dataset Usage
+## 3. Multi-species-antibiotic dataset usage
