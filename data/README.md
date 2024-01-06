@@ -2,8 +2,8 @@
 
 ## 1. Single-species-antibiotic datasets Usage
 
-1. <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/AMR_software/Pseudo/benchmarking.py"> Integrate the ML model to the evaluation framework based on instructions </a>  
-2. Run the evaluation python scripts
+(1). <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/AMR_software/Pseudo/benchmarking.py"> Integrate the ML model to the evaluation framework based on instructions </a>  
+(2). Run the evaluation python scripts
 
 ### Full help
 
