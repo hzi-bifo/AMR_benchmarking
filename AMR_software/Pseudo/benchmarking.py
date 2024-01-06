@@ -164,12 +164,16 @@ class main():
                               }
                             ]                         
                         '''
-
-                        ## inner loop hyperparameter selection.
+                        ###############################################################################################
+                        ## typical nested CV inner loop hyperparameter selection.
+                        ## note: this part can be vaired based on specific techniques, e.g. for Kover this can be replaced with bound selection,
+                        ## for neural networks model this should be replaced with torch.opti.SGD model (see function training in AMR_software/AytanAktug/nn/hyperpara.py)
+                        ###############################################################################################
                         pipe = Pipeline(steps=[('cl', cl)])
                         search = GridSearchCV(estimator=pipe, param_grid=hyper_space, n_jobs=self.n_jobs,
                                                   scoring='f1_macro',
                                                   cv=create_generator(train_val_train_index), refit=True)
+
 
                         search.fit(X_all, y_all)
                         hyperparameters_test_sub=search.best_estimator_
@@ -177,7 +181,10 @@ class main():
                         index_best=search.best_index_
                         cv_results=search.cv_results_
                         current_pipe=hyperparameters_test_sub
-                        # -------------------------------------------------------
+                        ###############################################################################################
+
+
+
                         # retrain on train and val
                         current_pipe.fit(X_val_train, y_val_train)
                         y_test_pred = current_pipe.predict(X_test)
