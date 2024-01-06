@@ -82,6 +82,7 @@ class main():
                 
                 ![Please here add your codes for building features based on above information for your model]
                 '''
+                data_feature.to_csv('<path_to_feature>', sep="\t")
                 ################################################################
 
 
@@ -102,7 +103,7 @@ class main():
                 ! [Please specifiy the model's classifiers and features here. ] 
                 For example:
                 CLASSIFIERS=['svm','lr', 'rf','lsvm']
-                data_feature=pd.read_csv('gpa.mat_NONRDNT', index_col=0,sep="\t")                
+                data_feature=pd.read_csv('<path_to_feature>', index_col=0,sep="\t")                
                 
                 '''
 
