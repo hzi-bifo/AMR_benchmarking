@@ -1,5 +1,5 @@
-# How to evaluate a model using the datasets
-## Usage
+# Datasets Usage
+### Full help
 
 ```
 usage: evaluate.py [-h] -software_name SOFTWARE_NAME -path_sequence PATH_SEQUENCE [-temp TEMP_PATH] [-l LEVEL] [-f_all] [-f_phylotree] [-f_kma] [-s SPECIES [SPECIES ...]] [-f_ml] [-cv CV_NUMBER]
@@ -30,7 +30,7 @@ options:
 
 
 ```
-## Example
+### Example
 
 ```
 python AMR_software/Pseudo/evaluate.py -s 
