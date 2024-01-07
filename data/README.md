@@ -10,6 +10,8 @@
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/single_S_A_folds">Single-species-antibiotic evaluation folds</a> in the form of [ [sample list of fold 1], [sample list of fold 2],...[sample list of fold 10] ].
 
 
+
+
 ### Example
 An example of evaluating a ML-based software that could use the scikit-learn module for training classifiers, and the feature matrix could be built without phenotype information. Among our benchmarked methods, Seq2Geno2Pheno falls into this category.
 
@@ -67,7 +69,7 @@ bash ./scripts/model/AytanAktug_SSMA.sh
  - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/multi_S_folds">Multi-species-antibiotic evaluation folds</a> for Aytan-Aktug control multi-species model solely, in the form of [ [sample list of fold 1], [sample list of fold 2],...[sample list of fold 10] ]. Phenotype metadata for each relevant genome can be found the same way as multi-antibiotic dataset usage.
  - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/multi_S_LOO_folds"> Leave-one-species-out multi-species-antibiotic evaluation folds</a>. Each file in the folder contains samples associated with a specific species, thus making up a fold. Each time use all the samples in one file as the test set, and use all the samples in the rest files, that are associated with the other eight species, as the training set. The training set can be further split into folds for hyperparameter selection based on two methods. (1) For multi-species-antibiotic model. In each <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/multi_S_LOO_folds"> sample list file</a> we have split samples into 5 folds for the corresponding species. One can extract the folds sequentially from all the training species to form a new fold. (2) For multi-species single-antibiotic model, 
 
-
+![alt text](../doc/MSMA.png)
 
 ### Example 1
 Neural networks model (Aytan-Aktug control multi-species model) via conventional CV 
