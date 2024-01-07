@@ -65,7 +65,9 @@ bash ./scripts/model/AytanAktug_SSMA.sh
  - Each genome (sample) is represented by its unique PATRIC ID.
  - In total, the dataset is composed of 54 species-antimicrobial combinations. Nine species, <em>M. tuberculosis, E. coli, S. aureus, S. enterica, K. pneumoniae, P. aeruginosa, A. baumannii, S. pneumonia, C. jejuni</em>, are involved.
  - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/multi_S_folds">Multi-species-antibiotic evaluation folds</a> for Aytan-Aktug control multi-species model solely, in the form of [ [sample list of fold 1], [sample list of fold 2],...[sample list of fold 10] ]. Phenotype metadata for each relevant genome can be found the same way as multi-antibiotic dataset usage.
- - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/multi_S_LOO_folds"> Leave-one-species-out multi-species-antibiotic evaluation folds</a>. Each file in the folder contains samples associated with a specific species, thus making up a fold. Each time use all the samples in one file as the test set, and use all the samples in the rest files, that are associated with the other eight species, as the training set.
+ - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/multi_S_LOO_folds"> Leave-one-species-out multi-species-antibiotic evaluation folds</a>. Each file in the folder contains samples associated with a specific species, thus making up a fold. Each time use all the samples in one file as the test set, and use all the samples in the rest files, that are associated with the other eight species, as the training set. T
+
+The training set can be further split into folds for hyperparameter selection based on two methods.
 
 
 
@@ -78,4 +80,9 @@ bash ./scripts/model/AytanAktug_MSMA_discrete.sh
 Neural networks model via Leave-one-species-out evaluation
 ```
 bash ./scripts/model/AytanAktug_MSMA_concat.sh
+```
+### Example 3
+PhenotypeSeeker model via Leave-one-species-out evaluation
+```
+bash ./scripts/model/phenotypeseeker_MS.sh
 ```
