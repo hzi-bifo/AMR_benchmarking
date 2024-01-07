@@ -55,7 +55,7 @@ python AMR_software/Pseudo/evaluate.py -software 'seq2geno' -s 'Escherichia coli
  - For each dataset, please refer to corresponding species' <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">`metadata`</a> for the phenotype of each genome mentioned in above folds. The files are named `Data_<species>_<antibiotic>_pheno.txt`. 1 represents the resistance phenotype; 0 represents the susceptibility phenotype. If a genome (for example, in the <em>E. coli</em> multi-antibiotic dataset) is absent in a Data_Escherichia_coli_<antibiotic>_pheno.txt file, it means there is no phenotype information of this specific antibiotic for this genome.
 
 ### Example 
-Neural networks model nested CV 
+Neural networks model via nested CV 
 ```
 bash ./scripts/model/AytanAktug_SSMA.sh
 ```
@@ -70,12 +70,12 @@ bash ./scripts/model/AytanAktug_SSMA.sh
 
 
 ### Example 1
-Neural networks model conventional CV 
+Neural networks model via conventional CV 
 ```
 bash ./scripts/model/AytanAktug_MSMA_discrete.sh
 ```
 ### Example 2
-Neural networks model Leave-one-species-out evaluation
+Neural networks model via Leave-one-species-out evaluation
 ```
 bash ./scripts/model/AytanAktug_MSMA_concat.sh
 ```
