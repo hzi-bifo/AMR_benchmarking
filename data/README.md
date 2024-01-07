@@ -4,7 +4,7 @@
 
 ## 1. Single-species-antibiotic dataset usage
 - Each genome (sample) is represented by its unique PATRIC ID.
-- In total, there are 78 datasets, each corresponds to a species-antibiotic combination.
+- In total, there are 78 datasets, each corresponding to a species-antibiotic combination.
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample list</a> of each species-antibiotic combination. The files are named as `Data_<species>_<antibiotic>`. Each file contains all the genome samples for a dataset, i.e. each file corresponds to a dataset.
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample phenotype metadata</a> of each dataset. The files are named as `Data_<species>_<antibiotic>_pheno.txt`. 1 represents the resistance phenotype; 0 represents the susceptibility phenotype. Each file contains all the genome samples for a dataset.
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/single_S_A_folds">Single-species-antibiotic evaluation folds</a> in the form of [ [sample list of fold 1], [sample list of fold 2],...[sample list of fold 10] ].
@@ -50,7 +50,8 @@ python AMR_software/Pseudo/evaluate.py -software 'seq2geno' -s 'Escherichia coli
 
 ## 2. Single-species multi-antibiotic dataset usage
  - Each genome (sample) is represented by its unique PATRIC ID.
- - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/single_S_multi_A_folds">Multi-antibiotic evaluation folds</a> in the form of [ [sample list of fold 1], [sample list of fold 2],...[sample list of fold 10] ] for each species (<em>M. tuberculosis, E. coli, S. aureus, S. enterica, K. pneumoniae, P. aeruginosa, A. baumannii, S. pneumoniae, N. gonorrhoeae</em>).
+ - In total, there are nine datasets, each corresponding to a species (<em>M. tuberculosis, E. coli, S. aureus, S. enterica, K. pneumoniae, P. aeruginosa, A. baumannii, S. pneumoniae, N. gonorrhoeae</em>).
+ - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/single_S_multi_A_folds">Multi-antibiotic evaluation folds</a> in the form of [ [sample list of fold 1], [sample list of fold 2],...[sample list of fold 10] ] for each species.
  - For each dataset, please refer to corresponding species' <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">`metadata`</a> for the phenotype of each genome mentioned in above folds. The files are named `Data_<species>_<antibiotic>_pheno.txt`. 1 represents the resistance phenotype; 0 represents the susceptibility phenotype. If a genome (for example, in the <em>E. coli</em> multi-antibiotic dataset) is absent in a Data_Escherichia_coli_<antibiotic>_pheno.txt file, it means there is no phenotype information of this specific antibiotic for this genome.
 
 ### Example 
