@@ -50,6 +50,7 @@ python AMR_software/Pseudo/evaluate.py -software 'seq2geno' -s 'Escherichia coli
  
 
 ### Example 
+Neural networks model evaluation
 ```
 bash ./scripts/model/AytanAktug_SSMA.sh
 ```
@@ -62,11 +63,12 @@ bash ./scripts/model/AytanAktug_SSMA.sh
 
 
 ### Example 1
+Neural networks model evaluation
 ```
 bash ./scripts/model/AytanAktug_MSMA_discrete.sh
 ```
 ### Example 2
-
+Leave-one-species-our model evaluation
 ```
 bash ./scripts/model/phenotypeseeker_MS.sh
 ```
