@@ -2,8 +2,8 @@
 
 ## 1. Single-species-antibiotic dataset usage
 
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample list</a>  of each dataset in the form of `Data_<species>_<antibiotic>`
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample phenotype metadata</a> of each dataset in the form of `Data_<species>_<antibiotic>_pheno.txt`.
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample list</a>  of each species-antibiotic combination in the form of `Data_<species>_<antibiotic>`
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample phenotype metadata</a> of each dataset in the form of `Data_<species>_<antibiotic>_pheno.txt`. 1 represents the phenotype of resistance; 0 represents susceptibility.
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/single_S_A_folds">Single-species-antibiotic evaluation folds</a>  
 
 
