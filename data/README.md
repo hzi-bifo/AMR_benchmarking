@@ -1,9 +1,11 @@
 # Datasets Usage
 
+- In any file, each genome is represented by its unique PATRIC ID.
+
 ## 1. Single-species-antibiotic dataset usage
 
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample list</a>  of each species-antibiotic combination in the form of `Data_<species>_<antibiotic>`
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample phenotype metadata</a> of each dataset in the form of `Data_<species>_<antibiotic>_pheno.txt`. 1 represents the phenotype of resistance; 0 represents susceptibility.
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample list</a> of each species-antibiotic combination. The files are named as `Data_<species>_<antibiotic>`. Each file contains all the genome samples for a dataset, i.e. each file corresponds to a dataset.
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample phenotype metadata</a> of each dataset. The files are named as `Data_<species>_<antibiotic>_pheno.txt`. 1 represents the resistance phenotype; 0 represents the susceptibility phenotype. Each file contains all the genome samples for a dataset.
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/single_S_A_folds">Single-species-antibiotic evaluation folds</a> in the form of [ [sample list of fold 1], [sample list of fold 2],...[sample list of fold 10] ].
 
 
@@ -47,7 +49,8 @@ python AMR_software/Pseudo/evaluate.py -software 'seq2geno' -s 'Escherichia coli
 
 ## 2. Single-species multi-antibiotic dataset usage
 
- 
+ - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/single_S_multi_A_folds">Multi-antibiotic evaluation folds</a> in the form of [ [sample list of fold 1], [sample list of fold 2],...[sample list of fold 10] ] for each species (<em>M. tuberculosis, E. coli, S. aureus, S. enterica, K. pneumoniae, P. aeruginosa, A. baumannii, S. pneumoniae, N. gonorrhoeae</em>).
+ - For each dataset, please refer to corresponding species' <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">`metadata`</a> for the phenotype of each genome mentioned in above folds. The files are named `Data_<species>_<antibiotic>_pheno.txt`. 1 represents the resistance phenotype; 0 represents the susceptibility phenotype. If a genome (for example, in the <em>E. coli</em> multi-antibiotic dataset) is absent in a Data_Escherichia_coli_<antibiotic>_pheno.txt file, it means there is no phenotype information of this specific antibiotic for this genome.
 
 ### Example 
 Neural networks model evaluation
@@ -57,7 +60,8 @@ bash ./scripts/model/AytanAktug_SSMA.sh
 
 
 ## 3. Multi-species-antibiotic dataset usage
-
+ - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/multi_S_folds">Multi-species-antibiotic evaluation folds</a> for Aytan-Aktug control multi-species model solely in the form of [ [sample list of fold 1], [sample list of fold 2],...[sample list of fold 10] ]. Phenotype metadata for each relevant genome can be 
+ - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/multi_S_LOO_folds">  Leave-one-species-out multi-species-antibiotic evaluation folds</a> 
  
 
 
@@ -70,5 +74,5 @@ bash ./scripts/model/AytanAktug_MSMA_discrete.sh
 ### Example 2
 Leave-one-species-our model evaluation
 ```
-bash ./scripts/model/phenotypeseeker_MS.sh
+bash ./scripts/model/AytanAktug_MSMA_concat.sh
 ```
