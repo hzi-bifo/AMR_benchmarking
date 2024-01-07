@@ -70,7 +70,7 @@ bash ./scripts/model/AytanAktug_SSMA.sh
 
 
 ### Example 1
-Neural networks model (Aytan-Aktug control multi-species) via conventional CV 
+Neural networks model (Aytan-Aktug control multi-species model) via conventional CV 
 ```
 bash ./scripts/model/AytanAktug_MSMA_discrete.sh
 ```
