@@ -12,6 +12,8 @@ from src.cv_folds import name2index
 
 def extract_infor(level,f_all,s,temp_path,software_name):
     '''
+    Load dataset information, and make directory for generating feature matrix.
+    ---------------------------------
     software_name: software name
     temp_path: path to temporary file, like feature matrix
     s: species name
@@ -33,7 +35,11 @@ def create_generator(nFolds):
         train = list(itertools.chain(*[fold for idy, fold in enumerate(nFolds) if idy != idx]))
         yield train, test
 
-class main():
+class SSSA():
+    '''Single-species-antibiotic
+    An example of evaluating a ML-based software that could use the scikit-learn module for training classifiers,
+    and the feature matrix could be built without phenotype information. Among our benchmarked methods, Seq2Geno2Pheno falls into this category.
+    '''
     def __init__(self,software_name,path_sequence,temp_path,s,f_all, f_phylotree, f_kma,cv,n_jobs):
         '''
         software_name: software name
