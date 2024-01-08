@@ -1,5 +1,5 @@
 #!/bin/bash
-
+### Leave-one-species-out evaluation of Kover
 
 function parse_yaml {
    local prefix=$2
