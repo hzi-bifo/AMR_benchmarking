@@ -1,4 +1,9 @@
 #!/usr/bin/python
+"""
+Created on Jan 6 2024
+@author: augustkx
+Scripts for evaluating single-species-antibiotic ML model
+"""
 import os
 import numpy as np
 from src.amr_utility import name_utility, file_utility, load_data

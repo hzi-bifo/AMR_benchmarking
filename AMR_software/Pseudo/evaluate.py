@@ -1,4 +1,9 @@
 #!/usr/bin/python
+"""
+Created on Jan 6 2024
+@author: augustkx
+Scripts for evaluating single-species-antibiotic ML model
+"""
 import sys,os
 sys.path.insert(0, os.getcwd())
 import AMR_software.Pseudo.benchmarking as benchmarking
@@ -32,7 +37,7 @@ parser.print_help()
 
 
 ### initiating
-EVAL = benchmarking.main(parsedArgs.software_name,parsedArgs.path_sequence,parsedArgs.temp_path,parsedArgs.s,
+EVAL = benchmarking.SSSA(parsedArgs.software_name,parsedArgs.path_sequence,parsedArgs.temp_path,parsedArgs.s,
                          parsedArgs.f_all, parsedArgs.f_phylotree, parsedArgs.f_kma,parsedArgs.cv,parsedArgs.n_jobs)
 
 #### 1. Feature building
