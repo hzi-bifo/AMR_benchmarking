@@ -3,7 +3,7 @@
 
 
 ### Multi-species multi-antibiotics discrete databases model
-### Note: this scripts should be run after AytanAktug_MSMA_discrete.sh, from whom some intermediate files will be used.
+### Note: this scripts should be run after AytanAktug_MSMA_discrete.sh, from which some intermediate files will be used.
 ### For user defining species combinations, please replace -f_all in this script with -s "${species[@]}".
 
 function parse_yaml {
