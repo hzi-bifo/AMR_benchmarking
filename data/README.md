@@ -1,7 +1,8 @@
-# AMR benchmarking tutorial
+# AMR phenotyping benchmarking tutorial
 
-
-
+- [1. Setup](#setup)
+  - [1.1 Requirements](#requirementse)
+  - [1.2 Installation](#Installation)
 ## 1. Single-species-antibiotic dataset usage
 - Each genome (sample) is represented by its unique PATRIC ID.
 - In total, there are 78 datasets, each corresponding to a species-antibiotic combination.
