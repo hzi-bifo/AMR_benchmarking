@@ -1,13 +1,13 @@
 # AMR phenotyping benchmarking tutorial
 
 - [1. Setup](#setup)
-  - [1.1 Requirements](#requirementse)
+  - [1.1 Dependencies](#Dependencies)
   - [1.2 Installation](#Installation)
  
 
 ## <a name="setup"></a>Setup
-- Requirements
- Linux OS and `conda`. Miniconda2 4.8.4 was used by us
+- Dependencies
+  -    Linux OS and `conda`. Miniconda2 4.8.4 was used by us
 - Installation
   
 
