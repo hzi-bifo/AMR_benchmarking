@@ -3,7 +3,15 @@
 - [1. Setup](#setup)
   - [1.1 Requirements](#requirementse)
   - [1.2 Installation](#Installation)
-## 1. Single-species-antibiotic dataset usage
+ 
+
+## <a name="setup"></a>Setup
+- Requirements
+ Linux OS and `conda`. Miniconda2 4.8.4 was used by us
+- Installation
+  
+
+## 1.  
 - Each genome (sample) is represented by its unique PATRIC ID.
 - In total, there are 78 datasets, each corresponding to a species-antibiotic combination.
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample list</a> of each species-antibiotic combination. The files are named as `Data_<species>_<antibiotic>`. Each file contains all the genome samples for a dataset, i.e. each file corresponds to a dataset.
