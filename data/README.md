@@ -1,8 +1,6 @@
 # Data preprocessing
 
-- [1. Setup](#setup)
-  - [1.1 Dependencies](#Dependencies)
-  - [1.2 Installation](#Installation)
+
 - [2. ML-based methods evaluation](#evaluation1)
   - [2.1 Input](#Input1)
   - [2.2 Feature building](#feature)
