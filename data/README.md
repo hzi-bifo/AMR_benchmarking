@@ -26,4 +26,8 @@
   ```
 ## <a name="evaluation1"></a>2. ML-based methods evaluation
   
+ Output: 
  
+- Feature profiles
+- Summary reports of metrics including F1-macro, precision-positive, recall-positive, F1-positive, precision-negative, recall-negative, F1-negative, accuracy, and clinical-oriented F1-negative and precision-negative, recall-negative.
+  
