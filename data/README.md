@@ -16,7 +16,8 @@
 ### 1.2 Installation
   To install with conda:
   ```
-  conda env create -n  amr_env  -f ./install/amr_env.yml python=3.7 
+  conda env create -n  amr_env  -f ./install/amr_env.yml python=3.7
+  conda env create -n resfiner_env  -f ./install/res_env.yml  
   ```
 ## <a name="setup"></a>1. Setup
   
