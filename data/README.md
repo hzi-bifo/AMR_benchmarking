@@ -3,7 +3,9 @@
 - [1. Setup](#setup)
   - [1.1 Dependencies](#Dependencies)
   - [1.2 Installation](#Installation)
-- [2. Setup](#setup)
+- [2. A typical ML-based methods evaluation](#evaluation1)
+  - [2.1 Feature building](#feature)
+  - [2.2 Nested cross-evaluation](#nCV)
 
 ## <a name="setup"></a>1. Setup
 ### 1.1 Dependencies
@@ -13,18 +15,8 @@
   ```
   conda env create -n  amr_env  -f ./install/amr_env.yml python=3.7 
   ```
-
-## 1.  
-- Each genome (sample) is represented by its unique PATRIC ID.
-- In total, there are 78 datasets, each corresponding to a species-antibiotic combination.
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample list</a> of each species-antibiotic combination. The files are named as `Data_<species>_<antibiotic>`. Each file contains all the genome samples for a dataset, i.e. each file corresponds to a dataset.
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample phenotype metadata</a> of each dataset. The files are named as `Data_<species>_<antibiotic>_pheno.txt`. 1 represents the resistance phenotype; 0 represents the susceptibility phenotype. Each file contains all the genome samples for a dataset.
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/single_S_A_folds">Single-species-antibiotic evaluation folds</a> in the form of [ [sample list of fold 1], [sample list of fold 2],...[sample list of fold 10] ].
-
-
-
-
-### Example
+## <a name="setup"></a>1. Setup
+  
 An example of evaluating a ML-based software that could use the scikit-learn module for training classifiers, and the feature matrix could be built without phenotype information. Among our benchmarked methods, Seq2Geno2Pheno falls into this category.
 
 (1). <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/AMR_software/Pseudo/benchmarking.py"> Integrate the ML model to the evaluation framework based on instructions </a>  
@@ -62,41 +54,4 @@ options:
 python AMR_software/Pseudo/evaluate.py -software 'seq2geno' -s 'Escherichia coli' -sequence '/vol/projects/patric_genome' -temp './' -f_phylotree -cv 10 -n_jobs 10
 ```
 
-## 2. Single-species multi-antibiotic dataset usage
- - Each genome (sample) is represented by its unique PATRIC ID.
- - In total, there are nine datasets, each corresponding to a species (<em>M. tuberculosis, E. coli, S. aureus, S. enterica, K. pneumoniae, P. aeruginosa, A. baumannii, S. pneumoniae, N. gonorrhoeae</em>).
- - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/single_S_multi_A_folds">Multi-antibiotic evaluation folds</a> in the form of [ [sample list of fold 1], [sample list of fold 2],...[sample list of fold 10] ] for each species.
- - For each dataset, please refer to corresponding species' <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">`metadata`</a> for the phenotype of each genome mentioned in above folds. The files are named `Data_<species>_<antibiotic>_pheno.txt`. 1 represents the resistance phenotype; 0 represents the susceptibility phenotype. If a genome (for example, in the <em>E. coli</em> multi-antibiotic dataset) is absent in a Data_Escherichia_coli_<antibiotic>_pheno.txt file, it means there is no phenotype information of this specific antibiotic for this genome.
-
-### Example 
-Neural networks model via nested CV 
-```
-bash ./scripts/model/AytanAktug_SSMA.sh
-```
-
-
-## 3. Multi-species-antibiotic dataset usage
- - Each genome (sample) is represented by its unique PATRIC ID.
- - In total, the dataset is composed of 54 species-antimicrobial combinations (see Fig. 1). Nine species, <em>M. tuberculosis, E. coli, S. aureus, S. enterica, K. pneumoniae, P. aeruginosa, A. baumannii, S. pneumonia, C. jejuni</em>, are involved.
- - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/multi_S_folds">Multi-species-antibiotic evaluation folds</a> for Aytan-Aktug control multi-species model solely (see Example 1), in the form of [ [sample list of fold 1], [sample list of fold 2],...[sample list of fold 10] ]. Phenotype metadata for each relevant genome can be found the same way as multi-antibiotic dataset usage.
- - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/multi_S_LOO_folds"> Leave-one-species-out multi-species-antibiotic evaluation folds</a>. Each file in the folder contains samples associated with a specific species, thus making up a fold. Each time use all the samples in one file as the test set, and use all the samples in the rest files, that are associated with the other eight species, as the training set. The training set can be further split into folds for hyperparameter selection based on two methods. (1) For multi-species-antibiotic model (see Example 2). In each <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/multi_S_LOO_folds"> sample list file</a> we have split samples into 5 folds for the corresponding species. One can build the 5 folds for a multi-species-antibiotic training set sequentially, each time extracting a different fold from each of the training species to form a new combined multi-species fold. (2) For multi-species single-antibiotic model (see Example 3). For example, when testing models on <em>M. tuberculosis</em> using AN-dataset (represented by the AN column), genome samples from <em>K. pneumoniae</em>-AN, <em>A. baumannii</em>-AN combinations are used as the training set; the corresponding sample splits for the two species-antibiotic combinations, respectively, can be found in <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose/single_S_A_folds">single-species-antibiotic evaluation folds</a>, according to the file name; then one can build the 10 folds for a multi-species training set sequentially, each time extracting a different fold from each of the training species to form a new combined multi-species fold.
-
-![alt text](../doc/MSMA.png)
-
-**Figure 1**  Multi-species-antibiotic dataset overview. Green indicates that the corresponding species-antibiotic combination is included in the dataset. The last row counts the number of species-antibiotic combinations w.r.t. the corresponding antibiotic.
-
-### Example 1
-Neural networks model (Aytan-Aktug control multi-species model) via conventional CV 
-```
-bash ./scripts/model/AytanAktug_MSMA_discrete.sh
-```
-### Example 2
-Neural networks model via Leave-one-species-out evaluation
-```
-bash ./scripts/model/AytanAktug_MSMA_concat.sh
-```
-### Example 3
-PhenotypeSeeker model via Leave-one-species-out evaluation
-```
-bash ./scripts/model/phenotypeseeker_MS.sh
-```
+ 
