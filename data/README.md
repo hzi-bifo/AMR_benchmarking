@@ -7,8 +7,8 @@
   - [2.1 Feature building](#feature)
   - [2.2 Nested cross-evaluation](#nCV)
 - [3. Rule-based methods evaluation](#evaluation2)
-  - [2.1 AMR reports generation](#report)
-  - [2.2 Iterative evaluation](#iter)
+  - [3.1 AMR reports generation](#report)
+  - [3.2 Iterative evaluation](#iter)
     
 ## <a name="setup"></a>1. Setup
 ### 1.1 Dependencies
@@ -20,7 +20,7 @@
   conda env create -n  amr_env  -f ./install/amr_env.yml python=3.7
   conda env create -n resfiner_env  -f ./install/res_env.yml  
   ```
-## <a name="setup"></a>1. Setup
+## <a name="evaluation1"></a>2. ML-based methods evaluation
   
 An example of evaluating a ML-based software that could use the scikit-learn module for training classifiers, and the feature matrix could be built without phenotype information. Among our benchmarked methods, Seq2Geno2Pheno falls into this category.
 
