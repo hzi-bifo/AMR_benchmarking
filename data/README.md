@@ -3,13 +3,16 @@
 - [1. Setup](#setup)
   - [1.1 Dependencies](#Dependencies)
   - [1.2 Installation](#Installation)
- 
+- [2. Setup](#setup)
 
 ## <a name="setup"></a>1. Setup
 ### 1.1 Dependencies
   -    Linux OS and `conda`. Miniconda2 4.8.4 was used by us
 ### 1.2 Installation
-  
+  To install with conda:
+  ```
+  conda env create -n  amr_env  -f ./install/amr_env.yml python=3.7 
+  ```
 
 ## 1.  
 - Each genome (sample) is represented by its unique PATRIC ID.
