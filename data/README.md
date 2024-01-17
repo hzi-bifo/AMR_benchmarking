@@ -3,10 +3,13 @@
 - [1. Setup](#setup)
   - [1.1 Dependencies](#Dependencies)
   - [1.2 Installation](#Installation)
-- [2. A typical ML-based methods evaluation](#evaluation1)
+- [2. ML-based methods evaluation](#evaluation1)
   - [2.1 Feature building](#feature)
   - [2.2 Nested cross-evaluation](#nCV)
-
+- [3. Rule-based methods evaluation](#evaluation2)
+  - [2.1 AMR reports generation](#report)
+  - [2.2 Iterative evaluation](#iter)
+    
 ## <a name="setup"></a>1. Setup
 ### 1.1 Dependencies
   -    Linux OS and `conda`. Miniconda2 4.8.4 was used by us
