@@ -15,7 +15,7 @@
   -    Linux OS and `conda`. Miniconda2 4.8.4 was used by us
 ### 1.2 Installation
   - Create two conda environments
-  - install packages with conda
+  - Install packages with conda  
   ```
   conda env create -n  amr_env  -f ./install/amr_env.yml python=3.7
   conda env create -n resfiner_env  -f ./install/res_env.yml  
