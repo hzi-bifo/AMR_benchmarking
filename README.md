@@ -48,17 +48,17 @@
         ```
         bash ./install/install.sh #Create 9 pieces of conda environments and install packages respectively
         ```
-    -  If coming across creating environment for Kover, please refer to [Kover](https://aldro61.github.io/kover/doc_installation.html) to try other installation methods.
-    - Finally, you need to install pytorch in the `multi_torch_env` manually. To install pytorch compatible with your CUDA version, please fellow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version 10.1 and 11.0 .
+    -  For Kover, please refer to [Kover](https://aldro61.github.io/kover/doc_installation.html) to try other installation methods.
+    - Finally, you need to install PyTorch in the `multi_torch_env` manually. To install PyTorch compatible with your CUDA version, please follow this instruction: https://pytorch.org/get-started/locally/. Our code was tested with pytorch v1.7.1, with CUDA Version 10.1 and 11.0 .
 
 
 - Memory requirement: Some procedures require extremely large memory. Aytan-Aktug multi-species model (adapted version) feature-building procedure needs ~370G memory. Other ML software needs up to 80G memory, depending on the number of CPUs and the specific species-antibiotic combination.
 
-- Disk storage requirement: Some procedures generate extremely large intermediate files, although they are deleted once finished in our pipeline. E.g. PhenotypeSeeker(adapted version) needs the most disk storage, which is up to the magnitude of 10T depending on the species. 
+- Disk storage requirement: Some procedures generate extremely large intermediate files, although they are deleted once finished in our pipeline. E.G. PhenotypeSeeker(adapted version) needs the most disk storage, which is up to the magnitude of 10T depending on the species. 
 
 
 ## <a name="input"></a>Input file
-The input file is a yaml file `Config.yaml` at the root folder where all options are described:
+The input file is a YAML file `Config.yaml` at the root folder where all options are described:
 
 **A. Basic/required parameters setting**
 
