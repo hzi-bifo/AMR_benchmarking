@@ -31,9 +31,9 @@
 ### <a name="data"></a>Datasets
 
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/wiki/Datasets-overview">Data sets overview</a>
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample list</a>  of each dataset in the form of `Data_<species>_<antibiotic>`
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample phenotype metadata</a> of each dataset in the form of `Data_<species>_<antibiotic>_pheno.txt`.
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose">Evaluation folds</a>  
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample list</a>  of each single-species-antibiotic dataset in the form of `Data_<species>_<antibiotic>`
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample phenotype metadata</a> of each species-antibiotic combination in the form of `Data_<species>_<antibiotic>_pheno.txt`.
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose">Evaluation folds for single-species-antibiotic datasets</a>  
  
 
 
