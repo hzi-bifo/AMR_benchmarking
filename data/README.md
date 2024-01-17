@@ -5,10 +5,10 @@
   - [1.2 Installation](#Installation)
  
 
-## <a name="setup"></a>Setup
-- Dependencies
+## <a name="setup"></a>1. Setup
+### 1.1 Dependencies
   -    Linux OS and `conda`. Miniconda2 4.8.4 was used by us
-- Installation
+### 1.2 Installation
   
 
 ## 1.  
