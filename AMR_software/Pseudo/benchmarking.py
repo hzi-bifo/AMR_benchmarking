@@ -1,8 +1,16 @@
 #!/usr/bin/python
 """
 Created on Jan 6 2024
-@author: augustkx
-Scripts for evaluating single-species-antibiotic ML model
+@author: Kaixin Hu
+
+In this tutorial, we provide a step-by-step fundamental guide for using our workflow to evaluate a model currently out of
+our benchmarking choice or that could be released in the feature by any third party. Two types of machine-learning (ML)-based
+AMR phenotyping methods are provided as examples.
+- The first is a classic ML model 1) that can use the scikit-learn module for training,
+    2) in which the feature matrix could be built without phenotype information,
+    3) encompasses several classifiers. Among our benchmarked methods, Seq2Geno2Pheno falls into this category. Those methods could be evaluated via nested cross-validations.
+- The second ML model does not necessitate hyperparameter cross-validations and encompasses several classifiers,
+    thus is evaluated via an iterative evaluation approach.
 """
 import os
 import numpy as np
@@ -40,8 +48,8 @@ def create_generator(nFolds):
         train = list(itertools.chain(*[fold for idy, fold in enumerate(nFolds) if idy != idx]))
         yield train, test
 
-class SSSA():
-    '''Single-species-antibiotic
+class AMR_software():
+    '''
     An example of evaluating a ML-based software that could use the scikit-learn module for training classifiers,
     and the feature matrix could be built without phenotype information. Among our benchmarked methods, Seq2Geno2Pheno falls into this category.
     '''
@@ -54,7 +62,7 @@ class SSSA():
         f_all: if set to true, all the 11 species will be evaluated
         f_phylotree: flag for phylogeny-aware evaluation
         f_kma: flag for homology-aware evaluation
-        cv: numner of CV folds
+        cv: number of CV folds
         n_jobs: cpu cores available
         '''
 
@@ -93,33 +101,35 @@ class SSSA():
                 
                 ![Please here add your codes for building features based on above information for your model]
                 '''
+                ## save the feature matrix to a folder under temp_path
                 data_feature.to_csv('<path_to_feature>', sep="\t")
                 ################################################################
 
 
 
 
-    def ml(self): ### nested CV
+    def nested_cv(self): ### nested CV
         df_species,antibiotics=extract_infor(self.level,self.f_all,self.s,self.temp_path,self.software_name)
         for species, antibiotics in zip(df_species, antibiotics):
+
+            ## antibiotics is the python list of benchmarked antibiotics for that species
+            ## ID is the python list of PATRIC ID, e.g. [1352.10013,1352.10014, ..., 1354.10,1366.10]
+            ## Y is the python list of phenotype for each sample in the same order as ID list
             antibiotics, ID, Y = load_data.extract_info(species, False, self.level)
             i_anti = 0
-            for anti in antibiotics:
-
-                id_all = ID[i_anti]  # sample name list, e.g. [1352.10013,1352.10014,1354.10,1366.10]
+            for anti in antibiotics: ## evaluate each species-antibiotic dataset sequentially
+                id_all = ID[i_anti]
                 y_all = Y[i_anti]
                 i_anti+=1
 
                 '''                
-                ! [Please specifiy the model's classifiers and features here. ] 
+                ! [Please specifiy the model's classifiers and feature matrix location here. ] 
                 For example:
                 CLASSIFIERS=['svm','lr', 'rf','lsvm']
-                data_feature=pd.read_csv('<path_to_feature>', index_col=0,sep="\t")                
-                
+                data_feature=pd.read_csv('<path_to_feature>', index_col=0,sep="\t")                                
                 '''
 
-                X_all = pd.concat([X_all, data_feature.reindex(X_all.index)], axis=1)
-
+                X_all = pd.concat([X_all, data_feature.reindex(X_all.index)], axis=1) ## load the matrix
                 id_all = np.array(id_all)
                 y_all = np.array(y_all)
 
@@ -128,33 +138,39 @@ class SSSA():
                 folds_txt=name_utility.GETname_folds(species,anti,self.level,self.f_kma,self.f_phylotree)
                 folders_sample = json.load(open(folds_txt, "rb"))
                 folders_index=name2index.Get_index(folders_sample,p_names) # CV folds
-                for chosen_cl in CLASSIFIERS:
+                for chosen_cl in CLASSIFIERS: # evaluate each classifier sequentially
                     _, _,save_name_score=name_utility.GETname_model(self.software_name, self.level,species, anti,chosen_cl,self.temp_path)
                     file_utility.make_dir(os.path.dirname(save_name_score))
 
 
-
-                    mcc_test = []  # MCC results for the test data
-                    f1_test = []
+                    ### metrics of 10 folds
+                    mcc_test = []
+                    f1_test = [] ## F1-macro
+                    ## score_report could be used to extract metrics like precision-positive,
+                    ## recall-positive, F1-positive, precision-negative, recall-negative, F1-negative, and accuracy
                     score_report_test = []
                     aucs_test = []
-                    hyperparameters_test = []
-                    score_InnerLoop=[]
-                    index_InnerLoop=[]
-                    cv_results_InnerLoop=[]
-                    predictY_test=[]
-                    true_Y=[]
-                    sampleNames_test=[]
-                    estimator_test=[]
+
+                    ### other outputs from nested CV
+                    estimator_test=[] ##scikit-learn
+                    hyperparameters_test = [] ## hyperparameters selected from inner loop CV for training in each of the 10 outer loop iteration
+                    score_InnerLoop = []  ## the best metric scores of inner loops for each of the 10 outer loop iteration
+                    index_InnerLoop=[] ## the order of the best hyperparameters in grid search
+                    cv_results_InnerLoop=[] ## cv_results_ attributes of scikit-learn  sklearn.model_selection.GridSearchCV
+
+                    ### testing results
+                    sampleNames_test=[] ## sample PATRIC ID for a species-antibiotic combination/dataset
+                    predictY_test=[] ## predicted AMR phenotype for each sample, ordered the same as sampleNames_test
+                    true_Y=[] ## ground truth AMR phenotype for each sample, ordered the same as sampleNames_test
 
 
 
                     for out_cv in range(self.cv): ## outer loop of nested CV
                         print(species,anti,'. Starting outer: ', str(out_cv), '; chosen_cl: ', chosen_cl)
 
-                        test_samples_index = folders_index[out_cv]# a list of index
-                        id_test = id_all[test_samples_index]#sample name list
-                        y_test = y_all[test_samples_index]
+                        test_samples_index = folders_index[out_cv] ## a list of index
+                        id_test = id_all[test_samples_index]  ## sample name list
+                        y_test = y_all[test_samples_index] ## 
                         train_val_train_index =folders_index[:out_cv] +folders_index[out_cv + 1:]
                         id_val_train = id_all[list(itertools.chain.from_iterable(train_val_train_index))]  # sample name list
                         y_val_train = y_all[list(itertools.chain.from_iterable(train_val_train_index))]
@@ -162,7 +178,7 @@ class SSSA():
                         X_test=X_all.loc[id_test,:]
 
                         '''
-                        ! [Please specifiy the model's classifiers' hyperparameter selection range here. ] 
+                        ! [Please specify the model's classifiers' hyperparameter selection range here. ] 
                         For example:
                         cl = RandomForestClassifier(random_state=1)
                         hyper_space hyper_space = [

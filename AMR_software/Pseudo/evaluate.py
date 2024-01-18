@@ -1,8 +1,8 @@
 #!/usr/bin/python
 """
 Created on Jan 6 2024
-@author: augustkx
-Scripts for evaluating single-species-antibiotic ML model
+@author: Kaixin Hu
+Scripts for evaluating ML model
 """
 import sys,os
 sys.path.insert(0, os.getcwd())
@@ -37,7 +37,7 @@ parser.print_help()
 
 
 ### initiating
-EVAL = benchmarking.SSSA(parsedArgs.software_name,parsedArgs.path_sequence,parsedArgs.temp_path,parsedArgs.s,
+EVAL = benchmarking.AMR_software(parsedArgs.software_name,parsedArgs.path_sequence,parsedArgs.temp_path,parsedArgs.s,
                          parsedArgs.f_all, parsedArgs.f_phylotree, parsedArgs.f_kma,parsedArgs.cv,parsedArgs.n_jobs)
 
 #### 1. Feature building
@@ -45,6 +45,6 @@ EVAL.prepare_feature()
 
 
 #### 2. nested CV
-EVAL.ml()
+EVAL.nested_cv()
 
 
