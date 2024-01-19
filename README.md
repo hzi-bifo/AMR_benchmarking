@@ -45,7 +45,7 @@
     - To reproduce the output, you need to use Linux OS and conda. Miniconda2 4.8.4 was used by us. All software environments were activated under "base"       env, which is the default environment.
 
     - Installation of the conda environments:
-        ```
+        ```console
         bash ./install/install.sh #Create 9 pieces of conda environments and install packages respectively
         ```
     -  For Kover, please refer to [Kover](https://aldro61.github.io/kover/doc_installation.html) to try other installation methods.
@@ -133,7 +133,7 @@ The input file is a YAML file `Config.yaml` at the root folder where all options
 -->
 
 ## <a name="usage"></a>Usage
-```
+```console
 git clone https://github.com/hzi-bifo/AMR_benchmarking.git
 bash main.sh #details of usage were explained in main.sh. You can't finish the whole AMR benchmarking just by setting this command to run once.
 bash ./scripts/model/clean.sh # Optional. Clean intermediate files 
