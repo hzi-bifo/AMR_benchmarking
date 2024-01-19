@@ -1,7 +1,11 @@
-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+'''
+Generate metrics based on nested CV evaluation.
+Author: KXH
+'''
 
 import sys,os
-# sys.path.append('../')
 sys.path.insert(0, os.getcwd())
 from src.amr_utility import name_utility, file_utility, load_data
 from src.analysis_utility.lib import extract_score,make_table,math_utility
@@ -249,7 +253,6 @@ def extract_best_estimator(softwareName,cl_list,level,species,fscore,cv,f_phylot
      update: no need to set separate folders for different metrics.
     '''
     if species =='Mycobacterium tuberculosis':#MT issues. only for PhenotypeSeeker.
-        ### antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','rifampin','streptomycin']
         antibiotics_run=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','streptomycin']
 
     antibiotics, _, _ =  load_data.extract_info(species, False, level)
@@ -441,19 +444,19 @@ if __name__== '__main__':
     parser.add_argument('-l', '--level', default='loose', type=str, required=False,
                         help='Quality control: strict or loose')
     parser.add_argument("-cv", "--cv_number", default=10, type=int,
-                        help='CV splits number')
+                        help='CV splits number. Default=10')
     parser.add_argument('-f_all', '--f_all', dest='f_all', action='store_true',
-                        help='all the possible species, regarding multi-model.')
+                        help='all the possible species')
     parser.add_argument('-s', '--species', default=[], type=str, nargs='+', help='species to run: e.g.\'seudomonas aeruginosa\' \
          \'Klebsiella pneumoniae\' \'Escherichia coli\' \'Staphylococcus aureus\' \'Mycobacterium tuberculosis\' \'Salmonella enterica\' \
          \'Streptococcus pneumoniae\' \'Neisseria gonorrhoeae\'')
     parser.add_argument('-fscore', '--fscore', default='f1_macro', type=str, required=False,
                         help='No use anymore. Deprecate. ')
     parser.add_argument('-f_phylotree', '--f_phylotree', dest='f_phylotree', action='store_true',
-                        help=' phylo-tree based cv folders.')
+                        help='phylogeny-aware evaluation')
     parser.add_argument('-f_kma', '--f_kma', dest='f_kma', action='store_true',
-                        help='kma based cv folders.')
-
+                        help='homology-aware evaluation')
+    parser.print_help()
     parsedArgs = parser.parse_args()
     extract_info(parsedArgs.softwareName,parsedArgs.cl_list,parsedArgs.level,parsedArgs.species,parsedArgs.f_all,parsedArgs.cv_number,parsedArgs.fscore,parsedArgs.f_phylotree,
                  parsedArgs.f_kma,parsedArgs.temp_path,parsedArgs.output_path)
