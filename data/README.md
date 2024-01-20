@@ -2,25 +2,14 @@
 Welcome to the tutorial on data preprocessing. This tutorial guides you through the procedures for creating 78 datasets from the PATRIC genome database.
 
 ## Table of Contents
-- [1. Download genome sequences from the PATRIC database](#1) 
+- [1. Download metadata from PATRIC FTP](#1) 
 - [2. Filter species and antibiotic](#2) 
 - [3. Filter genomes / Genome quality control](#3)
-- [4. Filter datasets](#3)
-    
-## <a name="1"></a>1. Download genome sequences from the PATRIC database
+- [4. Filter datasets](#4)
+- [5. Download genome sequences from the PATRIC database](#5)
 
-```sh
-${data_dir}=<path_to_directory_to_save_enomes>
-
-for i in `cat ./doc/genome_list`;do
-    if [ ! -f "$i/$i.fna" ]; then
-	 printf 'Downloading (%s)\n' "$i/$i.fna"
-         wget -qN "ftp://ftp.patricbrc.org/genomes/$i/$i.fna" -P ${data_dir}
-    fi
-done
-```
-
-
+## <a name="1"></a>1. Download metadata from PATRIC FTP
+- Download PATRIC_genomes_AMR.txt from https://docs.patricbrc.org/user_guides/ftp.html or find a  <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/data/PATRIC/PATRIC_genomes_AMR.txt">version</a> downloaded by us in Dec 2020.
 
 ## <a name="2"></a>2. Filtering species and antibiotic
 
@@ -37,3 +26,17 @@ genome quality
 
 
  (data size machine learning model )
+
+
+## <a name="5"></a>5. Download genome sequences from the PATRIC database
+
+```sh
+${data_dir}=<path_to_directory_to_save_enomes>
+
+for i in `cat ./doc/genome_list`;do
+    if [ ! -f "$i/$i.fna" ]; then
+	 printf 'Downloading (%s)\n' "$i/$i.fna"
+         wget -qN "ftp://ftp.patricbrc.org/genomes/$i/$i.fna" -P ${data_dir}
+    fi
+done
+```
