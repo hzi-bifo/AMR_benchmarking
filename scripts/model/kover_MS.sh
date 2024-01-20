@@ -40,7 +40,7 @@ bash ./AMR_software/Kover/multiSpecies/run_data_multi.sh ${s} ${log_path}log/sof
 
 ### Running bound selection CV
 for s in "${species_list_temp[@]}"; do
-bash ./AMR_software/Kover/multiSpecies/run_cv_multi.sh ${s} ${log_path}log/software/kover/software_output/MS ${n_jobs};done
+bash ./AMR_software/Kover/multiSpecies/run_bs_multi.sh ${s} ${log_path}log/software/kover/software_output/MS ${n_jobs};done
 
 conda deactivate
 wait

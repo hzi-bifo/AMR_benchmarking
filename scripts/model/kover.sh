@@ -53,13 +53,13 @@ bash ./AMR_software/Kover/run_data.sh ${s} ${log_path}log/software/kover/softwar
 
 #### Running bound selection CV
 for s in "${species_list_temp_tree[@]}"; do
-bash ./AMR_software/Kover/run_cv.sh ${s} ${log_path}log/software/kover/software_output/phylotree ${n_jobs} ;done
+bash ./AMR_software/Kover/run_bs.sh ${s} ${log_path}log/software/kover/software_output/phylotree ${n_jobs} ;done
 #
 for s in "${species_list_temp[@]}"; do
-bash ./AMR_software/Kover/run_cv.sh ${s} ${log_path}log/software/kover/software_output/kma ${n_jobs};done
+bash ./AMR_software/Kover/run_bs.sh ${s} ${log_path}log/software/kover/software_output/kma ${n_jobs};done
 
 for s in "${species_list_temp[@]}"; do
-bash ./AMR_software/Kover/run_cv.sh ${s} ${log_path}log/software/kover/software_output/random ${n_jobs} ;done
+bash ./AMR_software/Kover/run_bs.sh ${s} ${log_path}log/software/kover/software_output/random ${n_jobs} ;done
 #
 conda deactivate
 wait
