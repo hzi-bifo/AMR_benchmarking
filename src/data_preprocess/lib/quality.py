@@ -75,11 +75,11 @@ def unique_cols(df):
     a = df.to_numpy() # df.values (pandas<0.24)
     return (a[0] == a).all(0)
 def filter_quality(level,f_balance):
-    '''filter quality by each species, and provide infor for each antibiotics
+    '''filter quality by each species, and provide infor for each antibiotic
     variable: data_sub: selected genomes w.r.t. each species
-    variable: data_sub_anti: slected genomes w.r.t. each species and antibioitc.
-    Output: save_name_model :genome_id	resistant_phenotype. w.r.t. ach species and antibioitc, in log/model/
-    Output: Species_quality & 'Species_antibiotic_FineQuality.csv': visualization ,selected species and antibioitc.
+    variable: data_sub_anti: selected genomes w.r.t. each species and antibiotic.
+    Output: save_name_model :genome_id	resistant_phenotype. w.r.t. ach species and antibiotic, in log/model/
+    Output: Species_quality & 'Species_antibiotic_FineQuality.csv': visualization ,selected species and antibiotic.
     '''
     # load in data for the selected 11 species
     #SpeciesFile define the species to be loaded in
