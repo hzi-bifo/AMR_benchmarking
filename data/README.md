@@ -1,4 +1,4 @@
-# Data preprocessing
+# Data preprocessing tutorial
 Welcome to the tutorial on data preprocessing. This tutorial guides you through the procedures for creating 78 datasets from the PATRIC genome database.
 
 ## Table of Contents
@@ -27,4 +27,4 @@ genome quality
 ## <a name="4"></a>4. Filter datasets
 
 
- (data size remachine learning model )
+ (data size machine learning model )
