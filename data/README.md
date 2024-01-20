@@ -5,13 +5,12 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 - [1. Download metadata from PATRIC FTP](#1)
 - [2. Filter species and antibiotic](#2)
 - [3. Download genome quality information](#2)
-- [4. Filter genomes](#4)
+- [4. Filter genomes / Genome quality control](#4)
 - [5. Filter datasets](#5)
 - [6. Download genome sequences from the PATRIC database](#6)
 
 ## <a name="1"></a>1. Download metadata from PATRIC FTP
 - Download `PATRIC_genomes_AMR.txt` from https://docs.patricbrc.org/user_guides/ftp.html or find a <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/data/PATRIC/PATRIC_genomes_AMR.txt">version</a> downloaded by us in Dec 2020
-
 
 ## <a name="2"></a>2. Filtering species and antibiotic
 - This procedure can be achieved by one command composed of steps 2.1-2.
@@ -65,15 +64,25 @@ def sorting_deleting(N, temp_path): ## N=500
     data.to_csv(temp_path + 'list_species_final_bq.txt', sep="\t")  # list of all species selected by 1st round.
   ```
 
- - 2.4  phenotype metadata availability
+ - 2.4  Extract genomes' PATRIC ID
 ```python
-
+def extract_id(temp_path):
+    '''extract (useful) patric id to genome_list
+    before quality control'''
+    data = pd.read_csv(temp_path + 'list_temp.txt', dtype={'genome_id': object}, sep="\t")
+    df_species = pd.read_csv(temp_path + 'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t", header=0)
+    species = df_species['species']
+    species = species.tolist()
+    ### Select rows that the strain name belongs to the 13 selected species in the last step, i.e. 2.3 step
+    data = data.loc[data['species'].isin(species)]
+    data = data.reset_index(drop=True)
+    list_download = data['genome_id']
+    list_download.to_csv('./data/PATRIC/meta/genome_list', sep="\t", index=False,
+                         header=False)  ### all the genome ID should be downloaded.
 ```
 
-
-
 ## <a name="3"></a>3. Download genome quality information
-- Download quality attribute tables for the 13 selected species from Step 2
+- Download quality attribute tables for the 13 selected species from Step 2.3
 
 	- Example: download the <em>E. coli</em> genome quality attributes from PATRIC database
 ```console
@@ -81,9 +90,8 @@ p3-all-genomes --eq genus,Escherichia --eq species,coli -a genome_name,genome_st
 ```
 - Alternatively, find <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/quality">versions</a> downloaded by us around Dec 2020
 
-## <a name="4"></a>4. Filter genomes
-
-genome quality
+## <a name="4"></a>4. Filter genomes /Genome quality control
+- 
 
 
 
