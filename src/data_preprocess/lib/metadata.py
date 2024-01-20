@@ -45,7 +45,7 @@ def summarise_strain(temp_path):
 
 # ====================================
 def summarise_species(temp_path):
-    '''summerise the species info'''
+    '''summarise the species info'''
     data = pd.read_csv(temp_path + 'list_strain.txt', dtype={'genome_id': object}, skiprows=2, sep="\t", header=0)
     data.columns = ['genome_id', 'count', 'unique', 'top', 'freq']
     # summarize the strains
@@ -61,7 +61,7 @@ def summarise_species(temp_path):
 
 
 # ================================================================
-def sorting_deleteing(N, temp_path):
+def sorting_deleting(N, temp_path):
     '''retain only this that has >=N strains for a specific antibotic w.r.t. a species'''
     data = pd.read_csv(temp_path + 'list_species.txt', dtype={'genome_id': object}, skiprows=2, sep="\t", header=0)
     data = data.iloc[:, 0:2]
@@ -87,7 +87,7 @@ def extract_id(temp_path):
     list_download = data['genome_id']
     list_download.to_csv('./data/PATRIC/meta/genome_list', sep="\t", index=False,
                          header=False)  # all the genome ID should be downloaded.
-    # maybe larger then aroginally downloaded, because two more species are considered here, but later considering antibiotic,
+    # maybe larger than aroginally downloaded, because two more species are considered here, but later considering antibiotic,
 
 
 def extract_id_species(temp_path):

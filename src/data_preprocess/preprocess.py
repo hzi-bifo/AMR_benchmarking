@@ -28,7 +28,7 @@ def workflow(level,logfile,temp_path):
     lib.metadata.summarise_strain(temp_path)
     logger.info('finish extracting information from PATRIC_genomes_AMR.txt')
     lib.metadata.summarise_species(temp_path)
-    lib.metadata.sorting_deleteing(500,temp_path) #500: retain only this that has >=500 strains for a specific antibotic w.r.t. a species
+    lib.metadata.sorting_deleting(500,temp_path) #500: retain only this that has >=500 strains for a specific antibotic w.r.t. a species
     lib.metadata.extract_id(temp_path)
     lib.metadata.extract_id_species(temp_path)
 
