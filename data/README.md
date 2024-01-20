@@ -14,11 +14,11 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 
 
 ## <a name="2"></a>2. Filtering species and antibiotic
-
+- This procedure can be achieved by one command composed of steps 2.1-2.
 ```console
 python ./src/data_preprocess/preprocess.py
 ```
-- 2.1  phenotype metadata availability
+- 2.1 Calculate the total number of genomes 
 ```python
 import pandas as pd
 from  src.amr_utility import name_utility
@@ -30,10 +30,46 @@ def summarise_strain(temp_path):
     list = data.loc[:, ("genome_id", "genome_name")]
     list = list.groupby(by="genome_id")
     summary = list.describe()
-    summary.to_csv(temp_path + 'list_strain.txt', sep="\t")  # 67836 genomes strains and 99 species.
+    summary.to_csv(temp_path + 'list_strain.txt', sep="\t")  ## contain 67836 genomes strains and 99 species.
+```
+- 2.2  list all the species
+```
+def summarise_species(temp_path):
+    '''summerise the species info'''
+    data = pd.read_csv(temp_path + 'list_strain.txt', dtype={'genome_id': object}, skiprows=2, sep="\t", header=0)
+    data.columns = ['genome_id', 'count', 'unique', 'top', 'freq']
+    # summarize the strains
+    data['top'] = data['top'].astype(str)  # add a new column
+    data['species'] = data.top.apply(lambda x: ' '.join(x.split(' ')[0:2]))
+    # Note: download genome data from here, i.e. for each strain.
+    data.to_csv(temp_path+'list_temp.txt', sep="\t")
+    data = data.loc[:, ("genome_id", "species")]
+    # make a summary by strain
+    data_s = data.groupby(by="species")
+    summary_species = data_s.describe()
+    summary_species.to_csv(temp_path + 'list_species.txt', sep="\t")  # list of all species
+```
+- 2.3 Filter out those species-antibiotic combinations with less than 500 genomes. This results in 13 species: <em>Mycobacterium tuberculosis, Salmonella enterica, 
+Streptococcus pneumonia, Neisseria gonorrhoeae, Escherichia coli, Staphylococcus aureus, Klebsiella pneumonia, Enterococcus faecium, Acinetobacter baumannii, 	Pseudomonas aeruginosa, Shigella sonnei, Enterobacter cloacae, Campylobacter jejuni</em>.
+```
+def sorting_deleting(N, temp_path): ## N=500
+    '''retain only this that has >=N strains for a specific antibiotic w.r.t. a species'''
+    data = pd.read_csv(temp_path + 'list_species.txt', dtype={'genome_id': object}, skiprows=2, sep="\t", header=0)
+    data = data.iloc[:, 0:2]
+    data.columns = ['species', 'count']
+    data = data.sort_values(by=['count'], ascending=False)  # sorting
+    data = data.reset_index(drop=True)
+    data.to_csv(temp_path + 'list_species_sorting.txt', sep="\t")
+    data = data[data['count'] > N]  # deleting
+    data.to_csv(temp_path + 'list_species_final_bq.txt', sep="\t")  # list of all species selected by 1st round.
+  ```
+
+ - 2.4  phenotype metadata availability
+```
 
 ```
- 
+
+
 
 ## <a name="3"></a>3. Download genome quality information
 - Download quality attribute tables for the 13 selected species from Step 2
