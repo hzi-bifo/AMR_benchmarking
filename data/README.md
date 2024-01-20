@@ -14,10 +14,21 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 
 
 ## <a name="2"></a>2. Filtering species and antibiotic
--   phenotype metadata availability `./src/data_preprocess/preprocess.py`
 
+```./src/data_preprocess/preprocess.py```
+-   phenotype metadata availability
 ```python
-
+import pandas as pd
+from  src.amr_utility import name_utility
+import numpy as np
+from ast import literal_eval
+def summarise_strain(temp_path):    
+    data = pd.read_csv('./data/PATRIC/PATRIC_genomes_AMR.txt', dtype={'genome_id': object}, sep="\t")
+    # get the first column, save it in a file named genome_list
+    list = data.loc[:, ("genome_id", "genome_name")]
+    list = list.groupby(by="genome_id")
+    summary = list.describe()
+    summary.to_csv(temp_path + 'list_strain.txt', sep="\t")  # 67836 genomes strains and 99 species.
 
 ```
  
