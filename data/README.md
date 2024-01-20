@@ -164,9 +164,11 @@ def extract_id_quality(temp_path,level):
 ```
 
 ## <a name="5"></a>5. Filter out genomes with ill-annotated phenotypes; filter datasets by genome numbers
-- 5.1 Drop genomes with phenotype annotated as 'Intermediate''Not defined'
-- 5.2 Drop genomes with phenotype ill-annotated. Those genomes are annotated with different phenotypes for the same antibiotic.
+- 5.1 Since the genomes selected after quality control in Step 4 consist of a mix of those with and lacking AMR metadata, our initial step involves obtaining the intersection of high-quality genomes and those with AMR metadata.
+- 5.2 Drop genomes with phenotype annotated as 'Intermediate''Not defined'
 - 5.3 
+- 5.4 Drop genomes with phenotype ill-annotated. Those genomes are annotated with different phenotypes for the same antibiotic.
+- 5.5 
 
 ```python
 
