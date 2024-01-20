@@ -13,7 +13,7 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 - Download `PATRIC_genomes_AMR.txt` from https://docs.patricbrc.org/user_guides/ftp.html or find a <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/data/PATRIC/PATRIC_genomes_AMR.txt">version</a> downloaded by us in Dec 2020
 
 ## <a name="2"></a>2. Filtering species and antibiotic
-- This procedure can be achieved by one command composed of steps 2.1-2.
+- This procedure can be achieved by running one Python file composed of steps 2.1-2.4
 ```console
 python ./src/data_preprocess/preprocess.py
 ```
@@ -64,7 +64,7 @@ def sorting_deleting(N, temp_path): ## N=500
     data.to_csv(temp_path + 'list_species_final_bq.txt', sep="\t")  # list of all species selected by 1st round.
   ```
 
- - 2.4  Extract genomes' PATRIC ID
+ - 2.4  Extract PATRIC IDs of the 13 species' genomes
 ```python
 def extract_id(temp_path):
     '''extract (useful) patric id to genome_list
@@ -86,13 +86,78 @@ def extract_id(temp_path):
 
 	- Example: download the <em>E. coli</em> genome quality attributes from PATRIC database
 ```console
-p3-all-genomes --eq genus,Escherichia --eq species,coli -a genome_name,genome_status,genome_length,genome_quality,plasmids,contigs,fine_consistency,coarse_consistency,checkm_completeness,checkm_contamination >  Escherichia_coli.csv
+p3-all-genomes --eq genus,Escherichia --eq species,coli -a genome_name,genome_status,genome_length,genome_quality,plasmids,contigs,fine_consistency,coarse_consistency,checkm_completeness,checkm_contamination >  data/PATRIC/quality/Escherichia_coli.csv
 ```
 - Alternatively, find <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/quality">versions</a> downloaded by us around Dec 2020
 
 ## <a name="4"></a>4. Filter genomes /Genome quality control
-- 
 
+
+
+- 4.1  Define thresholds for quality attributes: A. (1) sequence data is not plasmid-only; (2) genome quality (provided by PATRIC) is Good; (3) contig count is limited to the greater of either 100 or 0.75 quantiles of the contig count across all genomes of the same specie; (4) fine consistency (provided by PATRIC) higher than 97%; (5) coarse consistency (provided by PATRIC) higher than 98%; (6) completeness (provided by PATRIC) higher than 98% and contamination (provided by PATRIC) lower than 2%, or one of them is null value with the other one meets the criteria. B. For each species, we computed the mean genome length of the selected genomes from step A, and then we retained genomes with lengths within the range of one-twentieth of the calculated mean from the calculated mean. 
+
+```python
+def criteria(species, df,level):
+    '''
+    :param df: (dataframe) ID with quality metadata
+    :param level: quality control level. In this AMR benchmarking study, we apply the "loose" level. 
+    :return: (dataframe)ID  with quality control applied.
+    '''
+ 
+    df = df[(df['genome.genome_status'] != 'Plasmid') & (df['genome.genome_quality'] == 'Good') & (
+	 df['genome.contigs'] <= max(100, df['genome.contigs'].quantile(0.75))) & (df['genome.fine_consistency'] >= 97) & (df['genome.coarse_consistency'] >= 98)  & 	 	((df['genome.checkm_completeness'] >= 98)| (df['genome.checkm_completeness'].isnull())) & ((df['genome.checkm_contamination'] <= 2)|				 
+	(df['genome.checkm_contamination'].isnull()))]
+
+
+    ### Calculate the mean genome_length
+    mean_genome_l = df["genome.genome_length"].mean()
+    ### filter abs(genome length - mean length) <= mean length/20'''
+    df = df[abs(df['genome.genome_length'] - mean_genome_l) <= mean_genome_l / 20]
+    if species == 'Pseudomonas aeruginosa':  # Pseudomonas_aeruginosa add on the genomes from S2G2P paper.
+        pa_add = pd.read_csv('./data/PATRIC/Pseudomonas_aeruginosa_add.txt', dtype={'genome.genome_id': object}, header=0)
+        df = df.append(pa_add, sort=False)
+        df = df.drop_duplicates(subset=['genome.genome_id'])
+    df = df.reset_index(drop=True)
+    return df
+```
+- From genomes in step 2.4, extract those genomes in compliance with the criteria in 4.1
+
+```python
+def extract_id_quality(temp_path,level):
+    '''
+    inpout: downloaded quality metadata, saved at the subdirectory: /quality.
+    '''
+	
+    df=pd.read_csv(temp_path+'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t", header=0)
+    info_species = df['species'].tolist()
+    number_All=[]
+    number_FineQuality=[]
+    for species in info_species:
+        save_all_quality,save_quality=name_utility.GETname_quality(species,level)
+        df=pd.read_csv(save_all_quality,dtype={'genome.genome_id': object, 'genome.genome_name': object}, sep="\t")
+        number_All.append(df.shape[0])
+        #=======================
+        #Apply criteria
+        df=criteria(species, df, level)
+        # =========================
+        # selected fine-quality genome ID
+        #=====================
+        df.to_csv(save_quality, sep="\t")#'quality/GenomeFineQuality_' + str(species.replace(" ", "_")) + '.txt'
+        number_FineQuality.append(df.shape[0])
+        #delete duplicates
+
+    # Visualization
+    count_quality = pd.DataFrame(list(zip(number_All, number_FineQuality)), index=info_species, columns=['Number of genomes','Number of fine quality genomes'])
+    # print('Visualization species with antibiotic selected',count_quality)
+    count_species = pd.read_csv(temp_path+'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t",
+                             header=0,index_col='species')
+    count_final=pd.concat([count_species, count_quality], axis=1).reindex(count_species.index)# visualization. no selection in this cm.
+    # filter Shigella sonnei and Enterococcus faecium, only 25,144
+    count_final=count_final[count_final['Number of fine quality genomes']>200]
+    count_final.rename(columns={'count': 'Number of genomes with AMR metadata'}, inplace=True)
+    count_final.to_csv("./data/PATRIC/meta/fine_quality/"+str(level)+'_list_species_final_quality.csv',sep="\t")#species list.
+    # print(count_final)
+```
 
 
 
