@@ -62,7 +62,7 @@ def summarise_species(temp_path):
 
 # ================================================================
 def sorting_deleting(N, temp_path):
-    '''retain only this that has >=N strains for a specific antibotic w.r.t. a species'''
+    '''retain only this that has >=N strains for a specific antibiotic w.r.t. a species'''
     data = pd.read_csv(temp_path + 'list_species.txt', dtype={'genome_id': object}, skiprows=2, sep="\t", header=0)
     data = data.iloc[:, 0:2]
     data.columns = ['species', 'count']
