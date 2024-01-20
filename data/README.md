@@ -2,7 +2,7 @@
 Welcome to the tutorial on data preprocessing. This tutorial guides you through the procedures for creating <a href="https://github.com/hzi-bifo/AMR_benchmarking/wiki/Dataset-overview">78 AMR phenotyping benchmarking datasets</a> from the <a href="https://www.bv-brc.org/">PATRIC</a> genome database.
 
 ## Table of Contents
-- [1. Download metadata from PATRIC FTP](#1) 
+- [1. Download metadata from PATRIC FTP](#1)
 - [2. Filter species and antibiotic](#2)
 - [3. Download genome quality information](#2)
 - [4. Filter genomes](#4)
@@ -14,8 +14,13 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 
 
 ## <a name="2"></a>2. Filtering species and antibiotic
+-   phenotype metadata availability `./src/data_preprocess/preprocess.py`
 
- to species and antibiotic filtering based on phenotype metadata availability
+```python
+
+
+```
+ 
 
 ## <a name="3"></a>3. Download genome quality information
 - Download quality attribute tables for the 13 selected species from Step 2
