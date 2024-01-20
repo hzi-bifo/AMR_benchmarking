@@ -6,7 +6,7 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 - [2. Filter species and antibiotic by genome number](#2)
 - [3. Download genome quality information](#2)
 - [4. Filter genomes by genome quality](#4)
-- [5. Filter datasets by genome number](#5)
+- [5. Filter genomes with ill-annotated phenotypes; filter datasets by genome numbers](#5)
 - [6. Download genome sequences from the PATRIC database](#6)
 - [7. Others: dataset summary](#7)
 
@@ -163,7 +163,7 @@ def extract_id_quality(temp_path,level):
     count_final.to_csv("./data/PATRIC/meta/fine_quality/"+str(level)+'_list_species_final_quality.csv',sep="\t") ## species list with genome number
 ```
 
-## <a name="5"></a>5. Filter datasets by genome number
+## <a name="5"></a>5. Filter genomes with ill-annotated phenotypes; filter datasets by genome numbers
 
 -  
 
