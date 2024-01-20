@@ -32,7 +32,7 @@ def summarise_strain(temp_path):
     summary = list.describe()
     summary.to_csv(temp_path + 'list_strain.txt', sep="\t")  ## contain 67836 genomes strains 
 ```
-- 2.2  list all the species
+- 2.2  List all the species
 ```python
 def summarise_species(temp_path):
     '''summerise the species info'''
