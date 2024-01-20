@@ -6,7 +6,7 @@ from  src.amr_utility import file_utility
 from src.amr_utility import name_utility
 import pandas as pd
 
-def workflow(level,logfile,temp_path):
+def workflow(level):
 
     ## multi-species model metadata
     lib.metadata.extract_multi_model_summary(level)
@@ -32,9 +32,5 @@ if __name__== '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-l', '--level', default='loose', type=str, required=False,
                         help='Quality control: strict or loose.default=\'loose\'.')
-    parser.add_argument( '--logfile', default=None, type=str, required=False,
-                        help='The log file')
-    parser.add_argument('-temp', '--temp_path', default='./', type=str, required=False,
-                        help='The log file')
     parsedArgs=parser.parse_args()
-    workflow(parsedArgs.level,parsedArgs.logfile,parsedArgs.temp_path)
+    workflow(parsedArgs.level)

@@ -26,11 +26,11 @@ def criteria(species, df,level):
                 (df['genome.checkm_completeness'] >= 98)| (df['genome.checkm_completeness'].isnull())) & ((df['genome.checkm_contamination'] <= 2)|(df['genome.checkm_contamination'].isnull()))]
 
 
-    # caluculate the mean genome_length
+    # calculate the mean genome_length
     mean_genome_l = df["genome.genome_length"].mean()
     # filter abs(genome length - mean length) <= mean length/20'''
     df = df[abs(df['genome.genome_length'] - mean_genome_l) <= mean_genome_l / 20]
-    if species == 'Pseudomonas aeruginosa':  # Pseudomonas_aeruginosa add on the genomes from S2G2P paper.
+    if species == 'Pseudomonas aeruginosa':   ## Pseudomonas_aeruginosa: add on the genomes from the Ariane Khaledi et al. EMBO molecular medicine 12.3 (2020) article.
         pa_add = pd.read_csv('./data/PATRIC/Pseudomonas_aeruginosa_add.txt', dtype={'genome.genome_id': object}, header=0)
         df = df.append(pa_add, sort=False)
         df = df.drop_duplicates(subset=['genome.genome_id'])
@@ -38,7 +38,7 @@ def criteria(species, df,level):
     return df
 def extract_id_quality(temp_path,level):
     '''
-    inpout: downloaded quality metadata, saved at the subdirectory: /quality.
+    input: downloaded quality metadata, saved at the subdirectory: /quality.
     '''
 
     df=pd.read_csv(temp_path+'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t", header=0)
@@ -50,54 +50,54 @@ def extract_id_quality(temp_path,level):
         df=pd.read_csv(save_all_quality,dtype={'genome.genome_id': object, 'genome.genome_name': object}, sep="\t")
         number_All.append(df.shape[0])
         #=======================
-        #Apply criteria
+        #Apply QC criteria
         df=criteria(species, df, level)
         # =========================
-        # selected fine quality genome ID
+        # save the selected genome ID
         #=====================
-        df.to_csv(save_quality, sep="\t")#'quality/GenomeFineQuality_' + str(species.replace(" ", "_")) + '.txt'
+        df.to_csv(save_quality, sep="\t") #'quality/GenomeFineQuality_' + str(species.replace(" ", "_")) + '.txt'
         number_FineQuality.append(df.shape[0])
-        #delete duplicates
 
-    # Visualization
+
+    ### load 13 species selected (before QC) by genome number
     count_quality = pd.DataFrame(list(zip(number_All, number_FineQuality)), index=info_species, columns=['Number of genomes','Number of fine quality genomes'])
-    # print('Visualization species with antibiotic selected',count_quality)
     count_species = pd.read_csv(temp_path+'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t",
                              header=0,index_col='species')
-    count_final=pd.concat([count_species, count_quality], axis=1).reindex(count_species.index)# visualization. no selection in this cm.
-    # filter Shigella sonnei and Enterococcus faecium, only 25,144
+    count_final=pd.concat([count_species, count_quality], axis=1).reindex(count_species.index) ## no selection in this command
+
+    ### filter out species with no more than 200 genomes
     count_final=count_final[count_final['Number of fine quality genomes']>200]
+    ### Save selected species to a file
     count_final.rename(columns={'count': 'Number of genomes with AMR metadata'}, inplace=True)
-    count_final.to_csv("./data/PATRIC/meta/fine_quality/"+str(level)+'_list_species_final_quality.csv',sep="\t")#species list.
-    # print(count_final)
+    count_final.to_csv("./data/PATRIC/meta/fine_quality/"+str(level)+'_list_species_final_quality.csv',sep="\t") ## species list with genome number
+
 
 def unique_cols(df):
     a = df.to_numpy() # df.values (pandas<0.24)
     return (a[0] == a).all(0)
-def filter_quality(level,f_balance):
-    '''filter quality by each species, and provide infor for each antibiotic
+def filter_phenotype(level,f_balance):
+    '''
+    Filter datasets by 1) ill-annotated phenotypes 2) genome number in each phenotype class (retain those at least 100 genomes for each class)
     variable: data_sub: selected genomes w.r.t. each species
     variable: data_sub_anti: selected genomes w.r.t. each species and antibiotic.
-    Output: save_name_model :genome_id	resistant_phenotype. w.r.t. ach species and antibiotic, in log/model/
+    Output: save_name_model :genome_id	resistant_phenotype. w.r.t. each species-antibiotic combination
     Output: Species_quality & 'Species_antibiotic_FineQuality.csv': visualization ,selected species and antibiotic.
     '''
-    # load in data for the selected 11 species
-    #SpeciesFile define the species to be loaded in
+    ## load in data for the selected 11 species
+    ## Species File define the species to be loaded in
     data, info_species = name_utility.load_metadata(SpeciesFile="./data/PATRIC/meta/fine_quality/"+str(level)+'_list_species_final_quality.csv')
-    # drop phenotype with 'Intermediate''Not defined'
+    ## drop phenotype with 'Intermediate''Not defined'
     data = data[(data.resistant_phenotype != 'Intermediate') & (data.resistant_phenotype != 'Not defined')]
-    #=======================================================
-    Species_quality=pd.DataFrame(index=info_species, columns=['number','modelling antibiotics'])#initialize for visualization
-    #print(Species_quality)
-    #for species in ['Pseudomonas aeruginosa']:
-    # info_species=['Escherichia coli']#todo delete later
+
+    Species_quality=pd.DataFrame(index=info_species, columns=['number','modelling antibiotics']) #initialize
     for species in info_species:
 
+        ## we noticed that some genomes are annotated with different resistant_phenotype for the same antibiotic.
+        ## These genomes are surely ill-annotaed, and should be excluded via BAD list.
         BAD=[]
         save_all_quality,save_quality=name_utility.GETname_quality(species,level)
         data_sub = data[data['species'] == species]
-        #with pd.option_context('display.max_columns', None):
-            #print(data_sub)
+
         # [1]. select the id from genome_list that are also in good quality
         #====================================================================
         df = pd.read_csv(save_quality,dtype={'genome.genome_id': object, 'genome.genome_name': object}, index_col=0,sep="\t")
@@ -117,7 +117,7 @@ def filter_quality(level,f_balance):
         select_antibiotic_final= select_antibiotic.copy()
         for anti in select_antibiotic:
             save_name_modelID=name_utility.GETname_meta(species,anti,level)
-            # select genome_id and  resistant_phenotype
+            # select genome_id and resistant_phenotype
             data_sub_anti = data_sub.loc[data_sub['antibiotic'] == anti]
             data_sub_anti = data_sub_anti.loc[:, ('genome_id', 'resistant_phenotype')]
 
@@ -129,7 +129,6 @@ def filter_quality(level,f_balance):
             bad=df_bad['genome_id'].to_list()
             BAD.append(bad)
             if bad != []:
-
                 data_sub_anti = data_sub_anti[~data_sub_anti['genome_id'].isin(bad)]
             #----------------------------------------------------------------
 
@@ -137,7 +136,6 @@ def filter_quality(level,f_balance):
             data_sub_anti.resistant_phenotype = [pheno[item] for item in data_sub_anti.resistant_phenotype]
             # check data balance
             balance_check = data_sub_anti.groupby(by="resistant_phenotype").count()
-            #print('Check phenotype balance.', balance_check)
             if balance_check.index.shape[0] == 2:# there is Neisseria gonorrhoeae w.r.t. ceftriaxone, no R pheno.
                 balance_ratio = balance_check.iloc[0]['genome_id'] / balance_check.iloc[1]['genome_id']
                 if min(balance_check.iloc[0]['genome_id'], balance_check.iloc[1]['genome_id']) <100:
@@ -146,6 +144,9 @@ def filter_quality(level,f_balance):
                     # save the ID for each species and each antibiotic
                     data_sub_anti.to_csv(save_name_modelID + '_pheno.txt', sep="\t") #dataframe with metadata
                     data_sub_anti['genome_id'].to_csv(save_name_modelID, sep="\t", index=False, header=False)
+
+                    ############################################################################################################
+                    ######## currently, this Downsampling precedure is not used.
                     if (f_balance== True) and (balance_ratio > 2 or balance_ratio < 0.5):# #final selected, need to downsample.
                         # if not balance, downsampling
                         print('Downsampling starts.....balance_ratio=', balance_ratio)
@@ -161,6 +162,7 @@ def filter_quality(level,f_balance):
                         balance_check.to_csv(save_name_modelID + 'balance_check.txt', mode='a', sep="\t")
                     else:
                         pass
+                    ############################################################################################################
             else:
                 select_antibiotic_final.remove(anti)
         #check if samples with conflicting pheno exit in other antibiotic groups

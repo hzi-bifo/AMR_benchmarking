@@ -87,7 +87,7 @@ def extract_id(temp_path):
     list_download = data['genome_id']
     list_download.to_csv('./data/PATRIC/meta/genome_list', sep="\t", index=False,
                          header=False)  # all the genome ID should be downloaded.
-    # maybe larger than aroginally downloaded, because two more species are considered here, but later considering antibiotic,
+
 
 
 def extract_id_species(temp_path):
