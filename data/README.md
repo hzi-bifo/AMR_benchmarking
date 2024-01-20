@@ -93,7 +93,7 @@ p3-all-genomes --eq genus,Escherichia --eq species,coli -a genome_name,genome_st
 
 ## <a name="4"></a>4. Filter genomes /Genome quality control
 
-- This procedure can be achieved by running one Python file composed of steps 4.1-4. TODO
+- This procedure and the next procedure (5. Filter datasets) can be achieved by running one Python file 
 ```console
 python ./src/data_preprocess/quality_control.py
 ```
@@ -161,13 +161,15 @@ def extract_id_quality(temp_path,level):
     count_final.rename(columns={'count': 'Number of genomes with AMR metadata'}, inplace=True)
     count_final.to_csv("./data/PATRIC/meta/fine_quality/"+str(level)+'_list_species_final_quality.csv',sep="\t")#species list.
 ```
-- 4.3 
-
 
 ## <a name="5"></a>5. Filter datasets
 
+-  (data size machine learning model )
 
- (data size machine learning model )
+```python
+
+
+```
 
 
 ## <a name="6"></a>6. Download genome sequences from the PATRIC database
