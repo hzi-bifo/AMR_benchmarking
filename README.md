@@ -30,9 +30,9 @@
 
 ### <a name="data"></a>Datasets
 
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/wiki/Datasets-overview">Data sets overview</a>
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample list</a>  of each single-species-antibiotic dataset in the form of `Data_<species>_<antibiotic>`
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Sample phenotype metadata</a> of each species-antibiotic combination in the form of `Data_<species>_<antibiotic>_pheno.txt`.
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/wiki/Dataset-overview">Dataset overview</a>
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Genome list</a>  of each single-species-antibiotic dataset in the form of `Data_<species>_<antibiotic>`
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Genome phenotype metadata</a> of each species-antibiotic combination in the form of `Data_<species>_<antibiotic>_pheno.txt`.
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose">Evaluation folds</a> for single-species-antibiotic datasets
  
 
@@ -66,7 +66,7 @@ The input file is a YAML file `Config.yaml` at the root folder where all options
 
 | option | action | values ([default])|
 | ------------- | ------------- |------------- |
-|dataset_location| To where the PATRIC dataset will be downloaded. ~246G| /vol/projects/BIFO/patric_genome|
+|dataset_location| To where the PATRIC data will be downloaded. ~246G| /vol/projects/BIFO/patric_genome|
 |output_path| To where to generate the `Results` folder for the direct results of each software and further visualization. | ./|
 |log_path| To where to generate the `log` folder for the intermediate files (~10 TB, while regularly cleaning files related to completed benchmarking species). | ./|
 |n_jobs| CPU cores (>1) to use. | 10 |
