@@ -22,7 +22,7 @@ def workflow(level,logfile,temp_path):
 
     logger = logging.getLogger('data_preprocess')
 
-    # 1. pre-selection
+    #  Pre-selection
     temp_path=temp_path+'log/temp/data/'
     file_utility.make_dir(temp_path)
     lib.metadata.summarise_strain(temp_path)
@@ -32,27 +32,6 @@ def workflow(level,logfile,temp_path):
     lib.metadata.extract_id(temp_path)
     lib.metadata.extract_id_species(temp_path)
 
-    # 2. QC
-    lib.quality.extract_id_quality(temp_path,level)
-    lib.quality.filter_quality(level,False) #False: No handling related to imbalance dataset.
-    lib.metadata.extract_multi_model_summary(level)#multi-species model metadata
-
-
-
-    #3. get genome number. Print to the console.
-    lib.summary.summary_genome(level)
-
-    #4.  get genome number per combination. Save to ./data/PATRIC/meta/'+str(level)+'_genomeNumber/
-    file_utility.make_dir('./data/PATRIC/meta/'+str(level)+'_genomeNumber')
-    main_meta,_=name_utility.GETname_main_meta(level)
-    data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
-    data = data[data['number'] != 0]
-    df_species = data.index.tolist()
-    for species  in  df_species :
-        lib.summary.summary_pheno(species,level)
-
-    ## save genome number for each of s-a combination in multi-s-a dataset. Sep 2023
-    lib.metadata.extract_multi_model_size(level)
 
 
 
