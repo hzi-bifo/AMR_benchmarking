@@ -74,7 +74,7 @@ def extract_id(temp_path):
     df_species = pd.read_csv(temp_path + 'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t", header=0)
     species = df_species['species']
     species = species.tolist()
-    ### Select rows that the strain name belongs to the 13 selected species in the last step, i.e. 2.3 step
+    ### Select rows that the strain name belongs to the 13 selected species in the last step, i.e. step  2.3 
     data = data.loc[data['species'].isin(species)]
     data = data.reset_index(drop=True)
     list_download = data['genome_id']
