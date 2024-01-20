@@ -6,7 +6,7 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 - [2. Filter species and antibiotic by genome number](#2)
 - [3. Download genome quality information](#2)
 - [4. Filter genomes by genome quality](#4)
-- [5. Filter datasets](#5)
+- [5. Filter datasets by genome number](#5)
 - [6. Download genome sequences from the PATRIC database](#6)
 - [7. Others: dataset summary](#7)
 
@@ -124,14 +124,14 @@ def criteria(species, df,level):
     df = df.reset_index(drop=True)
     return df
 ```
-- 4.2 From genomes in step 2.4, extract those genomes in compliance with the criteria in 4.1
+- 4.2 From genomes in step 2.4, extract those genomes in compliance with the criteria in 4.1; Filter out species with no more than 200 genomes.
 	- This results in 11 species: **<em>Escherichia coli, Staphylococcus aureus, Salmonella enterica, Enterococcus faecium, Campylobacter jejuni, Neisseria gonorrhoeae, Klebsiella pneumoniae, Pseudomonas aeruginosa, Acinetobacter baumannii,  Streptococcus pneumoniae, Mycobacterium tuberculosis </em>**
 ```python
 def extract_id_quality(temp_path,level):
     '''
-    inpout: downloaded quality metadata, saved at the subdirectory: /quality.
+    input: downloaded quality metadata, saved at the subdirectory: /quality.
     '''
-	
+
     df=pd.read_csv(temp_path+'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t", header=0)
     info_species = df['species'].tolist()
     number_All=[]
@@ -141,28 +141,29 @@ def extract_id_quality(temp_path,level):
         df=pd.read_csv(save_all_quality,dtype={'genome.genome_id': object, 'genome.genome_name': object}, sep="\t")
         number_All.append(df.shape[0])
         #=======================
-        #Apply criteria
+        #Apply QC criteria
         df=criteria(species, df, level)
         # =========================
-        # selected fine-quality genome ID
+        # save the selected genome ID
         #=====================
-        df.to_csv(save_quality, sep="\t")#'quality/GenomeFineQuality_' + str(species.replace(" ", "_")) + '.txt'
+        df.to_csv(save_quality, sep="\t") #'quality/GenomeFineQuality_' + str(species.replace(" ", "_")) + '.txt'
         number_FineQuality.append(df.shape[0])
-        #delete duplicates
 
-    # Visualization
+
+    ### Load 13 species selected (before QC) by genome number
     count_quality = pd.DataFrame(list(zip(number_All, number_FineQuality)), index=info_species, columns=['Number of genomes','Number of fine quality genomes'])
-    # print('Visualization species with antibiotic selected',count_quality)
     count_species = pd.read_csv(temp_path+'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t",
                              header=0,index_col='species')
-    count_final=pd.concat([count_species, count_quality], axis=1).reindex(count_species.index)# visualization. no selection in this cm.
-    # filter Shigella sonnei and Enterococcus faecium, only 25,144
+    count_final=pd.concat([count_species, count_quality], axis=1).reindex(count_species.index) ## no selection in this command
+
+    ### filter out species with no more than 200 genomes
     count_final=count_final[count_final['Number of fine quality genomes']>200]
+    ### Save selected species to a file
     count_final.rename(columns={'count': 'Number of genomes with AMR metadata'}, inplace=True)
-    count_final.to_csv("./data/PATRIC/meta/fine_quality/"+str(level)+'_list_species_final_quality.csv',sep="\t")#species list.
+    count_final.to_csv("./data/PATRIC/meta/fine_quality/"+str(level)+'_list_species_final_quality.csv',sep="\t") ## species list with genome number
 ```
 
-## <a name="5"></a>5. Filter datasets
+## <a name="5"></a>5. Filter datasets by genome number
 
 -  (data size machine learning model )
 
