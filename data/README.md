@@ -11,6 +11,7 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 
 ```sh
 ${data_dir}=<path_to_directory_to_save_enomes>
+
 for i in `cat ./doc/genome_list`;do
     if [ ! -f "$i/$i.fna" ]; then
 	 printf 'Downloading (%s)\n' "$i/$i.fna"
