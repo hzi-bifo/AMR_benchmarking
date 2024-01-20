@@ -54,8 +54,7 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
                 id_all = np.array(id_all)
                 for out_cv in range(cv):
 
-                    # 1. exrtact CV folders----------------------------------------------------------------
-
+                    # 1. extract CV folders----------------------------------------------------------------
                     p_names = name_utility.GETname_meta(species,anti,level)
                     folds_txt=name_utility.GETname_folds(species,anti,level,f_kma,f_phylotree)
                     folders_sample = json.load(open(folds_txt, "rb"))
@@ -68,13 +67,12 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
                     id_test = id_all[test_samples_index]
 
                     # 2. prepare meta files for this round of training samples-------------------
-
                     _,name,meta_txt,_ = name_utility.GETname_model2('phenotypeseeker',level, species, anti,'',temp_path,f_kma,f_phylotree)
                     file_utility.make_dir(os.path.dirname(meta_txt))
                     name_list = pd.read_csv(name, index_col=0, dtype={'genome_id': object}, sep="\t")
 
 
-                    # only retain those in the training and validataion CV folders
+                    # only retain those in the training and validation CV folders
                     name_list_train = name_list.loc[name_list['genome_id'].isin(id_val_train)]
                     name_list_train['genome_id'].to_csv(meta_txt + '_Train_' + str(out_cv) + '_id2', sep="\t", index=False, header=False)
                     name_list_train['ID'] = temp_path+'log/software/phenotypeseeker/software_output/K-mer_lists/'+ \
@@ -87,8 +85,7 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
 
 
                     # 3. prepare meta files for this round of testing samples-------------------
-
-                    # only retain those in the training and validataion CV folders
+                    # only retain those in the training and validation CV folders
                     name_list_test = name_list.loc[name_list['genome_id'].isin(id_test)]
                     name_list_test['genome_id'].to_csv(meta_txt + '_Test_' + str(out_cv) + '_id2', sep="\t", index=False,
                                                  header=False)
@@ -110,11 +107,11 @@ def extract_info(s,kmer,f_all,f_prepare_meta,cv,level,n_jobs,f_ml,f_phylotree,f_
                 antibiotics=['amikacin','capreomycin','ethiomide','ethionamide','kanamycin','ofloxacin','rifampin','streptomycin']
 
 
-            
+            # antibiotics=antibiotics[12:]
             for anti in antibiotics:
                 print(anti)
                 for chosen_cl in ['svm', 'lr','rf']:
-                
+                # for chosen_cl in ['rf']:
                     hyper_space, cl = hyper_range(chosen_cl)
 
                     mcc_test = []  # MCC results for the test data

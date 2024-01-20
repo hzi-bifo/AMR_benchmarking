@@ -27,13 +27,10 @@ def extract_info(path_sequence, list_species,f_all, f_prepare_meta ,level, temp_
         data = data.loc[list_species, :]
         data = data.loc[:, (data.sum() > 1)]
     data = data.loc[:, (data != 0).any(axis=0)]
-    # All_antibiotics = data.columns.tolist()
     df_anti = data.dot(data.columns + ';').str.rstrip(';')
     for n in list_species:
         merge_name.append(n[0] + n.split(' ')[1][0])
-    # merge_name = '_'.join(merge_name)  # e.g.Se_Kp_Pa
-    # print(data)
-    # print(df_anti)
+
 
     if f_prepare_meta:
         # prepare the anti list and id list for each species, antibiotic, and CV folders.

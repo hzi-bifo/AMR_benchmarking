@@ -139,9 +139,8 @@ def extract_info(path_sequence,temp_path,s,f_all,f_prepare_meta, f_phylotree, f_
                 for chosen_cl in ['svm','lr', 'rf','lsvm']:
                     _, _,save_name_score=name_utility.GETname_model('seq2geno', level,species, anti,chosen_cl,temp_path)
                     file_utility.make_dir(os.path.dirname(save_name_score))
-
                     hyper_space,cl=hyper_range.hyper_range(chosen_cl)
-                    # 1. by each classifier.2. by outer loop. 3. by inner loop. 4. by each hyper-para
+                    
 
                     mcc_test = []  # MCC results for the test data
                     f1_test = []
@@ -157,7 +156,7 @@ def extract_info(path_sequence,temp_path,s,f_all,f_prepare_meta, f_phylotree, f_
                     estimator_test=[]
 
 
-
+		    ## Loop 1. by each classifier.2. by outer loop. 3. by inner loop. 4. by each hyper-para
                     for out_cv in range(cv):
                         print(species,anti,'. Starting outer: ', str(out_cv), '; chosen_cl: ', chosen_cl)
 
