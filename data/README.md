@@ -1,5 +1,5 @@
 # Data preprocessing tutorial
-Welcome to the tutorial on data preprocessing. This tutorial guides you through the procedures for creating 78 datasets from the PATRIC genome database.
+Welcome to the tutorial on data preprocessing. This tutorial guides you through the procedures for creating <a href="https://github.com/hzi-bifo/AMR_benchmarking/wiki/Datasets-overview">78 datasets</a> from the PATRIC genome database.
 
 ## Table of Contents
 - [1. Download metadata from PATRIC FTP](#1) 
