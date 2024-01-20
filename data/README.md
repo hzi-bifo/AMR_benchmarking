@@ -3,32 +3,40 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 
 ## Table of Contents
 - [1. Download metadata from PATRIC FTP](#1) 
-- [2. Filter species and antibiotic](#2) 
-- [3. Filter genomes / Genome quality control](#3)
-- [4. Filter datasets](#4)
-- [5. Download genome sequences from the PATRIC database](#5)
+- [2. Filter species and antibiotic](#2)
+- [3. Download genome quality information](#2)
+- [4. Filter genomes](#4)
+- [5. Filter datasets](#5)
+- [6. Download genome sequences from the PATRIC database](#6)
 
 ## <a name="1"></a>1. Download metadata from PATRIC FTP
-- Download `PATRIC_genomes_AMR.txt` from https://docs.patricbrc.org/user_guides/ftp.html or find a  <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/data/PATRIC/PATRIC_genomes_AMR.txt">version</a> downloaded by us in Dec 2020.
+- Download `PATRIC_genomes_AMR.txt` from https://docs.patricbrc.org/user_guides/ftp.html or find a <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/data/PATRIC/PATRIC_genomes_AMR.txt">version</a> downloaded by us in Dec 2020.
+
 
 ## <a name="2"></a>2. Filtering species and antibiotic
 
  to species and antibiotic filtering based on phenotype metadata availability
 
-## <a name="3"></a>3. Filter genomes
+## <a name="3"></a>3. Download genome quality information
+- Download quality attribute tables or find <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/quality">versions</a> downloaded by us    for quality control(QC).
+```
+p3-all-genomes --eq genus,Escherichia --eq species,coli -a genome_name,genome_status,genome_length,genome_quality,plasmids,contigs,fine_consistency,coarse_consistency,checkm_completeness,checkm_contamination >  Escherichia_coli.csv
+```
+
+## <a name="4"></a>4. Filter genomes
 
 genome quality
 
 
 
 
-## <a name="4"></a>4. Filter datasets
+## <a name="5"></a>5. Filter datasets
 
 
  (data size machine learning model )
 
 
-## <a name="5"></a>5. Download genome sequences from the PATRIC database
+## <a name="6"></a>6. Download genome sequences from the PATRIC database
 
 ```sh
 ${data_dir}=<path_to_directory_to_save_enomes>
