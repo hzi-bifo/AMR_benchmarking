@@ -5,7 +5,7 @@ import lib.metadata,lib.quality,lib.summary
 
 def workflow(level,logfile,temp_path):
 
-    #   QC
+    ## genome quality control
     lib.quality.extract_id_quality(temp_path,level)
     lib.quality.filter_quality(level,False) #False indicates No extra sampling handling related to imbalance dataset.
 
