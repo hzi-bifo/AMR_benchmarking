@@ -164,8 +164,9 @@ def extract_id_quality(temp_path,level):
 ```
 
 ## <a name="5"></a>5. Filter out genomes with ill-annotated phenotypes; filter datasets by genome numbers
-
--  
+- 5.1 Drop genomes with phenotype annotated as 'Intermediate''Not defined'
+- 5.2 Drop genomes with phenotype ill-annotated. Those genomes are annotated with different phenotypes for the same antibiotic.
+- 5.3 
 
 ```python
 
