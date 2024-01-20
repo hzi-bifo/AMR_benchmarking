@@ -9,7 +9,14 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
     
 ## <a name="1"></a>1. Download genome sequences from the PATRIC database
 
-
+```sh
+for i in `cat ./doc/genome_list`;do
+    if [ ! -f "$i/$i.fna" ]; then
+	 printf 'Downloading (%s)\n' "$i/$i.fna"
+         wget -qN "ftp://ftp.patricbrc.org/genomes/$i/$i.fna" -P ${data_dir}
+    fi
+done
+```
 
 
 
