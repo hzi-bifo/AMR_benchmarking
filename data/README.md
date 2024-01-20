@@ -13,7 +13,7 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 ## <a name="1"></a>1. Download metadata from PATRIC FTP
 - Download `PATRIC_genomes_AMR.txt` from https://docs.patricbrc.org/user_guides/ftp.html or find a <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/data/PATRIC/PATRIC_genomes_AMR.txt">version</a> downloaded by us in Dec 2020
 
-## <a name="2"></a>2. Filtering species and antibiotic by genome number
+## <a name="2"></a>2. Filtering species and antibiotics by genome number
 - This procedure can be achieved by running one Python file composed of steps 2.1-2.4
 ```console
 python ./src/data_preprocess/preprocess.py
@@ -124,7 +124,7 @@ def criteria(species, df,level):
     df = df.reset_index(drop=True)
     return df
 ```
-- 4.2 From the genome list generated in step 2.4, extract those genomes in compliance with the criteria in 4.1; Filter out species with no more than 200 genomes.
+- 4.2 From the genome list generated in step 2.4, extract those genomes in compliance with the criteria in 4.1. After quality control, filter out species with no more than 200 genomes.
 	- This results in 11 species: **<em>Escherichia coli, Staphylococcus aureus, Salmonella enterica, Enterococcus faecium, Campylobacter jejuni, Neisseria gonorrhoeae, Klebsiella pneumoniae, Pseudomonas aeruginosa, Acinetobacter baumannii,  Streptococcus pneumoniae, Mycobacterium tuberculosis </em>**
 ```python
 def extract_id_quality(temp_path,level):
@@ -165,7 +165,7 @@ def extract_id_quality(temp_path,level):
 
 ## <a name="5"></a>5. Filter datasets by genome number
 
--  (data size machine learning model )
+-  
 
 ```python
 
