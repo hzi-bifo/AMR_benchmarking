@@ -36,6 +36,7 @@ echo "Please check if Env created."
 #2.PATRIC Data
 #-------------------------------------------
 ###  The tutorials on creating datasets from scratch can be found here: https://github.com/hzi-bifo/AMR_benchmarking/edit/main/data/README.md
+### You don't need to create the benchmarking datasets, we have incorporated them in this GitHub repo
 
 ## 2.1 PATRIC Data download
 bash ./scripts/data_preprocess/retrieve_PATRIC_data.sh ${dataset_location}
