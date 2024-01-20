@@ -19,12 +19,12 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 
 ## <a name="3"></a>3. Download genome quality information
 - Download quality attribute tables for the 13 selected species from Step 2
-- Alternatively, find <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/quality">versions</a> downloaded by us    for quality control(QC).
 
-Example: download the <em>E. coli</em> genome quality attributes from PATRIC database
+	- Example: download the <em>E. coli</em> genome quality attributes from PATRIC database
 ```sh
 p3-all-genomes --eq genus,Escherichia --eq species,coli -a genome_name,genome_status,genome_length,genome_quality,plasmids,contigs,fine_consistency,coarse_consistency,checkm_completeness,checkm_contamination >  Escherichia_coli.csv
 ```
+- Alternatively, find <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/quality">versions</a> downloaded by us
 
 ## <a name="4"></a>4. Filter genomes
 
