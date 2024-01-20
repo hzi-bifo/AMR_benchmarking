@@ -35,15 +35,8 @@ echo "Please check if Env created."
 #-------------------------------------------
 #2.PATRIC Data
 #-------------------------------------------
-#Download  PATRIC_genomes_AMR.txt from https://docs.patricbrc.org/user_guides/ftp.html on Dec. 2020.
-#Download quality attribute tables using p3-all-genomes, saved at : ./data/PATRIC/quality/${species}.csv, for quality control(QC).
-#Based on above mentioned materials, we conducted a pre-selection(selecion based only on sample numbers w.r.t. each species) and QC, and then downloaded the data based on the pre-selection.
-# We use the dataset based on QC.
+###  The tutorials on creating datasets from scratch can be found here: https://github.com/hzi-bifo/AMR_benchmarking/edit/main/data/README.md
 
-#2.0 Quality control  (You can skip this step, as we provided the sample list after pre-selection &  QC: ./data/PATRIC/meta)
-### If you want to go through the pre-selection & QC, and re-generate the list. Note: this step will update the ./data/PATRIC/meta folder.
-#bash ./scripts/data/preprocess.sh
-#
 ## 2.1 PATRIC Data download
 bash ./scripts/data_preprocess/retrieve_PATRIC_data.sh ${dataset_location}
 
