@@ -125,7 +125,7 @@ def criteria(species, df,level):
     return df
 ```
 - 4.2 From genomes in step 2.4, extract those genomes in compliance with the criteria in 4.1
-
+	- This results in 11 species: <em>Escherichia coli, Staphylococcus aureus, Salmonella enterica, Enterococcus faecium, Campylobacter jejuni, Neisseria gonorrhoeae, Klebsiella pneumoniae, Pseudomonas aeruginosa, Acinetobacter baumannii,  Streptococcus pneumoniae, Mycobacterium tuberculosis </em>
 ```python
 def extract_id_quality(temp_path,level):
     '''
