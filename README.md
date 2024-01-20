@@ -66,7 +66,7 @@ The input file is a YAML file `Config.yaml` at the root folder where all options
 
 | option | action | values ([default])|
 | ------------- | ------------- |------------- |
-|data_location| To where the PATRIC data will be downloaded. ~246G| /vol/projects/BIFO/patric_genome|
+|dataset_location| To where the PATRIC data will be downloaded. ~246G| /vol/projects/BIFO/patric_genome|
 |output_path| To where to generate the `Results` folder for the direct results of each software and further visualization. | ./|
 |log_path| To where to generate the `log` folder for the intermediate files (~10 TB, while regularly cleaning files related to completed benchmarking species). | ./|
 |n_jobs| CPU cores (>1) to use. | 10 |
