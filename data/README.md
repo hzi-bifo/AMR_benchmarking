@@ -117,7 +117,7 @@ def criteria(species, df,level):
     mean_genome_l = df["genome.genome_length"].mean()
     ### filter abs(genome length - mean length) <= mean length/20'''
     df = df[abs(df['genome.genome_length'] - mean_genome_l) <= mean_genome_l / 20]
-    if species == 'Pseudomonas aeruginosa':  # Pseudomonas_aeruginosa add on the genomes from S2G2P paper.
+    if species == 'Pseudomonas aeruginosa':  ## Pseudomonas_aeruginosa: add on the genomes from the Ariane Khaledi et al. EMBO molecular medicine 12.3 (2020) article.
         pa_add = pd.read_csv('./data/PATRIC/Pseudomonas_aeruginosa_add.txt', dtype={'genome.genome_id': object}, header=0)
         df = df.append(pa_add, sort=False)
         df = df.drop_duplicates(subset=['genome.genome_id'])
