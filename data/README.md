@@ -30,7 +30,7 @@ def summarise_strain(temp_path):
     list = data.loc[:, ("genome_id", "genome_name")]
     list = list.groupby(by="genome_id")
     summary = list.describe()
-    summary.to_csv(temp_path + 'list_strain.txt', sep="\t")  ## contain 67836 genomes strains and 99 species.
+    summary.to_csv(temp_path + 'list_strain.txt', sep="\t")  ## contain 67836 genomes strains 
 ```
 - 2.2  list all the species
 ```
@@ -47,7 +47,7 @@ def summarise_species(temp_path):
     # make a summary by strain
     data_s = data.groupby(by="species")
     summary_species = data_s.describe()
-    summary_species.to_csv(temp_path + 'list_species.txt', sep="\t")  # list of all species
+    summary_species.to_csv(temp_path + 'list_species.txt', sep="\t")  # list of all species. Number: 99.
 ```
 - 2.3 Filter out those species-antibiotic combinations with less than 500 genomes.
 	- This results in 13 species:<sub> <em>Mycobacterium tuberculosis, Salmonella enterica, 
