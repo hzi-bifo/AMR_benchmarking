@@ -82,6 +82,7 @@ class AMR_software():
         df_species,antibiotics=extract_infor(self.level,self.f_all,self.s,self.temp_path,self.software_name)
         for species, antibiotics in zip(df_species, antibiotics):
             antibiotics, _, _ =  load_data.extract_info(species, False, self.level)
+            pd.DataFrame(antibiotics).to_csv('<path_to_feature>', sep="\t", index=False, header=False)
             for anti in antibiotics:
                 name,_,_ = name_utility.GETname_model(self.software_name,self.level, species, anti,'',self.temp_path)
                 phenotype_list = pd.read_csv(name, index_col=0, dtype={'genome_id': object}, sep="\t")
@@ -129,7 +130,7 @@ class AMR_software():
                 data_feature=pd.read_csv('<path_to_feature>', index_col=0,sep="\t")                                
                 '''
 
-                X_all = pd.concat([X_all, data_feature.reindex(X_all.index)], axis=1) ## load the matrix
+                X_all = pd.concat([X_all, data_feature.reindex(X_all.index)], axis=1) ## load the feature matrix
                 id_all = np.array(id_all)
                 y_all = np.array(y_all)
 
@@ -168,14 +169,14 @@ class AMR_software():
                     for out_cv in range(self.cv): ## outer loop of nested CV
                         print(species,anti,'. Starting outer: ', str(out_cv), '; chosen_cl: ', chosen_cl)
 
-                        test_samples_index = folders_index[out_cv] ## a list of index
-                        id_test = id_all[test_samples_index]  ## sample name list
-                        y_test = y_all[test_samples_index] ## 
-                        train_val_train_index =folders_index[:out_cv] +folders_index[out_cv + 1:]
-                        id_val_train = id_all[list(itertools.chain.from_iterable(train_val_train_index))]  # sample name list
-                        y_val_train = y_all[list(itertools.chain.from_iterable(train_val_train_index))]
-                        X_val_train=X_all.loc[id_val_train,:]
-                        X_test=X_all.loc[id_test,:]
+                        test_samples_index = folders_index[out_cv] ## a list of index of the test fold
+                        id_test = id_all[test_samples_index]  ## sample name list of the test fold
+                        y_test = y_all[test_samples_index] ## ground truth phenotype
+                        train_val_index =folders_index[:out_cv] +folders_index[out_cv + 1:] ## 9 folds involved in inner loop for CV
+                        id_val_train = id_all[list(itertools.chain.from_iterable(train_val_index))]  ## sample name list of the 9 folds
+                        y_val_train = y_all[list(itertools.chain.from_iterable(train_val_index))] ## phenotype of the 9 folds
+                        X_val_train=X_all.loc[id_val_train,:] ## feature matrix of samples from the 9 folds
+                        X_test=X_all.loc[id_test,:] ##  feature matrix of samples of the test fold
 
                         '''
                         ! [Please specify the model's classifiers' hyperparameter selection range here. ] 
@@ -198,10 +199,11 @@ class AMR_software():
                         ## for neural networks model, this should be replaced with a hyperparameter optimization procedure accompanied by early stopping
                         ## (see function training in AMR_software/AytanAktug/nn/hyperpara.py)
                         ###############################################################################################
+                        ### Grid search for hyperparameter selection
                         pipe = Pipeline(steps=[('cl', cl)])
                         search = GridSearchCV(estimator=pipe, param_grid=hyper_space, n_jobs=self.n_jobs,
                                                   scoring='f1_macro',
-                                                  cv=create_generator(train_val_train_index), refit=True)
+                                                  cv=create_generator(train_val_index), refit=True)
 
 
                         search.fit(X_all, y_all)
@@ -210,13 +212,12 @@ class AMR_software():
                         index_best=search.best_index_
                         cv_results=search.cv_results_
                         current_pipe=hyperparameters_test_sub
-                        ###############################################################################################
 
-
-
-                        # retrain on train and val
+                        # retrain on train and validation data using the optimal hyperparameters
                         current_pipe.fit(X_val_train, y_val_train)
                         y_test_pred = current_pipe.predict(X_test)
+                        ###############################################################################################
+
 
                         # calculate metric scores
                         f1 = f1_score(y_test, y_test_pred, average='macro')
@@ -237,7 +238,7 @@ class AMR_software():
                         sampleNames_test.append(folders_sample[out_cv])
                         estimator_test.append(current_pipe)
 
-
+                    ### Save metric scores and other model evaluation information
                     score ={'f1_test':f1_test,'score_report_test':score_report_test,'aucs_test':aucs_test,'mcc_test':mcc_test,
                          'predictY_test':predictY_test,'ture_Y':true_Y,'samples':sampleNames_test}
                     score2= {'hyperparameters_test':hyperparameters_test,'estimator_test':estimator_test,
@@ -248,6 +249,59 @@ class AMR_software():
                     with open(save_name_score + '_kma_' + str(self.f_kma) + '_tree_' + str(self.f_phylotree) + '_model.pickle',
                               'wb') as f:  # overwrite mode
                         pickle.dump(score2, f)
+
+
+
+
+    def prepare_feature_val(self):
+        '''
+        This feature-preparing procedure is for ML models
+        1) possessing an inherent hyperparameter optimization process, which means nested CV is not needed;
+        but 2) encompassing several classifiers, which means we should still design a CV on the 9 training folds at each iteration
+        to select the optimal classifier
+        '''
+
+        df_species,antibiotics=extract_infor(self.level,self.f_all,self.s,self.temp_path,self.software_name)
+        for species, antibiotics in zip(df_species, antibiotics):
+            ### load antibiotics for this species; load sample PATRIC IDs for this species-antibiotic combination
+            antibiotics, ID, _ =  load_data.extract_info(species, False, self.level)
+            i_anti = 0
+
+            for anti in antibiotics:
+                id_all = ID[i_anti]  # sample names of all the 10 folds
+                i_anti += 1
+                id_all = np.array(id_all)
+
+                ### 1. load CV folds
+                p_names = name_utility.GETname_meta(species,anti,self.level)
+                folds_txt=name_utility.GETname_folds(species,anti,self.level,self.f_kma,self.f_phylotree)
+                folders_sample = json.load(open(folds_txt, "rb"))
+                folders_index=name2index.Get_index(folders_sample,p_names) # CV folds
+
+                for out_cv in range(self.cv):
+                    test_samples_index = folders_index[out_cv]
+                    train_val_train_index = folders_index[:out_cv] + folders_index[out_cv + 1:]
+
+                    for inner_cv in range(self.cv-1):
+                        val_index=train_val_train_index[inner_cv]
+                        train_index=train_val_train_index[:inner_cv] + train_val_train_index[inner_cv+1 :]
+                        id_train = id_all[list(itertools.chain.from_iterable(train_index))]  ## sample name list of CV training set
+                        id_val = id_all[val_index]  ## sample name list of CV test set
+
+                        #################################################################################################
+                        ## genome sequence location. Please use this information to load in sequence for building feature matrix.
+                        sequence_train=[str(self.path_sequence) +'/'+ genome_id.astype(str)+'.fna' for genome_id in id_train]
+                        sequence_testn=[str(self.path_sequence) +'/'+ genome_id.astype(str)+'.fna' for genome_id in id_val]
+                        '''
+                        2. prepare meta/feature files for this iteration of training samples
+                         only retain those in the training and validation CV folds    
+                                            
+                         ![Please here add your codes for building features]                    
+                        
+                         '''
+                        ## save the feature matrix to a folder under temp_path
+                        data_feature.to_csv('<path_to_feature>', sep="\t")
+                        #################################################################################################
 
 
 
