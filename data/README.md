@@ -15,8 +15,10 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 
 ## <a name="2"></a>2. Filtering species and antibiotic
 
-```./src/data_preprocess/preprocess.py```
--   phenotype metadata availability
+```console
+python ./src/data_preprocess/preprocess.py
+```
+- 2.1  phenotype metadata availability
 ```python
 import pandas as pd
 from  src.amr_utility import name_utility
