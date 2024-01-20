@@ -50,8 +50,8 @@ def summarise_species(temp_path):
     summary_species.to_csv(temp_path + 'list_species.txt', sep="\t")  # list of all species
 ```
 - 2.3 Filter out those species-antibiotic combinations with less than 500 genomes.
-	- This results in 13 species: <em>Mycobacterium tuberculosis, Salmonella enterica, 
-	Streptococcus pneumonia, Neisseria gonorrhoeae, Escherichia coli, Staphylococcus aureus, Klebsiella pneumonia, Enterococcus faecium, Acinetobacter baumannii, 		Pseudomonas aeruginosa, Shigella sonnei, Enterobacter cloacae, Campylobacter jejuni</em>.
+	- This results in 13 species:<sub> <em>Mycobacterium tuberculosis, Salmonella enterica, 
+	Streptococcus pneumonia, Neisseria gonorrhoeae, Escherichia coli, Staphylococcus aureus, Klebsiella pneumonia, Enterococcus faecium, Acinetobacter baumannii, 		Pseudomonas aeruginosa, Shigella sonnei, Enterobacter cloacae, Campylobacter jejuni</em></sub>.
 ```
 def sorting_deleting(N, temp_path): ## N=500
     '''retain only this that has >=N strains for a specific antibiotic w.r.t. a species'''
