@@ -21,7 +21,7 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 - Download quality attribute tables for the 13 selected species from Step 2
 
 	- Example: download the <em>E. coli</em> genome quality attributes from PATRIC database
-```sh
+```console
 p3-all-genomes --eq genus,Escherichia --eq species,coli -a genome_name,genome_status,genome_length,genome_quality,plasmids,contigs,fine_consistency,coarse_consistency,checkm_completeness,checkm_contamination >  Escherichia_coli.csv
 ```
 - Alternatively, find <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/quality">versions</a> downloaded by us
