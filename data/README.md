@@ -14,7 +14,7 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 - Download `PATRIC_genomes_AMR.txt` from https://docs.patricbrc.org/user_guides/ftp.html or find a <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/data/PATRIC/PATRIC_genomes_AMR.txt">version</a> downloaded by us in Dec 2020
 
 ## <a name="2"></a>2. Filtering species and antibiotics by genome number
-- This procedure can be achieved by running one Python file composed of steps 2.1-2.4
+- This procedure can be achieved by running one Python file composed of steps 2.1-2.4  TODO!!!!!!!!!!!!!!
 ```console
 python ./src/data_preprocess/preprocess.py
 ```
