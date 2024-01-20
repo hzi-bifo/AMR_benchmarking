@@ -124,7 +124,7 @@ def criteria(species, df,level):
     df = df.reset_index(drop=True)
     return df
 ```
-- 4.2 From genomes in step 2.4, extract those genomes in compliance with the criteria in 4.1; Filter out species with no more than 200 genomes.
+- 4.2 From the genome list generated in step 2.4, extract those genomes in compliance with the criteria in 4.1; Filter out species with no more than 200 genomes.
 	- This results in 11 species: **<em>Escherichia coli, Staphylococcus aureus, Salmonella enterica, Enterococcus faecium, Campylobacter jejuni, Neisseria gonorrhoeae, Klebsiella pneumoniae, Pseudomonas aeruginosa, Acinetobacter baumannii,  Streptococcus pneumoniae, Mycobacterium tuberculosis </em>**
 ```python
 def extract_id_quality(temp_path,level):
