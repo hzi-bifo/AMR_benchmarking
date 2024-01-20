@@ -3,7 +3,7 @@
 species="$1"
 feature_path="$2"
 n_jobs="$3"
-n_jobs=2
+
 readarray -t Anti_List <  ${feature_path}/${species}/anti_list
 
 for anti in ${Anti_List[@]};do
@@ -47,8 +47,7 @@ for anti in ${Anti_List[@]};do
     done
 
     wait
-##
-##
+
     for j in {0..9};do
         for i in  {0..8};do
      ./AMR_software/Kover/bin/kover learn scm --dataset ${feature_path}/${species}/${anti}_koverdataset_${j}_${i}
