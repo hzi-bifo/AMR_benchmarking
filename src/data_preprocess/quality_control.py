@@ -8,7 +8,7 @@ def workflow(level,logfile,temp_path):
     #   QC
     lib.quality.extract_id_quality(temp_path,level)
     lib.quality.filter_quality(level,False) #False indicates No extra sampling handling related to imbalance dataset.
-    lib.metadata.extract_multi_model_summary(level)#multi-species model metadata
+
 
 
 

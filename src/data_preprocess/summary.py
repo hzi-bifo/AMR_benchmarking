@@ -8,11 +8,13 @@ import pandas as pd
 
 def workflow(level,logfile,temp_path):
 
+    ## multi-species model metadata
+    lib.metadata.extract_multi_model_summary(level)
 
-    # get genome number. Print to the console.
+    ##  get genome number. Print to the console.
     lib.summary.summary_genome(level)
 
-    # get genome number per combination. Save to ./data/PATRIC/meta/'+str(level)+'_genomeNumber/
+    ## get genome number per combination. Save to ./data/PATRIC/meta/'+str(level)+'_genomeNumber/
     file_utility.make_dir('./data/PATRIC/meta/'+str(level)+'_genomeNumber')
     main_meta,_=name_utility.GETname_main_meta(level)
     data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
