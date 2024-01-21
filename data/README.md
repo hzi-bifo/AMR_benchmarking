@@ -206,11 +206,14 @@ def count():
         lib.summary.summary_pheno(species,level)
 ```
 
--
+- Build the multi-species-antibiotic dataset, selecting antibiotics that are shared by multiple species-antibiotic combinations
 ```python
 def extract_multi_model_summary(level):
-    # Check which species' metadata share the same antibiotic.
-    # This can be done after the quality control and filter.
+    '''
+    This function builds the multi-species-antibiotic dataset    
+    '''
+    # check which species' metadata share the same antibiotic.
+    # This should be done after the quality control and filter.
     main_meta,main_multi_meta=name_utility.GETname_main_meta(level)
     data = pd.read_csv(main_meta, index_col=0,
                        dtype={'genome_id': object}, sep="\t")
@@ -228,8 +231,13 @@ def extract_multi_model_summary(level):
     summary = summary[(summary.T != 0).any()]  # drops rows(bacteria) where all zero
     summary.loc['Total'] = summary.sum()
     summary.to_csv(main_multi_meta, sep="\t")
-
+```
+-  Calculates the multi-species-antibiotic dataset size
+```python
 def extract_multi_model_size(level):
+    '''
+    This function calculates the data size of the multi-species-antibiotic dataset
+    '''
     _,main_multi_meta=name_utility.GETname_main_meta(level)
     data = pd.read_csv(main_multi_meta, index_col=0, sep="\t")
     data_size=pd.DataFrame(index=data.index, columns=data.columns)  # initialize for visualization
