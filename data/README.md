@@ -69,10 +69,10 @@ def sorting_deleting(N, temp_path): ## N=500
     data.to_csv(temp_path + 'list_species_final_bq.txt', sep="\t")  # list of all species selected by 1st round.
   ```
 
- - 2.14  Extract PATRIC IDs of the 13 species' genomes
+ - 2.14  Extract genome PATRIC IDs for each of the 13 species, respectively
 ```python
 def extract_id(temp_path):
-    '''extract (useful) patric id to genome_list
+    '''extract (useful) PATRIC id to genome_list
     before quality control'''
     data = pd.read_csv(temp_path + 'list_temp.txt', dtype={'genome_id': object}, sep="\t")
     df_species = pd.read_csv(temp_path + 'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t", header=0)
@@ -87,9 +87,10 @@ def extract_id(temp_path):
 ```
 
 ## <a name="2.2"></a>2.2 Download genome quality information
-- Download quality attribute tables for the 13 selected species from Step 2.13
+- Download quality attribute tables for the 13 selected species from Step 2.13. 
 
 	- Example: download the <em>E. coli</em> genome quality attributes from PATRIC database
+ 	- Note that this will download all the genomes with and without AMR metadata 
 ```console
 p3-all-genomes --eq genus,Escherichia --eq species,coli -a genome_name,genome_status,genome_length,genome_quality,plasmids,contigs,fine_consistency,coarse_consistency,checkm_completeness,checkm_contamination >  data/PATRIC/quality/Escherichia_coli.csv
 ```
@@ -107,9 +108,9 @@ python ./src/data_preprocess/quality_control.py
 ```python
 def criteria(species, df,level):
     '''
-    :param df: (dataframe) ID with quality metadata
+    :param df: (pandas dataframe) genome ID  with quality metadata
     :param level: quality control level. In this AMR benchmarking study, we apply the "loose" level. 
-    :return: (dataframe)ID  with quality control applied.
+    :return: (pandas dataframe) genome ID   with good quality
     '''
  
     df = df[(df['genome.genome_status'] != 'Plasmid') & (df['genome.genome_quality'] == 'Good') & (
@@ -128,7 +129,7 @@ def criteria(species, df,level):
     df = df.reset_index(drop=True)
     return df
 ```
-- 2.32 From the genome list generated in step 2.4, extract those genomes in compliance with the criteria in 4.1. After quality control, filter out species with no more than 200 genomes.
+- 2.32 From the genome list generated in step 2.14, extract those genomes in compliance with the criteria in 2.31. In other words, we perform an intersection operation of the pandas DataFrames from 2.14 and 2.31. After quality control, filter out species with no more than 200 genomes.
 	- This results in 11 species: **<em>Escherichia coli, Staphylococcus aureus, Salmonella enterica, Enterococcus faecium, Campylobacter jejuni, Neisseria gonorrhoeae, Klebsiella pneumoniae, Pseudomonas aeruginosa, Acinetobacter baumannii,  Streptococcus pneumoniae, Mycobacterium tuberculosis </em>**
 ```python
 def extract_id_quality(temp_path,level):
