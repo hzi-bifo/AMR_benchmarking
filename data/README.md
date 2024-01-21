@@ -1,18 +1,20 @@
-# Data preprocessing tutorial
+# Tutorials for creating AMR benchmarking datasets 
 Welcome to the tutorial on data preprocessing. This tutorial guides you through the procedures for creating <a href="https://github.com/hzi-bifo/AMR_benchmarking/wiki/Dataset-overview">78 AMR phenotyping benchmarking datasets</a> from the <a href="https://www.bv-brc.org/">PATRIC</a> genome database.
 
 ## Table of Contents
 - [1. Download metadata from PATRIC FTP](#1)
-- [2. Filter species and antibiotic by genome number](#2)
-- [3. Download genome quality information](#2)
-- [4. Filter genomes by genome quality](#4)
-- [5. Filter out genomes with ill-annotated phenotypes; filter datasets by genome numbers](#5)
-- [6. Download genome sequences from the PATRIC database](#6)
-- [7. Others: dataset summary](#7)
+- [1. Data preprocessing](#2)
+	- [2.1 Filter species and antibiotic by genome number](#2.1)
+	- [2.2 Download genome quality information](#2.2)
+	- [2.3 Filter genomes by genome quality](#2.3)
+	- [2.4 Filter out genomes with ill-annotated phenotypes; filter datasets by genome numbers](#2.4)
+	- [2.5 Others: dataset summary, multi-species dataset](#2.5)
+- [6. Download genome sequences from the PATRIC database](#3)
+
 
 ## <a name="1"></a>1. Download metadata from PATRIC FTP
 - Download `PATRIC_genomes_AMR.txt` from https://docs.patricbrc.org/user_guides/ftp.html or find a <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/data/PATRIC/PATRIC_genomes_AMR.txt">version</a> downloaded by us in Dec 2020
-
+## <a name="2"></a>2. Data preprocessing
 ## <a name="2"></a>2. Filtering species and antibiotics by genome number
 - This procedure can be achieved by running one Python file composed of steps 2.1-2.4  **TODO!!!!!!!!!!!!!!**
 ```console
