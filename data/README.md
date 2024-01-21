@@ -130,6 +130,7 @@ def criteria(species, df,level):
 def extract_id_quality(temp_path,level):
     '''
     input: downloaded quality metadata, saved at the subdirectory: /quality.
+    output: selected 11 species, and good-quality genome list
     '''
 
     df=pd.read_csv(temp_path+'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t", header=0)
@@ -141,16 +142,16 @@ def extract_id_quality(temp_path,level):
         df=pd.read_csv(save_all_quality,dtype={'genome.genome_id': object, 'genome.genome_name': object}, sep="\t")
         number_All.append(df.shape[0])
         #=======================
-        #Apply QC criteria
-        df=criteria(species, df, level)
+        # Apply QC criteria
+        df_quality=criteria(species, df, level)
         # =========================
-        # save the selected genome ID
+        # Save the selected genome ID of each species to TXT file.
         #=====================
-        df.to_csv(save_quality, sep="\t") #'quality/GenomeFineQuality_' + str(species.replace(" ", "_")) + '.txt'
-        number_FineQuality.append(df.shape[0])
+        df_quality.to_csv(save_quality, sep="\t") #'quality/GenomeFineQuality_' + str(species.replace(" ", "_")) + '.txt'
+        number_FineQuality.append(df_quality.shape[0])
 
 
-    ### Load 13 species selected (before QC) by genome number
+    ### load 13 species selected (before QC) by genome number
     count_quality = pd.DataFrame(list(zip(number_All, number_FineQuality)), index=info_species, columns=['Number of genomes','Number of fine quality genomes'])
     count_species = pd.read_csv(temp_path+'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t",
                              header=0,index_col='species')
