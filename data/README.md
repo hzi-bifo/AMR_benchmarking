@@ -22,7 +22,7 @@ python ./src/data_preprocess/preprocess.py
 ```
 ### <a name="2.1"></a>2.1 Filtering species and antibiotics by genome number
 
-- 2.1 Calculate the total number of genomes 
+- 2.11 Calculate the total number of genomes 
 ```python
 import pandas as pd
 from  src.amr_utility import name_utility
@@ -36,7 +36,7 @@ def summarise_strain(temp_path):
     summary = list.describe()
     summary.to_csv(temp_path + 'list_strain.txt', sep="\t")  ## contain 67836 genomes strains 
 ```
-- 2.2  List all the species
+- 2.12  List all the species
 ```python
 def summarise_species(temp_path):
     '''summerise the species info'''
@@ -53,7 +53,7 @@ def summarise_species(temp_path):
     summary_species = data_s.describe()
     summary_species.to_csv(temp_path + 'list_species.txt', sep="\t")  # list of all species. Number: 99.
 ```
-- 2.3 Filter out those species-antibiotic combinations with less than 500 genomes.
+- 2.13 Filter out those species-antibiotic combinations with less than 500 genomes.
 	- This results in 13 species:<sub> <em>Mycobacterium tuberculosis, Salmonella enterica, 
 	Streptococcus pneumonia, Neisseria gonorrhoeae, Escherichia coli, Staphylococcus aureus, Klebsiella pneumonia, Enterococcus faecium, Acinetobacter baumannii, 		Pseudomonas aeruginosa, Shigella sonnei, Enterobacter cloacae, Campylobacter jejuni</em></sub>.
 ```python
@@ -69,7 +69,7 @@ def sorting_deleting(N, temp_path): ## N=500
     data.to_csv(temp_path + 'list_species_final_bq.txt', sep="\t")  # list of all species selected by 1st round.
   ```
 
- - 2.4  Extract PATRIC IDs of the 13 species' genomes
+ - 2.14  Extract PATRIC IDs of the 13 species' genomes
 ```python
 def extract_id(temp_path):
     '''extract (useful) patric id to genome_list
@@ -86,8 +86,8 @@ def extract_id(temp_path):
                          header=False)  ### all the genome ID should be downloaded.
 ```
 
-## <a name="3"></a>3. Download genome quality information
-- Download quality attribute tables for the 13 selected species from Step 2.3
+## <a name="2.2"></a>2.2 Download genome quality information
+- Download quality attribute tables for the 13 selected species from Step 2.13
 
 	- Example: download the <em>E. coli</em> genome quality attributes from PATRIC database
 ```console
@@ -95,14 +95,14 @@ p3-all-genomes --eq genus,Escherichia --eq species,coli -a genome_name,genome_st
 ```
 - Alternatively, find <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/quality">versions</a> downloaded by us around Dec 2020
 
-## <a name="4"></a>4. Filter genomes by genome quality 
+## <a name="2.3"></a>2.3 Filter genomes by genome quality 
 
 - This procedure and the next procedure (5. Filter datasets) can be achieved by running one Python file **TODO!!!!!!!!!!!!!!**
 ```console
 python ./src/data_preprocess/quality_control.py
 ```
 
-- 4.1  Define thresholds for quality attributes: A. (1) sequence data is not plasmid-only; (2) genome quality (provided by PATRIC) is Good; (3) contig count is limited to the greater of either 100 or 0.75 quantiles of the contig count across all genomes of the same specie; (4) fine consistency (provided by PATRIC) higher than 97%; (5) coarse consistency (provided by PATRIC) higher than 98%; (6) completeness (provided by PATRIC) higher than 98% and contamination (provided by PATRIC) lower than 2%, or one of them is null value with the other one meets the criteria. B. For each species, we computed the mean genome length of the selected genomes from step A, and then we retained genomes with lengths within the range of one-twentieth of the calculated mean from the calculated mean. 
+- 2.31  Define thresholds for quality attributes: A. (1) sequence data is not plasmid-only; (2) genome quality (provided by PATRIC) is Good; (3) contig count is limited to the greater of either 100 or 0.75 quantiles of the contig count across all genomes of the same specie; (4) fine consistency (provided by PATRIC) higher than 97%; (5) coarse consistency (provided by PATRIC) higher than 98%; (6) completeness (provided by PATRIC) higher than 98% and contamination (provided by PATRIC) lower than 2%, or one of them is null value with the other one meets the criteria. B. For each species, we computed the mean genome length of the selected genomes from step A, and then we retained genomes with lengths within the range of one-twentieth of the calculated mean from the calculated mean. 
 
 ```python
 def criteria(species, df,level):
@@ -128,7 +128,7 @@ def criteria(species, df,level):
     df = df.reset_index(drop=True)
     return df
 ```
-- 4.2 From the genome list generated in step 2.4, extract those genomes in compliance with the criteria in 4.1. After quality control, filter out species with no more than 200 genomes.
+- 2.32 From the genome list generated in step 2.4, extract those genomes in compliance with the criteria in 4.1. After quality control, filter out species with no more than 200 genomes.
 	- This results in 11 species: **<em>Escherichia coli, Staphylococcus aureus, Salmonella enterica, Enterococcus faecium, Campylobacter jejuni, Neisseria gonorrhoeae, Klebsiella pneumoniae, Pseudomonas aeruginosa, Acinetobacter baumannii,  Streptococcus pneumoniae, Mycobacterium tuberculosis </em>**
 ```python
 def extract_id_quality(temp_path,level):
@@ -167,20 +167,25 @@ def extract_id_quality(temp_path,level):
     count_final.to_csv("./data/PATRIC/meta/fine_quality/"+str(level)+'_list_species_final_quality.csv',sep="\t") ## species list with genome number
 ```
 
-## <a name="5"></a>5. Filter out genomes with ill-annotated phenotypes; filter datasets by genome numbers
-- 5.1 Since the genomes selected after quality control in Step 4 consist of a mix of those with and lacking AMR metadata, our initial step involves obtaining the intersection of high-quality genomes and those with AMR metadata.
-- 5.2 Drop genomes with phenotype annotated as 'Intermediate''Not defined'
-- 5.3 
-- 5.4 Drop genomes with phenotype ill-annotated. Those genomes are annotated with different phenotypes for the same antibiotic.
-- 5.5 
+## <a name="2.4"></a>2.4 Filter out genomes with ill-annotated phenotypes; filter datasets by genome numbers
+- 2.41 Since the genomes selected after quality control in Step 4 consist of a mix of those with and lacking AMR metadata, our initial step involves obtaining the intersection of high-quality genomes and those with AMR metadata.
+- 2.42 Drop genomes with phenotype annotated as 'Intermediate''Not defined'
+- 2.43 
+- 2.44 Drop genomes with phenotype ill-annotated. Those genomes are annotated with different phenotypes for the same antibiotic.
+- 2.45 
 
 ```python
 
 
 ```
+## <a name="2.5"></a>2.5 Others: dataset summary, multi-species datase
+- This procedure can be achieved by running one Python file 
+```console
+python ./src/data_preprocess/summary.py
+```
 
 
-## <a name="6"></a>6. Download genome sequences from the PATRIC database
+## <a name="6"></a>3. Download genome sequences from the PATRIC database
 
 ```sh
 ${data_dir}=<path_to_directory_to_save_enomes>
@@ -193,8 +198,3 @@ for i in `cat ./doc/genome_list`;do
 done
 ```
 
-## <a name="7"></a>7. Others: dataset summary
-- This procedure can be achieved by running one Python file 
-```console
-python ./src/data_preprocess/summary.py
-```
