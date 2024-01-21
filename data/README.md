@@ -98,11 +98,6 @@ p3-all-genomes --eq genus,Escherichia --eq species,coli -a genome_name,genome_st
 
 ## <a name="2.3"></a>2.3 Filter genomes by genome quality 
 
-- This procedure and the next procedure (5. Filter datasets) can be achieved by running one Python file **TODO!!!!!!!!!!!!!!**
-```console
-python ./src/data_preprocess/quality_control.py
-```
-
 - 2.31  Define thresholds for quality attributes: A. (1) sequence data is not plasmid-only; (2) genome quality (provided by PATRIC) is Good; (3) contig count is limited to the greater of either 100 or 0.75 quantiles of the contig count across all genomes of the same specie; (4) fine consistency (provided by PATRIC) higher than 97%; (5) coarse consistency (provided by PATRIC) higher than 98%; (6) completeness (provided by PATRIC) higher than 98% and contamination (provided by PATRIC) lower than 2%, or one of them is null value with the other one meets the criteria. B. For each species, we computed the mean genome length of the selected genomes from step A, and then we retained genomes with lengths within the range of one-twentieth of the calculated mean from the calculated mean. 
 
 ```python
