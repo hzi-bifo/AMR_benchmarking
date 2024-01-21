@@ -124,12 +124,12 @@ def criteria(species, df,level):
     df = df.reset_index(drop=True)
     return df
 ```
-- 2.32 From the genome list generated in step 2.14, extract those genomes in compliance with the good-quality criteria in 2.31. After quality control, filter out species with no more than 200 genomes.
+- 2.32 Extract all the genomes in compliance with the good-quality criteria in 2.31. After quality control, filter out species with no more than 200 genomes.
 	- This results in 11 species: **<em>Escherichia coli, Staphylococcus aureus, Salmonella enterica, Enterococcus faecium, Campylobacter jejuni, Neisseria gonorrhoeae, Klebsiella pneumoniae, Pseudomonas aeruginosa, Acinetobacter baumannii,  Streptococcus pneumoniae, Mycobacterium tuberculosis </em>**
 ```python
 def extract_id_quality(temp_path,level):
     '''
-    input: downloaded quality metadata, saved at the subdirectory: /quality.
+    input: read the downloaded quality metadata, saved at the subdirectory: /quality.
     output: selected 11 species, and good-quality genome list
     '''
 
@@ -165,7 +165,7 @@ def extract_id_quality(temp_path,level):
 ```
 
 ### <a name="2.4"></a>2.4 Filter out genomes with ill-annotated phenotypes; filter datasets by genome numbers
-- 2.41 Since the genomes selected after quality control in Step 4 consist of a mix of those with and lacking AMR metadata, our initial step involves obtaining the intersection of high-quality genomes and those with AMR metadata.
+- 2.41 Since the genomes selected after quality control in Step 2.3 consist of a mix of those with and lacking AMR metadata, our initial step involves obtaining the intersection of high-quality genomes and those with AMR metadata.
 - 2.42 Drop genomes with phenotype annotated as 'Intermediate''Not defined'
 - 2.43 
 - 2.44 Drop genomes with phenotype ill-annotated. Those genomes are annotated with different phenotypes for the same antibiotic.
