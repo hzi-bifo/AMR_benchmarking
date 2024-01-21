@@ -124,7 +124,7 @@ def criteria(species, df,level):
     df = df.reset_index(drop=True)
     return df
 ```
-- 2.32 From the genome list generated in step 2.14, extract those genomes in compliance with the criteria in 2.31. In other words, we perform an intersection operation of the pandas DataFrames from 2.14 and 2.31. After quality control, filter out species with no more than 200 genomes.
+- 2.32 From the genome list generated in step 2.14, extract those genomes in compliance with the good-quality criteria in 2.31. In other words, we perform an intersection operation of the pandas DataFrames from 2.14 and 2.31. After quality control, filter out species with no more than 200 genomes.
 	- This results in 11 species: **<em>Escherichia coli, Staphylococcus aureus, Salmonella enterica, Enterococcus faecium, Campylobacter jejuni, Neisseria gonorrhoeae, Klebsiella pneumoniae, Pseudomonas aeruginosa, Acinetobacter baumannii,  Streptococcus pneumoniae, Mycobacterium tuberculosis </em>**
 ```python
 def extract_id_quality(temp_path,level):
