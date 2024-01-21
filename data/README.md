@@ -86,7 +86,7 @@ def extract_id(temp_path):
                          header=False)  ### all the genome ID should be downloaded.
 ```
 
-## <a name="2.2"></a>2.2 Download genome quality information
+### <a name="2.2"></a>2.2 Download genome quality information
 - Download quality attribute tables for the 13 selected species from Step 2.13. 
 
 	- Example: download the <em>E. coli</em> genome quality attributes from PATRIC database
@@ -96,7 +96,7 @@ p3-all-genomes --eq genus,Escherichia --eq species,coli -a genome_name,genome_st
 ```
 - Alternatively, find <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/quality">versions</a> downloaded by us around Dec 2020
 
-## <a name="2.3"></a>2.3 Filter genomes by genome quality 
+### <a name="2.3"></a>2.3 Filter genomes by genome quality 
 
 - 2.31  Define thresholds for quality attributes: A. (1) sequence data is not plasmid-only; (2) genome quality (provided by PATRIC) is Good; (3) contig count is limited to the greater of either 100 or 0.75 quantiles of the contig count across all genomes of the same specie; (4) fine consistency (provided by PATRIC) higher than 97%; (5) coarse consistency (provided by PATRIC) higher than 98%; (6) completeness (provided by PATRIC) higher than 98% and contamination (provided by PATRIC) lower than 2%, or one of them is null value with the other one meets the criteria. B. For each species, we computed the mean genome length of the selected genomes from step A, and then we retained genomes with lengths within the range of one-twentieth of the calculated mean from the calculated mean. 
 
@@ -164,7 +164,7 @@ def extract_id_quality(temp_path,level):
     count_final.to_csv("./data/PATRIC/meta/fine_quality/"+str(level)+'_list_species_final_quality.csv',sep="\t") ## species list with genome number
 ```
 
-## <a name="2.4"></a>2.4 Filter out genomes with ill-annotated phenotypes; filter datasets by genome numbers
+### <a name="2.4"></a>2.4 Filter out genomes with ill-annotated phenotypes; filter datasets by genome numbers
 - 2.41 Since the genomes selected after quality control in Step 4 consist of a mix of those with and lacking AMR metadata, our initial step involves obtaining the intersection of high-quality genomes and those with AMR metadata.
 - 2.42 Drop genomes with phenotype annotated as 'Intermediate''Not defined'
 - 2.43 
@@ -175,11 +175,80 @@ def extract_id_quality(temp_path,level):
 
 
 ```
-## <a name="2.5"></a>2.5 Others: dataset summary, multi-species datase
-- This procedure can be achieved by running one Python file 
-```console
-python ./src/data_preprocess/summary.py
+### <a name="2.5"></a>2.5 Others: dataset summary, multi-species datasets
+- Get total genome numbers  
+```python
+def summary_genome(level):
+    '''Count total genome numbers'''
+    main_meta,_=name_utility.GETname_main_meta(level)
+    data = pd.read_csv(main_meta, index_col=0,dtype={'genome_id': object}, sep="\t")
+    data = data[data['number'] != 0]  # drop the species with 0 in column 'number'.
+    df_species = data.index.tolist()
+    Ngenome=[]
+    for species in df_species:
+        antibiotics, _, _ = load_data.extract_info(species, False, level)
+        for anti in antibiotics:
+            save_name_modelID=name_utility.GETname_meta(species,anti,level)
+            data_sub_anti = pd.read_csv(save_name_modelID + '_pheno.txt', dtype={'genome_id': object}, index_col=0,sep="\t")
+            Ngenome=Ngenome+data_sub_anti['genome_id'].to_list()
+            Ngenome = list(dict.fromkeys(Ngenome))
+    print('Genome numbers:',len(Ngenome))
 ```
+- Get the genome number per dataset
+```python
+def count():
+    file_utility.make_dir('./data/PATRIC/meta/'+str(level)+'_genomeNumber')
+    main_meta,_=name_utility.GETname_main_meta(level)
+    data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
+    data = data[data['number'] != 0]
+    df_species = data.index.tolist()
+    for species  in  df_species :
+        lib.summary.summary_pheno(species,level)
+```
+
+-
+```python
+def extract_multi_model_summary(level):
+    # Check which species' metadata share the same antibiotic.
+    # This can be done after the quality control and filter.
+    main_meta,main_multi_meta=name_utility.GETname_main_meta(level)
+    data = pd.read_csv(main_meta, index_col=0,
+                       dtype={'genome_id': object}, sep="\t")
+    # gather all the possible anti
+    data_sub = data['modelling antibiotics'].apply(literal_eval)
+    All_anti = np.concatenate(data_sub)
+    All_anti = list(set(All_anti))
+    All_anti.sort()
+    summary = pd.DataFrame(index=data.index, columns=All_anti)  # initialize for visualization
+
+    for i in All_anti:
+        summary[i] = data_sub.apply(lambda x: 1 if i in x else 0)
+    # select those can be used on multi-species model
+    summary = summary.loc[:, (summary.sum() > 1)]
+    summary = summary[(summary.T != 0).any()]  # drops rows(bacteria) where all zero
+    summary.loc['Total'] = summary.sum()
+    summary.to_csv(main_multi_meta, sep="\t")
+
+def extract_multi_model_size(level):
+    _,main_multi_meta=name_utility.GETname_main_meta(level)
+    data = pd.read_csv(main_multi_meta, index_col=0, sep="\t")
+    data_size=pd.DataFrame(index=data.index, columns=data.columns)  # initialize for visualization
+    for index, row in data.iterrows():
+        for column in data.columns:
+            cell_value = row[column]
+            species=index
+            anti=column
+            if cell_value==1:
+
+                pheno_summary=pd.read_csv('./data/PATRIC/meta/'+str(level)+'_genomeNumber/log_' + str(species.replace(" ", "_")) + '_pheno_summary' + '.txt', index_col=0,sep="\t")
+
+                genome_count=pheno_summary.at[anti,'Resistant']+pheno_summary.at[anti,'Susceptible']
+                data_size.at[species,anti]=genome_count
+
+    print(data_size)
+    data_size.to_csv('./data/PATRIC/meta/'+str(level)+'_genomeNumber/multi-species-antibiotic.csv', sep="\t")
+```
+
 
 
 ## <a name="6"></a>3. Download genome sequences from the PATRIC database
