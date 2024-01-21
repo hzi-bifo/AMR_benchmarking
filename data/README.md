@@ -9,7 +9,7 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 	- [2.3 Filter genomes by genome quality](#2.3)
 	- [2.4 Filter out genomes with ill-annotated phenotypes; filter datasets by genome numbers](#2.4)
 	- [2.5 Others: dataset summary, multi-species dataset](#2.5)
-- [6. Download genome sequences from the PATRIC database](#3)
+- [3. Download genome sequences from the PATRIC database](#3)
 
 
 ## <a name="1"></a>1. Download metadata from PATRIC FTP
