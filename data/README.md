@@ -133,8 +133,8 @@ def extract_id_quality(temp_path,level):
     output: selected 11 species, and good-quality genome list
     '''
 
-    df_species=pd.read_csv(temp_path+'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t", header=0)
-    info_species = df_species['species'].tolist()
+    info_species=pd.read_csv(temp_path+'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t", header=0)
+    info_species = info_species['species'].tolist()
     number_All=[]
     number_FineQuality=[]
     for species in info_species:
