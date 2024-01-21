@@ -134,10 +134,10 @@ def extract_id_quality(temp_path,level):
     '''
 
     info_species=pd.read_csv(temp_path+'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t", header=0)
-    info_species = info_species['species'].tolist()
+    species_list = info_species['species'].tolist()
     number_All=[]
     number_FineQuality=[]
-    for species in info_species:
+    for species in species_list:
         save_all_quality,save_quality=name_utility.GETname_quality(species,level)
         df=pd.read_csv(save_all_quality,dtype={'genome.genome_id': object, 'genome.genome_name': object}, sep="\t")
         number_All.append(df.shape[0])
