@@ -130,7 +130,8 @@ def criteria(species, df,level):
 def extract_id_quality(temp_path,level):
     '''
     input: read the downloaded quality metadata, saved at the subdirectory: /quality.
-    output: selected 11 species, and good-quality genome list
+    output: of the 13 previously selected species, select species with more than 200 good-quality genomes;
+    and corresponding genome list.
     '''
 
     info_species=pd.read_csv(temp_path+'list_species_final_bq.txt', dtype={'genome_id': object}, sep="\t", header=0)
@@ -157,7 +158,7 @@ def extract_id_quality(temp_path,level):
                              header=0,index_col='species')
     count_final=pd.concat([count_species, count_quality], axis=1).reindex(count_species.index) ## no selection in this command
 
-    ### filter out species with no more than 200 genomes
+    ### filter out species with no more than 200 genomes.  no species was filtered out.
     count_final=count_final[count_final['Number of fine quality genomes']>200]
     ### Save selected species to a file
     count_final.rename(columns={'count': 'Number of genomes with AMR metadata'}, inplace=True)
