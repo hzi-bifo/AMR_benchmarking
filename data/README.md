@@ -259,7 +259,7 @@ def extract_multi_model_size(level):
 
 
 
-## <a name="6"></a>3. Download genome sequences from the PATRIC database
+## <a name="3"></a>3. Download genome sequences from the PATRIC database
 
 ```sh
 ${data_dir}=<path_to_directory_to_save_enomes>
