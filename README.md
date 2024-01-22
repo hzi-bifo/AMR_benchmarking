@@ -33,7 +33,7 @@
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/wiki/Dataset-overview">Dataset overview</a>
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Genome list</a>  of each single-species-antibiotic dataset in the form of `Data_<species>_<antibiotic>`
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Genome phenotype metadata</a> of each species-antibiotic combination in the form of `Data_<species>_<antibiotic>_pheno.txt`.
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose">Evaluation folds</a> for single-species-antibiotic datasets
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose">Evaluation folds</a> 
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data">Tutorials</a> for creating AMR benchmarking datasets
 
 
