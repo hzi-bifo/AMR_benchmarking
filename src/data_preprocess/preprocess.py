@@ -1,7 +1,7 @@
 #!/usr/bin/python
-
 import logging,argparse
 import lib.metadata,lib.quality,lib.summary
+import lib.metadata,lib.quality,lib.summary, lib.metadata_multi_model
 from  src.amr_utility import file_utility
 from src.amr_utility import name_utility
 import pandas as pd
@@ -22,7 +22,7 @@ def workflow(level,logfile,temp_path):
 
     logger = logging.getLogger('data_preprocess')
 
-    #  Pre-selection
+    ###  1. Filtering species and antibiotics by genome number
     temp_path=temp_path+'log/temp/data/'
     file_utility.make_dir(temp_path)
     lib.metadata.summarise_strain(temp_path)
@@ -32,6 +32,28 @@ def workflow(level,logfile,temp_path):
     lib.metadata.extract_id(temp_path)
     lib.metadata.extract_id_species(temp_path)
 
+
+    ### 2. genome quality control
+    lib.quality.extract_id_quality(temp_path,level)
+    lib.quality.filter_phenotype(level,False) #False indicates No extra sampling handling for imbalance dataset.
+
+    ### 3. get genome number. Print to the console.
+    lib.summary.summary_genome(level)
+
+    ### 4. get genome number per combination. Save to ./data/PATRIC/meta/'+str(level)+'_genomeNumber/
+    file_utility.make_dir('./data/PATRIC/meta/'+str(level)+'_genomeNumber')
+    main_meta,_=name_utility.GETname_main_meta(level)
+    data = pd.read_csv(main_meta, index_col=0, dtype={'genome_id': object}, sep="\t")
+    data = data[data['number'] != 0]
+    df_species = data.index.tolist()
+    for species  in  df_species :
+        lib.summary.summary_pheno(species,level)
+
+
+    ### 5. multi-species model metadata
+    lib.metadata_multi_model.extract_multi_model_summary(level)
+    ## get genome number for each of species-antibiotic combination in multi-species-antibiotic dataset. save it to file.  Sep 2023
+    lib.metadata_multi_model.extract_multi_model_size(level)
 
 
 
