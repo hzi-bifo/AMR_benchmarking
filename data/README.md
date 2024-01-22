@@ -169,13 +169,145 @@ def extract_id_quality(temp_path,level):
 - 2.41 Since the genomes selected after quality control in Step 2.3 consist of a mix of those with and lacking AMR metadata, our initial step involves obtaining the intersection of high-quality genomes and those with AMR metadata.
 - 2.42 Drop genomes with phenotype annotated as 'Intermediate''Not defined'
 - 2.43 Standardize the antibiotic names; address duplicate datasets arising from antibiotic alias issues.
-- 2.44 Select the species-antibiotic combination with genome count > 200. Select TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+- 2.44 Retain the datasets (each represents a species-antibiotic combination) where the genome count is at least 100 for both Resistant and Susceptible classes.
 - 2.45 Drop genomes with ill-annotated phenotypes. Those genomes are annotated with different phenotypes for the same antibiotic.
-- 2.45 
+- 2.46 Retain the datasets (each represents a species-antibiotic combination) where the genome count is at least 100 for both Resistant and Susceptible classes.
+
 
 ```python
+def filter_phenotype(level,f_balance):
+    '''
+    This function filters genomes by ill-annotated phenotypes
+    This function also filters datasets genome number in each phenotype class (retain those at least 100 genomes for each class)
+    Output: genome ID list and  AMR phenotype for each species-antibiotic combination/dataset. Save at
+    Output: Species_antibiotic_FineQuality.csv: selected species and antibiotic for benchmarking.
+    '''
+
+    ## Load in selected genomes ( i.e. good quality & with AMR metadata ) for the selected 11 species
+    genome_amr, info_species = name_utility.load_metadata(SpeciesFile="./data/PATRIC/meta/fine_quality/"+str(level)+'_list_species_final_quality.csv')
+    Species_quality=pd.DataFrame(index=info_species, columns=['number','modelling antibiotics']) #initialize
+
+    ## 1. Drop genomes with phenotype annotated as 'Intermediate''Not defined'
+    genome_amr = genome_amr[(genome_amr.resistant_phenotype != 'Intermediate') & (genome_amr.resistant_phenotype != 'Not defined')]
+
+    for species in info_species:
+
+        ### 2. Since the genomes selected after quality control  consist of a mix of those with and lacking AMR metadata,
+        ### our initial step involves obtaining the intersection of high-quality genomes and those with AMR metadata.
+        save_all_quality,save_quality=name_utility.GETname_quality(species,level)
+        genome_OneSpecies = genome_amr[genome_amr['species'] == species]
+        df = pd.read_csv(save_quality,dtype={'genome.genome_id': object, 'genome.genome_name': object}, index_col=0,sep="\t")
+        id_GoodQuality=df['genome.genome_id']
+        genome_OneSpecies=genome_OneSpecies[genome_OneSpecies['genome_id'].isin(id_GoodQuality)]
+
+        ### 3. replace amoxicillin-clavulanate'	with 'amoxicillin/clavulanic acid'
+        genome_OneSpecies=genome_OneSpecies.replace('amoxicillin-clavulanate', 'amoxicillin/clavulanic acid') # two names for the same antibiotic
+
+        ## 4. select the antibiotic with genome_id.count >200
+        genome_OneSpecies_ = genome_OneSpecies.groupby(by="antibiotic")['genome_id']
+        summary = genome_OneSpecies_.count().to_frame()
+        summary = summary[summary['genome_id'] > 200]
+
+        ### 5. some genomes are annotated with different resistant_phenotype for the same antibiotic.
+        ### These genomes are surely ill-annotated, and should be excluded via BAD list.
+        BAD=[]
 
 
+        ### 6. For each species-antibiotic combination,
+        select_antibiotic = summary.index.to_list()
+        genome_OneSpecies = genome_OneSpecies.loc[genome_OneSpecies['antibiotic'].isin(select_antibiotic)]
+        select_antibiotic_final= select_antibiotic.copy()
+        for anti in select_antibiotic:
+            save_name_modelID=name_utility.GETname_meta(species,anti,level)
+            # select genome_id and resistant_phenotype
+            genome_OneSpeciesAnti = genome_OneSpecies.loc[genome_OneSpecies['antibiotic'] == anti]
+            genome_OneSpeciesAnti = genome_OneSpeciesAnti.loc[:, ('genome_id', 'resistant_phenotype')]
+
+            genome_OneSpeciesAnti=genome_OneSpeciesAnti.drop_duplicates()
+            #Drop the all rows with the same 'genome_id' but different 'resistant_phenotype!!! May 21st.
+            #
+            df_bad=genome_OneSpeciesAnti[genome_OneSpeciesAnti.duplicated(['genome_id'])]#all rows with the same 'genome_id' but different 'resistant_phenotype
+            #drop
+            bad=df_bad['genome_id'].to_list()
+            BAD.append(bad)
+            if bad != []:
+                genome_OneSpeciesAnti = genome_OneSpeciesAnti[~genome_OneSpeciesAnti['genome_id'].isin(bad)]
+            #----------------------------------------------------------------
+
+            pheno = {'Resistant': 1, 'Susceptible': 0, 'S': 0, 'Non-susceptible': 1, 'RS': 1}
+            genome_OneSpeciesAnti.resistant_phenotype = [pheno[item] for item in genome_OneSpeciesAnti.resistant_phenotype]
+            # check data balance
+            balance_check = genome_OneSpeciesAnti.groupby(by="resistant_phenotype").count()
+            if balance_check.index.shape[0] == 2:# there is Neisseria gonorrhoeae w.r.t. ceftriaxone, no R pheno.
+                balance_ratio = balance_check.iloc[0]['genome_id'] / balance_check.iloc[1]['genome_id']
+                if min(balance_check.iloc[0]['genome_id'], balance_check.iloc[1]['genome_id']) <100:
+                    select_antibiotic_final.remove(anti)
+                else:#before final selected, may some bad samples.need to remove in next steps.
+                    # save the ID for each species and each antibiotic
+                    genome_OneSpeciesAnti.to_csv(save_name_modelID + '_pheno.txt', sep="\t") #dataframe with metadata
+                    genome_OneSpeciesAnti['genome_id'].to_csv(save_name_modelID, sep="\t", index=False, header=False)
+
+                    ############################################################################################################
+                    ######## currently, this downsampling precedure is not applied in our study.
+                    if (f_balance== True) and (balance_ratio > 2 or balance_ratio < 0.5):# #final selected, need to downsample.
+                        # if not balance, downsampling
+                        print('Downsampling starts.....balance_ratio=', balance_ratio)
+                        label_down = balance_check.idxmax().to_numpy()[0]
+                        label_keep = balance_check.idxmin().to_numpy()[0]
+                        print( 'label_down:', label_down)
+                        data_draw = genome_OneSpeciesAnti[genome_OneSpeciesAnti['resistant_phenotype'] == str(label_down)]
+                        data_left = genome_OneSpeciesAnti[genome_OneSpeciesAnti['resistant_phenotype'] != str(label_down)]
+                        data_drew = data_draw.sample(n=int(1.5 * balance_check.loc[str(label_keep), 'genome_id']))
+                        genome_OneSpeciesAnti_downsampling = pd.concat([data_drew, data_left], ignore_index=True, sort=False)
+                        balance_check = genome_OneSpeciesAnti_downsampling.groupby(by="resistant_phenotype").count()
+                        print('Check phenotype balance after downsampling.', balance_check)
+                        balance_check.to_csv(save_name_modelID + 'balance_check.txt', mode='a', sep="\t")
+                    else:
+                        pass
+                    ############################################################################################################
+            else:
+                select_antibiotic_final.remove(anti)
+
+        ## some genomes are annotated with different resistant_phenotype for the same antibiotic.
+        ## check if samples with conflicting pheno exit in other antibiotic groups
+        BAD=[j for sub in BAD for j in sub]
+        if BAD !=[]:
+            for anti in select_antibiotic_final:
+                save_name_modelID=name_utility.GETname_meta(species,anti,level)
+                genome_OneSpeciesAnti = pd.read_csv(save_name_modelID + '_pheno.txt', dtype={'genome_id': object}, index_col=0,sep="\t")
+                genome_OneSpeciesAnti = genome_OneSpeciesAnti[~genome_OneSpeciesAnti['genome_id'].isin(BAD)]
+                balance_check = genome_OneSpeciesAnti.groupby(by="resistant_phenotype").count()
+                if min(balance_check.iloc[0]['genome_id'], balance_check.iloc[1]['genome_id']) <100:
+                    select_antibiotic_final.remove(anti)
+                    os.remove(save_name_modelID + '_pheno.txt')
+                    os.remove(save_name_modelID)
+
+                else:#final selected. overwriting.
+                    # save the ID for each species and each antibiotic
+                    genome_OneSpeciesAnti.to_csv(save_name_modelID + '_pheno.txt', sep="\t") #dataframe with metadata
+                    genome_OneSpeciesAnti['genome_id'].to_csv(save_name_modelID, sep="\t", index=False, header=False)
+
+
+        ###  Address duplicate datasets arising from antibiotic alias issues
+        if species=='Streptococcus pneumoniae':
+            # these two (cotrimoxazole and trimethoprim/sulfamethoxazole) were not merged as we realized this too late,
+            # and either were equipped with enough data samples. so we simply remove one overlapping data set
+            select_antibiotic_final.remove('cotrimoxazole') #Mar,2022. as 'cotrimoxazole' ='trimethoprim/sulfamethoxazole'
+            select_antibiotic_final.remove('beta-lactam') #April,2022. as beta-lactam class includes multiple antibiotics.
+
+        if species=='Mycobacterium tuberculosis':
+            ## not merged.
+            ## May,2023. as 'rifampicin' ='trifampin'
+            select_antibiotic_final.remove('rifampin')
+
+
+        Species_quality.at[species,'modelling antibiotics']= select_antibiotic_final
+        Species_quality.at[species, 'number'] =len(select_antibiotic_final)
+    print('selected species and antibiotics:')
+    print(Species_quality)# selected species.
+    Species_quality = Species_quality[ (Species_quality['number'] > 0)]##drop 0 rows
+    main_meta,_=name_utility.GETname_main_meta(level)
+    Species_quality.to_csv(main_meta, sep="\t")
 ```
 ### <a name="2.5"></a>2.5 Others: dataset summary, multi-species datasets
 - Get total genome numbers  
