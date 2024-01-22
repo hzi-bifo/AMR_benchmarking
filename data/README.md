@@ -212,24 +212,24 @@ def filter_phenotype(level,f_balance):
         ### These genomes are surely ill-annotated, and should be excluded via BAD list.
         BAD=[]
 
-
-        ### 6. For each species-antibiotic combination,
+        ### 6. For each species-antibiotic combination, ensure more then 100 genomes at both Resistant & Susceptible classes
         select_antibiotic = summary.index.to_list()
         genome_OneSpecies = genome_OneSpecies.loc[genome_OneSpecies['antibiotic'].isin(select_antibiotic)]
         select_antibiotic_final= select_antibiotic.copy()
         for anti in select_antibiotic:
             save_name_modelID=name_utility.GETname_meta(species,anti,level)
+
             # select genome_id and resistant_phenotype
             genome_OneSpeciesAnti = genome_OneSpecies.loc[genome_OneSpecies['antibiotic'] == anti]
             genome_OneSpeciesAnti = genome_OneSpeciesAnti.loc[:, ('genome_id', 'resistant_phenotype')]
+            genome_OneSpeciesAnti=genome_OneSpeciesAnti.drop_duplicates() ## just in case, there are duplicates items
 
-            genome_OneSpeciesAnti=genome_OneSpeciesAnti.drop_duplicates()
-            #Drop the all rows with the same 'genome_id' but different 'resistant_phenotype!!! May 21st.
-            #
+
+            ## some genomes are annotated with different resistant_phenotype for the same antibiotic.
+            ## Drop the all rows with the same 'genome_id' but different 'resistant_phenotype!!! May 21st.
             df_bad=genome_OneSpeciesAnti[genome_OneSpeciesAnti.duplicated(['genome_id'])]#all rows with the same 'genome_id' but different 'resistant_phenotype
-            #drop
             bad=df_bad['genome_id'].to_list()
-            BAD.append(bad)
+            BAD.append(bad) ## for checking if samples with conflicting phenotype exit in other antibiotic groups
             if bad != []:
                 genome_OneSpeciesAnti = genome_OneSpeciesAnti[~genome_OneSpeciesAnti['genome_id'].isin(bad)]
             #----------------------------------------------------------------
@@ -242,8 +242,9 @@ def filter_phenotype(level,f_balance):
                 balance_ratio = balance_check.iloc[0]['genome_id'] / balance_check.iloc[1]['genome_id']
                 if min(balance_check.iloc[0]['genome_id'], balance_check.iloc[1]['genome_id']) <100:
                     select_antibiotic_final.remove(anti)
-                else:#before final selected, may some bad samples.need to remove in next steps.
-                    # save the ID for each species and each antibiotic
+                else:
+                    ## save the ID for each species and each antibiotic
+                    ## note: some species-antibiotic combinations will be removed after processing BAD, later.
                     genome_OneSpeciesAnti.to_csv(save_name_modelID + '_pheno.txt', sep="\t") #dataframe with metadata
                     genome_OneSpeciesAnti['genome_id'].to_csv(save_name_modelID, sep="\t", index=False, header=False)
 
@@ -268,8 +269,9 @@ def filter_phenotype(level,f_balance):
             else:
                 select_antibiotic_final.remove(anti)
 
-        ## some genomes are annotated with different resistant_phenotype for the same antibiotic.
-        ## check if samples with conflicting pheno exit in other antibiotic groups
+
+        ## check if samples with conflicting phenotype exit in other antibiotic groups
+        ## Although this kind of samples does not influence the other datasets, but we deem them as unreliable. Remove!
         BAD=[j for sub in BAD for j in sub]
         if BAD !=[]:
             for anti in select_antibiotic_final:
@@ -278,6 +280,7 @@ def filter_phenotype(level,f_balance):
                 genome_OneSpeciesAnti = genome_OneSpeciesAnti[~genome_OneSpeciesAnti['genome_id'].isin(BAD)]
                 balance_check = genome_OneSpeciesAnti.groupby(by="resistant_phenotype").count()
                 if min(balance_check.iloc[0]['genome_id'], balance_check.iloc[1]['genome_id']) <100:
+                    ### remove previously saved datasets due to lack of enough genomes
                     select_antibiotic_final.remove(anti)
                     os.remove(save_name_modelID + '_pheno.txt')
                     os.remove(save_name_modelID)
@@ -290,8 +293,8 @@ def filter_phenotype(level,f_balance):
 
         ###  Address duplicate datasets arising from antibiotic alias issues
         if species=='Streptococcus pneumoniae':
-            # these two (cotrimoxazole and trimethoprim/sulfamethoxazole) were not merged as we realized this too late,
-            # and either were equipped with enough data samples. so we simply remove one overlapping data set
+            ## these two (cotrimoxazole and trimethoprim/sulfamethoxazole) were not merged as we realized this too late,
+            ## and either were equipped with enough data samples. so we simply remove one overlapping data set
             select_antibiotic_final.remove('cotrimoxazole') #Mar,2022. as 'cotrimoxazole' ='trimethoprim/sulfamethoxazole'
             select_antibiotic_final.remove('beta-lactam') #April,2022. as beta-lactam class includes multiple antibiotics.
 
