@@ -35,7 +35,7 @@
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/meta/loose_by_species">Genome phenotype metadata</a> of each species-antibiotic combination in the form of `Data_<species>_<antibiotic>_pheno.txt`.
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data/PATRIC/cv_folds/loose">Evaluation folds</a> 
 - <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main/data">Tutorials</a> for creating AMR benchmarking datasets
-- <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/data/PATRIC/meta/PATRICtoNCBI>Mapping</a> from PATRIC ID to NCBI and GenBank ID 
+- <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/data/PATRIC/meta/PATRICtoNCBI">Mapping</a> from PATRIC ID to NCBI and GenBank ID 
 
 
 
