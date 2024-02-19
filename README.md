@@ -47,6 +47,8 @@
 
     - Installation of the conda environments:
         ```console
+        git clone https://github.com/hzi-bifo/AMR_benchmarking.git
+        cd AMR_benchmarking
         bash ./install/install.sh #Create 9 pieces of conda environments and install packages respectively
         ```
     -  For Kover, please refer to [Kover](https://aldro61.github.io/kover/doc_installation.html) to try other installation methods.
