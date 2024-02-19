@@ -36,13 +36,13 @@ export PYTHONPATH=$PWD
 
 
 ###1.AMR benchmarking general use
-conda env create -n ${amr_env_name}  -f ./install/amr_env.yml python=3.7 || { echo "Errors in installing env."; exit; }
-conda env create -n ${amr_env_name2}  -f ./install/amr_env2.yml python=3.8 || { echo "Errors in installing env."; exit; }
+conda create -n ${amr_env_name}  -f ./install/amr_env.yml python=3.7 || { echo "Errors in installing env."; exit; }
+conda create -n ${amr_env_name2}  -f ./install/amr_env2.yml python=3.8 || { echo "Errors in installing env."; exit; }
 ####2.Point-/ResFinder.
-conda env create -n ${resfinder_env}  -f ./install/res_env.yml || { echo "Errors in installing env."; exit; }
+conda create -n ${resfinder_env}  -f ./install/res_env.yml || { echo "Errors in installing env."; exit; }
 
 ####3.PhenotypeSeeker.
-conda env create -n ${PhenotypeSeeker_env_name}  -f ./install/PhenotypeSeeker_env.yml python=3.7 || { echo "Errors in installing env."; exit; }
+conda create -n ${PhenotypeSeeker_env_name}  -f ./install/PhenotypeSeeker_env.yml python=3.7 || { echo "Errors in installing env."; exit; }
 
 
 
@@ -82,7 +82,7 @@ echo " ${kover_env_name} created successfully."
 #
 
 ##6.phylo_r for generating phylo-tree.
-###conda env create -n ${perl_name}  -f ./install/perl5_22_env.yml python=2.7 || { echo "Errors."; exit; }
+###conda create -n ${perl_name}  -f ./install/perl5_22_env.yml python=2.7 || { echo "Errors."; exit; }
 conda create -n ${phylo_name} -y  python=3.9
 source activate ${phylo_name}|| { echo "Errors in activate env."; exit; }
 wait
