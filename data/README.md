@@ -14,6 +14,10 @@ Welcome to the tutorial on data preprocessing. This tutorial guides you through 
 
 ## <a name="1"></a>1. Download metadata from PATRIC FTP
 - Download `PATRIC_genomes_AMR.txt` from https://www.bv-brc.org/docs/quick_references/ftp.html or find a <a href="https://github.com/hzi-bifo/AMR_benchmarking/blob/main/data/PATRIC/PATRIC_genomes_AMR.txt">version</a> downloaded by us in Dec 2020
+```console
+ftp ftp://ftp.bvbrc.org/RELEASE_NOTES/PATRIC_genomes_AMR.txt
+```
+
 
 ## <a name="2"></a>2. Data preprocessing
 -  Python file `preprocess.py` processes the metadata in `PATRIC_genomes_AMR.txt` to extract 78 datasets, through steps 2.1 - 2.5.
