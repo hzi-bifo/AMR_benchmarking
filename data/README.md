@@ -24,6 +24,8 @@ ftp ftp://ftp.bvbrc.org/RELEASE_NOTES/PATRIC_genomes_AMR.txt
 -  Python file `preprocess.py` processes the metadata in `PATRIC_genomes_AMR.txt` to extract 78 datasets, through steps 2.1 - 2.5.
 ```console
 conda activate amr_env 
+git clone https://github.com/hzi-bifo/AMR_benchmarking.git
+cd AMR_benchmarking
 python ./src/data_preprocess/preprocess.py
 ```
 ### <a name="2.1"></a>2.1 Filtering species and antibiotics by genome number
