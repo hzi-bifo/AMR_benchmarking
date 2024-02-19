@@ -138,6 +138,7 @@ The input file is a YAML file `Config.yaml` at the root folder where all options
 ## <a name="usage"></a>Usage
 ```console
 git clone https://github.com/hzi-bifo/AMR_benchmarking.git
+cd AMR_benchmarking
 bash main.sh #details of usage were explained in main.sh. You can't finish the whole AMR benchmarking just by setting this command to run once.
 bash ./scripts/model/clean.sh # Optional. Clean intermediate files 
 ```
