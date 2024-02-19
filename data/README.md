@@ -20,7 +20,7 @@ ftp ftp://ftp.bvbrc.org/RELEASE_NOTES/PATRIC_genomes_AMR.txt
 
 
 ## <a name="2"></a>2. Data preprocessing
--  Install the conda environments based on our <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main?tab=readme-ov-file#pre">README-Prerequirements for benchmarking</a>
+-  Install the conda environments based on <a href="https://github.com/hzi-bifo/AMR_benchmarking/tree/main?tab=readme-ov-file#pre">README-Prerequirements</a>
 -  Python file `preprocess.py` processes the metadata in `PATRIC_genomes_AMR.txt` to extract 78 datasets, through steps 2.1 - 2.5.
 ```console
 conda activate amr_env 
