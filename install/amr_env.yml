@@ -9,6 +9,7 @@ dependencies:
   - pyparsing=3.0.4
   - pytables=3.6.1
   - sympy=1.10.1
+  - python=3.7
   - pip:
     - matplotlib==3.4.2
     - numpy==1.20.1

@@ -36,7 +36,7 @@ export PYTHONPATH=$PWD
 
 
 ###1.AMR benchmarking general use
-conda env create -n ${amr_env_name}  -f ./install/amr_env.yml python=3.7 || { echo "Errors in installing env."; exit; }
+conda env create -n ${amr_env_name}  -f ./install/amr_env.yml  || { echo "Errors in installing env."; exit; }
 conda env create -n ${amr_env_name2}  -f ./install/amr_env2.yml python=3.8 || { echo "Errors in installing env."; exit; }
 ####2.Point-/ResFinder.
 conda env create -n ${resfinder_env}  -f ./install/res_env.yml || { echo "Errors in installing env."; exit; }
