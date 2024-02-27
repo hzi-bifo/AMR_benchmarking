@@ -66,7 +66,7 @@ for anti in ${Anti_List[@]};do
         # For [Test] set
         mkdir -p ${feature_path}/${species}/${anti}_temp/CV_te${j}
 
-#       #use the ${anti}_feature_vector_13_union.list from traning CV
+#       #use the ${anti}_feature_vector_13_union.list from training CV
 
         cat ${feature_path}/${species}/${anti}_Test_${j}_id2|
         while read sample; do #note: will rewrite every time.
