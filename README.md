@@ -1,5 +1,5 @@
 # Assessing computational predictions of antimicrobial resistance phenotypes from microbial genomes
-![alt text](./doc/workflow.png)
+![alt text](./doc/work_flow.png)
 
 
 ## Contents
