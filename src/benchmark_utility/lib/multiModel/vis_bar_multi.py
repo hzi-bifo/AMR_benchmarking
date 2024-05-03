@@ -52,9 +52,9 @@ def combinedata(species,df_anti,merge_name,fscore,learning,epochs,f_fixed_thresh
     k_s2_results_std=pd.read_csv(results_file2 +'_std.txt', header=0, index_col=0,sep="\t")
 
     # 6. ---------Kover multi LOSO
-    k_m1=name_utility.GETname_result2('kover',merge_name_test,fscore,'scm',output_path)
+    k_m1=name_utility.GETname_result2('kover',merge_name_test,'scm',output_path)
     k_m1_results=pd.read_csv(k_m1 + '.txt', sep="\t", header=0, index_col=0)
-    k_m2=name_utility.GETname_result2('kover',merge_name_test,fscore,'tree',output_path)
+    k_m2=name_utility.GETname_result2('kover',merge_name_test,'tree',output_path)
     k_m2_results=pd.read_csv(k_m2 +'.txt', sep="\t", header=0, index_col=0)
 
     # 6. ---------phenotypeseeker single -model
@@ -64,7 +64,7 @@ def combinedata(species,df_anti,merge_name,fscore,learning,epochs,f_fixed_thresh
 
 
     # 7. ---------phenotypeseeker multi LOSO
-    pts_m1=name_utility.GETname_result2('phenotypeseeker',merge_name_test,fscore,'lr',output_path)
+    pts_m1=name_utility.GETname_result2('phenotypeseeker',merge_name_test,'lr',output_path)
     pts_m1_results=pd.read_csv(pts_m1 + '.txt', sep="\t", header=0, index_col=0)
 
 
@@ -347,17 +347,17 @@ def extract_info(fscore,level,f_all,learning,epochs,f_optimize_score,f_fixed_thr
         if n!=1:
             g.get_legend().remove()
         else:
-            handles, labels = g.get_legend_handles_labels()
-            # g.legend(bbox_to_anchor=(4,2), fontsize=35, ncol=3,frameon=False)
+            # handles, labels = g.get_legend_handles_labels()
+            # g.legend(bbox_to_anchor=(2,2), fontsize=30, frameon=False) #ncol=3,
             (lines, labels) = g.get_legend_handles_labels()
-            leg1 = plt.legend(lines[:8], labels[:8], bbox_to_anchor=(2.5,2), frameon=False,fontsize=35,  ncol=2)
-            leg2 = plt.legend(lines[8:], labels[8:], bbox_to_anchor=(3.8,2), frameon=False, fontsize=35, ncol=1,)
+            leg1 = plt.legend(lines[:8], labels[:8], bbox_to_anchor=(2.6,2.1), frameon=False,fontsize=33,  ncol=2)
+            leg2 = plt.legend(lines[8:], labels[8:], bbox_to_anchor=(3.8,2.1), frameon=False, fontsize=33, ncol=1,)
             g.add_artist(leg1)
             g.add_artist(leg2)
 
-            g.text(-0.3, 2.2, 'AytanAktug', fontsize=38,weight='bold')
-            g.text(2.3, 2.2, 'Kover', fontsize=38,weight='bold')
-            g.text(5, 2.2, 'PhenotypeSeeker', fontsize=38,weight='bold')
+            g.text(-0.3, 2.2, 'AytanAktug', fontsize=36,weight='bold')
+            g.text(2.3, 2.2, 'Kover', fontsize=36,weight='bold')
+            g.text(5, 2.2, 'PhenotypeSeeker', fontsize=36,weight='bold')
 
 
 
