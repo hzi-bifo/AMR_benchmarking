@@ -128,7 +128,7 @@ The input file is a YAML file `Config.yaml` at the root folder where all options
 
 ```
 
--  Cross-validation results of each ML software and evaluation results of Resfinder are generated under `output_path/Results/<name of the software>`.
+-  Cross-validation results of each ML software and evaluation results of Resfinder are generated under `output_path/Results/software/<name of the software>`.
 - Visualization tables and graphs are generated under `output_path/Results/final_figures_tables` and `output_path/Results/supplement_figures_tables`.
 - Numbers and statistic results mentioned in our benchmarking article are generated under `output_path/Results/other_figures_tables`.
 <!--
