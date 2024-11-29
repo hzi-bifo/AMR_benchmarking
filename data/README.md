@@ -410,7 +410,7 @@ def extract_multi_model_size(level):
 ```sh
 ${data_dir}=<path_to_directory_to_save_enomes>
 
-for i in `cat ./doc/genome_list`;do
+for i in `cat ./data/PATRIC/meta/genome_list`;do
     if [ ! -f "$i/$i.fna" ]; then
 	 printf 'Downloading (%s)\n' "$i/$i.fna"
          wget -qN "ftp://ftp.patricbrc.org/genomes/$i/$i.fna" -P ${data_dir}
